@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -11,7 +12,12 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 
-  LoginPage(TbContext tbContext) : super(tbContext);
+  LoginPage(TbContext tbContext) : super(tbContext) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.light
+    ));
+  }
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -101,7 +107,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                 color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(4)),
                             child: TextButton(
                               onPressed: loading ? null : () {
-                                tbContext.tbClient.login(
+                                tbClient.login(
                                     LoginRequest(usernameController.text, passwordController.text));
                               },
                               child: Text(

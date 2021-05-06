@@ -4,6 +4,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfilePage extends TbPageWidget<ProfilePage, _ProfilePageState> {
 
@@ -16,9 +17,12 @@ class ProfilePage extends TbPageWidget<ProfilePage, _ProfilePageState> {
 
 class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
 
+  late Future<User> userFuture;
+
   @override
   void initState() {
     super.initState();
+    userFuture = tbClient.getUserService().getUser(tbClient.getAuthUser()!.userId!);
   }
 
   @override
@@ -30,10 +34,20 @@ class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
           showProfile: false,
           showLogout: true,
         ),
-        body: Builder(
-            builder: (BuildContext context) {
-              return Center(child: const Text('TODO: Implement!'));
-            }),
+        body: FutureBuilder<User>(
+          future: userFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var user = snapshot.data!;
+              return ListTile(
+                title: Text('${user.email}'),
+                subtitle: Text('${user.firstName} ${user.lastName}'),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        )
     );
   }
 }

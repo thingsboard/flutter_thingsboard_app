@@ -1,3 +1,1 @@
-const thingsBoardApiEndpoint = 'https://demo.thingsboard.io';
-const username = 'ikulikov82@gmail.com';
-const password = 'qwerty';
+const thingsBoardApiEndpoint = 'http://localhost:8080';

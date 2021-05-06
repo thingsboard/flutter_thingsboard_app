@@ -1,11 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'config/themes/tb_theme.dart';
 
 final appRouter = ThingsboardAppRouter();
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
+
   runApp(ThingsboardApp());
 }
 
@@ -32,7 +43,7 @@ class ThingsboardAppState extends State<ThingsboardApp> {
       theme: tbTheme,
       darkTheme: tbDarkTheme,
       onGenerateRoute: appRouter.router.generator,
-      navigatorObservers: [appRouter.routeObserver],
+      navigatorObservers: [appRouter.tbContext.routeObserver],
     );
   }
 }

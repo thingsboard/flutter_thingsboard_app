@@ -13,13 +13,23 @@ dependencies:
     sdk: flutter
   thingsboard_client:
     git: git@github.com:thingsboard/dart_thingsboard_client.git
+  intl: ^0.17.0
   flutter_secure_storage: ^4.1.0
   flutter_speed_dial: ^3.0.5
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
   flutter_svg: ^0.22.0
   infinite_scroll_pagination: ^3.0.1
+  fading_edge_scrollview: ^2.0.0
   stream_transform: ^2.0.0
+  flutter_inappwebview: ^5.3.2
+  url_launcher: ^6.0.3
+  image_picker: ^0.7.4
+  mime: ^1.0.0
+  logger: ^1.0.0
+  qr_code_scanner: ^0.4.0
+  device_info: ^2.0.0
+  geolocator: ^7.0.3
 
 dev_dependencies:
   flutter_test:
@@ -60,4 +70,5 @@ flutter:
 flutter_icons:
   android: "launcher_icon"
   ios: true
+  remove_alpha_ios: true
   image_path: "assets/images/thingsboard.png"

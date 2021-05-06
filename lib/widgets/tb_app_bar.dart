@@ -13,6 +13,8 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
   final Widget? title;
   final bool? showProfile;
   final bool? showLogout;
+  final double? elevation;
+  final bool showLoadingIndicator;
   final ValueNotifier<bool>? searchModeNotifier;
   final String? searchHint;
   final void Function(String searchText)? onSearch;
@@ -21,8 +23,9 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
   @override
   final Size preferredSize;
 
-  TbAppBar(TbContext tbContext, {this.title, this.showProfile = true, this.showLogout = false, this.searchModeNotifier, this.searchHint, this.onSearch, this.onSearchClosed}) :
-    preferredSize = Size.fromHeight(kToolbarHeight + 4),
+  TbAppBar(TbContext tbContext, {this.title, this.elevation, this.showProfile = true, this.showLogout = false,
+                                 this.showLoadingIndicator = true, this.searchModeNotifier, this.searchHint, this.onSearch, this.onSearchClosed}) :
+    preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
     super(tbContext);
 
   @override
@@ -70,18 +73,20 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
     } else {
       children.add(buildDefaultBar());
     }
-    children.add(
-        ValueListenableBuilder(
-            valueListenable: loadingNotifier,
-            builder: (context, bool loading, child) {
-              if (loading) {
-                return LinearProgressIndicator();
-              } else {
-                return Container(height: 4);
+    if (widget.showLoadingIndicator) {
+      children.add(
+          ValueListenableBuilder(
+              valueListenable: loadingNotifier,
+              builder: (context, bool loading, child) {
+                if (loading) {
+                  return LinearProgressIndicator();
+                } else {
+                  return Container(height: 4);
+                }
               }
-            }
-        )
-    );
+          )
+      );
+    }
     return Column(
       children: children,
     );
@@ -135,7 +140,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
                 ),
               ),
               onPressed: () {
-                tbContext.tbClient.logout(
+                tbClient.logout(
                     requestConfig: RequestConfig(ignoreErrors: true));
               }
           )
@@ -144,6 +149,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
     return AppBar(
       title: widget.title,
       actions: actions,
+      elevation: widget.elevation,
     );
   }
 }

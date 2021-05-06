@@ -1,44 +1,44 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/widgets.dart';
-import 'package:thingsboard_app/core/auth/login/login_page.dart';
+import 'package:thingsboard_app/core/auth/auth_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/init/init_app.dart';
-import 'package:thingsboard_app/modules/device/devices_page.dart';
-import 'package:thingsboard_app/modules/home/home_page.dart';
-import 'package:thingsboard_app/modules/profile/profile_page.dart';
+import 'package:thingsboard_app/core/init/init_routes.dart';
+import 'package:thingsboard_app/modules/asset/asset_routes.dart';
+import 'package:thingsboard_app/modules/dashboard/dashboard_routes.dart';
+import 'package:thingsboard_app/modules/device/device_routes.dart';
+import 'package:thingsboard_app/modules/home/home_routes.dart';
+import 'package:thingsboard_app/modules/profile/profile_routes.dart';
+import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
 class ThingsboardAppRouter {
   final router = FluroRouter();
-  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-  late final _tbContext = TbContext(router, routeObserver);
-
-  late var initHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return ThingsboardInitApp(tbContext);
-  });
-
-  late var loginHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return LoginPage(_tbContext);
-  });
-
-  late var homeHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return HomePage(_tbContext);
-  });
-
-  late var profileHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return ProfilePage(_tbContext);
-  });
-
-  late var devicesHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return DevicesPage(_tbContext);
-  });
+  late final _tbContext = TbContext(router);
 
   ThingsboardAppRouter() {
-    router.define("/", handler: initHandler);
-    router.define("/login", handler: loginHandler);
-    router.define("/home", handler: homeHandler);
-    router.define("/profile", handler: profileHandler);
-    router.define("/devices", handler: devicesHandler);
+    InitRoutes(_tbContext).registerRoutes();
+    AuthRoutes(_tbContext).registerRoutes();
+    UiUtilsRoutes(_tbContext).registerRoutes();
+    HomeRoutes(_tbContext).registerRoutes();
+    ProfileRoutes(_tbContext).registerRoutes();
+    AssetRoutes(_tbContext).registerRoutes();
+    DeviceRoutes(_tbContext).registerRoutes();
+    DashboardRoutes(_tbContext).registerRoutes();
   }
 
   TbContext get tbContext => _tbContext;
+}
+
+abstract class TbRoutes {
+
+  final TbContext _tbContext;
+
+  TbRoutes(this._tbContext);
+
+  void registerRoutes() {
+    doRegisterRoutes(_tbContext.router);
+  }
+
+  void doRegisterRoutes(FluroRouter router);
+
+  TbContext get tbContext => _tbContext;
+
 }

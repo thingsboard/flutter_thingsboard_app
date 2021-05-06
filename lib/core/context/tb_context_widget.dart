@@ -30,9 +30,14 @@ abstract class TbContextState<W extends TbContextWidget<W,S>, S extends TbContex
     super.dispose();
   }
 
-  void updateState() {
-    setState(() {});
-  }
+}
+
+mixin TbMainState {
+
+  bool canNavigate(String path);
+
+  navigateToPath(String path);
+
 }
 
 abstract class TbPageWidget<W extends TbPageWidget<W,S>, S extends TbPageState<W,S>> extends TbContextWidget<W,S> {
@@ -45,12 +50,12 @@ abstract class TbPageState<W extends TbPageWidget<W,S>, S extends TbPageState<W,
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tbContext.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+    subscribeRouteObserver(this);
   }
 
   @override
   void dispose() {
-    tbContext.routeObserver.unsubscribe(this);
+    unsubscribeRouteObserver(this);
     super.dispose();
   }
 
@@ -61,7 +66,7 @@ abstract class TbPageState<W extends TbPageWidget<W,S>, S extends TbPageState<W,
 
   @override
   void didPopNext() {
-    tbContext.hideNotification();
+    hideNotification();
     setupCurrentState(this);
   }
 
