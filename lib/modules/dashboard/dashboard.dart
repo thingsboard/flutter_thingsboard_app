@@ -67,6 +67,8 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
     super.initState();
     _dashboardUrl = thingsBoardApiEndpoint + '/dashboard/' + widget._dashboardId;
     List<String> params = [];
+    params.add("accessToken=${tbClient.getJwtToken()!}");
+    params.add("refreshToken=${tbClient.getRefreshToken()!}");
     if (widget._state != null) {
       params.add('state=${widget._state}');
     }
@@ -190,9 +192,11 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                     },
                     onLoadStart: (controller, url) async {
                       log.debug('onLoadStart: $url');
-                      await _setTokens(controller.webStorage.localStorage);
+                     // await _setTokens(controller.webStorage.localStorage);
                     },
-                    onLoadStop: (controller, url) {
+                    onLoadStop: (controller, url) async {
+                      log.debug('onLoadStop: $url');
+                     // await _setTokens(controller.webStorage.localStorage);
                     },
 
                 ),
