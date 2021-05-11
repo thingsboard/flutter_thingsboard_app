@@ -120,7 +120,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                       var uri = navigationAction.request.url!;
                       var uriString = uri.toString();
                       log.debug('disallowing navigation to $uriString');
-                      if (await canLaunch(uriString)) {
+                      if (!uriString.startsWith(thingsBoardApiEndpoint) && await canLaunch(uriString)) {
                         await launch(uriString);
                       }
                       return NavigationActionPolicy.CANCEL;
