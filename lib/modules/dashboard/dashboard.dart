@@ -119,11 +119,26 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                     shouldOverrideUrlLoading: (controller, navigationAction) async {
                       var uri = navigationAction.request.url!;
                       var uriString = uri.toString();
-                      log.debug('disallowing navigation to $uriString');
-                      if (!uriString.startsWith(thingsBoardApiEndpoint) && await canLaunch(uriString)) {
-                        await launch(uriString);
+                      log.debug('shouldOverrideUrlLoading $uriString');
+                      if (![
+                        "http",
+                        "https",
+                        "file",
+                        "chrome",
+                        "data",
+                        "javascript",
+                        "about"
+                      ].contains(uri.scheme)) {
+                        if (await canLaunch(uriString)) {
+                          // Launch the App
+                          await launch(
+                            uriString,
+                          );
+                          // and cancel the request
+                          return NavigationActionPolicy.CANCEL;
+                        }
                       }
-                      return NavigationActionPolicy.CANCEL;
+                      return NavigationActionPolicy.ALLOW;
                     },
                     onUpdateVisitedHistory: (controller, url, androidIsReload) async {
                       if (url != null) {
