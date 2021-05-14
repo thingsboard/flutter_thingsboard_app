@@ -42,15 +42,21 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-    <string>Explanation on why the camera access is needed.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>describe why your app needs permission for the photo library.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location when open.</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
+	<string>Explanation on why the camera access is needed.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>describe why your app needs permission for the photo library.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+    	    <key>NSAllowsArbitraryLoads</key>
+    	    <true/>
+	</dict>
+	<key>NSBonjourServices</key>
+	<array>
+	    <string>_dartobservatory._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Allow flutter tools on your computer to connect and debug your application.</string>
 </dict>
 </plist>
