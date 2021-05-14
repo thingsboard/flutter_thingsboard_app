@@ -2,14 +2,14 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/modules/dashboard/dashboards_page.dart';
 
 import 'dashboard_page.dart';
 
 class DashboardRoutes extends TbRoutes {
 
   late var dashboardsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return MainPage(tbContext, path: '/dashboards');
+    return DashboardsPage(tbContext);
   });
 
   late var dashboardDetailsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, List<String>> params) {

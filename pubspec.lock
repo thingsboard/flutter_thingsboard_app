@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
+  auto_size_text:
+    dependency: "direct main"
+    description:
+      name: auto_size_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0-nullsafety.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -218,7 +225,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.5"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -404,7 +411,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4c2463beceb4f397c9de79ac1b0dee628aaf8add"
+      resolved-ref: "0627f3aea8e9252d7c178cec864908e564ddee0a"
       url: "git@github.com:thingsboard/dart_thingsboard_client.git"
     source: git
     version: "1.0.0"

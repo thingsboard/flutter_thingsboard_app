@@ -19,6 +19,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
   flutter_svg: ^0.22.0
+  auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^3.0.1
   fading_edge_scrollview: ^2.0.0
   stream_transform: ^2.0.0

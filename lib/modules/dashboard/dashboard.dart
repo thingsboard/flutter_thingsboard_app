@@ -209,7 +209,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                         return Container(
                           decoration: BoxDecoration(color: Colors.white),
                           child: Center(
-                            child: CircularProgressIndicator()
+                            child: RefreshProgressIndicator()
                           ),
                         );
                       }

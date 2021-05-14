@@ -36,7 +36,8 @@ const tbDarkMatIndigo = MaterialColor(
 
 ThemeData tbTheme = ThemeData(
     primarySwatch: tbMatIndigo,
-    accentColor: Colors.deepOrange
+    accentColor: Colors.deepOrange,
+    scaffoldBackgroundColor: Color(0xFFF0F4F9)
 );
 
 ThemeData tbDarkTheme = ThemeData(

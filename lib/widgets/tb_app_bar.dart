@@ -24,7 +24,7 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
   final Size preferredSize;
 
   TbAppBar(TbContext tbContext, {this.title, this.elevation, this.showProfile = true, this.showLogout = false,
-                                 this.showLoadingIndicator = true, this.searchModeNotifier, this.searchHint, this.onSearch, this.onSearchClosed}) :
+                                 this.showLoadingIndicator = false, this.searchModeNotifier, this.searchHint, this.onSearch, this.onSearchClosed}) :
     preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
     super(tbContext);
 

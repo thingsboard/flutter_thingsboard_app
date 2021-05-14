@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:thingsboard_app/core/entity/entities_widget.dart';
-import 'package:thingsboard_app/modules/asset/assets_widget.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboards_widget.dart';
-import 'package:thingsboard_app/modules/device/devices_widget.dart';
-import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart' as dashboardUi;
+import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
+import 'package:thingsboard_app/widgets/tb_app_bar.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 
@@ -22,7 +19,7 @@ class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 
 class _HomePageState extends TbContextState<HomePage, _HomePageState> {
 
-  final EntitiesWidgetController _entitiesWidgetController = EntitiesWidgetController();
+  final EntitiesListWidgetController _entitiesWidgetController = EntitiesListWidgetController();
 
   @override
   void initState() {
@@ -42,7 +39,6 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> {
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        showLoadingIndicator: !dashboardState,
         elevation: dashboardState ? 0 : null,
         title: const Text('Home'),
       ),
@@ -64,15 +60,14 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> {
   }
 
   Widget _buildDefaultHome(BuildContext context) {
-    return RefreshIndicator(
-        onRefresh: () => _entitiesWidgetController.refresh(),
-        child: ListView(
-          children: _buildUserHome(context)
-        )
-    );
+    if (tbClient.isSystemAdmin()) {
+      return _buildSysAdminHome(context);
+    } else {
+      return DashboardsGrid(tbContext);
+    }
   }
 
-  List<Widget> _buildUserHome(BuildContext context) {
+/*  List<Widget> _buildUserHome(BuildContext context) {
     if (tbClient.isSystemAdmin()) {
       return _buildSysAdminHome(context);
     } else if (tbClient.isTenantAdmin()) {
@@ -80,25 +75,30 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> {
     } else {
       return _buildCustomerUserHome(context);
     }
+  } */
+
+  Widget _buildSysAdminHome(BuildContext context) {
+    return RefreshIndicator(
+        onRefresh: () => _entitiesWidgetController.refresh(),
+        child: ListView(
+            children: [Container(child: Text('TODO: Implement'))]
+        )
+    );
   }
 
-  List<Widget> _buildSysAdminHome(BuildContext context) {
-    return [Container(child: Text('TODO: Implement'))];
-  }
-
-  List<Widget> _buildTenantAdminHome(BuildContext context) {
+/*  List<Widget> _buildTenantAdminHome(BuildContext context) {
     return [
-      AssetsWidget(tbContext, controller: _entitiesWidgetController),
-      DevicesWidget(tbContext, controller: _entitiesWidgetController),
-      DashboardsWidget(tbContext, controller: _entitiesWidgetController)
+      AssetsListWidget(tbContext, controller: _entitiesWidgetController),
+      DevicesListWidget(tbContext, controller: _entitiesWidgetController),
+      DashboardsListWidget(tbContext, controller: _entitiesWidgetController)
     ];
   }
 
   List<Widget> _buildCustomerUserHome(BuildContext context) {
     return [
-      AssetsWidget(tbContext, controller: _entitiesWidgetController),
-      DevicesWidget(tbContext, controller: _entitiesWidgetController),
-      DashboardsWidget(tbContext, controller: _entitiesWidgetController)
+      AssetsListWidget(tbContext, controller: _entitiesWidgetController),
+      DevicesListWidget(tbContext, controller: _entitiesWidgetController),
+      DashboardsListWidget(tbContext, controller: _entitiesWidgetController)
     ];
-  }
+  } */
 }

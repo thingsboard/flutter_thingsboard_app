@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-mixin AssetsBase on EntitiesBase<AssetInfo> {
+mixin AssetsBase on EntitiesBaseWithPageLink<AssetInfo> {
 
   @override
   String get title => 'Assets';
@@ -21,20 +21,40 @@ mixin AssetsBase on EntitiesBase<AssetInfo> {
   }
 
   @override
-  Widget buildEntityCard(BuildContext context, AssetInfo asset, bool briefView) {
+  void onEntityTap(AssetInfo asset) {
+    navigateTo('/asset/${asset.id!.id}');
+  }
+
+  @override
+  Widget buildEntityListCard(BuildContext context, AssetInfo asset) {
+    return _buildEntityListCard(context, asset, false);
+  }
+
+  @override
+  Widget buildEntityListWidgetCard(BuildContext context, AssetInfo asset) {
+    return _buildEntityListCard(context, asset, true);
+  }
+
+  @override
+  Widget buildEntityGridCard(BuildContext context, AssetInfo asset) {
+    return Text(asset.name);
+  }
+
+
+  Widget _buildEntityListCard(BuildContext context, AssetInfo asset, bool listWidgetCard) {
     return Row(
-        mainAxisSize: briefView ? MainAxisSize.min : MainAxisSize.max,
+        mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
         children: [
           Flexible(
-              fit: briefView ? FlexFit.loose : FlexFit.tight,
+              fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
               child:
               Container(
-                padding: EdgeInsets.symmetric(vertical: briefView ? 9 : 10, horizontal: 16),
+                padding: EdgeInsets.symmetric(vertical: listWidgetCard ? 9 : 10, horizontal: 16),
                 child: Row(
-                  mainAxisSize: briefView ? MainAxisSize.min : MainAxisSize.max,
+                  mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
                   children: [
                     Flexible(
-                        fit: briefView ? FlexFit.loose : FlexFit.tight,
+                        fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
                         child:
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +80,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo> {
                           ],
                         )
                     ),
-                    (!briefView ? Column(
+                    (!listWidgetCard ? Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(asset.createdTime!)),
@@ -80,10 +100,4 @@ mixin AssetsBase on EntitiesBase<AssetInfo> {
         ]
     );
   }
-
-  @override
-  void onEntityDetails(AssetInfo asset) {
-    navigateTo('/asset/${asset.id!.id}');
-  }
-
 }

@@ -3,22 +3,23 @@ import 'dart:async';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class EntitiesWidgetController {
+import 'entity_list_card.dart';
 
-  final List<_EntitiesWidgetState> states = [];
+class EntitiesListWidgetController {
 
-  void _registerEntitiesWidgetState(_EntitiesWidgetState entitiesWidgetState) {
-    states.add(entitiesWidgetState);
+  final List<_EntitiesListWidgetState> states = [];
+
+  void _registerEntitiesWidgetState(_EntitiesListWidgetState entitiesListWidgetState) {
+    states.add(entitiesListWidgetState);
   }
 
-  void _unregisterEntitiesWidgetState(_EntitiesWidgetState entitiesWidgetState) {
-    states.remove(entitiesWidgetState);
+  void _unregisterEntitiesWidgetState(_EntitiesListWidgetState entitiesListWidgetState) {
+    states.remove(entitiesListWidgetState);
   }
 
   Future<void> refresh() {
@@ -31,29 +32,32 @@ class EntitiesWidgetController {
 
 }
 
-abstract class EntitiesWidget<T extends BaseData> extends TbContextWidget<EntitiesWidget<T>, _EntitiesWidgetState<T>> with EntitiesBase<T> {
+abstract class EntitiesListPageLinkWidget<T> extends EntitiesListWidget<T, PageLink> with EntitiesBaseWithPageLink<T> {
+  EntitiesListPageLinkWidget(TbContext tbContext, {EntitiesListWidgetController? controller}): super(tbContext, controller: controller);
+}
 
-  final entityDateFormat = DateFormat('yyyy-MM-dd');
-  final EntitiesWidgetController? _controller;
+abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> with EntitiesBase<T,P> {
 
-  EntitiesWidget(TbContext tbContext, {EntitiesWidgetController? controller}):
+  final EntitiesListWidgetController? _controller;
+
+  EntitiesListWidget(TbContext tbContext, {EntitiesListWidgetController? controller}):
       _controller = controller,
       super(tbContext);
 
   @override
-  _EntitiesWidgetState createState() => _EntitiesWidgetState(_controller);
+  _EntitiesListWidgetState createState() => _EntitiesListWidgetState(_controller);
 
   void onViewAll();
 
 }
 
-class _EntitiesWidgetState<T extends BaseData> extends TbContextState<EntitiesWidget<T>, _EntitiesWidgetState<T>> {
+class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> {
 
-  final EntitiesWidgetController? _controller;
+  final EntitiesListWidgetController? _controller;
 
   final StreamController<PageData<T>?> _entitiesStreamController = StreamController.broadcast();
 
-  _EntitiesWidgetState(EntitiesWidgetController? controller):
+  _EntitiesListWidgetState(EntitiesListWidgetController? controller):
      _controller = controller;
 
   @override
@@ -76,7 +80,7 @@ class _EntitiesWidgetState<T extends BaseData> extends TbContextState<EntitiesWi
 
   Future<void> _refresh() {
     _entitiesStreamController.add(null);
-    var entitiesFuture = widget.fetchEntities(PageLink(5, 0, null, SortOrder('createdTime', Direction.DESC)));
+    var entitiesFuture = widget.fetchEntities(widget.createFirstKey(pageSize: 5));
     entitiesFuture.then((value) => _entitiesStreamController.add(value));
     return entitiesFuture;
   }
@@ -204,11 +208,12 @@ class _EntitiesWidgetState<T extends BaseData> extends TbContextState<EntitiesWi
         child: ListView(
             scrollDirection: Axis.horizontal,
             controller: ScrollController(),
-            children: entities.map((entity) => EntityCard<T>(
+            children: entities.map((entity) => EntityListCard<T>(
                 entity,
-                entityCardWidgetBuilder: widget.buildEntityCard,
-                onDetails: widget.onEntityDetails,
-                briefView: true
+                entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
+                onEntityTap: widget.onEntityTap,
+                settings: widget.entityListCardSettings(entity),
+                listWidgetCard: true
             )).toList()
     ));
   }

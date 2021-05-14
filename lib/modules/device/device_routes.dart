@@ -5,7 +5,6 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 
 import 'device_details_page.dart';
-import 'devices_page.dart';
 
 class DeviceRoutes extends TbRoutes {
 

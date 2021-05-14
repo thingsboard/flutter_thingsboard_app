@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboards_page.dart';
 import 'package:thingsboard_app/modules/device/devices_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
@@ -59,17 +60,17 @@ class TbMainNavigationItem {
         case Authority.CUSTOMER_USER:
         items.addAll([
           TbMainNavigationItem(
+              page: AlarmsPage(tbContext),
+              title: 'Alarms',
+              icon: Icon(Icons.notifications),
+              path: '/alarms'
+          ),
+          TbMainNavigationItem(
             page: DevicesPage(tbContext),
             title: 'Devices',
             icon: Icon(Icons.devices_other),
             path: '/devices'
-          ),
-          TbMainNavigationItem(
-            page: DashboardsPage(tbContext),
-            title: 'Dashboards',
-            icon: Icon(Icons.dashboard),
-            path: '/dashboards'
-            )
+          )
         ]);
         break;
         case Authority.REFRESH_TOKEN:

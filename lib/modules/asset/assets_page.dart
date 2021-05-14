@@ -1,16 +1,31 @@
+import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/entity/entities_page.dart';
-import 'package:thingsboard_app/modules/asset/assets_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class AssetsPage extends EntitiesPage<AssetInfo> with AssetsBase {
+import 'assets_list.dart';
+
+class AssetsPage extends TbPageWidget<AssetsPage, _AssetsPageState> {
 
   AssetsPage(TbContext tbContext) : super(tbContext);
 
   @override
-  String get noMoreItemsText => 'No more assets';
+  _AssetsPageState createState() => _AssetsPageState();
+
+}
+
+class _AssetsPageState extends TbPageState<AssetsPage, _AssetsPageState> {
 
   @override
-  String get searchHint => 'Search assets';
+  Widget build(BuildContext context) {
+    var assetsList = AssetsList(tbContext);
+    return Scaffold(
+        appBar: TbAppBar(
+            tbContext,
+            title: Text(assetsList.title)
+        ),
+        body: assetsList
+    );
+  }
 
 }

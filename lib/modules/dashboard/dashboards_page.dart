@@ -1,18 +1,31 @@
+import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/entity/entities_page.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboards_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DashboardsPage extends EntitiesPage<DashboardInfo> with DashboardsBase {
+import 'dashboards_list.dart';
 
-  DashboardsPage(TbContext tbContext) :
-        super(tbContext);
+class DashboardsPage extends TbPageWidget<DashboardsPage, _DashboardsPageState> {
 
-
-  @override
-  String get noMoreItemsText => 'No more dashboards';
+  DashboardsPage(TbContext tbContext) : super(tbContext);
 
   @override
-  String get searchHint => 'Search dashboards';
+  _DashboardsPageState createState() => _DashboardsPageState();
+
+}
+
+class _DashboardsPageState extends TbPageState<DashboardsPage, _DashboardsPageState> {
+
+  @override
+  Widget build(BuildContext context) {
+    var dashboardsList = DashboardsList(tbContext);
+    return Scaffold(
+        appBar: TbAppBar(
+            tbContext,
+            title: Text(dashboardsList.title)
+        ),
+        body: dashboardsList
+    );
+  }
 
 }
