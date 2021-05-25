@@ -6,25 +6,19 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements PreferredSizeWidget {
 
   final Widget? title;
-  final bool? showProfile;
-  final bool? showLogout;
+  final List<Widget>? actions;
   final double? elevation;
   final bool showLoadingIndicator;
-  final ValueNotifier<bool>? searchModeNotifier;
-  final String? searchHint;
-  final void Function(String searchText)? onSearch;
-  final void Function()? onSearchClosed;
 
   @override
   final Size preferredSize;
 
-  TbAppBar(TbContext tbContext, {this.title, this.elevation, this.showProfile = true, this.showLogout = false,
-                                 this.showLoadingIndicator = false, this.searchModeNotifier, this.searchHint, this.onSearch, this.onSearchClosed}) :
+  TbAppBar(TbContext tbContext, {this.title, this.actions, this.elevation,
+                                 this.showLoadingIndicator = false}) :
     preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
     super(tbContext);
 
@@ -35,19 +29,80 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
 
 class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> children = <Widget>[];
+    children.add(buildDefaultBar());
+    if (widget.showLoadingIndicator) {
+      children.add(
+          ValueListenableBuilder(
+              valueListenable: loadingNotifier,
+              builder: (context, bool loading, child) {
+                if (loading) {
+                  return LinearProgressIndicator();
+                } else {
+                  return Container(height: 4);
+                }
+              }
+          )
+      );
+    }
+    return Column(
+      children: children,
+    );
+  }
+
+  AppBar buildDefaultBar() {
+    return AppBar(
+      title: widget.title,
+      actions: widget.actions,
+      elevation: widget.elevation,
+    );
+  }
+}
+
+class TbAppSearchBar extends TbContextWidget<TbAppSearchBar, _TbAppSearchBarState> implements PreferredSizeWidget {
+
+  final double? elevation;
+  final bool showLoadingIndicator;
+  final String? searchHint;
+  final void Function(String searchText)? onSearch;
+
+  @override
+  final Size preferredSize;
+
+  TbAppSearchBar(TbContext tbContext, {this.elevation,
+    this.showLoadingIndicator = false, this.searchHint, this.onSearch}) :
+        preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
+        super(tbContext);
+
+  @override
+  _TbAppSearchBarState createState() => _TbAppSearchBarState();
+}
+
+class _TbAppSearchBarState extends TbContextState<TbAppSearchBar, _TbAppSearchBarState> {
+
   final TextEditingController _filter = new TextEditingController();
   final _textUpdates = StreamController<String>();
 
   @override
   void initState() {
     super.initState();
-    if (widget.searchModeNotifier != null) {
-      _textUpdates.add('');
-      _filter.addListener(() {
-        _textUpdates.add(_filter.text);
-      });
-      _textUpdates.stream.debounce(const Duration(milliseconds: 150)).distinct().forEach((element) => widget.onSearch!(element));
-    }
+    // _textUpdates.add('');
+    _filter.addListener(() {
+      _textUpdates.add(_filter.text);
+    });
+    _textUpdates.stream.skip(1).debounce(const Duration(milliseconds: 150)).distinct().forEach((element) => widget.onSearch!(element));
   }
 
   @override
@@ -59,20 +114,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = <Widget>[];
-    if (widget.searchModeNotifier != null) {
-      children.add(ValueListenableBuilder(
-          valueListenable: widget.searchModeNotifier!,
-          builder: (context, bool searchMode, child) {
-            if (searchMode) {
-              return buildSearchBar();
-            } else {
-              return buildDefaultBar();
-            }
-          }
-      ));
-    } else {
-      children.add(buildDefaultBar());
-    }
+    children.add(buildSearchBar());
     if (widget.showLoadingIndicator) {
       children.add(
           ValueListenableBuilder(
@@ -98,58 +140,33 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
       title: Theme(
           data: tbDarkTheme,
           child: TextField(
-          controller: _filter,
-          cursorColor: Colors.white,
-          decoration: new InputDecoration(
+            controller: _filter,
+            cursorColor: Colors.white,
+            decoration: new InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
-              suffixIcon: new Icon(Icons.search, color: Colors.white),
-              hintText: widget.searchHint ?? 'Search...',
-          ),
-        )
-      ),
-      leading: new IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          _filter.text = '';
-          widget.searchModeNotifier!.value = false;
-        },
-      ),
-    );
-  }
-
-  AppBar buildDefaultBar() {
-    List<Widget> actions = <Widget>[];
-    if (widget.showProfile!) {
-      actions.add(IconButton(
-        icon: Icon(
-          Icons.account_circle,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          navigateTo('/profile');
-        },
-      ));
-    }
-    if (widget.showLogout!) {
-      actions.add(
-          TextButton(
-              child: const Text('Logout',
-                style: TextStyle(
-                    color: Colors.white
-                ),
-              ),
-              onPressed: () {
-                tbClient.logout(
-                    requestConfig: RequestConfig(ignoreErrors: true));
-              }
+              hintText: widget.searchHint ?? 'Search',
+            ),
           )
-      );
-    }
-    return AppBar(
-      title: widget.title,
-      actions: actions,
-      elevation: widget.elevation,
+      ),
+      actions: [
+        ValueListenableBuilder(valueListenable: _filter,
+            builder: (context, value, child) {
+              if (_filter.text.isNotEmpty) {
+                return IconButton(
+                  icon: Icon(
+                      Icons.clear
+                  ),
+                  onPressed: () {
+                    _filter.text = '';
+                  },
+                );
+              } else {
+                return Container();
+              }
+            }
+        )
+      ]
     );
   }
 }

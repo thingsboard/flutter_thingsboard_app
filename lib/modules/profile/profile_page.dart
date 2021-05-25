@@ -30,9 +30,7 @@ class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
     return Scaffold(
         appBar: TbAppBar(
           tbContext,
-          title: const Text('Profile'),
-          showProfile: false,
-          showLogout: true,
+          title: const Text('Profile')
         ),
         body: FutureBuilder<User>(
           future: userFuture,

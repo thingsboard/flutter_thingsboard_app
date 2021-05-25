@@ -32,8 +32,13 @@ class EntitiesListWidgetController {
 
 }
 
-abstract class EntitiesListPageLinkWidget<T> extends EntitiesListWidget<T, PageLink> with EntitiesBaseWithPageLink<T> {
-  EntitiesListPageLinkWidget(TbContext tbContext, {EntitiesListWidgetController? controller}): super(tbContext, controller: controller);
+abstract class EntitiesListPageLinkWidget<T> extends EntitiesListWidget<T, PageLink> {
+
+  EntitiesListPageLinkWidget(TbContext tbContext, {EntitiesListWidgetController? controller}) : super(tbContext, controller: controller);
+
+  @override
+  PageKeyController<PageLink> createPageKeyController() => PageLinkController(pageSize: 5);
+
 }
 
 abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> with EntitiesBase<T,P> {
@@ -47,6 +52,8 @@ abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidg
   @override
   _EntitiesListWidgetState createState() => _EntitiesListWidgetState(_controller);
 
+  PageKeyController<P> createPageKeyController();
+
   void onViewAll();
 
 }
@@ -54,6 +61,8 @@ abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidg
 class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> {
 
   final EntitiesListWidgetController? _controller;
+
+  late final PageKeyController<P> _pageKeyController;
 
   final StreamController<PageData<T>?> _entitiesStreamController = StreamController.broadcast();
 
@@ -63,6 +72,7 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
   @override
   void initState() {
     super.initState();
+    _pageKeyController = widget.createPageKeyController();
     if (_controller != null) {
       _controller!._registerEntitiesWidgetState(this);
     }
@@ -74,13 +84,14 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
     if (_controller != null) {
       _controller!._unregisterEntitiesWidgetState(this);
     }
+    _pageKeyController.dispose();
     _entitiesStreamController.close();
     super.dispose();
   }
 
   Future<void> _refresh() {
     _entitiesStreamController.add(null);
-    var entitiesFuture = widget.fetchEntities(widget.createFirstKey(pageSize: 5));
+    var entitiesFuture = widget.fetchEntities(_pageKeyController.value.pageKey);
     entitiesFuture.then((value) => _entitiesStreamController.add(value));
     return entitiesFuture;
   }

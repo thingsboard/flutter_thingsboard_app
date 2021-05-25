@@ -14,6 +14,8 @@ mixin EntitiesListStateBase on StatefulWidget {
 
 class _EntitiesListState<T,P> extends BaseEntitiesState<T, P> {
 
+  _EntitiesListState() : super();
+
   @override
   Widget pagedViewBuilder(BuildContext context) {
     var heading = widget.buildHeading(context);

@@ -14,6 +14,8 @@ mixin EntitiesGridStateBase on StatefulWidget {
 
 class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
 
+  _EntitiesGridState() : super();
+
   @override
   Widget pagedViewBuilder(BuildContext context) {
     var heading = widget.buildHeading(context);

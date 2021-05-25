@@ -13,3 +13,4 @@ class DashboardsListWidget extends EntitiesListPageLinkWidget<DashboardInfo> wit
   }
 
 }
+

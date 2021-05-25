@@ -306,6 +306,20 @@ class TbContext {
       router.pop<T>(currentState!.context, result);
     }
   }
+
+  Future<bool?> confirm({required String title, required String message, String cancel = 'Cancel', String ok = 'Ok'}) {
+    return showDialog<bool>(context: currentState!.context,
+        builder: (context) => AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(onPressed: () => pop(false),
+                       child: Text(cancel)),
+            TextButton(onPressed: () => pop(true),
+                child: Text(ok))
+          ],
+        ));
+  }
 }
 
 mixin HasTbContext {
@@ -342,6 +356,8 @@ mixin HasTbContext {
   Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false}) => _tbContext.navigateTo(path, replace: replace, clearStack: clearStack);
 
   void pop<T>([T? result]) => _tbContext.pop<T>(result);
+
+  Future<bool?> confirm({required String title, required String message, String cancel = 'Cancel', String ok = 'Ok'}) => _tbContext.confirm(title: title, message: message, cancel: cancel, ok: ok);
 
   void hideNotification() => _tbContext.hideNotification();
 

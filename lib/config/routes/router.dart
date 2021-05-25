@@ -1,4 +1,6 @@
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/auth/auth_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/init/init_routes.dart';
@@ -15,6 +17,17 @@ class ThingsboardAppRouter {
   late final _tbContext = TbContext(router);
 
   ThingsboardAppRouter() {
+    router.notFoundHandler = Handler(handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+      var settings = context!.settings;
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Not Found')
+        ),
+        body: Center(
+          child: Text('Route not defined: ${settings!.name}')
+        ),
+      );
+    });
     InitRoutes(_tbContext).registerRoutes();
     AuthRoutes(_tbContext).registerRoutes();
     UiUtilsRoutes(_tbContext).registerRoutes();

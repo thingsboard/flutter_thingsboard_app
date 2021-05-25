@@ -5,7 +5,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-mixin DashboardsBase on EntitiesBaseWithPageLink<DashboardInfo> {
+mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   @override
   String get title => 'Dashboards';

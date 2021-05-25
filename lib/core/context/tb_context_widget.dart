@@ -1,5 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+
+abstract class RefreshableWidget extends Widget {
+  refresh();
+}
 
 abstract class TbContextStatelessWidget extends StatelessWidget with HasTbContext {
   TbContextStatelessWidget(TbContext tbContext, {Key? key}) : super(key: key) {
@@ -68,6 +73,26 @@ abstract class TbPageState<W extends TbPageWidget<W,S>, S extends TbPageState<W,
   void didPopNext() {
     hideNotification();
     setupCurrentState(this);
+  }
+
+}
+
+class TextContextWidget extends TbContextWidget<TextContextWidget, _TextContextWidgetState> {
+
+  final String text;
+
+  TextContextWidget(TbContext tbContext, this.text) : super(tbContext);
+
+  @override
+  _TextContextWidgetState createState() => _TextContextWidgetState();
+
+}
+
+class _TextContextWidgetState extends TbContextState<TextContextWidget, _TextContextWidgetState> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text(widget.text)));
   }
 
 }

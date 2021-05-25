@@ -17,13 +17,18 @@ class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 
 }
 
-class _HomePageState extends TbContextState<HomePage, _HomePageState> {
+class _HomePageState extends TbContextState<HomePage, _HomePageState> with AutomaticKeepAliveClientMixin<HomePage> {
 
   final EntitiesListWidgetController _entitiesWidgetController = EntitiesListWidgetController();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  bool get wantKeepAlive {
+    return true;
   }
 
   @override
@@ -34,6 +39,7 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var homeDashboard = tbContext.homeDashboard;
     var dashboardState = homeDashboard != null;
     return Scaffold(
@@ -63,7 +69,7 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> {
     if (tbClient.isSystemAdmin()) {
       return _buildSysAdminHome(context);
     } else {
-      return DashboardsGrid(tbContext);
+      return DashboardsGridWidget(tbContext);
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-mixin AssetsBase on EntitiesBaseWithPageLink<AssetInfo> {
+mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
 
   @override
   String get title => 'Assets';

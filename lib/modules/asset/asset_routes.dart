@@ -9,7 +9,8 @@ import 'asset_details_page.dart';
 class AssetRoutes extends TbRoutes {
 
   late var assetsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return AssetsPage(tbContext);
+    var searchMode = params['search']?.first == 'true';
+    return AssetsPage(tbContext, searchMode: searchMode);
   });
 
   late var assetDetailsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {

@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboards_page.dart';
+import 'package:thingsboard_app/modules/device/devices_main_page.dart';
 import 'package:thingsboard_app/modules/device/devices_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
+import 'package:thingsboard_app/modules/more/more_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TbMainNavigationItem {
@@ -24,8 +25,8 @@ class TbMainNavigationItem {
 
   static Map<Authority, Set<String>> mainPageStateMap = {
     Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/tenants', '/more']),
-    Authority.TENANT_ADMIN: Set.unmodifiable(['/home', '/devices', '/dashboards', '/more']),
-    Authority.CUSTOMER_USER: Set.unmodifiable(['/home', '/devices', '/dashboards', '/more']),
+    Authority.TENANT_ADMIN: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
+    Authority.CUSTOMER_USER: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
   };
 
   static bool isMainPageState(TbContext tbContext, String path) {
@@ -50,7 +51,7 @@ class TbMainNavigationItem {
       switch(tbContext.tbClient.getAuthUser()!.authority) {
         case Authority.SYS_ADMIN:
           items.add(TbMainNavigationItem(
-              page: Scaffold(body: Center(child: Text('Tenants TODO'))),
+              page: TextContextWidget(tbContext, 'Tenants TODO'),
               title: 'Tenants',
               icon: Icon(Icons.supervisor_account),
               path: '/tenants'
@@ -66,7 +67,7 @@ class TbMainNavigationItem {
               path: '/alarms'
           ),
           TbMainNavigationItem(
-            page: DevicesPage(tbContext),
+            page: DevicesMainPage(tbContext),
             title: 'Devices',
             icon: Icon(Icons.devices_other),
             path: '/devices'
@@ -79,7 +80,7 @@ class TbMainNavigationItem {
           break;
       }
       items.add(TbMainNavigationItem(
-          page: Scaffold(body: Center(child: Text('TODO'))),
+          page: MorePage(tbContext),
           title: 'More',
           icon: Icon(Icons.menu),
           path: '/more'
@@ -108,49 +109,56 @@ class MainPage extends TbPageWidget<MainPage, _MainPageState> {
 
 }
 
-class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainState {
+class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainState, TickerProviderStateMixin {
 
-  late int _currentIndex;
-
+  late ValueNotifier<int> _currentIndexNotifier;
   late final List<TbMainNavigationItem> _tabItems;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabItems = TbMainNavigationItem.getItems(tbContext);
-    _currentIndex = _indexFromPath(widget._path);
+    int currentIndex = _indexFromPath(widget._path);
+    _tabController = TabController(initialIndex: currentIndex, length: _tabItems.length, vsync: this);
+    _currentIndexNotifier = ValueNotifier(currentIndex);
+    _tabController.addListener(() {
+      _currentIndexNotifier.value = _tabController.index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (_currentIndex > 0) {
-            setState(() => _currentIndex = 0);
+          if (_tabController.index > 0) {
+            _setIndex(0);
             return false;
           }
           return true;
         },
         child: Scaffold(
-          /* body: IndexedStack(
-          index: _currentIndex,
-          children: _tabItems.map((item) => item.page).toList(),
-        ),*/
-            body: _tabItems.elementAt(_currentIndex).page,
+            body: TabBarView(
+              controller: _tabController,
+              children: _tabItems.map((item) => item.page).toList(),
+            ),
             bottomNavigationBar: Theme(
                 data: Theme.of(context).copyWith(
                     canvasColor: Theme.of(context).colorScheme.primary
                 ),
-                child: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    selectedItemColor: Colors.white,
-                    unselectedItemColor: Colors.white.withAlpha(97),
-                    currentIndex: _currentIndex,
-                    onTap: (int index) => setState(() => _currentIndex = index),
-                    items: _tabItems.map((item) => BottomNavigationBarItem(
-                        icon: item.icon,
-                        label: item.title
-                    )).toList()
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _currentIndexNotifier,
+                  builder: (context, index, child) => BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      selectedItemColor: Colors.white,
+                      unselectedItemColor: Colors.white.withAlpha(97),
+                      currentIndex: index,
+                      onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+                      items: _tabItems.map((item) => BottomNavigationBarItem(
+                          icon: item.icon,
+                          label: item.title
+                      )).toList()
+                  ),
                 )
             )
         ),
@@ -169,9 +177,11 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
   @override
   navigateToPath(String path) {
     int targetIndex = _indexFromPath(path);
-    if (_currentIndex != targetIndex) {
-      setState(() => _currentIndex = targetIndex);
-    }
+    _setIndex(targetIndex);
+ }
+
+  _setIndex(int index) {
+    _tabController.index = index;
   }
 
 }

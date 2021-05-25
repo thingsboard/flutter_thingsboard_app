@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
+import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-mixin DevicesBase on EntitiesBaseWithPageLink<DeviceInfo> {
+mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
 
   @override
   String get title => 'Devices';
@@ -12,108 +17,206 @@ mixin DevicesBase on EntitiesBaseWithPageLink<DeviceInfo> {
   String get noItemsFoundText => 'No devices found';
 
   @override
-  Future<PageData<DeviceInfo>> fetchEntities(PageLink pageLink) {
-    if (tbClient.isTenantAdmin()) {
-      return tbClient.getDeviceService().getTenantDeviceInfos(pageLink);
-    } else {
-      return tbClient.getDeviceService().getCustomerDeviceInfos(tbClient.getAuthUser()!.customerId, pageLink);
-    }
+  Future<PageData<EntityData>> fetchEntities(EntityDataQuery dataQuery) {
+    return tbClient.getEntityQueryService().findEntityDataByQuery(dataQuery);
   }
 
   @override
-  void onEntityTap(DeviceInfo device) {
-    navigateTo('/device/${device.id!.id}');
+  void onEntityTap(EntityData device) {
+    navigateTo('/device/${device.entityId.id}');
   }
 
   @override
-  Widget? buildHeading(BuildContext context) {
-    return Text('Hobo Devices!');
-  }
-
-
-  @override
-  Widget buildEntityListCard(BuildContext context, DeviceInfo device) {
+  Widget buildEntityListCard(BuildContext context, EntityData device) {
     return _buildEntityListCard(context, device, false);
   }
 
   @override
-  Widget buildEntityListWidgetCard(BuildContext context, DeviceInfo device) {
+  Widget buildEntityListWidgetCard(BuildContext context, EntityData device) {
     return _buildEntityListCard(context, device, true);
   }
 
   @override
-  Widget buildEntityGridCard(BuildContext context, DeviceInfo device) {
-    return Text(device.name);
+  Widget buildEntityGridCard(BuildContext context, EntityData device) {
+    return Text(device.field('name')!);
   }
 
-  Widget _buildEntityListCard(BuildContext context, DeviceInfo device, bool listWidgetCard) {
+  bool displayCardImage(bool listWidgetCard) => listWidgetCard;
+
+  Widget _buildEntityListCard(BuildContext context, EntityData device, bool listWidgetCard) {
+    return DeviceCard(tbContext, device: device, listWidgetCard: listWidgetCard, displayImage: displayCardImage(listWidgetCard));
+  }
+}
+
+class DeviceQueryController extends PageKeyController<EntityDataQuery> {
+
+  DeviceQueryController({int pageSize = 10, String? searchText, String? deviceType, bool? active}):
+        super(EntityQueryApi.createDefaultDeviceQuery(pageSize: pageSize, searchText: searchText, deviceType: deviceType, active: active));
+
+  @override
+  EntityDataQuery nextPageKey(EntityDataQuery deviceQuery) => deviceQuery.next();
+
+  onSearchText(String searchText) {
+    value.pageKey.pageLink.page = 0;
+    value.pageKey.pageLink.textSearch = searchText;
+    notifyListeners();
+  }
+
+}
+
+class DeviceCard extends TbContextWidget<DeviceCard, _DeviceCardState> {
+
+  final EntityData device;
+  final bool listWidgetCard;
+  final bool displayImage;
+
+  DeviceCard(TbContext tbContext, {required this.device, this.listWidgetCard = false, this.displayImage = false}) : super(tbContext);
+
+  @override
+  _DeviceCardState createState() => _DeviceCardState();
+
+}
+
+class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
+
+  final entityDateFormat = DateFormat('yyyy-MM-dd');
+
+  late Future<DeviceProfileInfo> deviceProfileFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.displayImage) {
+      deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
+          tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+    }
+  }
+
+  @override
+  void didUpdateWidget(DeviceCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.displayImage) {
+      deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
+          tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
-        mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+        mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
         children: [
-          Container(
-            width: listWidgetCard ? 58 : 60,
-            height: listWidgetCard ? 58 : 60,
+          if (widget.displayImage) Container(
+            width: widget.listWidgetCard ? 58 : 60,
+            height: widget.listWidgetCard ? 58 : 60,
             decoration: BoxDecoration(
                 color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.horizontal(left: Radius.circular(listWidgetCard ? 4 : 6))
+                borderRadius: BorderRadius.horizontal(left: Radius.circular(widget.listWidgetCard ? 4 : 6))
             ),
-            child: Center(
-                child: Icon(Icons.devices_other, color: Color(0xFFC2C2C2))
+            child: FutureBuilder<DeviceProfileInfo>(
+              future: deviceProfileFuture,
+              builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                    var profile = snapshot.data!;
+                    if (profile.image != null) {
+                      var uriData = UriData.parse(profile.image!);
+                      return ClipRRect(
+                        borderRadius: BorderRadius.horizontal(left: Radius.circular(widget.listWidgetCard ? 4 : 6)),
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Image.memory(uriData.contentAsBytes()),
+                                )
+                            ),
+                            Positioned.fill(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0x00000000),
+                                            Color(0xb7000000)
+                                          ],
+                                          stops: [0.4219, 1]
+                                      )
+                                  )
+                              ),
+                            )
+                          ],
+                        )
+                      );
+                    } else {
+                      return Center(
+                          child: Icon(Icons.devices_other, color: Color(0xFFC2C2C2))
+                      );
+                    }
+                  } else {
+                    return Center(child: RefreshProgressIndicator());
+                  }
+              },
             ),
           ),
           Flexible(
-              fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
+              fit: widget.listWidgetCard ? FlexFit.loose : FlexFit.tight,
               child:
               Container(
-                padding: EdgeInsets.symmetric(vertical: listWidgetCard ? 9 : 10, horizontal: 16),
-                child: Row(
-                  mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
-                  children: [
-                    Flexible(
-                        fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
-                        child:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: EdgeInsets.symmetric(vertical: widget.listWidgetCard ? 9 : 10, horizontal: 16),
+                  child: Column(
+                    children: [
+                      Row(
+                          mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             FittedBox(
                                 fit: BoxFit.fitWidth,
                                 alignment: Alignment.centerLeft,
-                                child: Text('${device.name}',
+                                child: Text('${widget.device.field('name')!}',
                                     style: TextStyle(
                                         color: Color(0xFF282828),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        height: 1.7
+                                        height: 20 / 14
                                     ))
                             ),
-                            Text('${device.type}',
+                            if (!widget.listWidgetCard) Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
                                 style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.33
+                                  color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
+                                  fontSize: 12,
+                                  height: 12 /12,
+                                  fontWeight: FontWeight.w500,
                                 ))
-                          ],
-                        )
-                    ),
-                    (!listWidgetCard ? Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(device.createdTime!)),
-                            style: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                height: 1.33
-                            ))
-                      ],
-                    ) : Container())
-                  ],
-                ),
+                          ]
+                      ),
+                      SizedBox(height: 4),
+                      Row(
+                        mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('${widget.device.field('type')!}',
+                              style: TextStyle(
+                                  color: Color(0xFFAFAFAF),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height: 16 / 12
+                              )),
+                          if (!widget.listWidgetCard) Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
+                              style: TextStyle(
+                                  color: Color(0xFFAFAFAF),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height: 16 / 12
+                              ))
+                        ],
+                      )
+                    ],
+                  )
               )
-
           )
         ]
     );
   }
+
 }

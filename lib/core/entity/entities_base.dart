@@ -42,10 +42,6 @@ mixin EntitiesBase<T, P> on HasTbContext {
     return Text('Not implemented!');
   }
 
-  P createFirstKey({int pageSize = 10}) => throw UnimplementedError('Not implemented');
-
-  P nextPageKey(P pageKey) => throw UnimplementedError('Not implemented');
-
   EntityCardSettings entityListCardSettings(T entity) => EntityCardSettings();
 
   EntityCardSettings entityGridCardSettings(T entity) => EntityCardSettings();
@@ -54,37 +50,67 @@ mixin EntitiesBase<T, P> on HasTbContext {
 
 }
 
-mixin EntitiesBaseWithPageLink<T> on EntitiesBase<T, PageLink> {
+abstract class PageKeyController<P> extends ValueNotifier<PageKeyValue<P>> {
 
-  @override
-  PageLink createFirstKey({int pageSize = 10}) => PageLink(pageSize, 0, null, SortOrder('createdTime', Direction.DESC));
+  PageKeyController(P initialPageKey) : super(PageKeyValue(initialPageKey));
+
+  P nextPageKey(P pageKey);
+
+}
+
+class PageKeyValue<P> {
+
+  final P pageKey;
+
+  PageKeyValue(this.pageKey);
+
+}
+
+class PageLinkController extends PageKeyController<PageLink> {
+
+  PageLinkController({int pageSize = 10, String? searchText}) : super(PageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
 
+  onSearchText(String searchText) {
+    value.pageKey.page = 0;
+    value.pageKey.textSearch = searchText;
+    notifyListeners();
+  }
+
 }
 
-mixin EntitiesBaseWithTimePageLink<T> on EntitiesBase<T, TimePageLink> {
+class TimePageLinkController extends PageKeyController<TimePageLink> {
 
-  @override
-  TimePageLink createFirstKey({int pageSize = 10}) => TimePageLink(pageSize, 0, null, SortOrder('createdTime', Direction.DESC));
+  TimePageLinkController({int pageSize = 10, String? searchText}) : super(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();
 
-}
+  onSearchText(String searchText) {
+    value.pageKey.page = 0;
+    value.pageKey.textSearch = searchText;
+    notifyListeners();
+  }
 
-abstract class BaseEntitiesPageLinkWidget<T> extends BaseEntitiesWidget<T, PageLink> with EntitiesBaseWithPageLink<T> {
-  BaseEntitiesPageLinkWidget(TbContext tbContext): super(tbContext);
-}
-
-abstract class BaseEntitiesTimePageLinkWidget<T> extends BaseEntitiesWidget<T, TimePageLink> with EntitiesBaseWithTimePageLink<T> {
-  BaseEntitiesTimePageLinkWidget(TbContext tbContext): super(tbContext);
 }
 
 abstract class BaseEntitiesWidget<T, P> extends TbContextWidget<BaseEntitiesWidget<T, P>, BaseEntitiesState<T, P>> with EntitiesBase<T, P> {
 
-  BaseEntitiesWidget(TbContext tbContext): super(tbContext);
+  final bool searchMode;
+  final PageKeyController<P> pageKeyController;
+
+  BaseEntitiesWidget(TbContext tbContext, this.pageKeyController, {this.searchMode = false}):
+        super(tbContext);
+
+  @override
+  Widget? buildHeading(BuildContext context) => searchMode ? Text('Search results', style: TextStyle(
+      color: Color(0xFFAFAFAF),
+      fontSize: 16,
+      height: 24 / 16
+  )) : null;
+
 
 }
 
@@ -92,24 +118,42 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
 
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;
+  bool _dataLoading = false;
+  bool _scheduleRefresh = false;
+  bool _reloadData = false;
+
+  BaseEntitiesState();
 
   @override
   void initState() {
     super.initState();
-    pagingController = PagingController(firstPageKey: widget.createFirstKey());
+    pagingController = PagingController(firstPageKey: widget.pageKeyController.value.pageKey);
+    widget.pageKeyController.addListener(_didChangePageKeyValue);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
   }
 
   @override
+  void didUpdateWidget(BaseEntitiesWidget<T, P> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.pageKeyController != oldWidget.pageKeyController) {
+      oldWidget.pageKeyController.removeListener(_didChangePageKeyValue);
+      widget.pageKeyController.addListener(_didChangePageKeyValue);
+    }
+  }
+
+  @override
   void dispose() {
+    widget.pageKeyController.removeListener(_didChangePageKeyValue);
     pagingController.dispose();
     super.dispose();
   }
 
-  bool _dataLoading = false;
-  bool _scheduleRefresh = false;
+  void _didChangePageKeyValue() {
+    _reloadData = true;
+    _refresh();
+  }
 
   Future<void> _refresh() {
     if (_refreshCompleter == null) {
@@ -124,7 +168,12 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
   }
 
   void _refreshPagingController() {
-    _fetchPage(widget.createFirstKey(), refresh: true);
+    if (_reloadData) {
+      pagingController.refresh();
+      _reloadData = false;
+    } else {
+      _fetchPage(widget.pageKeyController.value.pageKey, refresh: true);
+    }
   }
 
   Future<void> _fetchPage(P pageKey, {bool refresh = false}) async {
@@ -143,7 +192,7 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
         if (isLastPage) {
           pagingController.appendLastPage(pageData.data);
         } else {
-          final nextPageKey = widget.nextPageKey(pageKey);
+          final nextPageKey = widget.pageKeyController.nextPageKey(pageKey);
           pagingController.appendPage(pageData.data, nextPageKey);
         }
       } catch (error) {
@@ -207,7 +256,7 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText,
       message: 'The list is currently empty.',
-      onTryAgain: () => pagingController.refresh(),
+      onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
     );
   }
 

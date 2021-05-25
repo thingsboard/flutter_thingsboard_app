@@ -2,32 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/modules/device/device_profiles_grid.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-import 'dashboards_list.dart';
+class DevicesMainPage extends TbContextWidget<DevicesMainPage, _DevicesMainPageState> {
 
-class DashboardsPage extends TbPageWidget<DashboardsPage, _DashboardsPageState> {
-
-  DashboardsPage(TbContext tbContext) : super(tbContext);
+  DevicesMainPage(TbContext tbContext) : super(tbContext);
 
   @override
-  _DashboardsPageState createState() => _DashboardsPageState();
+  _DevicesMainPageState createState() => _DevicesMainPageState();
 
 }
 
-class _DashboardsPageState extends TbPageState<DashboardsPage, _DashboardsPageState> {
+class _DevicesMainPageState extends TbContextState<DevicesMainPage, _DevicesMainPageState> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    var dashboardsList = DashboardsList(tbContext, _pageLinkController);
+    var deviceProfilesList = DeviceProfilesGrid(tbContext, _pageLinkController);
     return Scaffold(
         appBar: TbAppBar(
             tbContext,
-            title: Text(dashboardsList.title)
+            title: Text(deviceProfilesList.title)
         ),
-        body: dashboardsList
+        body: deviceProfilesList
     );
   }
 
