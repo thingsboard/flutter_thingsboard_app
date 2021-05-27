@@ -11,13 +11,14 @@ class EntityGridCard<T> extends StatelessWidget {
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
   final EntityCardSettings _settings;
 
-  EntityGridCard(T entity, {EntityTapFunction<T>? onEntityTap,
+  EntityGridCard(T entity, {Key? key, EntityTapFunction<T>? onEntityTap,
     required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
     required EntityCardSettings settings}):
         this._entity = entity,
         this._onEntityTap = onEntityTap,
         this._entityCardWidgetBuilder = entityCardWidgetBuilder,
-        this._settings = settings;
+        this._settings = settings,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

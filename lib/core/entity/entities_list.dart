@@ -35,6 +35,7 @@ class _EntitiesListState<T,P> extends BaseEntitiesState<T, P> {
             builderDelegate: PagedChildBuilderDelegate<T>(
                 itemBuilder: (context, item, index) => EntityListCard<T>(
                   item,
+                  key: widget.getKey(item),
                   entityCardWidgetBuilder: widget.buildEntityListCard,
                   onEntityTap: widget.onEntityTap,
                   settings: widget.entityListCardSettings(item),

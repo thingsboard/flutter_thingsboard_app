@@ -19,6 +19,7 @@ abstract class EntityQueryApi {
   static final defaultDeviceFields = <EntityKey>[
     EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'name'),
     EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'type'),
+    EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'label'),
     EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'createdTime')
   ];
 
@@ -29,7 +30,7 @@ abstract class EntityQueryApi {
   static Future<int> countDevices(ThingsboardClient tbClient, {String? deviceType, bool? active}) {
     EntityFilter deviceFilter;
     if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(deviceType: deviceType);
+      deviceFilter = DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
@@ -40,11 +41,11 @@ abstract class EntityQueryApi {
     return tbClient.getEntityQueryService().countEntitiesByQuery(deviceCountQuery);
   }
 
-  static EntityDataQuery createDefaultDeviceQuery({int pageSize = 10, String? searchText, String? deviceType, bool? active}) {
+  static EntityDataQuery createDefaultDeviceQuery({int pageSize = 20, String? searchText, String? deviceType, bool? active}) {
     EntityFilter deviceFilter;
     List<KeyFilter>? keyFilters;
     if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(deviceType: deviceType);
+      deviceFilter = DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }

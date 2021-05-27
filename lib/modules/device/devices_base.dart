@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +8,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
@@ -22,8 +25,18 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   }
 
   @override
-  void onEntityTap(EntityData device) {
-    navigateTo('/device/${device.entityId.id}');
+  void onEntityTap(EntityData device) async {
+    var profile = await DeviceProfileCache.getDeviceProfileInfo(tbClient, device.field('type')!, device.entityId.id!);
+    if (profile.defaultDashboardId != null) {
+      var dashboardId = profile.defaultDashboardId!.id!;
+      var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
+      navigateTo('/dashboard/$dashboardId?title=${device.field('name')!}&state=$state');
+    } else {
+      // navigateTo('/device/${device.entityId.id}');
+      if (tbClient.isTenantAdmin()) {
+        showWarnNotification('BALALAI');
+      }
+    }
   }
 
   @override
@@ -126,7 +139,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                           children: [
                             Positioned.fill(
                                 child: FittedBox(
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   child: Image.memory(uriData.contentAsBytes()),
                                 )
                             ),
@@ -154,7 +167,9 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                       );
                     }
                   } else {
-                    return Center(child: RefreshProgressIndicator());
+                    return Center(child: RefreshProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary)
+                    ));
                   }
               },
             ),

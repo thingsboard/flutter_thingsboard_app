@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -41,61 +43,8 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   EntityCardSettings entityGridCardSettings(DashboardInfo dashboard) => EntityCardSettings(dropShadow: true); //dashboard.image != null);
 
   @override
-  Widget buildEntityGridCard(BuildContext context, DashboardInfo entity) {
-    var hasImage = entity.image != null;
-    Widget image;
-    if (hasImage) {
-      var uriData = UriData.parse(entity.image!);
-      image = Image.memory(uriData.contentAsBytes());
-    } else {
-      image = Image.asset(ThingsboardImage.dashboardPlaceholder);
-    }
-    return
-      ClipRRect(
-        borderRadius: BorderRadius.circular(6),
-        child: Stack(
-          children: [
-            Positioned.fill(
-                child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: image,
-                  )
-            ),
-            hasImage ? Positioned.fill(
-              child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0x00000000),
-                          Color(0xb7000000)
-                        ],
-                        stops: [0.4219, 1]
-                      )
-                  )
-              ),
-            ) : Container(),
-            Positioned(
-                bottom: 16,
-                left: 16,
-                right: 16,
-                child: AutoSizeText(entity.title,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      minFontSize: 8,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: hasImage ? Colors.white : Color(0xFF282828),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          height: 20 / 14
-                      ),
-                    )
-            )
-          ],
-        )
-      );
+  Widget buildEntityGridCard(BuildContext context, DashboardInfo dashboard) {
+    return DashboardGridCard(tbContext, dashboard: dashboard);
   }
 
   Widget _buildEntityListCard(BuildContext context, DashboardInfo dashboard, bool listWidgetCard) {
@@ -170,6 +119,94 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   bool _isPublicDashboard(DashboardInfo dashboard) {
     return dashboard.assignedCustomers.any((element) => element.isPublic);
+  }
+
+}
+
+class DashboardGridCard extends TbContextWidget<DashboardGridCard, _DashboardGridCardState> {
+
+  final DashboardInfo dashboard;
+
+  DashboardGridCard(TbContext tbContext, {required this.dashboard}) : super(tbContext);
+
+  @override
+  _DashboardGridCardState createState() => _DashboardGridCardState();
+
+}
+
+class _DashboardGridCardState extends TbContextState<DashboardGridCard, _DashboardGridCardState> {
+
+  _DashboardGridCardState(): super();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(DashboardGridCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var hasImage = widget.dashboard.image != null;
+    Widget image;
+    BoxFit imageFit;
+    if (hasImage) {
+      var uriData = UriData.parse(widget.dashboard.image!);
+      image = Image.memory(uriData.contentAsBytes());
+      imageFit = BoxFit.contain;
+    } else {
+      image = Image.asset(ThingsboardImage.dashboardPlaceholder);
+      imageFit = BoxFit.cover;
+    }
+    return
+      ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                  child: FittedBox(
+                    fit: imageFit,
+                    child: image,
+                  )
+              ),
+              hasImage ? Positioned.fill(
+                child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0x00000000),
+                              Color(0xb7000000)
+                            ],
+                            stops: [0.4219, 1]
+                        )
+                    )
+                ),
+              ) : Container(),
+              Positioned(
+                  bottom: 16,
+                  left: 16,
+                  right: 16,
+                  child: AutoSizeText(widget.dashboard.title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    minFontSize: 8,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: hasImage ? Colors.white : Color(0xFF282828),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 20 / 14
+                    ),
+                  )
+              )
+            ],
+          )
+      );
   }
 
 }

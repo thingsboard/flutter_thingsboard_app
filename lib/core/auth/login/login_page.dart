@@ -44,6 +44,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Login to ThingsBoard'),
         ),

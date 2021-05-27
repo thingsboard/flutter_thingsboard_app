@@ -11,6 +11,8 @@ final appRouter = ThingsboardAppRouter();
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+//  await FlutterDownloader.initialize();
+//  await Permission.storage.request();
 
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);

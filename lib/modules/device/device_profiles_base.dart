@@ -264,11 +264,14 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
     var entity = widget.deviceProfile;
     var hasImage = entity.image != null;
     Widget image;
+    BoxFit imageFit;
     if (hasImage) {
       var uriData = UriData.parse(entity.image!);
       image = Image.memory(uriData.contentAsBytes());
+      imageFit = BoxFit.contain;
     } else {
       image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+      imageFit = BoxFit.cover;
     }
     return
       ClipRRect(
@@ -277,7 +280,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
             children: [
               Positioned.fill(
                   child: FittedBox(
-                    fit: BoxFit.cover,
+                    fit: imageFit,
                     child: image,
                   )
               ),

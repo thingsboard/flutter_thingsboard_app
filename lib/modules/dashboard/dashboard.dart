@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -49,6 +50,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
         javaScriptEnabled: true,
+        // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: false,
@@ -96,127 +98,144 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
               }
               return true;
             },
-            child: Stack(
-              children: [
-                InAppWebView(
-                    key: webViewKey,
-                    initialUrlRequest: URLRequest(url: Uri.parse(_dashboardUrl)),
-                    initialOptions: options,
-                    onWebViewCreated: (webViewController) {
-                      webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
-                        log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
-                        webViewLoading.value = false;
-                        if (args.isNotEmpty && args[0] is String) {
-                          if (widget._titleCallback != null) {
-                            widget._titleCallback!(args[0]);
-                          }
-                        }
-                      });
-                      webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
-                        log.debug("Invoked tbMobileHandler: $args");
-                        return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
-                      });
-                      _controller.complete(webViewController);
-                    },
-                    shouldOverrideUrlLoading: (controller, navigationAction) async {
-                      var uri = navigationAction.request.url!;
-                      var uriString = uri.toString();
-                      log.debug('shouldOverrideUrlLoading $uriString');
-                      if (![
-                        "http",
-                        "https",
-                        "file",
-                        "chrome",
-                        "data",
-                        "javascript",
-                        "about"
-                      ].contains(uri.scheme)) {
-                        if (await canLaunch(uriString)) {
-                          // Launch the App
-                          await launch(
-                            uriString,
-                          );
-                          // and cancel the request
-                          return NavigationActionPolicy.CANCEL;
-                        }
-                      }
-                      return NavigationActionPolicy.ALLOW;
-                    },
-                    onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                      if (url != null) {
-                        String newStateId = url.pathSegments.last;
-                        log.debug('onUpdateVisitedHistory: $newStateId');
-                        if (newStateId == 'profile') {
-                          webViewLoading.value = true;
-                          await controller.goBack();
-                          await navigateTo('/profile');
-                          webViewLoading.value = false;
-                          return;
-                        } else if (newStateId == 'login') {
-                          webViewLoading.value = true;
-                          await controller.pauseTimers();
-                          await controller.stopLoading();
-                          await tbClient.logout();
-                          return;
-                        } else if (['devices', 'assets', 'dashboards'].contains(newStateId)) {
-                          var controller = await _controller.future;
-                          await controller.goBack();
-                          navigateTo('/$newStateId');
-                          return;
-                        } else {
-                          if (url.pathSegments.length > 1) {
-                            var segmentName = url.pathSegments[url.pathSegments.length-2];
-                            if (segmentName == 'dashboards' && widget._home != true) {
-                              webViewLoading.value = true;
-                              var targetPath = _createDashboardNavigationPath(newStateId, fullscreen: widget._fullscreen);
-                              await navigateTo(targetPath, replace: true);
-                              return;
-                            } else if (segmentName == 'dashboard') {
-                              _currentDashboardId = newStateId;
-                              _currentDashboardState = url.queryParameters['state'];
-                              return;
+            child: SafeArea(
+                child: Stack(
+                  children: [
+                    InAppWebView(
+                        key: webViewKey,
+                        initialUrlRequest: URLRequest(url: Uri.parse(_dashboardUrl)),
+                        initialOptions: options,
+                        onWebViewCreated: (webViewController) {
+                          webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
+                            log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
+                            webViewLoading.value = false;
+                            if (args.isNotEmpty && args[0] is String) {
+                              if (widget._titleCallback != null) {
+                                widget._titleCallback!(args[0]);
+                              }
+                            }
+                          });
+                          webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
+                            log.debug("Invoked tbMobileHandler: $args");
+                            return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
+                          });
+                          _controller.complete(webViewController);
+                        },
+                        shouldOverrideUrlLoading: (controller, navigationAction) async {
+                          var uri = navigationAction.request.url!;
+                          var uriString = uri.toString();
+                          log.debug('shouldOverrideUrlLoading $uriString');
+                          if (![
+                            "http",
+                            "https",
+                            "file",
+                            "chrome",
+                            "data",
+                            "javascript",
+                            "about"
+                          ].contains(uri.scheme)) {
+                            if (await canLaunch(uriString)) {
+                              // Launch the App
+                              await launch(
+                                uriString,
+                              );
+                              // and cancel the request
+                              return NavigationActionPolicy.CANCEL;
                             }
                           }
-                          webViewLoading.value = true;
-                          if (widget._home == true) {
-                            await navigateTo('/home', replace: true);
+
+                          return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
+                        },
+                        onUpdateVisitedHistory: (controller, url, androidIsReload) async {
+                          if (url != null) {
+                            String newStateId = url.pathSegments.last;
+                            log.debug('onUpdateVisitedHistory: $newStateId');
+                            if (newStateId == 'profile') {
+                              webViewLoading.value = true;
+                              await controller.goBack();
+                              await navigateTo('/profile');
+                              webViewLoading.value = false;
+                              return;
+                            } else if (newStateId == 'login') {
+                              webViewLoading.value = true;
+                              await controller.pauseTimers();
+                              await controller.stopLoading();
+                              await tbClient.logout();
+                              return;
+                            } else if (['devices', 'assets', 'dashboards'].contains(newStateId)) {
+                              var controller = await _controller.future;
+                              await controller.goBack();
+                              navigateTo('/$newStateId');
+                              return;
+                            } else {
+                              if (url.pathSegments.length > 1) {
+                                var segmentName = url.pathSegments[url.pathSegments.length-2];
+                                if (segmentName == 'dashboards' && widget._home != true) {
+                                  webViewLoading.value = true;
+                                  var targetPath = _createDashboardNavigationPath(newStateId, fullscreen: widget._fullscreen);
+                                  await navigateTo(targetPath, replace: true);
+                                  return;
+                                } else if (segmentName == 'dashboard') {
+                                  _currentDashboardId = newStateId;
+                                  _currentDashboardState = url.queryParameters['state'];
+                                  return;
+                                }
+                              }
+                              webViewLoading.value = true;
+                              if (widget._home == true) {
+                                await navigateTo('/home', replace: true);
+                              } else {
+                                var targetPath = _createDashboardNavigationPath(_currentDashboardId, state: _currentDashboardState, fullscreen: widget._fullscreen);
+                                await navigateTo(targetPath, replace: true);
+                              }
+                            }
+                          }
+                        },
+                        onConsoleMessage: (controller, consoleMessage) {
+                          log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                        },
+                        onLoadStart: (controller, url) async {
+                          log.debug('onLoadStart: $url');
+                         // await _setTokens(controller.webStorage.localStorage);
+                        },
+                        onLoadStop: (controller, url) async {
+                          log.debug('onLoadStop: $url');
+                         // await _setTokens(controller.webStorage.localStorage);
+                        },
+                        androidOnPermissionRequest: (controller, origin, resources) async {
+                          log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
+                          return PermissionRequestResponse(
+                              resources: resources,
+                              action: PermissionRequestResponseAction.GRANT);
+                        },
+                        /* onDownloadStart: (controller, url) async {
+                          log.debug("onDownloadStart $url");
+                          final taskId = await FlutterDownloader.enqueue(
+                            url: url.toString(),
+                            savedDir: (await getExternalStorageDirectory())!.path,
+                            showNotification: true,
+                            openFileFromNotification: true,
+                          );
+                        } */
+                    ),
+                    ValueListenableBuilder(
+                        valueListenable: webViewLoading,
+                        builder: (BuildContext context, bool loading, child) {
+                          if (!loading) {
+                            return SizedBox.shrink();
                           } else {
-                            var targetPath = _createDashboardNavigationPath(_currentDashboardId, state: _currentDashboardState, fullscreen: widget._fullscreen);
-                            await navigateTo(targetPath, replace: true);
+                            return Container(
+                              decoration: BoxDecoration(color: Colors.white),
+                              child: Center(
+                                child: RefreshProgressIndicator()
+                              ),
+                            );
                           }
                         }
-                      }
-                    },
-                    onConsoleMessage: (controller, consoleMessage) {
-                      log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
-                    },
-                    onLoadStart: (controller, url) async {
-                      log.debug('onLoadStart: $url');
-                     // await _setTokens(controller.webStorage.localStorage);
-                    },
-                    onLoadStop: (controller, url) async {
-                      log.debug('onLoadStop: $url');
-                     // await _setTokens(controller.webStorage.localStorage);
-                    },
-
-                ),
-                ValueListenableBuilder(
-                    valueListenable: webViewLoading,
-                    builder: (BuildContext context, bool loading, child) {
-                      if (!loading) {
-                        return SizedBox.shrink();
-                      } else {
-                        return Container(
-                          decoration: BoxDecoration(color: Colors.white),
-                          child: Center(
-                            child: RefreshProgressIndicator()
-                          ),
-                        );
-                      }
-                    }
+                    )
+                  ]
                 )
-              ],
-            )
+      )
     );
   }
 

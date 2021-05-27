@@ -30,6 +30,8 @@ mixin EntitiesBase<T, P> on HasTbContext {
 
   Widget? buildHeading(BuildContext context) => null;
 
+  Key? getKey(T entity) => null;
+
   Widget buildEntityListCard(BuildContext context, T entity) {
     return Text('Not implemented!');
   }
@@ -68,7 +70,7 @@ class PageKeyValue<P> {
 
 class PageLinkController extends PageKeyController<PageLink> {
 
-  PageLinkController({int pageSize = 10, String? searchText}) : super(PageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+  PageLinkController({int pageSize = 20, String? searchText}) : super(PageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
@@ -83,7 +85,7 @@ class PageLinkController extends PageKeyController<PageLink> {
 
 class TimePageLinkController extends PageKeyController<TimePageLink> {
 
-  TimePageLinkController({int pageSize = 10, String? searchText}) : super(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+  TimePageLinkController({int pageSize = 20, String? searchText}) : super(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();

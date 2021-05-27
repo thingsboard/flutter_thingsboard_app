@@ -44,6 +44,7 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
             builderDelegate: PagedChildBuilderDelegate<T>(
                 itemBuilder: (context, item, index) => EntityGridCard<T>(
                   item,
+                  key: widget.getKey(item),
                   entityCardWidgetBuilder: widget.buildEntityGridCard,
                   onEntityTap: widget.onEntityTap,
                   settings: widget.entityGridCardSettings(item),
