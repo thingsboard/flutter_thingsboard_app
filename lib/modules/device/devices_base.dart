@@ -63,7 +63,7 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
 
 class DeviceQueryController extends PageKeyController<EntityDataQuery> {
 
-  DeviceQueryController({int pageSize = 10, String? searchText, String? deviceType, bool? active}):
+  DeviceQueryController({int pageSize = 20, String? searchText, String? deviceType, bool? active}):
         super(EntityQueryApi.createDefaultDeviceQuery(pageSize: pageSize, searchText: searchText, deviceType: deviceType, active: active));
 
   @override
@@ -109,8 +109,12 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
   void didUpdateWidget(DeviceCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.displayImage) {
-      deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
-          tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+      var oldDevice = oldWidget.device;
+      var device = widget.device;
+      if (oldDevice.field('type')! != device.field('type')!) {
+        deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
+            tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+      }
     }
   }
 

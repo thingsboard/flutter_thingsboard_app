@@ -61,7 +61,7 @@ mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
 
 class AlarmQueryController extends PageKeyController<AlarmQuery> {
 
-  AlarmQueryController({int pageSize = 10, String? searchText}) : super(AlarmQuery(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)), fetchOriginator: true));
+  AlarmQueryController({int pageSize = 20, String? searchText}) : super(AlarmQuery(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)), fetchOriginator: true));
 
   @override
   AlarmQuery nextPageKey(AlarmQuery pageKey) {
