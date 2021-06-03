@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,29 +8,47 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/api_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+class DashboardController {
+
+  final ValueNotifier<bool> canGoBack = ValueNotifier(false);
+  final _DashboardState dashboardState;
+  DashboardController(this.dashboardState);
+
+  Future<void> openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
+    return await dashboardState._openDashboard(dashboardId, state: state, hideToolbar: hideToolbar, fullscreen: fullscreen);
+  }
+
+  Future<bool> goBack() async {
+    return dashboardState._goBack();
+  }
+
+  onHistoryUpdated(Future<bool> canGoBackFuture) async {
+    canGoBack.value = await canGoBackFuture;
+  }
+
+  dispose() {
+    canGoBack.dispose();
+  }
+
+}
 
 typedef DashboardTitleCallback = void Function(String title);
 
+typedef DashboardControllerCallback = void Function(DashboardController controller);
+
 class Dashboard extends TbContextWidget<Dashboard, _DashboardState> {
 
-  final String _dashboardId;
-  final String? _state;
   final bool? _home;
-  final bool? _hideToolbar;
-  final bool _fullscreen;
   final DashboardTitleCallback? _titleCallback;
+  final DashboardControllerCallback? _controllerCallback;
 
-  Dashboard(TbContext tbContext, {required String dashboardId, required bool fullscreen,
-                                  DashboardTitleCallback? titleCallback, String? state, bool? home,
-                                  bool? hideToolbar}):
-        this._dashboardId = dashboardId,
-        this._fullscreen = fullscreen,
-        this._titleCallback = titleCallback,
-        this._state = state,
+  Dashboard(TbContext tbContext, {Key? key, bool? home, DashboardTitleCallback? titleCallback, DashboardControllerCallback? controllerCallback}):
         this._home = home,
-        this._hideToolbar = hideToolbar,
+        this._titleCallback = titleCallback,
+        this._controllerCallback = controllerCallback,
         super(tbContext);
 
   @override
@@ -41,15 +60,23 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
 
   final Completer<InAppWebViewController> _controller = Completer<InAppWebViewController>();
 
-  final ValueNotifier<bool> webViewLoading = ValueNotifier(true);
+  bool webViewLoading = true;
+  final ValueNotifier<bool> dashboardLoading = ValueNotifier(true);
+  final ValueNotifier<bool> readyState = ValueNotifier(false);
 
   final GlobalKey webViewKey = GlobalKey();
+
+  late final DashboardController _dashboardController;
+
+  bool _fullscreen = false;
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
         javaScriptEnabled: true,
+        cacheEnabled: true,
+        supportZoom: false,
         // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(
@@ -60,37 +87,88 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
         allowsInlineMediaPlayback: true,
       ));
 
-  late String _dashboardUrl;
-  late String _currentDashboardId;
-  late String? _currentDashboardState;
+  late Uri _initialUrl;
 
   @override
   void initState() {
     super.initState();
-    _dashboardUrl = thingsBoardApiEndpoint + '/dashboard/' + widget._dashboardId;
-    List<String> params = [];
-    params.add("accessToken=${tbClient.getJwtToken()!}");
-    params.add("refreshToken=${tbClient.getRefreshToken()!}");
-    if (widget._state != null) {
-      params.add('state=${widget._state}');
+    _dashboardController = DashboardController(this);
+    if (widget._controllerCallback != null) {
+      widget._controllerCallback!(_dashboardController);
+    }
+    tbContext.isAuthenticatedListenable.addListener(_onAuthenticated);
+    if (tbContext.isAuthenticated) {
+      _onAuthenticated();
+    }
+  }
+
+  void _onAuthenticated() async {
+    if (tbContext.isAuthenticated) {
+      if (!readyState.value) {
+        _initialUrl = Uri.parse(thingsBoardApiEndpoint + '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
+        readyState.value = true;
+      } else {
+        var windowMessage = <String, dynamic>{
+          'type': 'reloadUserMessage',
+          'data': <String, dynamic>{
+            'accessToken': tbClient.getJwtToken()!,
+            'refreshToken': tbClient.getRefreshToken()!
+          }
+        };
+        var controller = await _controller.future;
+        await controller.postWebMessage(message: WebMessage(data: jsonEncode(windowMessage)), targetOrigin: Uri.parse('*'));
+      }
+    }
+  }
+
+  Future<bool> _goBack() async {
+    var controller = await _controller.future;
+    if (await controller.canGoBack()) {
+      await controller.goBack();
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void dispose() {
+    tbContext.isAuthenticatedListenable.removeListener(_onAuthenticated);
+    readyState.dispose();
+    dashboardLoading.dispose();
+    _dashboardController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
+    _fullscreen = fullscreen;
+    dashboardLoading.value = true;
+    var controller = await _controller.future;
+    var windowMessage = <String, dynamic>{
+      'type': 'openDashboardMessage',
+      'data': <String, dynamic>{
+        'dashboardId': dashboardId
+      }
+    };
+    if (state != null) {
+      windowMessage['data']['state'] = state;
     }
     if (widget._home == true) {
-      params.add('embedded=true');
+      windowMessage['data']['embedded'] = true;
     }
-    if (widget._hideToolbar == true) {
-      params.add('hideToolbar=true');
+    if (hideToolbar == true) {
+      windowMessage['data']['hideToolbar'] = true;
     }
-    if (params.isNotEmpty) {
-      _dashboardUrl += '?${params.join('&')}';
-    }
-    _currentDashboardId = widget._dashboardId;
-    _currentDashboardState = widget._state;
+    var webMessage = WebMessage(data: jsonEncode(windowMessage));
+    await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
             onWillPop: () async {
+              if (widget._home == true && !tbContext.isHomePage()) {
+                return true;
+              }
               var controller = await _controller.future;
               if (await controller.canGoBack()) {
                 await controller.goBack();
@@ -98,191 +176,147 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
               }
               return true;
             },
-            child: SafeArea(
-                child: Stack(
-                  children: [
-                    InAppWebView(
-                        key: webViewKey,
-                        initialUrlRequest: URLRequest(url: Uri.parse(_dashboardUrl)),
-                        initialOptions: options,
-                        onWebViewCreated: (webViewController) {
-                          webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
-                            log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
-                            webViewLoading.value = false;
-                            if (args.isNotEmpty && args[0] is String) {
-                              if (widget._titleCallback != null) {
-                                widget._titleCallback!(args[0]);
-                              }
-                            }
-                          });
-                          webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
-                            log.debug("Invoked tbMobileHandler: $args");
-                            return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
-                          });
-                          _controller.complete(webViewController);
-                        },
-                        shouldOverrideUrlLoading: (controller, navigationAction) async {
-                          var uri = navigationAction.request.url!;
-                          var uriString = uri.toString();
-                          log.debug('shouldOverrideUrlLoading $uriString');
-                          if (![
-                            "http",
-                            "https",
-                            "file",
-                            "chrome",
-                            "data",
-                            "javascript",
-                            "about"
-                          ].contains(uri.scheme)) {
-                            if (await canLaunch(uriString)) {
-                              // Launch the App
-                              await launch(
-                                uriString,
-                              );
-                              // and cancel the request
-                              return NavigationActionPolicy.CANCEL;
-                            }
-                          }
+            child:
+            ValueListenableBuilder(
+                valueListenable: readyState,
+                builder: (BuildContext context, bool ready, child) {
+                  if (!ready) {
+                    return SizedBox.shrink();
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: SafeArea(
+                          child: Stack(
+                              children: [
+                                InAppWebView(
+                                  key: webViewKey,
+                                  initialUrlRequest: URLRequest(url: _initialUrl),
+                                  initialOptions: options,
+                                  onWebViewCreated: (webViewController) {
+                                    log.debug("onWebViewCreated");
+                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLoadedHandler", callback: (args) async {
+                                      log.debug("Invoked tbMobileDashboardLoadedHandler");
+                                      dashboardLoading.value = false;
+                                    });
+                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
+                                      log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
+                                      if (args.isNotEmpty && args[0] is String) {
+                                        if (widget._titleCallback != null) {
+                                          widget._titleCallback!(args[0]);
+                                        }
+                                      }
+                                    });
+                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileNavigationHandler", callback: (args) async {
+                                      log.debug("Invoked tbMobileNavigationHandler: $args");
+                                      if (args.length > 0) {
+                                        String? path = args[0];
+                                        Map<String, dynamic>? params;
+                                        if (args.length > 1) {
+                                          params = args[1];
+                                        }
+                                        log.debug("path: $path");
+                                        log.debug("params: $params");
+                                        if (path != null) {
+                                          if ([
+                                            'profile',
+                                            'devices',
+                                            'assets',
+                                            'dashboards',
+                                            'customers',
+                                            'auditLogs'
+                                          ].contains(path)) {
+                                            var targetPath = '/$path';
+                                            if (path == 'devices' && widget._home != true) {
+                                              targetPath = '/devicesPage';
+                                            }
+                                            navigateTo(targetPath);
+                                          }
+                                        }
+                                      }
+                                    });
+                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
+                                      log.debug("Invoked tbMobileHandler: $args");
+                                      return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
+                                    });
+                                  },
+                                  shouldOverrideUrlLoading: (controller, navigationAction) async {
+                                    var uri = navigationAction.request.url!;
+                                    var uriString = uri.toString();
+                                    log.debug('shouldOverrideUrlLoading $uriString');
+                                    if (![
+                                      "http",
+                                      "https",
+                                      "file",
+                                      "chrome",
+                                      "data",
+                                      "javascript",
+                                      "about"
+                                    ].contains(uri.scheme)) {
+                                      if (await canLaunch(uriString)) {
+                                        // Launch the App
+                                        await launch(
+                                          uriString,
+                                        );
+                                        // and cancel the request
+                                        return NavigationActionPolicy.CANCEL;
+                                      }
+                                    }
 
-                          return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
-                        },
-                        onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                          if (url != null) {
-                            String newStateId = url.pathSegments.last;
-                            log.debug('onUpdateVisitedHistory: $newStateId');
-                            if (newStateId == 'profile') {
-                              webViewLoading.value = true;
-                              await controller.goBack();
-                              await navigateTo('/profile');
-                              webViewLoading.value = false;
-                              return;
-                            } else if (newStateId == 'login') {
-                              webViewLoading.value = true;
-                              await controller.pauseTimers();
-                              await controller.stopLoading();
-                              await tbClient.logout();
-                              return;
-                            } else if (['devices', 'assets', 'dashboards'].contains(newStateId)) {
-                              var controller = await _controller.future;
-                              await controller.goBack();
-                              navigateTo('/$newStateId');
-                              return;
-                            } else {
-                              if (url.pathSegments.length > 1) {
-                                var segmentName = url.pathSegments[url.pathSegments.length-2];
-                                if (segmentName == 'dashboards' && widget._home != true) {
-                                  webViewLoading.value = true;
-                                  var targetPath = _createDashboardNavigationPath(newStateId, fullscreen: widget._fullscreen);
-                                  await navigateTo(targetPath, replace: true);
-                                  return;
-                                } else if (segmentName == 'dashboard') {
-                                  _currentDashboardId = newStateId;
-                                  _currentDashboardState = url.queryParameters['state'];
-                                  return;
-                                }
-                              }
-                              webViewLoading.value = true;
-                              if (widget._home == true) {
-                                await navigateTo('/home', replace: true);
-                              } else {
-                                var targetPath = _createDashboardNavigationPath(_currentDashboardId, state: _currentDashboardState, fullscreen: widget._fullscreen);
-                                await navigateTo(targetPath, replace: true);
-                              }
-                            }
-                          }
-                        },
-                        onConsoleMessage: (controller, consoleMessage) {
-                          log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
-                        },
-                        onLoadStart: (controller, url) async {
-                          log.debug('onLoadStart: $url');
-                         // await _setTokens(controller.webStorage.localStorage);
-                        },
-                        onLoadStop: (controller, url) async {
-                          log.debug('onLoadStop: $url');
-                         // await _setTokens(controller.webStorage.localStorage);
-                        },
-                        androidOnPermissionRequest: (controller, origin, resources) async {
-                          log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
-                          return PermissionRequestResponse(
-                              resources: resources,
-                              action: PermissionRequestResponseAction.GRANT);
-                        },
-                        /* onDownloadStart: (controller, url) async {
-                          log.debug("onDownloadStart $url");
-                          final taskId = await FlutterDownloader.enqueue(
-                            url: url.toString(),
-                            savedDir: (await getExternalStorageDirectory())!.path,
-                            showNotification: true,
-                            openFileFromNotification: true,
-                          );
-                        } */
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: webViewLoading,
-                        builder: (BuildContext context, bool loading, child) {
-                          if (!loading) {
-                            return SizedBox.shrink();
-                          } else {
-                            return Container(
-                              decoration: BoxDecoration(color: Colors.white),
-                              child: Center(
-                                child: RefreshProgressIndicator()
-                              ),
-                            );
-                          }
-                        }
-                    )
-                  ]
-                )
-      )
+                                    return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
+                                  },
+                                  onUpdateVisitedHistory: (controller, url, androidIsReload) async {
+                                    log.debug('onUpdateVisitedHistory: url');
+                                    _dashboardController.onHistoryUpdated(controller.canGoBack());
+                                  },
+                                  onConsoleMessage: (controller, consoleMessage) {
+                                    log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                                  },
+                                  onLoadStart: (controller, url) async {
+                                    log.debug('onLoadStart: $url');
+                                  },
+                                  onLoadStop: (controller, url) async {
+                                    log.debug('onLoadStop: $url');
+                                    if (webViewLoading) {
+                                      webViewLoading = false;
+                                      _controller.complete(controller);
+                                    }
+                                  },
+                                  androidOnPermissionRequest: (controller, origin, resources) async {
+                                    log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
+                                    return PermissionRequestResponse(
+                                        resources: resources,
+                                        action: PermissionRequestResponseAction.GRANT);
+                                  },
+                                ),
+                                ValueListenableBuilder(
+                                    valueListenable: dashboardLoading,
+                                    builder: (BuildContext context, bool loading, child) {
+                                      if (!loading) {
+                                        return SizedBox.shrink();
+                                      } else {
+                                        var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                                        var bottomPadding = data.padding.top;
+                                        if (widget._home != true) {
+                                          bottomPadding += kToolbarHeight;
+                                        }
+                                        return Container(
+                                          padding: EdgeInsets.only(bottom: bottomPadding),
+                                          alignment: Alignment.center,
+                                          color: Colors.white,
+                                          child: TbProgressIndicator(
+                                              size: 50.0
+                                          ),
+                                        );
+                                      }
+                                    }
+                                )
+                              ]
+                          )
+                      ),
+                    );
+                  }
+                }
+            )
     );
   }
-
-  String _createDashboardNavigationPath(String dashboardId, {bool? fullscreen, String? state}) {
-    var targetPath = '/dashboard/$dashboardId';
-    List<String> params = [];
-    if (state != null) {
-      params.add('state=$state');
-    }
-    if (fullscreen != null) {
-      params.add('fullscreen=$fullscreen');
-    }
-    if (params.isNotEmpty) {
-      targetPath += '?${params.join('&')}';
-    }
-    return targetPath;
-  }
-
-  Future<void> _setTokens(Storage storage) async {
-    String jwtToken = tbClient.getJwtToken()!;
-    int jwtTokenExpiration = _getClientExpiration(jwtToken);
-    String refreshToken = tbClient.getRefreshToken()!;
-    int refreshTokenExpiration = _getClientExpiration(refreshToken);
-    await storage.setItem(key: 'jwt_token', value: jwtToken);
-    await storage.setItem(key: 'jwt_token_expiration', value: jwtTokenExpiration);
-    await storage.setItem(key: 'refresh_token', value: refreshToken);
-    await storage.setItem(key: 'refresh_token_expiration', value: refreshTokenExpiration);
-  }
-
-/*  String _setTokensJavaScript() {
-    String jwtToken = tbClient.getJwtToken()!;
-    int jwtTokenExpiration = _getClientExpiration(jwtToken);
-    String refreshToken = tbClient.getRefreshToken()!;
-    int refreshTokenExpiration = _getClientExpiration(refreshToken);
-    return "window.localStorage.setItem('jwt_token','$jwtToken');\n"+
-           "window.localStorage.setItem('jwt_token_expiration','$jwtTokenExpiration');\n"+
-           "window.localStorage.setItem('refresh_token','$refreshToken');\n"+
-           "window.localStorage.setItem('refresh_token_expiration','$refreshTokenExpiration');";
-  } */
-
-  int _getClientExpiration(String token) {
-    var decodedToken = JwtDecoder.decode(tbClient.getJwtToken()!);
-    int issuedAt = decodedToken['iat'];
-    int expTime = decodedToken['exp'];
-    int ttl = expTime - issuedAt;
-    int clientExpiration = DateTime.now().millisecondsSinceEpoch + ttl * 1000;
-    return clientExpiration;
-  }
-
 }

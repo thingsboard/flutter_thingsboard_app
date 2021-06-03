@@ -61,8 +61,11 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage, _QrCodeScan
           Positioned(
             child:
              AppBar(
-                leading: Container(),
                 backgroundColor: Colors.transparent,
+                foregroundColor: Colors.white,
+                iconTheme: IconThemeData(
+                    color: Colors.white
+                ),
                 elevation: 0,
                 actions: <Widget>[
                   IconButton(

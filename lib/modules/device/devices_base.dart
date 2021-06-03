@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -30,7 +31,8 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
     if (profile.defaultDashboardId != null) {
       var dashboardId = profile.defaultDashboardId!.id!;
       var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
-      navigateTo('/dashboard/$dashboardId?title=${device.field('name')!}&state=$state');
+      // navigateTo('/dashboard/$dashboardId?title=${device.field('name')!}&state=$state');
+      navigateToDashboard(dashboardId, dashboardTitle: device.field('name'), state: state);
     } else {
       // navigateTo('/device/${device.entityId.id}');
       if (tbClient.isTenantAdmin()) {
@@ -127,49 +129,37 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
             width: widget.listWidgetCard ? 58 : 60,
             height: widget.listWidgetCard ? 58 : 60,
             decoration: BoxDecoration(
-                color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.horizontal(left: Radius.circular(widget.listWidgetCard ? 4 : 6))
+                // color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.horizontal(left: Radius.circular(4))
             ),
             child: FutureBuilder<DeviceProfileInfo>(
               future: deviceProfileFuture,
               builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                     var profile = snapshot.data!;
+                    Widget image;
+                    BoxFit imageFit;
                     if (profile.image != null) {
                       var uriData = UriData.parse(profile.image!);
-                      return ClipRRect(
-                        borderRadius: BorderRadius.horizontal(left: Radius.circular(widget.listWidgetCard ? 4 : 6)),
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Image.memory(uriData.contentAsBytes()),
-                                )
-                            ),
-                            Positioned.fill(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color(0x00000000),
-                                            Color(0xb7000000)
-                                          ],
-                                          stops: [0.4219, 1]
-                                      )
-                                  )
-                              ),
-                            )
-                          ],
-                        )
-                      );
+                      image = Image.memory(uriData.contentAsBytes());
+                      imageFit = BoxFit.contain;
                     } else {
-                      return Center(
-                          child: Icon(Icons.devices_other, color: Color(0xFFC2C2C2))
-                      );
+                      image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+                      imageFit = BoxFit.cover;
                     }
+                    return ClipRRect(
+                      borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                              child: FittedBox(
+                                fit: imageFit,
+                                child: image,
+                              )
+                          )
+                        ],
+                      )
+                    );
                   } else {
                     return Center(child: RefreshProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary)
@@ -200,12 +190,12 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                                         height: 20 / 14
                                     ))
                             ),
-                            if (!widget.listWidgetCard) Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
+                            if (!widget.listWidgetCard) Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
                                 style: TextStyle(
-                                  color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
-                                  fontSize: 12,
-                                  height: 12 /12,
-                                  fontWeight: FontWeight.w500,
+                                    color: Color(0xFFAFAFAF),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    height: 16 / 12
                                 ))
                           ]
                       ),
@@ -221,12 +211,12 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                                   fontWeight: FontWeight.normal,
                                   height: 16 / 12
                               )),
-                          if (!widget.listWidgetCard) Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
+                          if (!widget.listWidgetCard) Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
                               style: TextStyle(
-                                  color: Color(0xFFAFAFAF),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  height: 16 / 12
+                                color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
+                                fontSize: 12,
+                                height: 16 / 12,
+                                fontWeight: FontWeight.normal,
                               ))
                         ],
                       )

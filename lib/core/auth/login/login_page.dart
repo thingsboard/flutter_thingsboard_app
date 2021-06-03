@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -12,12 +12,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 
-  LoginPage(TbContext tbContext) : super(tbContext) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.light
-    ));
-  }
+  LoginPage(TbContext tbContext) : super(tbContext);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,6 +20,8 @@ class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 }
 
 class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
+
+  final _isLoginNotifier = ValueNotifier<bool>(false);
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -49,7 +46,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
           title: const Text('Login to ThingsBoard'),
         ),
         body: ValueListenableBuilder(
-            valueListenable: loadingNotifier,
+            valueListenable: _isLoginNotifier,
             builder: (BuildContext context, bool loading, child) {
               List<Widget> children = [
                 SingleChildScrollView(
@@ -61,7 +58,8 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                   child: Container(
                                       width: 300,
                                       height: 150,
-                                      child: SvgPicture.asset(ThingsboardImage.thingsBoardLogoBlue,
+                                      child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
+                                          color: Theme.of(context).primaryColor,
                                           semanticsLabel: 'ThingsBoard Logo')
                                   )
                               )
@@ -107,9 +105,15 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                             decoration: BoxDecoration(
                                 color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(4)),
                             child: TextButton(
-                              onPressed: loading ? null : () {
-                                tbClient.login(
-                                    LoginRequest(usernameController.text, passwordController.text));
+                              onPressed: loading ? null : () async {
+                                _isLoginNotifier.value = true;
+                                try {
+                                  await tbClient.login(
+                                      LoginRequest(usernameController.text,
+                                          passwordController.text));
+                                } catch (e) {
+                                  _isLoginNotifier.value = false;
+                                }
                               },
                               child: Text(
                                 'Login',
@@ -126,6 +130,9 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                 )
               ];
               if (loading) {
+                var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                var bottomPadding = data.padding.top;
+                bottomPadding += kToolbarHeight;
                 children.add(
                     SizedBox.expand(
                         child: ClipRect(
@@ -135,15 +142,16 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                     decoration: new BoxDecoration(
                                         color: Colors.grey.shade200.withOpacity(0.2)
                                     ),
-                                    child: Center(
-                                      child: CircularProgressIndicator(),
+                                    child: Container(
+                                      padding: EdgeInsets.only(bottom: bottomPadding),
+                                      alignment: Alignment.center,
+                                      child: TbProgressIndicator(size: 50.0),
                                   ),
                                 )
                             )
                         )
                     )
                 );
-                //children.add(Center(child: CircularProgressIndicator()));
               }
               return Stack(
                 children: children,

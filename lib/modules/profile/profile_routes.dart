@@ -8,7 +8,8 @@ import 'profile_page.dart';
 class ProfileRoutes extends TbRoutes {
 
   late var profileHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return ProfilePage(tbContext);
+    var fullscreen = params['fullscreen']?.first == 'true';
+    return ProfilePage(tbContext, fullscreen: fullscreen);
   });
 
   ProfileRoutes(TbContext tbContext) : super(tbContext);

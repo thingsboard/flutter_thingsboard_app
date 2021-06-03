@@ -43,6 +43,8 @@ mixin TbMainState {
 
   navigateToPath(String path);
 
+  bool isHomePage();
+
 }
 
 abstract class TbPageWidget<W extends TbPageWidget<W,S>, S extends TbPageState<W,S>> extends TbContextWidget<W,S> {

@@ -81,12 +81,31 @@ class TbLogger {
   }
 }
 
+typedef OpenDashboardCallback = void Function(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar});
+
+abstract class TbMainDashboardHolder {
+
+  Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true});
+
+  Future<bool> openMain({bool animate});
+
+  Future<bool> closeMain({bool animate});
+
+  Future<bool> openDashboard({bool animate});
+
+  Future<bool> closeDashboard({bool animate});
+
+  bool isDashboardOpen();
+
+  Future<bool> dashboardGoBack();
+
+}
 
 class TbContext {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   bool _initialized = false;
   bool isUserLoaded = false;
-  bool isAuthenticated = false;
+  final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
@@ -94,6 +113,7 @@ class TbContext {
   late final _widgetActionHandler;
   late final AndroidDeviceInfo? _androidInfo;
   late final IosDeviceInfo? _iosInfo;
+  TbMainDashboardHolder? _mainDashboardHolder;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
   late ThingsboardClient tbClient;
@@ -135,6 +155,10 @@ class TbContext {
     } catch (e, s) {
       log.error('Failed to init tbContext: $e', e, s);
     }
+  }
+
+  void setMainDashboardHolder(TbMainDashboardHolder holder) {
+    _mainDashboardHolder = holder;
   }
 
   void onError(ThingsboardError tbError) {
@@ -214,8 +238,8 @@ class TbContext {
     try {
       log.debug('onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
       isUserLoaded = true;
-      isAuthenticated = tbClient.isAuthenticated();
-      if (tbClient.isAuthenticated()) {
+      _isAuthenticated.value = tbClient.isAuthenticated();
+      if (isAuthenticated) {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
@@ -230,20 +254,33 @@ class TbContext {
         userDetails = null;
         homeDashboard = null;
       }
-      updateRouteState();
+      await updateRouteState();
 
     } catch (e, s) {
       log.error('Error: $e', e, s);
     }
   }
 
-  void updateRouteState() {
+  Listenable get isAuthenticatedListenable => _isAuthenticated;
+
+  bool get isAuthenticated => _isAuthenticated.value;
+
+  Future<void> updateRouteState() async {
     if (currentState != null) {
       if (tbClient.isAuthenticated()) {
         var defaultDashboardId = _defaultDashboardId();
         if (defaultDashboardId != null) {
           bool fullscreen = _userForceFullscreen();
-          navigateTo('/dashboard/$defaultDashboardId?fullscreen=$fullscreen', replace: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
+          if (!fullscreen) {
+            await navigateToDashboard(defaultDashboardId, animate: false);
+            navigateTo('/home',
+                replace: true,
+                transition: TransitionType.none);
+          } else {
+            navigateTo('/fullscreenDashboard/$defaultDashboardId',
+                replace: true,
+                transition: TransitionType.fadeIn);
+          }
         } else {
           navigateTo('/home', replace: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
         }
@@ -276,9 +313,24 @@ class TbContext {
     }
   }
 
-  Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false, TransitionType? transition, Duration? transitionDuration}) async {
+  bool isHomePage() {
+    if (currentState != null) {
+      if (currentState is TbMainState) {
+        var mainState = currentState as TbMainState;
+        return mainState.isHomePage();
+      }
+    }
+    return false;
+  }
+
+  Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false,
+                             TransitionType? transition, Duration? transitionDuration, bool restoreDashboard = true}) async {
     if (currentState != null) {
       hideNotification();
+      bool isOpenedDashboard = _mainDashboardHolder?.isDashboardOpen() == true;
+      if (isOpenedDashboard) {
+        _mainDashboardHolder?.openMain();
+      }
       if (currentState is TbMainState) {
         var mainState = currentState as TbMainState;
         if (mainState.canNavigate(path) && !replace) {
@@ -290,21 +342,46 @@ class TbContext {
         replace = true;
         clearStack = true;
       }
-      if (transition == null) {
+      if (isOpenedDashboard) {
+        transition = TransitionType.none;
+      } else if (transition == null) {
         if (replace) {
           transition = TransitionType.fadeIn;
         } else {
           transition = TransitionType.inFromRight;
         }
       }
-      return await router.navigateTo(currentState!.context, path, transition: transition, transitionDuration: transitionDuration, replace: replace, clearStack: clearStack);
+      var res = await router.navigateTo(currentState!.context, path, transition: transition, transitionDuration: transitionDuration, replace: replace, clearStack: clearStack);
+      if (isOpenedDashboard) {
+        await _mainDashboardHolder?.closeMain();
+      }
+      return res;
     }
+  }
+
+  Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true}) async {
+    await _mainDashboardHolder?.navigateToDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar, animate: animate);
   }
 
   void pop<T>([T? result]) {
     if (currentState != null) {
       router.pop<T>(currentState!.context, result);
     }
+  }
+
+  Future<bool> maybePop<T extends Object?>([ T? result ]) async {
+    if (currentState != null) {
+      return Navigator.of(currentState!.context).maybePop(result);
+    } else {
+      return true;
+    }
+  }
+
+  Future<bool> willPop() async {
+    if (_mainDashboardHolder != null) {
+       return await _mainDashboardHolder!.dashboardGoBack();
+    }
+    return true;
   }
 
   Future<bool?> confirm({required String title, required String message, String cancel = 'Cancel', String ok = 'Ok'}) {
@@ -330,7 +407,13 @@ mixin HasTbContext {
   }
 
   void setupCurrentState(TbContextState currentState) {
+    if (_tbContext.currentState != null) {
+      ModalRoute.of(_tbContext.currentState!.context)?.removeScopedWillPopCallback(_tbContext.willPop);
+    }
     _tbContext.currentState = currentState;
+    if (_tbContext.currentState != null) {
+      ModalRoute.of(_tbContext.currentState!.context)?.addScopedWillPopCallback(_tbContext.willPop);
+    }
   }
 
   void setupTbContext(TbContextState currentState) {
@@ -356,6 +439,11 @@ mixin HasTbContext {
   Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false}) => _tbContext.navigateTo(path, replace: replace, clearStack: clearStack);
 
   void pop<T>([T? result]) => _tbContext.pop<T>(result);
+
+  Future<bool> maybePop<T extends Object?>([ T? result ]) => _tbContext.maybePop<T>(result);
+
+  Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true}) =>
+      _tbContext.navigateToDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar, animate: animate);
 
   Future<bool?> confirm({required String title, required String message, String cancel = 'Cancel', String ok = 'Ok'}) => _tbContext.confirm(title: title, message: message, cancel: cancel, ok: ok);
 

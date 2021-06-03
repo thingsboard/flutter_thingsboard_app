@@ -9,6 +9,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
@@ -48,6 +49,11 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   @override
   Widget buildEntityGridCard(BuildContext context, DeviceProfileInfo deviceProfile) {
     return DeviceProfileCard(tbContext, deviceProfile);
+  }
+
+  @override
+  double? gridChildAspectRatio() {
+    return 156 / 200;
   }
 
 }
@@ -93,8 +99,10 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
     Future<int> inactiveDevicesCount = EntityQueryApi.countDevices(tbClient, active: false);
     Future<List<int>> countsFuture = Future.wait([activeDevicesCount, inactiveDevicesCount]);
     countsFuture.then((counts) {
-      _activeDevicesCount.add(counts[0]);
-      _inactiveDevicesCount.add(counts[1]);
+      if (this.mounted) {
+        _activeDevicesCount.add(counts[0]);
+        _inactiveDevicesCount.add(counts[1]);
+      }
     });
     return countsFuture;
   }
@@ -107,32 +115,31 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
           child:
           Container(
             child: Card(
-                color: Theme.of(tbContext.currentState!.context).colorScheme.primary,
                 margin: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 elevation: 0,
                 child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    Padding(padding: EdgeInsets.fromLTRB(16, 12, 16, 15),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('All devices',
                               style: TextStyle(
-                                  color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                   height: 20 / 14
                               )
                           ),
-                          Icon(Icons.arrow_forward, color: Colors.white)
+                          Icon(Icons.arrow_forward, size: 18)
                         ],
                       )
                     ),
-                    Padding(padding: EdgeInsets.all(8),
+                    Divider(height: 1),
+                    Padding(padding: EdgeInsets.all(0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -150,7 +157,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
                                             var deviceCount = snapshot.data!;
-                                            return _buildDeviceCount(context, true, deviceCount, displayStatusText: true);
+                                            return _buildDeviceCount(context, true, deviceCount);
                                           } else {
                                             return Center(child:
                                             Container(height: 20, width: 20,
@@ -166,7 +173,11 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
                                   }
                               ),
                             ),
-                            SizedBox(width: 4),
+                            // SizedBox(width: 4),
+                            Container(width: 1,
+                                height: 40,
+                                child: VerticalDivider(width:  1)
+                            ),
                             Flexible(fit: FlexFit.tight,
                               child: GestureDetector(
                                   behavior: HitTestBehavior.opaque,
@@ -181,7 +192,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
                                             var deviceCount = snapshot.data!;
-                                            return _buildDeviceCount(context, false, deviceCount, displayStatusText: true);
+                                            return _buildDeviceCount(context, false, deviceCount);
                                           } else {
                                             return Center(child:
                                             Container(height: 20, width: 20,
@@ -206,15 +217,10 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withAlpha(25),
-                    blurRadius: 10.0,
+                    color: Colors.black.withAlpha((255 * 0.05).ceil()),
+                    blurRadius: 6.0,
                     offset: Offset(0, 4)
-                ),
-                BoxShadow(
-                    color: Colors.black.withAlpha(18),
-                    blurRadius: 30.0,
-                    offset: Offset(0, 10)
-                ),
+                )
               ],
             ),
           ),
@@ -275,124 +281,98 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
     }
     return
       ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                  child: FittedBox(
-                    fit: imageFit,
-                    child: image,
-                  )
-              ),
-              hasImage ? Positioned.fill(
-                child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0x00000000),
-                              Color(0xb7000000)
-                            ],
-                            stops: [0.4219, 1]
-                        )
+          borderRadius: BorderRadius.circular(4),
+          child: Column(
+              children: [
+                Expanded(
+                    child: Stack (
+                        children: [
+                          SizedBox.expand(
+                              child: FittedBox(
+                                  clipBehavior: Clip.hardEdge,
+                                  fit: imageFit,
+                                  child: image
+                              )
+                          )
+                        ]
                     )
                 ),
-              ) : Container(),
-              Positioned(
-                  bottom: 56,
-                  left: 16,
-                  right: 16,
-                  child: AutoSizeText(entity.name,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    minFontSize: 8,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: hasImage ? Colors.white : Color(0xFF282828),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 20 / 14
-                    ),
-                  )
-              ),
-              Positioned(
-                  bottom: 4,
-                  left: 4,
-                  right: 4,
-                  height: 40,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(fit: FlexFit.tight,
-                        child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:  BorderRadius.circular(4),
-                                ),
-                                child: FutureBuilder<int>(
-                                  future: activeDevicesCount,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                                      var deviceCount = snapshot.data!;
-                                      return _buildDeviceCount(context, true, deviceCount);
-                                    } else {
-                                      return Center(child:
-                                                Container(height: 20, width: 20,
-                                                    child: CircularProgressIndicator(
-                                                        valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary),
-                                                        strokeWidth: 2.5)));
-                                    }
-                                  },
-                                )
-                            ),
-                            onTap: () {
-                               navigateTo('/deviceList?active=true&deviceType=${entity.name}');
-                            }
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Flexible(fit: FlexFit.tight,
-                          child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:  BorderRadius.circular(4),
-                                  ),
-                                  child: FutureBuilder<int>(
-                                    future: inactiveDevicesCount,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                                        var deviceCount = snapshot.data!;
-                                        return _buildDeviceCount(context, false, deviceCount);
-                                      } else {
-                                        return Center(child:
-                                        Container(height: 20, width: 20,
-                                            child: CircularProgressIndicator(
-                                                valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary),
-                                                strokeWidth: 2.5)));
-                                      }
-                                    },
-                                  )
-                              ),
-                              onTap: () {
-                                navigateTo('/deviceList?active=false&deviceType=${entity.name}');
-                              }
+                Container(
+                  height: 44,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6),
+                    child: Center(
+                        child: AutoSizeText(entity.name,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              height: 20 / 14
                           ),
-                      ),
-                    ],
+                        )
+                    )
                   )
-              )
-            ],
+                ),
+                Divider(height: 1),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: FutureBuilder<int>(
+                      future: activeDevicesCount,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                          var deviceCount = snapshot.data!;
+                          return _buildDeviceCount(context, true, deviceCount);
+                        } else {
+                          return Container(height: 40,
+                                    child: Center(
+                                      child: Container(
+                                          height: 20, width: 20,
+                                          child:
+                                          CircularProgressIndicator(
+                                              valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary),
+                                              strokeWidth: 2.5))));
+                        }
+                      },
+                    ),
+                    onTap: () {
+                      navigateTo('/deviceList?active=true&deviceType=${entity.name}');
+                    }
+                ),
+                Divider(height: 1),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: FutureBuilder<int>(
+                      future: inactiveDevicesCount,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                          var deviceCount = snapshot.data!;
+                          return _buildDeviceCount(context, false, deviceCount);
+                        } else {
+                          return Container(height: 40,
+                              child: Center(
+                                  child: Container(
+                                      height: 20, width: 20,
+                                      child:
+                                      CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary),
+                                          strokeWidth: 2.5))));
+                        }
+                      },
+                    ),
+                    onTap: () {
+                      navigateTo('/deviceList?active=false&deviceType=${entity.name}');
+                    }
+                )
+              ]
           )
       );
   }
 }
 
-Widget _buildDeviceCount(BuildContext context, bool active, int count, {bool displayStatusText = false}) {
+Widget _buildDeviceCount(BuildContext context, bool active, int count) {
   Color color = active ? Color(0xFF008A00) : Color(0xFFAFAFAF);
   return Padding(
     padding: EdgeInsets.all(12),
@@ -412,10 +392,15 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count, {bool dis
                 )
               ],
             ),
-            if (displayStatusText)
               SizedBox(width: 8.67),
-            if (displayStatusText)
               Text(active ? 'Active' : 'Inactive', style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  height: 16 / 12,
+                  color: color
+              )),
+              SizedBox(width: 8.67),
+              Text(count.toString(), style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   height: 16 / 12,
@@ -423,12 +408,7 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count, {bool dis
               ))
           ],
         ),
-        Text(count.toString(), style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            height: 16 / 12,
-            color: color
-        ))
+        Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC))
       ],
     ),
   );

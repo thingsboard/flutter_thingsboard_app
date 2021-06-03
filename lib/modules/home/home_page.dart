@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
@@ -45,8 +47,15 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        elevation: dashboardState ? 0 : null,
-        title: const Text('Home'),
+        elevation: dashboardState ? 0 : 8,
+        title: Center(
+            child: Container(
+                height: 24,
+                child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
+                    color: Theme.of(context).primaryColor,
+                    semanticsLabel: 'ThingsBoard Logo')
+            )
+        ),
       ),
       body: Builder(
           builder: (context) {
@@ -61,8 +70,7 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
   }
 
   Widget _buildDashboardHome(BuildContext context, HomeDashboardInfo dashboard) {
-    return dashboardUi.Dashboard(tbContext, dashboardId: dashboard.dashboardId!.id!,
-        fullscreen: false, home: true, hideToolbar: dashboard.hideDashboardToolbar);
+    return HomeDashboard(tbContext, dashboard);
   }
 
   Widget _buildDefaultHome(BuildContext context) {
@@ -107,4 +115,30 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
       DashboardsListWidget(tbContext, controller: _entitiesWidgetController)
     ];
   } */
+}
+
+class HomeDashboard extends TbContextWidget<HomeDashboard, _HomeDashboardState> {
+
+  final HomeDashboardInfo dashboard;
+
+  HomeDashboard(TbContext tbContext, this.dashboard) : super(tbContext);
+
+  @override
+  _HomeDashboardState createState() => _HomeDashboardState();
+
+}
+
+class _HomeDashboardState extends TbContextState<HomeDashboard, _HomeDashboardState> {
+
+  @override
+  Widget build(BuildContext context) {
+    return dashboardUi.Dashboard(tbContext,
+       home: true,
+       controllerCallback: (controller) {
+         controller.openDashboard(widget.dashboard.dashboardId!.id!,
+                                  hideToolbar: widget.dashboard.hideDashboardToolbar);
+       }
+    );
+  }
+
 }

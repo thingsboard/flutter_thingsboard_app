@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
-import 'package:thingsboard_app/modules/device/devices_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -97,12 +95,7 @@ class MainPage extends TbPageWidget<MainPage, _MainPageState> {
   final String _path;
 
   MainPage(TbContext tbContext, {required String path}):
-        _path = path, super(tbContext) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Theme.of(tbContext.currentState!.context).colorScheme.primary,
-        systemNavigationBarIconBrightness: Brightness.dark
-    ));
-  }
+        _path = path, super(tbContext);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -122,9 +115,24 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
     int currentIndex = _indexFromPath(widget._path);
     _tabController = TabController(initialIndex: currentIndex, length: _tabItems.length, vsync: this);
     _currentIndexNotifier = ValueNotifier(currentIndex);
-    _tabController.addListener(() {
-      _currentIndexNotifier.value = _tabController.index;
-    });
+    _tabController.animation!.addListener(_onTabAnimation);
+  }
+
+  @override
+  void dispose() {
+    _tabController.animation!.removeListener(_onTabAnimation);
+    super.dispose();
+  }
+
+  _onTabAnimation () {
+    var value = _tabController.animation!.value;
+    var targetIndex;
+    if (value >= _tabController.previousIndex) {
+      targetIndex = value.round();
+    } else {
+      targetIndex = value.floor();
+    }
+    _currentIndexNotifier.value = targetIndex;
   }
 
   @override
@@ -142,25 +150,18 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
               controller: _tabController,
               children: _tabItems.map((item) => item.page).toList(),
             ),
-            bottomNavigationBar: Theme(
-                data: Theme.of(context).copyWith(
-                    canvasColor: Theme.of(context).colorScheme.primary
+            bottomNavigationBar: ValueListenableBuilder<int>(
+                valueListenable: _currentIndexNotifier,
+                builder: (context, index, child) => BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: index,
+                    onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+                    items: _tabItems.map((item) => BottomNavigationBarItem(
+                        icon: item.icon,
+                        label: item.title
+                    )).toList()
                 ),
-                child: ValueListenableBuilder<int>(
-                  valueListenable: _currentIndexNotifier,
-                  builder: (context, index, child) => BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      selectedItemColor: Colors.white,
-                      unselectedItemColor: Colors.white.withAlpha(97),
-                      currentIndex: index,
-                      onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
-                      items: _tabItems.map((item) => BottomNavigationBarItem(
-                          icon: item.icon,
-                          label: item.title
-                      )).toList()
-                  ),
-                )
-            )
+              )
         ),
     );
   }
@@ -179,6 +180,11 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
     int targetIndex = _indexFromPath(path);
     _setIndex(targetIndex);
  }
+
+  @override
+  bool isHomePage() {
+    return _tabController.index == 0;
+  }
 
   _setIndex(int index) {
     _tabController.index = index;

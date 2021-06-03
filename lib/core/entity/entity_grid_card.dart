@@ -30,26 +30,18 @@ class EntityGridCard<T> extends StatelessWidget {
             child: Card(
                 margin: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 elevation: 0,
-                child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: _entityCardWidgetBuilder(context, _entity)
-                )
+                child: _entityCardWidgetBuilder(context, _entity)
             ),
             decoration: _settings.dropShadow ? BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withAlpha(25),
-                    blurRadius: 10.0,
+                    color: Colors.black.withAlpha((255 * 0.05).ceil()),
+                    blurRadius: 6.0,
                     offset: Offset(0, 4)
-                ),
-                BoxShadow(
-                    color: Colors.black.withAlpha(18),
-                    blurRadius: 30.0,
-                    offset: Offset(0, 10)
-                ),
+                )
               ],
             ) : null,
           ),

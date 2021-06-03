@@ -17,12 +17,18 @@ class AlarmsPage extends TbContextWidget<AlarmsPage, _AlarmsPageState> {
 
 }
 
-class _AlarmsPageState extends TbContextState<AlarmsPage, _AlarmsPageState> {
+class _AlarmsPageState extends TbContextState<AlarmsPage, _AlarmsPageState> with AutomaticKeepAliveClientMixin<AlarmsPage> {
 
   final AlarmQueryController _alarmQueryController = AlarmQueryController();
 
   @override
+  bool get wantKeepAlive {
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     var alarmsList = AlarmsList(tbContext, _alarmQueryController, searchMode: widget.searchMode);
     PreferredSizeWidget appBar;
     if (widget.searchMode) {

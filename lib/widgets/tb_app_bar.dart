@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements PreferredSizeWidget {
 
+  final Widget? leading;
   final Widget? title;
   final List<Widget>? actions;
   final double? elevation;
@@ -17,7 +17,7 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
   @override
   final Size preferredSize;
 
-  TbAppBar(TbContext tbContext, {this.title, this.actions, this.elevation,
+  TbAppBar(TbContext tbContext, {this.leading, this.title, this.actions, this.elevation = 8,
                                  this.showLoadingIndicator = false}) :
     preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
     super(tbContext);
@@ -64,9 +64,11 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
 
   AppBar buildDefaultBar() {
     return AppBar(
+      leading: widget.leading,
       title: widget.title,
       actions: widget.actions,
       elevation: widget.elevation,
+      shadowColor: Color(0xFFFFFFFF).withAlpha(150),
     );
   }
 }
@@ -137,16 +139,17 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar, _TbAppSearchBa
   AppBar buildSearchBar() {
     return AppBar(
       centerTitle: true,
-      title: Theme(
-          data: tbDarkTheme,
-          child: TextField(
-            controller: _filter,
-            cursorColor: Colors.white,
-            decoration: new InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
-              hintText: widget.searchHint ?? 'Search',
+      title: TextField(
+          controller: _filter,
+          autofocus: true,
+          // cursorColor: Colors.white,
+          decoration: new InputDecoration(
+            border: InputBorder.none,
+            hintStyle: TextStyle(
+              color: Color(0xFF282828).withAlpha((255 * 0.38).ceil()),
             ),
+            contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
+            hintText: widget.searchHint ?? 'Search',
           )
       ),
       actions: [

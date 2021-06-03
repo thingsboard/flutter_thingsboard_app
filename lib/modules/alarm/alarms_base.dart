@@ -114,109 +114,126 @@ class _AlarmCardState extends TbContextState<AlarmCard, _AlarmCardState> {
     if (this.loading) {
       return Container( height: 134, alignment: Alignment.center, child: RefreshProgressIndicator());
     } else {
-      return Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Flexible(
-                fit: FlexFit.tight,
-                child:
-                Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                    fit: FlexFit.tight,
-                                    child: AutoSizeText(alarm.type,
-                                        maxLines: 2,
-                                        minFontSize: 8,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: Color(0xFF282828),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 20 / 14)
-                                    )
-                                ),
-                                Text(alarmSeverityTranslations[alarm.severity]!,
-                                    style: TextStyle(
-                                        color: alarmSeverityColors[alarm.severity]!,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        height: 16 / 12)
-                                )
-                              ]
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                    fit: FlexFit.tight,
-                                    child: Text(alarm.originatorName != null ? alarm.originatorName! : '',
+      return Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              alignment: Alignment.centerLeft,
+                child: Container(
+                  width: 4,
+                  decoration: BoxDecoration(
+                    color: alarmSeverityColors[alarm.severity]!,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4))
+                  ),
+                )
+            )
+          ),
+          Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(width: 4),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child:
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        child: AutoSizeText(alarm.type,
+                                            maxLines: 2,
+                                            minFontSize: 8,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: Color(0xFF282828),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                height: 20 / 14)
+                                        )
+                                    ),
+                                    Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(alarm.createdTime!)),
                                         style: TextStyle(
                                             color: Color(0xFFAFAFAF),
                                             fontWeight: FontWeight.normal,
                                             fontSize: 12,
                                             height: 16 / 12)
                                     )
-                                ),
-                                Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(alarm.createdTime!)),
-                                    style: TextStyle(
-                                        color: Color(0xFFAFAFAF),
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12,
-                                        height: 16 / 12)
-                                )
-                              ]
-                          ),
-                          SizedBox(height: 22),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                  fit: FlexFit.tight,
-                                  child: Text(alarmStatusTranslations[alarm.status]!,
-                                      style: TextStyle(
-                                          color: Color(0xFF282828),
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          height: 20 / 14)
-                                  )
+                                  ]
                               ),
+                              SizedBox(height: 4),
                               Row(
-                                children: [
-                                  if ([AlarmStatus.CLEARED_UNACK, AlarmStatus.ACTIVE_UNACK].contains(alarm.status))
-                                    CircleAvatar(
-                                        radius: 24,
-                                        backgroundColor: Color(0xffF0F4F9),
-                                        child: IconButton(icon: Icon(Icons.done), padding: EdgeInsets.all(6.0), onPressed: () => _ackAlarm(alarm))
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        child: Text(alarm.originatorName != null ? alarm.originatorName! : '',
+                                            style: TextStyle(
+                                                color: Color(0xFFAFAFAF),
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                height: 16 / 12)
+                                        )
                                     ),
-                                  if ([AlarmStatus.ACTIVE_UNACK, AlarmStatus.ACTIVE_ACK].contains(alarm.status))
-                                    Row(
-                                        children: [
-                                          SizedBox(width: 4),
-                                          CircleAvatar(
-                                              radius: 24,
-                                              backgroundColor: Color(0xffF0F4F9),
-                                              child: IconButton(icon: Icon(Icons.clear), padding: EdgeInsets.all(6.0), onPressed: () => _clearAlarm(alarm))
-                                          )
-                                        ]
+                                    Text(alarmSeverityTranslations[alarm.severity]!,
+                                        style: TextStyle(
+                                            color: alarmSeverityColors[alarm.severity]!,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            height: 16 / 12)
                                     )
+                                  ]
+                              ),
+                              SizedBox(height: 22),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                      fit: FlexFit.tight,
+                                      child: Text(alarmStatusTranslations[alarm.status]!,
+                                          style: TextStyle(
+                                              color: Color(0xFF282828),
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 20 / 14)
+                                      )
+                                  ),
+                                  Row(
+                                    children: [
+                                      if ([AlarmStatus.CLEARED_UNACK, AlarmStatus.ACTIVE_UNACK].contains(alarm.status))
+                                        CircleAvatar(
+                                            radius: 16,
+                                            backgroundColor: Color(0xffF0F4F9),
+                                            child: IconButton(icon: Icon(Icons.done, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _ackAlarm(alarm))
+                                        ),
+                                      if ([AlarmStatus.ACTIVE_UNACK, AlarmStatus.ACTIVE_ACK].contains(alarm.status))
+                                        Row(
+                                            children: [
+                                              SizedBox(width: 4),
+                                              CircleAvatar(
+                                                  radius: 16,
+                                                  backgroundColor: Color(0xffF0F4F9),
+                                                  child: IconButton(icon: Icon(Icons.clear, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _clearAlarm(alarm))
+                                              )
+                                            ]
+                                        )
+                                    ],
+                                  )
                                 ],
                               )
-                            ],
-                          )
 
-                        ]
+                            ]
+                        )
                     )
-                )
 
-            )
-          ]
+                )
+              ]
+          )
+        ],
       );
     }
   }

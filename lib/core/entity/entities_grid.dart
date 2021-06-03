@@ -19,6 +19,7 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
   @override
   Widget pagedViewBuilder(BuildContext context) {
     var heading = widget.buildHeading(context);
+    var gridChildAspectRatio = widget.gridChildAspectRatio() ?? 156 / 150;
     List<Widget> slivers = [];
     if (heading != null) {
       slivers.add(SliverPadding(
@@ -35,8 +36,8 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
             showNoMoreItemsIndicatorAsGridChild: false,
             pagingController: pagingController,
             // padding: EdgeInsets.all(16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 156 / 150,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: gridChildAspectRatio,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               crossAxisCount: 2,

@@ -4,11 +4,14 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfilePage extends TbPageWidget<ProfilePage, _ProfilePageState> {
 
-  ProfilePage(TbContext tbContext) : super(tbContext);
+  final bool _fullscreen;
+
+  ProfilePage(TbContext tbContext, {bool fullscreen = false}) : _fullscreen = fullscreen, super(tbContext);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -30,7 +33,17 @@ class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
     return Scaffold(
         appBar: TbAppBar(
           tbContext,
-          title: const Text('Profile')
+          title: const Text('Profile'),
+          actions: [
+            if (widget._fullscreen) IconButton(
+              icon: Icon(
+                  Icons.logout
+              ),
+              onPressed: () {
+                tbClient.logout();
+              }
+            )
+          ],
         ),
         body: FutureBuilder<User>(
           future: userFuture,
@@ -42,7 +55,9 @@ class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
                 subtitle: Text('${user.firstName} ${user.lastName}'),
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: TbProgressIndicator(
+                size: 50.0,
+              ));
             }
           },
         )

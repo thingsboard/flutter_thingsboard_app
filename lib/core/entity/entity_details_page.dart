@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget<EntityDetailsPage<T>, _EntityDetailsPageState<T>> {
@@ -87,7 +88,9 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
             var entity = snapshot.data!;
             return widget.buildEntityDetails(context, entity);
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: TbProgressIndicator(
+              size: 50.0,
+            ));
           }
         },
       ),

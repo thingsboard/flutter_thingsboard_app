@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 typedef EntityTapFunction<T> = Function(T entity);
@@ -43,6 +44,8 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Widget buildEntityGridCard(BuildContext context, T entity) {
     return Text('Not implemented!');
   }
+
+  double? gridChildAspectRatio() => null;
 
   EntityCardSettings entityListCardSettings(T entity) => EntityCardSettings();
 

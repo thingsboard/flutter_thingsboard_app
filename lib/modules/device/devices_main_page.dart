@@ -14,12 +14,18 @@ class DevicesMainPage extends TbContextWidget<DevicesMainPage, _DevicesMainPageS
 
 }
 
-class _DevicesMainPageState extends TbContextState<DevicesMainPage, _DevicesMainPageState> {
+class _DevicesMainPageState extends TbContextState<DevicesMainPage, _DevicesMainPageState> with AutomaticKeepAliveClientMixin<DevicesMainPage> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
+  bool get wantKeepAlive {
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     var deviceProfilesList = DeviceProfilesGrid(tbContext, _pageLinkController);
     return Scaffold(
         appBar: TbAppBar(

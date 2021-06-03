@@ -8,11 +8,11 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class DashboardPage extends TbPageWidget<DashboardPage, _DashboardPageState> {
 
   final String? _dashboardTitle;
-  final String _dashboardId;
+  final String? _dashboardId;
   final String? _state;
-  final bool _fullscreen;
+  final bool? _fullscreen;
 
-  DashboardPage(TbContext tbContext, {required String dashboardId, required bool fullscreen, String? dashboardTitle, String? state}):
+  DashboardPage(TbContext tbContext, {String? dashboardId, bool? fullscreen, String? dashboardTitle, String? state}):
         _dashboardId = dashboardId,
         _fullscreen = fullscreen,
         _dashboardTitle = dashboardTitle,
@@ -52,10 +52,11 @@ class _DashboardPageState extends TbPageState<DashboardPage, _DashboardPageState
           },
         ),
       ),
-      body: Dashboard(tbContext, dashboardId: widget._dashboardId, state: widget._state,
-                          fullscreen: widget._fullscreen, titleCallback: (title) {
-        dashboardTitleValue.value =  title;
-      }),
+      body: Text('Deprecated') //Dashboard(tbContext, dashboardId: widget._dashboardId, state: widget._state,
+                          //fullscreen: widget._fullscreen, titleCallback: (title) {
+        //dashboardTitleValue.value =  title;
+      //}
+      //),
     );
   }
 

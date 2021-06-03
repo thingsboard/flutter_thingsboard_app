@@ -26,7 +26,8 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   @override
   void onEntityTap(DashboardInfo dashboard) {
-    navigateTo('/dashboard/${dashboard.id!.id}?title=${dashboard.title}');
+    navigateToDashboard(dashboard.id!.id!, dashboardTitle: dashboard.title);
+    // navigateTo('/dashboard/${dashboard.id!.id}?title=${dashboard.title}');
   }
 
   @override
@@ -152,57 +153,50 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard, _Dashboa
   Widget build(BuildContext context) {
     var hasImage = widget.dashboard.image != null;
     Widget image;
-    BoxFit imageFit;
     if (hasImage) {
       var uriData = UriData.parse(widget.dashboard.image!);
       image = Image.memory(uriData.contentAsBytes());
-      imageFit = BoxFit.contain;
     } else {
       image = Image.asset(ThingsboardImage.dashboardPlaceholder);
-      imageFit = BoxFit.cover;
     }
     return
       ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: Stack(
+          borderRadius: BorderRadius.circular(4),
+          child: Column(
             children: [
-              Positioned.fill(
-                  child: FittedBox(
-                    fit: imageFit,
-                    child: image,
+              Expanded(
+                  child: Stack (
+                      children: [
+                        SizedBox.expand(
+                            child: FittedBox(
+                                clipBehavior: Clip.hardEdge,
+                                fit: BoxFit.cover,
+                                child: image
+                            )
+                        )
+                      ]
                   )
               ),
-              hasImage ? Positioned.fill(
-                child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0x00000000),
-                              Color(0xb7000000)
-                            ],
-                            stops: [0.4219, 1]
+              Divider(height: 1),
+              Container(
+                height: 44,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6),
+                    child:
+                    Center(
+                        child: AutoSizeText(widget.dashboard.title,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              height: 20 / 14
+                          ),
                         )
                     )
                 ),
-              ) : Container(),
-              Positioned(
-                  bottom: 16,
-                  left: 16,
-                  right: 16,
-                  child: AutoSizeText(widget.dashboard.title,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    minFontSize: 8,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: hasImage ? Colors.white : Color(0xFF282828),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 20 / 14
-                    ),
-                  )
               )
             ],
           )
