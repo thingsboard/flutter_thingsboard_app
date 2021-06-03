@@ -183,136 +183,131 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                   if (!ready) {
                     return SizedBox.shrink();
                   } else {
-                    return Container(
-                      decoration: BoxDecoration(color: Colors.white),
-                      child: SafeArea(
-                          child: Stack(
-                              children: [
-                                InAppWebView(
-                                  key: webViewKey,
-                                  initialUrlRequest: URLRequest(url: _initialUrl),
-                                  initialOptions: options,
-                                  onWebViewCreated: (webViewController) {
-                                    log.debug("onWebViewCreated");
-                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLoadedHandler", callback: (args) async {
-                                      log.debug("Invoked tbMobileDashboardLoadedHandler");
-                                      dashboardLoading.value = false;
-                                    });
-                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
-                                      log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
-                                      if (args.isNotEmpty && args[0] is String) {
-                                        if (widget._titleCallback != null) {
-                                          widget._titleCallback!(args[0]);
-                                        }
+                    return Stack(
+                        children: [
+                          InAppWebView(
+                            key: webViewKey,
+                            initialUrlRequest: URLRequest(url: _initialUrl),
+                            initialOptions: options,
+                            onWebViewCreated: (webViewController) {
+                              log.debug("onWebViewCreated");
+                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLoadedHandler", callback: (args) async {
+                                log.debug("Invoked tbMobileDashboardLoadedHandler");
+                                dashboardLoading.value = false;
+                              });
+                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
+                                log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
+                                if (args.isNotEmpty && args[0] is String) {
+                                  if (widget._titleCallback != null) {
+                                    widget._titleCallback!(args[0]);
+                                  }
+                                }
+                              });
+                              webViewController.addJavaScriptHandler(handlerName: "tbMobileNavigationHandler", callback: (args) async {
+                                log.debug("Invoked tbMobileNavigationHandler: $args");
+                                if (args.length > 0) {
+                                  String? path = args[0];
+                                  Map<String, dynamic>? params;
+                                  if (args.length > 1) {
+                                    params = args[1];
+                                  }
+                                  log.debug("path: $path");
+                                  log.debug("params: $params");
+                                  if (path != null) {
+                                    if ([
+                                      'profile',
+                                      'devices',
+                                      'assets',
+                                      'dashboards',
+                                      'customers',
+                                      'auditLogs'
+                                    ].contains(path)) {
+                                      var targetPath = '/$path';
+                                      if (path == 'devices' && widget._home != true) {
+                                        targetPath = '/devicesPage';
                                       }
-                                    });
-                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileNavigationHandler", callback: (args) async {
-                                      log.debug("Invoked tbMobileNavigationHandler: $args");
-                                      if (args.length > 0) {
-                                        String? path = args[0];
-                                        Map<String, dynamic>? params;
-                                        if (args.length > 1) {
-                                          params = args[1];
-                                        }
-                                        log.debug("path: $path");
-                                        log.debug("params: $params");
-                                        if (path != null) {
-                                          if ([
-                                            'profile',
-                                            'devices',
-                                            'assets',
-                                            'dashboards',
-                                            'customers',
-                                            'auditLogs'
-                                          ].contains(path)) {
-                                            var targetPath = '/$path';
-                                            if (path == 'devices' && widget._home != true) {
-                                              targetPath = '/devicesPage';
-                                            }
-                                            navigateTo(targetPath);
-                                          }
-                                        }
-                                      }
-                                    });
-                                    webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
-                                      log.debug("Invoked tbMobileHandler: $args");
-                                      return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
-                                    });
-                                  },
-                                  shouldOverrideUrlLoading: (controller, navigationAction) async {
-                                    var uri = navigationAction.request.url!;
-                                    var uriString = uri.toString();
-                                    log.debug('shouldOverrideUrlLoading $uriString');
-                                    if (![
-                                      "http",
-                                      "https",
-                                      "file",
-                                      "chrome",
-                                      "data",
-                                      "javascript",
-                                      "about"
-                                    ].contains(uri.scheme)) {
-                                      if (await canLaunch(uriString)) {
-                                        // Launch the App
-                                        await launch(
-                                          uriString,
-                                        );
-                                        // and cancel the request
-                                        return NavigationActionPolicy.CANCEL;
-                                      }
+                                      navigateTo(targetPath);
                                     }
+                                  }
+                                }
+                              });
+                              webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
+                                log.debug("Invoked tbMobileHandler: $args");
+                                return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
+                              });
+                            },
+                            shouldOverrideUrlLoading: (controller, navigationAction) async {
+                              var uri = navigationAction.request.url!;
+                              var uriString = uri.toString();
+                              log.debug('shouldOverrideUrlLoading $uriString');
+                              if (![
+                                "http",
+                                "https",
+                                "file",
+                                "chrome",
+                                "data",
+                                "javascript",
+                                "about"
+                              ].contains(uri.scheme)) {
+                                if (await canLaunch(uriString)) {
+                                  // Launch the App
+                                  await launch(
+                                    uriString,
+                                  );
+                                  // and cancel the request
+                                  return NavigationActionPolicy.CANCEL;
+                                }
+                              }
 
-                                    return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
-                                  },
-                                  onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                                    log.debug('onUpdateVisitedHistory: url');
-                                    _dashboardController.onHistoryUpdated(controller.canGoBack());
-                                  },
-                                  onConsoleMessage: (controller, consoleMessage) {
-                                    log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
-                                  },
-                                  onLoadStart: (controller, url) async {
-                                    log.debug('onLoadStart: $url');
-                                  },
-                                  onLoadStop: (controller, url) async {
-                                    log.debug('onLoadStop: $url');
-                                    if (webViewLoading) {
-                                      webViewLoading = false;
-                                      _controller.complete(controller);
-                                    }
-                                  },
-                                  androidOnPermissionRequest: (controller, origin, resources) async {
-                                    log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
-                                    return PermissionRequestResponse(
-                                        resources: resources,
-                                        action: PermissionRequestResponseAction.GRANT);
-                                  },
-                                ),
-                                ValueListenableBuilder(
-                                    valueListenable: dashboardLoading,
-                                    builder: (BuildContext context, bool loading, child) {
-                                      if (!loading) {
-                                        return SizedBox.shrink();
-                                      } else {
-                                        var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
-                                        var bottomPadding = data.padding.top;
-                                        if (widget._home != true) {
-                                          bottomPadding += kToolbarHeight;
-                                        }
-                                        return Container(
-                                          padding: EdgeInsets.only(bottom: bottomPadding),
-                                          alignment: Alignment.center,
-                                          color: Colors.white,
-                                          child: TbProgressIndicator(
-                                              size: 50.0
-                                          ),
-                                        );
-                                      }
-                                    }
-                                )
-                              ]
+                              return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
+                            },
+                            onUpdateVisitedHistory: (controller, url, androidIsReload) async {
+                              log.debug('onUpdateVisitedHistory: url');
+                              _dashboardController.onHistoryUpdated(controller.canGoBack());
+                            },
+                            onConsoleMessage: (controller, consoleMessage) {
+                              log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                            },
+                            onLoadStart: (controller, url) async {
+                              log.debug('onLoadStart: $url');
+                            },
+                            onLoadStop: (controller, url) async {
+                              log.debug('onLoadStop: $url');
+                              if (webViewLoading) {
+                                webViewLoading = false;
+                                _controller.complete(controller);
+                              }
+                            },
+                            androidOnPermissionRequest: (controller, origin, resources) async {
+                              log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
+                              return PermissionRequestResponse(
+                                  resources: resources,
+                                  action: PermissionRequestResponseAction.GRANT);
+                            },
+                          ),
+                          ValueListenableBuilder(
+                              valueListenable: dashboardLoading,
+                              builder: (BuildContext context, bool loading, child) {
+                                if (!loading) {
+                                  return SizedBox.shrink();
+                                } else {
+                                  var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                                  var bottomPadding = data.padding.top;
+                                  if (widget._home != true) {
+                                    bottomPadding += kToolbarHeight;
+                                  }
+                                  return Container(
+                                    padding: EdgeInsets.only(bottom: bottomPadding),
+                                    alignment: Alignment.center,
+                                    color: Colors.white,
+                                    child: TbProgressIndicator(
+                                        size: 50.0
+                                    ),
+                                  );
+                                }
+                              }
                           )
-                      ),
+                        ]
                     );
                   }
                 }

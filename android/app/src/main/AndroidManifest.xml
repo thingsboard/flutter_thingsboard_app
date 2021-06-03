@@ -13,6 +13,7 @@
     <application
         android:requestLegacyExternalStorage="true"
         android:label="ThingsBoard App"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
@@ -49,5 +50,7 @@
             android:name="flutterEmbedding"
             android:value="2"
         />
+        <meta-data android:name="io.flutter.network-policy"
+                   android:resource="@xml/network_security_config"/>
     </application>
 </manifest>

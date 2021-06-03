@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -147,6 +148,7 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
         },
         child: Scaffold(
             body: TabBarView(
+              physics: tbContext.homeDashboard != null ? NeverScrollableScrollPhysics() : null,
               controller: _tabController,
               children: _tabItems.map((item) => item.page).toList(),
             ),
@@ -162,7 +164,7 @@ class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainSt
                     )).toList()
                 ),
               )
-        ),
+        )
     );
   }
 

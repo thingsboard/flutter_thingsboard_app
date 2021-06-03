@@ -113,10 +113,8 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Stack(
-        children: _pages,
-      ),
+    return Stack(
+      children: _pages,
     );
   }
 

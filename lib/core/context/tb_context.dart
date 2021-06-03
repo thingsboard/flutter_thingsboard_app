@@ -275,6 +275,7 @@ class TbContext {
             await navigateToDashboard(defaultDashboardId, animate: false);
             navigateTo('/home',
                 replace: true,
+                closeDashboard: false,
                 transition: TransitionType.none);
           } else {
             navigateTo('/fullscreenDashboard/$defaultDashboardId',
@@ -323,11 +324,11 @@ class TbContext {
     return false;
   }
 
-  Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false,
+  Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false, closeDashboard = true,
                              TransitionType? transition, Duration? transitionDuration, bool restoreDashboard = true}) async {
     if (currentState != null) {
       hideNotification();
-      bool isOpenedDashboard = _mainDashboardHolder?.isDashboardOpen() == true;
+      bool isOpenedDashboard = _mainDashboardHolder?.isDashboardOpen() == true && closeDashboard;
       if (isOpenedDashboard) {
         _mainDashboardHolder?.openMain();
       }
