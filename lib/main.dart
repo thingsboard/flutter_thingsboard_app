@@ -92,19 +92,33 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
   }
 
   Future<bool> _openMain({bool animate: true}) async {
-    return _mainStackController.open(0, animate: animate);
+    var res = await _mainStackController.open(0, animate: animate);
+    if (res) {
+      await _mainDashboardPageController.deactivateDashboard();
+    }
+    return res;
   }
 
   Future<bool> _closeMain({bool animate: true}) async {
+    if (!isDashboardOpen()) {
+      await _mainDashboardPageController.activateDashboard();
+    }
     return _mainStackController.close(0, animate: animate);
   }
 
   Future<bool> _openDashboard({bool animate: true}) async {
+    if (!isDashboardOpen()) {
+      _mainDashboardPageController.activateDashboard();
+    }
     return _mainStackController.open(1, animate: animate);
   }
 
   Future<bool> _closeDashboard({bool animate: true}) async {
-    return _mainStackController.close(1, animate: animate);
+    var res = await _mainStackController.close(1, animate: animate);
+    if (res) {
+      _mainDashboardPageController.deactivateDashboard();
+    }
+    return res;
   }
 
 

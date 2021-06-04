@@ -12,13 +12,14 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
   final Widget? title;
   final List<Widget>? actions;
   final double? elevation;
+  final Color? shadowColor;
   final bool showLoadingIndicator;
 
   @override
   final Size preferredSize;
 
   TbAppBar(TbContext tbContext, {this.leading, this.title, this.actions, this.elevation = 8,
-                                 this.showLoadingIndicator = false}) :
+                                 this.shadowColor, this.showLoadingIndicator = false}) :
     preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
     super(tbContext);
 
@@ -68,7 +69,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
       title: widget.title,
       actions: widget.actions,
       elevation: widget.elevation,
-      shadowColor: Color(0xFFFFFFFF).withAlpha(150),
+      shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
     );
   }
 }

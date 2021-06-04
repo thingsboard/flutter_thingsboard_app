@@ -32,6 +32,15 @@ class MainDashboardPageController {
     }
     await _dashboardController?.openDashboard(dashboardId, state: state, hideToolbar: hideToolbar);
   }
+
+  Future<void> activateDashboard() async {
+    await _dashboardController?.activateDashboard();
+  }
+
+  Future<void> deactivateDashboard() async {
+    await _dashboardController?.deactivateDashboard();
+  }
+
 }
 
 class MainDashboardPage extends TbContextWidget<MainDashboardPage, _MainDashboardPageState> {
@@ -84,7 +93,8 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
                 }
             ),
             showLoadingIndicator: false,
-            elevation: 0,
+            elevation: 1,
+            shadowColor: Colors.transparent,
             title: ValueListenableBuilder<String>(
               valueListenable: dashboardTitleValue,
               builder: (context, title, widget) {
@@ -98,6 +108,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
         ),
         body: Dashboard(
             tbContext,
+            activeByDefault: false,
             titleCallback: (title) {
               dashboardTitleValue.value =  title;
             },

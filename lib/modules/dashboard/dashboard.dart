@@ -9,6 +9,7 @@ import 'package:thingsboard_app/constants/api_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_app/widgets/two_value_listenable_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DashboardController {
@@ -29,6 +30,14 @@ class DashboardController {
     canGoBack.value = await canGoBackFuture;
   }
 
+  Future<void> activateDashboard() async {
+    await dashboardState._activateDashboard();
+  }
+
+  Future<void> deactivateDashboard() async {
+    await dashboardState._deactivateDashboard();
+  }
+
   dispose() {
     canGoBack.dispose();
   }
@@ -42,11 +51,13 @@ typedef DashboardControllerCallback = void Function(DashboardController controll
 class Dashboard extends TbContextWidget<Dashboard, _DashboardState> {
 
   final bool? _home;
+  final bool _activeByDefault;
   final DashboardTitleCallback? _titleCallback;
   final DashboardControllerCallback? _controllerCallback;
 
-  Dashboard(TbContext tbContext, {Key? key, bool? home, DashboardTitleCallback? titleCallback, DashboardControllerCallback? controllerCallback}):
+  Dashboard(TbContext tbContext, {Key? key, bool? home, bool activeByDefault = true, DashboardTitleCallback? titleCallback, DashboardControllerCallback? controllerCallback}):
         this._home = home,
+        this._activeByDefault = activeByDefault,
         this._titleCallback = titleCallback,
         this._controllerCallback = controllerCallback,
         super(tbContext);
@@ -62,6 +73,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
 
   bool webViewLoading = true;
   final ValueNotifier<bool> dashboardLoading = ValueNotifier(true);
+  final ValueNotifier<bool> dashboardActive = ValueNotifier(true);
   final ValueNotifier<bool> readyState = ValueNotifier(false);
 
   final GlobalKey webViewKey = GlobalKey();
@@ -80,7 +92,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
         // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(
-        useHybridComposition: false,
+        useHybridComposition: true,
         thirdPartyCookiesEnabled: true
       ),
       ios: IOSInAppWebViewOptions(
@@ -92,6 +104,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
   @override
   void initState() {
     super.initState();
+    dashboardActive.value = widget._activeByDefault;
     _dashboardController = DashboardController(this);
     if (widget._controllerCallback != null) {
       widget._controllerCallback!(_dashboardController);
@@ -137,6 +150,18 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
     dashboardLoading.dispose();
     _dashboardController.dispose();
     super.dispose();
+  }
+
+  Future<void> _activateDashboard() async {
+    if (!dashboardActive.value) {
+      dashboardActive.value = true;
+    }
+  }
+
+  Future<void> _deactivateDashboard() async {
+    if (dashboardActive.value) {
+      dashboardActive.value = false;
+    }
   }
 
   Future<void> _openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
@@ -262,7 +287,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                               return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
                             },
                             onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                              log.debug('onUpdateVisitedHistory: url');
+                              log.debug('onUpdateVisitedHistory: $url');
                               _dashboardController.onHistoryUpdated(controller.canGoBack());
                             },
                             onConsoleMessage: (controller, consoleMessage) {
@@ -285,10 +310,11 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                                   action: PermissionRequestResponseAction.GRANT);
                             },
                           ),
-                          ValueListenableBuilder(
-                              valueListenable: dashboardLoading,
-                              builder: (BuildContext context, bool loading, child) {
-                                if (!loading) {
+                          TwoValueListenableBuilder(
+                              firstValueListenable: dashboardLoading,
+                              secondValueListenable: dashboardActive,
+                              builder: (BuildContext context, bool loading, bool active, child) {
+                                if (!loading && active) {
                                   return SizedBox.shrink();
                                 } else {
                                   var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);

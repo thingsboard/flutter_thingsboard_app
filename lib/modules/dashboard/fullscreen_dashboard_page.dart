@@ -55,7 +55,8 @@ class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage,
                         }
                     ) : null,
                     showLoadingIndicator: false,
-                    elevation: 0,
+                    elevation: 1,
+                    shadowColor: Colors.transparent,
                     title: ValueListenableBuilder<String>(
                       valueListenable: dashboardTitleValue,
                       builder: (context, title, widget) {
