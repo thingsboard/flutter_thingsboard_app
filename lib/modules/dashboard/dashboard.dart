@@ -15,6 +15,9 @@ import 'package:url_launcher/url_launcher.dart';
 class DashboardController {
 
   final ValueNotifier<bool> canGoBack = ValueNotifier(false);
+  final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
+  final ValueNotifier<bool> rightLayoutOpened = ValueNotifier(false);
+
   final _DashboardState dashboardState;
   DashboardController(this.dashboardState);
 
@@ -30,6 +33,18 @@ class DashboardController {
     canGoBack.value = await canGoBackFuture;
   }
 
+  onHasRightLayout(bool _hasRightLayout) {
+    hasRightLayout.value = _hasRightLayout;
+  }
+
+  onRightLayoutOpened(bool _rightLayoutOpened) {
+    rightLayoutOpened.value = _rightLayoutOpened;
+  }
+
+  Future<void> toggleRightLayout() async {
+    await dashboardState._toggleRightLayout();
+  }
+
   Future<void> activateDashboard() async {
     await dashboardState._activateDashboard();
   }
@@ -40,6 +55,8 @@ class DashboardController {
 
   dispose() {
     canGoBack.dispose();
+    hasRightLayout.dispose();
+    rightLayoutOpened.dispose();
   }
 
 }
@@ -187,6 +204,15 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
     await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
   }
 
+  Future<void> _toggleRightLayout() async {
+    var controller = await _controller.future;
+    var windowMessage = <String, dynamic>{
+      'type': 'toggleDashboardLayout'
+    };
+    var webMessage = WebMessage(data: jsonEncode(windowMessage));
+    await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -217,8 +243,17 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                             onWebViewCreated: (webViewController) {
                               log.debug("onWebViewCreated");
                               webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLoadedHandler", callback: (args) async {
-                                log.debug("Invoked tbMobileDashboardLoadedHandler");
+                                bool hasRightLayout = args[0];
+                                bool rightLayoutOpened = args[1];
+                                log.debug("Invoked tbMobileDashboardLoadedHandler: hasRightLayout: $hasRightLayout, rightLayoutOpened: $rightLayoutOpened");
+                                _dashboardController.onHasRightLayout(hasRightLayout);
+                                _dashboardController.onRightLayoutOpened(rightLayoutOpened);
                                 dashboardLoading.value = false;
+                              });
+                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLayoutHandler", callback: (args) async {
+                                bool rightLayoutOpened = args[0];
+                                log.debug("Invoked tbMobileDashboardLayoutHandler: rightLayoutOpened: $rightLayoutOpened");
+                                _dashboardController.onRightLayoutOpened(rightLayoutOpened);
                               });
                               webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
                                 log.debug("Invoked tbMobileDashboardStateNameHandler: $args");

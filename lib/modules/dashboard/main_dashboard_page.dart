@@ -63,6 +63,9 @@ class MainDashboardPage extends TbContextWidget<MainDashboardPage, _MainDashboar
 class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDashboardPageState> {
 
   late ValueNotifier<String> dashboardTitleValue;
+  final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
+  final ValueNotifier<bool> rightLayoutOpened = ValueNotifier(false);
+  DashboardController? _dashboardController;
 
   @override
   void initState() {
@@ -104,7 +107,27 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
                     child: Text(title)
                 );
               },
-            )
+            ),
+            actions: [
+              ValueListenableBuilder<bool>(
+                valueListenable: hasRightLayout,
+                builder: (context, _hasRightLayout, widget) {
+                  if (_hasRightLayout) {
+                    return IconButton(
+                        onPressed: () => _dashboardController?.toggleRightLayout(),
+                        icon: ValueListenableBuilder<bool>(
+                          valueListenable: rightLayoutOpened,
+                          builder: (context, _rightLayoutOpened, widget) {
+                            return Icon(_rightLayoutOpened ? Icons.arrow_back : Icons.menu);
+                          }
+                        )
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                }
+              )
+            ],
         ),
         body: Dashboard(
             tbContext,
@@ -113,8 +136,15 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
               dashboardTitleValue.value =  title;
             },
             controllerCallback: (controller) {
+              _dashboardController = controller;
               if (widget._controller != null) {
                 widget._controller!._setDashboardController(controller);
+                controller.hasRightLayout.addListener(() {
+                  hasRightLayout.value = controller.hasRightLayout.value;
+                });
+                controller.rightLayoutOpened.addListener(() {
+                  rightLayoutOpened.value = controller.rightLayoutOpened.value;
+                });
               }
             }
         )
