@@ -60,16 +60,25 @@ class MainDashboardPage extends TbContextWidget<MainDashboardPage, _MainDashboar
 
 }
 
-class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDashboardPageState> {
+class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDashboardPageState> with TickerProviderStateMixin {
 
   late ValueNotifier<String> dashboardTitleValue;
   final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
-  final ValueNotifier<bool> rightLayoutOpened = ValueNotifier(false);
   DashboardController? _dashboardController;
+  late final Animation<double> rightLayoutMenuAnimation;
+  late final AnimationController rightLayoutMenuController;
 
   @override
   void initState() {
     super.initState();
+    rightLayoutMenuController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
+    rightLayoutMenuAnimation = CurvedAnimation(
+        curve: Curves.linear,
+        parent: rightLayoutMenuController
+    );
     if (widget._controller != null) {
       widget._controller!._setMainDashboardPageState(this);
     }
@@ -78,6 +87,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
 
   @override
   void dispose() {
+    rightLayoutMenuController.dispose();
     super.dispose();
   }
 
@@ -105,7 +115,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
                     fit: BoxFit.fitWidth,
                     alignment: Alignment.centerLeft,
                     child: Text(title)
-                );
+               );
               },
             ),
             actions: [
@@ -115,11 +125,9 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
                   if (_hasRightLayout) {
                     return IconButton(
                         onPressed: () => _dashboardController?.toggleRightLayout(),
-                        icon: ValueListenableBuilder<bool>(
-                          valueListenable: rightLayoutOpened,
-                          builder: (context, _rightLayoutOpened, widget) {
-                            return Icon(_rightLayoutOpened ? Icons.arrow_back : Icons.menu);
-                          }
+                        icon: AnimatedIcon(
+                          progress: rightLayoutMenuAnimation,
+                          icon: AnimatedIcons.menu_close
                         )
                     );
                   } else {
@@ -143,7 +151,11 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDas
                   hasRightLayout.value = controller.hasRightLayout.value;
                 });
                 controller.rightLayoutOpened.addListener(() {
-                  rightLayoutOpened.value = controller.rightLayoutOpened.value;
+                  if(controller.rightLayoutOpened.value) {
+                    rightLayoutMenuController.forward();
+                  } else {
+                    rightLayoutMenuController.reverse();
+                  }
                 });
               }
             }
