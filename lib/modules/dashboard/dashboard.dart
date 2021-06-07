@@ -152,6 +152,10 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
   }
 
   Future<bool> _goBack() async {
+    if (_dashboardController.rightLayoutOpened.value) {
+      await _toggleRightLayout();
+      return false;
+    }
     var controller = await _controller.future;
     if (await controller.canGoBack()) {
       await controller.goBack();
@@ -220,12 +224,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
               if (widget._home == true && !tbContext.isHomePage()) {
                 return true;
               }
-              var controller = await _controller.future;
-              if (await controller.canGoBack()) {
-                await controller.goBack();
-                return false;
-              }
-              return true;
+              return await _goBack();
             },
             child:
             ValueListenableBuilder(

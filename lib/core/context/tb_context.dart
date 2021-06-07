@@ -349,7 +349,7 @@ class TbContext {
         if (replace) {
           transition = TransitionType.fadeIn;
         } else {
-          transition = TransitionType.inFromRight;
+          transition = TransitionType.native;
         }
       }
       var res = await router.navigateTo(currentState!.context, path, transition: transition, transitionDuration: transitionDuration, replace: replace, clearStack: clearStack);
@@ -364,9 +364,10 @@ class TbContext {
     await _mainDashboardHolder?.navigateToDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar, animate: animate);
   }
 
-  void pop<T>([T? result]) {
-    if (currentState != null) {
-      router.pop<T>(currentState!.context, result);
+  void pop<T>([T? result, BuildContext? context]) {
+    var targetContext = context ?? currentState?.context;
+    if (targetContext != null) {
+      router.pop<T>(targetContext, result);
     }
   }
 
@@ -391,9 +392,9 @@ class TbContext {
           title: Text(title),
           content: Text(message),
           actions: [
-            TextButton(onPressed: () => pop(false),
+            TextButton(onPressed: () => pop(false, context),
                        child: Text(cancel)),
-            TextButton(onPressed: () => pop(true),
+            TextButton(onPressed: () => pop(true, context),
                 child: Text(ok))
           ],
         ));

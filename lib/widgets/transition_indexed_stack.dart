@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 class TransitionIndexedStackController {
 
@@ -124,7 +125,7 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
       position: Tween<Offset>(
         begin: Offset.zero,
         end: const Offset(1, 0),
-      ).animate(animation),
+      ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation),
       child: widget
     );
   }

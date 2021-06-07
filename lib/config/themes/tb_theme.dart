@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 const int _tbPrimaryColorValue = 0xFF305680;
 const Color _tbPrimaryColor = Color(_tbPrimaryColorValue);
@@ -67,7 +68,11 @@ ThemeData tbTheme = ThemeData(
       unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
       showSelectedLabels: true,
       showUnselectedLabels: true
-    )
+    ),
+    pageTransitionsTheme: PageTransitionsTheme(builders: {
+      TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
+      TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
+    })
 );
 
 ThemeData tbDarkTheme = ThemeData(
