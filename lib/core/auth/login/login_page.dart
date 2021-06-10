@@ -24,6 +24,12 @@ class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 
 class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
 
+  final ButtonStyle _oauth2ButtonWithTextStyle =
+        OutlinedButton.styleFrom(alignment: Alignment.centerLeft, primary: Colors.black87);
+
+  final ButtonStyle _oauth2IconButtonStyle =
+        OutlinedButton.styleFrom(alignment: Alignment.center);
+
   final _isLoginNotifier = ValueNotifier<bool>(false);
   final _showPasswordNotifier = ValueNotifier<bool>(false);
 
@@ -44,9 +50,6 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle oauth2ButtonStyle =
-         ElevatedButton.styleFrom(primary: Theme.of(context).secondaryHeaderColor,
-             onPrimary: Theme.of(context).colorScheme.onSurface);
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
@@ -55,190 +58,148 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
             builder: (BuildContext context, bool loading, child) {
               List<Widget> children = [
                 LoginPageBackground(),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(28, 71, 28, 28),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
-                                  height: 25,
-                                  color: Theme.of(context).primaryColor,
-                                  semanticsLabel: 'ThingsBoard Logo')
-                            ]
-                          ),
-                          Container(height: 32),
-                          Row(
-                          children: [
-                            Text(
-                              'Login to your account',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32,
-                                height: 40 / 32
-                              )
-                            )]
-                          ),
-                          Container(height: tbContext.hasOAuthClients ? 24 : 48),
-                          if (tbContext.hasOAuthClients)
-                            Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: tbContext.oauth2Clients!.map((client) {
-                                Widget? icon;
-                                if (client.icon != null) {
-                                  if (ThingsboardImage.oauth2Logos.containsKey(client.icon)) {
-                                    icon = SvgPicture.asset(ThingsboardImage.oauth2Logos[client.icon]!,
-                                        height: 24);
-                                  } else {
-                                    String strIcon = client.icon!;
-                                    if (strIcon.startsWith('mdi:')) {
-                                      strIcon = strIcon.substring(4);
-                                    }
-                                    var iconData = MdiIcons.fromString(strIcon);
-                                    if (iconData != null) {
-                                      icon = Icon(iconData, size: 24, color: Theme.of(context).primaryColor);
-                                    }
-                                  }
-                                }
-                                if (icon == null) {
-                                  icon = Icon(Icons.login, size: 24, color: Theme.of(context).primaryColor);
-                                }
-                                return ElevatedButton.icon(
-                                    style: oauth2ButtonStyle,
-                                    onPressed: () async {
-                                      _isLoginNotifier.value = true;
-                                      var url = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + client.url);
-                                      var params = Map<String,String>.from(url.queryParameters);
-                                      params['pkg'] = tbContext.packageName;
-                                      url = url.replace(queryParameters: params);
-                                      try {
-                                        final result = await FlutterWebAuth.authenticate(
-                                            url: url.toString(),
-                                            callbackUrlScheme: ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme);
-                                        final resultUri = Uri.parse(result);
-                                        final error = resultUri.queryParameters['error'];
-                                        if (error != null) {
-                                          _isLoginNotifier.value = false;
-                                          showErrorNotification(error);
-                                        } else {
-                                          final accessToken = resultUri.queryParameters['accessToken'];
-                                          final refreshToken = resultUri.queryParameters['refreshToken'];
-                                          if (accessToken != null && refreshToken != null) {
-                                            await tbClient.setUserFromJwtToken(accessToken, refreshToken, true);
-                                          }
-                                        }
-                                        log.debug('result = $result');
-                                      } catch (e) {
-                                        log.error('Auth Error:', e);
-                                        _isLoginNotifier.value = false;
-                                      }
-                                    },
-                                    icon: icon,
-                                    label: Text('Login with ${client.name}'));
-                            }).toList(),
-                            ),
-                          if (tbContext.hasOAuthClients)
-                            Padding(padding: EdgeInsets.symmetric(vertical: 16),
-                            child:  Row(
-                              children: [
-                                Flexible(child: Divider()),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Text('OR'),
-                                ),
-                                Flexible(child: Divider())
-                              ],
-                            )
-                          ),
-                          TextField(
-                            enabled: !loading,
-                            controller: usernameController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Email',
-                                hintText: 'Enter valid email id as abc@gmail.com'),
-                          ),
-                          Container(height: 28),
-                          ValueListenableBuilder(
-                            valueListenable: _showPasswordNotifier,
-                            builder: (BuildContext context, bool showPassword, child) {
-                              return TextField(
-                                enabled: !loading,
-                                controller: passwordController,
-                                obscureText: !showPassword,
-                                decoration: InputDecoration(
-                                    suffixIcon: IconButton(
-                                      icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                      onPressed: loading ? null : () {
-                                        _showPasswordNotifier.value = !_showPasswordNotifier.value;
-                                      },
-                                    ),
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Password',
-                                    hintText: 'Enter secure password'),
-                              );
-                            }
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: loading ? null : () {
-                                  //TODO FORGOT PASSWORD SCREEN GOES HERE
-                                },
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary,
-                                      letterSpacing: 1,
-                                      fontSize: 12,
-                                      height: 16 / 12),
-                                ),
-                              )
-                            ],
-                          ),
-                          Spacer(),
-                          ElevatedButton(
-                            child: Text('Log In'),
-                            style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
-                            onPressed: loading ? null : () async {
-                              _isLoginNotifier.value = true;
-                              try {
-                                await tbClient.login(
-                                    LoginRequest(usernameController.text,
-                                        passwordController.text));
-                              } catch (e) {
-                                _isLoginNotifier.value = false;
-                              }
-                            },
-                          ),
-                          Container(
-                            height: 24,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('New User?',
-                              style: TextStyle(
-                                fontSize: 14,
-                                height: 14 / 20
-                              )),
-                              TextButton(
-                                onPressed: loading ? null : () {
-                                  //TODO CREATE ACCOUNT SCREEN GOES HERE
-                                },
-                                child: Text(
-                                  'Create Account',
-                                  style: TextStyle(color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary,
-                                      letterSpacing: 1,
-                                      fontSize: 14,
-                                      height: 14 / 20),
-                                ),
-                              )
-                            ],
-                          )
-                        ]
-                    )
+                Positioned.fill(
+                  child: LayoutBuilder(
+                     builder: (context, constraints) {
+                       return SingleChildScrollView(
+                           padding: EdgeInsets.fromLTRB(28, 71, 28, 28),
+                           child: ConstrainedBox(
+                             constraints: BoxConstraints(minHeight: constraints.maxHeight - (71 + 28)),
+                             child: IntrinsicHeight(
+                                 child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                                     children: [
+                                       Row(
+                                           children: [
+                                             SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
+                                                 height: 25,
+                                                 color: Theme.of(context).primaryColor,
+                                                 semanticsLabel: 'ThingsBoard Logo')
+                                           ]
+                                       ),
+                                       Container(height: 32),
+                                       Row(
+                                           children: [
+                                             Text(
+                                                 'Login to your account',
+                                                 style: TextStyle(
+                                                     fontWeight: FontWeight.bold,
+                                                     fontSize: 28,
+                                                     height: 36 / 28
+                                                 )
+                                             )]
+                                       ),
+                                       Container(height: 48),
+                                       if (tbContext.hasOAuthClients)
+                                         _buildOAuth2Buttons(tbContext.oauth2Clients!),
+                                       if (tbContext.hasOAuthClients)
+                                         Padding(padding: EdgeInsets.only(top: 10, bottom: 16),
+                                             child:  Row(
+                                               children: [
+                                                 Flexible(child: Divider()),
+                                                 Padding(
+                                                   padding: EdgeInsets.symmetric(horizontal: 16),
+                                                   child: Text('OR'),
+                                                 ),
+                                                 Flexible(child: Divider())
+                                               ],
+                                             )
+                                         ),
+                                       TextField(
+                                         enabled: !loading,
+                                         controller: usernameController,
+                                         decoration: InputDecoration(
+                                             border: OutlineInputBorder(),
+                                             labelText: 'Email',
+                                             hintText: 'Enter valid email id as abc@gmail.com'),
+                                       ),
+                                       Container(height: 28),
+                                       ValueListenableBuilder(
+                                           valueListenable: _showPasswordNotifier,
+                                           builder: (BuildContext context, bool showPassword, child) {
+                                             return TextField(
+                                               enabled: !loading,
+                                               controller: passwordController,
+                                               obscureText: !showPassword,
+                                               decoration: InputDecoration(
+                                                   suffixIcon: IconButton(
+                                                     icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                                                     onPressed: loading ? null : () {
+                                                       _showPasswordNotifier.value = !_showPasswordNotifier.value;
+                                                     },
+                                                   ),
+                                                   border: OutlineInputBorder(),
+                                                   labelText: 'Password',
+                                                   hintText: 'Enter secure password'),
+                                             );
+                                           }
+                                       ),
+                                       Row(
+                                         mainAxisAlignment: MainAxisAlignment.end,
+                                         children: [
+                                           TextButton(
+                                             onPressed: loading ? null : () {
+                                               //TODO FORGOT PASSWORD SCREEN GOES HERE
+                                             },
+                                             child: Text(
+                                               'Forgot Password?',
+                                               style: TextStyle(color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary,
+                                                   letterSpacing: 1,
+                                                   fontSize: 12,
+                                                   height: 16 / 12),
+                                             ),
+                                           )
+                                         ],
+                                       ),
+                                       Spacer(),
+                                       ElevatedButton(
+                                         child: Text('Log In'),
+                                         style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
+                                         onPressed: loading ? null : () async {
+                                           _isLoginNotifier.value = true;
+                                           try {
+                                             await tbClient.login(
+                                                 LoginRequest(usernameController.text,
+                                                     passwordController.text));
+                                           } catch (e) {
+                                             _isLoginNotifier.value = false;
+                                           }
+                                         },
+                                       ),
+                                       Container(
+                                         height: 24,
+                                       ),
+                                       Row(
+                                         mainAxisAlignment: MainAxisAlignment.center,
+                                         children: [
+                                           Text('New User?',
+                                               style: TextStyle(
+                                                   fontSize: 14,
+                                                   height: 14 / 20
+                                               )),
+                                           TextButton(
+                                             onPressed: loading ? null : () {
+                                               //TODO CREATE ACCOUNT SCREEN GOES HERE
+                                             },
+                                             child: Text(
+                                               'Create Account',
+                                               style: TextStyle(color: loading ? Colors.black12 : Theme.of(context).colorScheme.primary,
+                                                   letterSpacing: 1,
+                                                   fontSize: 14,
+                                                   height: 14 / 20),
+                                             ),
+                                           )
+                                         ],
+                                       )
+                                     ]
+                                 ),
+                             )
+                           )
+                       );
+                     },
+                  )
+
+
                 )
               ];
               if (loading) {
@@ -270,6 +231,108 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
               );
         })
     );
+  }
+
+  Widget _buildOAuth2Buttons(List<OAuth2ClientInfo> clients) {
+    if (clients.length == 1 || clients.length > 6) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: clients.asMap().map((index, client) =>
+            MapEntry(index, _buildOAuth2Button(client, 'Login with ${client.name}', false, index == clients.length - 1))).values.toList()
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Center(child: Text('LOGIN WITH')),
+          ),
+          Row(
+            children: clients.asMap().map((index, client) =>
+                MapEntry(index, _buildOAuth2Button(client, clients.length == 2 ? client.name : null, true, index == clients.length - 1))).values.toList()
+          )
+        ],
+      );
+    }
+  }
+
+  Widget _buildOAuth2Button(OAuth2ClientInfo client,
+                            String? text,
+                            bool expand,
+                            bool isLast) {
+    Widget? icon;
+    if (client.icon != null) {
+      if (ThingsboardImage.oauth2Logos.containsKey(client.icon)) {
+        icon = SvgPicture.asset(ThingsboardImage.oauth2Logos[client.icon]!,
+            height: 24);
+      } else {
+        String strIcon = client.icon!;
+        if (strIcon.startsWith('mdi:')) {
+          strIcon = strIcon.substring(4);
+        }
+        var iconData = MdiIcons.fromString(strIcon);
+        if (iconData != null) {
+          icon = Icon(iconData, size: 24, color: Theme.of(context).primaryColor);
+        }
+      }
+    }
+    if (icon == null) {
+      icon = Icon(Icons.login, size: 24, color: Theme.of(context).primaryColor);
+    }
+    Widget button;
+    bool iconOnly = text == null;
+    if (iconOnly) {
+      button = OutlinedButton(
+          style: _oauth2IconButtonStyle,
+          onPressed: () => _oauth2ButtonPressed(client),
+          child: icon);
+    } else {
+      button = OutlinedButton.icon(
+          style: _oauth2ButtonWithTextStyle,
+          onPressed: () => _oauth2ButtonPressed(client),
+          icon: icon,
+          label: Expanded(child: Text(text, textAlign: TextAlign.center)));
+    }
+    if (expand) {
+      return Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(right: isLast ? 0 : 8),
+            child: button,
+          )
+      );
+    } else {
+      return button;
+    }
+  }
+
+  void _oauth2ButtonPressed(OAuth2ClientInfo client) async {
+    _isLoginNotifier.value = true;
+    var url = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + client.url);
+    var params = Map<String,String>.from(url.queryParameters);
+    params['pkg'] = tbContext.packageName;
+    url = url.replace(queryParameters: params);
+    try {
+      final result = await FlutterWebAuth.authenticate(
+          url: url.toString(),
+          callbackUrlScheme: ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme);
+      final resultUri = Uri.parse(result);
+      final error = resultUri.queryParameters['error'];
+      if (error != null) {
+        _isLoginNotifier.value = false;
+        showErrorNotification(error);
+      } else {
+        final accessToken = resultUri.queryParameters['accessToken'];
+        final refreshToken = resultUri.queryParameters['refreshToken'];
+        if (accessToken != null && refreshToken != null) {
+          await tbClient.setUserFromJwtToken(accessToken, refreshToken, true);
+        }
+      }
+      log.debug('result = $result');
+    } catch (e) {
+      log.error('Auth Error:', e);
+      _isLoginNotifier.value = false;
+    }
   }
 }
 

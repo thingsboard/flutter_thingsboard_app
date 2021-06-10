@@ -107,6 +107,7 @@ class TbContext {
   bool _initialized = false;
   bool isUserLoaded = false;
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
+  PlatformType? _oauth2PlatformType;
   List<OAuth2ClientInfo>? oauth2Clients;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
@@ -151,8 +152,10 @@ class TbContext {
     try {
       if (Platform.isAndroid) {
         _androidInfo = await deviceInfoPlugin.androidInfo;
+        _oauth2PlatformType = PlatformType.ANDROID;
       } else if (Platform.isIOS) {
         _iosInfo = await deviceInfoPlugin.iosInfo;
+        _oauth2PlatformType = PlatformType.IOS;
       }
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       packageName = packageInfo.packageName;
@@ -258,7 +261,7 @@ class TbContext {
       } else {
         userDetails = null;
         homeDashboard = null;
-        oauth2Clients = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName);
+        oauth2Clients = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
       }
       await updateRouteState();
 
