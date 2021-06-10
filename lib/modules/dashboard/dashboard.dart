@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:thingsboard_app/constants/api_path.dart';
+import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
@@ -135,7 +135,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
   void _onAuthenticated() async {
     if (tbContext.isAuthenticated) {
       if (!readyState.value) {
-        _initialUrl = Uri.parse(thingsBoardApiEndpoint + '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
+        _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
         readyState.value = true;
       } else {
         var windowMessage = <String, dynamic>{

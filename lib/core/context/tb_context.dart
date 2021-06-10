@@ -6,11 +6,12 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:package_info/package_info.dart';
+import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_secure_storage.dart';
-import 'package:thingsboard_app/constants/api_path.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 enum NotificationType {
@@ -106,6 +107,7 @@ class TbContext {
   bool _initialized = false;
   bool isUserLoaded = false;
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
+  List<OAuth2ClientInfo>? oauth2Clients;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
@@ -113,6 +115,7 @@ class TbContext {
   late final _widgetActionHandler;
   late final AndroidDeviceInfo? _androidInfo;
   late final IosDeviceInfo? _iosInfo;
+  late final String packageName;
   TbMainDashboardHolder? _mainDashboardHolder;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -138,7 +141,7 @@ class TbContext {
       return true;
     }());
     _initialized = true;
-    tbClient = ThingsboardClient(thingsBoardApiEndpoint,
+    tbClient = ThingsboardClient(ThingsboardAppConstants.thingsBoardApiEndpoint,
                                  storage: TbSecureStorage(),
                                  onUserLoaded: onUserLoaded,
                                  onError: onError,
@@ -151,6 +154,8 @@ class TbContext {
       } else if (Platform.isIOS) {
         _iosInfo = await deviceInfoPlugin.iosInfo;
       }
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      packageName = packageInfo.packageName;
       await tbClient.init();
     } catch (e, s) {
       log.error('Failed to init tbContext: $e', e, s);
@@ -253,6 +258,7 @@ class TbContext {
       } else {
         userDetails = null;
         homeDashboard = null;
+        oauth2Clients = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName);
       }
       await updateRouteState();
 
@@ -264,6 +270,8 @@ class TbContext {
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
   bool get isAuthenticated => _isAuthenticated.value;
+
+  bool get hasOAuthClients => oauth2Clients != null && oauth2Clients!.isNotEmpty;
 
   Future<void> updateRouteState() async {
     if (currentState != null) {
@@ -312,6 +320,17 @@ class TbContext {
     } else {
       return false;
     }
+  }
+
+  String userAgent() {
+    String userAgent = 'Mozilla/5.0';
+    if (Platform.isAndroid) {
+      userAgent += ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo!.model})';
+    } else if (Platform.isIOS) {
+      userAgent += ' (${_iosInfo!.model})';
+    }
+    userAgent += ' AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36';
+    return userAgent;
   }
 
   bool isHomePage() {
@@ -440,7 +459,7 @@ mixin HasTbContext {
 
   Future<dynamic> navigateTo(String path, {bool replace = false, bool clearStack = false}) => _tbContext.navigateTo(path, replace: replace, clearStack: clearStack);
 
-  void pop<T>([T? result]) => _tbContext.pop<T>(result);
+  void pop<T>([T? result, BuildContext? context]) => _tbContext.pop<T>(result, context);
 
   Future<bool> maybePop<T extends Object?>([ T? result ]) => _tbContext.maybePop<T>(result);
 

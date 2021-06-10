@@ -172,6 +172,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_auth:
+    dependency: "direct main"
+    description:
+      name: flutter_web_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -225,7 +232,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0+1"
+    version: "0.8.0+3"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -282,6 +289,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10"
+  material_design_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: material_design_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.5955-rc.1"
   meta:
     dependency: transitive
     description:
@@ -296,6 +310,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   path:
     dependency: transitive
     description:
@@ -411,7 +432,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0fbaccafa7c0b3b3a6c9ac689c5949164101c5b5"
+      resolved-ref: "00f08109b44b926ab6defaed12b8d4fdc44e07b0"
       url: "git@github.com:thingsboard/dart_thingsboard_client.git"
     source: git
     version: "1.0.0"
@@ -477,7 +498,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.1"
+    version: "5.1.2"
   yaml:
     dependency: transitive
     description:

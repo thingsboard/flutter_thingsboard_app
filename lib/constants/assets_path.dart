@@ -5,4 +5,11 @@ abstract class ThingsboardImage {
   static final thingsboardCenter = 'assets/images/thingsboard_center.svg';
   static final dashboardPlaceholder = 'assets/images/dashboard-placeholder.png';
   static final deviceProfilePlaceholder = 'assets/images/device-profile-placeholder.png';
+
+  static final oauth2Logos = <String,String>{
+    'google-logo': 'assets/images/google-logo.svg',
+    'github-logo': 'assets/images/github-logo.svg',
+    'facebook-logo': 'assets/images/facebook-logo.svg'
+  };
+
 }
