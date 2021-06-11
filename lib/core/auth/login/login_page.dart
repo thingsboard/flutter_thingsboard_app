@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -25,10 +23,12 @@ class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
 
   final ButtonStyle _oauth2ButtonWithTextStyle =
-        OutlinedButton.styleFrom(alignment: Alignment.centerLeft, primary: Colors.black87);
+        OutlinedButton.styleFrom(padding: EdgeInsets.all(16),
+                                 alignment: Alignment.centerLeft, primary: Colors.black87);
 
   final ButtonStyle _oauth2IconButtonStyle =
-        OutlinedButton.styleFrom(alignment: Alignment.center);
+        OutlinedButton.styleFrom(padding: EdgeInsets.all(16),
+                                 alignment: Alignment.center);
 
   final _isLoginNotifier = ValueNotifier<bool>(false);
   final _showPasswordNotifier = ValueNotifier<bool>(false);
@@ -91,7 +91,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                        ),
                                        Container(height: 48),
                                        if (tbContext.hasOAuthClients)
-                                         _buildOAuth2Buttons(tbContext.oauth2Clients!),
+                                         _buildOAuth2Buttons(tbContext.oauth2ClientInfos!),
                                        if (tbContext.hasOAuthClients)
                                          Padding(padding: EdgeInsets.only(top: 10, bottom: 16),
                                              child:  Row(
@@ -308,27 +308,14 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
 
   void _oauth2ButtonPressed(OAuth2ClientInfo client) async {
     _isLoginNotifier.value = true;
-    var url = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + client.url);
-    var params = Map<String,String>.from(url.queryParameters);
-    params['pkg'] = tbContext.packageName;
-    url = url.replace(queryParameters: params);
     try {
-      final result = await FlutterWebAuth.authenticate(
-          url: url.toString(),
-          callbackUrlScheme: ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme);
-      final resultUri = Uri.parse(result);
-      final error = resultUri.queryParameters['error'];
-      if (error != null) {
-        _isLoginNotifier.value = false;
-        showErrorNotification(error);
+      final result = await tbContext.oauth2Client.authenticate(client.url);
+      if (result.success) {
+        await tbClient.setUserFromJwtToken(result.accessToken, result.refreshToken, true);
       } else {
-        final accessToken = resultUri.queryParameters['accessToken'];
-        final refreshToken = resultUri.queryParameters['refreshToken'];
-        if (accessToken != null && refreshToken != null) {
-          await tbClient.setUserFromJwtToken(accessToken, refreshToken, true);
-        }
+        _isLoginNotifier.value = false;
+        showErrorNotification(result.error!);
       }
-      log.debug('result = $result');
     } catch (e) {
       log.error('Auth Error:', e);
       _isLoginNotifier.value = false;

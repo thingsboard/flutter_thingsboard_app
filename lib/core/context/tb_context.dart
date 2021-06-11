@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
+import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
+import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -108,7 +110,7 @@ class TbContext {
   bool isUserLoaded = false;
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
   PlatformType? _oauth2PlatformType;
-  List<OAuth2ClientInfo>? oauth2Clients;
+  List<OAuth2ClientInfo>? oauth2ClientInfos;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
@@ -120,7 +122,8 @@ class TbContext {
   TbMainDashboardHolder? _mainDashboardHolder;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
-  late ThingsboardClient tbClient;
+  late final ThingsboardClient tbClient;
+  late final TbOAuth2Client oauth2Client;
 
   final FluroRouter router;
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -149,6 +152,9 @@ class TbContext {
                                  onLoadStarted: onLoadStarted,
                                  onLoadFinished: onLoadFinished,
                                  computeFunc: <Q, R>(callback, message) => compute(callback, message));
+
+    oauth2Client = TbOAuth2Client(tbContext: this, appSecretProvider: AppSecretProvider.local());
+
     try {
       if (Platform.isAndroid) {
         _androidInfo = await deviceInfoPlugin.androidInfo;
@@ -261,7 +267,7 @@ class TbContext {
       } else {
         userDetails = null;
         homeDashboard = null;
-        oauth2Clients = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
+        oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
       }
       await updateRouteState();
 
@@ -274,7 +280,7 @@ class TbContext {
 
   bool get isAuthenticated => _isAuthenticated.value;
 
-  bool get hasOAuthClients => oauth2Clients != null && oauth2Clients!.isNotEmpty;
+  bool get hasOAuthClients => oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
   Future<void> updateRouteState() async {
     if (currentState != null) {
