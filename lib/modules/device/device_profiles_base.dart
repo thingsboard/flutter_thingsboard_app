@@ -86,9 +86,16 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
   }
 
   @override
+  void didUpdateWidget(AllDevicesCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    widget.refreshDeviceCounts.onRefresh = _countDevices;
+  }
+
+  @override
   void dispose() {
     _activeDevicesCount.close();
     _inactiveDevicesCount.close();
+    widget.refreshDeviceCounts.onRefresh = null;
     super.dispose();
   }
 

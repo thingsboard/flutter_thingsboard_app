@@ -6,8 +6,28 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+
+const Map<EntityType, String> entityTypeTranslations = {
+  EntityType.TENANT: 'Tenant',
+  EntityType.TENANT_PROFILE: 'Tenant profile',
+  EntityType.CUSTOMER: 'Customer',
+  EntityType.USER: 'User',
+  EntityType.DASHBOARD: 'Dashboard',
+  EntityType.ASSET: 'Asset',
+  EntityType.DEVICE: 'Device',
+  EntityType.DEVICE_PROFILE: 'Device profile',
+  EntityType.ALARM: 'Alarm',
+  EntityType.RULE_CHAIN: 'Rule chain',
+  EntityType.RULE_NODE: 'Rule node',
+  EntityType.EDGE: 'Edge',
+  EntityType.ENTITY_VIEW: 'Entity view',
+  EntityType.WIDGETS_BUNDLE: 'Widgets bundle',
+  EntityType.WIDGET_TYPE: 'Widget type',
+  EntityType.API_USAGE_STATE: 'Api Usage State',
+  EntityType.TB_RESOURCE: 'Resource',
+  EntityType.OTA_PACKAGE: 'OTA package'
+};
 
 typedef EntityTapFunction<T> = Function(T entity);
 typedef EntityCardWidgetBuilder<T> = Widget Function(BuildContext context, T entity);

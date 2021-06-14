@@ -31,12 +31,10 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
     if (profile.defaultDashboardId != null) {
       var dashboardId = profile.defaultDashboardId!.id!;
       var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
-      // navigateTo('/dashboard/$dashboardId?title=${device.field('name')!}&state=$state');
       navigateToDashboard(dashboardId, dashboardTitle: device.field('name'), state: state);
     } else {
-      // navigateTo('/device/${device.entityId.id}');
       if (tbClient.isTenantAdmin()) {
-        showWarnNotification('BALALAI');
+        showWarnNotification('Mobile dashboard should be configured in device profile!');
       }
     }
   }
@@ -101,7 +99,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
   @override
   void initState() {
     super.initState();
-    if (widget.displayImage) {
+    if (widget.displayImage || !widget.listWidgetCard) {
       deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
           tbClient, widget.device.field('type')!, widget.device.entityId.id!);
     }
@@ -110,7 +108,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
   @override
   void didUpdateWidget(DeviceCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.displayImage) {
+    if (widget.displayImage || !widget.listWidgetCard) {
       var oldDevice = oldWidget.device;
       var device = widget.device;
       if (oldDevice.field('type')! != device.field('type')!) {
@@ -122,32 +120,186 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.listWidgetCard) {
+      return buildListWidgetCard(context);
+    } else {
+      return buildCard(context);
+    }
+  }
+
+  Widget buildCard(BuildContext context) {
+    return Stack(
+        children: [
+          Positioned.fill(
+              child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 4,
+                    decoration: BoxDecoration(
+                        color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4))
+                    ),
+                  )
+              )
+          ),
+          FutureBuilder<DeviceProfileInfo>(
+            future: deviceProfileFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                var profile = snapshot.data!;
+                bool hasDashboard = profile.defaultDashboardId != null;
+                Widget image;
+                BoxFit imageFit;
+                if (profile.image != null) {
+                  var uriData = UriData.parse(profile.image!);
+                  image = Image.memory(uriData.contentAsBytes());
+                  imageFit = BoxFit.contain;
+                } else {
+                  image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+                  imageFit = BoxFit.cover;
+                }
+                return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 20),
+                      Flexible(
+                          fit: FlexFit.tight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 12),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  if (widget.displayImage) Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(4))
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                                        child: Stack(
+                                          children: [
+                                            Positioned.fill(
+                                                child: FittedBox(
+                                                  fit: imageFit,
+                                                  child: image,
+                                                )
+                                            )
+                                          ],
+                                        )
+                                    )
+                                  ),
+                                  SizedBox(width: 12),
+                                  Flexible(
+                                      fit: FlexFit.tight,
+                                      child: Column(
+                                          children: [
+                                            Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Text('${widget.device.field('name')!}',
+                                                          style: TextStyle(
+                                                              color: Color(0xFF282828),
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 20 / 14
+                                                          ))
+                                                  ),
+                                                  Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
+                                                      style: TextStyle(
+                                                          color: Color(0xFFAFAFAF),
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.normal,
+                                                          height: 16 / 12
+                                                      ))
+                                                ]
+                                            ),
+                                            SizedBox(height: 4),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('${widget.device.field('type')!}',
+                                                    style: TextStyle(
+                                                        color: Color(0xFFAFAFAF),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                        height: 16 / 12
+                                                    )),
+                                                Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
+                                                    style: TextStyle(
+                                                      color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
+                                                      fontSize: 12,
+                                                      height: 16 / 12,
+                                                      fontWeight: FontWeight.normal,
+                                                    ))
+                                              ],
+                                            )
+                                          ]
+                                      )
+                                  ),
+                                  SizedBox(width: 16),
+                                  if (hasDashboard) Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
+                                  if (hasDashboard) SizedBox(width: 16),
+                                ]
+                              ),
+                              SizedBox(height: 12)
+                            ],
+                          )
+                      )
+                    ]
+                );
+              } else {
+                return Container(
+                  height: 64,
+                  child: Center(
+                      child: RefreshProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary)
+                      )
+                  )
+                );
+              }
+            }
+          )
+        ]
+    );
+  }
+
+  Widget buildListWidgetCard(BuildContext context) {
     return Row(
-        mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.displayImage) Container(
-            width: widget.listWidgetCard ? 58 : 60,
-            height: widget.listWidgetCard ? 58 : 60,
+            width: 58,
+            height: 58,
             decoration: BoxDecoration(
-                // color: Color(0xFFEEEEEE),
+              // color: Color(0xFFEEEEEE),
                 borderRadius: BorderRadius.horizontal(left: Radius.circular(4))
             ),
             child: FutureBuilder<DeviceProfileInfo>(
               future: deviceProfileFuture,
               builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                    var profile = snapshot.data!;
-                    Widget image;
-                    BoxFit imageFit;
-                    if (profile.image != null) {
-                      var uriData = UriData.parse(profile.image!);
-                      image = Image.memory(uriData.contentAsBytes());
-                      imageFit = BoxFit.contain;
-                    } else {
-                      image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
-                      imageFit = BoxFit.cover;
-                    }
-                    return ClipRRect(
+                if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                  var profile = snapshot.data!;
+                  Widget image;
+                  BoxFit imageFit;
+                  if (profile.image != null) {
+                    var uriData = UriData.parse(profile.image!);
+                    image = Image.memory(uriData.contentAsBytes());
+                    imageFit = BoxFit.contain;
+                  } else {
+                    image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+                    imageFit = BoxFit.cover;
+                  }
+                  return ClipRRect(
                       borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
                       child: Stack(
                         children: [
@@ -159,24 +311,24 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                           )
                         ],
                       )
-                    );
-                  } else {
-                    return Center(child: RefreshProgressIndicator(
+                  );
+                } else {
+                  return Center(child: RefreshProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary)
-                    ));
-                  }
+                  ));
+                }
               },
             ),
           ),
           Flexible(
-              fit: widget.listWidgetCard ? FlexFit.loose : FlexFit.tight,
+              fit: FlexFit.loose,
               child:
               Container(
-                  padding: EdgeInsets.symmetric(vertical: widget.listWidgetCard ? 9 : 10, horizontal: 16),
+                  padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
                   child: Column(
                     children: [
                       Row(
-                          mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             FittedBox(
@@ -189,19 +341,12 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                                         fontWeight: FontWeight.w500,
                                         height: 20 / 14
                                     ))
-                            ),
-                            if (!widget.listWidgetCard) Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
-                                style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    height: 16 / 12
-                                ))
+                            )
                           ]
                       ),
                       SizedBox(height: 4),
                       Row(
-                        mainAxisSize: widget.listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('${widget.device.field('type')!}',
@@ -211,14 +356,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                                   fontWeight: FontWeight.normal,
                                   height: 16 / 12
                               )),
-                          if (!widget.listWidgetCard) Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
-                              style: TextStyle(
-                                color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
-                                fontSize: 12,
-                                height: 16 / 12,
-                                fontWeight: FontWeight.normal,
-                              ))
-                        ],
+                        ]
                       )
                     ],
                   )
