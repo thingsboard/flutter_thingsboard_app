@@ -23,7 +23,7 @@ class TbMainNavigationItem {
   });
 
   static Map<Authority, Set<String>> mainPageStateMap = {
-    Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/tenants', '/more']),
+    Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/more']),
     Authority.TENANT_ADMIN: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
     Authority.CUSTOMER_USER: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
   };
@@ -49,12 +49,6 @@ class TbMainNavigationItem {
       ];
       switch(tbContext.tbClient.getAuthUser()!.authority) {
         case Authority.SYS_ADMIN:
-          items.add(TbMainNavigationItem(
-              page: TextContextWidget(tbContext, 'Tenants TODO'),
-              title: 'Tenants',
-              icon: Icon(Icons.supervisor_account),
-              path: '/tenants'
-          ));
           break;
         case Authority.TENANT_ADMIN:
         case Authority.CUSTOMER_USER:

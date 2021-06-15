@@ -68,7 +68,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
       leading: widget.leading,
       title: widget.title,
       actions: widget.actions,
-      elevation: widget.elevation,
+      elevation: widget.elevation ?? 8,
       shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
     );
   }
@@ -77,6 +77,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
 class TbAppSearchBar extends TbContextWidget<TbAppSearchBar, _TbAppSearchBarState> implements PreferredSizeWidget {
 
   final double? elevation;
+  final Color? shadowColor;
   final bool showLoadingIndicator;
   final String? searchHint;
   final void Function(String searchText)? onSearch;
@@ -84,8 +85,8 @@ class TbAppSearchBar extends TbContextWidget<TbAppSearchBar, _TbAppSearchBarStat
   @override
   final Size preferredSize;
 
-  TbAppSearchBar(TbContext tbContext, {this.elevation,
-    this.showLoadingIndicator = false, this.searchHint, this.onSearch}) :
+  TbAppSearchBar(TbContext tbContext, {this.elevation = 8,
+    this.shadowColor, this.showLoadingIndicator = false, this.searchHint, this.onSearch}) :
         preferredSize = Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
         super(tbContext);
 
@@ -140,6 +141,8 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar, _TbAppSearchBa
   AppBar buildSearchBar() {
     return AppBar(
       centerTitle: true,
+      elevation: widget.elevation ?? 8,
+      shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
       title: TextField(
           controller: _filter,
           autofocus: true,

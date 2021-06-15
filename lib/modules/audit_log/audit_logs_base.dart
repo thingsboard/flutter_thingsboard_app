@@ -140,7 +140,7 @@ class _AuditLogCardState extends TbContextState<AuditLogCard, _AuditLogCardState
                                             children: [
                                               Flexible(
                                                   fit: FlexFit.tight,
-                                                  child: AutoSizeText(widget.auditLog.entityName,
+                                                  child: AutoSizeText(widget.auditLog.entityName ?? '',
                                                       maxLines: 2,
                                                       minFontSize: 8,
                                                       overflow: TextOverflow.ellipsis,
@@ -224,12 +224,7 @@ class _AuditLogCardState extends TbContextState<AuditLogCard, _AuditLogCardState
   }
 
   _auditLogDetails(AuditLog auditLog) {
-    Navigator.of(tbContext.currentState!.context).push(new MaterialPageRoute<Null>(
-        builder: (BuildContext context) {
-          return new AuditLogDetailsPage(tbContext, auditLog);
-        },
-        fullscreenDialog: true
-    ));
+    tbContext.showFullScreenDialog(new AuditLogDetailsPage(tbContext, auditLog));
   }
 
 }

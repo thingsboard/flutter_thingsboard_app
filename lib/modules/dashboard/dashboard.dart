@@ -224,7 +224,11 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
               if (widget._home == true && !tbContext.isHomePage()) {
                 return true;
               }
-              return await _goBack();
+              if (readyState.value) {
+                return await _goBack();
+              } else {
+                return true;
+              }
             },
             child:
             ValueListenableBuilder(

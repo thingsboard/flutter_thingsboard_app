@@ -91,7 +91,7 @@ packages:
       name: dart_jsonwebtoken
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   device_info:
     dependency: "direct main"
     description:
@@ -139,6 +139,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_form_builder:
+    dependency: "direct main"
+    description:
+      name: flutter_form_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.1"
   flutter_inappwebview:
     dependency: "direct main"
     description:
@@ -153,6 +160,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -453,7 +465,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6f8b0eda9890443c635536c5e70051b29233ce16"
+      resolved-ref: c2a264d646ebad8ade84abe6c38b78001bd34ed7
       url: "git@github.com:thingsboard/dart_thingsboard_client.git"
     source: git
     version: "1.0.0"

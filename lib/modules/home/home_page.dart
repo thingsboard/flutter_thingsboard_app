@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart' as dashboardUi;
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
+import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -21,8 +21,6 @@ class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 
 class _HomePageState extends TbContextState<HomePage, _HomePageState> with AutomaticKeepAliveClientMixin<HomePage> {
 
-  final EntitiesListWidgetController _entitiesWidgetController = EntitiesListWidgetController();
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +33,6 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
 
   @override
   void dispose() {
-    _entitiesWidgetController.dispose();
     super.dispose();
   }
 
@@ -56,6 +53,16 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
                     semanticsLabel: 'ThingsBoard Logo')
             )
         ),
+        actions: [
+          if (tbClient.isSystemAdmin()) IconButton(
+            icon: Icon(
+                Icons.search
+            ),
+            onPressed: () {
+              navigateTo('/tenants?search=true');
+            },
+          )
+        ],
       ),
       body: Builder(
           builder: (context) {
@@ -81,40 +88,10 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
     }
   }
 
-/*  List<Widget> _buildUserHome(BuildContext context) {
-    if (tbClient.isSystemAdmin()) {
-      return _buildSysAdminHome(context);
-    } else if (tbClient.isTenantAdmin()) {
-      return _buildTenantAdminHome(context);
-    } else {
-      return _buildCustomerUserHome(context);
-    }
-  } */
-
   Widget _buildSysAdminHome(BuildContext context) {
-    return RefreshIndicator(
-        onRefresh: () => _entitiesWidgetController.refresh(),
-        child: ListView(
-            children: [Container(child: Text('TODO: Implement'))]
-        )
-    );
+    return TenantsWidget(tbContext);
   }
 
-/*  List<Widget> _buildTenantAdminHome(BuildContext context) {
-    return [
-      AssetsListWidget(tbContext, controller: _entitiesWidgetController),
-      DevicesListWidget(tbContext, controller: _entitiesWidgetController),
-      DashboardsListWidget(tbContext, controller: _entitiesWidgetController)
-    ];
-  }
-
-  List<Widget> _buildCustomerUserHome(BuildContext context) {
-    return [
-      AssetsListWidget(tbContext, controller: _entitiesWidgetController),
-      DevicesListWidget(tbContext, controller: _entitiesWidgetController),
-      DashboardsListWidget(tbContext, controller: _entitiesWidgetController)
-    ];
-  } */
 }
 
 class HomeDashboard extends TbContextWidget<HomeDashboard, _HomeDashboardState> {

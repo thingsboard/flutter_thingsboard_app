@@ -27,4 +27,22 @@ abstract class Utils {
     );
   }
 
+  static String? contactToShortAddress(ContactBased contact) {
+    var addressParts = <String>[];
+    if (contact.country != null) {
+      addressParts.add(contact.country!);
+    }
+    if (contact.city != null) {
+      addressParts.add(contact.city!);
+    }
+    if (contact.address != null) {
+      addressParts.add(contact.address!);
+    }
+    if (addressParts.isNotEmpty) {
+      return addressParts.join(', ');
+    } else {
+      return null;
+    }
+  }
+
 }

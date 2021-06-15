@@ -29,7 +29,10 @@ class _MorePageState extends TbContextState<MorePage, _MorePageState> {
                   children: [
                     Icon(Icons.account_circle, size: 48, color: Color(0xFFAFAFAF)),
                     Spacer(),
-                    IconButton(icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)), onPressed: () => navigateTo('/profile'))
+                    IconButton(icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)), onPressed: () async {
+                      await navigateTo('/profile');
+                      setState(() {});
+                    })
                   ],
                 ),
                 SizedBox(height: 22),

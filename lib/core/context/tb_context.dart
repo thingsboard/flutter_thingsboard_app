@@ -371,7 +371,7 @@ class TbContext {
         replace = true;
         clearStack = true;
       }
-      if (isOpenedDashboard) {
+      if (transition != TransitionType.nativeModal && isOpenedDashboard) {
         transition = TransitionType.none;
       } else if (transition == null) {
         if (replace) {
@@ -390,6 +390,15 @@ class TbContext {
 
   Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true}) async {
     await _mainDashboardHolder?.navigateToDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar, animate: animate);
+  }
+
+  Future<T?> showFullScreenDialog<T>(Widget dialog) {
+    return Navigator.of(currentState!.context).push<T>(new MaterialPageRoute<T>(
+        builder: (BuildContext context) {
+          return dialog;
+        },
+        fullscreenDialog: true
+    ));
   }
 
   void pop<T>([T? result, BuildContext? context]) {

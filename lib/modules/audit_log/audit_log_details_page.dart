@@ -44,7 +44,8 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage, _Aud
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.auditLog.entityName, style: TextStyle(
+              if (widget.auditLog.entityName != null)
+                Text(widget.auditLog.entityName!, style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                   height: 20 / 16
