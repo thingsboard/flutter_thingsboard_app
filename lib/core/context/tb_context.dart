@@ -252,8 +252,7 @@ class TbContext {
     try {
       log.debug('onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
       isUserLoaded = true;
-      _isAuthenticated.value = tbClient.isAuthenticated();
-      if (isAuthenticated) {
+      if (tbClient.isAuthenticated()) {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
@@ -269,6 +268,7 @@ class TbContext {
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
       }
+      _isAuthenticated.value = tbClient.isAuthenticated();
       await updateRouteState();
 
     } catch (e, s) {

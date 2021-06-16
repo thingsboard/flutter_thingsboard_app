@@ -465,7 +465,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c2a264d646ebad8ade84abe6c38b78001bd34ed7
+      resolved-ref: a899f22d6cd784c72df7abcf42ff190b9d227ee5
       url: "git@github.com:thingsboard/dart_thingsboard_client.git"
     source: git
     version: "1.0.0"
