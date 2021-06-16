@@ -9,7 +9,8 @@ abstract class ThingsboardImage {
   static final oauth2Logos = <String,String>{
     'google-logo': 'assets/images/google-logo.svg',
     'github-logo': 'assets/images/github-logo.svg',
-    'facebook-logo': 'assets/images/facebook-logo.svg'
+    'facebook-logo': 'assets/images/facebook-logo.svg',
+    'apple-logo': 'assets/images/apple-logo.svg'
   };
 
 }
