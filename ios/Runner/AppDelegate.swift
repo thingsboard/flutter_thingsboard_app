@@ -8,7 +8,7 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
 
-    self?.registerTbWebAuth()
+    self.registerTbWebAuth()
 
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -20,7 +20,7 @@ import Flutter
     let instance = TbWebAuthHandler()
     channel.setMethodCallHandler({
           (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
-          instance.handle(call: call, result: result)
+        instance.handle(call, result: result)
     })
   }
 }
