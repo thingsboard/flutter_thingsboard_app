@@ -48,6 +48,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    dependencies {
+        implementation 'androidx.browser:browser:1.0.0'
+    }
 }
 
 flutter {

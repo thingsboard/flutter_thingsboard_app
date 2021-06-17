@@ -35,7 +35,6 @@ dependencies:
   device_info: ^2.0.0
   geolocator: ^7.0.3
   material_design_icons_flutter: ^5.0.5955-rc.1
-  flutter_web_auth: ^0.3.0
   package_info: ^2.0.2
   dart_jsonwebtoken: ^2.2.0
   crypto: ^3.0.1

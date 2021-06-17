@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
+import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:crypto/crypto.dart';
@@ -49,9 +49,9 @@ class TbOAuth2Client {
     params['pkg'] = pkgName;
     params['appToken'] = appToken;
     url = url.replace(queryParameters: params);
-    final result = await FlutterWebAuth.authenticate(
+    final result = await TbWebAuth.authenticate(
         url: url.toString(),
-        callbackUrlScheme: ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme);
+        callbackUrlScheme: ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme, saveHistory: false);
     final resultUri = Uri.parse(result);
     final error = resultUri.queryParameters['error'];
     if (error != null) {
