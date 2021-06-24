@@ -70,7 +70,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   crypto:
     dependency: "direct main"
     description:
@@ -209,14 +209,14 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.1.0"
+    version: "7.1.1"
   geolocator_platform_interface:
     dependency: transitive
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   geolocator_web:
     dependency: transitive
     description:
@@ -251,7 +251,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0+3"
+    version: "0.8.1"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -363,7 +363,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   petitparser:
     dependency: transitive
     description:
@@ -384,7 +384,7 @@ packages:
       name: pointycastle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   qr_code_scanner:
     dependency: "direct main"
     description:
@@ -458,7 +458,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a899f22d6cd784c72df7abcf42ff190b9d227ee5
+      resolved-ref: "937ab8d40f33f70d6fb4a7a8c96ce974cc08e48d"
       url: "git@github.com:thingsboard/dart_thingsboard_client.git"
     source: git
     version: "1.0.0"
@@ -475,7 +475,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.6"
+    version: "6.0.7"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -515,6 +515,13 @@ packages:
     dependency: transitive
     description:
       name: vector_math
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  web_socket_channel:
+    dependency: transitive
+    description:
+      name: web_socket_channel
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"

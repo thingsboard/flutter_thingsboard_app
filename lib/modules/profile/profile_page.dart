@@ -140,7 +140,7 @@ class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
 
   Future<void> _loadUser() async {
     _isLoadingNotifier.value = true;
-    _currentUser = await tbClient.getUserService().getUser(tbClient.getAuthUser()!.userId!);
+    _currentUser = await tbClient.getUserService().getUser();
     _setUser();
     _isLoadingNotifier.value = false;
   }

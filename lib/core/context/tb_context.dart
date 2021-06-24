@@ -256,8 +256,7 @@ class TbContext {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
-            userDetails = await tbClient.getUserService().getUser(
-                tbClient.getAuthUser()!.userId!);
+            userDetails = await tbClient.getUserService().getUser();
             homeDashboard = await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
             tbClient.logout();

@@ -8,7 +8,7 @@ class TenantDetailsPage extends ContactBasedDetailsPage<Tenant> {
         super(tbContext, entityId: tenantId, defaultTitle: 'Tenant', subTitle: 'Tenant details');
 
   @override
-  Future<Tenant> fetchEntity(String tenantId) {
+  Future<Tenant?> fetchEntity(String tenantId) {
     return tbClient.getTenantService().getTenant(tenantId);
   }
 

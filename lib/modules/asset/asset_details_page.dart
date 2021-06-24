@@ -12,7 +12,7 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
           defaultTitle: 'Asset', subTitle: 'Asset details');
 
   @override
-  Future<AssetInfo> fetchEntity(String assetId) {
+  Future<AssetInfo?> fetchEntity(String assetId) {
     return tbClient.getAssetService().getAssetInfo(assetId);
   }
 

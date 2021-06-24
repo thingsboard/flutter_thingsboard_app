@@ -12,7 +12,7 @@ class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
               defaultTitle: 'Device');
 
   @override
-  Future<DeviceInfo> fetchEntity(String deviceId) {
+  Future<DeviceInfo?> fetchEntity(String deviceId) {
     return tbClient.getDeviceService().getDeviceInfo(deviceId);
   }
 

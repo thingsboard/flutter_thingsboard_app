@@ -46,7 +46,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget<Entity
   @override
   _EntityDetailsPageState createState() => _EntityDetailsPageState();
 
-  Future<T> fetchEntity(String id);
+  Future<T?> fetchEntity(String id);
 
   ValueNotifier<String>? detailsTitle() {
     return null;
@@ -58,7 +58,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget<Entity
 
 class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDetailsPage<T>, _EntityDetailsPageState<T>> {
 
-  late Future<T> entityFuture;
+  late Future<T?> entityFuture;
   late ValueNotifier<String> titleValue;
 
   @override
@@ -112,12 +112,16 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
           },
         ),
       ),
-      body: FutureBuilder<T>(
+      body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var entity = snapshot.data!;
-            return widget.buildEntityDetails(context, entity);
+          if (snapshot.connectionState == ConnectionState.done) {
+            var entity = snapshot.data;
+            if (entity != null) {
+              return widget.buildEntityDetails(context, entity);
+            } else {
+              return Center(child: Text('Requested entity does not exists.'));
+            }
           } else {
             return Center(child: TbProgressIndicator(
               size: 50.0,

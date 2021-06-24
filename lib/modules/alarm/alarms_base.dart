@@ -278,7 +278,7 @@ class _AlarmCardState extends TbContextState<AlarmCard, _AlarmCardState> {
           alarm.id!.id!);
       setState(() {
         loading = false;
-        this.alarm = newAlarm;
+        this.alarm = newAlarm!;
       });
     }
   }
@@ -294,7 +294,7 @@ class _AlarmCardState extends TbContextState<AlarmCard, _AlarmCardState> {
           alarm.id!.id!);
       setState(() {
         loading = false;
-        this.alarm = newAlarm;
+        this.alarm = newAlarm!;
       });
     }
   }

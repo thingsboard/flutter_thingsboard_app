@@ -8,8 +8,8 @@ abstract class DeviceProfileCache {
     var deviceProfile = _cache[name];
     if (deviceProfile == null) {
       var device = await tbClient.getDeviceService().getDevice(deviceId);
-      deviceProfile = await tbClient.getDeviceProfileService().getDeviceProfileInfo(device.deviceProfileId!.id!);
-      _cache[name] = deviceProfile;
+      deviceProfile = await tbClient.getDeviceProfileService().getDeviceProfileInfo(device!.deviceProfileId!.id!);
+      _cache[name] = deviceProfile!;
     }
     return deviceProfile;
   }
