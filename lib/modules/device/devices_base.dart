@@ -202,17 +202,21 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  FittedBox(
-                                                      fit: BoxFit.fitWidth,
-                                                      alignment: Alignment.centerLeft,
-                                                      child: Text('${widget.device.field('name')!}',
-                                                          style: TextStyle(
-                                                              color: Color(0xFF282828),
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              height: 20 / 14
-                                                          ))
+                                                  Flexible(
+                                                      fit: FlexFit.tight,
+                                                      child: FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Text('${widget.device.field('name')!}',
+                                                              style: TextStyle(
+                                                                  color: Color(0xFF282828),
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  height: 20 / 14
+                                                              ))
+                                                      )
                                                   ),
+                                                  SizedBox(width: 12),
                                                   Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(widget.device.createdTime!)),
                                                       style: TextStyle(
                                                           color: Color(0xFFAFAFAF),
