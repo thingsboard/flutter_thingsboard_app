@@ -6,7 +6,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 const Map<ActionType, String> actionTypeTranslations = {
   ActionType.ADDED: 'Added',
@@ -22,11 +22,16 @@ const Map<ActionType, String> actionTypeTranslations = {
   ActionType.SUSPENDED: 'Suspended',
   ActionType.CREDENTIALS_READ: 'Credentials read',
   ActionType.ATTRIBUTES_READ: 'Attributes read',
+  ActionType.ADDED_TO_ENTITY_GROUP: 'Added to group',
+  ActionType.REMOVED_FROM_ENTITY_GROUP: 'Removed from group',
   ActionType.RELATION_ADD_OR_UPDATE: 'Relation updated',
   ActionType.RELATION_DELETED: 'Relation deleted',
   ActionType.RELATIONS_DELETED: 'All relation deleted',
   ActionType.ALARM_ACK: 'Acknowledged',
   ActionType.ALARM_CLEAR: 'Cleared',
+  ActionType.REST_API_RULE_ENGINE_CALL: 'Rule engine REST API call',
+  ActionType.MADE_PUBLIC: 'Made public',
+  ActionType.MADE_PRIVATE: 'Made private',
   ActionType.LOGIN: 'Login',
   ActionType.LOGOUT: 'Logout',
   ActionType.LOCKOUT: 'Lockout',
@@ -36,6 +41,7 @@ const Map<ActionType, String> actionTypeTranslations = {
   ActionType.PROVISION_FAILURE: 'Device provisioning was failed',
   ActionType.TIMESERIES_UPDATED: 'Telemetry updated',
   ActionType.TIMESERIES_DELETED: 'Telemetry deleted',
+  ActionType.CHANGE_OWNER: 'Owner changed',
   ActionType.ASSIGNED_TO_EDGE: 'Assigned to Edge',
   ActionType.UNASSIGNED_FROM_EDGE: 'Unassigned from Edge'
 };

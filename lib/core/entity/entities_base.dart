@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 const Map<EntityType, String> entityTypeTranslations = {
   EntityType.TENANT: 'Tenant',
@@ -19,12 +19,19 @@ const Map<EntityType, String> entityTypeTranslations = {
   EntityType.DEVICE: 'Device',
   EntityType.DEVICE_PROFILE: 'Device profile',
   EntityType.ALARM: 'Alarm',
+  EntityType.ENTITY_GROUP: 'Entity Group',
+  EntityType.CONVERTER: 'Converter',
+  EntityType.INTEGRATION: 'Integration',
   EntityType.RULE_CHAIN: 'Rule chain',
   EntityType.RULE_NODE: 'Rule node',
+  EntityType.SCHEDULER_EVENT: 'Scheduler event',
+  EntityType.BLOB_ENTITY: 'Blob entity',
   EntityType.EDGE: 'Edge',
   EntityType.ENTITY_VIEW: 'Entity view',
   EntityType.WIDGETS_BUNDLE: 'Widgets bundle',
   EntityType.WIDGET_TYPE: 'Widget type',
+  EntityType.ROLE: 'Role',
+  EntityType.GROUP_PERMISSION: 'Group permission',
   EntityType.API_USAGE_STATE: 'Api Usage State',
   EntityType.TB_RESOURCE: 'Resource',
   EntityType.OTA_PACKAGE: 'OTA package'

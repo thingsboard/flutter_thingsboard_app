@@ -8,7 +8,7 @@ import 'package:thingsboard_app/modules/dashboard/dashboard.dart' as dashboardUi
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
 import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
+mixin AssetsBase on EntitiesBase<Asset, PageLink> {
 
   @override
   String get title => 'Assets';
@@ -12,35 +12,31 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
   String get noItemsFoundText => 'No assets found';
 
   @override
-  Future<PageData<AssetInfo>> fetchEntities(PageLink pageLink) {
-    if (tbClient.isTenantAdmin()) {
-      return tbClient.getAssetService().getTenantAssetInfos(pageLink);
-    } else {
-      return tbClient.getAssetService().getCustomerAssetInfos(tbClient.getAuthUser()!.customerId, pageLink);
-    }
+  Future<PageData<Asset>> fetchEntities(PageLink pageLink) {
+    return tbClient.getAssetService().getUserAssets(pageLink);
   }
 
   @override
-  void onEntityTap(AssetInfo asset) {
+  void onEntityTap(Asset asset) {
     navigateTo('/asset/${asset.id!.id}');
   }
 
   @override
-  Widget buildEntityListCard(BuildContext context, AssetInfo asset) {
+  Widget buildEntityListCard(BuildContext context, Asset asset) {
     return _buildCard(context, asset);
   }
 
   @override
-  Widget buildEntityListWidgetCard(BuildContext context, AssetInfo asset) {
+  Widget buildEntityListWidgetCard(BuildContext context, Asset asset) {
     return _buildListWidgetCard(context, asset);
   }
 
   @override
-  Widget buildEntityGridCard(BuildContext context, AssetInfo asset) {
+  Widget buildEntityGridCard(BuildContext context, Asset asset) {
     return Text(asset.name);
   }
 
-  Widget _buildCard(context, AssetInfo asset) {
+  Widget _buildCard(context, Asset asset) {
     return Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -106,7 +102,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
     );
   }
 
-  Widget _buildListWidgetCard(BuildContext context, AssetInfo asset) {
+  Widget _buildListWidgetCard(BuildContext context, Asset asset) {
     return Row(
         mainAxisSize: MainAxisSize.min,
         children: [

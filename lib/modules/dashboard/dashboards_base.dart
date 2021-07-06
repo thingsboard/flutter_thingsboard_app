@@ -5,7 +5,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
@@ -17,11 +17,7 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   @override
   Future<PageData<DashboardInfo>> fetchEntities(PageLink pageLink) {
-    if (tbClient.isTenantAdmin()) {
-      return tbClient.getDashboardService().getTenantDashboards(pageLink);
-    } else {
-      return tbClient.getDashboardService().getCustomerDashboards(tbClient.getAuthUser()!.customerId, pageLink);
-    }
+    return tbClient.getDashboardService().getUserDashboards(pageLink);
   }
 
   @override

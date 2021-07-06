@@ -1,8 +1,8 @@
-# Flutter ThingsBoard Mobile Application
+# Flutter ThingsBoard PE Mobile Application
 
 ## Getting Started
 
-This project is a starting point for a ThingsBoard Mobile application.
+This project is a starting point for a ThingsBoard PE Mobile application.
 
 A few resources to get you started if this is your first Flutter project:
 

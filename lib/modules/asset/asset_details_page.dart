@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entity_details_page.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
+class AssetDetailsPage extends EntityDetailsPage<Asset> {
 
   AssetDetailsPage(TbContext tbContext, String assetId):
         super(tbContext,
@@ -12,12 +12,12 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
           defaultTitle: 'Asset', subTitle: 'Asset details');
 
   @override
-  Future<AssetInfo?> fetchEntity(String assetId) {
-    return tbClient.getAssetService().getAssetInfo(assetId);
+  Future<Asset?> fetchEntity(String assetId) {
+    return tbClient.getAssetService().getAsset(assetId);
   }
 
   @override
-  Widget buildEntityDetails(BuildContext context, AssetInfo asset) {
+  Widget buildEntityDetails(BuildContext context, Asset asset) {
     return Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -32,9 +32,6 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
               SizedBox(height: 16),
               Text('Label', style: labelTextStyle),
               Text(asset.label ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
-              Text('Assigned to customer', style: labelTextStyle),
-              Text(asset.customerTitle ?? '', style: valueTextStyle),
             ]
         )
     );

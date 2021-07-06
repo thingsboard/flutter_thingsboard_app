@@ -12,7 +12,7 @@ import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_secure_storage.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
