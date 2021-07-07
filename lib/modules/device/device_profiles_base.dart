@@ -264,7 +264,9 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
   @override
   void didUpdateWidget(DeviceProfileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _countDevices();
+    if (tbContext.isAuthenticated) {
+      _countDevices();
+    }
   }
 
   _countDevices() {

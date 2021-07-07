@@ -10,6 +10,7 @@ import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
 import 'package:thingsboard_app/widgets/transition_indexed_stack.dart';
 
 import 'config/themes/tb_theme.dart';
+import 'config/themes/wl_theme_widget.dart';
 
 final appRouter = ThingsboardAppRouter();
 
@@ -128,7 +129,33 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light
     ));
-    return MaterialApp(
+    return WlThemeWidget(
+        appRouter.tbContext,
+      wlThemedWidgetBuilder: (context, data, wlParams) => MaterialApp(
+          title: wlParams.appTitle ?? 'ThingsBoard PE',
+          home: TransitionIndexedStack(
+              controller: _mainStackController,
+              first: MaterialApp(
+                key: mainAppKey,
+                scaffoldMessengerKey: appRouter.tbContext.messengerKey,
+                title: wlParams.appTitle ?? 'ThingsBoard PE',
+                theme: data,
+                darkTheme: tbDarkTheme,
+                onGenerateRoute: appRouter.router.generator,
+                navigatorObservers: [appRouter.tbContext.routeObserver],
+              ),
+              second: MaterialApp(
+                key: dashboardKey,
+                // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
+                title: wlParams.appTitle ?? 'ThingsBoard PE',
+                theme: data,
+                darkTheme: tbDarkTheme,
+                home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
+              )
+          )
+      ),
+    );
+  /*  return MaterialApp(
       title: 'ThingsBoard',
         home: TransitionIndexedStack(
           controller: _mainStackController,
@@ -150,7 +177,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
             home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
           )
         )
-    );
+    ); */
   }
 
 }

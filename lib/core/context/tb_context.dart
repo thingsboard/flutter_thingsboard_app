@@ -7,11 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
+import 'package:thingsboard_app/config/themes/wl_theme_widget.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
+import 'package:thingsboard_app/utils/services/wl_service.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_secure_storage.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -124,6 +126,7 @@ class TbContext {
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
   late final ThingsboardClient tbClient;
   late final TbOAuth2Client oauth2Client;
+  late final WlService wlService;
 
   final FluroRouter router;
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -154,6 +157,7 @@ class TbContext {
                                  computeFunc: <Q, R>(callback, message) => compute(callback, message));
 
     oauth2Client = TbOAuth2Client(tbContext: this, appSecretProvider: AppSecretProvider.local());
+    wlService = WlService(this);
 
     try {
       if (Platform.isAndroid) {
@@ -267,6 +271,7 @@ class TbContext {
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
       }
+      wlService.updateWhiteLabeling();
       _isAuthenticated.value = tbClient.isAuthenticated();
       await updateRouteState();
 

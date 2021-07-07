@@ -73,6 +73,15 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(TransitionIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _pages = [
+      pageBuilder(UniqueKey(), widget.second, context, _animationControllers[1]),
+      pageBuilder(UniqueKey(), widget.first, context, _animationControllers[0]),
+    ];
+  }
+
   Future<bool> _open(int index, {bool animate = true}) async {
     if (_selectedIndex != index) {
       _selectedIndex = index;
