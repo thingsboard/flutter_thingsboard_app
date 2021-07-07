@@ -6,6 +6,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 
 mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
@@ -151,8 +152,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard, _Dashboa
     var hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      var uriData = UriData.parse(widget.dashboard.image!);
-      image = Image.memory(uriData.contentAsBytes());
+      image = Utils.imageFromBase64(widget.dashboard.image!);
     } else {
       image = Image.asset(ThingsboardImage.dashboardPlaceholder);
     }

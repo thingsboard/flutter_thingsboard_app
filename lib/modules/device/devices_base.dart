@@ -151,8 +151,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                 Widget image;
                 BoxFit imageFit;
                 if (profile.image != null) {
-                  var uriData = UriData.parse(profile.image!);
-                  image = Image.memory(uriData.contentAsBytes());
+                  image = Utils.imageFromBase64(profile.image!);
                   imageFit = BoxFit.contain;
                 } else {
                   image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
@@ -296,8 +295,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                   Widget image;
                   BoxFit imageFit;
                   if (profile.image != null) {
-                    var uriData = UriData.parse(profile.image!);
-                    image = Image.memory(uriData.contentAsBytes());
+                    image = Utils.imageFromBase64(profile.image!);
                     imageFit = BoxFit.contain;
                   } else {
                     image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
