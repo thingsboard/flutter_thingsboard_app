@@ -9,7 +9,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
-import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
@@ -278,13 +278,15 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
     var hasImage = entity.image != null;
     Widget image;
     BoxFit imageFit;
+    double padding;
     if (hasImage) {
-      var uriData = UriData.parse(entity.image!);
-      image = Image.memory(uriData.contentAsBytes());
+      image = Utils.imageFromBase64(entity.image!);
       imageFit = BoxFit.contain;
+      padding = 8;
     } else {
       image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
       imageFit = BoxFit.cover;
+      padding = 0;
     }
     return
       ClipRRect(
@@ -295,10 +297,13 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceP
                     child: Stack (
                         children: [
                           SizedBox.expand(
-                              child: FittedBox(
-                                  clipBehavior: Clip.hardEdge,
-                                  fit: imageFit,
-                                  child: image
+                              child: Padding(
+                                  padding: EdgeInsets.all(padding),
+                                  child: FittedBox(
+                                      clipBehavior: Clip.hardEdge,
+                                      fit: imageFit,
+                                      child: image
+                                  )
                               )
                           )
                         ]

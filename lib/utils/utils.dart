@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class Utils {
@@ -42,6 +44,15 @@ abstract class Utils {
       return addressParts.join(', ');
     } else {
       return null;
+    }
+  }
+
+  static Widget imageFromBase64(String base64, {Color? color, double? width, double? height, String? semanticLabel}) {
+    var uriData = UriData.parse(base64);
+    if (uriData.mimeType == 'image/svg+xml') {
+      return SvgPicture.memory(uriData.contentAsBytes(), color: color, width: width, height: height, semanticsLabel: semanticLabel);
+    } else {
+      return Image.memory(uriData.contentAsBytes(), color: color, width: width, height: height, semanticLabel: semanticLabel);
     }
   }
 
