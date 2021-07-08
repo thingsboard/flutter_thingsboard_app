@@ -259,7 +259,11 @@ class TbContext {
             userDetails = await tbClient.getUserService().getUser();
             homeDashboard = await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
-            tbClient.logout();
+            if (!_isConnectionError(e)) {
+              tbClient.logout();
+            } else {
+              rethrow;
+            }
           }
         }
       } else {
@@ -272,7 +276,19 @@ class TbContext {
 
     } catch (e, s) {
       log.error('Error: $e', e, s);
+      if (_isConnectionError(e)) {
+        var res = await confirm(title: 'Connection error', message: 'Failed to connect to server', cancel: 'Cancel', ok: 'Retry');
+        if (res == true) {
+          onUserLoaded();
+        } else {
+          navigateTo('/login', replace: true, clearStack: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
+        }
+      }
     }
+  }
+
+  bool _isConnectionError(e) {
+    return e is ThingsboardError && e.errorCode == ThingsBoardErrorCode.general && e.message == 'Unable to connect';
   }
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
