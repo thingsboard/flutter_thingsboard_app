@@ -87,7 +87,18 @@ class _MorePageState extends TbContextState<MorePage, _MorePageState> {
                     tbClient.logout(
                         requestConfig: RequestConfig(ignoreErrors: true));
                   }
-                )
+                ),
+                Spacer(),
+                if (tbContext.wlService.showNameVersion == true)
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(tbContext.wlService.platformNameAndVersion, style: TextStyle(
+                          fontSize: 12
+                      ))
+                    ],
+                  )
               ],
             ),
         )

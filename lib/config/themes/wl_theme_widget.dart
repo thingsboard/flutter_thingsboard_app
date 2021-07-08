@@ -4,8 +4,6 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-import 'tb_theme_utils.dart';
-
 typedef WlThemedWidgetBuilder = Widget Function(BuildContext context, ThemeData data, WhiteLabelingParams wlParams);
 
 class WlThemeWidget extends TbContextWidget<WlThemeWidget, _WlThemeWidgetState> {
@@ -25,26 +23,27 @@ class WlThemeWidget extends TbContextWidget<WlThemeWidget, _WlThemeWidgetState> 
 
 class _WlThemeWidgetState extends TbContextState<WlThemeWidget, _WlThemeWidgetState> {
 
+  late WhiteLabelingParams _wlParams;
   late ThemeData _themeData;
-  WhiteLabelingParams _wlParams = WhiteLabelingParams();
 
   @override
   void initState() {
     super.initState();
-    _loadThemeData();
+    _loadWl();
   }
 
-  void _loadThemeData() {
-    _themeData = TbThemeUtils.createTheme(_wlParams.paletteSettings);
+  void _loadWl() {
+    _themeData = tbContext.wlService.themeData;
+    _wlParams = tbContext.wlService.wlParams;
     if (mounted) {
       setState(() {});
     }
   }
 
-  void setWlParams(WhiteLabelingParams wlParams) {
+  void wlUpdated() {
     setState(() {
-      _themeData = TbThemeUtils.createTheme(wlParams.paletteSettings);
-      _wlParams = wlParams;
+      _themeData = tbContext.wlService.themeData;
+      _wlParams = tbContext.wlService.wlParams;
     });
   }
 

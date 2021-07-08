@@ -124,6 +124,7 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
             }
           } else {
             return Center(child: TbProgressIndicator(
+              tbContext,
               size: 50.0,
             ));
           }

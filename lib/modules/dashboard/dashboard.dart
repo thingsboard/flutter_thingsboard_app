@@ -283,8 +283,15 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                                       'assets',
                                       'dashboards',
                                       'customers',
-                                      'auditLogs'
+                                      'auditLogs',
+                                      'deviceGroups',
+                                      'assetGroups',
+                                      'customerGroups',
+                                      'dashboardGroups'
                                     ].contains(path)) {
+                                      if (path.endsWith('Groups')) {
+                                        path = path.replaceFirst('Groups', 's');
+                                      }
                                       var targetPath = '/$path';
                                       if (path == 'devices' && widget._home != true) {
                                         targetPath = '/devicesPage';
@@ -365,6 +372,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                                     alignment: Alignment.center,
                                     color: Colors.white,
                                     child: TbProgressIndicator(
+                                      tbContext,
                                         size: 50.0
                                     ),
                                   );

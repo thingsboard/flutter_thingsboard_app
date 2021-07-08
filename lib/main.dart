@@ -132,13 +132,13 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     return WlThemeWidget(
         appRouter.tbContext,
       wlThemedWidgetBuilder: (context, data, wlParams) => MaterialApp(
-          title: wlParams.appTitle ?? 'ThingsBoard PE',
+          title: wlParams.appTitle!,
           home: TransitionIndexedStack(
               controller: _mainStackController,
               first: MaterialApp(
                 key: mainAppKey,
                 scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-                title: wlParams.appTitle ?? 'ThingsBoard PE',
+                title: wlParams.appTitle!,
                 theme: data,
                 darkTheme: tbDarkTheme,
                 onGenerateRoute: appRouter.router.generator,
@@ -147,7 +147,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
               second: MaterialApp(
                 key: dashboardKey,
                 // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-                title: wlParams.appTitle ?? 'ThingsBoard PE',
+                title: wlParams.appTitle!,
                 theme: data,
                 darkTheme: tbDarkTheme,
                 home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),

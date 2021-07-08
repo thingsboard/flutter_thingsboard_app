@@ -124,6 +124,7 @@ class TbContext {
   TbMainDashboardHolder? _mainDashboardHolder;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
+  late final TbStorage storage;
   late final ThingsboardClient tbClient;
   late final TbOAuth2Client oauth2Client;
   late final WlService wlService;
@@ -135,6 +136,7 @@ class TbContext {
 
   TbContext(this.router) {
     _widgetActionHandler = WidgetActionHandler(this);
+    wlService = WlService(this);
   }
 
   TbLogger get log => _log;
@@ -148,8 +150,9 @@ class TbContext {
       return true;
     }());
     _initialized = true;
+    storage = TbSecureStorage();
     tbClient = ThingsboardClient(ThingsboardAppConstants.thingsBoardApiEndpoint,
-                                 storage: TbSecureStorage(),
+                                 storage: storage,
                                  onUserLoaded: onUserLoaded,
                                  onError: onError,
                                  onLoadStarted: onLoadStarted,
@@ -157,7 +160,6 @@ class TbContext {
                                  computeFunc: <Q, R>(callback, message) => compute(callback, message));
 
     oauth2Client = TbOAuth2Client(tbContext: this, appSecretProvider: AppSecretProvider.local());
-    wlService = WlService(this);
 
     try {
       if (Platform.isAndroid) {
@@ -263,7 +265,11 @@ class TbContext {
             userDetails = await tbClient.getUserService().getUser();
             homeDashboard = await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
-            tbClient.logout();
+            if (!_isConnectionError(e)) {
+              tbClient.logout();
+            } else {
+              rethrow;
+            }
           }
         }
       } else {
@@ -271,13 +277,25 @@ class TbContext {
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
       }
-      wlService.updateWhiteLabeling();
+      await wlService.updateWhiteLabeling();
       _isAuthenticated.value = tbClient.isAuthenticated();
       await updateRouteState();
 
     } catch (e, s) {
       log.error('Error: $e', e, s);
+      if (_isConnectionError(e)) {
+          var res = await confirm(title: 'Connection error', message: 'Failed to connect to server', cancel: 'Cancel', ok: 'Retry');
+          if (res == true) {
+            onUserLoaded();
+          } else {
+            navigateTo('/login', replace: true, clearStack: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
+          }
+      }
     }
+  }
+
+  bool _isConnectionError(e) {
+    return e is ThingsboardError && e.errorCode == ThingsBoardErrorCode.general && e.message == 'Unable to connect';
   }
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;

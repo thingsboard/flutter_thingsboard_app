@@ -47,10 +47,8 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
         elevation: dashboardState ? 0 : 8,
         title: Center(
             child: Container(
-                height: 24,
-                child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
-                    color: Theme.of(context).primaryColor,
-                    semanticsLabel: 'ThingsBoard Logo')
+                height: tbContext.wlService.isCustomLogo ? kToolbarHeight - 8 : 24,
+                child: tbContext.wlService.userLogoImage != null ? tbContext.wlService.userLogoImage! : SizedBox()
             )
         ),
         actions: [

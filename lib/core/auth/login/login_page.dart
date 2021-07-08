@@ -69,12 +69,14 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                   children: [
                                     Row(
                                         children: [
-                                          SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
-                                              height: 25,
-                                              color: Theme.of(context).primaryColor,
-                                              semanticsLabel: 'ThingsBoard Logo')
+                                          tbContext.wlService.loginLogoImage != null ? tbContext.wlService.loginLogoImage! : SizedBox(height: 25)
                                         ]
                                     ),
+                                    if (tbContext.wlService.loginShowNameVersion == true && !(tbContext.wlService.showNameBottom == true))
+                                      Text(tbContext.wlService.platformNameAndVersion, style: TextStyle(
+                                        fontSize: 12,
+                                        height: 2
+                                      )),
                                     SizedBox(height: 32),
                                     Row(
                                         children: [
@@ -171,7 +173,23 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                         _login();
                                       },
                                     ),
-                                    SizedBox(height: 48)
+                                    if (tbContext.wlService.loginShowNameVersion == true && tbContext.wlService.showNameBottom == true)
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 38),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(tbContext.wlService.platformNameAndVersion, style: TextStyle(
+                                                  fontSize: 12
+                                              ))
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    if (tbContext.wlService.loginShowNameVersion != true || tbContext.wlService.showNameBottom != true)
+                                      SizedBox(height: 48)
                                   ]
                               ),
                             )
@@ -198,7 +216,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                 child: Container(
                                   padding: EdgeInsets.only(bottom: bottomPadding),
                                   alignment: Alignment.center,
-                                  child: TbProgressIndicator(size: 50.0),
+                                  child: TbProgressIndicator(tbContext, size: 50.0),
                                 ),
                               )
                           )

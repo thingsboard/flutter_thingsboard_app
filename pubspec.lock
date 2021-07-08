@@ -458,7 +458,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0f45d808042f31c61f18e0467ab263e77b887ab9"
+      resolved-ref: a6e4a068613e3632400f1ce5e9909de4ef871b41
       url: "git@github.com:thingsboard/dart_thingsboard_pe_client.git"
     source: git
     version: "1.0.0"
