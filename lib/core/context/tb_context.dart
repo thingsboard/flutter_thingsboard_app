@@ -284,12 +284,12 @@ class TbContext {
     } catch (e, s) {
       log.error('Error: $e', e, s);
       if (_isConnectionError(e)) {
-          var res = await confirm(title: 'Connection error', message: 'Failed to connect to server', cancel: 'Cancel', ok: 'Retry');
-          if (res == true) {
-            onUserLoaded();
-          } else {
-            navigateTo('/login', replace: true, clearStack: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
-          }
+        var res = await confirm(title: 'Connection error', message: 'Failed to connect to server', cancel: 'Cancel', ok: 'Retry');
+        if (res == true) {
+          onUserLoaded();
+        } else {
+          navigateTo('/login', replace: true, clearStack: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
+        }
       }
     }
   }
