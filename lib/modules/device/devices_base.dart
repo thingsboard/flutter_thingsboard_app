@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -154,7 +155,10 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                   image = Utils.imageFromBase64(profile.image!);
                   imageFit = BoxFit.contain;
                 } else {
-                  image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+                  image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
+                      color: Theme.of(context).primaryColor,
+                      colorBlendMode: BlendMode.color,
+                      semanticsLabel: 'Device');
                   imageFit = BoxFit.cover;
                 }
                 return Row(
@@ -298,7 +302,10 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                     image = Utils.imageFromBase64(profile.image!);
                     imageFit = BoxFit.contain;
                   } else {
-                    image = Image.asset(ThingsboardImage.deviceProfilePlaceholder);
+                    image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
+                        color: Theme.of(context).primaryColor,
+                        colorBlendMode: BlendMode.color,
+                        semanticsLabel: 'Device');
                     imageFit = BoxFit.cover;
                   }
                   return ClipRRect(

@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
-import 'package:thingsboard_app/config/themes/wl_theme_widget.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
@@ -17,6 +16,7 @@ import 'package:thingsboard_app/utils/services/wl_service.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_secure_storage.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:uni_links/uni_links.dart';
 
 enum NotificationType {
   info,
@@ -113,6 +113,7 @@ class TbContext {
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
   PlatformType? _oauth2PlatformType;
   List<OAuth2ClientInfo>? oauth2ClientInfos;
+  SignUpSelfRegistrationParams? signUpParams;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
@@ -121,6 +122,8 @@ class TbContext {
   late final AndroidDeviceInfo? _androidInfo;
   late final IosDeviceInfo? _iosInfo;
   late final String packageName;
+  String? _initialNavigation;
+
   TbMainDashboardHolder? _mainDashboardHolder;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -171,9 +174,31 @@ class TbContext {
       }
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       packageName = packageInfo.packageName;
+      try {
+        final initialUri = await getInitialUri();
+        _updateInitialNavigation(initialUri);
+      } catch (e) {
+        log.error('Failed to get initial uri: $e', e);
+      }
       await tbClient.init();
+      uriLinkStream.listen((Uri? uri) {
+        _updateInitialNavigation(uri);
+        handleInitialNavigation();
+      }, onError: (e) {
+        log.error('Failed to get new initial uri: $e', e);
+      });
     } catch (e, s) {
       log.error('Failed to init tbContext: $e', e, s);
+    }
+  }
+
+  void _updateInitialNavigation(Uri? initialUri) {
+    if (initialUri != null && initialUri.path.isNotEmpty) {
+      _initialNavigation = initialUri.path;
+      if (initialUri.hasQuery) {
+        _initialNavigation = '$_initialNavigation?${initialUri.query}';
+      }
+      log.debug('Initial navigation: $_initialNavigation');
     }
   }
 
@@ -276,6 +301,7 @@ class TbContext {
         userDetails = null;
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
+        signUpParams = await tbClient.getSelfRegistrationService().getSignUpSelfRegistrationParams(pkgName: packageName);
       }
       await wlService.updateWhiteLabeling();
       _isAuthenticated.value = tbClient.isAuthenticated();
@@ -304,28 +330,53 @@ class TbContext {
 
   bool get hasOAuthClients => oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
+  bool get hasSelfRegistration => signUpParams != null && signUpParams!.captchaSiteKey != null;
+
+  bool handleInitialNavigation() {
+    if (_initialNavigation != null && _initialNavigation!.startsWith('/signup/emailVerified')) {
+      if (tbClient.isAuthenticated()) {
+        tbClient.logout();
+      } else {
+        navigateTo(_initialNavigation!, replace: true,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+            transitionDuration: Duration(milliseconds: 750));
+        _initialNavigation = null;
+      }
+      return true;
+    }
+    return false;
+  }
+
   Future<void> updateRouteState() async {
     if (currentState != null) {
-      if (tbClient.isAuthenticated()) {
-        var defaultDashboardId = _defaultDashboardId();
-        if (defaultDashboardId != null) {
-          bool fullscreen = _userForceFullscreen();
-          if (!fullscreen) {
-            await navigateToDashboard(defaultDashboardId, animate: false);
-            navigateTo('/home',
-                replace: true,
-                closeDashboard: false,
-                transition: TransitionType.none);
+      if (!handleInitialNavigation()) {
+        if (tbClient.isAuthenticated()) {
+          var defaultDashboardId = _defaultDashboardId();
+          if (defaultDashboardId != null) {
+            bool fullscreen = _userForceFullscreen();
+            if (!fullscreen) {
+              await navigateToDashboard(defaultDashboardId, animate: false);
+              navigateTo('/home',
+                  replace: true,
+                  closeDashboard: false,
+                  transition: TransitionType.none);
+            } else {
+              navigateTo('/fullscreenDashboard/$defaultDashboardId',
+                  replace: true,
+                  transition: TransitionType.fadeIn);
+            }
           } else {
-            navigateTo('/fullscreenDashboard/$defaultDashboardId',
-                replace: true,
-                transition: TransitionType.fadeIn);
+            navigateTo('/home', replace: true,
+                transition: TransitionType.fadeIn,
+                transitionDuration: Duration(milliseconds: 750));
           }
         } else {
-          navigateTo('/home', replace: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
+          navigateTo('/login', replace: true,
+              clearStack: true,
+              transition: TransitionType.fadeIn,
+              transitionDuration: Duration(milliseconds: 750));
         }
-      } else {
-        navigateTo('/login', replace: true, clearStack: true, transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 750));
       }
     }
   }

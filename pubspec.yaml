@@ -39,6 +39,8 @@ dependencies:
   dart_jsonwebtoken: ^2.2.0
   crypto: ^3.0.1
   flutter_form_builder: ^6.0.1
+  uni_links: ^0.5.1
+  flutter_html: ^2.1.0
 
 dev_dependencies:
   flutter_test:

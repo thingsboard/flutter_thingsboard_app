@@ -173,6 +173,34 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                         _login();
                                       },
                                     ),
+                                    if (tbContext.hasSelfRegistration)
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 8),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text('New User?', style: TextStyle(
+                                                  fontSize: 14,
+                                                  height: 20 / 14
+                                              )),
+                                              TextButton(
+                                                onPressed: () {
+                                                  _signup();
+                                                },
+                                                child: Text(
+                                                  'Create Account',
+                                                  style: TextStyle(color: Theme.of(context).colorScheme.primary,
+                                                      letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      height: 20 / 14),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     if (tbContext.wlService.loginShowNameVersion == true && tbContext.wlService.showNameBottom == true)
                                       Column(
                                         children: [
@@ -189,7 +217,7 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
                                         ],
                                       ),
                                     if (tbContext.wlService.loginShowNameVersion != true || tbContext.wlService.showNameBottom != true)
-                                      SizedBox(height: 48)
+                                      SizedBox(height: tbContext.hasSelfRegistration ? 20 : 48)
                                   ]
                               ),
                             )
@@ -338,5 +366,9 @@ class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
 
   void _forgotPassword() async {
     navigateTo('/login/resetPasswordRequest');
+  }
+
+  void _signup() async {
+    navigateTo('/signup', replace: true);
   }
 }
