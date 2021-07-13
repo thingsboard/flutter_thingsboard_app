@@ -349,6 +349,8 @@ class _SignUpPageState extends TbPageState<SignUpPage, _SignUpPageState> {
             _promptToResendEmailVerification(formValue['email']);
           } else {
             log.info('Sign up success!');
+            _isSignUpNotifier.value = false;
+            _recaptchaResponseNotifier.value = null;
             navigateTo('/signup/emailVerification?email=' + formValue['email']);
           }
         } catch (e) {
