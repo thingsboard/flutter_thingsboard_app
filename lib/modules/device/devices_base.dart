@@ -157,7 +157,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                 } else {
                   image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
                       color: Theme.of(context).primaryColor,
-                      colorBlendMode: BlendMode.color,
+                      colorBlendMode: BlendMode.overlay,
                       semanticsLabel: 'Device');
                   imageFit = BoxFit.cover;
                 }
@@ -304,7 +304,7 @@ class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
                   } else {
                     image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
                         color: Theme.of(context).primaryColor,
-                        colorBlendMode: BlendMode.color,
+                        colorBlendMode: BlendMode.overlay,
                         semanticsLabel: 'Device');
                     imageFit = BoxFit.cover;
                   }
