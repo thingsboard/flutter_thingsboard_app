@@ -66,22 +66,12 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha, _TbRecaptchaState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _buildRecaptchaView(context),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: kToolbarHeight,
-            child:
-            AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0
-            ),
-          )
-        ],
-      )
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0
+      ),
+      body: _buildRecaptchaView(context)
     );
   }
 
