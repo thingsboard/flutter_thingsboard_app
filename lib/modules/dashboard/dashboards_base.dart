@@ -161,7 +161,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard, _Dashboa
     } else {
       image = SvgPicture.asset(ThingsboardImage.dashboardPlaceholder,
           color: Theme.of(context).primaryColor,
-          colorBlendMode: BlendMode.color,
+          colorBlendMode: BlendMode.overlay,
           semanticsLabel: 'Dashboard');
     }
     return
