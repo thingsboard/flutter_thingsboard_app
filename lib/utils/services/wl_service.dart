@@ -18,7 +18,12 @@ class WlService {
   static final _defaultLoginThemeData = TbThemeUtils.createTheme(_defaultLoginWlParams.paletteSettings);
 
   static final _defaultLogo = SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
-      height: 25,
+      height: 36 / 3 * 2,
+      color: TbThemeUtils.tbPrimary,
+      semanticsLabel: 'ThingsBoard Logo');
+
+  static final _defaultLoginLogo = SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
+      height: 50 / 3 * 2,
       color: TbThemeUtils.tbPrimary,
       semanticsLabel: 'ThingsBoard Logo');
 
@@ -165,7 +170,7 @@ class WlService {
 
   Widget get logoImage => (_isUserWlMode ? _logo : _loginLogo) ?? _defaultLogo;
 
-  Widget? get loginLogoImage => _loginLogo ?? _defaultLogo;
+  Widget? get loginLogoImage => _loginLogo ?? _defaultLoginLogo;
 
   Widget? get userLogoImage => _logo ?? _defaultLogo;
 
@@ -234,7 +239,7 @@ class WlService {
       wlParams.logoImageUrl = await _tbContext.storage.getItem(prefix+'_logo_image_url');
     }
     Widget image;
-    double height = wlParams.logoImageHeight!.toDouble() / 2;
+    double height = wlParams.logoImageHeight!.toDouble() / 3 * 2;
     if (wlParams.logoImageUrl == DEFAULT_LOGO_URL) {
       image = SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
           height: height,

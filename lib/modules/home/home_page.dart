@@ -47,7 +47,7 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
         elevation: dashboardState ? 0 : 8,
         title: Center(
             child: Container(
-                height: tbContext.wlService.isCustomLogo ? kToolbarHeight - 8 : 24,
+                height: kToolbarHeight - 8,
                 child: tbContext.wlService.userLogoImage != null ? tbContext.wlService.userLogoImage! : SizedBox()
             )
         ),
