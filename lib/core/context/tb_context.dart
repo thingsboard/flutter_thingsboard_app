@@ -115,6 +115,7 @@ class TbContext {
   List<OAuth2ClientInfo>? oauth2ClientInfos;
   SignUpSelfRegistrationParams? signUpParams;
   User? userDetails;
+  AllowedPermissionsInfo? userPermissions;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
@@ -288,6 +289,7 @@ class TbContext {
         if (tbClient.getAuthUser()!.userId != null) {
           try {
             userDetails = await tbClient.getUserService().getUser();
+            userPermissions = await tbClient.getUserPermissionsService().getAllowedPermissions();
             homeDashboard = await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
             if (!_isConnectionError(e)) {
@@ -299,6 +301,7 @@ class TbContext {
         }
       } else {
         userDetails = null;
+        userPermissions = null;
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(pkgName: packageName, platform: _oauth2PlatformType);
         signUpParams = await tbClient.getSelfRegistrationService().getSignUpSelfRegistrationParams(pkgName: packageName);
@@ -331,6 +334,14 @@ class TbContext {
   bool get hasOAuthClients => oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
   bool get hasSelfRegistration => signUpParams != null && signUpParams!.captchaSiteKey != null;
+
+  bool hasGenericPermission(Resource resource, Operation operation) {
+    if (userPermissions != null) {
+      return userPermissions!.hasGenericPermission(resource, operation);
+    } else {
+      return false;
+    }
+  }
 
   bool handleInitialNavigation() {
     if (_initialNavigation != null && _initialNavigation!.startsWith('/signup/emailVerified')) {
@@ -543,6 +554,8 @@ mixin HasTbContext {
   ValueNotifier<bool> get loadingNotifier => _tbContext._isLoadingNotifier;
 
   ThingsboardClient get tbClient => _tbContext.tbClient;
+
+  bool hasGenericPermission(Resource resource, Operation operation) => _tbContext.hasGenericPermission(resource, operation);
 
   Future<void> initTbContext() async {
     await _tbContext.init();

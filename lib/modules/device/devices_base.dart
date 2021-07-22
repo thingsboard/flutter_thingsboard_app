@@ -30,9 +30,14 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   void onEntityTap(EntityData device) async {
     var profile = await DeviceProfileCache.getDeviceProfileInfo(tbClient, device.field('type')!, device.entityId.id!);
     if (profile.defaultDashboardId != null) {
-      var dashboardId = profile.defaultDashboardId!.id!;
-      var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
-      navigateToDashboard(dashboardId, dashboardTitle: device.field('name'), state: state);
+      if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
+          hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
+        var dashboardId = profile.defaultDashboardId!.id!;
+        var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
+        navigateToDashboard(dashboardId, dashboardTitle: device.field('name'), state: state);
+      } else {
+        showErrorNotification('You don\'t have permissions to perform this operation!');
+      }
     } else {
       if (tbClient.isTenantAdmin()) {
         showWarnNotification('Mobile dashboard should be configured in device profile!');

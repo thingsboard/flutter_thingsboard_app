@@ -19,14 +19,17 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   @override
   Future<PageData<DashboardInfo>> fetchEntities(PageLink pageLink) {
-    return tbClient.getDashboardService().getUserDashboards(pageLink);
+    return tbClient.getDashboardService().getUserDashboards(pageLink, mobile: true);
   }
 
   @override
   void onEntityTap(DashboardInfo dashboard) {
-    navigateToDashboard(dashboard.id!.id!, dashboardTitle: dashboard.title);
-    // navigateTo('/fullscreenDashboard/${dashboard.id!.id}?title=${dashboard.title}');
-    // navigateTo('/dashboard/${dashboard.id!.id}?title=${dashboard.title}');
+    if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
+        hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
+      navigateToDashboard(dashboard.id!.id!, dashboardTitle: dashboard.title);
+    } else {
+      showErrorNotification('You don\'t have permissions to perform this operation!');
+    }
   }
 
   @override

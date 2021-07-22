@@ -49,8 +49,13 @@ mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
   void onEntityTap(AlarmInfo alarm) {
     String? dashboardId = alarm.details?['dashboardId'];
     if (dashboardId != null) {
-      var state = Utils.createDashboardEntityState(alarm.originator, entityName: alarm.originatorName);
-      navigateToDashboard(dashboardId, dashboardTitle: alarm.originatorName, state: state);
+      if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
+          hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
+        var state = Utils.createDashboardEntityState(alarm.originator, entityName: alarm.originatorName);
+        navigateToDashboard(dashboardId, dashboardTitle: alarm.originatorName, state: state);
+      } else {
+        showErrorNotification('You don\'t have permissions to perform this operation!');
+      }
     } else {
       if (tbClient.isTenantAdmin()) {
         showWarnNotification('Mobile dashboard should be configured in device profile alarm rules!');
