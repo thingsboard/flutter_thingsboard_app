@@ -20,9 +20,9 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   @override
   Future<PageData<DashboardInfo>> fetchEntities(PageLink pageLink) {
     if (tbClient.isTenantAdmin()) {
-      return tbClient.getDashboardService().getTenantDashboards(pageLink);
+      return tbClient.getDashboardService().getTenantDashboards(pageLink, mobile: true);
     } else {
-      return tbClient.getDashboardService().getCustomerDashboards(tbClient.getAuthUser()!.customerId, pageLink);
+      return tbClient.getDashboardService().getCustomerDashboards(tbClient.getAuthUser()!.customerId, pageLink, mobile: true);
     }
   }
 
