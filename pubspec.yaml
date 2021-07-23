@@ -11,8 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client:
-    git: git@github.com:thingsboard/dart_thingsboard_client.git
+  thingsboard_client: 1.0.0
   intl: ^0.17.0
   flutter_secure_storage: ^4.1.0
   flutter_speed_dial: ^3.0.5
