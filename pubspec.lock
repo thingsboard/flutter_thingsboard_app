@@ -466,7 +466,7 @@ packages:
       name: thingsboard_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   typed_data:
     dependency: transitive
     description:
