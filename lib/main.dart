@@ -127,6 +127,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
+        statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light
     ));
     return WlThemeWidget(
