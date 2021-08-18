@@ -1,6 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+TbStorage createAppStorage() => TbSecureStorage();
+
 class TbSecureStorage implements TbStorage {
 
   final flutterStorage = FlutterSecureStorage();

@@ -6,7 +6,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'tenants_list.dart';
 
-class TenantsPage extends TbPageWidget<TenantsPage, _TenantsPageState> {
+class TenantsPage extends TbPageWidget {
 
   final bool searchMode;
 
@@ -17,7 +17,7 @@ class TenantsPage extends TbPageWidget<TenantsPage, _TenantsPageState> {
 
 }
 
-class _TenantsPageState extends TbPageState<TenantsPage, _TenantsPageState> {
+class _TenantsPageState extends TbPageState<TenantsPage> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 

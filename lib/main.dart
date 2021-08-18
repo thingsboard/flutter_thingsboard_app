@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ void main() async {
 //  await FlutterDownloader.initialize();
 //  await Permission.storage.request();
 
-  if (Platform.isAndroid) {
+  if (UniversalPlatform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 

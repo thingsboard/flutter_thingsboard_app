@@ -41,7 +41,7 @@ abstract class EntitiesListPageLinkWidget<T> extends EntitiesListWidget<T, PageL
 
 }
 
-abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> with EntitiesBase<T,P> {
+abstract class EntitiesListWidget<T, P> extends TbContextWidget with EntitiesBase<T,P> {
 
   final EntitiesListWidgetController? _controller;
 
@@ -58,7 +58,7 @@ abstract class EntitiesListWidget<T, P> extends TbContextWidget<EntitiesListWidg
 
 }
 
-class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,P>, _EntitiesListWidgetState<T,P>> {
+class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,P>> {
 
   final EntitiesListWidgetController? _controller;
 

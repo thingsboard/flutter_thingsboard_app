@@ -63,7 +63,7 @@ class RefreshDeviceCounts {
   Future<void> Function()? onRefresh;
 }
 
-class AllDevicesCard extends TbContextWidget<AllDevicesCard, _AllDevicesCardState> {
+class AllDevicesCard extends TbContextWidget {
 
   final RefreshDeviceCounts refreshDeviceCounts;
 
@@ -74,7 +74,7 @@ class AllDevicesCard extends TbContextWidget<AllDevicesCard, _AllDevicesCardStat
 
 }
 
-class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCardState> {
+class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
 
   final StreamController<int?> _activeDevicesCount = StreamController.broadcast();
   final StreamController<int?> _inactiveDevicesCount = StreamController.broadcast();
@@ -240,7 +240,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard, _AllDevicesCar
 
 }
 
-class DeviceProfileCard extends TbContextWidget<DeviceProfileCard, _DeviceProfileCardState> {
+class DeviceProfileCard extends TbContextWidget {
 
   final DeviceProfileInfo deviceProfile;
 
@@ -251,7 +251,7 @@ class DeviceProfileCard extends TbContextWidget<DeviceProfileCard, _DeviceProfil
 
 }
 
-class _DeviceProfileCardState extends TbContextState<DeviceProfileCard, _DeviceProfileCardState> {
+class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
 
   late Future<int> activeDevicesCount;
   late Future<int> inactiveDevicesCount;

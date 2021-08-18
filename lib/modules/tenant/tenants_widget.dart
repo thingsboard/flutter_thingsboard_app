@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 import 'tenants_list.dart';
 
-class TenantsWidget extends TbContextWidget<TenantsWidget, _TenantsWidgetState> {
+class TenantsWidget extends TbContextWidget {
 
   TenantsWidget(TbContext tbContext) : super(tbContext);
 
@@ -14,7 +14,7 @@ class TenantsWidget extends TbContextWidget<TenantsWidget, _TenantsWidgetState> 
 
 }
 
-class _TenantsWidgetState extends TbContextState<TenantsWidget, _TenantsWidgetState> {
+class _TenantsWidgetState extends TbContextState<TenantsWidget> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 

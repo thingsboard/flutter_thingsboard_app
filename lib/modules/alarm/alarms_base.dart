@@ -86,7 +86,7 @@ class AlarmQueryController extends PageKeyController<AlarmQuery> {
 
 }
 
-class AlarmCard extends TbContextWidget<AlarmCard, _AlarmCardState> {
+class AlarmCard extends TbContextWidget {
 
   final AlarmInfo alarm;
 
@@ -97,7 +97,7 @@ class AlarmCard extends TbContextWidget<AlarmCard, _AlarmCardState> {
 
 }
 
-class _AlarmCardState extends TbContextState<AlarmCard, _AlarmCardState> {
+class _AlarmCardState extends TbContextState<AlarmCard> {
 
   bool loading = false;
   AlarmInfo alarm;

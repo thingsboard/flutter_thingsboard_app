@@ -14,7 +14,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'login_page_background.dart';
 
-class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
+class LoginPage extends TbPageWidget {
 
   LoginPage(TbContext tbContext) : super(tbContext);
 
@@ -23,7 +23,7 @@ class LoginPage extends TbPageWidget<LoginPage, _LoginPageState> {
 
 }
 
-class _LoginPageState extends TbPageState<LoginPage, _LoginPageState> {
+class _LoginPageState extends TbPageState<LoginPage> {
 
   final ButtonStyle _oauth2ButtonWithTextStyle =
         OutlinedButton.styleFrom(padding: EdgeInsets.all(16),

@@ -6,7 +6,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'alarms_list.dart';
 
-class AlarmsPage extends TbContextWidget<AlarmsPage, _AlarmsPageState> {
+class AlarmsPage extends TbContextWidget {
 
   final bool searchMode;
 
@@ -17,7 +17,7 @@ class AlarmsPage extends TbContextWidget<AlarmsPage, _AlarmsPageState> {
 
 }
 
-class _AlarmsPageState extends TbContextState<AlarmsPage, _AlarmsPageState> with AutomaticKeepAliveClientMixin<AlarmsPage> {
+class _AlarmsPageState extends TbContextState<AlarmsPage> with AutomaticKeepAliveClientMixin<AlarmsPage> {
 
   final AlarmQueryController _alarmQueryController = AlarmQueryController();
 

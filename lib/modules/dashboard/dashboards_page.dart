@@ -5,7 +5,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'dashboards_grid.dart';
 
-class DashboardsPage extends TbPageWidget<DashboardsPage, _DashboardsPageState> {
+class DashboardsPage extends TbPageWidget {
 
   DashboardsPage(TbContext tbContext) : super(tbContext);
 
@@ -14,7 +14,7 @@ class DashboardsPage extends TbPageWidget<DashboardsPage, _DashboardsPageState> 
 
 }
 
-class _DashboardsPageState extends TbPageState<DashboardsPage, _DashboardsPageState> {
+class _DashboardsPageState extends TbPageState<DashboardsPage> {
 
   @override
   Widget build(BuildContext context) {

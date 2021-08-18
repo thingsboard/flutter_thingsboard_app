@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
-class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements PreferredSizeWidget {
+class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
 
   final Widget? leading;
   final Widget? title;
@@ -28,7 +28,7 @@ class TbAppBar extends TbContextWidget<TbAppBar, _TbAppBarState> implements Pref
 
 }
 
-class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
+class _TbAppBarState extends TbContextState<TbAppBar> {
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _TbAppBarState extends TbContextState<TbAppBar, _TbAppBarState> {
   }
 }
 
-class TbAppSearchBar extends TbContextWidget<TbAppSearchBar, _TbAppSearchBarState> implements PreferredSizeWidget {
+class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
 
   final double? elevation;
   final Color? shadowColor;
@@ -94,7 +94,7 @@ class TbAppSearchBar extends TbContextWidget<TbAppSearchBar, _TbAppSearchBarStat
   _TbAppSearchBarState createState() => _TbAppSearchBarState();
 }
 
-class _TbAppSearchBarState extends TbContextState<TbAppSearchBar, _TbAppSearchBarState> {
+class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
 
   final TextEditingController _filter = new TextEditingController();
   final _textUpdates = StreamController<String>();

@@ -193,7 +193,7 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
 
 }
 
-abstract class BaseEntitiesWidget<T, P> extends TbContextWidget<BaseEntitiesWidget<T, P>, BaseEntitiesState<T, P>> with EntitiesBase<T, P> {
+abstract class BaseEntitiesWidget<T, P> extends TbContextWidget with EntitiesBase<T, P> {
 
   final bool searchMode;
   final PageKeyController<P> pageKeyController;
@@ -211,7 +211,7 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget<BaseEntitiesWidg
 
 }
 
-abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget<T, P>, BaseEntitiesState<T, P>> {
+abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget<T, P>> {
 
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;

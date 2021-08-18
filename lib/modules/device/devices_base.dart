@@ -78,7 +78,7 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
 
 }
 
-class DeviceCard extends TbContextWidget<DeviceCard, _DeviceCardState> {
+class DeviceCard extends TbContextWidget {
 
   final EntityData device;
   final bool listWidgetCard;
@@ -91,7 +91,7 @@ class DeviceCard extends TbContextWidget<DeviceCard, _DeviceCardState> {
 
 }
 
-class _DeviceCardState extends TbContextState<DeviceCard, _DeviceCardState> {
+class _DeviceCardState extends TbContextState<DeviceCard> {
 
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 

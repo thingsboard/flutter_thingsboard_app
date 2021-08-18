@@ -8,7 +8,7 @@ import 'package:thingsboard_app/modules/audit_log/audit_logs_base.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class AuditLogDetailsPage extends TbContextWidget<AuditLogDetailsPage, _AuditLogDetailsPageState> {
+class AuditLogDetailsPage extends TbContextWidget {
 
   final AuditLog auditLog;
 
@@ -19,7 +19,7 @@ class AuditLogDetailsPage extends TbContextWidget<AuditLogDetailsPage, _AuditLog
 
 }
 
-class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage, _AuditLogDetailsPageState> {
+class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
 
   final labelTextStyle = TextStyle(
     color: Color(0xFF757575),

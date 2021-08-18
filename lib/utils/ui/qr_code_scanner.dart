@@ -7,7 +7,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
-class QrCodeScannerPage extends TbPageWidget<QrCodeScannerPage, _QrCodeScannerPageState> {
+class QrCodeScannerPage extends TbPageWidget {
 
   QrCodeScannerPage(TbContext tbContext) : super(tbContext);
 
@@ -16,7 +16,7 @@ class QrCodeScannerPage extends TbPageWidget<QrCodeScannerPage, _QrCodeScannerPa
 
 }
 
-class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage, _QrCodeScannerPageState> {
+class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
 
   Timer? simulatedQrTimer;
   QRViewController? controller;

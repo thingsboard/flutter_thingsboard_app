@@ -3,7 +3,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class MorePage extends TbContextWidget<MorePage, _MorePageState> {
+class MorePage extends TbContextWidget {
 
   MorePage(TbContext tbContext) : super(tbContext);
 
@@ -12,7 +12,7 @@ class MorePage extends TbContextWidget<MorePage, _MorePageState> {
 
 }
 
-class _MorePageState extends TbContextState<MorePage, _MorePageState> {
+class _MorePageState extends TbContextState<MorePage> {
 
   @override
   Widget build(BuildContext context) {

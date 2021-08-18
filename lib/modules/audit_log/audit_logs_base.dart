@@ -72,7 +72,7 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   }
 }
 
-class AuditLogCard extends TbContextWidget<AuditLogCard, _AuditLogCardState> {
+class AuditLogCard extends TbContextWidget {
 
   final AuditLog auditLog;
 
@@ -83,7 +83,7 @@ class AuditLogCard extends TbContextWidget<AuditLogCard, _AuditLogCardState> {
 
 }
 
-class _AuditLogCardState extends TbContextState<AuditLogCard, _AuditLogCardState> {
+class _AuditLogCardState extends TbContextState<AuditLogCard> {
 
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 

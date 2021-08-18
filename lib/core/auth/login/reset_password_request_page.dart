@@ -7,7 +7,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class ResetPasswordRequestPage extends TbPageWidget<ResetPasswordRequestPage, _ResetPasswordRequestPageState> {
+class ResetPasswordRequestPage extends TbPageWidget {
 
   ResetPasswordRequestPage(TbContext tbContext) : super(tbContext);
 
@@ -16,7 +16,7 @@ class ResetPasswordRequestPage extends TbPageWidget<ResetPasswordRequestPage, _R
 
 }
 
-class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPage, _ResetPasswordRequestPageState> {
+class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPage> {
 
   final _isLoadingNotifier = ValueNotifier<bool>(false);
 

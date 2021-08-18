@@ -10,6 +10,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_app/widgets/two_value_listenable_builder.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DashboardController {
@@ -65,7 +66,7 @@ typedef DashboardTitleCallback = void Function(String title);
 
 typedef DashboardControllerCallback = void Function(DashboardController controller);
 
-class Dashboard extends TbContextWidget<Dashboard, _DashboardState> {
+class Dashboard extends TbContextWidget {
 
   final bool? _home;
   final bool _activeByDefault;
@@ -84,7 +85,7 @@ class Dashboard extends TbContextWidget<Dashboard, _DashboardState> {
 
 }
 
-class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
+class _DashboardState extends TbContextState<Dashboard> {
 
   final Completer<InAppWebViewController> _controller = Completer<InAppWebViewController>();
 
@@ -145,21 +146,27 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
             'refreshToken': tbClient.getRefreshToken()!
           }
         };
-        var controller = await _controller.future;
-        await controller.postWebMessage(message: WebMessage(data: jsonEncode(windowMessage)), targetOrigin: Uri.parse('*'));
+        if (!UniversalPlatform.isWeb) {
+          var controller = await _controller.future;
+          await controller.postWebMessage(
+              message: WebMessage(data: jsonEncode(windowMessage)),
+              targetOrigin: Uri.parse('*'));
+        }
       }
     }
   }
 
   Future<bool> _goBack() async {
-    if (_dashboardController.rightLayoutOpened.value) {
-      await _toggleRightLayout();
-      return false;
-    }
-    var controller = await _controller.future;
-    if (await controller.canGoBack()) {
-      await controller.goBack();
-      return false;
+    if (!UniversalPlatform.isWeb) {
+      if (_dashboardController.rightLayoutOpened.value) {
+        await _toggleRightLayout();
+        return false;
+      }
+      var controller = await _controller.future;
+      if (await controller.canGoBack()) {
+        await controller.goBack();
+        return false;
+      }
     }
     return true;
   }
@@ -188,7 +195,10 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
   Future<void> _openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
     _fullscreen = fullscreen;
     dashboardLoading.value = true;
-    var controller = await _controller.future;
+    InAppWebViewController? controller;
+    if (!UniversalPlatform.isWeb) {
+      controller = await _controller.future;
+    }
     var windowMessage = <String, dynamic>{
       'type': 'openDashboardMessage',
       'data': <String, dynamic>{
@@ -205,7 +215,10 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
       windowMessage['data']['hideToolbar'] = true;
     }
     var webMessage = WebMessage(data: jsonEncode(windowMessage));
-    await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
+    if (!UniversalPlatform.isWeb) {
+      await controller!.postWebMessage(
+          message: webMessage, targetOrigin: Uri.parse('*'));
+    }
   }
 
   Future<void> _toggleRightLayout() async {
@@ -239,6 +252,7 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                   } else {
                     return Stack(
                         children: [
+                          UniversalPlatform.isWeb ? Center(child: Text('Not implemented!')) :
                           InAppWebView(
                             key: webViewKey,
                             initialUrlRequest: URLRequest(url: _initialUrl),
@@ -348,7 +362,8 @@ class _DashboardState extends TbContextState<Dashboard, _DashboardState> {
                                   action: PermissionRequestResponseAction.GRANT);
                             },
                           ),
-                          TwoValueListenableBuilder(
+                          if (!UniversalPlatform.isWeb)
+                            TwoValueListenableBuilder(
                               firstValueListenable: dashboardLoading,
                               secondValueListenable: dashboardActive,
                               builder: (BuildContext context, bool loading, bool active, child) {

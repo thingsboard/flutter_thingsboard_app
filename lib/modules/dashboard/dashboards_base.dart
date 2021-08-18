@@ -127,7 +127,7 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
 }
 
-class DashboardGridCard extends TbContextWidget<DashboardGridCard, _DashboardGridCardState> {
+class DashboardGridCard extends TbContextWidget {
 
   final DashboardInfo dashboard;
 
@@ -138,7 +138,7 @@ class DashboardGridCard extends TbContextWidget<DashboardGridCard, _DashboardGri
 
 }
 
-class _DashboardGridCardState extends TbContextState<DashboardGridCard, _DashboardGridCardState> {
+class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
 
   _DashboardGridCardState(): super();
 

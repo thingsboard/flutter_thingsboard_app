@@ -43,7 +43,7 @@ class MainDashboardPageController {
 
 }
 
-class MainDashboardPage extends TbContextWidget<MainDashboardPage, _MainDashboardPageState> {
+class MainDashboardPage extends TbContextWidget {
 
   final String? _dashboardTitle;
   final MainDashboardPageController? _controller;
@@ -60,7 +60,7 @@ class MainDashboardPage extends TbContextWidget<MainDashboardPage, _MainDashboar
 
 }
 
-class _MainDashboardPageState extends TbContextState<MainDashboardPage, _MainDashboardPageState> with TickerProviderStateMixin {
+class _MainDashboardPageState extends TbContextState<MainDashboardPage> with TickerProviderStateMixin {
 
   late ValueNotifier<String> dashboardTitleValue;
   final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);

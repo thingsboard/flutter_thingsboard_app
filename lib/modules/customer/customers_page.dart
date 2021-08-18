@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/customer/customers_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class CustomersPage extends TbPageWidget<CustomersPage, _CustomersPageState> {
+class CustomersPage extends TbPageWidget {
 
   final bool searchMode;
 
@@ -16,7 +16,7 @@ class CustomersPage extends TbPageWidget<CustomersPage, _CustomersPageState> {
 
 }
 
-class _CustomersPageState extends TbPageState<CustomersPage, _CustomersPageState> {
+class _CustomersPageState extends TbPageState<CustomersPage> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 

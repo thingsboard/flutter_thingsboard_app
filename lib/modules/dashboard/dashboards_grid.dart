@@ -7,7 +7,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'dashboards_base.dart';
 
-class DashboardsGridWidget extends TbContextWidget<DashboardsGridWidget, _DashboardsGridWidgetState> {
+class DashboardsGridWidget extends TbContextWidget {
 
   DashboardsGridWidget(TbContext tbContext) : super(tbContext);
 
@@ -16,7 +16,7 @@ class DashboardsGridWidget extends TbContextWidget<DashboardsGridWidget, _Dashbo
 
 }
 
-class _DashboardsGridWidgetState extends TbContextState<DashboardsGridWidget, _DashboardsGridWidgetState> {
+class _DashboardsGridWidgetState extends TbContextState<DashboardsGridWidget> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 

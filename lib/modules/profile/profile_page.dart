@@ -9,7 +9,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class ProfilePage extends TbPageWidget<ProfilePage, _ProfilePageState> {
+class ProfilePage extends TbPageWidget {
 
   final bool _fullscreen;
 
@@ -20,7 +20,7 @@ class ProfilePage extends TbPageWidget<ProfilePage, _ProfilePageState> {
 
 }
 
-class _ProfilePageState extends TbPageState<ProfilePage, _ProfilePageState> {
+class _ProfilePageState extends TbPageState<ProfilePage> {
 
   final _isLoadingNotifier = ValueNotifier<bool>(true);
 

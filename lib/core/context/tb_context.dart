@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:io';
-
+import 'package:universal_platform/universal_platform.dart';
 import 'package:device_info/device_info.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +12,7 @@ import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/tb_secure_storage.dart';
+import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 enum NotificationType {
@@ -145,8 +144,9 @@ class TbContext {
       return true;
     }());
     _initialized = true;
+    var storage = createAppStorage();
     tbClient = ThingsboardClient(ThingsboardAppConstants.thingsBoardApiEndpoint,
-                                 storage: TbSecureStorage(),
+                                 storage: storage,
                                  onUserLoaded: onUserLoaded,
                                  onError: onError,
                                  onLoadStarted: onLoadStarted,
@@ -156,15 +156,21 @@ class TbContext {
     oauth2Client = TbOAuth2Client(tbContext: this, appSecretProvider: AppSecretProvider.local());
 
     try {
-      if (Platform.isAndroid) {
+      if (UniversalPlatform.isAndroid) {
         _androidInfo = await deviceInfoPlugin.androidInfo;
         _oauth2PlatformType = PlatformType.ANDROID;
-      } else if (Platform.isIOS) {
+      } else if (UniversalPlatform.isIOS) {
         _iosInfo = await deviceInfoPlugin.iosInfo;
         _oauth2PlatformType = PlatformType.IOS;
+      } else {
+        _oauth2PlatformType = PlatformType.WEB;
       }
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      packageName = packageInfo.packageName;
+      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        packageName = packageInfo.packageName;
+      } else {
+        packageName = 'web.app';
+      }
       await tbClient.init();
     } catch (e, s) {
       log.error('Failed to init tbContext: $e', e, s);
@@ -337,9 +343,9 @@ class TbContext {
   }
 
   bool isPhysicalDevice() {
-    if (Platform.isAndroid) {
+    if (UniversalPlatform.isAndroid) {
       return _androidInfo!.isPhysicalDevice;
-    } else if (Platform.isIOS) {
+    } else if (UniversalPlatform.isIOS) {
       return _iosInfo!.isPhysicalDevice;
     } else {
       return false;
@@ -348,9 +354,9 @@ class TbContext {
 
   String userAgent() {
     String userAgent = 'Mozilla/5.0';
-    if (Platform.isAndroid) {
+    if (UniversalPlatform.isAndroid) {
       userAgent += ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo!.model})';
-    } else if (Platform.isIOS) {
+    } else if (UniversalPlatform.isIOS) {
       userAgent += ' (${_iosInfo!.model})';
     }
     userAgent += ' AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36';
