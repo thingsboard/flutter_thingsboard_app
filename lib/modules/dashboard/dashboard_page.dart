@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DashboardPage extends TbPageWidget<DashboardPage, _DashboardPageState> {
+class DashboardPage extends TbPageWidget {
 
   final String? _dashboardTitle;
   final String? _dashboardId;
@@ -24,7 +24,7 @@ class DashboardPage extends TbPageWidget<DashboardPage, _DashboardPageState> {
 
 }
 
-class _DashboardPageState extends TbPageState<DashboardPage, _DashboardPageState> {
+class _DashboardPageState extends TbPageState<DashboardPage> {
 
   late ValueNotifier<String> dashboardTitleValue;
 

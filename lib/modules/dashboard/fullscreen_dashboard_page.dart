@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class FullscreenDashboardPage extends TbPageWidget<FullscreenDashboardPage, _FullscreenDashboardPageState> {
+class FullscreenDashboardPage extends TbPageWidget {
 
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
@@ -19,7 +19,7 @@ class FullscreenDashboardPage extends TbPageWidget<FullscreenDashboardPage, _Ful
 
 }
 
-class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage, _FullscreenDashboardPageState> {
+class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage> {
 
   late ValueNotifier<String> dashboardTitleValue;
   final ValueNotifier<bool> showBackValue = ValueNotifier(false);

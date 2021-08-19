@@ -85,7 +85,7 @@ class TbMainNavigationItem {
   }
 }
 
-class MainPage extends TbPageWidget<MainPage, _MainPageState> {
+class MainPage extends TbPageWidget {
 
   final String _path;
 
@@ -97,7 +97,7 @@ class MainPage extends TbPageWidget<MainPage, _MainPageState> {
 
 }
 
-class _MainPageState extends TbPageState<MainPage, _MainPageState> with TbMainState, TickerProviderStateMixin {
+class _MainPageState extends TbPageState<MainPage> with TbMainState, TickerProviderStateMixin {
 
   late ValueNotifier<int> _currentIndexNotifier;
   late final List<TbMainNavigationItem> _tabItems;

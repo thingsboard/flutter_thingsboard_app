@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class ChangePasswordPage extends TbContextWidget<ChangePasswordPage, _ChangePasswordPageState> {
+class ChangePasswordPage extends TbContextWidget {
 
   ChangePasswordPage(TbContext tbContext) : super(tbContext);
 
@@ -14,7 +14,7 @@ class ChangePasswordPage extends TbContextWidget<ChangePasswordPage, _ChangePass
 
 }
 
-class _ChangePasswordPageState extends TbContextState<ChangePasswordPage, _ChangePasswordPageState> {
+class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
 
   final _isLoadingNotifier = ValueNotifier<bool>(false);
 

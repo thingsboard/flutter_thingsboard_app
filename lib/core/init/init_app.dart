@@ -4,7 +4,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class ThingsboardInitApp extends TbPageWidget<ThingsboardInitApp, _ThingsboardInitAppState> {
+class ThingsboardInitApp extends TbPageWidget {
 
   ThingsboardInitApp(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
@@ -13,7 +13,7 @@ class ThingsboardInitApp extends TbPageWidget<ThingsboardInitApp, _ThingsboardIn
 
 }
 
-class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp, _ThingsboardInitAppState> {
+class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
 
   @override
   void initState() {

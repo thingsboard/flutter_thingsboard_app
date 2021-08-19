@@ -5,7 +5,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/device/device_profiles_grid.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DevicesMainPage extends TbContextWidget<DevicesMainPage, _DevicesMainPageState> {
+class DevicesMainPage extends TbContextWidget {
 
   DevicesMainPage(TbContext tbContext) : super(tbContext);
 
@@ -14,7 +14,7 @@ class DevicesMainPage extends TbContextWidget<DevicesMainPage, _DevicesMainPageS
 
 }
 
-class _DevicesMainPageState extends TbContextState<DevicesMainPage, _DevicesMainPageState> with AutomaticKeepAliveClientMixin<DevicesMainPage> {
+class _DevicesMainPageState extends TbContextState<DevicesMainPage> with AutomaticKeepAliveClientMixin<DevicesMainPage> {
 
   final PageLinkController _pageLinkController = PageLinkController();
 

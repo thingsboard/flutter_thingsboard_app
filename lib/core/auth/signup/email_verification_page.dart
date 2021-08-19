@@ -8,7 +8,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class EmailVerificationPage extends TbPageWidget<EmailVerificationPage, _EmailVerificationPageState> {
+class EmailVerificationPage extends TbPageWidget {
 
   final String _email;
 
@@ -21,7 +21,7 @@ class EmailVerificationPage extends TbPageWidget<EmailVerificationPage, _EmailVe
 
 }
 
-class _EmailVerificationPageState extends TbPageState<EmailVerificationPage, _EmailVerificationPageState> {
+class _EmailVerificationPageState extends TbPageState<EmailVerificationPage> {
 
   @override
   Widget build(BuildContext context) {

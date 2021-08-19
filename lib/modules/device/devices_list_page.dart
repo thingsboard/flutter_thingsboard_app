@@ -5,7 +5,7 @@ import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DevicesListPage extends TbPageWidget<DevicesListPage, _DevicesListPageState> {
+class DevicesListPage extends TbPageWidget {
 
   final String? deviceType;
   final bool? active;
@@ -18,7 +18,7 @@ class DevicesListPage extends TbPageWidget<DevicesListPage, _DevicesListPageStat
 
 }
 
-class _DevicesListPageState extends TbPageState<DevicesListPage, _DevicesListPageState> {
+class _DevicesListPageState extends TbPageState<DevicesListPage> {
 
   late final DeviceQueryController _deviceQueryController;
 

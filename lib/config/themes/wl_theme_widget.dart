@@ -6,7 +6,7 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 typedef WlThemedWidgetBuilder = Widget Function(BuildContext context, ThemeData data, WhiteLabelingParams wlParams);
 
-class WlThemeWidget extends TbContextWidget<WlThemeWidget, _WlThemeWidgetState> {
+class WlThemeWidget extends TbContextWidget {
 
   final WlThemedWidgetBuilder wlThemedWidgetBuilder;
 
@@ -21,7 +21,7 @@ class WlThemeWidget extends TbContextWidget<WlThemeWidget, _WlThemeWidgetState> 
 
 }
 
-class _WlThemeWidgetState extends TbContextState<WlThemeWidget, _WlThemeWidgetState> {
+class _WlThemeWidgetState extends TbContextState<WlThemeWidget> {
 
   late WhiteLabelingParams _wlParams;
   late ThemeData _themeData;

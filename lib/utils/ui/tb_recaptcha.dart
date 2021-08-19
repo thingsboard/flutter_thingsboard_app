@@ -8,7 +8,7 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
-class TbRecaptcha extends TbPageWidget<TbRecaptcha, _TbRecaptchaState> {
+class TbRecaptcha extends TbPageWidget {
 
   final String siteKey;
 
@@ -20,7 +20,7 @@ class TbRecaptcha extends TbPageWidget<TbRecaptcha, _TbRecaptchaState> {
 
 }
 
-class _TbRecaptchaState extends TbPageState<TbRecaptcha, _TbRecaptchaState> {
+class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
 
   final Completer<InAppWebViewController> _webViewController = Completer<InAppWebViewController>();
 

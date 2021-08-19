@@ -10,7 +10,7 @@ import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-class HomePage extends TbContextWidget<HomePage, _HomePageState> {
+class HomePage extends TbContextWidget {
 
   HomePage(TbContext tbContext) : super(tbContext);
 
@@ -19,7 +19,7 @@ class HomePage extends TbContextWidget<HomePage, _HomePageState> {
 
 }
 
-class _HomePageState extends TbContextState<HomePage, _HomePageState> with AutomaticKeepAliveClientMixin<HomePage> {
+class _HomePageState extends TbContextState<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class _HomePageState extends TbContextState<HomePage, _HomePageState> with Autom
 
 }
 
-class HomeDashboard extends TbContextWidget<HomeDashboard, _HomeDashboardState> {
+class HomeDashboard extends TbContextWidget {
 
   final HomeDashboardInfo dashboard;
 
@@ -103,7 +103,7 @@ class HomeDashboard extends TbContextWidget<HomeDashboard, _HomeDashboardState> 
 
 }
 
-class _HomeDashboardState extends TbContextState<HomeDashboard, _HomeDashboardState> {
+class _HomeDashboardState extends TbContextState<HomeDashboard> {
 
   @override
   Widget build(BuildContext context) {

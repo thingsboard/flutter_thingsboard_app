@@ -11,7 +11,7 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 import 'signup_app_secret_provider.dart';
 
-class SignUpPage extends TbPageWidget<SignUpPage, _SignUpPageState> {
+class SignUpPage extends TbPageWidget {
 
   SignUpPage(TbContext tbContext):
         super(tbContext);
@@ -21,7 +21,7 @@ class SignUpPage extends TbPageWidget<SignUpPage, _SignUpPageState> {
 
 }
 
-class _SignUpPageState extends TbPageState<SignUpPage, _SignUpPageState> {
+class _SignUpPageState extends TbPageState<SignUpPage> {
 
   final _isSignUpNotifier = ValueNotifier<bool>(false);
   final _showPasswordNotifier = ValueNotifier<bool>(false);

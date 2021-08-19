@@ -10,7 +10,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class PrivacyPolicy extends TbPageWidget<PrivacyPolicy, _PrivacyPolicyState> {
+class PrivacyPolicy extends TbPageWidget {
 
   PrivacyPolicy(TbContext tbContext) :
         super(tbContext);
@@ -20,7 +20,7 @@ class PrivacyPolicy extends TbPageWidget<PrivacyPolicy, _PrivacyPolicyState> {
 
 }
 
-class _PrivacyPolicyState extends TbPageState<PrivacyPolicy, _PrivacyPolicyState> {
+class _PrivacyPolicyState extends TbPageState<PrivacyPolicy> {
 
   late Future<String?> privacyPolicyFuture;
 

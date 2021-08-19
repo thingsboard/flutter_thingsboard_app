@@ -12,13 +12,13 @@ abstract class TbContextStatelessWidget extends StatelessWidget with HasTbContex
   }
 }
 
-abstract class TbContextWidget<W extends TbContextWidget<W,S>, S extends TbContextState<W,S>> extends StatefulWidget with HasTbContext {
+abstract class TbContextWidget extends StatefulWidget with HasTbContext {
   TbContextWidget(TbContext tbContext, {Key? key}) : super(key: key) {
     setTbContext(tbContext);
   }
 }
 
-abstract class TbContextState<W extends TbContextWidget<W,S>, S extends TbContextState<W,S>> extends State<W> with HasTbContext {
+abstract class TbContextState<T extends TbContextWidget> extends State<T> with HasTbContext {
 
   final bool handleLoading;
 
@@ -47,11 +47,11 @@ mixin TbMainState {
 
 }
 
-abstract class TbPageWidget<W extends TbPageWidget<W,S>, S extends TbPageState<W,S>> extends TbContextWidget<W,S> {
+abstract class TbPageWidget extends TbContextWidget {
   TbPageWidget(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 }
 
-abstract class TbPageState<W extends TbPageWidget<W,S>, S extends TbPageState<W,S>> extends TbContextState<W,S> with RouteAware {
+abstract class TbPageState<W extends TbPageWidget> extends TbContextState<W> with RouteAware {
   TbPageState({bool handleUserLoaded = false}): super(handleLoading: true);
 
   @override
@@ -79,7 +79,7 @@ abstract class TbPageState<W extends TbPageWidget<W,S>, S extends TbPageState<W,
 
 }
 
-class TextContextWidget extends TbContextWidget<TextContextWidget, _TextContextWidgetState> {
+class TextContextWidget extends TbContextWidget {
 
   final String text;
 
@@ -90,7 +90,7 @@ class TextContextWidget extends TbContextWidget<TextContextWidget, _TextContextW
 
 }
 
-class _TextContextWidgetState extends TbContextState<TextContextWidget, _TextContextWidgetState> {
+class _TextContextWidgetState extends TbContextState<TextContextWidget> {
 
   @override
   Widget build(BuildContext context) {

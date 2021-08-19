@@ -7,7 +7,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-class EmailVerifiedPage extends TbPageWidget<EmailVerifiedPage, _EmailVerifiedPageState> {
+class EmailVerifiedPage extends TbPageWidget {
 
   final String _emailCode;
 
@@ -20,7 +20,7 @@ class EmailVerifiedPage extends TbPageWidget<EmailVerifiedPage, _EmailVerifiedPa
 
 }
 
-class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage, _EmailVerifiedPageState> {
+class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
 
   final _activatingNotifier = ValueNotifier<bool>(true);
   LoginResponse? _loginResponse;
