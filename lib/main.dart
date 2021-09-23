@@ -130,6 +130,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     ));
     return MaterialApp(
       title: 'ThingsBoard',
+        themeMode: ThemeMode.light,
         home: TransitionIndexedStack(
           controller: _mainStackController,
           first: MaterialApp(
@@ -137,6 +138,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
             scaffoldMessengerKey: appRouter.tbContext.messengerKey,
             title: 'ThingsBoard',
             theme: tbTheme,
+            themeMode: ThemeMode.light,
             darkTheme: tbDarkTheme,
             onGenerateRoute: appRouter.router.generator,
             navigatorObservers: [appRouter.tbContext.routeObserver],
@@ -146,6 +148,7 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
             // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
             title: 'ThingsBoard',
             theme: tbTheme,
+            themeMode: ThemeMode.light,
             darkTheme: tbDarkTheme,
             home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
           )
