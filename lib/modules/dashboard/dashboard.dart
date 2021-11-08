@@ -230,6 +230,41 @@ class _DashboardState extends TbContextState<Dashboard> {
     await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
   }
 
+  Future<void> tryLocalNavigation(String? path) async {
+    log.debug("path: $path");
+    if (path != null) {
+      var parts = path.split("/");
+      if ([
+        'profile',
+        'devices',
+        'assets',
+        'dashboards',
+        'dashboard',
+        'customers',
+        'auditLogs',
+        'deviceGroups',
+        'assetGroups',
+        'customerGroups',
+        'dashboardGroups'
+      ].contains(parts[0])) {
+        var firstPart = parts[0];
+        if (firstPart.endsWith('Groups')) {
+          firstPart = firstPart.replaceFirst('Groups', 's');
+        }
+        if ((firstPart == 'dashboard' || firstPart == 'dashboards') && parts.length > 1) {
+          var dashboardId = parts[1];
+          await navigateToDashboard(dashboardId);
+        } else if (firstPart != 'dashboard') {
+          var targetPath = '/$firstPart';
+          if (firstPart == 'devices' && widget._home != true) {
+            targetPath = '/devicesPage';
+          }
+          await navigateTo(targetPath);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -290,29 +325,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                                   }
                                   log.debug("path: $path");
                                   log.debug("params: $params");
-                                  if (path != null) {
-                                    if ([
-                                      'profile',
-                                      'devices',
-                                      'assets',
-                                      'dashboards',
-                                      'customers',
-                                      'auditLogs',
-                                      'deviceGroups',
-                                      'assetGroups',
-                                      'customerGroups',
-                                      'dashboardGroups'
-                                    ].contains(path)) {
-                                      if (path.endsWith('Groups')) {
-                                        path = path.replaceFirst('Groups', 's');
-                                      }
-                                      var targetPath = '/$path';
-                                      if (path == 'devices' && widget._home != true) {
-                                        targetPath = '/devicesPage';
-                                      }
-                                      navigateTo(targetPath);
-                                    }
-                                  }
+                                  tryLocalNavigation(path);
                                 }
                               });
                               webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
@@ -324,25 +337,23 @@ class _DashboardState extends TbContextState<Dashboard> {
                               var uri = navigationAction.request.url!;
                               var uriString = uri.toString();
                               log.debug('shouldOverrideUrlLoading $uriString');
-                              if (![
-                                "http",
-                                "https",
-                                "file",
-                                "chrome",
-                                "data",
-                                "javascript",
-                                "about"
-                              ].contains(uri.scheme)) {
-                                if (await canLaunch(uriString)) {
-                                  // Launch the App
+                              if (Platform.isAndroid || Platform.isIOS && navigationAction.iosWKNavigationType == IOSWKNavigationType.LINK_ACTIVATED) {
+                                if (uriString.startsWith(ThingsboardAppConstants.thingsBoardApiEndpoint)) {
+                                  var target = uriString.substring(ThingsboardAppConstants.thingsBoardApiEndpoint.length);
+                                  if (!target.startsWith("?accessToken")) {
+                                    if (target.startsWith("/")) {
+                                      target = target.substring(1);
+                                    }
+                                    await tryLocalNavigation(target);
+                                    return NavigationActionPolicy.CANCEL;
+                                  }
+                                } else if (await canLaunch(uriString)) {
                                   await launch(
                                     uriString,
                                   );
-                                  // and cancel the request
                                   return NavigationActionPolicy.CANCEL;
                                 }
                               }
-
                               return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
                             },
                             onUpdateVisitedHistory: (controller, url, androidIsReload) async {
