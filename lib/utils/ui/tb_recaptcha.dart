@@ -36,6 +36,7 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
         mediaPlaybackRequiresUserGesture: false,
         javaScriptEnabled: true,
         cacheEnabled: true,
+        clearCache: true,
         supportZoom: false,
       ),
       android: AndroidInAppWebViewOptions(
