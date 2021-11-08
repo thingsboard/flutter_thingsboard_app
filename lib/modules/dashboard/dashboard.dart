@@ -106,7 +106,7 @@ class _DashboardState extends TbContextState<Dashboard> {
         mediaPlaybackRequiresUserGesture: false,
         javaScriptEnabled: true,
         cacheEnabled: true,
-        supportZoom: false,
+        supportZoom: Platform.isIOS,
         // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(
@@ -115,6 +115,7 @@ class _DashboardState extends TbContextState<Dashboard> {
       ),
       ios: IOSInAppWebViewOptions(
         allowsInlineMediaPlayback: true,
+        allowsBackForwardNavigationGestures: false
       ));
 
   late Uri _initialUrl;
