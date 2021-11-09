@@ -42,13 +42,13 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>Explanation on why the camera access is needed.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>describe why your app needs permission for the photo library.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+    <string>May need camera access to scan QrCode or take photo in scope of dashboard widget actions.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>May need photo library access in scope of `Take photo` widget action.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>May need device location access in scope of `Set location` widget action.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>May need device location access in scope of `Set location` widget action.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
     	    <key>NSAllowsArbitraryLoads</key>
