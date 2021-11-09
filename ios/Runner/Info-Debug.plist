@@ -47,6 +47,8 @@
 	<string>describe why your app needs permission for the photo library.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when open.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
     	    <key>NSAllowsArbitraryLoads</key>
