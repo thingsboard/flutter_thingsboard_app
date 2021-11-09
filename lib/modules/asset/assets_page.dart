@@ -7,23 +7,21 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'assets_list.dart';
 
 class AssetsPage extends TbPageWidget {
-
   final bool searchMode;
 
   AssetsPage(TbContext tbContext, {this.searchMode = false}) : super(tbContext);
 
   @override
   _AssetsPageState createState() => _AssetsPageState();
-
 }
 
 class _AssetsPageState extends TbPageState<AssetsPage> {
-
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    var assetsList = AssetsList(tbContext, _pageLinkController, searchMode: widget.searchMode);
+    var assetsList = AssetsList(tbContext, _pageLinkController,
+        searchMode: widget.searchMode);
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
@@ -31,24 +29,16 @@ class _AssetsPageState extends TbPageState<AssetsPage> {
         onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
-      appBar = TbAppBar(
-          tbContext,
-          title: Text(assetsList.title),
-          actions: [
-            IconButton(
-              icon: Icon(
-                  Icons.search
-              ),
-              onPressed: () {
-                navigateTo('/assets?search=true');
-              },
-            )
-          ]);
+      appBar = TbAppBar(tbContext, title: Text(assetsList.title), actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            navigateTo('/assets?search=true');
+          },
+        )
+      ]);
     }
-    return Scaffold(
-        appBar: appBar,
-        body: assetsList
-    );
+    return Scaffold(appBar: appBar, body: assetsList);
   }
 
   @override
@@ -56,5 +46,4 @@ class _AssetsPageState extends TbPageState<AssetsPage> {
     _pageLinkController.dispose();
     super.dispose();
   }
-
 }

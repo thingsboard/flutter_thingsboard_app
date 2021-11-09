@@ -6,48 +6,41 @@ import 'package:thingsboard_app/modules/audit_log/audit_logs_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AuditLogsPage extends TbPageWidget {
-
   final bool searchMode;
 
-  AuditLogsPage(TbContext tbContext, {this.searchMode = false}) : super(tbContext);
+  AuditLogsPage(TbContext tbContext, {this.searchMode = false})
+      : super(tbContext);
 
   @override
   _AuditLogsPageState createState() => _AuditLogsPageState();
-
 }
 
 class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
-
-  final TimePageLinkController _timePageLinkController = TimePageLinkController();
+  final TimePageLinkController _timePageLinkController =
+      TimePageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    var auditLogsList = AuditLogsList(tbContext, _timePageLinkController, searchMode: widget.searchMode);
+    var auditLogsList = AuditLogsList(tbContext, _timePageLinkController,
+        searchMode: widget.searchMode);
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
         tbContext,
-        onSearch: (searchText) => _timePageLinkController.onSearchText(searchText),
+        onSearch: (searchText) =>
+            _timePageLinkController.onSearchText(searchText),
       );
     } else {
-      appBar = TbAppBar(
-          tbContext,
-          title: Text(auditLogsList.title),
-          actions: [
-            IconButton(
-              icon: Icon(
-                  Icons.search
-              ),
-              onPressed: () {
-                navigateTo('/auditLogs?search=true');
-              },
-            )
-          ]);
+      appBar = TbAppBar(tbContext, title: Text(auditLogsList.title), actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            navigateTo('/auditLogs?search=true');
+          },
+        )
+      ]);
     }
-    return Scaffold(
-        appBar: appBar,
-        body: auditLogsList
-    );
+    return Scaffold(appBar: appBar, body: auditLogsList);
   }
 
   @override
@@ -55,5 +48,4 @@ class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
     _timePageLinkController.dispose();
     super.dispose();
   }
-
 }

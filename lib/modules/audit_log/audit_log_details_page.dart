@@ -9,29 +9,20 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AuditLogDetailsPage extends TbContextWidget {
-
   final AuditLog auditLog;
 
   AuditLogDetailsPage(TbContext tbContext, this.auditLog) : super(tbContext);
 
   @override
   _AuditLogDetailsPageState createState() => _AuditLogDetailsPageState();
-
 }
 
 class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
+  final labelTextStyle =
+      TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
-  final labelTextStyle = TextStyle(
-    color: Color(0xFF757575),
-    fontSize: 14,
-    height: 20 / 14
-  );
-
-  final valueTextStyle = TextStyle(
-      color: Color(0xFF282828),
-      fontSize: 14,
-      height: 20 / 14
-  );
+  final valueTextStyle =
+      TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
   final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
 
@@ -39,51 +30,52 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TbAppBar(
-          tbContext,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.auditLog.entityName != null)
-                Text(widget.auditLog.entityName!, style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  height: 20 / 16
-              )),
-              Text('Audit log details', style: TextStyle(
-                  color: Theme.of(context).primaryTextTheme.headline6!.color!.withAlpha((0.38 * 255).ceil()),
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                  height: 16 / 12
-              ))
-            ]
-          )
-      ),
+      appBar: TbAppBar(tbContext,
+          title:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            if (widget.auditLog.entityName != null)
+              Text(widget.auditLog.entityName!,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 20 / 16)),
+            Text('Audit log details',
+                style: TextStyle(
+                    color: Theme.of(context)
+                        .primaryTextTheme
+                        .headline6!
+                        .color!
+                        .withAlpha((0.38 * 255).ceil()),
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    height: 16 / 12))
+          ])),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Text('Entity Type', style: labelTextStyle),
-            Text(entityTypeTranslations[widget.auditLog.entityId.entityType]!, style: valueTextStyle),
-            SizedBox(height: 16),
-            Text('Type', style: labelTextStyle),
-            Text(actionTypeTranslations[widget.auditLog.actionType]!, style: valueTextStyle),
-            SizedBox(height: 16),
-            Flexible(
-                fit: FlexFit.loose,
-                child: buildBorderedText('Action data', encoder.convert(widget.auditLog.actionData))
-            ),
-            if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text('Entity Type', style: labelTextStyle),
+              Text(entityTypeTranslations[widget.auditLog.entityId.entityType]!,
+                  style: valueTextStyle),
               SizedBox(height: 16),
-            if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
+              Text('Type', style: labelTextStyle),
+              Text(actionTypeTranslations[widget.auditLog.actionType]!,
+                  style: valueTextStyle),
+              SizedBox(height: 16),
               Flexible(
-                fit: FlexFit.loose,
-                child: buildBorderedText('Failure details', widget.auditLog.actionFailureDetails!)
-            )
-          ]
-        ),
+                  fit: FlexFit.loose,
+                  child: buildBorderedText('Action data',
+                      encoder.convert(widget.auditLog.actionData))),
+              if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
+                SizedBox(height: 16),
+              if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: buildBorderedText('Failure details',
+                        widget.auditLog.actionFailureDetails!))
+            ]),
       ),
     );
   }
@@ -96,8 +88,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
           padding: EdgeInsets.fromLTRB(16, 18, 48, 18),
           margin: EdgeInsets.only(top: 6),
           decoration: BoxDecoration(
-            border: Border.all(
-                color: Color(0xFFDEDEDE), width: 1),
+            border: Border.all(color: Color(0xFFDEDEDE), width: 1),
             borderRadius: BorderRadius.circular(4),
             shape: BoxShape.rectangle,
           ),
@@ -105,10 +96,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             child: Text(
               content,
               style: TextStyle(
-                color: Color(0xFF282828),
-                fontSize: 14,
-                height: 20 / 14
-              ),
+                  color: Color(0xFF282828), fontSize: 14, height: 20 / 14),
             ),
           ),
         ),
@@ -120,11 +108,11 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
               color: Colors.white,
               child: Text(
                 title,
-                style: TextStyle(color: Color(0xFF757575), fontSize: 12, height: 14 / 12),
+                style: TextStyle(
+                    color: Color(0xFF757575), fontSize: 12, height: 14 / 12),
               ),
             )),
       ],
     );
   }
-
 }

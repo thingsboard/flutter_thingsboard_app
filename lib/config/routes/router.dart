@@ -20,15 +20,12 @@ class ThingsboardAppRouter {
   late final _tbContext = TbContext(router);
 
   ThingsboardAppRouter() {
-    router.notFoundHandler = Handler(handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    router.notFoundHandler = Handler(
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
       var settings = context!.settings;
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Not Found')
-        ),
-        body: Center(
-          child: Text('Route not defined: ${settings!.name}')
-        ),
+        appBar: AppBar(title: Text('Not Found')),
+        body: Center(child: Text('Route not defined: ${settings!.name}')),
       );
     });
     InitRoutes(_tbContext).registerRoutes();
@@ -49,7 +46,6 @@ class ThingsboardAppRouter {
 }
 
 abstract class TbRoutes {
-
   final TbContext _tbContext;
 
   TbRoutes(this._tbContext);
@@ -61,5 +57,4 @@ abstract class TbRoutes {
   void doRegisterRoutes(FluroRouter router);
 
   TbContext get tbContext => _tbContext;
-
 }

@@ -8,12 +8,13 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'login/login_page.dart';
 
 class AuthRoutes extends TbRoutes {
-
-  late var loginHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var loginHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return LoginPage(tbContext);
   });
 
-  late var resetPasswordRequestHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var resetPasswordRequestHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return ResetPasswordRequestPage(tbContext);
   });
 
@@ -22,7 +23,7 @@ class AuthRoutes extends TbRoutes {
   @override
   void doRegisterRoutes(router) {
     router.define("/login", handler: loginHandler);
-    router.define("/login/resetPasswordRequest", handler: resetPasswordRequestHandler);
+    router.define("/login/resetPasswordRequest",
+        handler: resetPasswordRequestHandler);
   }
-
 }

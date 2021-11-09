@@ -5,16 +5,14 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ThingsboardInitApp extends TbPageWidget {
-
-  ThingsboardInitApp(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
+  ThingsboardInitApp(TbContext tbContext, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _ThingsboardInitAppState createState() => _ThingsboardInitAppState();
-
 }
 
 class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
-
   @override
   void initState() {
     super.initState();
@@ -26,10 +24,7 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
     return Container(
       alignment: Alignment.center,
       color: Colors.white,
-      child: TbProgressIndicator(
-          size: 50.0
-      ),
+      child: TbProgressIndicator(size: 50.0),
     );
   }
-
 }

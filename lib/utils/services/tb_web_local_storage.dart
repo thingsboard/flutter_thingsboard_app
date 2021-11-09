@@ -4,7 +4,6 @@ import 'dart:html';
 TbStorage createAppStorage() => TbWebLocalStorage();
 
 class TbWebLocalStorage implements TbStorage {
-
   final Storage _localStorage = window.localStorage;
 
   @override
@@ -21,5 +20,4 @@ class TbWebLocalStorage implements TbStorage {
   Future<void> setItem(String key, String value) async {
     _localStorage[key] = value;
   }
-
 }

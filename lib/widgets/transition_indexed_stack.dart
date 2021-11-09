@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 class TransitionIndexedStackController {
-
   _TransitionIndexedStackState? _state;
 
   setTransitionIndexedStackState(_TransitionIndexedStackState state) {
@@ -24,7 +22,6 @@ class TransitionIndexedStackController {
   }
 
   int? get index => _state?._selectedIndex;
-
 }
 
 class TransitionIndexedStack extends StatefulWidget {
@@ -33,21 +30,20 @@ class TransitionIndexedStack extends StatefulWidget {
   final Duration duration;
   final TransitionIndexedStackController? controller;
 
-  const TransitionIndexedStack({
-    Key? key,
-    required this.first,
-    required this.second,
-    this.controller,
-    this.duration = const Duration(milliseconds: 250)
-  }) : super(key: key);
+  const TransitionIndexedStack(
+      {Key? key,
+      required this.first,
+      required this.second,
+      this.controller,
+      this.duration = const Duration(milliseconds: 250)})
+      : super(key: key);
 
   @override
   _TransitionIndexedStackState createState() => _TransitionIndexedStackState();
-
 }
 
-class _TransitionIndexedStackState extends State<TransitionIndexedStack> with TickerProviderStateMixin {
-
+class _TransitionIndexedStackState extends State<TransitionIndexedStack>
+    with TickerProviderStateMixin {
   late List<Widget> _pages;
   List<AnimationController> _animationControllers = [];
   int _selectedIndex = 0;
@@ -67,7 +63,8 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
       )
     ];
     _pages = [
-      pageBuilder(UniqueKey(), widget.second, context, _animationControllers[1]),
+      pageBuilder(
+          UniqueKey(), widget.second, context, _animationControllers[1]),
       pageBuilder(UniqueKey(), widget.first, context, _animationControllers[0]),
     ];
     super.initState();
@@ -80,7 +77,8 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
         _pages = _pages.reversed.toList();
       });
       if (animate) {
-        await _animationControllers[_selectedIndex].reverse(from: _animationControllers[_selectedIndex].upperBound);
+        await _animationControllers[_selectedIndex]
+            .reverse(from: _animationControllers[_selectedIndex].upperBound);
       }
       return true;
     }
@@ -91,20 +89,20 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
     if (_selectedIndex == index) {
       _selectedIndex = index == 1 ? 0 : 1;
       if (animate) {
-        await _animationControllers[index].forward(from: _animationControllers[index].lowerBound);
+        await _animationControllers[index]
+            .forward(from: _animationControllers[index].lowerBound);
       }
       setState(() {
         _pages = _pages.reversed.toList();
       });
       if (animate) {
-        _animationControllers[index].value = _animationControllers[index].lowerBound;
+        _animationControllers[index].value =
+            _animationControllers[index].lowerBound;
       }
       return true;
     }
     return false;
   }
-
-
 
   @override
   void dispose() {
@@ -119,15 +117,14 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack> with Ti
     );
   }
 
-  Widget pageBuilder(Key key, Widget widget, BuildContext context, Animation<double> animation) {
+  Widget pageBuilder(Key key, Widget widget, BuildContext context,
+      Animation<double> animation) {
     return SlideTransition(
-      key: key,
-      position: Tween<Offset>(
-        begin: Offset.zero,
-        end: const Offset(1, 0),
-      ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation),
-      child: widget
-    );
+        key: key,
+        position: Tween<Offset>(
+          begin: Offset.zero,
+          end: const Offset(1, 0),
+        ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation),
+        child: widget);
   }
-
 }

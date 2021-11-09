@@ -6,13 +6,14 @@ import 'customer_details_page.dart';
 import 'customers_page.dart';
 
 class CustomerRoutes extends TbRoutes {
-
-  late var customersHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var customersHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var searchMode = params['search']?.first == 'true';
     return CustomersPage(tbContext, searchMode: searchMode);
   });
 
-  late var customerDetailsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var customerDetailsHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return CustomerDetailsPage(tbContext, params["id"][0]);
   });
 
@@ -23,5 +24,4 @@ class CustomerRoutes extends TbRoutes {
     router.define("/customers", handler: customersHandler);
     router.define("/customer/:id", handler: customerDetailsHandler);
   }
-
 }

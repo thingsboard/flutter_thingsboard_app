@@ -5,11 +5,8 @@ import 'package:thingsboard_app/core/entity/entity_details_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
-
-  DeviceDetailsPage(TbContext tbContext, String deviceId):
-        super(tbContext,
-              entityId: deviceId,
-              defaultTitle: 'Device');
+  DeviceDetailsPage(TbContext tbContext, String deviceId)
+      : super(tbContext, entityId: deviceId, defaultTitle: 'Device');
 
   @override
   Future<DeviceInfo?> fetchEntity(String deviceId) {
@@ -23,5 +20,4 @@ class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
       subtitle: Text('${device.type}'),
     );
   }
-
 }
