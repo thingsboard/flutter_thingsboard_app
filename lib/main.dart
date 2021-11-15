@@ -7,7 +7,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
-import 'package:thingsboard_app/widgets/transition_indexed_stack.dart';
+import 'package:thingsboard_app/widgets/two_page_view.dart';
 
 import 'config/themes/tb_theme.dart';
 
@@ -37,7 +37,7 @@ class ThingsboardApp extends StatefulWidget {
 
 class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderStateMixin implements TbMainDashboardHolder {
 
-  final TransitionIndexedStackController _mainStackController = TransitionIndexedStackController();
+  final TwoPageViewController _mainPageViewController = TwoPageViewController();
   final MainDashboardPageController _mainDashboardPageController = MainDashboardPageController();
 
   final GlobalKey mainAppKey = GlobalKey();
@@ -52,12 +52,12 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
   @override
   Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true}) async {
     await _mainDashboardPageController.openDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar);
-    await _openDashboard(animate: animate);
+    _openDashboard(animate: animate);
   }
 
   @override
   Future<bool> dashboardGoBack() async {
-    if (_mainStackController.index == 1) {
+    if (_mainPageViewController.index == 1) {
       var canGoBack = await _mainDashboardPageController.dashboardGoBack();
       if (canGoBack) {
         closeDashboard();
@@ -88,11 +88,11 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
   }
 
   bool isDashboardOpen() {
-    return _mainStackController.index == 1;
+    return _mainPageViewController.index == 1;
   }
 
   Future<bool> _openMain({bool animate: true}) async {
-    var res = await _mainStackController.open(0, animate: animate);
+    var res = await _mainPageViewController.open(0, animate: animate);
     if (res) {
       await _mainDashboardPageController.deactivateDashboard();
     }
@@ -103,18 +103,18 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     if (!isDashboardOpen()) {
       await _mainDashboardPageController.activateDashboard();
     }
-    return _mainStackController.close(0, animate: animate);
+    return _mainPageViewController.close(0, animate: animate);
   }
 
   Future<bool> _openDashboard({bool animate: true}) async {
     if (!isDashboardOpen()) {
       _mainDashboardPageController.activateDashboard();
     }
-    return _mainStackController.open(1, animate: animate);
+    return _mainPageViewController.open(1, animate: animate);
   }
 
   Future<bool> _closeDashboard({bool animate: true}) async {
-    var res = await _mainStackController.close(1, animate: animate);
+    var res = await _mainPageViewController.close(1, animate: animate);
     if (res) {
       _mainDashboardPageController.deactivateDashboard();
     }
@@ -132,8 +132,8 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     return MaterialApp(
       title: 'ThingsBoard',
         themeMode: ThemeMode.light,
-        home: TransitionIndexedStack(
-          controller: _mainStackController,
+        home: TwoPageView(
+          controller: _mainPageViewController,
           first: MaterialApp(
             key: mainAppKey,
             scaffoldMessengerKey: appRouter.tbContext.messengerKey,

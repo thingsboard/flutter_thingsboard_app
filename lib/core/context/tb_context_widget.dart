@@ -21,6 +21,7 @@ abstract class TbContextWidget extends StatefulWidget with HasTbContext {
 abstract class TbContextState<T extends TbContextWidget> extends State<T> with HasTbContext {
 
   final bool handleLoading;
+  bool closeMainFirst = false;
 
   TbContextState({this.handleLoading = false});
 
