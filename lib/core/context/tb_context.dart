@@ -125,6 +125,7 @@ class TbContext {
   String? _initialNavigation;
 
   TbMainDashboardHolder? _mainDashboardHolder;
+  bool _closeMainFirst = false;
 
   GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
   late final TbStorage storage;
@@ -471,11 +472,8 @@ class TbContext {
           transition = TransitionType.native;
         }
       }
-      var res = await router.navigateTo(currentState!.context, path, transition: transition, transitionDuration: transitionDuration, replace: replace, clearStack: clearStack);
-      if (isOpenedDashboard) {
-        await _mainDashboardHolder?.closeMain();
-      }
-      return res;
+      _closeMainFirst = isOpenedDashboard;
+      return await router.navigateTo(currentState!.context, path, transition: transition, transitionDuration: transitionDuration, replace: replace, clearStack: clearStack);
     }
   }
 
@@ -492,7 +490,8 @@ class TbContext {
     ));
   }
 
-  void pop<T>([T? result, BuildContext? context]) {
+  void pop<T>([T? result, BuildContext? context]) async {
+    await closeMainIfNeeded();
     var targetContext = context ?? currentState?.context;
     if (targetContext != null) {
       router.pop<T>(targetContext, result);
@@ -508,10 +507,23 @@ class TbContext {
   }
 
   Future<bool> willPop() async {
+    if (await closeMainIfNeeded()) {
+      return true;
+    }
     if (_mainDashboardHolder != null) {
        return await _mainDashboardHolder!.dashboardGoBack();
     }
     return true;
+  }
+
+  Future<bool> closeMainIfNeeded() async {
+    if (currentState != null) {
+      if (currentState!.closeMainFirst && _mainDashboardHolder != null) {
+        await _mainDashboardHolder!.closeMain();
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<bool?> confirm({required String title, required String message, String cancel = 'Cancel', String ok = 'Ok'}) {
@@ -543,6 +555,12 @@ mixin HasTbContext {
     _tbContext.currentState = currentState;
     if (_tbContext.currentState != null) {
       ModalRoute.of(_tbContext.currentState!.context)?.addScopedWillPopCallback(_tbContext.willPop);
+    }
+    if (_tbContext._closeMainFirst) {
+      _tbContext._closeMainFirst = false;
+      if (_tbContext.currentState != null) {
+        _tbContext.currentState!.closeMainFirst = true;
+      }
     }
   }
 

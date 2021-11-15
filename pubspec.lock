@@ -476,6 +476,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  preload_page_view:
+    dependency: "direct main"
+    description:
+      name: preload_page_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.6"
   provider:
     dependency: transitive
     description:
