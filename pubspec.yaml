@@ -13,11 +13,11 @@ dependencies:
     sdk: flutter
   thingsboard_client: 1.0.2
   intl: ^0.17.0
-  flutter_secure_storage: ^4.1.0
-  flutter_speed_dial: ^3.0.5
+  flutter_secure_storage: ^5.0.2
+  flutter_speed_dial: ^4.6.6
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
-  flutter_svg: ^0.22.0
+  flutter_svg: ^0.23.0+1
   auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^3.0.1
   fading_edge_scrollview: ^2.0.0
@@ -30,14 +30,14 @@ dependencies:
   image_picker: ^0.8.0
   mime: ^1.0.0
   logger: ^1.0.0
-  qr_code_scanner: ^0.5.1
+  qr_code_scanner: ^0.6.1
   device_info: ^2.0.0
   geolocator: ^7.0.3
   material_design_icons_flutter: ^5.0.5955-rc.1
   package_info: ^2.0.2
   dart_jsonwebtoken: ^2.2.0
   crypto: ^3.0.1
-  flutter_form_builder: ^6.0.1
+  flutter_form_builder: ^7.0.0
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.1.6
 
