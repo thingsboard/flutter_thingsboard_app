@@ -214,8 +214,8 @@ class WidgetActionHandler with HasTbContext {
   Future<WidgetMobileActionResult> _scanQrCode() async {
     try {
       Barcode? barcode = await tbContext.navigateTo('/qrCodeScan', transition: TransitionType.nativeModal);
-      if (barcode != null) {
-        return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(barcode.code, describeEnum(barcode.format)));
+      if (barcode != null && barcode.code != null) {
+        return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(barcode.code!, describeEnum(barcode.format)));
       } else {
         return WidgetMobileActionResult.emptyResult();
       }
