@@ -71,51 +71,53 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
             SizedBox.expand(
               child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: FormBuilder(
-                    key: _profileFormKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          SizedBox(height: 16),
-                          FormBuilderTextField(
-                            name: 'email',
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                              FormBuilderValidators.email(context, errorText: 'Invalid email format.')
-                            ]),
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Email *'
+                  child: SingleChildScrollView(
+                    child: FormBuilder(
+                      key: _profileFormKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(height: 16),
+                            FormBuilderTextField(
+                              name: 'email',
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(context, errorText: 'Email is required.'),
+                                FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                              ]),
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email *'
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 24),
-                          FormBuilderTextField(
-                            name: 'firstName',
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'First Name'
+                            SizedBox(height: 24),
+                            FormBuilderTextField(
+                              name: 'firstName',
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'First Name'
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 24),
-                          FormBuilderTextField(
-                            name: 'lastName',
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Last Name'
+                            SizedBox(height: 24),
+                            FormBuilderTextField(
+                              name: 'lastName',
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Last Name'
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 24),
-                          OutlinedButton(
-                              style: OutlinedButton.styleFrom(padding: EdgeInsets.all(16),
-                                  alignment: Alignment.centerLeft),
-                              onPressed: () {
-                                _changePassword();
-                              },
-                              child: Center(child: Text('Change Password'))
-                          )
-                        ]
-                    ),
+                            SizedBox(height: 24),
+                            OutlinedButton(
+                                style: OutlinedButton.styleFrom(padding: EdgeInsets.all(16),
+                                    alignment: Alignment.centerLeft),
+                                onPressed: () {
+                                  _changePassword();
+                                },
+                                child: Center(child: Text('Change Password'))
+                            )
+                          ]
+                      ),
+                    )
                   )
               ),
             ),

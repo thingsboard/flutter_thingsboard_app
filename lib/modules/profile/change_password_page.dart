@@ -38,93 +38,95 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
             SizedBox.expand(
               child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: FormBuilder(
-                    key: _changePasswordFormKey,
-                    autovalidateMode: AutovalidateMode.disabled,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          SizedBox(height: 16),
-                          ValueListenableBuilder(
-                            valueListenable: _showCurrentPasswordNotifier,
-                            builder: (BuildContext context, bool showPassword, child) {
-                              return FormBuilderTextField(
-                                name: 'currentPassword',
-                                obscureText: !showPassword,
-                                autofocus: true,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(context, errorText: 'Current password is required.')
-                                ]),
-                                decoration: InputDecoration(
-                                    suffixIcon: IconButton(
-                                      icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                      onPressed: () {
-                                        _showCurrentPasswordNotifier.value = !_showCurrentPasswordNotifier.value;
-                                      },
+                  child: SingleChildScrollView(
+                    child: FormBuilder(
+                      key: _changePasswordFormKey,
+                      autovalidateMode: AutovalidateMode.disabled,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(height: 16),
+                            ValueListenableBuilder(
+                              valueListenable: _showCurrentPasswordNotifier,
+                              builder: (BuildContext context, bool showPassword, child) {
+                                return FormBuilderTextField(
+                                  name: 'currentPassword',
+                                  obscureText: !showPassword,
+                                  autofocus: true,
+                                  validator: FormBuilderValidators.compose([
+                                    FormBuilderValidators.required(context, errorText: 'Current password is required.')
+                                  ]),
+                                  decoration: InputDecoration(
+                                      suffixIcon: IconButton(
+                                        icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                                        onPressed: () {
+                                          _showCurrentPasswordNotifier.value = !_showCurrentPasswordNotifier.value;
+                                        },
+                                      ),
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Current password *'
+                                  ),
+                                );
+                              }
+                            ),
+                            SizedBox(height: 24),
+                            ValueListenableBuilder(
+                                valueListenable: _showNewPasswordNotifier,
+                                builder: (BuildContext context, bool showPassword, child) {
+                                  return FormBuilderTextField(
+                                    name: 'newPassword',
+                                    obscureText: !showPassword,
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(context, errorText: 'New password is required.')
+                                    ]),
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                                          onPressed: () {
+                                            _showNewPasswordNotifier.value = !_showNewPasswordNotifier.value;
+                                          },
+                                        ),
+                                        border: OutlineInputBorder(),
+                                        labelText: 'New password *'
                                     ),
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Current password *'
-                                ),
-                              );
-                            }
-                          ),
-                          SizedBox(height: 24),
-                          ValueListenableBuilder(
-                              valueListenable: _showNewPasswordNotifier,
-                              builder: (BuildContext context, bool showPassword, child) {
-                                return FormBuilderTextField(
-                                  name: 'newPassword',
-                                  obscureText: !showPassword,
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context, errorText: 'New password is required.')
-                                  ]),
-                                  decoration: InputDecoration(
-                                      suffixIcon: IconButton(
-                                        icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                        onPressed: () {
-                                          _showNewPasswordNotifier.value = !_showNewPasswordNotifier.value;
-                                        },
-                                      ),
-                                      border: OutlineInputBorder(),
-                                      labelText: 'New password *'
-                                  ),
-                                );
-                              }
-                          ),
-                          SizedBox(height: 24),
-                          ValueListenableBuilder(
-                              valueListenable: _showNewPassword2Notifier,
-                              builder: (BuildContext context, bool showPassword, child) {
-                                return FormBuilderTextField(
-                                  name: 'newPassword2',
-                                  obscureText: !showPassword,
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context, errorText: 'New password again is required.')
-                                  ]),
-                                  decoration: InputDecoration(
-                                      suffixIcon: IconButton(
-                                        icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                        onPressed: () {
-                                          _showNewPassword2Notifier.value = !_showNewPassword2Notifier.value;
-                                        },
-                                      ),
-                                      border: OutlineInputBorder(),
-                                      labelText: 'New password again *'
-                                  ),
-                                );
-                              }
-                          ),
-                          SizedBox(height: 24),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(padding: EdgeInsets.all(16),
-                                  alignment: Alignment.centerLeft),
-                              onPressed: () {
-                                _changePassword();
-                              },
-                              child: Center(child: Text('Change Password'))
-                          )
-                        ]
-                    ),
+                                  );
+                                }
+                            ),
+                            SizedBox(height: 24),
+                            ValueListenableBuilder(
+                                valueListenable: _showNewPassword2Notifier,
+                                builder: (BuildContext context, bool showPassword, child) {
+                                  return FormBuilderTextField(
+                                    name: 'newPassword2',
+                                    obscureText: !showPassword,
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(context, errorText: 'New password again is required.')
+                                    ]),
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                                          onPressed: () {
+                                            _showNewPassword2Notifier.value = !_showNewPassword2Notifier.value;
+                                          },
+                                        ),
+                                        border: OutlineInputBorder(),
+                                        labelText: 'New password again *'
+                                    ),
+                                  );
+                                }
+                            ),
+                            SizedBox(height: 24),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(padding: EdgeInsets.all(16),
+                                    alignment: Alignment.centerLeft),
+                                onPressed: () {
+                                  _changePassword();
+                                },
+                                child: Center(child: Text('Change Password'))
+                            )
+                          ]
+                      ),
+                    )
                   )
               ),
             ),
