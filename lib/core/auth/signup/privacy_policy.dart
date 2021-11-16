@@ -50,7 +50,7 @@ class _PrivacyPolicyState extends TbPageState<PrivacyPolicy> {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.done) {
                                     var privacyPolicy = jsonDecode(snapshot.data ?? '');
-                                    dom.Document document = htmlparser.parse(privacyPolicy);
+                                    dom.Document document = htmlparser.parse(privacyPolicy ?? '');
                                     return Html.fromDom(
                                         document: document,
                                         tagsList: [],

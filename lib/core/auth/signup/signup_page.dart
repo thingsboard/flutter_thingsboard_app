@@ -201,32 +201,60 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                     );
                                                   }
                                               ),
-                                              FormBuilderCheckbox(
-                                                  title: Row(
-                                                    children: [
-                                                      Text('Accept', style: TextStyle(
-                                                          fontSize: 14,
-                                                          height: 20 / 14
-                                                      )),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          _openPrivacyPolicy();
-                                                        },
-                                                        child: Text(
-                                                          'Privacy Policy',
-                                                          style: TextStyle(color: Theme.of(context).colorScheme.primary,
-                                                              letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              height: 20 / 14),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  contentPadding: EdgeInsets.zero,
-                                                  name: 'acceptPrivacyPolicy',
-                                                  initialValue: false,
-                                                  decoration: InputDecoration.collapsed(hintText: 'Privacy policy')
-                                              ),
+                                              if (tbContext.signUpParams!.showPrivacyPolicy != null && tbContext.signUpParams!.showPrivacyPolicy!)
+                                                FormBuilderCheckbox(
+                                                    title: Row(
+                                                      children: [
+                                                        Text('Accept', style: TextStyle(
+                                                            fontSize: 14,
+                                                            height: 20 / 14
+                                                        )),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            _openPrivacyPolicy();
+                                                          },
+                                                          child: Text(
+                                                            'Privacy Policy',
+                                                            style: TextStyle(color: Theme.of(context).colorScheme.primary,
+                                                                letterSpacing: 1,
+                                                                fontSize: 14,
+                                                                height: 20 / 14),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    contentPadding: EdgeInsets.zero,
+                                                    name: 'acceptPrivacyPolicy',
+                                                    initialValue: false,
+                                                    decoration: InputDecoration.collapsed(hintText: 'Privacy policy')
+                                                ),
+                                              if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!)
+                                                FormBuilderCheckbox(
+                                                    title: Row(
+                                                      children: [
+                                                        Text('Accept', style: TextStyle(
+                                                            fontSize: 14,
+                                                            height: 20 / 14
+                                                        )),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            _openTermsOfUse();
+                                                          },
+                                                          child: Text(
+                                                            'Terms of Use',
+                                                            style: TextStyle(color: Theme.of(context).colorScheme.primary,
+                                                                letterSpacing: 1,
+                                                                fontSize: 14,
+                                                                height: 20 / 14),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    contentPadding: EdgeInsets.zero,
+                                                    name: 'acceptTermsOfUse',
+                                                    initialValue: false,
+                                                    decoration: InputDecoration.collapsed(hintText: 'Terms of Use')
+                                                ),
                                             ],
                                           )
                                       )
@@ -322,6 +350,13 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
     }
   }
 
+  void _openTermsOfUse() async {
+    bool? acceptTermsOfUse = await tbContext.navigateTo('/signup/termsOfUse', transition: TransitionType.nativeModal);
+    if (acceptTermsOfUse == true) {
+      _signUpFormKey.currentState?.fields['acceptTermsOfUse']!.didChange(acceptTermsOfUse);
+    }
+  }
+
   void _login() async {
     navigateTo('/login', replace: true);
   }
@@ -376,8 +411,14 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
       showErrorNotification('You must confirm that you are not a robot');
       return false;
     }
-    if (formValue['acceptPrivacyPolicy'] != true) {
+    if (tbContext.signUpParams!.showPrivacyPolicy != null && tbContext.signUpParams!.showPrivacyPolicy!
+        && formValue['acceptPrivacyPolicy'] != true) {
       showErrorNotification('You must accept our Privacy Policy');
+      return false;
+    }
+    if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!
+        && formValue['acceptTermsOfUse'] != true) {
+      showErrorNotification('You must accept our Terms of Use');
       return false;
     }
     return true;

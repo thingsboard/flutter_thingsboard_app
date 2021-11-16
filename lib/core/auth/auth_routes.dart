@@ -6,6 +6,7 @@ import 'package:thingsboard_app/core/auth/login/reset_password_request_page.dart
 import 'package:thingsboard_app/core/auth/signup/email_verified_page.dart';
 import 'package:thingsboard_app/core/auth/signup/privacy_policy.dart';
 import 'package:thingsboard_app/core/auth/signup/signup_page.dart';
+import 'package:thingsboard_app/core/auth/signup/terms_of_use.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 
 import 'login/login_page.dart';
@@ -29,6 +30,10 @@ class AuthRoutes extends TbRoutes {
     return PrivacyPolicy(tbContext);
   });
 
+  late var termsOfUseHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+    return TermsOfUse(tbContext);
+  });
+
   late var emailVerificationHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var email = params['email']?.first;
     return EmailVerificationPage(tbContext, email: email);
@@ -47,6 +52,7 @@ class AuthRoutes extends TbRoutes {
     router.define("/login/resetPasswordRequest", handler: resetPasswordRequestHandler);
     router.define("/signup", handler: signUpHandler);
     router.define("/signup/privacyPolicy", handler: privacyPolicyHandler);
+    router.define("/signup/termsOfUse", handler: termsOfUseHandler);
     router.define("/signup/emailVerification", handler: emailVerificationHandler);
     router.define("/signup/emailVerified", handler: emailVerifiedHandler);
   }
