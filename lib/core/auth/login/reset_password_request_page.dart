@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -33,7 +34,7 @@ class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPag
               backgroundColor: Colors.transparent,
               appBar: TbAppBar(
                 tbContext,
-                title: Text('Reset password'),
+                title: Text('${S.of(context).passwordReset}'),
               ),
               body: Stack(
                 children: [
@@ -47,7 +48,7 @@ class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPag
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
                                       SizedBox(height: 16),
-                                      Text('Enter the email associated with your account and we\'ll send an email with password reset link',
+                                      Text('${S.of(context).passwordResetText}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFFAFAFAF),
@@ -57,20 +58,20 @@ class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPag
                                       ),
                                       SizedBox(height: 61),
                                       FormBuilderTextField(
-                                        name: 'email',
+                                        name: '${S.of(context).email}',
                                         autofocus: true,
                                         validator: FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                                          FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                                          FormBuilderValidators.required(context, errorText: '${S.of(context).emailRequireText}'),
+                                          FormBuilderValidators.email(context, errorText: '${S.of(context).emailInvalidText}')
                                         ]),
                                         decoration: InputDecoration(
                                             border: OutlineInputBorder(),
-                                            labelText: 'Email *'
+                                            labelText: '${S.of(context).email} *'
                                         ),
                                       ),
                                       Spacer(),
                                       ElevatedButton(
-                                        child: Text('Request password reset'),
+                                        child: Text('${S.of(context).requestPasswordReset}'),
                                         style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                         onPressed: () {
                                           _requestPasswordReset();
@@ -114,7 +115,7 @@ class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPag
         await Future.delayed(Duration(milliseconds: 300));
         await tbClient.sendResetPasswordLink(email);
         _isLoadingNotifier.value = false;
-        showSuccessNotification('Password reset link was successfully sent!');
+        showSuccessNotification('${S.of(context).passwordResetLinkSuccessfullySentNotification}');
       } catch(e) {
         _isLoadingNotifier.value = false;
       }

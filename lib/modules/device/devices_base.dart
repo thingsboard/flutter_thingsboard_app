@@ -8,6 +8,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -241,7 +242,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                         fontWeight: FontWeight.normal,
                                                         height: 16 / 12
                                                     )),
-                                                Text(widget.device.attribute('active') == 'true' ? 'Active' : 'Inactive',
+                                                Text(widget.device.attribute('active') == 'true' ? '${S.of(context).active}' : '${S.of(context).inactive}',
                                                     style: TextStyle(
                                                       color: widget.device.attribute('active') == 'true' ? Color(0xFF008A00) : Color(0xFFAFAFAF),
                                                       fontSize: 12,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/profile/change_password_page.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -80,30 +81,30 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                           children: [
                             SizedBox(height: 16),
                             FormBuilderTextField(
-                              name: 'email',
+                              name: '${S.of(context).email}',
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                                FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                                FormBuilderValidators.required(context, errorText: '${S.of(context).emailRequireText}'),
+                                FormBuilderValidators.email(context, errorText: '${S.of(context).emailInvalidText}')
                               ]),
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Email *'
+                                  labelText: '${S.of(context).emailStar}'
                               ),
                             ),
                             SizedBox(height: 24),
                             FormBuilderTextField(
-                              name: 'firstName',
+                              name: '${S.of(context).firstName}',
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'First Name'
+                                  labelText: '${S.of(context).firstNameUpper}'
                               ),
                             ),
                             SizedBox(height: 24),
                             FormBuilderTextField(
-                              name: 'lastName',
+                              name: '${S.of(context).lastName}',
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Last Name'
+                                  labelText: '${S.of(context).lastNameUpper}'
                               ),
                             ),
                             SizedBox(height: 24),
@@ -113,7 +114,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                                 onPressed: () {
                                   _changePassword();
                                 },
-                                child: Center(child: Text('Change Password'))
+                                child: Center(child: Text('${S.of(context).changePassword}'))
                             )
                           ]
                       ),
@@ -170,7 +171,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         _setUser();
         await Future.delayed(Duration(milliseconds: 300));
         _isLoadingNotifier.value = false;
-        showSuccessNotification('Profile successfully updated', duration: Duration(milliseconds: 1500));
+        showSuccessNotification('${S.of(context).profileSuccessNotification}', duration: Duration(milliseconds: 1500));
       }
     }
   }
@@ -178,7 +179,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
   _changePassword() async {
     var res = await tbContext.showFullScreenDialog<bool>(new ChangePasswordPage(tbContext));
     if (res == true) {
-      showSuccessNotification('Password successfully changed', duration: Duration(milliseconds: 1500));
+      showSuccessNotification('${S.of(context).passwordSuccessNotification}', duration: Duration(milliseconds: 1500));
     }
   }
 }

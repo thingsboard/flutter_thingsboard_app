@@ -10,6 +10,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -73,14 +74,14 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                           SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
                                               height: 25,
                                               color: Theme.of(context).primaryColor,
-                                              semanticsLabel: 'ThingsBoard Logo')
+                                              semanticsLabel: '${S.of(context).logoDefaultValue}')
                                         ]
                                     ),
                                     SizedBox(height: 32),
                                     Row(
                                         children: [
                                           Text(
-                                              'Login to your account',
+                                              '${S.of(context).loginNotification}',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 28,
@@ -98,7 +99,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                               Flexible(child: Divider()),
                                               Padding(
                                                 padding: EdgeInsets.symmetric(horizontal: 16),
-                                                child: Text('OR'),
+                                                child: Text('${S.of(context).OR}'),
                                               ),
                                               Flexible(child: Divider())
                                             ],
@@ -113,12 +114,12 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                             FormBuilderTextField(
                                               name: 'username',
                                               validator: FormBuilderValidators.compose([
-                                                FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                                                FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                                                FormBuilderValidators.required(context, errorText: '${S.of(context).emailRequireText}'),
+                                                FormBuilderValidators.email(context, errorText: '${S.of(context).emailInvalidText}')
                                               ]),
                                               decoration: InputDecoration(
                                                   border: OutlineInputBorder(),
-                                                  labelText: 'Email'
+                                                  labelText: '${S.of(context).email}'
                                               ),
                                             ),
                                             SizedBox(height: 28),
@@ -129,7 +130,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                     name: 'password',
                                                     obscureText: !showPassword,
                                                     validator: FormBuilderValidators.compose([
-                                                      FormBuilderValidators.required(context, errorText: 'Password is required.')
+                                                      FormBuilderValidators.required(context, errorText: '${S.of(context).passwordRequireText}')
                                                     ]),
                                                     decoration: InputDecoration(
                                                         suffixIcon: IconButton(
@@ -139,7 +140,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                           },
                                                         ),
                                                         border: OutlineInputBorder(),
-                                                        labelText: 'Password'
+                                                        labelText: '${S.of(context).password}'
                                                     ),
                                                   );
                                                 }
@@ -155,7 +156,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                             _forgotPassword();
                                           },
                                           child: Text(
-                                            'Forgot Password?',
+                                            '${S.of(context).passwordForgotText}',
                                             style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                                 letterSpacing: 1,
                                                 fontSize: 12,
@@ -166,7 +167,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     ),
                                     Spacer(),
                                     ElevatedButton(
-                                      child: Text('Log In'),
+                                      child: Text('${S.of(context).login}'),
                                       style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                       onPressed: () {
                                         _login();
