@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -238,7 +239,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                     CircleAvatar(
                                         radius: 16,
                                         backgroundColor: Color(0xffF0F4F9),
-                                        child: IconButton(icon: Icon(Icons.done, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _ackAlarm(alarm))
+                                        child: IconButton(icon: Icon(Icons.done, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _ackAlarm(alarm,context))
                                     ),
                                   if ([AlarmStatus.ACTIVE_UNACK, AlarmStatus.ACTIVE_ACK].contains(alarm.status))
                                     Row(
@@ -247,7 +248,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                           CircleAvatar(
                                               radius: 16,
                                               backgroundColor: Color(0xffF0F4F9),
-                                              child: IconButton(icon: Icon(Icons.clear, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _clearAlarm(alarm))
+                                              child: IconButton(icon: Icon(Icons.clear, size: 18), padding: EdgeInsets.all(7.0), onPressed: () => _clearAlarm(alarm,context))
                                           )
                                         ]
                                     )
@@ -267,8 +268,8 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
     }
   }
 
-  _clearAlarm(AlarmInfo alarm) async {
-    var res = await confirm(title: 'Clear Alarm', message: 'Are you sure you want to clear Alarm?', cancel: 'No', ok: 'Yes');
+  _clearAlarm(AlarmInfo alarm,BuildContext context) async {
+    var res = await confirm(title: '${S.of(context).alarmClearTitle}', message: '${S.of(context).alarmClearText}', cancel: '${S.of(context).No}', ok: '${S.of(context).Yes}');
     if (res != null && res) {
       setState(() {
         loading = true;
@@ -283,8 +284,8 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
     }
   }
 
-  _ackAlarm(AlarmInfo alarm) async {
-    var res = await confirm(title: 'Acknowledge Alarm', message: 'Are you sure you want to acknowledge Alarm?', cancel: 'No', ok: 'Yes');
+  _ackAlarm(AlarmInfo alarm,BuildContext context) async {
+    var res = await confirm(title: '${S.of(context).alarmAcknowledgeTitle}', message: '${S.of(context).alarmAcknowledgeText}', cancel: '${S.of(context).No}', ok: '${S.of(context).Yes}');
     if (res != null && res) {
       setState(() {
         loading = true;

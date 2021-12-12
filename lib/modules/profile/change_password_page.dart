@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -31,7 +32,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
         backgroundColor: Colors.white,
         appBar: TbAppBar(
           tbContext,
-          title: const Text('Change Password'),
+          title: Text('${S.of(context).changePassword}'),
         ),
         body: Stack(
           children: [
@@ -54,7 +55,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                   obscureText: !showPassword,
                                   autofocus: true,
                                   validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context, errorText: 'Current password is required.')
+                                    FormBuilderValidators.required(context, errorText: '${S.of(context).currentPasswordRequireText}')
                                   ]),
                                   decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -64,7 +65,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                         },
                                       ),
                                       border: OutlineInputBorder(),
-                                      labelText: 'Current password *'
+                                      labelText: '${S.of(context).currentPasswordStar}'
                                   ),
                                 );
                               }
@@ -77,7 +78,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                     name: 'newPassword',
                                     obscureText: !showPassword,
                                     validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(context, errorText: 'New password is required.')
+                                      FormBuilderValidators.required(context, errorText: '${S.of(context).newPasswordRequireText}')
                                     ]),
                                     decoration: InputDecoration(
                                         suffixIcon: IconButton(
@@ -87,7 +88,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                           },
                                         ),
                                         border: OutlineInputBorder(),
-                                        labelText: 'New password *'
+                                        labelText: '${S.of(context).newPasswordStar}'
                                     ),
                                   );
                                 }
@@ -100,7 +101,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                     name: 'newPassword2',
                                     obscureText: !showPassword,
                                     validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(context, errorText: 'New password again is required.')
+                                      FormBuilderValidators.required(context, errorText: '${S.of(context).newPassword2RequireText}')
                                     ]),
                                     decoration: InputDecoration(
                                         suffixIcon: IconButton(
@@ -110,7 +111,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                           },
                                         ),
                                         border: OutlineInputBorder(),
-                                        labelText: 'New password again *'
+                                        labelText: '${S.of(context).newPassword2Star}'
                                     ),
                                   );
                                 }
@@ -122,7 +123,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                 onPressed: () {
                                   _changePassword();
                                 },
-                                child: Center(child: Text('Change Password'))
+                                child: Center(child: Text('${S.of(context).changePassword}'))
                             )
                           ]
                       ),
@@ -158,7 +159,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       String newPassword = formValue['newPassword'];
       String newPassword2 = formValue['newPassword2'];
       if (newPassword != newPassword2) {
-        showErrorNotification('Entered passwords must be same!');
+        showErrorNotification('${S.of(context).passwordErrorNotification}');
       } else {
         _isLoadingNotifier.value = true;
         try {

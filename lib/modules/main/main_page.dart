@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
@@ -11,7 +12,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TbMainNavigationItem {
   final Widget page;
-  final String title;
+        String title;
   final Icon icon;
   final String path;
 
@@ -24,8 +25,10 @@ class TbMainNavigationItem {
 
   static Map<Authority, Set<String>> mainPageStateMap = {
     Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/more']),
-    Authority.TENANT_ADMIN: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
-    Authority.CUSTOMER_USER: Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
+    Authority.TENANT_ADMIN: Set.unmodifiable(
+        ['/home', '/alarms', '/devices', '/more']),
+    Authority.CUSTOMER_USER: Set.unmodifiable(
+        ['/home', '/alarms', '/devices', '/more']),
   };
 
   static bool isMainPageState(TbContext tbContext, String path) {
@@ -47,26 +50,26 @@ class TbMainNavigationItem {
             path: '/home'
         )
       ];
-      switch(tbContext.tbClient.getAuthUser()!.authority) {
+      switch (tbContext.tbClient.getAuthUser()!.authority) {
         case Authority.SYS_ADMIN:
           break;
         case Authority.TENANT_ADMIN:
         case Authority.CUSTOMER_USER:
-        items.addAll([
-          TbMainNavigationItem(
-              page: AlarmsPage(tbContext),
-              title: 'Alarms',
-              icon: Icon(Icons.notifications),
-              path: '/alarms'
-          ),
-          TbMainNavigationItem(
-            page: DevicesMainPage(tbContext),
-            title: 'Devices',
-            icon: Icon(Icons.devices_other),
-            path: '/devices'
-          )
-        ]);
-        break;
+          items.addAll([
+            TbMainNavigationItem(
+                page: AlarmsPage(tbContext),
+                title: 'Alarms',
+                icon: Icon(Icons.notifications),
+                path: '/alarms'
+            ),
+            TbMainNavigationItem(
+                page: DevicesMainPage(tbContext),
+                title: 'Devices',
+                icon: Icon(Icons.devices_other),
+                path: '/devices'
+            )
+          ]);
+          break;
         case Authority.REFRESH_TOKEN:
           break;
         case Authority.ANONYMOUS:
@@ -83,7 +86,31 @@ class TbMainNavigationItem {
       return [];
     }
   }
+
+  static void changeItemsTitleIntl(List<TbMainNavigationItem> items,BuildContext context) {
+
+    for(var item in items){
+      switch (item.path) {
+        case '/home':
+          item.title = '${S.of(context).home}';
+          break;
+        case '/alarms':
+          item.title = '${S.of(context).alarms}';
+          break;
+        case '/devices':
+          item.title = '${S.of(context).devices}';
+          break;
+        case '/more':
+          item.title = '${S.of(context).more}';
+          break;
+      }
+
+    }
+
+  }
+
 }
+
 
 class MainPage extends TbPageWidget {
 
@@ -132,6 +159,7 @@ class _MainPageState extends TbPageState<MainPage> with TbMainState, TickerProvi
 
   @override
   Widget build(BuildContext context) {
+    TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
     return WillPopScope(
         onWillPop: () async {
           if (_tabController.index > 0) {

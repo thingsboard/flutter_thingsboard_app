@@ -41,6 +41,8 @@ dependencies:
   form_builder_validators: ^7.2.0
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.1.6
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -83,3 +85,5 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   image_path: "assets/images/thingsboard.png"
+flutter_intl:
+  enabled: true

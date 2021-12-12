@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class MorePage extends TbContextWidget {
@@ -45,7 +46,7 @@ class _MorePageState extends TbContextState<MorePage> {
                      )
                 ),
                 SizedBox(height: 2),
-                Text(_getAuthorityName(),
+                Text(_getAuthorityName(context),
                     style: TextStyle(
                         color: Color(0xFFAFAFAF),
                         fontWeight: FontWeight.normal,
@@ -71,7 +72,7 @@ class _MorePageState extends TbContextState<MorePage> {
                               children: [
                                 Icon(Icons.logout, color: Color(0xFFE04B2F)),
                                 SizedBox(width: 34),
-                                Text('Log out',
+                                Text('${S.of(context).logout}',
                                     style: TextStyle(
                                       color: Color(0xFFE04B2F),
                                         fontStyle: FontStyle.normal,
@@ -95,7 +96,7 @@ class _MorePageState extends TbContextState<MorePage> {
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
-    List<Widget> items = MoreMenuItem.getItems(tbContext).map((menuItem) {
+    List<Widget> items = MoreMenuItem.getItems(tbContext,context).map((menuItem) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         child: Container(
@@ -151,20 +152,20 @@ class _MorePageState extends TbContextState<MorePage> {
     return name;
   }
 
-  String _getAuthorityName() {
+  String _getAuthorityName(BuildContext context) {
     var user = tbContext.userDetails;
     var name = '';
     if (user != null) {
       var authority = user.authority;
       switch(authority) {
         case Authority.SYS_ADMIN:
-          name = 'System Administrator';
+          name = '${S.of(context).systemAdministrator}';
           break;
         case Authority.TENANT_ADMIN:
-          name = 'Tenant Administrator';
+          name = '${S.of(context).tenantAdministrator}';
           break;
         case Authority.CUSTOMER_USER:
-          name = 'Customer';
+          name = '${S.of(context).customer}';
           break;
       }
     }
@@ -184,7 +185,7 @@ class MoreMenuItem {
     required this.path
   });
 
-  static List<MoreMenuItem> getItems(TbContext tbContext) {
+  static List<MoreMenuItem> getItems(TbContext tbContext,BuildContext context) {
     if (tbContext.isAuthenticated) {
       List<MoreMenuItem> items = [];
       switch (tbContext.tbClient.getAuthUser()!.authority) {
@@ -193,17 +194,17 @@ class MoreMenuItem {
         case Authority.TENANT_ADMIN:
           items.addAll([
             MoreMenuItem(
-                title: 'Customers',
+                title: '${S.of(context).customers}',
                 icon: Icons.supervisor_account,
                 path: '/customers'
             ),
             MoreMenuItem(
-                title: 'Assets',
+                title: '${S.of(context).asserts}',
                 icon: Icons.domain,
                 path: '/assets'
             ),
             MoreMenuItem(
-                title: 'Audit Logs',
+                title: '${S.of(context).auditLogs}',
                 icon: Icons.track_changes,
                 path: '/auditLogs'
             )
@@ -212,7 +213,7 @@ class MoreMenuItem {
         case Authority.CUSTOMER_USER:
           items.addAll([
             MoreMenuItem(
-                title: 'Assets',
+                title: '${S.of(context).asserts}',
                 icon: Icons.domain,
                 path: '/assets'
             )

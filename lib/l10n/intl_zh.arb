@@ -1,0 +1,90 @@
+{
+  "appTitle": "Thingsboard",
+
+  "home": "主页",
+  "alarms": "告警",
+  "devices": "设备",
+  "more": "更多",
+
+  "customers": "客户",
+  "asserts": "资产",
+  "auditLogs": "审计报告",
+  "logout": "登出",
+  "login": "登录",
+
+  "logoDefaultValue": "Thingsboard Logo",
+  "loginNotification": "登录你的账号",
+  "email": "Email",
+  "emailRequireText": "输入Email",
+  "emailInvalidText": "Email格式错误",
+  "username": "用户名",
+  "password": "密码",
+  "passwordRequireText": "输入密码",
+  "passwordForgotText": "忘记密码?",
+  "passwordReset": "重置密码",
+  "passwordResetText": "输入和账号关联的Email，我们将发送一个密码重置链接到的Email",
+  "requestPasswordReset": "要求重置密码",
+  "passwordResetLinkSuccessfullySentNotification": "密码重置链接已发送",
+
+  "OR": "或",
+  "No": "否",
+  "Yes": "是",
+
+  "title": "标题",
+  "country": "国家",
+  "city": "城市",
+  "stateOrProvince": "州 / 省",
+  "postalCode": "邮编",
+  "address": "地址",
+  "address2": "地址 2",
+  "phone": "电话",
+
+  "alarmClearTitle": "清除告警",
+  "alarmClearText": "你确定要清除告警吗?",
+
+  "alarmAcknowledgeTitle": "确认告警",
+  "alarmAcknowledgeText": "你确定要确认告警吗?",
+
+  "assetName": "资产名",
+  "type": "类型",
+  "label": "标签",
+  "assignedToCustomer": "分配给客户",
+
+  "auditLogDetails": "审计日志详情",
+  "entityType": "实体类型",
+  "actionData": "动作数据",
+  "failureDetails": "失败详情",
+
+  "allDevices": "所有设备",
+  "active": "激活",
+  "inactive": "失活",
+
+  "systemAdministrator": "系统管理员",
+  "tenantAdministrator": "租户管理员",
+  "customer": "客户",
+
+  "changePassword": "修改密码",
+  "currentPassword": "当前密码",
+  "currentPasswordRequireText": "输入当前密码",
+  "currentPasswordStar": "当前密码 *",
+  "newPassword": "新密码",
+  "newPasswordRequireText": "输入新密码",
+  "newPasswordStar": "新密码 *",
+  "newPassword2": "新密码2",
+  "newPassword2RequireText": "再次输入新密码",
+  "newPassword2Star": "再次输入新密码 *",
+  "passwordErrorNotification": "输入的密码必须相同",
+
+  "emailStar": "Email *",
+  "firstName": "名",
+  "firstNameUpper": "名",
+  "lastName": "姓",
+  "lastNameUpper": "姓",
+  "profileSuccessNotification": "配置更新成功",
+  "passwordSuccessNotification": "密码修改成功",
+
+  "notImplemented": "未实现!",
+
+  "listIsEmptyText": "列表当前为空",
+  "tryAgain": "再试一次"
+}
