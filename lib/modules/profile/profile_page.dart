@@ -81,7 +81,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                           children: [
                             SizedBox(height: 16),
                             FormBuilderTextField(
-                              name: '${S.of(context).email}',
+                              name: 'email',
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(context, errorText: '${S.of(context).emailRequireText}'),
                                 FormBuilderValidators.email(context, errorText: '${S.of(context).emailInvalidText}')
@@ -93,7 +93,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                             ),
                             SizedBox(height: 24),
                             FormBuilderTextField(
-                              name: '${S.of(context).firstName}',
+                              name: 'firstName',
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: '${S.of(context).firstNameUpper}'
@@ -101,7 +101,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                             ),
                             SizedBox(height: 24),
                             FormBuilderTextField(
-                              name: '${S.of(context).lastName}',
+                              name: 'lastName',
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: '${S.of(context).lastNameUpper}'

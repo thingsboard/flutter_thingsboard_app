@@ -58,7 +58,7 @@ class _ResetPasswordRequestPageState extends TbPageState<ResetPasswordRequestPag
                                       ),
                                       SizedBox(height: 61),
                                       FormBuilderTextField(
-                                        name: '${S.of(context).email}',
+                                        name: 'email',
                                         autofocus: true,
                                         validator: FormBuilderValidators.compose([
                                           FormBuilderValidators.required(context, errorText: '${S.of(context).emailRequireText}'),

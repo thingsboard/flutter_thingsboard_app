@@ -51,7 +51,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                               valueListenable: _showCurrentPasswordNotifier,
                               builder: (BuildContext context, bool showPassword, child) {
                                 return FormBuilderTextField(
-                                  name: '${S.of(context).currentPassword}',
+                                  name: 'currentPassword',
                                   obscureText: !showPassword,
                                   autofocus: true,
                                   validator: FormBuilderValidators.compose([
@@ -75,7 +75,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                 valueListenable: _showNewPasswordNotifier,
                                 builder: (BuildContext context, bool showPassword, child) {
                                   return FormBuilderTextField(
-                                    name: '${S.of(context).newPassword}',
+                                    name: 'newPassword',
                                     obscureText: !showPassword,
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(context, errorText: '${S.of(context).newPasswordRequireText}')
@@ -98,7 +98,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                 valueListenable: _showNewPassword2Notifier,
                                 builder: (BuildContext context, bool showPassword, child) {
                                   return FormBuilderTextField(
-                                    name: '${S.of(context).newPassword2}',
+                                    name: 'newPassword2',
                                     obscureText: !showPassword,
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(context, errorText: '${S.of(context).newPassword2RequireText}')
