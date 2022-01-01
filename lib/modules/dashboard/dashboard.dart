@@ -110,7 +110,7 @@ class _DashboardState extends TbContextState<Dashboard> {
         mediaPlaybackRequiresUserGesture: false,
         javaScriptEnabled: true,
         cacheEnabled: true,
-        supportZoom: Platform.isIOS,
+        supportZoom: false,
         // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(

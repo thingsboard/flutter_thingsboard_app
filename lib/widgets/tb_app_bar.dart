@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:stream_transform/stream_transform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:stream_transform/stream_transform.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:universal_platform/universal_platform.dart';
+
 import 'package:device_info/device_info.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -9,11 +9,12 @@ import 'package:package_info/package_info.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
 
@@ -113,6 +114,7 @@ class TbContext {
   late final IosDeviceInfo? _iosInfo;
   late final String packageName;
   TbMainDashboardHolder? _mainDashboardHolder;
+  bool _closeMainFirst = false;
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -425,15 +427,12 @@ class TbContext {
           transition = TransitionType.native;
         }
       }
-      var res = await router.navigateTo(currentState!.context, path,
+      _closeMainFirst = isOpenedDashboard;
+      return await router.navigateTo(currentState!.context, path,
           transition: transition,
           transitionDuration: transitionDuration,
           replace: replace,
           clearStack: clearStack);
-      if (isOpenedDashboard) {
-        await _mainDashboardHolder?.closeMain();
-      }
-      return res;
     }
   }
 
@@ -457,7 +456,8 @@ class TbContext {
         fullscreenDialog: true));
   }
 
-  void pop<T>([T? result, BuildContext? context]) {
+  void pop<T>([T? result, BuildContext? context]) async {
+    await closeMainIfNeeded();
     var targetContext = context ?? currentState?.context;
     if (targetContext != null) {
       router.pop<T>(targetContext, result);
@@ -473,10 +473,23 @@ class TbContext {
   }
 
   Future<bool> willPop() async {
+    if (await closeMainIfNeeded()) {
+      return true;
+    }
     if (_mainDashboardHolder != null) {
       return await _mainDashboardHolder!.dashboardGoBack();
     }
     return true;
+  }
+
+  Future<bool> closeMainIfNeeded() async {
+    if (currentState != null) {
+      if (currentState!.closeMainFirst && _mainDashboardHolder != null) {
+        await _mainDashboardHolder!.closeMain();
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<bool?> confirm(
@@ -514,6 +527,12 @@ mixin HasTbContext {
     if (_tbContext.currentState != null) {
       ModalRoute.of(_tbContext.currentState!.context)
           ?.addScopedWillPopCallback(_tbContext.willPop);
+    }
+    if (_tbContext._closeMainFirst) {
+      _tbContext._closeMainFirst = false;
+      if (_tbContext.currentState != null) {
+        _tbContext.currentState!.closeMainFirst = true;
+      }
     }
   }
 

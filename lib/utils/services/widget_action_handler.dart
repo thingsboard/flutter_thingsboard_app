@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -226,7 +227,7 @@ class WidgetActionHandler with HasTbContext {
     try {
       Barcode? barcode = await tbContext.navigateTo('/qrCodeScan',
           transition: TransitionType.nativeModal);
-      if (barcode != null) {
+      if (barcode != null && barcode.code != null) {
         return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(
             barcode.code!, describeEnum(barcode.format)));
       } else {
