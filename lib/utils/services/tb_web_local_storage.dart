@@ -1,10 +1,10 @@
-import 'package:thingsboard_client/thingsboard_client.dart';
 import 'dart:html';
+
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 TbStorage createAppStorage() => TbWebLocalStorage();
 
 class TbWebLocalStorage implements TbStorage {
-
   final Storage _localStorage = window.localStorage;
 
   @override
@@ -21,5 +21,4 @@ class TbWebLocalStorage implements TbStorage {
   Future<void> setItem(String key, String value) async {
     _localStorage[key] = value;
   }
-
 }

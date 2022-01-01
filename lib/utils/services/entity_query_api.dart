@@ -1,7 +1,6 @@
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityQueryApi {
-
   static final activeDeviceKeyFilter = KeyFilter(
       key: EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active'),
       valueType: EntityKeyValueType.BOOLEAN,
@@ -27,36 +26,54 @@ abstract class EntityQueryApi {
     EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active')
   ];
 
-  static Future<int> countDevices(ThingsboardClient tbClient, {String? deviceType, bool? active}) {
+  static Future<int> countDevices(ThingsboardClient tbClient,
+      {String? deviceType, bool? active}) {
     EntityFilter deviceFilter;
     if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
+      deviceFilter =
+          DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
-    EntityCountQuery deviceCountQuery = EntityCountQuery(entityFilter: deviceFilter);
+    EntityCountQuery deviceCountQuery =
+        EntityCountQuery(entityFilter: deviceFilter);
     if (active != null) {
-      deviceCountQuery.keyFilters = [active ? activeDeviceKeyFilter : inactiveDeviceKeyFilter];
+      deviceCountQuery.keyFilters = [
+        active ? activeDeviceKeyFilter : inactiveDeviceKeyFilter
+      ];
     }
-    return tbClient.getEntityQueryService().countEntitiesByQuery(deviceCountQuery);
+    return tbClient
+        .getEntityQueryService()
+        .countEntitiesByQuery(deviceCountQuery);
   }
 
-  static EntityDataQuery createDefaultDeviceQuery({int pageSize = 20, String? searchText, String? deviceType, bool? active}) {
+  static EntityDataQuery createDefaultDeviceQuery(
+      {int pageSize = 20,
+      String? searchText,
+      String? deviceType,
+      bool? active}) {
     EntityFilter deviceFilter;
     List<KeyFilter>? keyFilters;
     if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
+      deviceFilter =
+          DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
     if (active != null) {
       keyFilters = [active ? activeDeviceKeyFilter : inactiveDeviceKeyFilter];
     }
-    return EntityDataQuery(entityFilter: deviceFilter, keyFilters: keyFilters,
-        entityFields: defaultDeviceFields, latestValues: defaultDeviceAttributes, pageLink: EntityDataPageLink(pageSize: pageSize,
+    return EntityDataQuery(
+        entityFilter: deviceFilter,
+        keyFilters: keyFilters,
+        entityFields: defaultDeviceFields,
+        latestValues: defaultDeviceAttributes,
+        pageLink: EntityDataPageLink(
+            pageSize: pageSize,
             textSearch: searchText,
-            sortOrder: EntityDataSortOrder(key: EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'createdTime'),
+            sortOrder: EntityDataSortOrder(
+                key: EntityKey(
+                    type: EntityKeyType.ENTITY_FIELD, key: 'createdTime'),
                 direction: EntityDataSortOrderDirection.DESC)));
   }
-
 }

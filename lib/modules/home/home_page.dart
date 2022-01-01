@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboard.dart' as dashboardUi;
+import 'package:thingsboard_app/modules/dashboard/dashboard.dart'
+    as dashboard_ui;
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
 import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class HomePage extends TbContextWidget {
-
-  HomePage(TbContext tbContext) : super(tbContext);
+  HomePage(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
-
 }
 
-class _HomePageState extends TbContextState<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
-
+class _HomePageState extends TbContextState<HomePage>
+    with AutomaticKeepAliveClientMixin<HomePage> {
   @override
   void initState() {
     super.initState();
@@ -46,37 +44,33 @@ class _HomePageState extends TbContextState<HomePage> with AutomaticKeepAliveCli
         tbContext,
         elevation: dashboardState ? 0 : 8,
         title: Center(
-            child: Container(
+            child: SizedBox(
                 height: 24,
                 child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
                     color: Theme.of(context).primaryColor,
-                    semanticsLabel: 'ThingsBoard Logo')
-            )
-        ),
+                    semanticsLabel: 'ThingsBoard Logo'))),
         actions: [
-          if (tbClient.isSystemAdmin()) IconButton(
-            icon: Icon(
-                Icons.search
-            ),
-            onPressed: () {
-              navigateTo('/tenants?search=true');
-            },
-          )
+          if (tbClient.isSystemAdmin())
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                navigateTo('/tenants?search=true');
+              },
+            )
         ],
       ),
-      body: Builder(
-          builder: (context) {
-            if (dashboardState) {
-              return _buildDashboardHome(context, homeDashboard!);
-            } else {
-              return _buildDefaultHome(context);
-            }
-          }
-      ),
+      body: Builder(builder: (context) {
+        if (dashboardState) {
+          return _buildDashboardHome(context, homeDashboard!);
+        } else {
+          return _buildDefaultHome(context);
+        }
+      }),
     );
   }
 
-  Widget _buildDashboardHome(BuildContext context, HomeDashboardInfo dashboard) {
+  Widget _buildDashboardHome(
+      BuildContext context, HomeDashboardInfo dashboard) {
     return HomeDashboard(tbContext, dashboard);
   }
 
@@ -91,31 +85,25 @@ class _HomePageState extends TbContextState<HomePage> with AutomaticKeepAliveCli
   Widget _buildSysAdminHome(BuildContext context) {
     return TenantsWidget(tbContext);
   }
-
 }
 
 class HomeDashboard extends TbContextWidget {
-
   final HomeDashboardInfo dashboard;
 
-  HomeDashboard(TbContext tbContext, this.dashboard) : super(tbContext);
+  HomeDashboard(TbContext tbContext, this.dashboard, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _HomeDashboardState createState() => _HomeDashboardState();
-
 }
 
 class _HomeDashboardState extends TbContextState<HomeDashboard> {
-
   @override
   Widget build(BuildContext context) {
-    return dashboardUi.Dashboard(tbContext,
-       home: true,
-       controllerCallback: (controller) {
-         controller.openDashboard(widget.dashboard.dashboardId!.id!,
-                                  hideToolbar: widget.dashboard.hideDashboardToolbar);
-       }
-    );
+    return dashboard_ui.Dashboard(tbContext, home: true,
+        controllerCallback: (controller) {
+      controller.openDashboard(widget.dashboard.dashboardId!.id!,
+          hideToolbar: widget.dashboard.hideDashboardToolbar);
+    });
   }
-
 }

@@ -1,12 +1,15 @@
+import 'package:flutter/src/foundation/key.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery> with DevicesBase {
-
-  DevicesListWidget(TbContext tbContext, {EntitiesListWidgetController? controller}): super(tbContext, controller: controller);
+class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery>
+    with DevicesBase {
+  DevicesListWidget(TbContext tbContext,
+      {Key? key, EntitiesListWidgetController? controller})
+      : super(tbContext, key: key, controller: controller);
 
   @override
   void onViewAll() {
@@ -14,6 +17,6 @@ class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery> 
   }
 
   @override
-  PageKeyController<EntityDataQuery> createPageKeyController() => DeviceQueryController(pageSize: 5);
-
+  PageKeyController<EntityDataQuery> createPageKeyController() =>
+      DeviceQueryController(pageSize: 5);
 }

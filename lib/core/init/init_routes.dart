@@ -7,16 +7,15 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'init_app.dart';
 
 class InitRoutes extends TbRoutes {
-
-  late var initHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var initHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return ThingsboardInitApp(tbContext);
   });
 
-  InitRoutes(TbContext tbContext) : super(tbContext);
+  InitRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {
     router.define("/", handler: initHandler);
   }
-
 }

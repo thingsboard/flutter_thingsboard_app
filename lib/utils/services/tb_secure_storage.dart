@@ -4,8 +4,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 TbStorage createAppStorage() => TbSecureStorage();
 
 class TbSecureStorage implements TbStorage {
-
-  final flutterStorage = FlutterSecureStorage();
+  final flutterStorage = const FlutterSecureStorage();
 
   @override
   Future<void> deleteItem(String key) async {
@@ -21,5 +20,4 @@ class TbSecureStorage implements TbStorage {
   Future<void> setItem(String key, String value) async {
     return await flutterStorage.write(key: key, value: value);
   }
-
 }

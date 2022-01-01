@@ -1,8 +1,7 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-mixin TenantsBase on EntitiesBase<Tenant, PageLink>  {
-
+mixin TenantsBase on EntitiesBase<Tenant, PageLink> {
   @override
   String get title => 'Tenants';
 
@@ -18,5 +17,4 @@ mixin TenantsBase on EntitiesBase<Tenant, PageLink>  {
   void onEntityTap(Tenant tenant) {
     navigateTo('/tenant/${tenant.id!.id}');
   }
-
 }

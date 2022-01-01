@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginPageBackground extends StatelessWidget {
+  const LoginPageBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
         child: CustomPaint(
-          painter: _LoginPageBackgroundPainter(color: Theme.of(context).primaryColor),
-        )
-    );
+      painter:
+          _LoginPageBackgroundPainter(color: Theme.of(context).primaryColor),
+    ));
   }
-
 }
 
 class _LoginPageBackgroundPainter extends CustomPainter {
-
   final Color color;
 
   const _LoginPageBackgroundPainter({required this.color});

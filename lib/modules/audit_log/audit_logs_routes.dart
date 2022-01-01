@@ -5,17 +5,16 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_page.dart';
 
 class AuditLogsRoutes extends TbRoutes {
-
-  late var auditLogsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var auditLogsHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var searchMode = params['search']?.first == 'true';
     return AuditLogsPage(tbContext, searchMode: searchMode);
   });
 
-  AuditLogsRoutes(TbContext tbContext) : super(tbContext);
+  AuditLogsRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {
     router.define("/auditLogs", handler: auditLogsHandler);
   }
-
 }

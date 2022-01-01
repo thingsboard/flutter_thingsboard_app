@@ -14,25 +14,25 @@ dependencies:
   thingsboard_client: 1.0.2
   intl: ^0.17.0
   flutter_secure_storage: ^5.0.2
-  flutter_speed_dial: ^4.6.6
+  flutter_speed_dial: ^5.0.0+1
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
-  flutter_svg: ^0.23.0+1
+  flutter_svg: ^1.0.0
   auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^3.0.1
   fading_edge_scrollview: ^2.0.0
   stream_transform: ^2.0.0
   flutter_inappwebview: ^5.3.2
-#  flutter_downloader: ^1.6.0
-#  permission_handler: ^8.0.0+2
-#  path_provider: ^2.0.2
+  #  flutter_downloader: ^1.6.0
+  #  permission_handler: ^8.0.0+2
+  #  path_provider: ^2.0.2
   url_launcher: ^6.0.3
   image_picker: ^0.8.0
   mime: ^1.0.0
   logger: ^1.0.0
   qr_code_scanner: ^0.6.1
   device_info: ^2.0.0
-  geolocator: ^7.0.3
+  geolocator: ^8.0.1
   material_design_icons_flutter: ^5.0.5955-rc.1
   package_info: ^2.0.2
   dart_jsonwebtoken: ^2.2.0
@@ -46,11 +46,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.9.0
+  flutter_lints: ^1.0.4
 
 flutter:
   uses-material-design: true
   assets:
-     - assets/images/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

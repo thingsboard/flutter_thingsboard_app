@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 
 class TbProgressIndicator extends ProgressIndicator {
-
   final double size;
 
   const TbProgressIndicator({
@@ -16,22 +14,22 @@ class TbProgressIndicator extends ProgressIndicator {
     String? semanticsLabel,
     String? semanticsValue,
   }) : super(
-        key: key,
-        value: null,
-        valueColor: valueColor,
-        semanticsLabel: semanticsLabel,
-        semanticsValue: semanticsValue,
-      );
+          key: key,
+          value: null,
+          valueColor: valueColor,
+          semanticsLabel: semanticsLabel,
+          semanticsValue: semanticsValue,
+        );
 
   @override
   _TbProgressIndicatorState createState() => _TbProgressIndicatorState();
 
-  Color _getValueColor(BuildContext context) => valueColor?.value ?? Theme.of(context).primaryColor;
-
+  Color _getValueColor(BuildContext context) =>
+      valueColor?.value ?? Theme.of(context).primaryColor;
 }
 
-class _TbProgressIndicatorState extends State<TbProgressIndicator> with SingleTickerProviderStateMixin {
-
+class _TbProgressIndicatorState extends State<TbProgressIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late CurvedAnimation _rotation;
 
@@ -39,8 +37,10 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator> with SingleTi
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this, upperBound: 1, animationBehavior: AnimationBehavior.preserve);
+        duration: const Duration(milliseconds: 1500),
+        vsync: this,
+        upperBound: 1,
+        animationBehavior: AnimationBehavior.preserve);
     _rotation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _controller.repeat();
   }
@@ -48,8 +48,7 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator> with SingleTi
   @override
   void didUpdateWidget(TbProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!_controller.isAnimating)
-      _controller.repeat();
+    if (!_controller.isAnimating) _controller.repeat();
   }
 
   @override
@@ -74,13 +73,10 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator> with SingleTi
               color: widget._getValueColor(context)),
           builder: (BuildContext context, Widget? child) {
             return Transform.rotate(
-                angle: _rotation.value * pi * 2,
-                child: child
-            );
+                angle: _rotation.value * pi * 2, child: child);
           },
         )
       ],
     );
   }
-
 }
