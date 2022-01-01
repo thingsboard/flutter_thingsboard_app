@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FadeOpenPageTransitionsBuilder extends PageTransitionsBuilder {
   /// Constructs a page transition animation that slides the page up.

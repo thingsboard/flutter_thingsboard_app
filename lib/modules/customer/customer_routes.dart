@@ -18,7 +18,7 @@ class CustomerRoutes extends TbRoutes {
     return CustomerDetailsPage(tbContext, params["id"][0]);
   });
 
-  CustomerRoutes(TbContext tbContext) : super(tbContext);
+  CustomerRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

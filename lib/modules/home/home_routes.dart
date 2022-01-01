@@ -10,7 +10,7 @@ class HomeRoutes extends TbRoutes {
     return MainPage(tbContext, path: '/home');
   });
 
-  HomeRoutes(TbContext tbContext) : super(tbContext);
+  HomeRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

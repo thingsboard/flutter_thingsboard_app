@@ -4,7 +4,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class MorePage extends TbContextWidget {
-  MorePage(TbContext tbContext) : super(tbContext);
+  MorePage(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   _MorePageState createState() => _MorePageState();
@@ -149,6 +149,10 @@ class _MorePageState extends TbContextState<MorePage> {
         case Authority.CUSTOMER_USER:
           name = 'Customer';
           break;
+        case Authority.REFRESH_TOKEN:
+          break;
+        case Authority.ANONYMOUS:
+          break;
       }
     }
     return name;
@@ -162,7 +166,7 @@ class MoreMenuItem {
 
   MoreMenuItem({required this.title, required this.icon, required this.path});
 
-  static List<MoreMenuItem> getItems(TbContext tbContext) {
+  static List<MoreMenuItem> getItems(TbContext tbContext, {Key? key}) {
     if (tbContext.isAuthenticated) {
       List<MoreMenuItem> items = [];
       switch (tbContext.tbClient.getAuthUser()!.authority) {

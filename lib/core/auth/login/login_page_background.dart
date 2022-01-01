@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginPageBackground extends StatelessWidget {
+  const LoginPageBackground({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(

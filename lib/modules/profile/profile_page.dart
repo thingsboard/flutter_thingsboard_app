@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -12,9 +11,9 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 class ProfilePage extends TbPageWidget {
   final bool _fullscreen;
 
-  ProfilePage(TbContext tbContext, {bool fullscreen = false})
+  ProfilePage(TbContext tbContext, {Key? key, bool fullscreen = false})
       : _fullscreen = fullscreen,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

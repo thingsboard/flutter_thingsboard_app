@@ -8,8 +8,8 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class CustomersPage extends TbPageWidget {
   final bool searchMode;
 
-  CustomersPage(TbContext tbContext, {this.searchMode = false})
-      : super(tbContext);
+  CustomersPage(TbContext tbContext, {Key? key, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   _CustomersPageState createState() => _CustomersPageState();

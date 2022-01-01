@@ -18,7 +18,7 @@ class TenantRoutes extends TbRoutes {
     return TenantDetailsPage(tbContext, params["id"][0]);
   });
 
-  TenantRoutes(TbContext tbContext) : super(tbContext);
+  TenantRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

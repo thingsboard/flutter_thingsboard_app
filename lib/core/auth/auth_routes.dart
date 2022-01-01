@@ -18,7 +18,7 @@ class AuthRoutes extends TbRoutes {
     return ResetPasswordRequestPage(tbContext);
   });
 
-  AuthRoutes(TbContext tbContext) : super(tbContext);
+  AuthRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

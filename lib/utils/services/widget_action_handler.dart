@@ -139,7 +139,7 @@ WidgetMobileActionType widgetMobileActionTypeFromString(String value) {
 }
 
 class WidgetActionHandler with HasTbContext {
-  WidgetActionHandler(TbContext tbContext) {
+  WidgetActionHandler(TbContext tbContext, {Key? key}) {
     setTbContext(tbContext);
   }
 

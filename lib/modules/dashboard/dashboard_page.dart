@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DashboardPage extends TbPageWidget {
   final String? _dashboardTitle;
-  final String? _dashboardId;
-  final String? _state;
-  final bool? _fullscreen;
 
   DashboardPage(TbContext tbContext,
-      {String? dashboardId,
+      {Key? key,
+      String? dashboardId,
       bool? fullscreen,
       String? dashboardTitle,
       String? state})
-      : _dashboardId = dashboardId,
-        _fullscreen = fullscreen,
-        _dashboardTitle = dashboardTitle,
-        _state = state,
-        super(tbContext);
+      : _dashboardTitle = dashboardTitle,
+        super(tbContext, key: key);
 
   @override
   _DashboardPageState createState() => _DashboardPageState();

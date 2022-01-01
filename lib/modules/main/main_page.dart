@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
@@ -37,7 +36,7 @@ class TbMainNavigationItem {
     }
   }
 
-  static List<TbMainNavigationItem> getItems(TbContext tbContext) {
+  static List<TbMainNavigationItem> getItems(TbContext tbContext, {Key? key}) {
     if (tbContext.isAuthenticated) {
       List<TbMainNavigationItem> items = [
         TbMainNavigationItem(
@@ -84,9 +83,9 @@ class TbMainNavigationItem {
 class MainPage extends TbPageWidget {
   final String _path;
 
-  MainPage(TbContext tbContext, {required String path})
+  MainPage(TbContext tbContext, {Key? key, required String path})
       : _path = path,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _MainPageState createState() => _MainPageState();

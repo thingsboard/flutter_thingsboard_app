@@ -9,8 +9,8 @@ import 'tenants_list.dart';
 class TenantsPage extends TbPageWidget {
   final bool searchMode;
 
-  TenantsPage(TbContext tbContext, {this.searchMode = false})
-      : super(tbContext);
+  TenantsPage(TbContext tbContext, {Key? key, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   _TenantsPageState createState() => _TenantsPageState();

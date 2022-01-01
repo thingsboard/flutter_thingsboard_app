@@ -18,7 +18,7 @@ class AssetRoutes extends TbRoutes {
     return AssetDetailsPage(tbContext, params["id"][0]);
   });
 
-  AssetRoutes(TbContext tbContext) : super(tbContext);
+  AssetRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

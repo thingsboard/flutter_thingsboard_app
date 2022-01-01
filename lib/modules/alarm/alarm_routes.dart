@@ -16,7 +16,7 @@ class AlarmRoutes extends TbRoutes {
     }
   });
 
-  AlarmRoutes(TbContext tbContext) : super(tbContext);
+  AlarmRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

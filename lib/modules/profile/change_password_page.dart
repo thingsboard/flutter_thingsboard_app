@@ -7,7 +7,8 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ChangePasswordPage extends TbContextWidget {
-  ChangePasswordPage(TbContext tbContext) : super(tbContext);
+  ChangePasswordPage(TbContext tbContext, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _ChangePasswordPageState createState() => _ChangePasswordPageState();

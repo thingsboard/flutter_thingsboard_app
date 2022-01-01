@@ -11,8 +11,8 @@ class DevicesListPage extends TbPageWidget {
   final bool searchMode;
 
   DevicesListPage(TbContext tbContext,
-      {this.deviceType, this.active, this.searchMode = false})
-      : super(tbContext);
+      {Key? key, this.deviceType, this.active, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   _DevicesListPageState createState() => _DevicesListPageState();

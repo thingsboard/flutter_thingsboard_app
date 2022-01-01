@@ -30,7 +30,7 @@ class DashboardRoutes extends TbRoutes {
     return FullscreenDashboardPage(tbContext, params["id"]![0]);
   });
 
-  DashboardRoutes(TbContext tbContext) : super(tbContext);
+  DashboardRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

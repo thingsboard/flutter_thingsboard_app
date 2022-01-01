@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -190,8 +189,8 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
   final PageKeyController<P> pageKeyController;
 
   BaseEntitiesWidget(TbContext tbContext, this.pageKeyController,
-      {this.searchMode = false})
-      : super(tbContext);
+      {Key? key, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   Widget? buildHeading(BuildContext context) => searchMode

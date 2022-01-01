@@ -1,3 +1,4 @@
+import 'package:flutter/src/foundation/key.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list.dart';
@@ -10,8 +11,8 @@ class DevicesList extends BaseEntitiesWidget<EntityData, EntityDataQuery>
 
   DevicesList(
       TbContext tbContext, PageKeyController<EntityDataQuery> pageKeyController,
-      {searchMode = false, this.displayDeviceImage = false})
-      : super(tbContext, pageKeyController, searchMode: searchMode);
+      {Key? key, searchMode = false, this.displayDeviceImage = false})
+      : super(tbContext, pageKeyController, key: key, searchMode: searchMode);
 
   @override
   bool displayCardImage(bool listWidgetCard) => displayDeviceImage;

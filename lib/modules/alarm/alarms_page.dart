@@ -9,7 +9,8 @@ import 'alarms_list.dart';
 class AlarmsPage extends TbContextWidget {
   final bool searchMode;
 
-  AlarmsPage(TbContext tbContext, {this.searchMode = false}) : super(tbContext);
+  AlarmsPage(TbContext tbContext, {Key? key, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   _AlarmsPageState createState() => _AlarmsPageState();

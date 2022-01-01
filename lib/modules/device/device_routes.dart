@@ -34,7 +34,7 @@ class DeviceRoutes extends TbRoutes {
     return DeviceDetailsPage(tbContext, params["id"][0]);
   });
 
-  DeviceRoutes(TbContext tbContext) : super(tbContext);
+  DeviceRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

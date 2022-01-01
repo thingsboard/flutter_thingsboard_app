@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -16,7 +14,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 import 'login_page_background.dart';
 
 class LoginPage extends TbPageWidget {
-  LoginPage(TbContext tbContext) : super(tbContext);
+  LoginPage(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -52,7 +50,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
-          LoginPageBackground(),
+          const LoginPageBackground(),
           Positioned.fill(child: LayoutBuilder(
             builder: (context, constraints) {
               return SingleChildScrollView(

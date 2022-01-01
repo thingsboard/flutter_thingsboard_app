@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
@@ -48,10 +47,12 @@ class MainDashboardPage extends TbContextWidget {
   final MainDashboardPageController? _controller;
 
   MainDashboardPage(TbContext tbContext,
-      {MainDashboardPageController? controller, String? dashboardTitle})
+      {Key? key,
+      MainDashboardPageController? controller,
+      String? dashboardTitle})
       : _controller = controller,
         _dashboardTitle = dashboardTitle,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _MainDashboardPageState createState() => _MainDashboardPageState();

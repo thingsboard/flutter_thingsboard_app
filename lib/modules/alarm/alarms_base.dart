@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -92,7 +91,8 @@ class AlarmQueryController extends PageKeyController<AlarmQuery> {
 class AlarmCard extends TbContextWidget {
   final AlarmInfo alarm;
 
-  AlarmCard(TbContext tbContext, {required this.alarm}) : super(tbContext);
+  AlarmCard(TbContext tbContext, {Key? key, required this.alarm})
+      : super(tbContext, key: key);
 
   @override
   _AlarmCardState createState() => _AlarmCardState(alarm);

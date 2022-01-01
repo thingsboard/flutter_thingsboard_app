@@ -6,7 +6,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'dashboards_grid.dart';
 
 class DashboardsPage extends TbPageWidget {
-  DashboardsPage(TbContext tbContext) : super(tbContext);
+  DashboardsPage(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   _DashboardsPageState createState() => _DashboardsPageState();

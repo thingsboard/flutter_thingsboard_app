@@ -12,7 +12,7 @@ class ProfileRoutes extends TbRoutes {
     return ProfilePage(tbContext, fullscreen: fullscreen);
   });
 
-  ProfileRoutes(TbContext tbContext) : super(tbContext);
+  ProfileRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

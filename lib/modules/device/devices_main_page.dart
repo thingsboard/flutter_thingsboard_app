@@ -6,7 +6,7 @@ import 'package:thingsboard_app/modules/device/device_profiles_grid.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DevicesMainPage extends TbContextWidget {
-  DevicesMainPage(TbContext tbContext) : super(tbContext);
+  DevicesMainPage(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   _DevicesMainPageState createState() => _DevicesMainPageState();

@@ -8,8 +8,8 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class AuditLogsPage extends TbPageWidget {
   final bool searchMode;
 
-  AuditLogsPage(TbContext tbContext, {this.searchMode = false})
-      : super(tbContext);
+  AuditLogsPage(TbContext tbContext, {Key? key, this.searchMode = false})
+      : super(tbContext, key: key);
 
   @override
   _AuditLogsPageState createState() => _AuditLogsPageState();

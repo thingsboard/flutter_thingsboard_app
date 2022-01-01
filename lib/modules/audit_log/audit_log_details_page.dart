@@ -11,7 +11,8 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 class AuditLogDetailsPage extends TbContextWidget {
   final AuditLog auditLog;
 
-  AuditLogDetailsPage(TbContext tbContext, this.auditLog) : super(tbContext);
+  AuditLogDetailsPage(TbContext tbContext, this.auditLog, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _AuditLogDetailsPageState createState() => _AuditLogDetailsPageState();

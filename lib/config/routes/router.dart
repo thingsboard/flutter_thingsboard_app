@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/auth/auth_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/init/init_routes.dart';
@@ -48,7 +47,7 @@ class ThingsboardAppRouter {
 abstract class TbRoutes {
   final TbContext _tbContext;
 
-  TbRoutes(this._tbContext);
+  TbRoutes(this._tbContext, {Key? key});
 
   void registerRoutes() {
     doRegisterRoutes(_tbContext.router);

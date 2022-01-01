@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -133,8 +132,8 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 class DashboardGridCard extends TbContextWidget {
   final DashboardInfo dashboard;
 
-  DashboardGridCard(TbContext tbContext, {required this.dashboard})
-      : super(tbContext);
+  DashboardGridCard(TbContext tbContext, {Key? key, required this.dashboard})
+      : super(tbContext, key: key);
 
   @override
   _DashboardGridCardState createState() => _DashboardGridCardState();

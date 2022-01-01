@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -84,7 +83,7 @@ class Dashboard extends TbContextWidget {
         _activeByDefault = activeByDefault,
         _titleCallback = titleCallback,
         _controllerCallback = controllerCallback,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -102,8 +101,6 @@ class _DashboardState extends TbContextState<Dashboard> {
   final GlobalKey webViewKey = GlobalKey();
 
   late final DashboardController _dashboardController;
-
-  bool _fullscreen = false;
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
@@ -198,7 +195,6 @@ class _DashboardState extends TbContextState<Dashboard> {
 
   Future<void> _openDashboard(String dashboardId,
       {String? state, bool? hideToolbar, bool fullscreen = false}) async {
-    _fullscreen = fullscreen;
     dashboardLoading.value = true;
     InAppWebViewController? controller;
     if (!UniversalPlatform.isWeb) {

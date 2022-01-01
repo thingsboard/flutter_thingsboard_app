@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -35,8 +34,8 @@ class EntitiesListWidgetController {
 abstract class EntitiesListPageLinkWidget<T>
     extends EntitiesListWidget<T, PageLink> {
   EntitiesListPageLinkWidget(TbContext tbContext,
-      {EntitiesListWidgetController? controller})
-      : super(tbContext, controller: controller);
+      {Key? key, EntitiesListWidgetController? controller})
+      : super(tbContext, key: key, controller: controller);
 
   @override
   PageKeyController<PageLink> createPageKeyController() =>
@@ -48,9 +47,9 @@ abstract class EntitiesListWidget<T, P> extends TbContextWidget
   final EntitiesListWidgetController? _controller;
 
   EntitiesListWidget(TbContext tbContext,
-      {EntitiesListWidgetController? controller})
+      {Key? key, EntitiesListWidgetController? controller})
       : _controller = controller,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _EntitiesListWidgetState createState() =>

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'entities_base.dart';
 
@@ -8,7 +7,6 @@ class EntityListCard<T> extends StatelessWidget {
   final T _entity;
   final EntityTapFunction<T>? _onEntityTap;
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
-  final EntityCardSettings _settings;
 
   const EntityListCard(T entity,
       {Key? key,
@@ -19,7 +17,6 @@ class EntityListCard<T> extends StatelessWidget {
       : _entity = entity,
         _onEntityTap = onEntityTap,
         _entityCardWidgetBuilder = entityCardWidgetBuilder,
-        _settings = settings,
         _listWidgetCard = listWidgetCard,
         super(key: key);
 

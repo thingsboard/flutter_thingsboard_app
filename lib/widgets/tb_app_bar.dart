@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -18,7 +17,8 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
   final Size preferredSize;
 
   TbAppBar(TbContext tbContext,
-      {this.leading,
+      {Key? key,
+      this.leading,
       this.title,
       this.actions,
       this.elevation = 8,
@@ -26,7 +26,7 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
       this.showLoadingIndicator = false})
       : preferredSize =
             Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _TbAppBarState createState() => _TbAppBarState();
@@ -85,14 +85,15 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
   final Size preferredSize;
 
   TbAppSearchBar(TbContext tbContext,
-      {this.elevation = 8,
+      {Key? key,
+      this.elevation = 8,
       this.shadowColor,
       this.showLoadingIndicator = false,
       this.searchHint,
       this.onSearch})
       : preferredSize =
             Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _TbAppSearchBarState createState() => _TbAppSearchBarState();

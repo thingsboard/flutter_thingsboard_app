@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -80,8 +79,7 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
             active: active));
 
   @override
-  EntityDataQuery nextPageKey(EntityDataQuery deviceQuery) =>
-      deviceQuery.next();
+  EntityDataQuery nextPageKey(EntityDataQuery pageKey) => pageKey.next();
 
   onSearchText(String searchText) {
     value.pageKey.pageLink.page = 0;
@@ -96,10 +94,11 @@ class DeviceCard extends TbContextWidget {
   final bool displayImage;
 
   DeviceCard(TbContext tbContext,
-      {required this.device,
+      {Key? key,
+      required this.device,
       this.listWidgetCard = false,
       this.displayImage = false})
-      : super(tbContext);
+      : super(tbContext, key: key);
 
   @override
   _DeviceCardState createState() => _DeviceCardState();

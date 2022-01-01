@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -65,8 +64,8 @@ class RefreshDeviceCounts {
 class AllDevicesCard extends TbContextWidget {
   final RefreshDeviceCounts refreshDeviceCounts;
 
-  AllDevicesCard(TbContext tbContext, this.refreshDeviceCounts)
-      : super(tbContext);
+  AllDevicesCard(TbContext tbContext, this.refreshDeviceCounts, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _AllDevicesCardState createState() => _AllDevicesCardState();
@@ -253,7 +252,8 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
 class DeviceProfileCard extends TbContextWidget {
   final DeviceProfileInfo deviceProfile;
 
-  DeviceProfileCard(TbContext tbContext, this.deviceProfile) : super(tbContext);
+  DeviceProfileCard(TbContext tbContext, this.deviceProfile, {Key? key})
+      : super(tbContext, key: key);
 
   @override
   _DeviceProfileCardState createState() => _DeviceProfileCardState();

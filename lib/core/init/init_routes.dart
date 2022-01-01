@@ -12,7 +12,7 @@ class InitRoutes extends TbRoutes {
     return ThingsboardInitApp(tbContext);
   });
 
-  InitRoutes(TbContext tbContext) : super(tbContext);
+  InitRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

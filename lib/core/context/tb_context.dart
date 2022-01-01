@@ -109,7 +109,7 @@ class TbContext {
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
-  late final _widgetActionHandler;
+  late final WidgetActionHandler _widgetActionHandler;
   late final AndroidDeviceInfo? _androidInfo;
   late final IosDeviceInfo? _iosInfo;
   late final String packageName;
@@ -515,7 +515,7 @@ class TbContext {
 mixin HasTbContext {
   late final TbContext _tbContext;
 
-  void setTbContext(TbContext tbContext) {
+  void setTbContext(TbContext tbContext, {Key? key}) {
     _tbContext = tbContext;
   }
 

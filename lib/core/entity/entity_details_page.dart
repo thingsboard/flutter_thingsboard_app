@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -22,7 +20,8 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
   final double? _appBarElevation;
 
   EntityDetailsPage(TbContext tbContext,
-      {required String defaultTitle,
+      {Key? key,
+      required String defaultTitle,
       required String entityId,
       String? subTitle,
       bool showLoadingIndicator = true,
@@ -34,7 +33,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
         _showLoadingIndicator = showLoadingIndicator,
         _hideAppBar = hideAppBar,
         _appBarElevation = appBarElevation,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _EntityDetailsPageState createState() => _EntityDetailsPageState();
@@ -137,13 +136,15 @@ class _EntityDetailsPageState<T extends BaseData>
 abstract class ContactBasedDetailsPage<T extends ContactBased>
     extends EntityDetailsPage<T> {
   ContactBasedDetailsPage(TbContext tbContext,
-      {required String defaultTitle,
+      {Key? key,
+      required String defaultTitle,
       required String entityId,
       String? subTitle,
       bool showLoadingIndicator = true,
       bool hideAppBar = false,
       double? appBarElevation})
       : super(tbContext,
+            key: key,
             defaultTitle: defaultTitle,
             entityId: entityId,
             subTitle: subTitle,
@@ -152,7 +153,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
             appBarElevation: appBarElevation);
 
   @override
-  Widget buildEntityDetails(BuildContext context, T contact) {
+  Widget buildEntityDetails(BuildContext context, T entity) {
     return Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -160,10 +161,10 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
             mainAxisSize: MainAxisSize.max,
             children: [
               Text('Title', style: labelTextStyle),
-              Text(contact.getName(), style: valueTextStyle),
+              Text(entity.getName(), style: valueTextStyle),
               const SizedBox(height: 16),
               Text('Country', style: labelTextStyle),
-              Text(contact.country ?? '', style: valueTextStyle),
+              Text(entity.country ?? '', style: valueTextStyle),
               const SizedBox(height: 16),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -175,7 +176,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text('City', style: labelTextStyle),
-                          Text(contact.city ?? '', style: valueTextStyle),
+                          Text(entity.city ?? '', style: valueTextStyle),
                         ],
                       )),
                   Flexible(
@@ -185,26 +186,26 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text('State / Province', style: labelTextStyle),
-                          Text(contact.state ?? '', style: valueTextStyle),
+                          Text(entity.state ?? '', style: valueTextStyle),
                         ],
                       )),
                 ],
               ),
               const SizedBox(height: 16),
               Text('Zip / Postal Code', style: labelTextStyle),
-              Text(contact.zip ?? '', style: valueTextStyle),
+              Text(entity.zip ?? '', style: valueTextStyle),
               const SizedBox(height: 16),
               Text('Address', style: labelTextStyle),
-              Text(contact.address ?? '', style: valueTextStyle),
+              Text(entity.address ?? '', style: valueTextStyle),
               const SizedBox(height: 16),
               Text('Address 2', style: labelTextStyle),
-              Text(contact.address2 ?? '', style: valueTextStyle),
+              Text(entity.address2 ?? '', style: valueTextStyle),
               const SizedBox(height: 16),
               Text('Phone', style: labelTextStyle),
-              Text(contact.phone ?? '', style: valueTextStyle),
+              Text(entity.phone ?? '', style: valueTextStyle),
               const SizedBox(height: 16),
               Text('Email', style: labelTextStyle),
-              Text(contact.email ?? '', style: valueTextStyle),
+              Text(entity.email ?? '', style: valueTextStyle),
             ]));
   }
 }

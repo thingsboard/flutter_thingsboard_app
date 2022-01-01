@@ -10,7 +10,7 @@ class UiUtilsRoutes extends TbRoutes {
     return QrCodeScannerPage(tbContext);
   });
 
-  UiUtilsRoutes(TbContext tbContext) : super(tbContext);
+  UiUtilsRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {

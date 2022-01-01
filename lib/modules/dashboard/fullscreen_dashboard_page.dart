@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
@@ -10,9 +9,9 @@ class FullscreenDashboardPage extends TbPageWidget {
   final String? _dashboardTitle;
 
   FullscreenDashboardPage(TbContext tbContext, this.fullscreenDashboardId,
-      {String? dashboardTitle})
+      {Key? key, String? dashboardTitle})
       : _dashboardTitle = dashboardTitle,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _FullscreenDashboardPageState createState() =>

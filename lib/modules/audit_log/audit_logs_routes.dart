@@ -11,7 +11,7 @@ class AuditLogsRoutes extends TbRoutes {
     return AuditLogsPage(tbContext, searchMode: searchMode);
   });
 
-  AuditLogsRoutes(TbContext tbContext) : super(tbContext);
+  AuditLogsRoutes(TbContext tbContext, {Key? key}) : super(tbContext, key: key);
 
   @override
   void doRegisterRoutes(router) {
