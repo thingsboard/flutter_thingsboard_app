@@ -31,7 +31,7 @@ class _AssetsPageState extends TbPageState<AssetsPage> {
     } else {
       appBar = TbAppBar(tbContext, title: Text(assetsList.title), actions: [
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             navigateTo('/assets?search=true');
           },

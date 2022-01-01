@@ -32,7 +32,7 @@ class _TenantsPageState extends TbPageState<TenantsPage> {
     } else {
       appBar = TbAppBar(tbContext, title: Text(tenantsList.title), actions: [
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             navigateTo('/tenants?search=true');
           },

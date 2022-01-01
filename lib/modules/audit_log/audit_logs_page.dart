@@ -33,7 +33,7 @@ class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
     } else {
       appBar = TbAppBar(tbContext, title: Text(auditLogsList.title), actions: [
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             navigateTo('/auditLogs?search=true');
           },

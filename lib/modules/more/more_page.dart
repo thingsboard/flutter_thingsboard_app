@@ -16,63 +16,66 @@ class _MorePageState extends TbContextState<MorePage> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          padding: EdgeInsets.fromLTRB(16, 40, 16, 20),
+          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.account_circle,
+                  const Icon(Icons.account_circle,
                       size: 48, color: Color(0xFFAFAFAF)),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
-                      icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)),
+                      icon:
+                          const Icon(Icons.settings, color: Color(0xFFAFAFAF)),
                       onPressed: () async {
                         await navigateTo('/profile');
                         setState(() {});
                       })
                 ],
               ),
-              SizedBox(height: 22),
+              const SizedBox(height: 22),
               Text(_getUserDisplayName(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xFF282828),
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
                       height: 23 / 20)),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               Text(_getAuthorityName(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xFFAFAFAF),
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
                       height: 16 / 14)),
-              SizedBox(height: 24),
-              Divider(color: Color(0xFFEDEDED)),
-              SizedBox(height: 8),
+              const SizedBox(height: 24),
+              const Divider(color: Color(0xFFEDEDED)),
+              const SizedBox(height: 8),
               buildMoreMenuItems(context),
-              SizedBox(height: 8),
-              Divider(color: Color(0xFFEDEDED)),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
+              const Divider(color: Color(0xFFEDEDED)),
+              const SizedBox(height: 8),
               GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  child: Container(
+                  child: SizedBox(
                       height: 48,
                       child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 18),
-                          child: Row(mainAxisSize: MainAxisSize.max, children: [
-                            Icon(Icons.logout, color: Color(0xFFE04B2F)),
-                            SizedBox(width: 34),
-                            Text('Log out',
-                                style: TextStyle(
-                                    color: Color(0xFFE04B2F),
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 20 / 14))
-                          ]))),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 18),
+                          child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: const [
+                                Icon(Icons.logout, color: Color(0xFFE04B2F)),
+                                SizedBox(width: 34),
+                                Text('Log out',
+                                    style: TextStyle(
+                                        color: Color(0xFFE04B2F),
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 20 / 14))
+                              ]))),
                   onTap: () {
                     tbClient.logout(
                         requestConfig: RequestConfig(ignoreErrors: true));
@@ -86,15 +89,16 @@ class _MorePageState extends TbContextState<MorePage> {
     List<Widget> items = MoreMenuItem.getItems(tbContext).map((menuItem) {
       return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          child: Container(
+          child: SizedBox(
               height: 48,
               child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 18),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 18),
                   child: Row(mainAxisSize: MainAxisSize.max, children: [
-                    Icon(menuItem.icon, color: Color(0xFF282828)),
-                    SizedBox(width: 34),
+                    Icon(menuItem.icon, color: const Color(0xFF282828)),
+                    const SizedBox(width: 34),
                     Text(menuItem.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xFF282828),
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w500,

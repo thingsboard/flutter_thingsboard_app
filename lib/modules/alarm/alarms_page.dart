@@ -39,7 +39,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
     } else {
       appBar = TbAppBar(tbContext, title: Text(alarmsList.title), actions: [
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             navigateTo('/alarms?search=true');
           },

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -24,12 +24,12 @@ class LoginPage extends TbPageWidget {
 
 class _LoginPageState extends TbPageState<LoginPage> {
   final ButtonStyle _oauth2ButtonWithTextStyle = OutlinedButton.styleFrom(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       alignment: Alignment.centerLeft,
       primary: Colors.black87);
 
   final ButtonStyle _oauth2IconButtonStyle = OutlinedButton.styleFrom(
-      padding: EdgeInsets.all(16), alignment: Alignment.center);
+      padding: const EdgeInsets.all(16), alignment: Alignment.center);
 
   final _isLoginNotifier = ValueNotifier<bool>(false);
   final _showPasswordNotifier = ValueNotifier<bool>(false);
@@ -56,7 +56,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
           Positioned.fill(child: LayoutBuilder(
             builder: (context, constraints) {
               return SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(24, 71, 24, 24),
+                  padding: const EdgeInsets.fromLTRB(24, 71, 24, 24),
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
                           minHeight: constraints.maxHeight - (71 + 24)),
@@ -71,24 +71,24 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     color: Theme.of(context).primaryColor,
                                     semanticsLabel: 'ThingsBoard Logo')
                               ]),
-                              SizedBox(height: 32),
-                              Row(children: [
+                              const SizedBox(height: 32),
+                              Row(children: const [
                                 Text('Login to your account',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
                                         height: 36 / 28))
                               ]),
-                              SizedBox(height: 48),
+                              const SizedBox(height: 48),
                               if (tbContext.hasOAuthClients)
                                 _buildOAuth2Buttons(
                                     tbContext.oauth2ClientInfos!),
                               if (tbContext.hasOAuthClients)
                                 Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 16),
+                                    padding: const EdgeInsets.only(
+                                        top: 10, bottom: 16),
                                     child: Row(
-                                      children: [
+                                      children: const [
                                         Flexible(child: Divider()),
                                         Padding(
                                           padding: EdgeInsets.symmetric(
@@ -116,11 +116,11 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                               errorText:
                                                   'Invalid email format.')
                                         ]),
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                             border: OutlineInputBorder(),
                                             labelText: 'Email'),
                                       ),
-                                      SizedBox(height: 28),
+                                      const SizedBox(height: 28),
                                       ValueListenableBuilder(
                                           valueListenable:
                                               _showPasswordNotifier,
@@ -148,7 +148,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                               .value;
                                                     },
                                                   ),
-                                                  border: OutlineInputBorder(),
+                                                  border:
+                                                      const OutlineInputBorder(),
                                                   labelText: 'Password'),
                                             );
                                           })
@@ -174,17 +175,17 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                   )
                                 ],
                               ),
-                              Spacer(),
+                              const Spacer(),
                               ElevatedButton(
-                                child: Text('Log In'),
+                                child: const Text('Log In'),
                                 style: ElevatedButton.styleFrom(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 16)),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16)),
                                 onPressed: () {
                                   _login();
                                 },
                               ),
-                              SizedBox(height: 48)
+                              const SizedBox(height: 48)
                             ]),
                       )));
             },
@@ -203,18 +204,18 @@ class _LoginPageState extends TbPageState<LoginPage> {
                               filter:
                                   ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                               child: Container(
-                                decoration: new BoxDecoration(
+                                decoration: BoxDecoration(
                                     color:
                                         Colors.grey.shade200.withOpacity(0.2)),
                                 child: Container(
                                   padding:
                                       EdgeInsets.only(bottom: bottomPadding),
                                   alignment: Alignment.center,
-                                  child: TbProgressIndicator(size: 50.0),
+                                  child: const TbProgressIndicator(size: 50.0),
                                 ),
                               ))));
                 } else {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
               })
         ]));
@@ -237,8 +238,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: Text('LOGIN WITH')),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: const Center(child: Text('LOGIN WITH')),
           ),
           Row(
               children: clients
@@ -276,9 +277,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
         }
       }
     }
-    if (icon == null) {
-      icon = Icon(Icons.login, size: 24, color: Theme.of(context).primaryColor);
-    }
+    icon ??= Icon(Icons.login, size: 24, color: Theme.of(context).primaryColor);
     Widget button;
     bool iconOnly = text == null;
     if (iconOnly) {

@@ -1,7 +1,7 @@
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class DeviceProfileCache {
-  static final _cache = Map<String, DeviceProfileInfo>();
+  static final _cache = <String, DeviceProfileInfo>{};
 
   static Future<DeviceProfileInfo> getDeviceProfileInfo(
       ThingsboardClient tbClient, String name, String deviceId) async {
@@ -21,9 +21,9 @@ abstract class DeviceProfileCache {
     var deviceProfileInfos = await tbClient
         .getDeviceProfileService()
         .getDeviceProfileInfos(pageLink);
-    deviceProfileInfos.data.forEach((deviceProfile) {
+    for (var deviceProfile in deviceProfileInfos.data) {
       _cache[deviceProfile.name] = deviceProfile;
-    });
+    }
     return deviceProfileInfos;
   }
 }

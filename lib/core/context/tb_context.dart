@@ -131,6 +131,7 @@ class TbContext {
   }
 
   TbLogger get log => _log;
+
   WidgetActionHandler get widgetActionHandler => _widgetActionHandler;
 
   Future<void> init() async {
@@ -204,19 +205,19 @@ class TbContext {
       {Duration? duration}) {
     duration ??= const Duration(days: 1);
     Color backgroundColor;
-    var textColor = Color(0xFFFFFFFF);
+    var textColor = const Color(0xFFFFFFFF);
     switch (type) {
       case NotificationType.info:
-        backgroundColor = Color(0xFF323232);
+        backgroundColor = const Color(0xFF323232);
         break;
       case NotificationType.warn:
-        backgroundColor = Color(0xFFdc6d1b);
+        backgroundColor = const Color(0xFFdc6d1b);
         break;
       case NotificationType.success:
-        backgroundColor = Color(0xFF008000);
+        backgroundColor = const Color(0xFF008000);
         break;
       case NotificationType.error:
-        backgroundColor = Color(0xFF800000);
+        backgroundColor = const Color(0xFF800000);
         break;
     }
     final snackBar = SnackBar(
@@ -295,7 +296,7 @@ class TbContext {
               replace: true,
               clearStack: true,
               transition: TransitionType.fadeIn,
-              transitionDuration: Duration(milliseconds: 750));
+              transitionDuration: const Duration(milliseconds: 750));
         }
       }
     }
@@ -334,14 +335,14 @@ class TbContext {
           navigateTo('/home',
               replace: true,
               transition: TransitionType.fadeIn,
-              transitionDuration: Duration(milliseconds: 750));
+              transitionDuration: const Duration(milliseconds: 750));
         }
       } else {
         navigateTo('/login',
             replace: true,
             clearStack: true,
             transition: TransitionType.fadeIn,
-            transitionDuration: Duration(milliseconds: 750));
+            transitionDuration: const Duration(milliseconds: 750));
       }
     }
   }
@@ -449,7 +450,7 @@ class TbContext {
   }
 
   Future<T?> showFullScreenDialog<T>(Widget dialog) {
-    return Navigator.of(currentState!.context).push<T>(new MaterialPageRoute<T>(
+    return Navigator.of(currentState!.context).push<T>(MaterialPageRoute<T>(
         builder: (BuildContext context) {
           return dialog;
         },

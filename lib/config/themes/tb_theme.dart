@@ -44,11 +44,11 @@ const tbDarkMatIndigo = MaterialColor(
 );
 
 ThemeData tbTheme = ThemeData(
-  scaffoldBackgroundColor: Color(0xFFFAFAFA),
+  scaffoldBackgroundColor: const Color(0xFFFAFAFA),
   textTheme: tbTypography.black,
   primaryTextTheme: tbTypography.black,
   typography: tbTypography,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       foregroundColor: _tbTextColor,
       /* titleTextStyle: TextStyle(
@@ -64,7 +64,7 @@ ThemeData tbTheme = ThemeData(
       unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
       showSelectedLabels: true,
       showUnselectedLabels: true),
-  pageTransitionsTheme: PageTransitionsTheme(builders: {
+  pageTransitionsTheme: const PageTransitionsTheme(builders: {
     TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
     TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
   }),

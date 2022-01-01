@@ -21,11 +21,11 @@ void main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  runApp(ThingsboardApp());
+  runApp(const ThingsboardApp());
 }
 
 class ThingsboardApp extends StatefulWidget {
-  ThingsboardApp({Key? key}) : super(key: key);
+  const ThingsboardApp({Key? key}) : super(key: key);
 
   @override
   ThingsboardAppState createState() => ThingsboardAppState();
@@ -90,11 +90,12 @@ class ThingsboardAppState extends State<ThingsboardApp>
     return _closeDashboard(animate: animate);
   }
 
+  @override
   bool isDashboardOpen() {
     return _mainPageViewController.index == 1;
   }
 
-  Future<bool> _openMain({bool animate: true}) async {
+  Future<bool> _openMain({bool animate = true}) async {
     var res = await _mainPageViewController.open(0, animate: animate);
     if (res) {
       await _mainDashboardPageController.deactivateDashboard();
@@ -102,21 +103,21 @@ class ThingsboardAppState extends State<ThingsboardApp>
     return res;
   }
 
-  Future<bool> _closeMain({bool animate: true}) async {
+  Future<bool> _closeMain({bool animate = true}) async {
     if (!isDashboardOpen()) {
       await _mainDashboardPageController.activateDashboard();
     }
     return _mainPageViewController.close(0, animate: animate);
   }
 
-  Future<bool> _openDashboard({bool animate: true}) async {
+  Future<bool> _openDashboard({bool animate = true}) async {
     if (!isDashboardOpen()) {
       _mainDashboardPageController.activateDashboard();
     }
     return _mainPageViewController.open(1, animate: animate);
   }
 
-  Future<bool> _closeDashboard({bool animate: true}) async {
+  Future<bool> _closeDashboard({bool animate = true}) async {
     var res = await _mainPageViewController.close(1, animate: animate);
     if (res) {
       _mainDashboardPageController.deactivateDashboard();
@@ -126,7 +127,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light));

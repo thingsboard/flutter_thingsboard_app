@@ -19,12 +19,12 @@ class AuditLogDetailsPage extends TbContextWidget {
 
 class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
   final labelTextStyle =
-      TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
+      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
   final valueTextStyle =
-      TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
+      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
-  final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+  final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             if (widget.auditLog.entityName != null)
               Text(widget.auditLog.entityName!,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       height: 20 / 16)),
@@ -51,7 +51,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
                     height: 16 / 12))
           ])),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -59,17 +59,17 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
               Text('Entity Type', style: labelTextStyle),
               Text(entityTypeTranslations[widget.auditLog.entityId.entityType]!,
                   style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Type', style: labelTextStyle),
               Text(actionTypeTranslations[widget.auditLog.actionType]!,
                   style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Flexible(
                   fit: FlexFit.loose,
                   child: buildBorderedText('Action data',
                       encoder.convert(widget.auditLog.actionData))),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
                 Flexible(
                     fit: FlexFit.loose,
@@ -85,17 +85,17 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
       children: <Widget>[
         Container(
           width: double.infinity,
-          padding: EdgeInsets.fromLTRB(16, 18, 48, 18),
-          margin: EdgeInsets.only(top: 6),
+          padding: const EdgeInsets.fromLTRB(16, 18, 48, 18),
+          margin: const EdgeInsets.only(top: 6),
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFFDEDEDE), width: 1),
+            border: Border.all(color: const Color(0xFFDEDEDE), width: 1),
             borderRadius: BorderRadius.circular(4),
             shape: BoxShape.rectangle,
           ),
           child: SingleChildScrollView(
             child: Text(
               content,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xFF282828), fontSize: 14, height: 20 / 14),
             ),
           ),
@@ -104,11 +104,11 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             left: 16,
             top: 0,
             child: Container(
-              padding: EdgeInsets.only(left: 4, right: 4),
+              padding: const EdgeInsets.only(left: 4, right: 4),
               color: Colors.white,
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xFF757575), fontSize: 12, height: 14 / 12),
               ),
             )),

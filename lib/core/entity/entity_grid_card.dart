@@ -9,15 +9,15 @@ class EntityGridCard<T> extends StatelessWidget {
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
   final EntityCardSettings _settings;
 
-  EntityGridCard(T entity,
+  const EntityGridCard(T entity,
       {Key? key,
       EntityTapFunction<T>? onEntityTap,
       required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
       required EntityCardSettings settings})
-      : this._entity = entity,
-        this._onEntityTap = onEntityTap,
-        this._entityCardWidgetBuilder = entityCardWidgetBuilder,
-        this._settings = settings,
+      : _entity = entity,
+        _onEntityTap = onEntityTap,
+        _entityCardWidgetBuilder = entityCardWidgetBuilder,
+        _settings = settings,
         super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class EntityGridCard<T> extends StatelessWidget {
                     BoxShadow(
                         color: Colors.black.withAlpha((255 * 0.05).ceil()),
                         blurRadius: 6.0,
-                        offset: Offset(0, 4))
+                        offset: const Offset(0, 4))
                   ],
                 )
               : null,

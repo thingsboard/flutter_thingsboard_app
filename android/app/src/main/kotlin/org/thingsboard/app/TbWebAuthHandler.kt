@@ -12,7 +12,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class TbWebAuthHandler(private val context: Context): MethodCallHandler {
+class TbWebAuthHandler(private val context: Context) : MethodCallHandler {
     companion object {
         val callbacks = mutableMapOf<String, Result>()
     }
@@ -38,7 +38,7 @@ class TbWebAuthHandler(private val context: Context): MethodCallHandler {
                 intent.launchUrl(context, url)
             }
             "cleanUpDanglingCalls" -> {
-                callbacks.forEach{ (_, danglingResultCallback) ->
+                callbacks.forEach { (_, danglingResultCallback) ->
                     danglingResultCallback.error("CANCELED", "User canceled login", null)
                 }
                 callbacks.clear()

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class TwoValueListenableBuilder<A, B> extends StatelessWidget {
-  TwoValueListenableBuilder({
+  const TwoValueListenableBuilder({
     Key? key,
     required this.firstValueListenable,
     required this.secondValueListenable,

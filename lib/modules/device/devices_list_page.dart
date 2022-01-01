@@ -69,7 +69,7 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
 
       appBar = TbAppBar(tbContext, title: title, actions: [
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             List<String> params = [];
             params.add('search=true');

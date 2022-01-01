@@ -105,14 +105,14 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                   decoration: BoxDecoration(
                       color:
                           widget.auditLog.actionStatus == ActionStatus.SUCCESS
-                              ? Color(0xFF008A00)
-                              : Color(0xFFFF0000),
-                      borderRadius: BorderRadius.only(
+                              ? const Color(0xFF008A00)
+                              : const Color(0xFFFF0000),
+                      borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(4),
                           bottomLeft: Radius.circular(4))),
                 ))),
         Row(mainAxisSize: MainAxisSize.max, children: [
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           Flexible(
               fit: FlexFit.tight,
               child: Column(
@@ -122,13 +122,13 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Flexible(
                               fit: FlexFit.tight,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   Row(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
@@ -142,7 +142,7 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                                 maxLines: 2,
                                                 minFontSize: 8,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Color(0xFF282828),
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
@@ -152,13 +152,13 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                                 .fromMillisecondsSinceEpoch(
                                                     widget.auditLog
                                                         .createdTime!)),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Color(0xFFAFAFAF),
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 12,
                                                 height: 16 / 12))
                                       ]),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -170,7 +170,7 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                                     .auditLog
                                                     .entityId
                                                     .entityType]!,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Color(0xFFAFAFAF),
                                                     fontWeight:
                                                         FontWeight.normal,
@@ -183,45 +183,45 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                                 color: widget.auditLog
                                                             .actionStatus ==
                                                         ActionStatus.SUCCESS
-                                                    ? Color(0xFF008A00)
-                                                    : Color(0xFFFF0000),
+                                                    ? const Color(0xFF008A00)
+                                                    : const Color(0xFFFF0000),
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 height: 16 / 12))
                                       ]),
-                                  SizedBox(height: 12)
+                                  const SizedBox(height: 12)
                                 ],
                               )),
-                          SizedBox(width: 16)
+                          const SizedBox(width: 16)
                         ]),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Flexible(
                             fit: FlexFit.tight,
                             child: Text(
                                 actionTypeTranslations[
                                     widget.auditLog.actionType]!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Color(0xFF282828),
                                     fontWeight: FontWeight.normal,
                                     fontSize: 14,
                                     height: 20 / 14))),
-                        SizedBox(height: 32),
+                        const SizedBox(height: 32),
                         CircleAvatar(
                             radius: 16,
-                            backgroundColor: Color(0xffF0F4F9),
+                            backgroundColor: const Color(0xffF0F4F9),
                             child: IconButton(
-                                icon: Icon(Icons.code, size: 18),
-                                padding: EdgeInsets.all(7.0),
+                                icon: const Icon(Icons.code, size: 18),
+                                padding: const EdgeInsets.all(7.0),
                                 onPressed: () =>
                                     _auditLogDetails(widget.auditLog))),
-                        SizedBox(width: 8)
+                        const SizedBox(width: 8)
                       ],
                     ),
-                    SizedBox(height: 8)
+                    const SizedBox(height: 8)
                   ]))
         ])
       ],
@@ -229,7 +229,6 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
   }
 
   _auditLogDetails(AuditLog auditLog) {
-    tbContext
-        .showFullScreenDialog(new AuditLogDetailsPage(tbContext, auditLog));
+    tbContext.showFullScreenDialog(AuditLogDetailsPage(tbContext, auditLog));
   }
 }

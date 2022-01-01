@@ -34,7 +34,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
           children: [
             SizedBox.expand(
               child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: SingleChildScrollView(
                       child: FormBuilder(
                     key: _changePasswordFormKey,
@@ -42,7 +42,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ValueListenableBuilder(
                               valueListenable: _showCurrentPasswordNotifier,
                               builder: (BuildContext context, bool showPassword,
@@ -67,11 +67,11 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                                   .value;
                                         },
                                       ),
-                                      border: OutlineInputBorder(),
+                                      border: const OutlineInputBorder(),
                                       labelText: 'Current password *'),
                                 );
                               }),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           ValueListenableBuilder(
                               valueListenable: _showNewPasswordNotifier,
                               builder: (BuildContext context, bool showPassword,
@@ -93,11 +93,11 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                               !_showNewPasswordNotifier.value;
                                         },
                                       ),
-                                      border: OutlineInputBorder(),
+                                      border: const OutlineInputBorder(),
                                       labelText: 'New password *'),
                                 );
                               }),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           ValueListenableBuilder(
                               valueListenable: _showNewPassword2Notifier,
                               builder: (BuildContext context, bool showPassword,
@@ -120,19 +120,20 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                               !_showNewPassword2Notifier.value;
                                         },
                                       ),
-                                      border: OutlineInputBorder(),
+                                      border: const OutlineInputBorder(),
                                       labelText: 'New password again *'),
                                 );
                               }),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   alignment: Alignment.centerLeft),
                               onPressed: () {
                                 _changePassword();
                               },
-                              child: Center(child: Text('Change Password')))
+                              child:
+                                  const Center(child: Text('Change Password')))
                         ]),
                   ))),
             ),
@@ -142,11 +143,12 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                   if (loading) {
                     return SizedBox.expand(
                         child: Container(
-                      color: Color(0x99FFFFFF),
-                      child: Center(child: TbProgressIndicator(size: 50.0)),
+                      color: const Color(0x99FFFFFF),
+                      child:
+                          const Center(child: TbProgressIndicator(size: 50.0)),
                     ));
                   } else {
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
                 })
           ],
@@ -165,7 +167,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       } else {
         _isLoadingNotifier.value = true;
         try {
-          await Future.delayed(Duration(milliseconds: 300));
+          await Future.delayed(const Duration(milliseconds: 300));
           await tbClient.changePassword(currentPassword, newPassword);
           pop(true);
         } catch (e) {

@@ -109,7 +109,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
     Future<List<int>> countsFuture =
         Future.wait([activeDevicesCount, inactiveDevicesCount]);
     countsFuture.then((counts) {
-      if (this.mounted) {
+      if (mounted) {
         _activeDevicesCount.add(counts[0]);
         _inactiveDevicesCount.add(counts[1]);
       }
@@ -131,11 +131,11 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
               child: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(16, 12, 16, 15),
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 15),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text('All devices',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -144,9 +144,9 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                           Icon(Icons.arrow_forward, size: 18)
                         ],
                       )),
-                  Divider(height: 1),
+                  const Divider(height: 1),
                   Padding(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -169,7 +169,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                                               context, true, deviceCount);
                                         } else {
                                           return Center(
-                                              child: Container(
+                                              child: SizedBox(
                                                   height: 20,
                                                   width: 20,
                                                   child: CircularProgressIndicator(
@@ -189,7 +189,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                                 }),
                           ),
                           // SizedBox(width: 4),
-                          Container(
+                          const SizedBox(
                               width: 1,
                               height: 40,
                               child: VerticalDivider(width: 1)),
@@ -212,7 +212,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                                               context, false, deviceCount);
                                         } else {
                                           return Center(
-                                              child: Container(
+                                              child: SizedBox(
                                                   height: 20,
                                                   width: 20,
                                                   child: CircularProgressIndicator(
@@ -240,7 +240,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
               BoxShadow(
                   color: Colors.black.withAlpha((255 * 0.05).ceil()),
                   blurRadius: 6.0,
-                  offset: Offset(0, 4))
+                  offset: const Offset(0, 4))
             ],
           ),
         ),
@@ -314,10 +314,10 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                         fit: imageFit,
                         child: image)))
           ])),
-          Container(
+          SizedBox(
               height: 44,
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Center(
                       child: AutoSizeText(
                     entity.name,
@@ -325,12 +325,12 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                     maxLines: 1,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                         height: 20 / 14),
                   )))),
-          Divider(height: 1),
+          const Divider(height: 1),
           GestureDetector(
               behavior: HitTestBehavior.opaque,
               child: FutureBuilder<int>(
@@ -341,10 +341,10 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                     var deviceCount = snapshot.data!;
                     return _buildDeviceCount(context, true, deviceCount);
                   } else {
-                    return Container(
+                    return SizedBox(
                         height: 40,
                         child: Center(
-                            child: Container(
+                            child: SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
@@ -359,7 +359,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
               onTap: () {
                 navigateTo('/deviceList?active=true&deviceType=${entity.name}');
               }),
-          Divider(height: 1),
+          const Divider(height: 1),
           GestureDetector(
               behavior: HitTestBehavior.opaque,
               child: FutureBuilder<int>(
@@ -370,10 +370,10 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                     var deviceCount = snapshot.data!;
                     return _buildDeviceCount(context, false, deviceCount);
                   } else {
-                    return Container(
+                    return SizedBox(
                         height: 40,
                         child: Center(
-                            child: Container(
+                            child: SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
@@ -394,9 +394,9 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
 }
 
 Widget _buildDeviceCount(BuildContext context, bool active, int count) {
-  Color color = active ? Color(0xFF008A00) : Color(0xFFAFAFAF);
+  Color color = active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
   return Padding(
-    padding: EdgeInsets.all(12),
+    padding: const EdgeInsets.all(12),
     child: Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -409,19 +409,19 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
                 Icon(Icons.devices_other, size: 16, color: color),
                 if (!active)
                   CustomPaint(
-                    size: Size.square(16),
+                    size: const Size.square(16),
                     painter: StrikeThroughPainter(color: color, offset: 2),
                   )
               ],
             ),
-            SizedBox(width: 8.67),
+            const SizedBox(width: 8.67),
             Text(active ? 'Active' : 'Inactive',
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     height: 16 / 12,
                     color: color)),
-            SizedBox(width: 8.67),
+            const SizedBox(width: 8.67),
             Text(count.toString(),
                 style: TextStyle(
                     fontSize: 12,
@@ -430,7 +430,7 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
                     color: color))
           ],
         ),
-        Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC))
+        const Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC))
       ],
     ),
   );
@@ -449,7 +449,8 @@ class StrikeThroughPainter extends CustomPainter {
     canvas.drawLine(Offset(offset, offset),
         Offset(size.width - offset, size.height - offset), paint);
     paint.color = Colors.white;
-    canvas.drawLine(Offset(2, 0), Offset(size.width + 2, size.height), paint);
+    canvas.drawLine(
+        const Offset(2, 0), Offset(size.width + 2, size.height), paint);
   }
 
   @override

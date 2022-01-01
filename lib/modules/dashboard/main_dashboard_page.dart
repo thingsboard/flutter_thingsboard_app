@@ -70,7 +70,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
     super.initState();
     rightLayoutMenuController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
     rightLayoutMenuAnimation = CurvedAnimation(
         curve: Curves.linear, parent: rightLayoutMenuController);
@@ -122,7 +122,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
                             progress: rightLayoutMenuAnimation,
                             icon: AnimatedIcons.menu_close));
                   } else {
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
                 })
           ],

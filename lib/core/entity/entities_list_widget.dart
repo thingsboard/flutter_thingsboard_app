@@ -104,7 +104,7 @@ class _EntitiesListWidgetState<T, P>
   Widget build(BuildContext context) {
     return Container(
         height: 120,
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         child: Card(
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
@@ -129,25 +129,25 @@ class _EntitiesListWidgetState<T, P>
                                 title += ' (${data!.totalElements})';
                               }
                               return Text(title,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xFF282828),
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
                                       height: 1.5));
                             },
                           ),
-                          Spacer(),
+                          const Spacer(),
                           TextButton(
                               onPressed: () {
                                 widget.onViewAll();
                               },
                               style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero),
-                              child: Text('View all'))
+                              child: const Text('View all'))
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 64,
                       child: StreamBuilder<PageData<T>?>(
                           stream: _entitiesStreamController.stream,
@@ -177,11 +177,11 @@ class _EntitiesListWidgetState<T, P>
             BoxShadow(
                 color: Colors.black.withAlpha(25),
                 blurRadius: 10.0,
-                offset: Offset(0, 4)),
+                offset: const Offset(0, 4)),
             BoxShadow(
                 color: Colors.black.withAlpha(18),
                 blurRadius: 30.0,
-                offset: Offset(0, 10)),
+                offset: const Offset(0, 10)),
           ],
         ));
   }
@@ -190,11 +190,13 @@ class _EntitiesListWidgetState<T, P>
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-              color: Color(0xFFDEDEDE), style: BorderStyle.solid, width: 1),
+              color: const Color(0xFFDEDEDE),
+              style: BorderStyle.solid,
+              width: 1),
           borderRadius: BorderRadius.circular(4)),
       child: Center(
         child: Text(widget.noItemsFoundText,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFFAFAFAF),
               fontSize: 14,
             )),

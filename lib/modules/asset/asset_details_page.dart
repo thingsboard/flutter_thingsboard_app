@@ -19,20 +19,20 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
   @override
   Widget buildEntityDetails(BuildContext context, AssetInfo asset) {
     return Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
               Text('Asset name', style: labelTextStyle),
               Text(asset.name, style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Type', style: labelTextStyle),
               Text(asset.type, style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Label', style: labelTextStyle),
               Text(asset.label ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Assigned to customer', style: labelTextStyle),
               Text(asset.customerTitle ?? '', style: valueTextStyle),
             ]));

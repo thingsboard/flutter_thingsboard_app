@@ -10,17 +10,17 @@ class EntityListCard<T> extends StatelessWidget {
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
   final EntityCardSettings _settings;
 
-  EntityListCard(T entity,
+  const EntityListCard(T entity,
       {Key? key,
       EntityTapFunction<T>? onEntityTap,
       required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
       required EntityCardSettings settings,
       bool listWidgetCard = false})
-      : this._entity = entity,
-        this._onEntityTap = onEntityTap,
-        this._entityCardWidgetBuilder = entityCardWidgetBuilder,
-        this._settings = settings,
-        this._listWidgetCard = listWidgetCard,
+      : _entity = entity,
+        _onEntityTap = onEntityTap,
+        _entityCardWidgetBuilder = entityCardWidgetBuilder,
+        _settings = settings,
+        _listWidgetCard = listWidgetCard,
         super(key: key);
 
   @override
@@ -28,7 +28,9 @@ class EntityListCard<T> extends StatelessWidget {
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         child: Container(
-          margin: _listWidgetCard ? EdgeInsets.only(right: 8) : EdgeInsets.zero,
+          margin: _listWidgetCard
+              ? const EdgeInsets.only(right: 8)
+              : EdgeInsets.zero,
           child: Card(
               margin: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
@@ -39,7 +41,7 @@ class EntityListCard<T> extends StatelessWidget {
           decoration: _listWidgetCard
               ? BoxDecoration(
                   border: Border.all(
-                      color: Color(0xFFDEDEDE),
+                      color: const Color(0xFFDEDEDE),
                       style: BorderStyle.solid,
                       width: 1),
                   borderRadius: BorderRadius.circular(4))
@@ -48,7 +50,7 @@ class EntityListCard<T> extends StatelessWidget {
                     BoxShadow(
                         color: Colors.black.withAlpha((255 * 0.05).ceil()),
                         blurRadius: 6.0,
-                        offset: Offset(0, 4)),
+                        offset: const Offset(0, 4)),
                   ],
                 ),
         ),

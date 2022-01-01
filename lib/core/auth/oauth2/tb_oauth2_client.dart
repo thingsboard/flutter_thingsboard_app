@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:crypto/crypto.dart';
 
 import 'app_secret_provider.dart';
 
@@ -43,7 +43,8 @@ class TbOAuth2Client {
     );
     final key = SecretKey(appSecret);
     final appToken = jwt.sign(key,
-        algorithm: _HMACBase64Algorithm.HS512, expiresIn: Duration(minutes: 2));
+        algorithm: _HMACBase64Algorithm.HS512,
+        expiresIn: const Duration(minutes: 2));
     var url =
         Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + oauth2Url);
     final params = Map<String, String>.from(url.queryParameters);

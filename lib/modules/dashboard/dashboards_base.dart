@@ -78,14 +78,14 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
                             FittedBox(
                                 fit: BoxFit.fitWidth,
                                 alignment: Alignment.centerLeft,
-                                child: Text('${dashboard.title}',
-                                    style: TextStyle(
+                                child: Text(dashboard.title,
+                                    style: const TextStyle(
                                         color: Color(0xFF282828),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         height: 1.7))),
-                            Text('${_dashboardDetailsText(dashboard)}',
-                                style: TextStyle(
+                            Text(_dashboardDetailsText(dashboard),
+                                style: const TextStyle(
                                     color: Color(0xFFAFAFAF),
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
@@ -100,7 +100,7 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
                                   entityDateFormat.format(
                                       DateTime.fromMillisecondsSinceEpoch(
                                           dashboard.createdTime!)),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
@@ -177,11 +177,11 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
                       fit: BoxFit.cover,
                       child: image))
             ])),
-            Divider(height: 1),
-            Container(
+            const Divider(height: 1),
+            SizedBox(
               height: 44,
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Center(
                       child: AutoSizeText(
                     widget.dashboard.title,
@@ -189,7 +189,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
                     maxLines: 1,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                         height: 20 / 14),

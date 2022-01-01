@@ -36,6 +36,7 @@ typedef EntityCardWidgetBuilder<T> = Widget Function(
 
 class EntityCardSettings {
   bool dropShadow;
+
   EntityCardSettings({this.dropShadow = true});
 }
 
@@ -55,15 +56,15 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Key? getKey(T entity) => null;
 
   Widget buildEntityListCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return const Text('Not implemented!');
   }
 
   Widget buildEntityListWidgetCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return const Text('Not implemented!');
   }
 
   Widget buildEntityGridCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return const Text('Not implemented!');
   }
 
   double? gridChildAspectRatio() => null;
@@ -80,7 +81,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
   Widget buildEntityListCard(BuildContext context, T contact) {
     var address = Utils.contactToShortAddress(contact);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,8 +98,8 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                         FittedBox(
                             fit: BoxFit.fitWidth,
                             alignment: Alignment.centerLeft,
-                            child: Text('${contact.getName()}',
-                                style: TextStyle(
+                            child: Text(contact.getName(),
+                                style: const TextStyle(
                                     color: Color(0xFF282828),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -107,34 +108,34 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                             entityDateFormat.format(
                                 DateTime.fromMillisecondsSinceEpoch(
                                     contact.createdTime!)),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 height: 16 / 12))
                       ]),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   if (contact.email != null)
                     Text(contact.email!,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xFFAFAFAF),
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
                             height: 16 / 12)),
-                  if (contact.email == null) SizedBox(height: 16),
-                  if (address != null) SizedBox(height: 4),
+                  if (contact.email == null) const SizedBox(height: 16),
+                  if (address != null) const SizedBox(height: 4),
                   if (address != null)
                     Text(address,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xFFAFAFAF),
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
                             height: 16 / 12)),
                 ],
               )),
-          SizedBox(width: 16),
-          Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
-          SizedBox(width: 8)
+          const SizedBox(width: 16),
+          const Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
+          const SizedBox(width: 8)
         ],
       ),
     );
@@ -194,7 +195,7 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
 
   @override
   Widget? buildHeading(BuildContext context) => searchMode
-      ? Text('Search results',
+      ? const Text('Search results',
           style: TextStyle(
               color: Color(0xFFAFAFAF), fontSize: 16, height: 24 / 16))
       : null;
@@ -243,9 +244,7 @@ abstract class BaseEntitiesState<T, P>
   }
 
   Future<void> _refresh() {
-    if (_refreshCompleter == null) {
-      _refreshCompleter = Completer();
-    }
+    _refreshCompleter ??= Completer();
     if (_dataLoading) {
       _scheduleRefresh = true;
     } else {
@@ -319,15 +318,15 @@ abstract class BaseEntitiesState<T, P>
         right: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [RefreshProgressIndicator()],
+          children: const [RefreshProgressIndicator()],
         ),
       )
     ]);
   }
 
   Widget newPageProgressIndicatorBuilder(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
+    return const Padding(
+      padding: EdgeInsets.only(
         top: 16,
         bottom: 16,
       ),

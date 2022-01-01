@@ -47,13 +47,13 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           title: const Text('Profile'),
           actions: [
             IconButton(
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 onPressed: () {
                   _saveProfile();
                 }),
             if (widget._fullscreen)
               IconButton(
-                  icon: Icon(Icons.logout),
+                  icon: const Icon(Icons.logout),
                   onPressed: () {
                     tbClient.logout();
                   })
@@ -63,7 +63,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           children: [
             SizedBox.expand(
               child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: SingleChildScrollView(
                       child: FormBuilder(
                     key: _profileFormKey,
@@ -71,7 +71,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormBuilderTextField(
                             name: 'email',
                             validator: FormBuilderValidators.compose([
@@ -80,33 +80,34 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                               FormBuilderValidators.email(context,
                                   errorText: 'Invalid email format.')
                             ]),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Email *'),
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           FormBuilderTextField(
                             name: 'firstName',
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'First Name'),
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           FormBuilderTextField(
                             name: 'lastName',
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Last Name'),
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   alignment: Alignment.centerLeft),
                               onPressed: () {
                                 _changePassword();
                               },
-                              child: Center(child: Text('Change Password')))
+                              child:
+                                  const Center(child: Text('Change Password')))
                         ]),
                   ))),
             ),
@@ -116,11 +117,12 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                   if (loading) {
                     return SizedBox.expand(
                         child: Container(
-                      color: Color(0x99FFFFFF),
-                      child: Center(child: TbProgressIndicator(size: 50.0)),
+                      color: const Color(0x99FFFFFF),
+                      child:
+                          const Center(child: TbProgressIndicator(size: 50.0)),
                     ));
                   } else {
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
                 })
           ],
@@ -154,20 +156,20 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         _currentUser = await tbClient.getUserService().saveUser(_currentUser!);
         tbContext.userDetails = _currentUser;
         _setUser();
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         _isLoadingNotifier.value = false;
         showSuccessNotification('Profile successfully updated',
-            duration: Duration(milliseconds: 1500));
+            duration: const Duration(milliseconds: 1500));
       }
     }
   }
 
   _changePassword() async {
     var res = await tbContext
-        .showFullScreenDialog<bool>(new ChangePasswordPage(tbContext));
+        .showFullScreenDialog<bool>(ChangePasswordPage(tbContext));
     if (res == true) {
       showSuccessNotification('Password successfully changed',
-          duration: Duration(milliseconds: 1500));
+          duration: const Duration(milliseconds: 1500));
     }
   }
 }

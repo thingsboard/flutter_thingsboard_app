@@ -45,7 +45,7 @@ class _HomePageState extends TbContextState<HomePage>
         tbContext,
         elevation: dashboardState ? 0 : 8,
         title: Center(
-            child: Container(
+            child: SizedBox(
                 height: 24,
                 child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
                     color: Theme.of(context).primaryColor,
@@ -53,7 +53,7 @@ class _HomePageState extends TbContextState<HomePage>
         actions: [
           if (tbClient.isSystemAdmin())
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 navigateTo('/tenants?search=true');
               },

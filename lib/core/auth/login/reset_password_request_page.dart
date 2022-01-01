@@ -32,20 +32,20 @@ class _ResetPasswordRequestPageState
               backgroundColor: Colors.transparent,
               appBar: TbAppBar(
                 tbContext,
-                title: Text('Reset password'),
+                title: const Text('Reset password'),
               ),
               body: Stack(children: [
                 SizedBox.expand(
                     child: Padding(
-                        padding: EdgeInsets.all(24),
+                        padding: const EdgeInsets.all(24),
                         child: FormBuilder(
                             key: _resetPasswordFormKey,
                             autovalidateMode: AutovalidateMode.disabled,
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  SizedBox(height: 16),
-                                  Text(
+                                  const SizedBox(height: 16),
+                                  const Text(
                                     'Enter the email associated with your account and we\'ll send an email with password reset link',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -53,7 +53,7 @@ class _ResetPasswordRequestPageState
                                         fontSize: 14,
                                         height: 24 / 14),
                                   ),
-                                  SizedBox(height: 61),
+                                  const SizedBox(height: 61),
                                   FormBuilderTextField(
                                     name: 'email',
                                     autofocus: true,
@@ -63,16 +63,16 @@ class _ResetPasswordRequestPageState
                                       FormBuilderValidators.email(context,
                                           errorText: 'Invalid email format.')
                                     ]),
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Email *'),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   ElevatedButton(
-                                    child: Text('Request password reset'),
+                                    child: const Text('Request password reset'),
                                     style: ElevatedButton.styleFrom(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 16)),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16)),
                                     onPressed: () {
                                       _requestPasswordReset();
                                     },
@@ -84,11 +84,12 @@ class _ResetPasswordRequestPageState
                       if (loading) {
                         return SizedBox.expand(
                             child: Container(
-                          color: Color(0x99FFFFFF),
-                          child: Center(child: TbProgressIndicator(size: 50.0)),
+                          color: const Color(0x99FFFFFF),
+                          child: const Center(
+                              child: TbProgressIndicator(size: 50.0)),
                         ));
                       } else {
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       }
                     })
               ])))
@@ -102,7 +103,7 @@ class _ResetPasswordRequestPageState
       String email = formValue['email'];
       _isLoadingNotifier.value = true;
       try {
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         await tbClient.sendResetPasswordLink(email);
         _isLoadingNotifier.value = false;
         showSuccessNotification('Password reset link was successfully sent!');

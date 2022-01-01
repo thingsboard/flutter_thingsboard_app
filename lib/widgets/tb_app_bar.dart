@@ -52,7 +52,7 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
           valueListenable: loadingNotifier,
           builder: (context, bool loading, child) {
             if (loading) {
-              return LinearProgressIndicator();
+              return const LinearProgressIndicator();
             } else {
               return Container(height: 4);
             }
@@ -69,7 +69,7 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
       title: widget.title,
       actions: widget.actions,
       elevation: widget.elevation ?? 8,
-      shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
+      shadowColor: widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
     );
   }
 }
@@ -99,7 +99,7 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
 }
 
 class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
-  final TextEditingController _filter = new TextEditingController();
+  final TextEditingController _filter = TextEditingController();
   final _textUpdates = StreamController<String>();
 
   @override
@@ -131,7 +131,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
           valueListenable: loadingNotifier,
           builder: (context, bool loading, child) {
             if (loading) {
-              return LinearProgressIndicator();
+              return const LinearProgressIndicator();
             } else {
               return Container(height: 4);
             }
@@ -146,18 +146,19 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
     return AppBar(
         centerTitle: true,
         elevation: widget.elevation ?? 8,
-        shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
+        shadowColor:
+            widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
         title: TextField(
             controller: _filter,
             autofocus: true,
             // cursorColor: Colors.white,
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
               hintStyle: TextStyle(
-                color: Color(0xFF282828).withAlpha((255 * 0.38).ceil()),
+                color: const Color(0xFF282828).withAlpha((255 * 0.38).ceil()),
               ),
-              contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
+              contentPadding: const EdgeInsets.only(
+                  left: 15, bottom: 11, top: 15, right: 15),
               hintText: widget.searchHint ?? 'Search',
             )),
         actions: [
@@ -166,7 +167,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
               builder: (context, value, child) {
                 if (_filter.text.isNotEmpty) {
                   return IconButton(
-                    icon: Icon(Icons.clear),
+                    icon: const Icon(Icons.clear),
                     onPressed: () {
                       _filter.text = '';
                     },

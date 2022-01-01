@@ -43,7 +43,7 @@ class _FullscreenDashboardPageState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: ValueListenableBuilder<bool>(
               valueListenable: showBackValue,
               builder: (context, canGoBack, widget) {
@@ -67,7 +67,7 @@ class _FullscreenDashboardPageState
                     ),
                     actions: [
                       IconButton(
-                          icon: Icon(Icons.settings),
+                          icon: const Icon(Icons.settings),
                           onPressed: () =>
                               navigateTo('/profile?fullscreen=true'))
                     ]);

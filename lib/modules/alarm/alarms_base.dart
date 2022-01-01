@@ -114,17 +114,17 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
   @override
   void didUpdateWidget(AlarmCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    this.loading = false;
-    this.alarm = widget.alarm;
+    loading = false;
+    alarm = widget.alarm;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (this.loading) {
+    if (loading) {
       return Container(
           height: 134,
           alignment: Alignment.center,
-          child: RefreshProgressIndicator());
+          child: const RefreshProgressIndicator());
     } else {
       bool hasDashboard = alarm.details?['dashboardId'] != null;
       return Stack(
@@ -136,12 +136,12 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                     width: 4,
                     decoration: BoxDecoration(
                         color: alarmSeverityColors[alarm.severity]!,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(4),
                             bottomLeft: Radius.circular(4))),
                   ))),
           Row(mainAxisSize: MainAxisSize.max, children: [
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Flexible(
                 fit: FlexFit.tight,
                 child: Column(
@@ -151,13 +151,13 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Flexible(
                                 fit: FlexFit.tight,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: 12),
+                                    const SizedBox(height: 12),
                                     Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
@@ -170,7 +170,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                                   minFontSize: 8,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Color(0xFF282828),
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -180,13 +180,13 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                               entityDateFormat.format(DateTime
                                                   .fromMillisecondsSinceEpoch(
                                                       alarm.createdTime!)),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Color(0xFFAFAFAF),
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 12,
                                                   height: 16 / 12))
                                         ]),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -197,7 +197,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                                   alarm.originatorName != null
                                                       ? alarm.originatorName!
                                                       : '',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Color(0xFFAFAFAF),
                                                       fontWeight:
                                                           FontWeight.normal,
@@ -213,31 +213,31 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                                   fontSize: 12,
                                                   height: 16 / 12))
                                         ]),
-                                    SizedBox(height: 12)
+                                    const SizedBox(height: 12)
                                   ],
                                 )),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             if (hasDashboard)
-                              Icon(Icons.chevron_right,
+                              const Icon(Icons.chevron_right,
                                   color: Color(0xFFACACAC)),
-                            if (hasDashboard) SizedBox(width: 16),
+                            if (hasDashboard) const SizedBox(width: 16),
                           ]),
-                      Divider(height: 1),
-                      SizedBox(height: 8),
+                      const Divider(height: 1),
+                      const SizedBox(height: 8),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Flexible(
                               fit: FlexFit.tight,
                               child: Text(
                                   alarmStatusTranslations[alarm.status]!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xFF282828),
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14,
                                       height: 20 / 14))),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           Row(
                             children: [
                               if ([
@@ -246,31 +246,32 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                               ].contains(alarm.status))
                                 CircleAvatar(
                                     radius: 16,
-                                    backgroundColor: Color(0xffF0F4F9),
+                                    backgroundColor: const Color(0xffF0F4F9),
                                     child: IconButton(
-                                        icon: Icon(Icons.done, size: 18),
-                                        padding: EdgeInsets.all(7.0),
+                                        icon: const Icon(Icons.done, size: 18),
+                                        padding: const EdgeInsets.all(7.0),
                                         onPressed: () => _ackAlarm(alarm))),
                               if ([
                                 AlarmStatus.ACTIVE_UNACK,
                                 AlarmStatus.ACTIVE_ACK
                               ].contains(alarm.status))
                                 Row(children: [
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   CircleAvatar(
                                       radius: 16,
-                                      backgroundColor: Color(0xffF0F4F9),
+                                      backgroundColor: const Color(0xffF0F4F9),
                                       child: IconButton(
-                                          icon: Icon(Icons.clear, size: 18),
-                                          padding: EdgeInsets.all(7.0),
+                                          icon:
+                                              const Icon(Icons.clear, size: 18),
+                                          padding: const EdgeInsets.all(7.0),
                                           onPressed: () => _clearAlarm(alarm)))
                                 ])
                             ],
                           ),
-                          SizedBox(width: 8)
+                          const SizedBox(width: 8)
                         ],
                       ),
-                      SizedBox(height: 8)
+                      const SizedBox(height: 8)
                     ]))
           ])
         ],

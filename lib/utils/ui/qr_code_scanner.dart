@@ -48,7 +48,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
         body: Stack(
       children: [
         _buildQrView(context),
-        Positioned(
+        const Positioned(
             bottom: 0,
             left: 0,
             right: 0,
@@ -60,7 +60,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
           child: AppBar(
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             elevation: 0,
             actions: <Widget>[
               IconButton(
@@ -127,7 +127,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
         pop(scanData);
       });
     } else {
-      simulatedQrTimer = Timer(Duration(seconds: 3), () {
+      simulatedQrTimer = Timer(const Duration(seconds: 3), () {
         pop(Barcode('test code', BarcodeFormat.qrcode, null));
       });
     }

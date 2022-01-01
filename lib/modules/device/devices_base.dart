@@ -150,9 +150,9 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                 width: 4,
                 decoration: BoxDecoration(
                     color: widget.device.attribute('active') == 'true'
-                        ? Color(0xFF008A00)
-                        : Color(0xFFAFAFAF),
-                    borderRadius: BorderRadius.only(
+                        ? const Color(0xFF008A00)
+                        : const Color(0xFFAFAFAF),
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(4),
                         bottomLeft: Radius.circular(4))),
               ))),
@@ -180,13 +180,13 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Flexible(
                         fit: FlexFit.tight,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             Row(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -195,12 +195,13 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                     Container(
                                         width: 40,
                                         height: 40,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4))),
                                         child: ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(4)),
                                             child: Stack(
                                               children: [
                                                 Positioned.fill(
@@ -210,7 +211,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                 ))
                                               ],
                                             ))),
-                                  SizedBox(width: 12),
+                                  const SizedBox(width: 12),
                                   Flexible(
                                       fit: FlexFit.tight,
                                       child: Column(children: [
@@ -226,8 +227,9 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       child: Text(
-                                                          '${widget.device.field('name')!}',
-                                                          style: TextStyle(
+                                                          widget.device
+                                                              .field('name')!,
+                                                          style: const TextStyle(
                                                               color: Color(
                                                                   0xFF282828),
                                                               fontSize: 14,
@@ -236,28 +238,27 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                                       .w500,
                                                               height:
                                                                   20 / 14)))),
-                                              SizedBox(width: 12),
+                                              const SizedBox(width: 12),
                                               Text(
                                                   entityDateFormat.format(DateTime
                                                       .fromMillisecondsSinceEpoch(
                                                           widget.device
                                                               .createdTime!)),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Color(0xFFAFAFAF),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 16 / 12))
                                             ]),
-                                        SizedBox(height: 4),
+                                        const SizedBox(height: 4),
                                         Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                                '${widget.device.field('type')!}',
-                                                style: TextStyle(
+                                            Text(widget.device.field('type')!,
+                                                style: const TextStyle(
                                                     color: Color(0xFFAFAFAF),
                                                     fontSize: 12,
                                                     fontWeight:
@@ -274,8 +275,8 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                               .attribute(
                                                                   'active') ==
                                                           'true'
-                                                      ? Color(0xFF008A00)
-                                                      : Color(0xFFAFAFAF),
+                                                      ? const Color(0xFF008A00)
+                                                      : const Color(0xFFAFAFAF),
                                                   fontSize: 12,
                                                   height: 16 / 12,
                                                   fontWeight: FontWeight.normal,
@@ -283,18 +284,18 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                           ],
                                         )
                                       ])),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   if (hasDashboard)
-                                    Icon(Icons.chevron_right,
+                                    const Icon(Icons.chevron_right,
                                         color: Color(0xFFACACAC)),
-                                  if (hasDashboard) SizedBox(width: 16),
+                                  if (hasDashboard) const SizedBox(width: 16),
                                 ]),
-                            SizedBox(height: 12)
+                            const SizedBox(height: 12)
                           ],
                         ))
                   ]);
             } else {
-              return Container(
+              return SizedBox(
                   height: 64,
                   child: Center(
                       child: RefreshProgressIndicator(
@@ -313,7 +314,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
         Container(
           width: 58,
           height: 58,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               // color: Color(0xFFEEEEEE),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(4))),
           child: FutureBuilder<DeviceProfileInfo>(
@@ -337,7 +338,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                 }
                 return ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(4)),
+                        const BorderRadius.horizontal(left: Radius.circular(4)),
                     child: Stack(
                       children: [
                         Positioned.fill(
@@ -361,7 +362,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
       Flexible(
           fit: FlexFit.loose,
           child: Container(
-              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
               child: Column(
                 children: [
                   Row(
@@ -371,20 +372,20 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                         FittedBox(
                             fit: BoxFit.fitWidth,
                             alignment: Alignment.centerLeft,
-                            child: Text('${widget.device.field('name')!}',
-                                style: TextStyle(
+                            child: Text(widget.device.field('name')!,
+                                style: const TextStyle(
                                     color: Color(0xFF282828),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     height: 20 / 14)))
                       ]),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('${widget.device.field('type')!}',
-                            style: TextStyle(
+                        Text(widget.device.field('type')!,
+                            style: const TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,

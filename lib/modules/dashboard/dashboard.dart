@@ -19,6 +19,7 @@ class DashboardController {
   final ValueNotifier<bool> rightLayoutOpened = ValueNotifier(false);
 
   final _DashboardState dashboardState;
+
   DashboardController(this.dashboardState);
 
   Future<void> openDashboard(String dashboardId,
@@ -79,10 +80,10 @@ class Dashboard extends TbContextWidget {
       bool activeByDefault = true,
       DashboardTitleCallback? titleCallback,
       DashboardControllerCallback? controllerCallback})
-      : this._home = home,
-        this._activeByDefault = activeByDefault,
-        this._titleCallback = titleCallback,
-        this._controllerCallback = controllerCallback,
+      : _home = home,
+        _activeByDefault = activeByDefault,
+        _titleCallback = titleCallback,
+        _controllerCallback = controllerCallback,
         super(tbContext);
 
   @override
@@ -276,11 +277,11 @@ class _DashboardState extends TbContextState<Dashboard> {
             valueListenable: readyState,
             builder: (BuildContext context, bool ready, child) {
               if (!ready) {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               } else {
                 return Stack(children: [
                   UniversalPlatform.isWeb
-                      ? Center(child: Text('Not implemented!'))
+                      ? const Center(child: Text('Not implemented!'))
                       : InAppWebView(
                           key: webViewKey,
                           initialUrlRequest: URLRequest(url: _initialUrl),
@@ -326,7 +327,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                                 callback: (args) async {
                                   log.debug(
                                       "Invoked tbMobileNavigationHandler: $args");
-                                  if (args.length > 0) {
+                                  if (args.isNotEmpty) {
                                     String? path = args[0];
                                     Map<String, dynamic>? params;
                                     if (args.length > 1) {
@@ -414,7 +415,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                         builder: (BuildContext context, bool loading,
                             bool active, child) {
                           if (!loading && active) {
-                            return SizedBox.shrink();
+                            return const SizedBox.shrink();
                           } else {
                             var data = MediaQueryData.fromWindow(
                                 WidgetsBinding.instance!.window);
@@ -426,7 +427,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                               padding: EdgeInsets.only(bottom: bottomPadding),
                               alignment: Alignment.center,
                               color: Colors.white,
-                              child: TbProgressIndicator(size: 50.0),
+                              child: const TbProgressIndicator(size: 50.0),
                             );
                           }
                         })

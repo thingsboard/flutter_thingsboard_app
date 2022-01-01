@@ -17,7 +17,7 @@ class _OnAppLifecycleResumeObserver extends WidgetsBindingObserver {
 }
 
 class TbWebAuth {
-  static const MethodChannel _channel = const MethodChannel('tb_web_auth');
+  static const MethodChannel _channel = MethodChannel('tb_web_auth');
 
   static final _OnAppLifecycleResumeObserver _resumedObserver =
       _OnAppLifecycleResumeObserver(() {

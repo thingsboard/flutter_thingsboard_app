@@ -51,7 +51,7 @@ class _DashboardPageState extends TbPageState<DashboardPage> {
             },
           ),
         ),
-        body: Text(
+        body: const Text(
             'Deprecated') //Dashboard(tbContext, dashboardId: widget._dashboardId, state: widget._state,
         //fullscreen: widget._fullscreen, titleCallback: (title) {
         //dashboardTitleValue.value =  title;

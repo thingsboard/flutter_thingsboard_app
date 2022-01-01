@@ -46,11 +46,11 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
       Flexible(
           fit: FlexFit.tight,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Flexible(
                     fit: FlexFit.tight,
                     child: Column(
@@ -63,8 +63,8 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
                               FittedBox(
                                   fit: BoxFit.fitWidth,
                                   alignment: Alignment.centerLeft,
-                                  child: Text('${asset.name}',
-                                      style: TextStyle(
+                                  child: Text(asset.name,
+                                      style: const TextStyle(
                                           color: Color(0xFF282828),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
@@ -73,24 +73,24 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
                                   entityDateFormat.format(
                                       DateTime.fromMillisecondsSinceEpoch(
                                           asset.createdTime!)),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                       height: 16 / 12))
                             ]),
-                        SizedBox(height: 4),
-                        Text('${asset.type}',
-                            style: TextStyle(
+                        const SizedBox(height: 4),
+                        Text(asset.type,
+                            style: const TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 height: 1.33))
                       ],
                     )),
-                SizedBox(width: 16),
-                Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
-                SizedBox(width: 16)
+                const SizedBox(width: 16),
+                const Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
+                const SizedBox(width: 16)
               ],
             ),
           ))
@@ -102,7 +102,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
       Flexible(
           fit: FlexFit.loose,
           child: Container(
-              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 Flexible(
                     fit: FlexFit.loose,
@@ -112,14 +112,14 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
                         FittedBox(
                             fit: BoxFit.fitWidth,
                             alignment: Alignment.centerLeft,
-                            child: Text('${asset.name}',
-                                style: TextStyle(
+                            child: Text(asset.name,
+                                style: const TextStyle(
                                     color: Color(0xFF282828),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     height: 1.7))),
-                        Text('${asset.type}',
-                            style: TextStyle(
+                        Text(asset.type,
+                            style: const TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,

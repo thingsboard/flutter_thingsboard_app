@@ -43,7 +43,7 @@ class TbMainNavigationItem {
         TbMainNavigationItem(
             page: HomePage(tbContext),
             title: 'Home',
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             path: '/home')
       ];
       switch (tbContext.tbClient.getAuthUser()!.authority) {
@@ -55,12 +55,12 @@ class TbMainNavigationItem {
             TbMainNavigationItem(
                 page: AlarmsPage(tbContext),
                 title: 'Alarms',
-                icon: Icon(Icons.notifications),
+                icon: const Icon(Icons.notifications),
                 path: '/alarms'),
             TbMainNavigationItem(
                 page: DevicesMainPage(tbContext),
                 title: 'Devices',
-                icon: Icon(Icons.devices_other),
+                icon: const Icon(Icons.devices_other),
                 path: '/devices')
           ]);
           break;
@@ -72,7 +72,7 @@ class TbMainNavigationItem {
       items.add(TbMainNavigationItem(
           page: MorePage(tbContext),
           title: 'More',
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           path: '/more'));
       return items;
     } else {
@@ -117,7 +117,7 @@ class _MainPageState extends TbPageState<MainPage>
 
   _onTabAnimation() {
     var value = _tabController.animation!.value;
-    var targetIndex;
+    int targetIndex;
     if (value >= _tabController.previousIndex) {
       targetIndex = value.round();
     } else {
@@ -139,7 +139,7 @@ class _MainPageState extends TbPageState<MainPage>
         child: Scaffold(
             body: TabBarView(
               physics: tbContext.homeDashboard != null
-                  ? NeverScrollableScrollPhysics()
+                  ? const NeverScrollableScrollPhysics()
                   : null,
               controller: _tabController,
               children: _tabItems.map((item) => item.page).toList(),

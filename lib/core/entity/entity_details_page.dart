@@ -9,10 +9,10 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
   final labelTextStyle =
-      TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
+      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
   final valueTextStyle =
-      TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
+      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
   final String _defaultTitle;
   final String _entityId;
@@ -28,12 +28,12 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
       bool showLoadingIndicator = true,
       bool hideAppBar = false,
       double? appBarElevation})
-      : this._defaultTitle = defaultTitle,
-        this._entityId = entityId,
-        this._subTitle = subTitle,
-        this._showLoadingIndicator = showLoadingIndicator,
-        this._hideAppBar = hideAppBar,
-        this._appBarElevation = appBarElevation,
+      : _defaultTitle = defaultTitle,
+        _entityId = entityId,
+        _subTitle = subTitle,
+        _showLoadingIndicator = showLoadingIndicator,
+        _hideAppBar = hideAppBar,
+        _appBarElevation = appBarElevation,
         super(tbContext);
 
   @override
@@ -119,10 +119,11 @@ class _EntityDetailsPageState<T extends BaseData>
             if (entity != null) {
               return widget.buildEntityDetails(context, entity);
             } else {
-              return Center(child: Text('Requested entity does not exists.'));
+              return const Center(
+                  child: Text('Requested entity does not exists.'));
             }
           } else {
-            return Center(
+            return const Center(
                 child: TbProgressIndicator(
               size: 50.0,
             ));
@@ -153,17 +154,17 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
   @override
   Widget buildEntityDetails(BuildContext context, T contact) {
     return Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
               Text('Title', style: labelTextStyle),
               Text(contact.getName(), style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Country', style: labelTextStyle),
               Text(contact.country ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -189,19 +190,19 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                       )),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Zip / Postal Code', style: labelTextStyle),
               Text(contact.zip ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Address', style: labelTextStyle),
               Text(contact.address ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Address 2', style: labelTextStyle),
               Text(contact.address2 ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Phone', style: labelTextStyle),
               Text(contact.phone ?? '', style: valueTextStyle),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Email', style: labelTextStyle),
               Text(contact.email ?? '', style: valueTextStyle),
             ]));

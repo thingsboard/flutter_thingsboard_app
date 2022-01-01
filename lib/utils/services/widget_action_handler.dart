@@ -66,6 +66,7 @@ class MobileActionResult {
 
 class _LaunchResult extends MobileActionResult {
   bool launched;
+
   _LaunchResult(this.launched);
 
   @override
@@ -78,6 +79,7 @@ class _LaunchResult extends MobileActionResult {
 
 class _ImageResult extends MobileActionResult {
   String imageUrl;
+
   _ImageResult(this.imageUrl);
 
   @override
@@ -91,6 +93,7 @@ class _ImageResult extends MobileActionResult {
 class _QrCodeResult extends MobileActionResult {
   String code;
   String format;
+
   _QrCodeResult(this.code, this.format);
 
   @override
@@ -105,6 +108,7 @@ class _QrCodeResult extends MobileActionResult {
 class _LocationResult extends MobileActionResult {
   num latitude;
   num longitude;
+
   _LocationResult(this.latitude, this.longitude);
 
   @override

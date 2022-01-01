@@ -106,7 +106,9 @@ class _TransitionIndexedStackState extends State<TransitionIndexedStack>
 
   @override
   void dispose() {
-    _animationControllers.forEach((controller) => controller.dispose());
+    for (var controller in _animationControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 

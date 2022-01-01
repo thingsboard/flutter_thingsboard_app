@@ -16,8 +16,8 @@ class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
   @override
   Widget buildEntityDetails(BuildContext context, DeviceInfo device) {
     return ListTile(
-      title: Text('${device.name}'),
-      subtitle: Text('${device.type}'),
+      title: Text(device.name),
+      subtitle: Text(device.type),
     );
   }
 }
