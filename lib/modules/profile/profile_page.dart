@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:thingsboard_app/modules/profile/change_password_page.dart';
-import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/modules/profile/change_password_page.dart';
+import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -65,7 +64,8 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
             SizedBox.expand(
               child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: FormBuilder(
+                  child: SingleChildScrollView(
+                      child: FormBuilder(
                     key: _profileFormKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
@@ -108,7 +108,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                               },
                               child: Center(child: Text('Change Password')))
                         ]),
-                  )),
+                  ))),
             ),
             ValueListenableBuilder<bool>(
                 valueListenable: _isLoadingNotifier,

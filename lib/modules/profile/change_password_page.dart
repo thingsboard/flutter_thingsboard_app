@@ -35,7 +35,8 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
             SizedBox.expand(
               child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: FormBuilder(
+                  child: SingleChildScrollView(
+                      child: FormBuilder(
                     key: _changePasswordFormKey,
                     autovalidateMode: AutovalidateMode.disabled,
                     child: Column(
@@ -133,7 +134,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                               },
                               child: Center(child: Text('Change Password')))
                         ]),
-                  )),
+                  ))),
             ),
             ValueListenableBuilder<bool>(
                 valueListenable: _isLoadingNotifier,

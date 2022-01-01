@@ -42,12 +42,12 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-    <string>May need camera access to scan QrCode or take photo in scope of dashboard widget actions.</string>
+    <string>Scan QrCode or take photos using your camera.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>May need photo library access in scope of `Take photo` widget action.</string>
+    <string>Access photo library to take existing photos.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>May need device location access in scope of `Set location` widget action.</string>
+    <string>Get location to place the device on a map.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>May need device location access in scope of `Set location` widget action.</string>
+    <string>Get location to place the device on a map.</string>
 </dict>
 </plist>
