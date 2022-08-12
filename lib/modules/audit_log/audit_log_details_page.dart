@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_base.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -39,7 +40,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       height: 20 / 16)),
-            Text('Audit log details',
+            Text('${S.of(context).auditLogDetails}',
                 style: TextStyle(
                     color: Theme.of(context)
                         .primaryTextTheme
@@ -56,24 +57,24 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('Entity Type', style: labelTextStyle),
+              Text('${S.of(context).entityType}', style: labelTextStyle),
               Text(entityTypeTranslations[widget.auditLog.entityId.entityType]!,
                   style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Type', style: labelTextStyle),
+              Text('${S.of(context).type}', style: labelTextStyle),
               Text(actionTypeTranslations[widget.auditLog.actionType]!,
                   style: valueTextStyle),
               SizedBox(height: 16),
               Flexible(
                   fit: FlexFit.loose,
-                  child: buildBorderedText('Action data',
+                  child: buildBorderedText('${S.of(context).actionData}',
                       encoder.convert(widget.auditLog.actionData))),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
                 SizedBox(height: 16),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
                 Flexible(
                     fit: FlexFit.loose,
-                    child: buildBorderedText('Failure details',
+                    child: buildBorderedText('${S.of(context).failureDetails}',
                         widget.auditLog.actionFailureDetails!))
             ]),
       ),

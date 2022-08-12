@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
 
 import 'config/themes/tb_theme.dart';
+import 'generated/l10n.dart';
 
 final appRouter = ThingsboardAppRouter();
 
@@ -131,14 +133,28 @@ class ThingsboardAppState extends State<ThingsboardApp>
         statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light));
     return MaterialApp(
-        title: 'ThingsBoard',
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
         themeMode: ThemeMode.light,
         home: TwoPageView(
             controller: _mainPageViewController,
             first: MaterialApp(
               key: mainAppKey,
               scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-              title: 'ThingsBoard',
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
               theme: tbTheme,
               themeMode: ThemeMode.light,
               darkTheme: tbDarkTheme,
@@ -148,7 +164,14 @@ class ThingsboardAppState extends State<ThingsboardApp>
             second: MaterialApp(
               key: dashboardKey,
               // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-              title: 'ThingsBoard',
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
               theme: tbTheme,
               themeMode: ThemeMode.light,
               darkTheme: tbDarkTheme,

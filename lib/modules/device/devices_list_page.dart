@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -41,11 +42,14 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
             _deviceQueryController.onSearchText(searchText),
       );
     } else {
-      String titleText =
-          widget.deviceType != null ? widget.deviceType! : 'All devices';
+      String titleText = widget.deviceType != null
+          ? widget.deviceType!
+          : '${S.of(context).allDevices}';
       String? subTitleText;
       if (widget.active != null) {
-        subTitleText = widget.active == true ? 'Active' : 'Inactive';
+        subTitleText = widget.active == true
+            ? '${S.of(context).active}'
+            : '${S.of(context).inactive}';
       }
       Column title =
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
