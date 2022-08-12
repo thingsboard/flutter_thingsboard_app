@@ -43,7 +43,7 @@ const tbDarkMatIndigo = MaterialColor(
   },
 );
 
-final ThemeData theme = ThemeData();
+final ThemeData theme = ThemeData(primarySwatch: tbMatIndigo);
 
 ThemeData tbTheme = ThemeData(
     primarySwatch: tbMatIndigo,
@@ -73,7 +73,10 @@ ThemeData tbTheme = ThemeData(
       TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
     }));
 
+final ThemeData darkTheme =
+    ThemeData(primarySwatch: tbDarkMatIndigo, brightness: Brightness.dark);
+
 ThemeData tbDarkTheme = ThemeData(
     primarySwatch: tbDarkMatIndigo,
-    colorScheme: theme.colorScheme.copyWith(secondary: Colors.deepOrange),
+    colorScheme: darkTheme.colorScheme.copyWith(secondary: Colors.deepOrange),
     brightness: Brightness.dark);

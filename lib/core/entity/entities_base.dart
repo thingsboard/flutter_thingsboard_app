@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -54,15 +55,15 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Key? getKey(T entity) => null;
 
   Widget buildEntityListCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   Widget buildEntityListWidgetCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   Widget buildEntityGridCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   double? gridChildAspectRatio() => null;
@@ -337,7 +338,7 @@ abstract class BaseEntitiesState<T, P>
   Widget noItemsFoundIndicatorBuilder(BuildContext context) {
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText,
-      message: 'The list is currently empty.',
+      message: '${S.of(context).listIsEmptyText}',
       onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
     );
   }
@@ -391,8 +392,8 @@ class FirstPageExceptionIndicator extends StatelessWidget {
                     Icons.refresh,
                     color: Colors.white,
                   ),
-                  label: const Text(
-                    'Try Again',
+                  label: Text(
+                    '${S.of(context).tryAgain}',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,

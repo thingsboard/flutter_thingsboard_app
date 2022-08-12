@@ -7,6 +7,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -135,7 +136,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('All devices',
+                          Text('${S.of(context).allDevices}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
@@ -414,7 +415,10 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
               ],
             ),
             SizedBox(width: 8.67),
-            Text(active ? 'Active' : 'Inactive',
+            Text(
+                active
+                    ? '${S.of(context).active}'
+                    : '${S.of(context).inactive}',
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
