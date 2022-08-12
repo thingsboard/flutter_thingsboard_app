@@ -5,9 +5,9 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'dashboards_base.dart';
 
-class DashboardsList extends BaseEntitiesWidget<DashboardInfo, PageLink> with DashboardsBase, EntitiesListStateBase {
-
-  DashboardsList(TbContext tbContext, PageKeyController<PageLink> pageKeyController) : super(tbContext, pageKeyController);
-
+class DashboardsList extends BaseEntitiesWidget<DashboardInfo, PageLink>
+    with DashboardsBase, EntitiesListStateBase {
+  DashboardsList(
+      TbContext tbContext, PageKeyController<PageLink> pageKeyController)
+      : super(tbContext, pageKeyController);
 }
-

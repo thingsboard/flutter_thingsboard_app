@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 class TwoPageViewController {
-
   _TwoPageViewState? _state;
 
   setTransitionIndexedStackState(_TwoPageViewState state) {
@@ -24,7 +23,6 @@ class TwoPageViewController {
   }
 
   int? get index => _state?._selectedIndex;
-
 }
 
 class TwoPageView extends StatefulWidget {
@@ -33,21 +31,19 @@ class TwoPageView extends StatefulWidget {
   final Duration duration;
   final TwoPageViewController? controller;
 
-  const TwoPageView({
-    Key? key,
-    required this.first,
-    required this.second,
-    this.controller,
-    this.duration = const Duration(milliseconds: 250)
-  }) : super(key: key);
+  const TwoPageView(
+      {Key? key,
+      required this.first,
+      required this.second,
+      this.controller,
+      this.duration = const Duration(milliseconds: 250)})
+      : super(key: key);
 
   @override
   _TwoPageViewState createState() => _TwoPageViewState();
-
 }
 
 class _TwoPageViewState extends State<TwoPageView> {
-
   late List<Widget> _pages;
   bool _reverse = false;
   int _selectedIndex = 0;
@@ -68,7 +64,8 @@ class _TwoPageViewState extends State<TwoPageView> {
           _reverse = true;
         });
       }
-      await _pageController.animateToPage(_selectedIndex, duration: widget.duration, curve: Curves.fastOutSlowIn);
+      await _pageController.animateToPage(_selectedIndex,
+          duration: widget.duration, curve: Curves.fastOutSlowIn);
       return true;
     }
     return false;
@@ -77,7 +74,8 @@ class _TwoPageViewState extends State<TwoPageView> {
   Future<bool> _close(int index, {bool animate = true}) async {
     if (_selectedIndex == index) {
       _selectedIndex = index == 1 ? 0 : 1;
-      await _pageController.animateToPage(_selectedIndex, duration: widget.duration, curve: Curves.fastOutSlowIn);
+      await _pageController.animateToPage(_selectedIndex,
+          duration: widget.duration, curve: Curves.fastOutSlowIn);
       if (index == 0) {
         setState(() {
           _reverse = false;
@@ -106,5 +104,4 @@ class _TwoPageViewState extends State<TwoPageView> {
       controller: _pageController,
     );
   }
-
 }

@@ -24,7 +24,8 @@ const tbMatIndigo = MaterialColor(
     700: Color(0xFF303F9F),
     800: Color(0xFF283593),
     900: Color(0xFF1A237E),
-  },);
+  },
+);
 
 const tbDarkMatIndigo = MaterialColor(
   _tbPrimaryColorValue,
@@ -39,44 +40,40 @@ const tbDarkMatIndigo = MaterialColor(
     700: Color(0xFF303F9F),
     800: _tbPrimaryColor,
     900: Color(0xFF1A237E),
-  },);
+  },
+);
+
+final ThemeData theme = ThemeData();
 
 ThemeData tbTheme = ThemeData(
     primarySwatch: tbMatIndigo,
-    accentColor: Colors.deepOrange,
+    colorScheme: theme.colorScheme.copyWith(secondary: Colors.deepOrange),
     scaffoldBackgroundColor: Color(0xFFFAFAFA),
     textTheme: tbTypography.black,
     primaryTextTheme: tbTypography.black,
     typography: tbTypography,
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      foregroundColor: _tbTextColor,
-      /* titleTextStyle: TextStyle(
+        backgroundColor: Colors.white,
+        foregroundColor: _tbTextColor,
+        /* titleTextStyle: TextStyle(
           color: _tbTextColor
       ),
       toolbarTextStyle: TextStyle(
             color: _tbTextColor
       ), */
-      iconTheme: IconThemeData(
-        color: _tbTextColor
-      )
-
-    ),
+        iconTheme: IconThemeData(color: _tbTextColor)),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
-      selectedItemColor: _tbPrimaryColor,
-      unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
-      showSelectedLabels: true,
-      showUnselectedLabels: true
-    ),
+        backgroundColor: Colors.white,
+        selectedItemColor: _tbPrimaryColor,
+        unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
+        showSelectedLabels: true,
+        showUnselectedLabels: true),
     pageTransitionsTheme: PageTransitionsTheme(builders: {
       TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
       TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
-    })
-);
+    }));
 
 ThemeData tbDarkTheme = ThemeData(
     primarySwatch: tbDarkMatIndigo,
-    accentColor: Colors.deepOrange,
-    brightness: Brightness.dark
-);
+    colorScheme: theme.colorScheme.copyWith(secondary: Colors.deepOrange),
+    brightness: Brightness.dark);

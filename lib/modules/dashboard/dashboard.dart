@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -11,10 +10,9 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_app/widgets/two_value_listenable_builder.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DashboardController {
-
   final ValueNotifier<bool> canGoBack = ValueNotifier(false);
   final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
   final ValueNotifier<bool> rightLayoutOpened = ValueNotifier(false);
@@ -22,8 +20,10 @@ class DashboardController {
   final _DashboardState dashboardState;
   DashboardController(this.dashboardState);
 
-  Future<void> openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
-    return await dashboardState._openDashboard(dashboardId, state: state, hideToolbar: hideToolbar, fullscreen: fullscreen);
+  Future<void> openDashboard(String dashboardId,
+      {String? state, bool? hideToolbar, bool fullscreen = false}) async {
+    return await dashboardState._openDashboard(dashboardId,
+        state: state, hideToolbar: hideToolbar, fullscreen: fullscreen);
   }
 
   Future<bool> goBack() async {
@@ -59,22 +59,26 @@ class DashboardController {
     hasRightLayout.dispose();
     rightLayoutOpened.dispose();
   }
-
 }
 
 typedef DashboardTitleCallback = void Function(String title);
 
-typedef DashboardControllerCallback = void Function(DashboardController controller);
+typedef DashboardControllerCallback = void Function(
+    DashboardController controller);
 
 class Dashboard extends TbContextWidget {
-
   final bool? _home;
   final bool _activeByDefault;
   final DashboardTitleCallback? _titleCallback;
   final DashboardControllerCallback? _controllerCallback;
 
-  Dashboard(TbContext tbContext, {Key? key, bool? home, bool activeByDefault = true, DashboardTitleCallback? titleCallback, DashboardControllerCallback? controllerCallback}):
-        this._home = home,
+  Dashboard(TbContext tbContext,
+      {Key? key,
+      bool? home,
+      bool activeByDefault = true,
+      DashboardTitleCallback? titleCallback,
+      DashboardControllerCallback? controllerCallback})
+      : this._home = home,
         this._activeByDefault = activeByDefault,
         this._titleCallback = titleCallback,
         this._controllerCallback = controllerCallback,
@@ -82,12 +86,11 @@ class Dashboard extends TbContextWidget {
 
   @override
   _DashboardState createState() => _DashboardState();
-
 }
 
 class _DashboardState extends TbContextState<Dashboard> {
-
-  final Completer<InAppWebViewController> _controller = Completer<InAppWebViewController>();
+  final Completer<InAppWebViewController> _controller =
+      Completer<InAppWebViewController>();
 
   bool webViewLoading = true;
   final ValueNotifier<bool> dashboardLoading = ValueNotifier(true);
@@ -97,8 +100,6 @@ class _DashboardState extends TbContextState<Dashboard> {
   final GlobalKey webViewKey = GlobalKey();
 
   late final DashboardController _dashboardController;
-
-  bool _fullscreen = false;
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
@@ -110,13 +111,10 @@ class _DashboardState extends TbContextState<Dashboard> {
         // useOnDownloadStart: true
       ),
       android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-        thirdPartyCookiesEnabled: true
-      ),
+          useHybridComposition: true, thirdPartyCookiesEnabled: true),
       ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-        allowsBackForwardNavigationGestures: false
-      ));
+          allowsInlineMediaPlayback: true,
+          allowsBackForwardNavigationGestures: false));
 
   late Uri _initialUrl;
 
@@ -137,7 +135,8 @@ class _DashboardState extends TbContextState<Dashboard> {
   void _onAuthenticated() async {
     if (tbContext.isAuthenticated) {
       if (!readyState.value) {
-        _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
+        _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint +
+            '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
         readyState.value = true;
       } else {
         var windowMessage = <String, dynamic>{
@@ -193,8 +192,8 @@ class _DashboardState extends TbContextState<Dashboard> {
     }
   }
 
-  Future<void> _openDashboard(String dashboardId, {String? state, bool? hideToolbar, bool fullscreen = false}) async {
-    _fullscreen = fullscreen;
+  Future<void> _openDashboard(String dashboardId,
+      {String? state, bool? hideToolbar, bool fullscreen = false}) async {
     dashboardLoading.value = true;
     InAppWebViewController? controller;
     if (!UniversalPlatform.isWeb) {
@@ -202,9 +201,7 @@ class _DashboardState extends TbContextState<Dashboard> {
     }
     var windowMessage = <String, dynamic>{
       'type': 'openDashboardMessage',
-      'data': <String, dynamic>{
-        'dashboardId': dashboardId
-      }
+      'data': <String, dynamic>{'dashboardId': dashboardId}
     };
     if (state != null) {
       windowMessage['data']['state'] = state;
@@ -217,18 +214,17 @@ class _DashboardState extends TbContextState<Dashboard> {
     }
     var webMessage = WebMessage(data: jsonEncode(windowMessage));
     if (!UniversalPlatform.isWeb) {
-      await controller!.postWebMessage(
-          message: webMessage, targetOrigin: Uri.parse('*'));
+      await controller!
+          .postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
     }
   }
 
   Future<void> _toggleRightLayout() async {
     var controller = await _controller.future;
-    var windowMessage = <String, dynamic>{
-      'type': 'toggleDashboardLayout'
-    };
+    var windowMessage = <String, dynamic>{'type': 'toggleDashboardLayout'};
     var webMessage = WebMessage(data: jsonEncode(windowMessage));
-    await controller.postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
+    await controller.postWebMessage(
+        message: webMessage, targetOrigin: Uri.parse('*'));
   }
 
   Future<void> tryLocalNavigation(String? path) async {
@@ -244,7 +240,8 @@ class _DashboardState extends TbContextState<Dashboard> {
         'customers',
         'auditLogs'
       ].contains(parts[0])) {
-        if ((parts[0] == 'dashboard' || parts[0] == 'dashboards') && parts.length > 1) {
+        if ((parts[0] == 'dashboard' || parts[0] == 'dashboards') &&
+            parts.length > 1) {
           var dashboardId = parts[1];
           await navigateToDashboard(dashboardId);
         } else if (parts[0] != 'dashboard') {
@@ -261,147 +258,176 @@ class _DashboardState extends TbContextState<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-            onWillPop: () async {
-              if (widget._home == true && !tbContext.isHomePage()) {
-                return true;
-              }
-              if (readyState.value) {
-                return await _goBack();
+        onWillPop: () async {
+          if (widget._home == true && !tbContext.isHomePage()) {
+            return true;
+          }
+          if (readyState.value) {
+            return await _goBack();
+          } else {
+            return true;
+          }
+        },
+        child: ValueListenableBuilder(
+            valueListenable: readyState,
+            builder: (BuildContext context, bool ready, child) {
+              if (!ready) {
+                return SizedBox.shrink();
               } else {
-                return true;
-              }
-            },
-            child:
-            ValueListenableBuilder(
-                valueListenable: readyState,
-                builder: (BuildContext context, bool ready, child) {
-                  if (!ready) {
-                    return SizedBox.shrink();
-                  } else {
-                    return Stack(
-                        children: [
-                          UniversalPlatform.isWeb ? Center(child: Text('Not implemented!')) :
-                          InAppWebView(
-                            key: webViewKey,
-                            initialUrlRequest: URLRequest(url: _initialUrl),
-                            initialOptions: options,
-                            onWebViewCreated: (webViewController) {
-                              log.debug("onWebViewCreated");
-                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLoadedHandler", callback: (args) async {
-                                bool hasRightLayout = args[0];
-                                bool rightLayoutOpened = args[1];
-                                log.debug("Invoked tbMobileDashboardLoadedHandler: hasRightLayout: $hasRightLayout, rightLayoutOpened: $rightLayoutOpened");
-                                _dashboardController.onHasRightLayout(hasRightLayout);
-                                _dashboardController.onRightLayoutOpened(rightLayoutOpened);
-                                dashboardLoading.value = false;
-                              });
-                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardLayoutHandler", callback: (args) async {
-                                bool rightLayoutOpened = args[0];
-                                log.debug("Invoked tbMobileDashboardLayoutHandler: rightLayoutOpened: $rightLayoutOpened");
-                                _dashboardController.onRightLayoutOpened(rightLayoutOpened);
-                              });
-                              webViewController.addJavaScriptHandler(handlerName: "tbMobileDashboardStateNameHandler", callback: (args) async {
-                                log.debug("Invoked tbMobileDashboardStateNameHandler: $args");
-                                if (args.isNotEmpty && args[0] is String) {
-                                  if (widget._titleCallback != null) {
-                                    widget._titleCallback!(args[0]);
-                                  }
-                                }
-                              });
-                              webViewController.addJavaScriptHandler(handlerName: "tbMobileNavigationHandler", callback: (args) async {
-                                log.debug("Invoked tbMobileNavigationHandler: $args");
-                                if (args.length > 0) {
-                                  String? path = args[0];
-                                  Map<String, dynamic>? params;
-                                  if (args.length > 1) {
-                                    params = args[1];
-                                  }
-                                  log.debug("path: $path");
-                                  log.debug("params: $params");
-                                  tryLocalNavigation(path);
-                                }
-                              });
-                              webViewController.addJavaScriptHandler(handlerName: "tbMobileHandler", callback: (args) async {
-                                log.debug("Invoked tbMobileHandler: $args");
-                                return await widgetActionHandler.handleWidgetMobileAction(args, webViewController);
-                              });
-                            },
-                            shouldOverrideUrlLoading: (controller, navigationAction) async {
-                              var uri = navigationAction.request.url!;
-                              var uriString = uri.toString();
-                              log.debug('shouldOverrideUrlLoading $uriString');
-                              if (Platform.isAndroid || Platform.isIOS && navigationAction.iosWKNavigationType == IOSWKNavigationType.LINK_ACTIVATED) {
-                                if (uriString.startsWith(ThingsboardAppConstants.thingsBoardApiEndpoint)) {
-                                  var target = uriString.substring(ThingsboardAppConstants.thingsBoardApiEndpoint.length);
-                                  if (!target.startsWith("?accessToken")) {
-                                    if (target.startsWith("/")) {
-                                      target = target.substring(1);
+                return Stack(children: [
+                  UniversalPlatform.isWeb
+                      ? Center(child: Text('Not implemented!'))
+                      : InAppWebView(
+                          key: webViewKey,
+                          initialUrlRequest: URLRequest(url: _initialUrl),
+                          initialOptions: options,
+                          onWebViewCreated: (webViewController) {
+                            log.debug("onWebViewCreated");
+                            webViewController.addJavaScriptHandler(
+                                handlerName: "tbMobileDashboardLoadedHandler",
+                                callback: (args) async {
+                                  bool hasRightLayout = args[0];
+                                  bool rightLayoutOpened = args[1];
+                                  log.debug(
+                                      "Invoked tbMobileDashboardLoadedHandler: hasRightLayout: $hasRightLayout, rightLayoutOpened: $rightLayoutOpened");
+                                  _dashboardController
+                                      .onHasRightLayout(hasRightLayout);
+                                  _dashboardController
+                                      .onRightLayoutOpened(rightLayoutOpened);
+                                  dashboardLoading.value = false;
+                                });
+                            webViewController.addJavaScriptHandler(
+                                handlerName: "tbMobileDashboardLayoutHandler",
+                                callback: (args) async {
+                                  bool rightLayoutOpened = args[0];
+                                  log.debug(
+                                      "Invoked tbMobileDashboardLayoutHandler: rightLayoutOpened: $rightLayoutOpened");
+                                  _dashboardController
+                                      .onRightLayoutOpened(rightLayoutOpened);
+                                });
+                            webViewController.addJavaScriptHandler(
+                                handlerName:
+                                    "tbMobileDashboardStateNameHandler",
+                                callback: (args) async {
+                                  log.debug(
+                                      "Invoked tbMobileDashboardStateNameHandler: $args");
+                                  if (args.isNotEmpty && args[0] is String) {
+                                    if (widget._titleCallback != null) {
+                                      widget._titleCallback!(args[0]);
                                     }
-                                    await tryLocalNavigation(target);
-                                    return NavigationActionPolicy.CANCEL;
                                   }
-                                } else if (await canLaunch(uriString)) {
-                                  await launch(
-                                    uriString,
-                                  );
+                                });
+                            webViewController.addJavaScriptHandler(
+                                handlerName: "tbMobileNavigationHandler",
+                                callback: (args) async {
+                                  log.debug(
+                                      "Invoked tbMobileNavigationHandler: $args");
+                                  if (args.length > 0) {
+                                    String? path = args[0];
+                                    Map<String, dynamic>? params;
+                                    if (args.length > 1) {
+                                      params = args[1];
+                                    }
+                                    log.debug("path: $path");
+                                    log.debug("params: $params");
+                                    tryLocalNavigation(path);
+                                  }
+                                });
+                            webViewController.addJavaScriptHandler(
+                                handlerName: "tbMobileHandler",
+                                callback: (args) async {
+                                  log.debug("Invoked tbMobileHandler: $args");
+                                  return await widgetActionHandler
+                                      .handleWidgetMobileAction(
+                                          args, webViewController);
+                                });
+                          },
+                          shouldOverrideUrlLoading:
+                              (controller, navigationAction) async {
+                            var uri = navigationAction.request.url!;
+                            var uriString = uri.toString();
+                            log.debug('shouldOverrideUrlLoading $uriString');
+                            if (Platform.isAndroid ||
+                                Platform.isIOS &&
+                                    navigationAction.iosWKNavigationType ==
+                                        IOSWKNavigationType.LINK_ACTIVATED) {
+                              if (uriString.startsWith(ThingsboardAppConstants
+                                  .thingsBoardApiEndpoint)) {
+                                var target = uriString.substring(
+                                    ThingsboardAppConstants
+                                        .thingsBoardApiEndpoint.length);
+                                if (!target.startsWith("?accessToken")) {
+                                  if (target.startsWith("/")) {
+                                    target = target.substring(1);
+                                  }
+                                  await tryLocalNavigation(target);
                                   return NavigationActionPolicy.CANCEL;
                                 }
+                              } else if (await canLaunchUrlString(uriString)) {
+                                await launchUrlString(
+                                  uriString,
+                                );
+                                return NavigationActionPolicy.CANCEL;
                               }
-                              return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
-                            },
-                            onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                              log.debug('onUpdateVisitedHistory: $url');
-                              _dashboardController.onHistoryUpdated(controller.canGoBack());
-                            },
-                            onConsoleMessage: (controller, consoleMessage) {
-                              log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
-                            },
-                            onLoadStart: (controller, url) async {
-                              log.debug('onLoadStart: $url');
-                            },
-                            onLoadStop: (controller, url) async {
-                              log.debug('onLoadStop: $url');
-                              if (webViewLoading) {
-                                webViewLoading = false;
-                                _controller.complete(controller);
-                              }
-                            },
-                            androidOnPermissionRequest: (controller, origin, resources) async {
-                              log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
-                              return PermissionRequestResponse(
-                                  resources: resources,
-                                  action: PermissionRequestResponseAction.GRANT);
-                            },
-                          ),
-                          if (!UniversalPlatform.isWeb)
-                            TwoValueListenableBuilder(
-                              firstValueListenable: dashboardLoading,
-                              secondValueListenable: dashboardActive,
-                              builder: (BuildContext context, bool loading, bool active, child) {
-                                if (!loading && active) {
-                                  return SizedBox.shrink();
-                                } else {
-                                  var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
-                                  var bottomPadding = data.padding.top;
-                                  if (widget._home != true) {
-                                    bottomPadding += kToolbarHeight;
-                                  }
-                                  return Container(
-                                    padding: EdgeInsets.only(bottom: bottomPadding),
-                                    alignment: Alignment.center,
-                                    color: Colors.white,
-                                    child: TbProgressIndicator(
-                                        size: 50.0
-                                    ),
-                                  );
-                                }
-                              }
-                          )
-                        ]
-                    );
-                  }
-                }
-            )
-    );
+                            }
+                            return Platform.isIOS
+                                ? NavigationActionPolicy.ALLOW
+                                : NavigationActionPolicy.CANCEL;
+                          },
+                          onUpdateVisitedHistory:
+                              (controller, url, androidIsReload) async {
+                            log.debug('onUpdateVisitedHistory: $url');
+                            _dashboardController
+                                .onHistoryUpdated(controller.canGoBack());
+                          },
+                          onConsoleMessage: (controller, consoleMessage) {
+                            log.debug(
+                                '[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                          },
+                          onLoadStart: (controller, url) async {
+                            log.debug('onLoadStart: $url');
+                          },
+                          onLoadStop: (controller, url) async {
+                            log.debug('onLoadStop: $url');
+                            if (webViewLoading) {
+                              webViewLoading = false;
+                              _controller.complete(controller);
+                            }
+                          },
+                          androidOnPermissionRequest:
+                              (controller, origin, resources) async {
+                            log.debug(
+                                'androidOnPermissionRequest origin: $origin, resources: $resources');
+                            return PermissionRequestResponse(
+                                resources: resources,
+                                action: PermissionRequestResponseAction.GRANT);
+                          },
+                        ),
+                  if (!UniversalPlatform.isWeb)
+                    TwoValueListenableBuilder(
+                        firstValueListenable: dashboardLoading,
+                        secondValueListenable: dashboardActive,
+                        builder: (BuildContext context, bool loading,
+                            bool active, child) {
+                          if (!loading && active) {
+                            return SizedBox.shrink();
+                          } else {
+                            var data = MediaQueryData.fromWindow(
+                                WidgetsBinding.instance.window);
+                            var bottomPadding = data.padding.top;
+                            if (widget._home != true) {
+                              bottomPadding += kToolbarHeight;
+                            }
+                            return Container(
+                              padding: EdgeInsets.only(bottom: bottomPadding),
+                              alignment: Alignment.center,
+                              color: Colors.white,
+                              child: TbProgressIndicator(size: 50.0),
+                            );
+                          }
+                        })
+                ]);
+              }
+            }));
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -11,14 +10,15 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 import 'entity_list_card.dart';
 
 class EntitiesListWidgetController {
-
   final List<_EntitiesListWidgetState> states = [];
 
-  void _registerEntitiesWidgetState(_EntitiesListWidgetState entitiesListWidgetState) {
+  void _registerEntitiesWidgetState(
+      _EntitiesListWidgetState entitiesListWidgetState) {
     states.add(entitiesListWidgetState);
   }
 
-  void _unregisterEntitiesWidgetState(_EntitiesListWidgetState entitiesListWidgetState) {
+  void _unregisterEntitiesWidgetState(
+      _EntitiesListWidgetState entitiesListWidgetState) {
     states.remove(entitiesListWidgetState);
   }
 
@@ -29,45 +29,48 @@ class EntitiesListWidgetController {
   void dispose() {
     states.clear();
   }
-
 }
 
-abstract class EntitiesListPageLinkWidget<T> extends EntitiesListWidget<T, PageLink> {
-
-  EntitiesListPageLinkWidget(TbContext tbContext, {EntitiesListWidgetController? controller}) : super(tbContext, controller: controller);
+abstract class EntitiesListPageLinkWidget<T>
+    extends EntitiesListWidget<T, PageLink> {
+  EntitiesListPageLinkWidget(TbContext tbContext,
+      {EntitiesListWidgetController? controller})
+      : super(tbContext, controller: controller);
 
   @override
-  PageKeyController<PageLink> createPageKeyController() => PageLinkController(pageSize: 5);
-
+  PageKeyController<PageLink> createPageKeyController() =>
+      PageLinkController(pageSize: 5);
 }
 
-abstract class EntitiesListWidget<T, P> extends TbContextWidget with EntitiesBase<T,P> {
-
+abstract class EntitiesListWidget<T, P> extends TbContextWidget
+    with EntitiesBase<T, P> {
   final EntitiesListWidgetController? _controller;
 
-  EntitiesListWidget(TbContext tbContext, {EntitiesListWidgetController? controller}):
-      _controller = controller,
-      super(tbContext);
+  EntitiesListWidget(TbContext tbContext,
+      {EntitiesListWidgetController? controller})
+      : _controller = controller,
+        super(tbContext);
 
   @override
-  _EntitiesListWidgetState createState() => _EntitiesListWidgetState(_controller);
+  _EntitiesListWidgetState createState() =>
+      _EntitiesListWidgetState(_controller);
 
   PageKeyController<P> createPageKeyController();
 
   void onViewAll();
-
 }
 
-class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,P>> {
-
+class _EntitiesListWidgetState<T, P>
+    extends TbContextState<EntitiesListWidget<T, P>> {
   final EntitiesListWidgetController? _controller;
 
   late final PageKeyController<P> _pageKeyController;
 
-  final StreamController<PageData<T>?> _entitiesStreamController = StreamController.broadcast();
+  final StreamController<PageData<T>?> _entitiesStreamController =
+      StreamController.broadcast();
 
-  _EntitiesListWidgetState(EntitiesListWidgetController? controller):
-     _controller = controller;
+  _EntitiesListWidgetState(EntitiesListWidgetController? controller)
+      : _controller = controller;
 
   @override
   void initState() {
@@ -76,7 +79,7 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
     if (_controller != null) {
       _controller!._registerEntitiesWidgetState(this);
     }
-   _refresh();
+    _refresh();
   }
 
   @override
@@ -121,17 +124,15 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
                             builder: (context, snapshot) {
                               var title = widget.title;
                               if (snapshot.hasData) {
-                                 var data = snapshot.data;
-                                 title += ' (${data!.totalElements})';
+                                var data = snapshot.data;
+                                title += ' (${data!.totalElements})';
                               }
                               return Text(title,
-                                style: TextStyle(
-                                    color: Color(0xFF282828),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.5
-                                )
-                              );
+                                  style: TextStyle(
+                                      color: Color(0xFF282828),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.5));
                             },
                           ),
                           Spacer(),
@@ -141,73 +142,62 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
                               },
                               style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero),
-                              child: Text('View all')
-                          )
+                              child: Text('View all'))
                         ],
                       ),
                     ),
                     Container(
                       height: 64,
                       child: StreamBuilder<PageData<T>?>(
-                        stream: _entitiesStreamController.stream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            var data = snapshot.data!;
-                            if (data.data.isEmpty) {
-                              return _buildNoEntitiesFound(); //return Text('Loaded');
+                          stream: _entitiesStreamController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              var data = snapshot.data!;
+                              if (data.data.isEmpty) {
+                                return _buildNoEntitiesFound(); //return Text('Loaded');
+                              } else {
+                                return _buildEntitiesView(context, data.data);
+                              }
                             } else {
-                              return _buildEntitiesView(context, data.data);
+                              return Center(
+                                  child: RefreshProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(
+                                    Theme.of(tbContext.currentState!.context)
+                                        .colorScheme
+                                        .primary),
+                              ));
                             }
-                          } else {
-                            return Center(
-                                child: RefreshProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(Theme.of(tbContext.currentState!.context).colorScheme.primary),
-                                )
-                            );
-                          }
-                        }
-                      ),
+                          }),
                     )
                   ],
-                )
-            )
-        ),
+                ))),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withAlpha(25),
                 blurRadius: 10.0,
-                offset: Offset(0, 4)
-            ),
+                offset: Offset(0, 4)),
             BoxShadow(
                 color: Colors.black.withAlpha(18),
                 blurRadius: 30.0,
-                offset: Offset(0, 10)
-            ),
+                offset: Offset(0, 10)),
           ],
-        )
-    );
+        ));
   }
 
   Widget _buildNoEntitiesFound() {
     return Container(
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
           border: Border.all(
-            color: Color(0xFFDEDEDE),
-            style: BorderStyle.solid,
-            width: 1
-          ),
-          borderRadius: BorderRadius.circular(4)
-        ),
-        child: Center(
-          child:
-          Text(widget.noItemsFoundText,
+              color: Color(0xFFDEDEDE), style: BorderStyle.solid, width: 1),
+          borderRadius: BorderRadius.circular(4)),
+      child: Center(
+        child: Text(widget.noItemsFoundText,
             style: TextStyle(
               color: Color(0xFFAFAFAF),
               fontSize: 14,
-            )
-          ),
-        ),
+            )),
+      ),
     );
   }
 
@@ -219,13 +209,11 @@ class _EntitiesListWidgetState<T,P> extends TbContextState<EntitiesListWidget<T,
         child: ListView(
             scrollDirection: Axis.horizontal,
             controller: ScrollController(),
-            children: entities.map((entity) => EntityListCard<T>(
-                entity,
-                entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
-                onEntityTap: widget.onEntityTap,
-                settings: widget.entityListCardSettings(entity),
-                listWidgetCard: true
-            )).toList()
-    ));
+            children: entities
+                .map((entity) => EntityListCard<T>(entity,
+                    entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
+                    onEntityTap: widget.onEntityTap,
+                    listWidgetCard: true))
+                .toList()));
   }
 }

@@ -5,11 +5,11 @@ import 'package:thingsboard_app/core/entity/entity_details_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
-
-  AssetDetailsPage(TbContext tbContext, String assetId):
-        super(tbContext,
-          entityId: assetId,
-          defaultTitle: 'Asset', subTitle: 'Asset details');
+  AssetDetailsPage(TbContext tbContext, String assetId)
+      : super(tbContext,
+            entityId: assetId,
+            defaultTitle: 'Asset',
+            subTitle: 'Asset details');
 
   @override
   Future<AssetInfo?> fetchEntity(String assetId) {
@@ -35,9 +35,6 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
               SizedBox(height: 16),
               Text('Assigned to customer', style: labelTextStyle),
               Text(asset.customerTitle ?? '', style: valueTextStyle),
-            ]
-        )
-    );
+            ]));
   }
-
 }
