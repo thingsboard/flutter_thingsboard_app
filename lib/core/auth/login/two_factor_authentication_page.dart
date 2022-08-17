@@ -486,7 +486,6 @@ class _TwoFactorAuthenticationPageState
   Future<bool> _goBack() async {
     if (_prevProvider != null) {
       await _selectProvider(_prevProvider);
-      _prevProvider = null;
     } else {
       tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
     }
