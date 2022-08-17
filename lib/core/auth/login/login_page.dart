@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,6 +39,11 @@ class _LoginPageState extends TbPageState<LoginPage> {
   @override
   void initState() {
     super.initState();
+    if (tbClient.isPreVerificationToken()) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        navigateTo('/login/mfa');
+      });
+    }
   }
 
   @override
@@ -107,6 +113,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     children: [
                                       FormBuilderTextField(
                                         name: 'username',
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         validator:
                                             FormBuilderValidators.compose([
                                           FormBuilderValidators.required(

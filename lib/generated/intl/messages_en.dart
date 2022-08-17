@@ -20,6 +20,15 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(contact) =>
+      "A security code has been sent to your email address at ${contact}.";
+
+  static String m1(time) =>
+      "Resend code in ${Intl.plural(time, one: '1 second', other: '${time} seconds')}";
+
+  static String m2(contact) =>
+      "A security code has been sent to your phone at ${contact}.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "No": MessageLookupByLibrary.simpleMessage("No"),
@@ -46,9 +55,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "auditLogDetails":
             MessageLookupByLibrary.simpleMessage("Audit log details"),
         "auditLogs": MessageLookupByLibrary.simpleMessage("Audit Logs"),
+        "backupCodeAuthDescription": MessageLookupByLibrary.simpleMessage(
+            "Please enter one of your backup codes."),
+        "backupCodeAuthPlaceholder":
+            MessageLookupByLibrary.simpleMessage("Backup code"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
+        "continueText": MessageLookupByLibrary.simpleMessage("Continue"),
         "country": MessageLookupByLibrary.simpleMessage("Country"),
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("currentPassword"),
@@ -60,6 +74,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "customers": MessageLookupByLibrary.simpleMessage("Customers"),
         "devices": MessageLookupByLibrary.simpleMessage("Devices"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "emailAuthDescription": m0,
+        "emailAuthPlaceholder":
+            MessageLookupByLibrary.simpleMessage("Email code"),
         "emailInvalidText":
             MessageLookupByLibrary.simpleMessage("Invalid email format."),
         "emailRequireText":
@@ -83,6 +100,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "logoDefaultValue":
             MessageLookupByLibrary.simpleMessage("Thingsboard Logo"),
         "logout": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "mfaProviderBackupCode":
+            MessageLookupByLibrary.simpleMessage("Backup code"),
+        "mfaProviderEmail": MessageLookupByLibrary.simpleMessage("Email"),
+        "mfaProviderSms": MessageLookupByLibrary.simpleMessage("SMS"),
+        "mfaProviderTopt":
+            MessageLookupByLibrary.simpleMessage("Authenticator app"),
         "more": MessageLookupByLibrary.simpleMessage("More"),
         "newPassword": MessageLookupByLibrary.simpleMessage("newPassword"),
         "newPassword2": MessageLookupByLibrary.simpleMessage("newPassword2"),
@@ -117,6 +140,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Profile successfully updated"),
         "requestPasswordReset":
             MessageLookupByLibrary.simpleMessage("Request password reset"),
+        "resendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
+        "resendCodeWait": m1,
+        "selectWayToVerify":
+            MessageLookupByLibrary.simpleMessage("Select a way to verify"),
+        "smsAuthDescription": m2,
+        "smsAuthPlaceholder": MessageLookupByLibrary.simpleMessage("SMS code"),
         "stateOrProvince":
             MessageLookupByLibrary.simpleMessage("State / Province"),
         "systemAdministrator":
@@ -124,8 +153,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "tenantAdministrator":
             MessageLookupByLibrary.simpleMessage("Tenant Administrator"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
+        "toptAuthPlaceholder": MessageLookupByLibrary.simpleMessage("Code"),
+        "totpAuthDescription": MessageLookupByLibrary.simpleMessage(
+            "Please enter the security code from your authenticator app."),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "tryAnotherWay":
+            MessageLookupByLibrary.simpleMessage("Try another way"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
-        "username": MessageLookupByLibrary.simpleMessage("username")
+        "username": MessageLookupByLibrary.simpleMessage("username"),
+        "verificationCodeIncorrect": MessageLookupByLibrary.simpleMessage(
+            "Verification code is incorrect"),
+        "verificationCodeInvalid": MessageLookupByLibrary.simpleMessage(
+            "Invalid verification code format"),
+        "verificationCodeManyRequest": MessageLookupByLibrary.simpleMessage(
+            "Too many requests check verification code"),
+        "verifyYourIdentity":
+            MessageLookupByLibrary.simpleMessage("Verify your identity")
       };
 }

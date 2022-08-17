@@ -104,6 +104,7 @@ class TbContext {
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
   PlatformType? _oauth2PlatformType;
   List<OAuth2ClientInfo>? oauth2ClientInfos;
+  List<TwoFaProviderInfo>? twoFactorAuthProviders;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
@@ -256,7 +257,7 @@ class TbContext {
     try {
       log.debug('onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
       isUserLoaded = true;
-      if (tbClient.isAuthenticated()) {
+      if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
@@ -272,6 +273,14 @@ class TbContext {
           }
         }
       } else {
+        if (tbClient.isPreVerificationToken()) {
+          log.debug('authUser: ${tbClient.getAuthUser()}');
+          twoFactorAuthProviders = await tbClient
+              .getTwoFactorAuthService()
+              .getAvailableLoginTwoFaProviders();
+        } else {
+          twoFactorAuthProviders = null;
+        }
         userDetails = null;
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
@@ -308,14 +317,15 @@ class TbContext {
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
-  bool get isAuthenticated => _isAuthenticated.value;
+  bool get isAuthenticated =>
+      _isAuthenticated.value && !tbClient.isPreVerificationToken();
 
   bool get hasOAuthClients =>
       oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
   Future<void> updateRouteState() async {
     if (currentState != null) {
-      if (tbClient.isAuthenticated()) {
+      if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
         var defaultDashboardId = _defaultDashboardId();
         if (defaultDashboardId != null) {
           bool fullscreen = _userForceFullscreen();

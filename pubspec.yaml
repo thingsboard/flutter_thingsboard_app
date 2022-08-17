@@ -50,6 +50,7 @@ dependencies:
   preload_page_view: ^0.1.6
   flutter_localizations:
     sdk: flutter
+  alt_sms_autofill: ^1.0.0
 
 dev_dependencies:
   flutter_test:

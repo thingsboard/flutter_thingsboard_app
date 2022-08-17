@@ -779,6 +779,216 @@ class S {
       args: [],
     );
   }
+
+  /// `Verify your identity`
+  String get verifyYourIdentity {
+    return Intl.message(
+      'Verify your identity',
+      name: 'verifyYourIdentity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get continueText {
+    return Intl.message(
+      'Continue',
+      name: 'continueText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend code`
+  String get resendCode {
+    return Intl.message(
+      'Resend code',
+      name: 'resendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend code in {time,plural, =1{1 second}other{{time} seconds}}`
+  String resendCodeWait(num time) {
+    return Intl.message(
+      'Resend code in ${Intl.plural(time, one: '1 second', other: '$time seconds')}',
+      name: 'resendCodeWait',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Please enter the security code from your authenticator app.`
+  String get totpAuthDescription {
+    return Intl.message(
+      'Please enter the security code from your authenticator app.',
+      name: 'totpAuthDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A security code has been sent to your phone at {contact}.`
+  String smsAuthDescription(Object contact) {
+    return Intl.message(
+      'A security code has been sent to your phone at $contact.',
+      name: 'smsAuthDescription',
+      desc: '',
+      args: [contact],
+    );
+  }
+
+  /// `A security code has been sent to your email address at {contact}.`
+  String emailAuthDescription(Object contact) {
+    return Intl.message(
+      'A security code has been sent to your email address at $contact.',
+      name: 'emailAuthDescription',
+      desc: '',
+      args: [contact],
+    );
+  }
+
+  /// `Please enter one of your backup codes.`
+  String get backupCodeAuthDescription {
+    return Intl.message(
+      'Please enter one of your backup codes.',
+      name: 'backupCodeAuthDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid verification code format`
+  String get verificationCodeInvalid {
+    return Intl.message(
+      'Invalid verification code format',
+      name: 'verificationCodeInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code`
+  String get toptAuthPlaceholder {
+    return Intl.message(
+      'Code',
+      name: 'toptAuthPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SMS code`
+  String get smsAuthPlaceholder {
+    return Intl.message(
+      'SMS code',
+      name: 'smsAuthPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email code`
+  String get emailAuthPlaceholder {
+    return Intl.message(
+      'Email code',
+      name: 'emailAuthPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup code`
+  String get backupCodeAuthPlaceholder {
+    return Intl.message(
+      'Backup code',
+      name: 'backupCodeAuthPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verification code is incorrect`
+  String get verificationCodeIncorrect {
+    return Intl.message(
+      'Verification code is incorrect',
+      name: 'verificationCodeIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests check verification code`
+  String get verificationCodeManyRequest {
+    return Intl.message(
+      'Too many requests check verification code',
+      name: 'verificationCodeManyRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try another way`
+  String get tryAnotherWay {
+    return Intl.message(
+      'Try another way',
+      name: 'tryAnotherWay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a way to verify`
+  String get selectWayToVerify {
+    return Intl.message(
+      'Select a way to verify',
+      name: 'selectWayToVerify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authenticator app`
+  String get mfaProviderTopt {
+    return Intl.message(
+      'Authenticator app',
+      name: 'mfaProviderTopt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SMS`
+  String get mfaProviderSms {
+    return Intl.message(
+      'SMS',
+      name: 'mfaProviderSms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get mfaProviderEmail {
+    return Intl.message(
+      'Email',
+      name: 'mfaProviderEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup code`
+  String get mfaProviderBackupCode {
+    return Intl.message(
+      'Backup code',
+      name: 'mfaProviderBackupCode',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

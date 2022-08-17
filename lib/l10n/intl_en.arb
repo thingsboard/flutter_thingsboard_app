@@ -86,6 +86,27 @@
   "notImplemented": "Not implemented!",
 
   "listIsEmptyText": "The list is currently empty.",
-  "tryAgain": "Try Again"
+  "tryAgain": "Try Again",
 
+  "verifyYourIdentity": "Verify your identity",
+  "continueText": "Continue",
+  "resendCode": "Resend code",
+  "resendCodeWait": "Resend code in {time,plural, =1{1 second}other{{time} seconds}}",
+  "totpAuthDescription": "Please enter the security code from your authenticator app.",
+  "smsAuthDescription": "A security code has been sent to your phone at {contact}.",
+  "emailAuthDescription": "A security code has been sent to your email address at {contact}.",
+  "backupCodeAuthDescription": "Please enter one of your backup codes.",
+  "verificationCodeInvalid": "Invalid verification code format",
+  "toptAuthPlaceholder": "Code",
+  "smsAuthPlaceholder": "SMS code",
+  "emailAuthPlaceholder": "Email code",
+  "backupCodeAuthPlaceholder": "Backup code",
+  "verificationCodeIncorrect": "Verification code is incorrect",
+  "verificationCodeManyRequest": "Too many requests check verification code",
+  "tryAnotherWay": "Try another way",
+  "selectWayToVerify": "Select a way to verify",
+  "mfaProviderTopt": "Authenticator app",
+  "mfaProviderSms": "SMS",
+  "mfaProviderEmail": "Email",
+  "mfaProviderBackupCode": "Backup code"
 }
