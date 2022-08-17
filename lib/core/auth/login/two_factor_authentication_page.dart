@@ -252,7 +252,7 @@ class _TwoFactorAuthenticationPageState
                                                   }),
                                               SizedBox(height: 16),
                                               SizedBox(
-                                                  height: 48,
+                                                  height: 49,
                                                   child: Row(
                                                       mainAxisSize:
                                                           MainAxisSize.max,

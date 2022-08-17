@@ -22,6 +22,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Scan QrCode or take photos using your camera.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Get location to place the device on a map.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Get location to place the device on a map.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access photo library to take existing photos.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,13 +49,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-    <string>Scan QrCode or take photos using your camera.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Access photo library to take existing photos.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Get location to place the device on a map.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Get location to place the device on a map.</string>
 </dict>
 </plist>
