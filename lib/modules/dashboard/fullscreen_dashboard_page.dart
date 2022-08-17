@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class FullscreenDashboardPage extends TbPageWidget {
-
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
 
-  FullscreenDashboardPage(TbContext tbContext, this.fullscreenDashboardId, {String? dashboardTitle}):
-        _dashboardTitle = dashboardTitle,
+  FullscreenDashboardPage(TbContext tbContext, this.fullscreenDashboardId,
+      {String? dashboardTitle})
+      : _dashboardTitle = dashboardTitle,
         super(tbContext);
 
   @override
-  _FullscreenDashboardPageState createState() => _FullscreenDashboardPageState();
-
+  _FullscreenDashboardPageState createState() =>
+      _FullscreenDashboardPageState();
 }
 
-class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage> {
-
+class _FullscreenDashboardPageState
+    extends TbPageState<FullscreenDashboardPage> {
   late ValueNotifier<String> dashboardTitleValue;
   final ValueNotifier<bool> showBackValue = ValueNotifier(false);
 
@@ -47,13 +46,12 @@ class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage>
           child: ValueListenableBuilder<bool>(
               valueListenable: showBackValue,
               builder: (context, canGoBack, widget) {
-                return TbAppBar(
-                    tbContext,
-                    leading: canGoBack ? BackButton(
-                        onPressed: () {
-                          maybePop();
-                        }
-                    ) : null,
+                return TbAppBar(tbContext,
+                    leading: canGoBack
+                        ? BackButton(onPressed: () {
+                            maybePop();
+                          })
+                        : null,
                     showLoadingIndicator: false,
                     elevation: 1,
                     shadowColor: Colors.transparent,
@@ -63,29 +61,25 @@ class _FullscreenDashboardPageState extends TbPageState<FullscreenDashboardPage>
                         return FittedBox(
                             fit: BoxFit.fitWidth,
                             alignment: Alignment.centerLeft,
-                            child: Text(title)
-                        );
+                            child: Text(title));
                       },
                     ),
                     actions: [
-                        IconButton(icon: Icon(Icons.settings), onPressed: () => navigateTo('/profile?fullscreen=true'))
-                    ]
-                );
-              }
-          ),
+                      IconButton(
+                          icon: Icon(Icons.settings),
+                          onPressed: () =>
+                              navigateTo('/profile?fullscreen=true'))
+                    ]);
+              }),
         ),
-        body: Dashboard(
-            tbContext,
-            titleCallback: (title) {
-              dashboardTitleValue.value =  title;
-            },
-            controllerCallback: (controller) {
-              controller.canGoBack.addListener(() {
-                _onCanGoBack(controller.canGoBack.value);
-              });
-              controller.openDashboard(widget.fullscreenDashboardId, fullscreen: true);
-            }
-        )
-    );
+        body: Dashboard(tbContext, titleCallback: (title) {
+          dashboardTitleValue.value = title;
+        }, controllerCallback: (controller) {
+          controller.canGoBack.addListener(() {
+            _onCanGoBack(controller.canGoBack.value);
+          });
+          controller.openDashboard(widget.fullscreenDashboardId,
+              fullscreen: true);
+        }));
   }
 }

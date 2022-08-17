@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -8,18 +6,11 @@ import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
+  final labelTextStyle =
+      TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
-  final labelTextStyle = TextStyle(
-      color: Color(0xFF757575),
-      fontSize: 14,
-      height: 20 / 14
-  );
-
-  final valueTextStyle = TextStyle(
-      color: Color(0xFF282828),
-      fontSize: 14,
-      height: 20 / 14
-  );
+  final valueTextStyle =
+      TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
   final String _defaultTitle;
   final String _entityId;
@@ -29,19 +20,19 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
   final double? _appBarElevation;
 
   EntityDetailsPage(TbContext tbContext,
-                   {required String defaultTitle,
-                    required String entityId,
-                    String? subTitle,
-                    bool showLoadingIndicator = true,
-                    bool hideAppBar = false,
-                    double? appBarElevation}):
-      this._defaultTitle = defaultTitle,
-      this._entityId = entityId,
-      this._subTitle = subTitle,
-      this._showLoadingIndicator = showLoadingIndicator,
-      this._hideAppBar = hideAppBar,
-      this._appBarElevation = appBarElevation,
-      super(tbContext);
+      {required String defaultTitle,
+      required String entityId,
+      String? subTitle,
+      bool showLoadingIndicator = true,
+      bool hideAppBar = false,
+      double? appBarElevation})
+      : this._defaultTitle = defaultTitle,
+        this._entityId = entityId,
+        this._subTitle = subTitle,
+        this._showLoadingIndicator = showLoadingIndicator,
+        this._hideAppBar = hideAppBar,
+        this._appBarElevation = appBarElevation,
+        super(tbContext);
 
   @override
   _EntityDetailsPageState createState() => _EntityDetailsPageState();
@@ -53,11 +44,10 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
   }
 
   Widget buildEntityDetails(BuildContext context, T entity);
-
 }
 
-class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDetailsPage<T>> {
-
+class _EntityDetailsPageState<T extends BaseData>
+    extends TbPageState<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
   late ValueNotifier<String> titleValue;
 
@@ -70,7 +60,7 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
       titleValue = ValueNotifier(widget._defaultTitle);
       entityFuture.then((value) {
         if (value is HasName) {
-          titleValue.value =  (value as HasName).getName();
+          titleValue.value = (value as HasName).getName();
         }
       });
     } else {
@@ -82,36 +72,43 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: widget._hideAppBar ? null : TbAppBar(
-        tbContext,
-        showLoadingIndicator: widget._showLoadingIndicator,
-        elevation: widget._appBarElevation,
-        title: ValueListenableBuilder<String>(
-          valueListenable: titleValue,
-          builder: (context, title, _widget) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.centerLeft,
-                      child: Text(title,
-                       style: widget._subTitle != null ? Theme.of(context).primaryTextTheme.headline6!.copyWith(
-                          fontSize: 16
-                       ) : null
-                      )
-                  ),
-                  if (widget._subTitle != null) Text(widget._subTitle!, style: TextStyle(
-                      color: Theme.of(context).primaryTextTheme.headline6!.color!.withAlpha((0.38 * 255).ceil()),
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      height: 16 / 12
-                  ))
-                ]
-            );
-          },
-        ),
-      ),
+      appBar: widget._hideAppBar
+          ? null
+          : TbAppBar(
+              tbContext,
+              showLoadingIndicator: widget._showLoadingIndicator,
+              elevation: widget._appBarElevation,
+              title: ValueListenableBuilder<String>(
+                valueListenable: titleValue,
+                builder: (context, title, _widget) {
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text(title,
+                                style: widget._subTitle != null
+                                    ? Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline6!
+                                        .copyWith(fontSize: 16)
+                                    : null)),
+                        if (widget._subTitle != null)
+                          Text(widget._subTitle!,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline6!
+                                      .color!
+                                      .withAlpha((0.38 * 255).ceil()),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height: 16 / 12))
+                      ]);
+                },
+              ),
+            ),
       body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
@@ -123,7 +120,8 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
               return Center(child: Text('Requested entity does not exists.'));
             }
           } else {
-            return Center(child: TbProgressIndicator(
+            return Center(
+                child: TbProgressIndicator(
               size: 50.0,
             ));
           }
@@ -131,21 +129,24 @@ class _EntityDetailsPageState<T extends BaseData> extends TbPageState<EntityDeta
       ),
     );
   }
-
 }
 
-abstract class ContactBasedDetailsPage<T extends ContactBased> extends EntityDetailsPage<T> {
-
+abstract class ContactBasedDetailsPage<T extends ContactBased>
+    extends EntityDetailsPage<T> {
   ContactBasedDetailsPage(TbContext tbContext,
-      { required String defaultTitle,
-        required String entityId,
-        String? subTitle,
-        bool showLoadingIndicator = true,
-        bool hideAppBar = false,
-        double? appBarElevation}):
-        super(tbContext, defaultTitle: defaultTitle, entityId: entityId,
-          subTitle: subTitle, showLoadingIndicator: showLoadingIndicator,
-          hideAppBar: hideAppBar, appBarElevation: appBarElevation);
+      {required String defaultTitle,
+      required String entityId,
+      String? subTitle,
+      bool showLoadingIndicator = true,
+      bool hideAppBar = false,
+      double? appBarElevation})
+      : super(tbContext,
+            defaultTitle: defaultTitle,
+            entityId: entityId,
+            subTitle: subTitle,
+            showLoadingIndicator: showLoadingIndicator,
+            hideAppBar: hideAppBar,
+            appBarElevation: appBarElevation);
 
   @override
   Widget buildEntityDetails(BuildContext context, T contact) {
@@ -201,9 +202,6 @@ abstract class ContactBasedDetailsPage<T extends ContactBased> extends EntityDet
               SizedBox(height: 16),
               Text('Email', style: labelTextStyle),
               Text(contact.email ?? '', style: valueTextStyle),
-            ]
-        )
-    );
+            ]));
   }
 }
-

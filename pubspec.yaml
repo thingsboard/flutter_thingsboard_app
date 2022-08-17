@@ -11,18 +11,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: 1.0.2
+  thingsboard_client:
+    git:
+      url: git@github.com:thingsboard/dart_thingsboard_client.git
+      ref: master
   intl: ^0.17.0
   flutter_secure_storage: ^5.0.2
-  flutter_speed_dial: ^4.6.6
+  flutter_speed_dial: ^6.0.0
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
-  flutter_svg: ^0.23.0+1
+  flutter_svg: ^1.1.3
   auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^3.0.1
-  fading_edge_scrollview: ^2.0.0
+  fading_edge_scrollview: ^3.0.0
   stream_transform: ^2.0.0
-  flutter_inappwebview: ^5.3.2
+  flutter_inappwebview:
+    git:
+      url: https://github.com/rshrc/flutter_inappwebview
+      ref: master
 #  flutter_downloader: ^1.6.0
 #  permission_handler: ^8.0.0+2
 #  path_provider: ^2.0.2
@@ -30,22 +36,26 @@ dependencies:
   image_picker: ^0.8.0
   mime: ^1.0.0
   logger: ^1.0.0
-  qr_code_scanner: ^0.6.1
+  qr_code_scanner: ^1.0.0
   device_info: ^2.0.0
-  geolocator: ^7.0.3
+  geolocator: ^9.0.1
   material_design_icons_flutter: ^5.0.5955-rc.1
   package_info: ^2.0.2
   dart_jsonwebtoken: ^2.2.0
   crypto: ^3.0.1
   flutter_form_builder: ^7.0.0
-  form_builder_validators: ^7.2.0
+  form_builder_validators: ^8.3.0
+  universal_html: ^2.0.8
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.1.6
+  flutter_localizations:
+    sdk: flutter
+  alt_sms_autofill: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.9.0
+  flutter_launcher_icons: ^0.10.0
 
 flutter:
   uses-material-design: true
@@ -83,3 +93,5 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   image_path: "assets/images/thingsboard.png"
+flutter_intl:
+  enabled: true

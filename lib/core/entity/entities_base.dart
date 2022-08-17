@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -31,7 +31,8 @@ const Map<EntityType, String> entityTypeTranslations = {
 };
 
 typedef EntityTapFunction<T> = Function(T entity);
-typedef EntityCardWidgetBuilder<T> = Widget Function(BuildContext context, T entity);
+typedef EntityCardWidgetBuilder<T> = Widget Function(
+    BuildContext context, T entity);
 
 class EntityCardSettings {
   bool dropShadow;
@@ -39,7 +40,6 @@ class EntityCardSettings {
 }
 
 mixin EntitiesBase<T, P> on HasTbContext {
-
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 
   String get title;
@@ -55,15 +55,15 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Key? getKey(T entity) => null;
 
   Widget buildEntityListCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   Widget buildEntityListWidgetCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   Widget buildEntityGridCard(BuildContext context, T entity) {
-    return Text('Not implemented!');
+    return Text('${S.of(context).notImplemented}');
   }
 
   double? gridChildAspectRatio() => null;
@@ -73,11 +73,9 @@ mixin EntitiesBase<T, P> on HasTbContext {
   EntityCardSettings entityGridCardSettings(T entity) => EntityCardSettings();
 
   void onEntityTap(T entity);
-
 }
 
-mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T,P> {
-
+mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
   @override
   Widget buildEntityListCard(BuildContext context, T contact) {
     var address = Utils.contactToShortAddress(contact);
@@ -89,8 +87,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T,P> {
         children: [
           Flexible(
               fit: FlexFit.tight,
-              child:
-              Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -105,39 +102,36 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T,P> {
                                     color: Color(0xFF282828),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    height: 20 / 14
-                                ))
-                        ),
-                        Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(contact.createdTime!)),
+                                    height: 20 / 14))),
+                        Text(
+                            entityDateFormat.format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    contact.createdTime!)),
                             style: TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
-                                height: 16 / 12
-                            ))
-                      ]
-                  ),
+                                height: 16 / 12))
+                      ]),
                   SizedBox(height: 4),
-                  if (contact.email != null) Text(contact.email!,
-                      style: TextStyle(
-                          color: Color(0xFFAFAFAF),
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          height: 16 / 12
-                      )),
-                  if (contact.email == null)
-                    SizedBox(height: 16),
+                  if (contact.email != null)
+                    Text(contact.email!,
+                        style: TextStyle(
+                            color: Color(0xFFAFAFAF),
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            height: 16 / 12)),
+                  if (contact.email == null) SizedBox(height: 16),
                   if (address != null) SizedBox(height: 4),
-                  if (address != null) Text(address,
-                      style: TextStyle(
-                          color: Color(0xFFAFAFAF),
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          height: 16 / 12
-                      )),
+                  if (address != null)
+                    Text(address,
+                        style: TextStyle(
+                            color: Color(0xFFAFAFAF),
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            height: 16 / 12)),
                 ],
-              )
-          ),
+              )),
           SizedBox(width: 16),
           Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
           SizedBox(width: 8)
@@ -148,24 +142,21 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T,P> {
 }
 
 abstract class PageKeyController<P> extends ValueNotifier<PageKeyValue<P>> {
-
   PageKeyController(P initialPageKey) : super(PageKeyValue(initialPageKey));
 
   P nextPageKey(P pageKey);
-
 }
 
 class PageKeyValue<P> {
-
   final P pageKey;
 
   PageKeyValue(this.pageKey);
-
 }
 
 class PageLinkController extends PageKeyController<PageLink> {
-
-  PageLinkController({int pageSize = 20, String? searchText}) : super(PageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+  PageLinkController({int pageSize = 20, String? searchText})
+      : super(PageLink(
+            pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
@@ -175,12 +166,12 @@ class PageLinkController extends PageKeyController<PageLink> {
     value.pageKey.textSearch = searchText;
     notifyListeners();
   }
-
 }
 
 class TimePageLinkController extends PageKeyController<TimePageLink> {
-
-  TimePageLinkController({int pageSize = 20, String? searchText}) : super(TimePageLink(pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+  TimePageLinkController({int pageSize = 20, String? searchText})
+      : super(TimePageLink(
+            pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
 
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();
@@ -190,29 +181,27 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
     value.pageKey.textSearch = searchText;
     notifyListeners();
   }
-
 }
 
-abstract class BaseEntitiesWidget<T, P> extends TbContextWidget with EntitiesBase<T, P> {
-
+abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
+    with EntitiesBase<T, P> {
   final bool searchMode;
   final PageKeyController<P> pageKeyController;
 
-  BaseEntitiesWidget(TbContext tbContext, this.pageKeyController, {this.searchMode = false}):
-        super(tbContext);
+  BaseEntitiesWidget(TbContext tbContext, this.pageKeyController,
+      {this.searchMode = false})
+      : super(tbContext);
 
   @override
-  Widget? buildHeading(BuildContext context) => searchMode ? Text('Search results', style: TextStyle(
-      color: Color(0xFFAFAFAF),
-      fontSize: 16,
-      height: 24 / 16
-  )) : null;
-
-
+  Widget? buildHeading(BuildContext context) => searchMode
+      ? Text('Search results',
+          style: TextStyle(
+              color: Color(0xFFAFAFAF), fontSize: 16, height: 24 / 16))
+      : null;
 }
 
-abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget<T, P>> {
-
+abstract class BaseEntitiesState<T, P>
+    extends TbContextState<BaseEntitiesWidget<T, P>> {
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;
   bool _dataLoading = false;
@@ -224,7 +213,8 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
   @override
   void initState() {
     super.initState();
-    pagingController = PagingController(firstPageKey: widget.pageKeyController.value.pageKey);
+    pagingController =
+        PagingController(firstPageKey: widget.pageKeyController.value.pageKey);
     widget.pageKeyController.addListener(_didChangePageKeyValue);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -315,18 +305,14 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-        onRefresh: () => Future.wait([
-          widget.onRefresh(),
-          _refresh()
-        ]),
-        child: pagedViewBuilder(context)
-    );
+        onRefresh: () => Future.wait([widget.onRefresh(), _refresh()]),
+        child: pagedViewBuilder(context));
   }
-  
+
   Widget pagedViewBuilder(BuildContext context);
 
   Widget firstPageProgressIndicatorBuilder(BuildContext context) {
-    return Stack( children: [
+    return Stack(children: [
       Positioned(
         top: 20,
         left: 0,
@@ -338,7 +324,7 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
       )
     ]);
   }
-  
+
   Widget newPageProgressIndicatorBuilder(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -348,15 +334,14 @@ abstract class BaseEntitiesState<T, P> extends TbContextState<BaseEntitiesWidget
       child: Center(child: RefreshProgressIndicator()),
     );
   }
-  
+
   Widget noItemsFoundIndicatorBuilder(BuildContext context) {
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText,
-      message: 'The list is currently empty.',
+      message: '${S.of(context).listIsEmptyText}',
       onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
     );
   }
-
 }
 
 class FirstPageExceptionIndicator extends StatelessWidget {
@@ -407,8 +392,8 @@ class FirstPageExceptionIndicator extends StatelessWidget {
                     Icons.refresh,
                     color: Colors.white,
                   ),
-                  label: const Text(
-                    'Try Again',
+                  label: Text(
+                    '${S.of(context).tryAgain}',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
