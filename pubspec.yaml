@@ -16,7 +16,7 @@ dependencies:
       url: git@github.com:thingsboard/dart_thingsboard_client.git
       ref: master
   intl: ^0.17.0
-  flutter_secure_storage: ^5.0.2
+  flutter_secure_storage: ^6.0.0
   flutter_speed_dial: ^6.0.0
   cupertino_icons: ^1.0.2
   fluro: ^2.0.3
