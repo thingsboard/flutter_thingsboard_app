@@ -122,7 +122,8 @@ class TbContext {
   TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
 
-  GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
+  GlobalKey<ScaffoldMessengerState> messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   late final TbStorage storage;
   late final ThingsboardClient tbClient;
   late final TbOAuth2Client oauth2Client;
@@ -294,7 +295,9 @@ class TbContext {
         if (tbClient.getAuthUser()!.userId != null) {
           try {
             userDetails = await tbClient.getUserService().getUser();
-            userPermissions = await tbClient.getUserPermissionsService().getAllowedPermissions();
+            userPermissions = await tbClient
+                .getUserPermissionsService()
+                .getAllowedPermissions();
             homeDashboard =
                 await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
@@ -319,10 +322,12 @@ class TbContext {
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
             pkgName: packageName, platform: _oauth2PlatformType);
-        signUpParams = await tbClient.getSelfRegistrationService().getSignUpSelfRegistrationParams(pkgName: packageName);
+        signUpParams = await tbClient
+            .getSelfRegistrationService()
+            .getSignUpSelfRegistrationParams(pkgName: packageName);
       }
-      await wlService.updateWhiteLabeling();
       _isAuthenticated.value = tbClient.isAuthenticated();
+      await wlService.updateWhiteLabeling();
       await updateRouteState();
     } catch (e, s) {
       log.error('Error: $e', e, s);
@@ -359,7 +364,8 @@ class TbContext {
   bool get hasOAuthClients =>
       oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
-  bool get hasSelfRegistration => signUpParams != null && signUpParams!.captchaSiteKey != null;
+  bool get hasSelfRegistration =>
+      signUpParams != null && signUpParams!.captchaSiteKey != null;
 
   bool hasGenericPermission(Resource resource, Operation operation) {
     if (userPermissions != null) {
@@ -370,11 +376,13 @@ class TbContext {
   }
 
   bool handleInitialNavigation() {
-    if (_initialNavigation != null && _initialNavigation!.startsWith('/signup/emailVerified')) {
+    if (_initialNavigation != null &&
+        _initialNavigation!.startsWith('/signup/emailVerified')) {
       if (tbClient.isAuthenticated()) {
         tbClient.logout();
       } else {
-        navigateTo(_initialNavigation!, replace: true,
+        navigateTo(_initialNavigation!,
+            replace: true,
             clearStack: true,
             transition: TransitionType.fadeIn,
             transitionDuration: Duration(milliseconds: 750));
@@ -400,16 +408,17 @@ class TbContext {
                   transition: TransitionType.none);
             } else {
               navigateTo('/fullscreenDashboard/$defaultDashboardId',
-                  replace: true,
-                  transition: TransitionType.fadeIn);
+                  replace: true, transition: TransitionType.fadeIn);
             }
           } else {
-            navigateTo('/home', replace: true,
+            navigateTo('/home',
+                replace: true,
                 transition: TransitionType.fadeIn,
                 transitionDuration: Duration(milliseconds: 750));
           }
         } else {
-          navigateTo('/login', replace: true,
+          navigateTo('/login',
+              replace: true,
               clearStack: true,
               transition: TransitionType.fadeIn,
               transitionDuration: Duration(milliseconds: 750));
@@ -624,7 +633,8 @@ mixin HasTbContext {
 
   ThingsboardClient get tbClient => _tbContext.tbClient;
 
-  bool hasGenericPermission(Resource resource, Operation operation) => _tbContext.hasGenericPermission(resource, operation);
+  bool hasGenericPermission(Resource resource, Operation operation) =>
+      _tbContext.hasGenericPermission(resource, operation);
 
   Future<void> initTbContext() async {
     await _tbContext.init();

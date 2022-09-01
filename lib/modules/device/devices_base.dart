@@ -33,10 +33,14 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
       if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
           hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
         var dashboardId = profile.defaultDashboardId!.id!;
-        var state = Utils.createDashboardEntityState(device.entityId, entityName: device.field('name')!, entityLabel: device.field('label')!);
-        navigateToDashboard(dashboardId, dashboardTitle: device.field('name'), state: state);
+        var state = Utils.createDashboardEntityState(device.entityId,
+            entityName: device.field('name')!,
+            entityLabel: device.field('label')!);
+        navigateToDashboard(dashboardId,
+            dashboardTitle: device.field('name'), state: state);
       } else {
-        showErrorNotification('You don\'t have permissions to perform this operation!');
+        showErrorNotification(
+            'You don\'t have permissions to perform this operation!');
       }
     } else {
       if (tbClient.isTenantAdmin()) {

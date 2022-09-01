@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
-typedef WlThemedWidgetBuilder = Widget Function(BuildContext context, ThemeData data, WhiteLabelingParams wlParams);
+typedef WlThemedWidgetBuilder = Widget Function(
+    BuildContext context, ThemeData data, WhiteLabelingParams wlParams);
 
 class WlThemeWidget extends TbContextWidget {
-
   final WlThemedWidgetBuilder wlThemedWidgetBuilder;
 
-  WlThemeWidget(TbContext tbContext, {required this.wlThemedWidgetBuilder}) : super(tbContext);
+  WlThemeWidget(TbContext tbContext, {required this.wlThemedWidgetBuilder})
+      : super(tbContext);
 
   @override
   _WlThemeWidgetState createState() => _WlThemeWidgetState();
@@ -18,11 +18,9 @@ class WlThemeWidget extends TbContextWidget {
   static _WlThemeWidgetState? of(BuildContext context) {
     return context.findAncestorStateOfType<_WlThemeWidgetState>();
   }
-
 }
 
 class _WlThemeWidgetState extends TbContextState<WlThemeWidget> {
-
   late WhiteLabelingParams _wlParams;
   late ThemeData _themeData;
 
@@ -51,5 +49,4 @@ class _WlThemeWidgetState extends TbContextState<WlThemeWidget> {
   Widget build(BuildContext context) {
     return widget.wlThemedWidgetBuilder(context, _themeData, _wlParams);
   }
-
 }

@@ -2,27 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class TbRecaptcha extends TbPageWidget {
-
   final String siteKey;
 
-  TbRecaptcha(TbContext tbContext, {required this.siteKey}) :
-        super(tbContext);
+  TbRecaptcha(TbContext tbContext, {required this.siteKey}) : super(tbContext);
 
   @override
   _TbRecaptchaState createState() => _TbRecaptchaState();
-
 }
 
 class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
-
-  final Completer<InAppWebViewController> _webViewController = Completer<InAppWebViewController>();
+  final Completer<InAppWebViewController> _webViewController =
+      Completer<InAppWebViewController>();
 
   bool webViewLoading = true;
   final ValueNotifier<bool> recaptchaLoading = ValueNotifier(true);
@@ -40,16 +36,15 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
         supportZoom: false,
       ),
       android: AndroidInAppWebViewOptions(
-          useHybridComposition: true,
-          thirdPartyCookiesEnabled: true
-      ),
+          useHybridComposition: true, thirdPartyCookiesEnabled: true),
       ios: IOSInAppWebViewOptions(
         allowsInlineMediaPlayback: true,
-  ));
+      ));
 
   @override
   void initState() {
-    _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + '/signup/recaptcha?siteKey=${widget.siteKey}');
+    _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint +
+        '/signup/recaptcha?siteKey=${widget.siteKey}');
     super.initState();
   }
 
@@ -67,13 +62,9 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0
-      ),
-      body: _buildRecaptchaView(context)
-    );
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+        body: _buildRecaptchaView(context));
   }
 
   Widget _buildRecaptchaView(BuildContext context) {
@@ -84,16 +75,21 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
             initialUrlRequest: URLRequest(url: _initialUrl),
             initialOptions: options,
             onWebViewCreated: (webViewController) {
-              webViewController.addJavaScriptHandler(handlerName: "tbMobileRecaptchaLoadedHandler", callback: (args) async {
-                recaptchaLoading.value = false;
-              });
-              webViewController.addJavaScriptHandler(handlerName: "tbMobileRecaptchaHandler", callback: (args) async {
-                var recaptchaResponse = args[0];
-                pop(recaptchaResponse);
-              });
+              webViewController.addJavaScriptHandler(
+                  handlerName: "tbMobileRecaptchaLoadedHandler",
+                  callback: (args) async {
+                    recaptchaLoading.value = false;
+                  });
+              webViewController.addJavaScriptHandler(
+                  handlerName: "tbMobileRecaptchaHandler",
+                  callback: (args) async {
+                    var recaptchaResponse = args[0];
+                    pop(recaptchaResponse);
+                  });
             },
             onConsoleMessage: (controller, consoleMessage) {
-              log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+              log.debug(
+                  '[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
             },
             onLoadStop: (controller, url) async {
               log.debug('onLoadStop: $url');
@@ -101,8 +97,7 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
                 webViewLoading = false;
                 _webViewController.complete(controller);
               }
-            }
-        ),
+            }),
         ValueListenableBuilder(
             valueListenable: recaptchaLoading,
             builder: (BuildContext context, bool loading, child) {
@@ -115,18 +110,16 @@ class _TbRecaptchaState extends TbPageState<TbRecaptcha> {
                   child: CircularProgressIndicator(),
                 );
               }
-            }
-        )
+            })
       ],
     );
   }
 
   refresh() async {
-    var windowMessage = <String, dynamic>{
-      'type': 'resetRecaptcha'
-    };
+    var windowMessage = <String, dynamic>{'type': 'resetRecaptcha'};
     var controller = await _webViewController.future;
-    await controller.postWebMessage(message: WebMessage(data: jsonEncode(windowMessage)), targetOrigin: Uri.parse('*'));
+    await controller.postWebMessage(
+        message: WebMessage(data: jsonEncode(windowMessage)),
+        targetOrigin: Uri.parse('*'));
   }
-
 }

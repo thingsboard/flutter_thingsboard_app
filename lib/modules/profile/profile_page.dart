@@ -121,15 +121,14 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                   if (loading) {
                     return SizedBox.expand(
                         child: Container(
-                          color: Color(0x99FFFFFF),
-                          child: Center(child: TbProgressIndicator(tbContext, size: 50.0)),
-                        )
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                }
-            )
+                      color: Color(0x99FFFFFF),
+                      child: Center(
+                          child: TbProgressIndicator(tbContext, size: 50.0)),
+                    ));
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                })
           ],
         ));
   }

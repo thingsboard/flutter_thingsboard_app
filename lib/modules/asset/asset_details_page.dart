@@ -6,11 +6,11 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 
 class AssetDetailsPage extends EntityDetailsPage<Asset> {
-
-  AssetDetailsPage(TbContext tbContext, String assetId):
-        super(tbContext,
-          entityId: assetId,
-          defaultTitle: 'Asset', subTitle: 'Asset details');
+  AssetDetailsPage(TbContext tbContext, String assetId)
+      : super(tbContext,
+            entityId: assetId,
+            defaultTitle: 'Asset',
+            subTitle: 'Asset details');
 
   @override
   Future<Asset?> fetchEntity(String assetId) {
@@ -33,8 +33,6 @@ class AssetDetailsPage extends EntityDetailsPage<Asset> {
               SizedBox(height: 16),
               Text('${S.of(context).label}', style: labelTextStyle),
               Text(asset.label ?? '', style: valueTextStyle),
-            ]
-        )
-    );
+            ]));
   }
 }

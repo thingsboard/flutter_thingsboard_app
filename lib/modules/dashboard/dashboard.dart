@@ -248,7 +248,8 @@ class _DashboardState extends TbContextState<Dashboard> {
         if (firstPart.endsWith('Groups')) {
           firstPart = firstPart.replaceFirst('Groups', 's');
         }
-        if ((firstPart == 'dashboard' || firstPart == 'dashboards') && parts.length > 1) {
+        if ((firstPart == 'dashboard' || firstPart == 'dashboards') &&
+            parts.length > 1) {
           var dashboardId = parts[1];
           await navigateToDashboard(dashboardId);
         } else if (firstPart != 'dashboard') {
@@ -377,62 +378,64 @@ class _DashboardState extends TbContextState<Dashboard> {
                                 return NavigationActionPolicy.CANCEL;
                               }
                             }
-                              return Platform.isIOS ? NavigationActionPolicy.ALLOW : NavigationActionPolicy.CANCEL;
-                            },
-                            onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-                              log.debug('onUpdateVisitedHistory: $url');
-                              _dashboardController.onHistoryUpdated(controller.canGoBack());
-                            },
-                            onConsoleMessage: (controller, consoleMessage) {
-                              log.debug('[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
-                            },
-                            onLoadStart: (controller, url) async {
-                              log.debug('onLoadStart: $url');
-                            },
-                            onLoadStop: (controller, url) async {
-                              log.debug('onLoadStop: $url');
-                              if (webViewLoading) {
-                                webViewLoading = false;
-                                _controller.complete(controller);
-                              }
-                            },
-                            androidOnPermissionRequest: (controller, origin, resources) async {
-                              log.debug('androidOnPermissionRequest origin: $origin, resources: $resources');
-                              return PermissionRequestResponse(
-                                  resources: resources,
-                                  action: PermissionRequestResponseAction.GRANT);
-                            },
-                          ),
-                          if (!UniversalPlatform.isWeb)
-                            TwoValueListenableBuilder(
-                              firstValueListenable: dashboardLoading,
-                              secondValueListenable: dashboardActive,
-                              builder: (BuildContext context, bool loading, bool active, child) {
-                                if (!loading && active) {
-                                  return SizedBox.shrink();
-                                } else {
-                                  var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-                                  var bottomPadding = data.padding.top;
-                                  if (widget._home != true) {
-                                    bottomPadding += kToolbarHeight;
-                                  }
-                                  return Container(
-                                    padding: EdgeInsets.only(bottom: bottomPadding),
-                                    alignment: Alignment.center,
-                                    color: Colors.white,
-                                    child: TbProgressIndicator(
-                                      tbContext,
-                                        size: 50.0
-                                    ),
-                                  );
-                                }
-                              }
-                          )
-                        ]
-                    );
-                  }
-                }
-            )
-    );
+                            return Platform.isIOS
+                                ? NavigationActionPolicy.ALLOW
+                                : NavigationActionPolicy.CANCEL;
+                          },
+                          onUpdateVisitedHistory:
+                              (controller, url, androidIsReload) async {
+                            log.debug('onUpdateVisitedHistory: $url');
+                            _dashboardController
+                                .onHistoryUpdated(controller.canGoBack());
+                          },
+                          onConsoleMessage: (controller, consoleMessage) {
+                            log.debug(
+                                '[JavaScript console] ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                          },
+                          onLoadStart: (controller, url) async {
+                            log.debug('onLoadStart: $url');
+                          },
+                          onLoadStop: (controller, url) async {
+                            log.debug('onLoadStop: $url');
+                            if (webViewLoading) {
+                              webViewLoading = false;
+                              _controller.complete(controller);
+                            }
+                          },
+                          androidOnPermissionRequest:
+                              (controller, origin, resources) async {
+                            log.debug(
+                                'androidOnPermissionRequest origin: $origin, resources: $resources');
+                            return PermissionRequestResponse(
+                                resources: resources,
+                                action: PermissionRequestResponseAction.GRANT);
+                          },
+                        ),
+                  if (!UniversalPlatform.isWeb)
+                    TwoValueListenableBuilder(
+                        firstValueListenable: dashboardLoading,
+                        secondValueListenable: dashboardActive,
+                        builder: (BuildContext context, bool loading,
+                            bool active, child) {
+                          if (!loading && active) {
+                            return SizedBox.shrink();
+                          } else {
+                            var data = MediaQueryData.fromWindow(
+                                WidgetsBinding.instance.window);
+                            var bottomPadding = data.padding.top;
+                            if (widget._home != true) {
+                              bottomPadding += kToolbarHeight;
+                            }
+                            return Container(
+                              padding: EdgeInsets.only(bottom: bottomPadding),
+                              alignment: Alignment.center,
+                              color: Colors.white,
+                              child: TbProgressIndicator(tbContext, size: 50.0),
+                            );
+                          }
+                        })
+                ]);
+              }
+            }));
   }
 }

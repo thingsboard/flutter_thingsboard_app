@@ -14,17 +14,13 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'signup_app_secret_provider.dart';
 
 class SignUpPage extends TbPageWidget {
-
-  SignUpPage(TbContext tbContext):
-        super(tbContext);
+  SignUpPage(TbContext tbContext) : super(tbContext);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
-
 }
 
 class _SignUpPageState extends TbPageState<SignUpPage> {
-
   final _isSignUpNotifier = ValueNotifier<bool>(false);
   final _showPasswordNotifier = ValueNotifier<bool>(false);
   final _showRepeatPasswordNotifier = ValueNotifier<bool>(false);
@@ -47,314 +43,371 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Stack(
-            children: [
-              LoginPageBackground(),
-              Positioned.fill(
-                child: Column(
-                    children: [
-                      Expanded(
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(24, 51, 24, 24),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: [
-                                      Row(
-                                          children: [
-                                            Container(
-                                                height: 40,
-                                                child: tbContext.wlService.loginLogoImage != null ? tbContext.wlService.loginLogoImage! : SizedBox(height: 25)
-                                            )
-                                          ]
-                                      ),
-                                      SizedBox(height: 16),
-                                      if (tbContext.signUpParams!.signUpTextMessage != null && tbContext.signUpParams!.signUpTextMessage!.isNotEmpty)
-                                        Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                  tbContext.signUpParams!.signUpTextMessage!,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Color(0xFFAFAFAF),
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 14,
-                                                      height: 24 / 24
-                                                  )
-                                              )]
-                                        ),
-                                      SizedBox(height: 32),
-                                      FormBuilder(
-                                          key: _signUpFormKey,
-                                          autovalidateMode: AutovalidateMode.disabled,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              FormBuilderTextField(
-                                                name: 'firstName',
-                                                validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(errorText: '${S.of(context).firstNameRequireText}')
-                                                ]),
-                                                decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                                                    border: OutlineInputBorder(),
-                                                    labelText: '${S.of(context).firstNameStar}'
-                                                ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              FormBuilderTextField(
-                                                name: 'lastName',
-                                                validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(errorText: '${S.of(context).lastNameRequireText}')
-                                                ]),
-                                                decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                                                    border: OutlineInputBorder(),
-                                                    labelText: '${S.of(context).lastNameStar}'
-                                                ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              FormBuilderTextField(
-                                                name: 'email',
-                                                validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(errorText: '${S.of(context).emailRequireText}'),
-                                                  FormBuilderValidators.email(errorText: '${S.of(context).emailInvalidText}')
-                                                ]),
-                                                decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                                                    border: OutlineInputBorder(),
-                                                    labelText: '${S.of(context).emailStar}'
-                                                ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              ValueListenableBuilder(
-                                                  valueListenable: _showPasswordNotifier,
-                                                  builder: (BuildContext context, bool showPassword, child) {
-                                                    return FormBuilderTextField(
-                                                      name: 'password',
-                                                      obscureText: !showPassword,
-                                                      validator: FormBuilderValidators.compose([
-                                                        FormBuilderValidators.required(errorText: '${S.of(context).passwordRequireText}')
-                                                      ]),
-                                                      decoration: InputDecoration(
-                                                          contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                                                          suffixIcon: IconButton(
-                                                            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                                            onPressed: () {
-                                                              _showPasswordNotifier.value = !_showPasswordNotifier.value;
-                                                            },
-                                                          ),
-                                                          border: OutlineInputBorder(),
-                                                          labelText: '${S.of(context).createPasswordStar}'
-                                                      ),
-                                                    );
-                                                  }
-                                              ),
-                                              SizedBox(height: 12),
-                                              ValueListenableBuilder(
-                                                  valueListenable: _showRepeatPasswordNotifier,
-                                                  builder: (BuildContext context, bool showPassword, child) {
-                                                    return FormBuilderTextField(
-                                                      name: 'repeatPassword',
-                                                      obscureText: !showPassword,
-                                                      validator: FormBuilderValidators.compose([
-                                                        FormBuilderValidators.required(errorText: '${S.of(context).passwordRequireText}')
-                                                      ]),
-                                                      decoration: InputDecoration(
-                                                          contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                                                          suffixIcon: IconButton(
-                                                            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                                                            onPressed: () {
-                                                              _showRepeatPasswordNotifier.value = !_showRepeatPasswordNotifier.value;
-                                                            },
-                                                          ),
-                                                          border: OutlineInputBorder(),
-                                                          labelText: '${S.of(context).repeatPasswordStar}'
-                                                      ),
-                                                    );
-                                                  }
-                                              ),
-                                              SizedBox(height: 24),
-                                              ValueListenableBuilder(
-                                                  valueListenable: _recaptchaResponseNotifier,
-                                                  builder: (BuildContext context, String? recaptchaResponse, child) {
-                                                    bool hasRecaptchaResponse = recaptchaResponse != null && recaptchaResponse.isNotEmpty;
-                                                    return TextButton(
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              hasRecaptchaResponse ? Icons.check_box_outlined : Icons.check_box_outline_blank,
-                                                              color: Color(0xFF666666),
-                                                            ),
-                                                            SizedBox(width: 24),
-                                                            Text('${S.of(context).imNotARobot}',
-                                                                style: Theme.of(context).textTheme.bodyText2)
-                                                          ],
-                                                        ),
-                                                        style: ButtonStyle(
-                                                          alignment: Alignment.centerLeft,
-                                                        ),
-                                                        onPressed: () => {
-                                                          hasRecaptchaResponse ? null : _openRecaptcha()
-                                                        }
-                                                    );
-                                                  }
-                                              ),
-                                              if (tbContext.signUpParams!.showPrivacyPolicy != null && tbContext.signUpParams!.showPrivacyPolicy!)
-                                                FormBuilderCheckbox(
-                                                    title: Row(
-                                                      children: [
-                                                        Text('${S.of(context).accept}', style: TextStyle(
-                                                            fontSize: 14,
-                                                            height: 20 / 14
-                                                        )),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            _openPrivacyPolicy();
-                                                          },
-                                                          child: Text(
-                                                            '${S.of(context).privacyPolicy}',
-                                                            style: TextStyle(color: Theme.of(context).colorScheme.primary,
-                                                                letterSpacing: 1,
-                                                                fontSize: 14,
-                                                                height: 20 / 14),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    contentPadding: EdgeInsets.zero,
-                                                    name: 'acceptPrivacyPolicy',
-                                                    initialValue: false,
-                                                    decoration: InputDecoration.collapsed(hintText: '${S.of(context).privacyPolicy}')
-                                                ),
-                                              if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!)
-                                                FormBuilderCheckbox(
-                                                    title: Row(
-                                                      children: [
-                                                        Text('${S.of(context).accept}', style: TextStyle(
-                                                            fontSize: 14,
-                                                            height: 20 / 14
-                                                        )),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            _openTermsOfUse();
-                                                          },
-                                                          child: Text(
-                                                            '${S.of(context).termsOfUse}',
-                                                            style: TextStyle(color: Theme.of(context).colorScheme.primary,
-                                                                letterSpacing: 1,
-                                                                fontSize: 14,
-                                                                height: 20 / 14),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    contentPadding: EdgeInsets.zero,
-                                                    name: 'acceptTermsOfUse',
-                                                    initialValue: false,
-                                                    decoration: InputDecoration.collapsed(hintText: '${S.of(context).termsOfUse}')
-                                                ),
-                                            ],
-                                          )
-                                      )
-                                    ]
-                                ),
-                              )
-                          )
-                      ),
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ElevatedButton(
-                                child: Text('${S.of(context).signUp}'),
-                                style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
-                                onPressed: () {
-                                  _signUp();
-                                },
-                              ),
-                              SizedBox(height: 8),
+        body: Stack(children: [
+          LoginPageBackground(),
+          Positioned.fill(
+              child: Column(children: [
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 51, 24, 24),
+                    child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(children: [
+                              Container(
+                                  height: 40,
+                                  child:
+                                      tbContext.wlService.loginLogoImage != null
+                                          ? tbContext.wlService.loginLogoImage!
+                                          : SizedBox(height: 25))
+                            ]),
+                            SizedBox(height: 16),
+                            if (tbContext.signUpParams!.signUpTextMessage !=
+                                    null &&
+                                tbContext.signUpParams!.signUpTextMessage!
+                                    .isNotEmpty)
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('${S.of(context).alreadyHaveAnAccount}', style: TextStyle(
-                                      fontSize: 14,
-                                      height: 20 / 14
-                                  )),
-                                  TextButton(
-                                    onPressed: () {
-                                      _login();
-                                    },
-                                    child: Text(
-                                      '${S.of(context).signIn}',
-                                      style: TextStyle(color: Theme.of(context).colorScheme.primary,
-                                          letterSpacing: 1,
-                                          fontSize: 14,
-                                          height: 20 / 14),
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        tbContext
+                                            .signUpParams!.signUpTextMessage!,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color(0xFFAFAFAF),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            height: 24 / 24))
+                                  ]),
+                            SizedBox(height: 32),
+                            FormBuilder(
+                                key: _signUpFormKey,
+                                autovalidateMode: AutovalidateMode.disabled,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    FormBuilderTextField(
+                                      name: 'firstName',
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(
+                                            errorText:
+                                                '${S.of(context).firstNameRequireText}')
+                                      ]),
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${S.of(context).firstNameStar}'),
                                     ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 16)
-                            ],
-                          )
-                      )
-                    ]
-                )
-              ),
-              ValueListenableBuilder<bool>(
-                  valueListenable: _isSignUpNotifier,
-                  builder: (BuildContext context, bool loading, child) {
-                    if (loading) {
-                      var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-                      var bottomPadding = data.padding.top;
-                      bottomPadding += kToolbarHeight;
-                      return SizedBox.expand(
-                          child: ClipRect(
-                              child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                                  child: Container(
-                                    decoration: new BoxDecoration(
-                                        color: Colors.grey.shade200.withOpacity(0.2)
+                                    SizedBox(height: 12),
+                                    FormBuilderTextField(
+                                      name: 'lastName',
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(
+                                            errorText:
+                                                '${S.of(context).lastNameRequireText}')
+                                      ]),
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${S.of(context).lastNameStar}'),
                                     ),
-                                    child: Container(
-                                      padding: EdgeInsets.only(bottom: bottomPadding),
-                                      alignment: Alignment.center,
-                                      child: TbProgressIndicator(tbContext, size: 50.0),
+                                    SizedBox(height: 12),
+                                    FormBuilderTextField(
+                                      name: 'email',
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(
+                                            errorText:
+                                                '${S.of(context).emailRequireText}'),
+                                        FormBuilderValidators.email(
+                                            errorText:
+                                                '${S.of(context).emailInvalidText}')
+                                      ]),
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${S.of(context).emailStar}'),
                                     ),
-                                  )
-                              )
-                          )
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  }
-              )
-            ]
-        )
-    );
+                                    SizedBox(height: 12),
+                                    ValueListenableBuilder(
+                                        valueListenable: _showPasswordNotifier,
+                                        builder: (BuildContext context,
+                                            bool showPassword, child) {
+                                          return FormBuilderTextField(
+                                            name: 'password',
+                                            obscureText: !showPassword,
+                                            validator:
+                                                FormBuilderValidators.compose([
+                                              FormBuilderValidators.required(
+                                                  errorText:
+                                                      '${S.of(context).passwordRequireText}')
+                                            ]),
+                                            decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 12),
+                                                suffixIcon: IconButton(
+                                                  icon: Icon(showPassword
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off),
+                                                  onPressed: () {
+                                                    _showPasswordNotifier
+                                                            .value =
+                                                        !_showPasswordNotifier
+                                                            .value;
+                                                  },
+                                                ),
+                                                border: OutlineInputBorder(),
+                                                labelText:
+                                                    '${S.of(context).createPasswordStar}'),
+                                          );
+                                        }),
+                                    SizedBox(height: 12),
+                                    ValueListenableBuilder(
+                                        valueListenable:
+                                            _showRepeatPasswordNotifier,
+                                        builder: (BuildContext context,
+                                            bool showPassword, child) {
+                                          return FormBuilderTextField(
+                                            name: 'repeatPassword',
+                                            obscureText: !showPassword,
+                                            validator:
+                                                FormBuilderValidators.compose([
+                                              FormBuilderValidators.required(
+                                                  errorText:
+                                                      '${S.of(context).passwordRequireText}')
+                                            ]),
+                                            decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 12),
+                                                suffixIcon: IconButton(
+                                                  icon: Icon(showPassword
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off),
+                                                  onPressed: () {
+                                                    _showRepeatPasswordNotifier
+                                                            .value =
+                                                        !_showRepeatPasswordNotifier
+                                                            .value;
+                                                  },
+                                                ),
+                                                border: OutlineInputBorder(),
+                                                labelText:
+                                                    '${S.of(context).repeatPasswordStar}'),
+                                          );
+                                        }),
+                                    SizedBox(height: 24),
+                                    ValueListenableBuilder(
+                                        valueListenable:
+                                            _recaptchaResponseNotifier,
+                                        builder: (BuildContext context,
+                                            String? recaptchaResponse, child) {
+                                          bool hasRecaptchaResponse =
+                                              recaptchaResponse != null &&
+                                                  recaptchaResponse.isNotEmpty;
+                                          return TextButton(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    hasRecaptchaResponse
+                                                        ? Icons
+                                                            .check_box_outlined
+                                                        : Icons
+                                                            .check_box_outline_blank,
+                                                    color: Color(0xFF666666),
+                                                  ),
+                                                  SizedBox(width: 24),
+                                                  Text(
+                                                      '${S.of(context).imNotARobot}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText2)
+                                                ],
+                                              ),
+                                              style: ButtonStyle(
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                              onPressed: () => {
+                                                    hasRecaptchaResponse
+                                                        ? null
+                                                        : _openRecaptcha()
+                                                  });
+                                        }),
+                                    if (tbContext.signUpParams!
+                                                .showPrivacyPolicy !=
+                                            null &&
+                                        tbContext
+                                            .signUpParams!.showPrivacyPolicy!)
+                                      FormBuilderCheckbox(
+                                          title: Row(
+                                            children: [
+                                              Text('${S.of(context).accept}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      height: 20 / 14)),
+                                              TextButton(
+                                                onPressed: () {
+                                                  _openPrivacyPolicy();
+                                                },
+                                                child: Text(
+                                                  '${S.of(context).privacyPolicy}',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      height: 20 / 14),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          contentPadding: EdgeInsets.zero,
+                                          name: 'acceptPrivacyPolicy',
+                                          initialValue: false,
+                                          decoration: InputDecoration.collapsed(
+                                              hintText:
+                                                  '${S.of(context).privacyPolicy}')),
+                                    if (tbContext
+                                                .signUpParams!.showTermsOfUse !=
+                                            null &&
+                                        tbContext.signUpParams!.showTermsOfUse!)
+                                      FormBuilderCheckbox(
+                                          title: Row(
+                                            children: [
+                                              Text('${S.of(context).accept}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      height: 20 / 14)),
+                                              TextButton(
+                                                onPressed: () {
+                                                  _openTermsOfUse();
+                                                },
+                                                child: Text(
+                                                  '${S.of(context).termsOfUse}',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      height: 20 / 14),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          contentPadding: EdgeInsets.zero,
+                                          name: 'acceptTermsOfUse',
+                                          initialValue: false,
+                                          decoration: InputDecoration.collapsed(
+                                              hintText:
+                                                  '${S.of(context).termsOfUse}')),
+                                  ],
+                                ))
+                          ]),
+                    ))),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      child: Text('${S.of(context).signUp}'),
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16)),
+                      onPressed: () {
+                        _signUp();
+                      },
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('${S.of(context).alreadyHaveAnAccount}',
+                            style: TextStyle(fontSize: 14, height: 20 / 14)),
+                        TextButton(
+                          onPressed: () {
+                            _login();
+                          },
+                          child: Text(
+                            '${S.of(context).signIn}',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                letterSpacing: 1,
+                                fontSize: 14,
+                                height: 20 / 14),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 16)
+                  ],
+                ))
+          ])),
+          ValueListenableBuilder<bool>(
+              valueListenable: _isSignUpNotifier,
+              builder: (BuildContext context, bool loading, child) {
+                if (loading) {
+                  var data =
+                      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+                  var bottomPadding = data.padding.top;
+                  bottomPadding += kToolbarHeight;
+                  return SizedBox.expand(
+                      child: ClipRect(
+                          child: BackdropFilter(
+                              filter:
+                                  ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                              child: Container(
+                                decoration: new BoxDecoration(
+                                    color:
+                                        Colors.grey.shade200.withOpacity(0.2)),
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: bottomPadding),
+                                  alignment: Alignment.center,
+                                  child: TbProgressIndicator(tbContext,
+                                      size: 50.0),
+                                ),
+                              ))));
+                } else {
+                  return SizedBox.shrink();
+                }
+              })
+        ]));
   }
 
   void _openRecaptcha() async {
-    String? recaptchaResponse = await tbContext.navigateTo('/tbRecaptcha?siteKey=${tbContext.signUpParams!.captchaSiteKey!}', transition: TransitionType.nativeModal);
+    String? recaptchaResponse = await tbContext.navigateTo(
+        '/tbRecaptcha?siteKey=${tbContext.signUpParams!.captchaSiteKey!}',
+        transition: TransitionType.nativeModal);
     _recaptchaResponseNotifier.value = recaptchaResponse;
   }
 
   void _openPrivacyPolicy() async {
-    bool? acceptPrivacyPolicy = await tbContext.navigateTo('/signup/privacyPolicy', transition: TransitionType.nativeModal);
+    bool? acceptPrivacyPolicy = await tbContext.navigateTo(
+        '/signup/privacyPolicy',
+        transition: TransitionType.nativeModal);
     if (acceptPrivacyPolicy == true) {
-      _signUpFormKey.currentState?.fields['acceptPrivacyPolicy']!.didChange(acceptPrivacyPolicy);
+      _signUpFormKey.currentState?.fields['acceptPrivacyPolicy']!
+          .didChange(acceptPrivacyPolicy);
     }
   }
 
   void _openTermsOfUse() async {
-    bool? acceptTermsOfUse = await tbContext.navigateTo('/signup/termsOfUse', transition: TransitionType.nativeModal);
+    bool? acceptTermsOfUse = await tbContext.navigateTo('/signup/termsOfUse',
+        transition: TransitionType.nativeModal);
     if (acceptTermsOfUse == true) {
-      _signUpFormKey.currentState?.fields['acceptTermsOfUse']!.didChange(acceptTermsOfUse);
+      _signUpFormKey.currentState?.fields['acceptTermsOfUse']!
+          .didChange(acceptTermsOfUse);
     }
   }
 
@@ -367,7 +420,8 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
     if (_signUpFormKey.currentState?.saveAndValidate() ?? false) {
       var formValue = _signUpFormKey.currentState!.value;
       if (_validateSignUpRequest(formValue)) {
-        var appSecret = await SignUpAppSecretProvider.local().getSignUpAppSecret();
+        var appSecret =
+            await SignUpAppSecretProvider.local().getSignUpAppSecret();
         var signUpRequest = SignUpRequest(
             firstName: formValue['firstName'],
             lastName: formValue['lastName'],
@@ -378,8 +432,8 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
             appSecret: appSecret);
         _isSignUpNotifier.value = true;
         try {
-          var signupResult = await tbContext.tbClient.getSignupService().signup(
-              signUpRequest);
+          var signupResult =
+              await tbContext.tbClient.getSignupService().signup(signUpRequest);
           if (signupResult == SignUpResult.INACTIVE_USER_EXISTS) {
             _recaptchaResponseNotifier.value = null;
             _isSignUpNotifier.value = false;
@@ -412,13 +466,15 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
       showErrorNotification('${S.of(context).confirmNotRobotMessage}');
       return false;
     }
-    if (tbContext.signUpParams!.showPrivacyPolicy != null && tbContext.signUpParams!.showPrivacyPolicy!
-        && formValue['acceptPrivacyPolicy'] != true) {
+    if (tbContext.signUpParams!.showPrivacyPolicy != null &&
+        tbContext.signUpParams!.showPrivacyPolicy! &&
+        formValue['acceptPrivacyPolicy'] != true) {
       showErrorNotification('${S.of(context).acceptPrivacyPolicyMessage}');
       return false;
     }
-    if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!
-        && formValue['acceptTermsOfUse'] != true) {
+    if (tbContext.signUpParams!.showTermsOfUse != null &&
+        tbContext.signUpParams!.showTermsOfUse! &&
+        formValue['acceptTermsOfUse'] != true) {
       showErrorNotification('${S.of(context).acceptTermsOfUseMessage}');
       return false;
     }
@@ -432,11 +488,11 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
         cancel: '${S.of(context).cancel}',
         ok: '${S.of(context).resend}');
     if (res == true) {
-      await tbClient.getSignupService().resendEmailActivation(email, pkgName: tbContext.packageName);
+      await tbClient
+          .getSignupService()
+          .resendEmailActivation(email, pkgName: tbContext.packageName);
       log.info('Resend email activation!');
       navigateTo('/signup/emailVerification?email=' + email);
     }
   }
-
-
 }

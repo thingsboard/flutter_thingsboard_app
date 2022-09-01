@@ -5,8 +5,9 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 import 'assets_base.dart';
 
-class AssetsList extends BaseEntitiesWidget<Asset, PageLink> with AssetsBase, EntitiesListStateBase {
-
-  AssetsList(TbContext tbContext, PageKeyController<PageLink> pageKeyController, {searchMode = false}) : super(tbContext, pageKeyController, searchMode: searchMode);
-
+class AssetsList extends BaseEntitiesWidget<Asset, PageLink>
+    with AssetsBase, EntitiesListStateBase {
+  AssetsList(TbContext tbContext, PageKeyController<PageLink> pageKeyController,
+      {searchMode = false})
+      : super(tbContext, pageKeyController, searchMode: searchMode);
 }

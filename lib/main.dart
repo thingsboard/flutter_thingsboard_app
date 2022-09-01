@@ -132,10 +132,9 @@ class ThingsboardAppState extends State<ThingsboardApp>
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         statusBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.light
-    ));
+        systemNavigationBarIconBrightness: Brightness.light));
     return WlThemeWidget(
-        appRouter.tbContext,
+      appRouter.tbContext,
       wlThemedWidgetBuilder: (context, data, wlParams) => MaterialApp(
           localizationsDelegates: [
             S.delegate,
@@ -179,10 +178,9 @@ class ThingsboardAppState extends State<ThingsboardApp>
                 theme: data,
                 themeMode: ThemeMode.light,
                 darkTheme: tbDarkTheme,
-                home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
-              )
-          )
-      ),
+                home: MainDashboardPage(appRouter.tbContext,
+                    controller: _mainDashboardPageController),
+              ))),
     );
   }
 }

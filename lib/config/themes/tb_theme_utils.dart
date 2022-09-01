@@ -3,19 +3,19 @@ import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 abstract class TbThemeUtils {
-
   static final _tbTypography = Typography.material2018();
 
   static final Color _tbTextColor = Color(0xFF282828);
 
-  static final tbPrimary = _mergeColors(Colors.teal, {
-    '500': Colors.teal[800]!.value
-  });
+  static final tbPrimary =
+      _mergeColors(Colors.teal, {'500': Colors.teal[800]!.value});
   static final tbAccent = _mergeColors(Colors.deepOrange, {});
 
   static ThemeData createTheme(PaletteSettings? paletteSettings) {
-    var primarySwatch = _materialColorFromPalette(paletteSettings?.primaryPalette, true);
-    var accentColor = _materialColorFromPalette(paletteSettings?.accentPalette, false);
+    var primarySwatch =
+        _materialColorFromPalette(paletteSettings?.primaryPalette, true);
+    var accentColor =
+        _materialColorFromPalette(paletteSettings?.accentPalette, false);
     var primaryColor = primarySwatch[500]!;
     ThemeData theme = ThemeData(primarySwatch: primarySwatch);
     return ThemeData(
@@ -34,26 +34,21 @@ abstract class TbThemeUtils {
       toolbarTextStyle: TextStyle(
             color: _tbTextColor
       ), */
-            iconTheme: IconThemeData(
-                color: _tbTextColor
-            )
-
-        ),
+            iconTheme: IconThemeData(color: _tbTextColor)),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.white,
             selectedItemColor: primaryColor,
             unselectedItemColor: primaryColor.withAlpha((255 * 0.38).ceil()),
             showSelectedLabels: true,
-            showUnselectedLabels: true
-        ),
+            showUnselectedLabels: true),
         pageTransitionsTheme: PageTransitionsTheme(builders: {
           TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
           TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
-        })
-    );
+        }));
   }
 
-  static MaterialColor _materialColorFromPalette(Palette? palette, bool primary) {
+  static MaterialColor _materialColorFromPalette(
+      Palette? palette, bool primary) {
     if (palette == null) {
       return primary ? tbPrimary : tbAccent;
     }
@@ -66,7 +61,7 @@ abstract class TbThemeUtils {
   }
 
   static MaterialColor _colorFromType(String? type) {
-    switch(type) {
+    switch (type) {
       case 'red':
         return Colors.red;
       case 'pink':
@@ -110,19 +105,20 @@ abstract class TbThemeUtils {
     }
   }
 
-  static MaterialColor _mergeColors(MaterialColor color, Map<String,dynamic>? colors) {
+  static MaterialColor _mergeColors(
+      MaterialColor color, Map<String, dynamic>? colors) {
     if (colors != null) {
       var swatch = <int, Color>{
         50: _parseColor(colors['50'], color[50]!),
-        100:  _parseColor(colors['100'], color[100]!),
-        200:  _parseColor(colors['200'], color[200]!),
-        300:  _parseColor(colors['300'], color[300]!),
-        400:  _parseColor(colors['400'], color[400]!),
-        500:  _parseColor(colors['500'], color[500]!),
-        600:  _parseColor(colors['600'], color[600]!),
-        700:  _parseColor(colors['700'], color[700]!),
-        800:  _parseColor(colors['800'], color[800]!),
-        900:  _parseColor(colors['900'], color[900]!),
+        100: _parseColor(colors['100'], color[100]!),
+        200: _parseColor(colors['200'], color[200]!),
+        300: _parseColor(colors['300'], color[300]!),
+        400: _parseColor(colors['400'], color[400]!),
+        500: _parseColor(colors['500'], color[500]!),
+        600: _parseColor(colors['600'], color[600]!),
+        700: _parseColor(colors['700'], color[700]!),
+        800: _parseColor(colors['800'], color[800]!),
+        900: _parseColor(colors['900'], color[900]!),
       };
       return MaterialColor(swatch[500]!.value, swatch);
     } else {
@@ -147,5 +143,4 @@ abstract class TbThemeUtils {
     }
     return defaultColor;
   }
-
 }

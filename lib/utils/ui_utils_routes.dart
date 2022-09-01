@@ -11,7 +11,8 @@ class UiUtilsRoutes extends TbRoutes {
     return QrCodeScannerPage(tbContext);
   });
 
-  late var tbRecaptchaHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var tbRecaptchaHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var siteKey = params['siteKey']?.first;
     return TbRecaptcha(tbContext, siteKey: siteKey);
   });

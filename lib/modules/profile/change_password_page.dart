@@ -149,10 +149,10 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                   if (loading) {
                     return SizedBox.expand(
                         child: Container(
-                          color: Color(0x99FFFFFF),
-                          child: Center(child: TbProgressIndicator(tbContext, size: 50.0)),
-                        )
-                    );
+                      color: Color(0x99FFFFFF),
+                      child: Center(
+                          child: TbProgressIndicator(tbContext, size: 50.0)),
+                    ));
                   } else {
                     return SizedBox.shrink();
                   }
@@ -178,7 +178,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
           pop(true);
         } catch (e) {
           _isLoadingNotifier.value = false;
-       }
+        }
       }
     }
   }

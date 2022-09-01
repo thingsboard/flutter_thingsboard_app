@@ -44,9 +44,9 @@ class _HomePageState extends TbContextState<HomePage>
         title: Center(
             child: Container(
                 height: kToolbarHeight - 8,
-                child: tbContext.wlService.userLogoImage != null ? tbContext.wlService.userLogoImage! : SizedBox()
-            )
-        ),
+                child: tbContext.wlService.userLogoImage != null
+                    ? tbContext.wlService.userLogoImage!
+                    : SizedBox())),
         actions: [
           if (tbClient.isSystemAdmin())
             IconButton(

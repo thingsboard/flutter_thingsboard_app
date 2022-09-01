@@ -120,7 +120,8 @@ class _EntityDetailsPageState<T extends BaseData>
               return Center(child: Text('Requested entity does not exists.'));
             }
           } else {
-            return Center(child: TbProgressIndicator(
+            return Center(
+                child: TbProgressIndicator(
               tbContext,
               size: 50.0,
             ));

@@ -77,23 +77,20 @@ class _MorePageState extends TbContextState<MorePage> {
                   onTap: () {
                     tbClient.logout(
                         requestConfig: RequestConfig(ignoreErrors: true));
-                  }
-                ),
-                Spacer(),
-                if (tbContext.wlService.showNameVersion == true)
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(tbContext.wlService.platformNameAndVersion, style: TextStyle(
-                          fontSize: 12
-                      ))
-                    ],
-                  )
-              ],
-            ),
-        )
-    );
+                  }),
+              Spacer(),
+              if (tbContext.wlService.showNameVersion == true)
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(tbContext.wlService.platformNameAndVersion,
+                        style: TextStyle(fontSize: 12))
+                  ],
+                )
+            ],
+          ),
+        ));
   }
 
   Widget buildMoreMenuItems(BuildContext context) {

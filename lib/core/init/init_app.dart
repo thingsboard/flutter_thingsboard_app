@@ -23,10 +23,7 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
     return Container(
       alignment: Alignment.center,
       color: Colors.white,
-      child: TbProgressIndicator(
-        tbContext,
-          size: 50.0
-      ),
+      child: TbProgressIndicator(tbContext, size: 50.0),
     );
   }
 }

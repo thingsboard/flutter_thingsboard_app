@@ -5,7 +5,8 @@ abstract class ThingsboardImage {
   static final thingsboardOuter = 'assets/images/thingsboard_outer.svg';
   static final thingsboardCenter = 'assets/images/thingsboard_center.svg';
   static final dashboardPlaceholder = 'assets/images/dashboard-placeholder.svg';
-  static final deviceProfilePlaceholder = 'assets/images/device-profile-placeholder.svg';
+  static final deviceProfilePlaceholder =
+      'assets/images/device-profile-placeholder.svg';
   static final emailVerification = 'assets/images/email-verification.svg';
   static final emailVerified = 'assets/images/email-verified.svg';
 

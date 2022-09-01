@@ -24,24 +24,29 @@ class AuthRoutes extends TbRoutes {
     return ResetPasswordRequestPage(tbContext);
   });
 
-  late var signUpHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var signUpHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return SignUpPage(tbContext);
   });
 
-  late var privacyPolicyHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var privacyPolicyHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return PrivacyPolicy(tbContext);
   });
 
-  late var termsOfUseHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var termsOfUseHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return TermsOfUse(tbContext);
   });
 
-  late var emailVerificationHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var emailVerificationHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var email = params['email']?.first;
     return EmailVerificationPage(tbContext, email: email);
   });
 
-  late var emailVerifiedHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var emailVerifiedHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var emailCode = params['emailCode']?.first;
     return EmailVerifiedPage(tbContext, emailCode: emailCode);
   });
@@ -56,11 +61,13 @@ class AuthRoutes extends TbRoutes {
   @override
   void doRegisterRoutes(router) {
     router.define("/login", handler: loginHandler);
-    router.define("/login/resetPasswordRequest", handler: resetPasswordRequestHandler);
+    router.define("/login/resetPasswordRequest",
+        handler: resetPasswordRequestHandler);
     router.define("/signup", handler: signUpHandler);
     router.define("/signup/privacyPolicy", handler: privacyPolicyHandler);
     router.define("/signup/termsOfUse", handler: termsOfUseHandler);
-    router.define("/signup/emailVerification", handler: emailVerificationHandler);
+    router.define("/signup/emailVerification",
+        handler: emailVerificationHandler);
     router.define("/signup/emailVerified", handler: emailVerifiedHandler);
     router.define("/login/mfa", handler: twoFactorAuthenticationHandler);
   }

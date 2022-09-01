@@ -3,7 +3,6 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 mixin AssetsBase on EntitiesBase<Asset, PageLink> {
-
   @override
   String get title => 'Assets';
 
@@ -36,40 +35,37 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
   }
 
   Widget _buildCard(context, Asset asset) {
-    return Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Flexible(
-              fit: FlexFit.tight,
-              child:
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(width: 16),
-                    Flexible(
-                        fit: FlexFit.tight,
-                        child:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('${asset.name}',
-                                          style: TextStyle(
-                                              color: Color(0xFF282828),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              height: 20 / 14
-                                          ))
-                                  ),
-                                  Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(asset.createdTime!)),
+    return Row(mainAxisSize: MainAxisSize.max, children: [
+      Flexible(
+          fit: FlexFit.tight,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(width: 16),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text('${asset.name}',
+                                      style: TextStyle(
+                                          color: Color(0xFF282828),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          height: 20 / 14))),
+                              Text(
+                                  entityDateFormat.format(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          asset.createdTime!)),
                                   style: TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontSize: 12,
@@ -95,35 +91,27 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
   }
 
   Widget _buildListWidgetCard(BuildContext context, Asset asset) {
-    return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-              fit: FlexFit.loose,
-              child:
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                        fit: FlexFit.loose,
-                        child:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FittedBox(
-                                fit: BoxFit.fitWidth,
-                                alignment: Alignment.centerLeft,
-                                child: Text('${asset.name}',
-                                    style: TextStyle(
-                                        color: Color(0xFF282828),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.7
-                                    ))
-                            ),
-                            Text('${asset.type}',
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Flexible(
+          fit: FlexFit.loose,
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text('${asset.name}',
+                                style: TextStyle(
+                                    color: Color(0xFF282828),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.7))),
+                        Text('${asset.type}',
                             style: TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
