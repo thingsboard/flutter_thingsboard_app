@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class WidgetMobileActionResult<T extends MobileActionResult> {
   T? result;
@@ -16,11 +16,17 @@ class WidgetMobileActionResult<T extends MobileActionResult> {
   String? error;
   bool hasError = false;
 
-  WidgetMobileActionResult.errorResult(this.error): hasError = true, hasResult = false;
+  WidgetMobileActionResult.errorResult(this.error)
+      : hasError = true,
+        hasResult = false;
 
-  WidgetMobileActionResult.successResult(this.result): hasError = false, hasResult = true;
+  WidgetMobileActionResult.successResult(this.result)
+      : hasError = false,
+        hasResult = true;
 
-  WidgetMobileActionResult.emptyResult(): hasError = false, hasResult = false;
+  WidgetMobileActionResult.emptyResult()
+      : hasError = false,
+        hasResult = false;
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
@@ -33,7 +39,6 @@ class WidgetMobileActionResult<T extends MobileActionResult> {
 }
 
 class MobileActionResult {
-
   MobileActionResult();
 
   factory MobileActionResult.launched(bool launched) {
@@ -123,24 +128,27 @@ enum WidgetMobileActionType {
 }
 
 WidgetMobileActionType widgetMobileActionTypeFromString(String value) {
-  return WidgetMobileActionType.values.firstWhere((e)=>e.toString().split('.')[1].toUpperCase()==value.toUpperCase(), orElse: () => WidgetMobileActionType.unknown);
+  return WidgetMobileActionType.values.firstWhere(
+      (e) => e.toString().split('.')[1].toUpperCase() == value.toUpperCase(),
+      orElse: () => WidgetMobileActionType.unknown);
 }
 
 class WidgetActionHandler with HasTbContext {
-
   WidgetActionHandler(TbContext tbContext) {
     setTbContext(tbContext);
   }
 
-  Future<Map<String, dynamic>> handleWidgetMobileAction(List<dynamic> args, InAppWebViewController controller) async {
+  Future<Map<String, dynamic>> handleWidgetMobileAction(
+      List<dynamic> args, InAppWebViewController controller) async {
     var result = await _handleWidgetMobileAction(args, controller);
     return result.toJson();
   }
 
-  Future<WidgetMobileActionResult> _handleWidgetMobileAction(List<dynamic> args, InAppWebViewController controller) async {
+  Future<WidgetMobileActionResult> _handleWidgetMobileAction(
+      List<dynamic> args, InAppWebViewController controller) async {
     if (args.isNotEmpty && args[0] is String) {
       var actionType = widgetMobileActionTypeFromString(args[0]);
-      switch(actionType) {
+      switch (actionType) {
         case WidgetMobileActionType.takePictureFromGallery:
           return await _takePicture(ImageSource.gallery);
         case WidgetMobileActionType.takePhoto:
@@ -158,24 +166,26 @@ class WidgetActionHandler with HasTbContext {
         case WidgetMobileActionType.takeScreenshot:
           return await _takeScreenshot(controller);
         case WidgetMobileActionType.unknown:
-          return WidgetMobileActionResult.errorResult('Unknown actionType: ${args[0]}');
+          return WidgetMobileActionResult.errorResult(
+              'Unknown actionType: ${args[0]}');
       }
     } else {
-      return WidgetMobileActionResult.errorResult('actionType is not provided.');
+      return WidgetMobileActionResult.errorResult(
+          'actionType is not provided.');
     }
   }
 
   Future<WidgetMobileActionResult> _takePicture(ImageSource source) async {
     try {
       final picker = ImagePicker();
-      final pickedFile = await picker.getImage(source: source);
+      final pickedFile = await picker.pickImage(source: source);
       if (pickedFile != null) {
         var mimeType = lookupMimeType(pickedFile.path);
         if (mimeType != null) {
           var image = File(pickedFile.path);
           List<int> imageBytes = await image.readAsBytes();
-          String imageUrl = UriData.fromBytes(imageBytes, mimeType: mimeType)
-              .toString();
+          String imageUrl =
+              UriData.fromBytes(imageBytes, mimeType: mimeType).toString();
           return WidgetMobileActionResult.successResult(
               MobileActionResult.image(imageUrl));
         } else {
@@ -190,7 +200,8 @@ class WidgetActionHandler with HasTbContext {
     }
   }
 
-  Future<WidgetMobileActionResult> _launchMap(List<dynamic> args, bool directionElseLocation) async {
+  Future<WidgetMobileActionResult> _launchMap(
+      List<dynamic> args, bool directionElseLocation) async {
     try {
       num? lat;
       num? lon;
@@ -213,9 +224,11 @@ class WidgetActionHandler with HasTbContext {
 
   Future<WidgetMobileActionResult> _scanQrCode() async {
     try {
-      Barcode? barcode = await tbContext.navigateTo('/qrCodeScan', transition: TransitionType.nativeModal);
+      Barcode? barcode = await tbContext.navigateTo('/qrCodeScan',
+          transition: TransitionType.nativeModal);
       if (barcode != null && barcode.code != null) {
-        return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(barcode.code!, describeEnum(barcode.format)));
+        return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(
+            barcode.code!, describeEnum(barcode.format)));
       } else {
         return WidgetMobileActionResult.emptyResult();
       }
@@ -261,19 +274,24 @@ class WidgetActionHandler with HasTbContext {
         return WidgetMobileActionResult.errorResult(
             'Location permissions are permanently denied, we cannot request permissions.');
       }
-      var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      return WidgetMobileActionResult.successResult(MobileActionResult.location(position.latitude, position.longitude));
+      var position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      return WidgetMobileActionResult.successResult(
+          MobileActionResult.location(position.latitude, position.longitude));
     } catch (e) {
       return _handleError(e);
     }
   }
 
-  Future<WidgetMobileActionResult> _takeScreenshot(InAppWebViewController controller) async {
+  Future<WidgetMobileActionResult> _takeScreenshot(
+      InAppWebViewController controller) async {
     try {
       List<int>? imageBytes = await controller.takeScreenshot();
       if (imageBytes != null) {
-        String imageUrl = UriData.fromBytes(imageBytes, mimeType: 'image/png').toString();
-        return WidgetMobileActionResult.successResult(MobileActionResult.image(imageUrl));
+        String imageUrl =
+            UriData.fromBytes(imageBytes, mimeType: 'image/png').toString();
+        return WidgetMobileActionResult.successResult(
+            MobileActionResult.image(imageUrl));
       } else {
         return WidgetMobileActionResult.emptyResult();
       }
@@ -283,8 +301,8 @@ class WidgetActionHandler with HasTbContext {
   }
 
   Future<MobileActionResult> _tryLaunch(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
       return MobileActionResult.launched(true);
     } else {
       log.error('Could not launch $url');
@@ -301,5 +319,4 @@ class WidgetActionHandler with HasTbContext {
     }
     return WidgetMobileActionResult.errorResult(error);
   }
-
 }

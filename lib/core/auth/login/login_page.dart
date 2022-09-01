@@ -1,8 +1,7 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
@@ -42,6 +42,11 @@ class _LoginPageState extends TbPageState<LoginPage> {
   @override
   void initState() {
     super.initState();
+    if (tbClient.isPreVerificationToken()) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        navigateTo('/login/mfa');
+      });
+    }
   }
 
   @override
@@ -81,8 +86,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     SizedBox(height: 32),
                                     Row(
                                         children: [
-                                          Text(
-                                              'Login to your account',
+                                          Text('${S.of(context).loginNotification}',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 28,
@@ -114,13 +118,14 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                           children: [
                                             FormBuilderTextField(
                                               name: 'username',
+                                              keyboardType: TextInputType.emailAddress,
                                               validator: FormBuilderValidators.compose([
-                                                FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                                                FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                                                FormBuilderValidators.required(errorText: '${S.of(context).emailRequireText}'),
+                                                FormBuilderValidators.email(errorText: '${S.of(context).emailInvalidText}')
                                               ]),
                                               decoration: InputDecoration(
                                                   border: OutlineInputBorder(),
-                                                  labelText: 'Email'
+                                                  labelText: '${S.of(context).email}'
                                               ),
                                             ),
                                             SizedBox(height: 28),
@@ -131,7 +136,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                     name: 'password',
                                                     obscureText: !showPassword,
                                                     validator: FormBuilderValidators.compose([
-                                                      FormBuilderValidators.required(context, errorText: 'Password is required.')
+                                                      FormBuilderValidators.required(errorText: '${S.of(context).passwordRequireText}')
                                                     ]),
                                                     decoration: InputDecoration(
                                                         suffixIcon: IconButton(
@@ -141,7 +146,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                           },
                                                         ),
                                                         border: OutlineInputBorder(),
-                                                        labelText: 'Password'
+                                                        labelText: '${S.of(context).password}'
                                                     ),
                                                   );
                                                 }
@@ -157,7 +162,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                             _forgotPassword();
                                           },
                                           child: Text(
-                                            'Forgot Password?',
+                                            '${S.of(context).passwordForgotText}',
                                             style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                                 letterSpacing: 1,
                                                 fontSize: 12,
@@ -168,7 +173,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     ),
                                     Spacer(),
                                     ElevatedButton(
-                                      child: Text('Log In'),
+                                      child: Text('${S.of(context).login}'),
                                       style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                       onPressed: () {
                                         _login();
@@ -182,7 +187,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text('New User?', style: TextStyle(
+                                              Text('${S.of(context).newUserText}', style: TextStyle(
                                                   fontSize: 14,
                                                   height: 20 / 14
                                               )),
@@ -191,7 +196,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                   _signup();
                                                 },
                                                 child: Text(
-                                                  'Create Account',
+                                                  '${S.of(context).createAccount}',
                                                   style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                                       letterSpacing: 1,
                                                       fontSize: 14,
@@ -231,7 +236,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
               valueListenable: _isLoginNotifier,
               builder: (BuildContext context, bool loading, child) {
                 if (loading) {
-                  var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                  var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
                   var bottomPadding = data.padding.top;
                   bottomPadding += kToolbarHeight;
                   return SizedBox.expand(

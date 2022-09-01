@@ -10,4 +10,3 @@ class AssetsList extends BaseEntitiesWidget<Asset, PageLink> with AssetsBase, En
   AssetsList(TbContext tbContext, PageKeyController<PageLink> pageKeyController, {searchMode = false}) : super(tbContext, pageKeyController, searchMode: searchMode);
 
 }
-

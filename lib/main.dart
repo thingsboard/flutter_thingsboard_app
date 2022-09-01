@@ -1,6 +1,6 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -11,11 +11,11 @@ import 'package:thingsboard_app/widgets/two_page_view.dart';
 
 import 'config/themes/tb_theme.dart';
 import 'config/themes/wl_theme_widget.dart';
+import 'generated/l10n.dart';
 
 final appRouter = ThingsboardAppRouter();
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 //  await FlutterDownloader.initialize();
 //  await Permission.storage.request();
@@ -28,18 +28,18 @@ void main() async {
 }
 
 class ThingsboardApp extends StatefulWidget {
-
   ThingsboardApp({Key? key}) : super(key: key);
 
   @override
   ThingsboardAppState createState() => ThingsboardAppState();
-
 }
 
-class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderStateMixin implements TbMainDashboardHolder {
-
+class ThingsboardAppState extends State<ThingsboardApp>
+    with TickerProviderStateMixin
+    implements TbMainDashboardHolder {
   final TwoPageViewController _mainPageViewController = TwoPageViewController();
-  final MainDashboardPageController _mainDashboardPageController = MainDashboardPageController();
+  final MainDashboardPageController _mainDashboardPageController =
+      MainDashboardPageController();
 
   final GlobalKey mainAppKey = GlobalKey();
   final GlobalKey dashboardKey = GlobalKey();
@@ -51,8 +51,13 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
   }
 
   @override
-  Future<void> navigateToDashboard(String dashboardId, {String? dashboardTitle, String? state, bool? hideToolbar, bool animate = true}) async {
-    await _mainDashboardPageController.openDashboard(dashboardId, dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar);
+  Future<void> navigateToDashboard(String dashboardId,
+      {String? dashboardTitle,
+      String? state,
+      bool? hideToolbar,
+      bool animate = true}) async {
+    await _mainDashboardPageController.openDashboard(dashboardId,
+        dashboardTitle: dashboardTitle, state: state, hideToolbar: hideToolbar);
     _openDashboard(animate: animate);
   }
 
@@ -122,7 +127,6 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     return res;
   }
 
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -133,14 +137,30 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
     return WlThemeWidget(
         appRouter.tbContext,
       wlThemedWidgetBuilder: (context, data, wlParams) => MaterialApp(
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           title: wlParams.appTitle!,
+          themeMode: ThemeMode.light,
           home: TwoPageView(
               controller: _mainPageViewController,
               first: MaterialApp(
                 key: mainAppKey,
                 scaffoldMessengerKey: appRouter.tbContext.messengerKey,
+                localizationsDelegates: [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
                 title: wlParams.appTitle!,
                 theme: data,
+                themeMode: ThemeMode.light,
                 darkTheme: tbDarkTheme,
                 onGenerateRoute: appRouter.router.generator,
                 navigatorObservers: [appRouter.tbContext.routeObserver],
@@ -148,40 +168,21 @@ class ThingsboardAppState extends State<ThingsboardApp> with TickerProviderState
               second: MaterialApp(
                 key: dashboardKey,
                 // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
+                localizationsDelegates: [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
                 title: wlParams.appTitle!,
                 theme: data,
+                themeMode: ThemeMode.light,
                 darkTheme: tbDarkTheme,
                 home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
               )
           )
       ),
     );
-  /*  return MaterialApp(
-      title: 'ThingsBoard',
-        themeMode: ThemeMode.light,
-        home: TwoPageView(
-          controller: _mainPageViewController,
-          first: MaterialApp(
-            key: mainAppKey,
-            scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-            title: 'ThingsBoard',
-            theme: tbTheme,
-            themeMode: ThemeMode.light,
-            darkTheme: tbDarkTheme,
-            onGenerateRoute: appRouter.router.generator,
-            navigatorObservers: [appRouter.tbContext.routeObserver],
-          ),
-          second: MaterialApp(
-            key: dashboardKey,
-            // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-            title: 'ThingsBoard',
-            theme: tbTheme,
-            themeMode: ThemeMode.light,
-            darkTheme: tbDarkTheme,
-            home: MainDashboardPage(appRouter.tbContext, controller: _mainDashboardPageController),
-          )
-        )
-    ); */
   }
-
 }

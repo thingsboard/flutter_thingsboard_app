@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
@@ -71,35 +70,28 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                                           ))
                                   ),
                                   Text(entityDateFormat.format(DateTime.fromMillisecondsSinceEpoch(asset.createdTime!)),
-                                      style: TextStyle(
-                                          color: Color(0xFFAFAFAF),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          height: 16 / 12
-                                      ))
-                                ]
-                            ),
-                            SizedBox(height: 4),
-                            Text('${asset.type}',
-                                style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.33
-                                ))
-                          ],
-                        )
-                    ),
-                    SizedBox(width: 16),
-                    Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
-                    SizedBox(width: 16)
-                  ],
-                ),
-              )
-
-          )
-        ]
-    );
+                                  style: TextStyle(
+                                      color: Color(0xFFAFAFAF),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      height: 16 / 12))
+                            ]),
+                        SizedBox(height: 4),
+                        Text('${asset.type}',
+                            style: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                height: 1.33))
+                      ],
+                    )),
+                SizedBox(width: 16),
+                Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
+                SizedBox(width: 16)
+              ],
+            ),
+          ))
+    ]);
   }
 
   Widget _buildListWidgetCard(BuildContext context, Asset asset) {
@@ -132,20 +124,14 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                                     ))
                             ),
                             Text('${asset.type}',
-                                style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.33
-                                ))
-                          ],
-                        )
-                    )
-                  ]
-                )
-              )
-          )
-        ]
-    );
+                            style: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                height: 1.33))
+                      ],
+                    ))
+              ])))
+    ]);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entity_details_page.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 
 class AssetDetailsPage extends EntityDetailsPage<Asset> {
 
@@ -24,17 +25,16 @@ class AssetDetailsPage extends EntityDetailsPage<Asset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('Asset name', style: labelTextStyle),
+              Text('${S.of(context).assetName}', style: labelTextStyle),
               Text(asset.name, style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Type', style: labelTextStyle),
+              Text('${S.of(context).type}', style: labelTextStyle),
               Text(asset.type, style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Label', style: labelTextStyle),
+              Text('${S.of(context).label}', style: labelTextStyle),
               Text(asset.label ?? '', style: valueTextStyle),
             ]
         )
     );
   }
-
 }

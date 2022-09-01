@@ -6,8 +6,8 @@ import 'package:thingsboard_app/utils/ui/qr_code_scanner.dart';
 import 'package:thingsboard_app/utils/ui/tb_recaptcha.dart';
 
 class UiUtilsRoutes extends TbRoutes {
-
-  late var qrCodeScannerHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var qrCodeScannerHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return QrCodeScannerPage(tbContext);
   });
 
@@ -23,5 +23,4 @@ class UiUtilsRoutes extends TbRoutes {
     router.define("/qrCodeScan", handler: qrCodeScannerHandler);
     router.define("/tbRecaptcha", handler: tbRecaptchaHandler);
   }
-
 }

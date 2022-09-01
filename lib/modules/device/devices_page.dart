@@ -6,28 +6,21 @@ import 'package:thingsboard_app/modules/device/device_profiles_grid.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DevicesPage extends TbPageWidget {
-
   DevicesPage(TbContext tbContext) : super(tbContext);
 
   @override
   _DevicesPageState createState() => _DevicesPageState();
-
 }
 
 class _DevicesPageState extends TbPageState<DevicesPage> {
-
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
     var deviceProfilesList = DeviceProfilesGrid(tbContext, _pageLinkController);
     return Scaffold(
-        appBar: TbAppBar(
-            tbContext,
-            title: Text(deviceProfilesList.title)
-        ),
-        body: deviceProfilesList
-    );
+        appBar: TbAppBar(tbContext, title: Text(deviceProfilesList.title)),
+        body: deviceProfilesList);
   }
 
   @override
@@ -35,5 +28,4 @@ class _DevicesPageState extends TbPageState<DevicesPage> {
     _pageLinkController.dispose();
     super.dispose();
   }
-
 }

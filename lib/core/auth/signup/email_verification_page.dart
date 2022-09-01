@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class EmailVerificationPage extends TbPageWidget {
@@ -45,9 +44,9 @@ class _EmailVerificationPageState extends TbPageState<EmailVerificationPage> {
                                     SvgPicture.asset(ThingsboardImage.emailVerification,
                                         height: 50,
                                         color: Theme.of(context).primaryColor,
-                                        semanticsLabel: 'Email verification'),
+                                        semanticsLabel: '${S.of(context).emailVerification}'),
                                     SizedBox(height: 48),
-                                    Text('Email verification',
+                                    Text('${S.of(context).emailVerification}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 24,
@@ -64,14 +63,13 @@ class _EmailVerificationPageState extends TbPageState<EmailVerificationPage> {
                                           color: Color(0xFFAFAFAF)
                                         ),
                                         children: [
-                                          TextSpan(text: 'An email with verification details was sent to the specified email address '),
+                                          TextSpan(text: '${S.of(context).emailVerificationSentText}'),
                                           TextSpan(text: widget._email, style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(Color.getAlphaFromOpacity(0.87), 0,0,0))),
                                           TextSpan(text: '.'),
                                         ]
                                       )),
                                     SizedBox(height: 32),
-                                    Text('Please follow instructions provided in the email in order to complete your sign up procedure. '
-                                        'Note: if you haven\'t seen the email for a while, please check your \'spam\' folder or try to resend email by clicking \'Resend\' button.',
+                                    Text('${S.of(context).emailVerificationInstructionsText}',
                                         style: TextStyle(
                                             fontSize: 14,
                                             height: 24 / 14,
@@ -83,7 +81,7 @@ class _EmailVerificationPageState extends TbPageState<EmailVerificationPage> {
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
                                         ElevatedButton(
-                                          child: Text('Resend'),
+                                          child: Text('${S.of(context).resend}'),
                                           style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                           onPressed: () {
                                             _resendEmail();

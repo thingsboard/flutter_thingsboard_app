@@ -4,6 +4,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
@@ -50,7 +51,7 @@ class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
                                         return Column(
                                           children: [
                                             SizedBox(height: 36),
-                                            Text(activating ? 'Activating account...' : 'Account successfully activated!',
+                                            Text(activating ? '${S.of(context).activatingAccount}' : '${S.of(context).accountActivated}',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
@@ -62,9 +63,9 @@ class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
                                             if (!activating) SvgPicture.asset(ThingsboardImage.emailVerified,
                                                height: 85,
                                                 color: Theme.of(context).primaryColor,
-                                                semanticsLabel: 'Email verified'),
+                                                semanticsLabel: '${S.of(context).emailVerified}'),
                                             SizedBox(height: 77),
-                                            if (activating) Text('Your account is currently activating.\nPlease wait...',
+                                            if (activating) Text('${S.of(context).activatingAccountText}',
                                                               style: TextStyle(
                                                                   fontSize: 14,
                                                                   height: 24 / 14,
@@ -72,9 +73,7 @@ class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
                                                                   color: Color(0xFFAFAFAF)
                                                               ),
                                                               textAlign: TextAlign.center),
-                                            if (!activating) Text('Congratulations!\n'
-                                                  'Your ${tbContext.wlService.wlParams.appTitle} account has been activated.\n'
-                                                  'Now you can login to your ${tbContext.wlService.wlParams.appTitle} space.',
+                                            if (!activating) Text('${S.of(context).accountActivatedText(tbContext.wlService.wlParams.appTitle!)}',
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     height: 24 / 14,
@@ -86,7 +85,7 @@ class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
                                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                                 children: [
                                                   ElevatedButton(
-                                                    child: Text('Login'),
+                                                    child: Text('${S.of(context).login}'),
                                                     style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                                     onPressed: () {
                                                       _login();

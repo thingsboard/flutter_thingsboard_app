@@ -7,6 +7,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
@@ -94,37 +95,37 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                               FormBuilderTextField(
                                                 name: 'firstName',
                                                 validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(context, errorText: 'First name is required.')
+                                                  FormBuilderValidators.required(errorText: '${S.of(context).firstNameRequireText}')
                                                 ]),
                                                 decoration: InputDecoration(
                                                     contentPadding: EdgeInsets.symmetric(horizontal: 12),
                                                     border: OutlineInputBorder(),
-                                                    labelText: 'First name *'
+                                                    labelText: '${S.of(context).firstNameStar}'
                                                 ),
                                               ),
                                               SizedBox(height: 12),
                                               FormBuilderTextField(
                                                 name: 'lastName',
                                                 validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(context, errorText: 'Last name is required.')
+                                                  FormBuilderValidators.required(errorText: '${S.of(context).lastNameRequireText}')
                                                 ]),
                                                 decoration: InputDecoration(
                                                     contentPadding: EdgeInsets.symmetric(horizontal: 12),
                                                     border: OutlineInputBorder(),
-                                                    labelText: 'Last name *'
+                                                    labelText: '${S.of(context).lastNameStar}'
                                                 ),
                                               ),
                                               SizedBox(height: 12),
                                               FormBuilderTextField(
                                                 name: 'email',
                                                 validator: FormBuilderValidators.compose([
-                                                  FormBuilderValidators.required(context, errorText: 'Email is required.'),
-                                                  FormBuilderValidators.email(context, errorText: 'Invalid email format.')
+                                                  FormBuilderValidators.required(errorText: '${S.of(context).emailRequireText}'),
+                                                  FormBuilderValidators.email(errorText: '${S.of(context).emailInvalidText}')
                                                 ]),
                                                 decoration: InputDecoration(
                                                     contentPadding: EdgeInsets.symmetric(horizontal: 12),
                                                     border: OutlineInputBorder(),
-                                                    labelText: 'Email *'
+                                                    labelText: '${S.of(context).emailStar}'
                                                 ),
                                               ),
                                               SizedBox(height: 12),
@@ -135,7 +136,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                       name: 'password',
                                                       obscureText: !showPassword,
                                                       validator: FormBuilderValidators.compose([
-                                                        FormBuilderValidators.required(context, errorText: 'Password is required.')
+                                                        FormBuilderValidators.required(errorText: '${S.of(context).passwordRequireText}')
                                                       ]),
                                                       decoration: InputDecoration(
                                                           contentPadding: EdgeInsets.symmetric(horizontal: 12),
@@ -146,7 +147,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                             },
                                                           ),
                                                           border: OutlineInputBorder(),
-                                                          labelText: 'Create a password *'
+                                                          labelText: '${S.of(context).createPasswordStar}'
                                                       ),
                                                     );
                                                   }
@@ -159,7 +160,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                       name: 'repeatPassword',
                                                       obscureText: !showPassword,
                                                       validator: FormBuilderValidators.compose([
-                                                        FormBuilderValidators.required(context, errorText: 'Password is required.')
+                                                        FormBuilderValidators.required(errorText: '${S.of(context).passwordRequireText}')
                                                       ]),
                                                       decoration: InputDecoration(
                                                           contentPadding: EdgeInsets.symmetric(horizontal: 12),
@@ -170,7 +171,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                             },
                                                           ),
                                                           border: OutlineInputBorder(),
-                                                          labelText: 'Repeat your password *'
+                                                          labelText: '${S.of(context).repeatPasswordStar}'
                                                       ),
                                                     );
                                                   }
@@ -188,7 +189,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                               color: Color(0xFF666666),
                                                             ),
                                                             SizedBox(width: 24),
-                                                            Text('I\'m not a robot',
+                                                            Text('${S.of(context).imNotARobot}',
                                                                 style: Theme.of(context).textTheme.bodyText2)
                                                           ],
                                                         ),
@@ -205,7 +206,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                 FormBuilderCheckbox(
                                                     title: Row(
                                                       children: [
-                                                        Text('Accept', style: TextStyle(
+                                                        Text('${S.of(context).accept}', style: TextStyle(
                                                             fontSize: 14,
                                                             height: 20 / 14
                                                         )),
@@ -214,7 +215,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                             _openPrivacyPolicy();
                                                           },
                                                           child: Text(
-                                                            'Privacy Policy',
+                                                            '${S.of(context).privacyPolicy}',
                                                             style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                                                 letterSpacing: 1,
                                                                 fontSize: 14,
@@ -226,13 +227,13 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                     contentPadding: EdgeInsets.zero,
                                                     name: 'acceptPrivacyPolicy',
                                                     initialValue: false,
-                                                    decoration: InputDecoration.collapsed(hintText: 'Privacy policy')
+                                                    decoration: InputDecoration.collapsed(hintText: '${S.of(context).privacyPolicy}')
                                                 ),
                                               if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!)
                                                 FormBuilderCheckbox(
                                                     title: Row(
                                                       children: [
-                                                        Text('Accept', style: TextStyle(
+                                                        Text('${S.of(context).accept}', style: TextStyle(
                                                             fontSize: 14,
                                                             height: 20 / 14
                                                         )),
@@ -241,7 +242,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                             _openTermsOfUse();
                                                           },
                                                           child: Text(
-                                                            'Terms of Use',
+                                                            '${S.of(context).termsOfUse}',
                                                             style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                                                 letterSpacing: 1,
                                                                 fontSize: 14,
@@ -253,7 +254,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                     contentPadding: EdgeInsets.zero,
                                                     name: 'acceptTermsOfUse',
                                                     initialValue: false,
-                                                    decoration: InputDecoration.collapsed(hintText: 'Terms of Use')
+                                                    decoration: InputDecoration.collapsed(hintText: '${S.of(context).termsOfUse}')
                                                 ),
                                             ],
                                           )
@@ -269,7 +270,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               ElevatedButton(
-                                child: Text('Sign up'),
+                                child: Text('${S.of(context).signUp}'),
                                 style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                 onPressed: () {
                                   _signUp();
@@ -279,7 +280,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Already have an account?', style: TextStyle(
+                                  Text('${S.of(context).alreadyHaveAnAccount}', style: TextStyle(
                                       fontSize: 14,
                                       height: 20 / 14
                                   )),
@@ -288,7 +289,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                       _login();
                                     },
                                     child: Text(
-                                      'Sign In',
+                                      '${S.of(context).signIn}',
                                       style: TextStyle(color: Theme.of(context).colorScheme.primary,
                                           letterSpacing: 1,
                                           fontSize: 14,
@@ -308,7 +309,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                   valueListenable: _isSignUpNotifier,
                   builder: (BuildContext context, bool loading, child) {
                     if (loading) {
-                      var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                      var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
                       var bottomPadding = data.padding.top;
                       bottomPadding += kToolbarHeight;
                       return SizedBox.expand(
@@ -399,26 +400,26 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
 
   bool _validateSignUpRequest(Map<String, dynamic> formValue) {
     if (formValue['password'] != formValue['repeatPassword']) {
-      showErrorNotification('Entered passwords must be same!');
+      showErrorNotification('${S.of(context).passwordErrorNotification}');
       return false;
     }
     if ((formValue['password'] as String).length < 6) {
-      showErrorNotification('Your password must be at least 6 characters long');
+      showErrorNotification('${S.of(context).invalidPasswordLengthMessage}');
       return false;
     }
     var recaptchaResponse = _recaptchaResponseNotifier.value;
     if (recaptchaResponse == null || recaptchaResponse.isEmpty) {
-      showErrorNotification('You must confirm that you are not a robot');
+      showErrorNotification('${S.of(context).confirmNotRobotMessage}');
       return false;
     }
     if (tbContext.signUpParams!.showPrivacyPolicy != null && tbContext.signUpParams!.showPrivacyPolicy!
         && formValue['acceptPrivacyPolicy'] != true) {
-      showErrorNotification('You must accept our Privacy Policy');
+      showErrorNotification('${S.of(context).acceptPrivacyPolicyMessage}');
       return false;
     }
     if (tbContext.signUpParams!.showTermsOfUse != null && tbContext.signUpParams!.showTermsOfUse!
         && formValue['acceptTermsOfUse'] != true) {
-      showErrorNotification('You must accept our Terms of Use');
+      showErrorNotification('${S.of(context).acceptTermsOfUseMessage}');
       return false;
     }
     return true;
@@ -426,10 +427,10 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
 
   void _promptToResendEmailVerification(String email) async {
     var res = await confirm(
-        title: 'Inactive user already exists',
-        message: 'There is already registered user with unverified email address.\nClick \'Resend\' button if you wish to resend verification email.',
-        cancel: 'Cancel',
-        ok: 'Resend');
+        title: '${S.of(context).inactiveUserAlreadyExists}',
+        message: '${S.of(context).inactiveUserAlreadyExistsMessage}',
+        cancel: '${S.of(context).cancel}',
+        ok: '${S.of(context).resend}');
     if (res == true) {
       await tbClient.getSignupService().resendEmailActivation(email, pkgName: tbContext.packageName);
       log.info('Resend email activation!');

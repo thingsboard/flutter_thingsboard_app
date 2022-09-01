@@ -1,5 +1,6 @@
 abstract class ThingsboardImage {
-  static final thingsBoardWithTitle = 'assets/images/thingsboard_with_title.svg';
+  static final thingsBoardWithTitle =
+      'assets/images/thingsboard_with_title.svg';
   static final thingsboard = 'assets/images/thingsboard.svg';
   static final thingsboardOuter = 'assets/images/thingsboard_outer.svg';
   static final thingsboardCenter = 'assets/images/thingsboard_center.svg';
@@ -8,11 +9,10 @@ abstract class ThingsboardImage {
   static final emailVerification = 'assets/images/email-verification.svg';
   static final emailVerified = 'assets/images/email-verified.svg';
 
-  static final oauth2Logos = <String,String>{
+  static final oauth2Logos = <String, String>{
     'google-logo': 'assets/images/google-logo.svg',
     'github-logo': 'assets/images/github-logo.svg',
     'facebook-logo': 'assets/images/facebook-logo.svg',
     'apple-logo': 'assets/images/apple-logo.svg'
   };
-
 }

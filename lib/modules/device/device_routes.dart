@@ -9,24 +9,28 @@ import 'device_details_page.dart';
 import 'devices_list_page.dart';
 
 class DeviceRoutes extends TbRoutes {
-
-  late var devicesHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var devicesHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return MainPage(tbContext, path: '/devices');
   });
 
-  late var devicesPageHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var devicesPageHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return DevicesPage(tbContext);
   });
 
-  late var deviceListHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var deviceListHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     var searchMode = params['search']?.first == 'true';
     var deviceType = params['deviceType']?.first;
     String? activeStr = params['active']?.first;
     bool? active = activeStr != null ? activeStr == 'true' : null;
-    return DevicesListPage(tbContext, searchMode: searchMode, deviceType: deviceType, active: active);
+    return DevicesListPage(tbContext,
+        searchMode: searchMode, deviceType: deviceType, active: active);
   });
 
-  late var deviceDetailsHandler = Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  late var deviceDetailsHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return DeviceDetailsPage(tbContext, params["id"][0]);
   });
 
@@ -39,5 +43,4 @@ class DeviceRoutes extends TbRoutes {
     router.define("/deviceList", handler: deviceListHandler);
     router.define("/device/:id", handler: deviceDetailsHandler);
   }
-
 }

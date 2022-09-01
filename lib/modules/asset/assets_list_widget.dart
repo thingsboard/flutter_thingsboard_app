@@ -11,5 +11,4 @@ class AssetsListWidget extends EntitiesListPageLinkWidget<Asset> with AssetsBase
   void onViewAll() {
     navigateTo('/assets');
   }
-
 }

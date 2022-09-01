@@ -7,6 +7,7 @@ import 'package:html/parser.dart' as htmlparser;
 import 'package:html/dom.dart' as dom;
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -36,7 +37,7 @@ class _TermsOfUseState extends TbPageState<TermsOfUse> {
         backgroundColor: Colors.white,
         appBar: TbAppBar(
           tbContext,
-          title: Text('Terms of Use'),
+          title: Text('${S.of(context).termsOfUse}'),
         ),
         body:
         Column(
@@ -72,10 +73,10 @@ class _TermsOfUseState extends TbPageState<TermsOfUse> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(onPressed: () => pop(false),
-                          child: Text('Cancel')),
+                          child: Text('${S.of(context).cancel}')),
                       ElevatedButton(
                           onPressed: () => pop(true),
-                          child: Text('Accept'))
+                          child: Text('${S.of(context).accept}'))
                     ],
                   )
               )
