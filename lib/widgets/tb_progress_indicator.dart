@@ -29,7 +29,7 @@ class TbProgressIndicator extends ProgressIndicator {
 }
 
 class _TbProgressIndicatorState extends State<TbProgressIndicator>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late CurvedAnimation _rotation;
 
