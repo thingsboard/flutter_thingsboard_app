@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "alarmClearTitle": MessageLookupByLibrary.simpleMessage("Clear Alarm"),
         "alarms": MessageLookupByLibrary.simpleMessage("Alarms"),
         "allDevices": MessageLookupByLibrary.simpleMessage("All devices"),
-        "appTitle": MessageLookupByLibrary.simpleMessage("Thingsboard"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("ThingsBoard"),
         "assetName": MessageLookupByLibrary.simpleMessage("Asset name"),
         "assets": MessageLookupByLibrary.simpleMessage("Assets"),
         "assignedToCustomer":
@@ -98,7 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginNotification":
             MessageLookupByLibrary.simpleMessage("Login to your account"),
         "logoDefaultValue":
-            MessageLookupByLibrary.simpleMessage("Thingsboard Logo"),
+            MessageLookupByLibrary.simpleMessage("ThingsBoard Logo"),
         "logout": MessageLookupByLibrary.simpleMessage("Log Out"),
         "mfaProviderBackupCode":
             MessageLookupByLibrary.simpleMessage("Backup code"),

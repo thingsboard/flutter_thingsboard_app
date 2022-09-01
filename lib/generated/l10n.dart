@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Thingsboard`
+  /// `ThingsBoard`
   String get appTitle {
     return Intl.message(
-      'Thingsboard',
+      'ThingsBoard',
       name: 'appTitle',
       desc: '',
       args: [],
@@ -150,10 +150,10 @@ class S {
     );
   }
 
-  /// `Thingsboard Logo`
+  /// `ThingsBoard Logo`
   String get logoDefaultValue {
     return Intl.message(
-      'Thingsboard Logo',
+      'ThingsBoard Logo',
       name: 'logoDefaultValue',
       desc: '',
       args: [],

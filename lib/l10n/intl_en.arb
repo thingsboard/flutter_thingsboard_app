@@ -1,5 +1,5 @@
 {
-  "appTitle": "Thingsboard",
+  "appTitle": "ThingsBoard",
 
   "home": "Home",
   "alarms": "Alarms",
@@ -12,7 +12,7 @@
   "logout": "Log Out",
   "login": "Log In",
 
-  "logoDefaultValue": "Thingsboard Logo",
+  "logoDefaultValue": "ThingsBoard Logo",
   "loginNotification": "Login to your account",
   "email": "Email",
   "emailRequireText": "Email is required.",
