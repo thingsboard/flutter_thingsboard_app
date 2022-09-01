@@ -44,7 +44,7 @@ class WlService {
       enableHelpLinks: true,
       showNameVersion: false,
       platformName: 'ThingsBoard',
-      platformVersion: '3.3.0PE');
+      platformVersion: '3.4.1PE');
 
   static LoginWhiteLabelingParams _createDefaultLoginWlParams() {
     var loginWlParams =
@@ -223,6 +223,13 @@ class WlService {
         .getLoginWhiteLabelParams(
             logoImageChecksum: storedLogoImageChecksum,
             faviconChecksum: storedFaviconChecksum);
+    if (loginWlParams.platformVersion == null) {
+      var platformVersion = _tbContext.tbClient.getPlatformVersion();
+      if (platformVersion != null) {
+        loginWlParams.platformVersion =
+            platformVersion.versionString();
+      }
+    }
     loginWlParams = _mergeDefaults(true, loginWlParams, _defaultLoginWlParams);
     bool loginWlChanged = false;
     if (!_wlIsEqual(_loginWlParams, loginWlParams)) {
@@ -248,6 +255,13 @@ class WlService {
         .getWhiteLabelParams(
             logoImageChecksum: storedLogoImageChecksum,
             faviconChecksum: storedFaviconChecksum);
+    if (userWlParams.platformVersion == null) {
+      var platformVersion = _tbContext.tbClient.getPlatformVersion();
+      if (platformVersion != null) {
+        userWlParams.platformVersion =
+            platformVersion.versionString();
+      }
+    }
     userWlParams = _mergeDefaults(false, userWlParams, _defaultWLParams);
     bool userWlChanged = false;
     if (!_wlIsEqual(_wlParams, userWlParams)) {
