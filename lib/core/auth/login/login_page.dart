@@ -373,7 +373,10 @@ class _LoginPageState extends TbPageState<LoginPage> {
         child: button,
       ));
     } else {
-      return button;
+      return Padding(
+        padding: EdgeInsets.only(bottom: isLast ? 0 : 8),
+        child: button,
+      );
     }
   }
 
