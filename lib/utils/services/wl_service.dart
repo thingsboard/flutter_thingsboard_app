@@ -226,8 +226,7 @@ class WlService {
     if (loginWlParams.platformVersion == null) {
       var platformVersion = _tbContext.tbClient.getPlatformVersion();
       if (platformVersion != null) {
-        loginWlParams.platformVersion =
-            platformVersion.versionString();
+        loginWlParams.platformVersion = platformVersion.versionString();
       }
     }
     loginWlParams = _mergeDefaults(true, loginWlParams, _defaultLoginWlParams);
@@ -258,8 +257,7 @@ class WlService {
     if (userWlParams.platformVersion == null) {
       var platformVersion = _tbContext.tbClient.getPlatformVersion();
       if (platformVersion != null) {
-        userWlParams.platformVersion =
-            platformVersion.versionString();
+        userWlParams.platformVersion = platformVersion.versionString();
       }
     }
     userWlParams = _mergeDefaults(false, userWlParams, _defaultWLParams);

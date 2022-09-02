@@ -326,7 +326,8 @@ class TbContext {
             .getSelfRegistrationService()
             .getSignUpSelfRegistrationParams(pkgName: packageName);
       }
-      _isAuthenticated.value = tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
+      _isAuthenticated.value =
+          tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
       await wlService.updateWhiteLabeling();
       await updateRouteState();
     } catch (e, s) {
@@ -358,8 +359,7 @@ class TbContext {
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
-  bool get isAuthenticated =>
-      _isAuthenticated.value;
+  bool get isAuthenticated => _isAuthenticated.value;
 
   bool get hasOAuthClients =>
       oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;

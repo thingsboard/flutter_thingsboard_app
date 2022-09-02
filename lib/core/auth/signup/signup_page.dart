@@ -71,15 +71,16 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                        tbContext
-                                            .signUpParams!.signUpTextMessage!,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color(0xFFAFAFAF),
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14,
-                                            height: 24 / 24))
+                                    Flexible(
+                                        child: Text(
+                                            tbContext.signUpParams!
+                                                .signUpTextMessage!,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Color(0xFFAFAFAF),
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 24 / 24)))
                                   ]),
                             SizedBox(height: 32),
                             FormBuilder(
@@ -121,6 +122,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                     SizedBox(height: 12),
                                     FormBuilderTextField(
                                       name: 'email',
+                                      keyboardType: TextInputType.emailAddress,
                                       validator: FormBuilderValidators.compose([
                                         FormBuilderValidators.required(
                                             errorText:
