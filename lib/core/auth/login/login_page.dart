@@ -26,7 +26,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
   final ButtonStyle _oauth2ButtonWithTextStyle = OutlinedButton.styleFrom(
       padding: EdgeInsets.all(16),
       alignment: Alignment.centerLeft,
-      primary: Colors.black87);
+      foregroundColor: Colors.black87);
 
   final ButtonStyle _oauth2IconButtonStyle = OutlinedButton.styleFrom(
       padding: EdgeInsets.all(16), alignment: Alignment.center);
@@ -296,11 +296,18 @@ class _LoginPageState extends TbPageState<LoginPage> {
           onPressed: () => _oauth2ButtonPressed(client),
           child: icon);
     } else {
-      button = OutlinedButton.icon(
+      button = OutlinedButton(
           style: _oauth2ButtonWithTextStyle,
           onPressed: () => _oauth2ButtonPressed(client),
-          icon: icon,
-          label: Expanded(child: Text(text, textAlign: TextAlign.center)));
+          child: Stack(children: [
+            Align(alignment: Alignment.centerLeft, child: icon),
+            Container(
+              height: 24,
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(text, textAlign: TextAlign.center)),
+            )
+          ]));
     }
     if (expand) {
       return Expanded(
