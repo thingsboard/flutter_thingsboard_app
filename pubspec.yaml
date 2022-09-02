@@ -37,7 +37,7 @@ dependencies:
   mime: ^1.0.0
   logger: ^1.0.0
   qr_code_scanner: ^1.0.0
-  device_info: ^2.0.0
+  device_info_plus: ^4.1.2
   geolocator: ^9.0.1
   material_design_icons_flutter: ^5.0.5955-rc.1
   package_info: ^2.0.2

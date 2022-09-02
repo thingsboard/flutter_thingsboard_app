@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -371,7 +371,7 @@ class TbContext {
 
   bool isPhysicalDevice() {
     if (UniversalPlatform.isAndroid) {
-      return _androidInfo!.isPhysicalDevice;
+      return _androidInfo!.isPhysicalDevice == true;
     } else if (UniversalPlatform.isIOS) {
       return _iosInfo!.isPhysicalDevice;
     } else {
