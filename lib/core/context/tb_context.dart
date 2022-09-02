@@ -286,7 +286,8 @@ class TbContext {
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
             pkgName: packageName, platform: _oauth2PlatformType);
       }
-      _isAuthenticated.value = tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
+      _isAuthenticated.value =
+          tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
       await updateRouteState();
     } catch (e, s) {
       log.error('Error: $e', e, s);
@@ -317,8 +318,7 @@ class TbContext {
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
-  bool get isAuthenticated =>
-      _isAuthenticated.value;
+  bool get isAuthenticated => _isAuthenticated.value;
 
   bool get hasOAuthClients =>
       oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
