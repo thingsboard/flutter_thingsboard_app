@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -66,8 +65,6 @@ class TwoFactorAuthenticationPage extends TbPageWidget {
 
 class _TwoFactorAuthenticationPageState
     extends TbPageState<TwoFactorAuthenticationPage> {
-  static RegExp smsCodeRegExp = new RegExp(r"(\d{6})");
-
   final _twoFactorAuthFormKey = GlobalKey<FormBuilderState>();
   ValueNotifier<TwoFaProviderType?> _selectedProvider =
       ValueNotifier<TwoFaProviderType?>(null);
@@ -80,7 +77,6 @@ class _TwoFactorAuthenticationPageState
   Timer? _timer;
   Timer? _tooManyRequestsTimer;
   ValueNotifier<int> _countDownTime = ValueNotifier<int>(0);
-  bool _listenForSms = false;
 
   @override
   void initState() {
@@ -101,9 +97,6 @@ class _TwoFactorAuthenticationPageState
     if (this._selectedProvider.value != TwoFaProviderType.TOTP) {
       _sendCode();
       _showResendAction.value = true;
-      if (this._selectedProvider.value == TwoFaProviderType.SMS) {
-        _startListenForSmsCode();
-      }
     }
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updatedTime();
@@ -118,7 +111,6 @@ class _TwoFactorAuthenticationPageState
     if (_tooManyRequestsTimer != null) {
       _tooManyRequestsTimer!.cancel();
     }
-    _cancelSmsCodeListen();
     super.dispose();
   }
 
@@ -378,39 +370,6 @@ class _TwoFactorAuthenticationPageState
             labelText: providerFormData.placeholderFunction(context)));
   }
 
-  Future<void> _startListenForSmsCode() async {
-    _listenForSms = true;
-    _listenForSmsCode();
-  }
-
-  Future<void> _listenForSmsCode() async {
-    String? comingSms;
-    try {
-      comingSms = await AltSmsAutofill().listenForSms;
-    } catch (e) {
-      _listenForSms = false;
-      comingSms = null;
-    }
-    if (comingSms != null) {
-      RegExpMatch? match = smsCodeRegExp.firstMatch(comingSms);
-      if (match != null) {
-        String? codeStr = match.group(1);
-        if (codeStr != null) {
-          _twoFactorAuthFormKey.currentState
-              ?.patchValue({'verificationCode': codeStr});
-        }
-      }
-    }
-    if (_listenForSms) {
-      _listenForSmsCode();
-    }
-  }
-
-  Future<void> _cancelSmsCodeListen() async {
-    _listenForSms = false;
-    AltSmsAutofill().unregisterListener();
-  }
-
   Future<void> _sendVerificationCode(BuildContext context) async {
     FocusScope.of(context).unfocus();
     if (_twoFactorAuthFormKey.currentState?.saveAndValidate() ?? false) {
@@ -451,7 +410,6 @@ class _TwoFactorAuthenticationPageState
     _prevProvider = type == null ? _selectedProvider.value : null;
     _selectedProvider.value = type;
     _showResendAction.value = false;
-    await _cancelSmsCodeListen();
     if (type != null) {
       var providersInfo = tbContext.twoFactorAuthProviders;
       var providerConfig =
@@ -462,9 +420,6 @@ class _TwoFactorAuthenticationPageState
         _showResendAction.value = true;
         _minVerificationPeriod =
             providerConfig.minVerificationCodeSendPeriod ?? 30;
-        if (type == TwoFaProviderType.SMS) {
-          _startListenForSmsCode();
-        }
       }
     }
   }
