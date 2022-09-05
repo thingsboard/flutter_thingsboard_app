@@ -633,11 +633,9 @@ packages:
   thingsboard_client:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: cb439261f3f54f76d1df14b8e2597b20f9c38a88
-      url: "git@github.com:thingsboard/dart_thingsboard_client.git"
-    source: git
+      name: thingsboard_client
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.3"
   typed_data:
     dependency: transitive
