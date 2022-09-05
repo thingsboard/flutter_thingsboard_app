@@ -153,6 +153,9 @@ class _MainPageState extends TbPageState<MainPage>
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
     return WillPopScope(
         onWillPop: () async {
+          if (!await tbContext.willPop()) {
+            return false;
+          }
           if (_tabController.index > 0) {
             _setIndex(0);
             return false;
