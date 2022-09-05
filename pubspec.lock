@@ -647,12 +647,10 @@ packages:
   thingsboard_pe_client:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: aa8a6a31b46d0fd789989052d4533bcc67b50068
-      url: "git@github.com:thingsboard/dart_thingsboard_pe_client.git"
-    source: git
-    version: "1.0.3"
+      name: thingsboard_pe_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   typed_data:
     dependency: transitive
     description:
