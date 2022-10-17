@@ -14,6 +14,8 @@ import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
+import '../../generated/l10n.dart';
+
 class ThingsboardAppRouter {
   final router = FluroRouter();
   late final _tbContext = TbContext(router);
@@ -23,8 +25,8 @@ class ThingsboardAppRouter {
         handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
       var settings = context!.settings;
       return Scaffold(
-        appBar: AppBar(title: Text('Not Found')),
-        body: Center(child: Text('Route not defined: ${settings!.name}')),
+        appBar: AppBar(title: Text(S.of(context).route_not_found)),
+        body: Center(child: Text(S.of(context).route_not_defined + '${settings!.name}')),
       );
     });
     InitRoutes(_tbContext).registerRoutes();

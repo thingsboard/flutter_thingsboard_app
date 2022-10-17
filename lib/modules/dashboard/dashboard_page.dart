@@ -3,6 +3,8 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
+import '../../generated/l10n.dart';
+
 class DashboardPage extends TbPageWidget {
   final String? _dashboardTitle;
   // final String? _dashboardId;
@@ -31,7 +33,7 @@ class _DashboardPageState extends TbPageState<DashboardPage> {
   @override
   void initState() {
     super.initState();
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
+    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? S.of(context).dashboard_title);
   }
 
   @override
@@ -51,8 +53,8 @@ class _DashboardPageState extends TbPageState<DashboardPage> {
             },
           ),
         ),
-        body: Text(
-            'Deprecated') //Dashboard(tbContext, dashboardId: widget._dashboardId, state: widget._state,
+        body: Text(S.of(context).dashboard_deprecated)
+      //Dashboard(tbContext, dashboardId: widget._dashboardId, state: widget._state,
         //fullscreen: widget._fullscreen, titleCallback: (title) {
         //dashboardTitleValue.value =  title;
         //}

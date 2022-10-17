@@ -9,8 +9,8 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
   AssetDetailsPage(TbContext tbContext, String assetId)
       : super(tbContext,
             entityId: assetId,
-            defaultTitle: 'Asset',
-            subTitle: 'Asset details');
+            defaultTitle: S.current.asset_title,
+            subTitle: S.current.asset_subtitle);
 
   @override
   Future<AssetInfo?> fetchEntity(String assetId) {
@@ -25,16 +25,16 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('${S.of(context).assetName}', style: labelTextStyle),
+              Text(S.current.asset_name, style: labelTextStyle),
               Text(asset.name, style: valueTextStyle),
               SizedBox(height: 16),
-              Text('${S.of(context).type}', style: labelTextStyle),
+              Text(S.current.asset_type, style: labelTextStyle),
               Text(asset.type, style: valueTextStyle),
               SizedBox(height: 16),
-              Text('${S.of(context).label}', style: labelTextStyle),
+              Text(S.current.asset_label, style: labelTextStyle),
               Text(asset.label ?? '', style: valueTextStyle),
               SizedBox(height: 16),
-              Text('${S.of(context).assignedToCustomer}',
+              Text(S.current.asset_assigned_to,
                   style: labelTextStyle),
               Text(asset.customerTitle ?? '', style: valueTextStyle),
             ]));

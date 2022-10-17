@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
+import '../generated/l10n.dart';
+
 class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Widget? title;
@@ -157,7 +159,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
               ),
               contentPadding:
                   EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
-              hintText: widget.searchHint ?? 'Search',
+              hintText: widget.searchHint ?? S.of(context).search,
             )),
         actions: [
           ValueListenableBuilder(

@@ -9,25 +9,25 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-const Map<EntityType, String> entityTypeTranslations = {
-  EntityType.TENANT: 'Tenant',
-  EntityType.TENANT_PROFILE: 'Tenant profile',
-  EntityType.CUSTOMER: 'Customer',
-  EntityType.USER: 'User',
-  EntityType.DASHBOARD: 'Dashboard',
-  EntityType.ASSET: 'Asset',
-  EntityType.DEVICE: 'Device',
-  EntityType.DEVICE_PROFILE: 'Device profile',
-  EntityType.ALARM: 'Alarm',
-  EntityType.RULE_CHAIN: 'Rule chain',
-  EntityType.RULE_NODE: 'Rule node',
-  EntityType.EDGE: 'Edge',
-  EntityType.ENTITY_VIEW: 'Entity view',
-  EntityType.WIDGETS_BUNDLE: 'Widgets bundle',
-  EntityType.WIDGET_TYPE: 'Widget type',
-  EntityType.API_USAGE_STATE: 'Api Usage State',
-  EntityType.TB_RESOURCE: 'Resource',
-  EntityType.OTA_PACKAGE: 'OTA package'
+Map<EntityType, String> entityTypeTranslations = {
+  EntityType.TENANT: S.current.entity_type_tenant,
+  EntityType.TENANT_PROFILE: S.current.entity_type_tenant_profile,
+  EntityType.CUSTOMER: S.current.entity_type_customer,
+  EntityType.USER: S.current.entity_type_user,
+  EntityType.DASHBOARD: S.current.entity_type_dashboard,
+  EntityType.ASSET: S.current.entity_type_asset,
+  EntityType.DEVICE: S.current.entity_type_device,
+  EntityType.DEVICE_PROFILE: S.current.entity_type_device_profile,
+  EntityType.ALARM: S.current.entity_type_alarm,
+  EntityType.RULE_CHAIN: S.current.entity_type_rule_chain,
+  EntityType.RULE_NODE: S.current.entity_type_rule_node,
+  EntityType.EDGE: S.current.entity_type_edge,
+  EntityType.ENTITY_VIEW: S.current.entity_type_entity_view,
+  EntityType.WIDGETS_BUNDLE: S.current.entity_type_widgets_bundle,
+  EntityType.WIDGET_TYPE: S.current.entity_type_widgets_type,
+  EntityType.API_USAGE_STATE: S.current.entity_type_api_usage_state,
+  EntityType.TB_RESOURCE: S.current.entity_type_resource,
+  EntityType.OTA_PACKAGE: S.current.entity_type_ota_package
 };
 
 typedef EntityTapFunction<T> = Function(T entity);
@@ -55,15 +55,15 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Key? getKey(T entity) => null;
 
   Widget buildEntityListCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).entities_not_implemented);
   }
 
   Widget buildEntityListWidgetCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).entities_not_implemented);
   }
 
   Widget buildEntityGridCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).entities_not_implemented);
   }
 
   double? gridChildAspectRatio() => null;
@@ -194,7 +194,7 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
 
   @override
   Widget? buildHeading(BuildContext context) => searchMode
-      ? Text('Search results',
+      ? Text(S.of(context).entities_search_results,
           style: TextStyle(
               color: Color(0xFFAFAFAF), fontSize: 16, height: 24 / 16))
       : null;
@@ -338,7 +338,7 @@ abstract class BaseEntitiesState<T, P>
   Widget noItemsFoundIndicatorBuilder(BuildContext context) {
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText,
-      message: '${S.of(context).listIsEmptyText}',
+      message: S.of(context).entities_list_empty,
       onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
     );
   }
@@ -393,7 +393,7 @@ class FirstPageExceptionIndicator extends StatelessWidget {
                     color: Colors.white,
                   ),
                   label: Text(
-                    '${S.of(context).tryAgain}',
+                    S.of(context).entities_try_again,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,

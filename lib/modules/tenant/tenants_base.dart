@@ -1,12 +1,14 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../generated/l10n.dart';
+
 mixin TenantsBase on EntitiesBase<Tenant, PageLink> {
   @override
-  String get title => 'Tenants';
+  String get title => S.current.tenants_title;
 
   @override
-  String get noItemsFoundText => 'No tenants found';
+  String get noItemsFoundText => S.current.tenants_not_found;
 
   @override
   Future<PageData<Tenant>> fetchEntities(PageLink pageLink) {

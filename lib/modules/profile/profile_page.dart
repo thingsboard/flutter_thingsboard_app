@@ -45,7 +45,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         backgroundColor: Colors.white,
         appBar: TbAppBar(
           tbContext,
-          title: const Text('Profile'),
+          title: Text(S.of(context).profile_title),
           actions: [
             IconButton(
                 icon: Icon(Icons.check),
@@ -78,28 +78,28 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                             validator: FormBuilderValidators.compose([
                               FormBuilderValidators.required(
                                   errorText:
-                                      '${S.of(context).emailRequireText}'),
+                                  S.of(context).profile_email_required),
                               FormBuilderValidators.email(
                                   errorText:
-                                      '${S.of(context).emailInvalidText}')
+                                  S.of(context).profile_email_invalid)
                             ]),
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: '${S.of(context).emailStar}'),
+                                labelText: S.of(context).profile_email),
                           ),
                           SizedBox(height: 24),
                           FormBuilderTextField(
                             name: 'firstName',
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: '${S.of(context).firstNameUpper}'),
+                                labelText: S.of(context).profile_first_name),
                           ),
                           SizedBox(height: 24),
                           FormBuilderTextField(
                             name: 'lastName',
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: '${S.of(context).lastNameUpper}'),
+                                labelText: S.of(context).profile_last_name),
                           ),
                           SizedBox(height: 24),
                           OutlinedButton(
@@ -111,7 +111,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                               },
                               child: Center(
                                   child:
-                                      Text('${S.of(context).changePassword}')))
+                                      Text(S.of(context).profile_btn_txt)))
                         ]),
                   ))),
             ),
@@ -161,9 +161,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         _setUser();
         await Future.delayed(Duration(milliseconds: 300));
         _isLoadingNotifier.value = false;
-        showSuccessNotification('${S.of(context).profileSuccessNotification}',
-            duration: Duration(milliseconds: 1500));
-        showSuccessNotification('${S.of(context).profileSuccessNotification}',
+        showSuccessNotification(S.of(context).profile_info1,
             duration: Duration(milliseconds: 1500));
       }
     }
@@ -173,7 +171,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
     var res = await tbContext
         .showFullScreenDialog<bool>(new ChangePasswordPage(tbContext));
     if (res == true) {
-      showSuccessNotification('${S.of(context).passwordSuccessNotification}',
+      showSuccessNotification(S.of(context).profile_info2,
           duration: Duration(milliseconds: 1500));
     }
   }

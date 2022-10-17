@@ -8,12 +8,14 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../generated/l10n.dart';
+
 mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   @override
-  String get title => 'Dashboards';
+  String get title => S.current.dashboards_title;
 
   @override
-  String get noItemsFoundText => 'No dashboards found';
+  String get noItemsFoundText => S.current.dashboards_not_found;
 
   @override
   Future<PageData<DashboardInfo>> fetchEntities(PageLink pageLink) {
@@ -116,7 +118,7 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   String _dashboardDetailsText(DashboardInfo dashboard) {
     if (tbClient.isTenantAdmin()) {
       if (_isPublicDashboard(dashboard)) {
-        return 'Public';
+        return S.current.dashboard_public;
       } else {
         return dashboard.assignedCustomers.map((e) => e.title).join(', ');
       }

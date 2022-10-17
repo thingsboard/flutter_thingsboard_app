@@ -7,49 +7,51 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-const Map<ActionType, String> actionTypeTranslations = {
-  ActionType.ADDED: 'Added',
-  ActionType.DELETED: 'Deleted',
-  ActionType.UPDATED: 'Updated',
-  ActionType.ATTRIBUTES_UPDATED: 'Attributes Updated',
-  ActionType.ATTRIBUTES_DELETED: 'Attributes Deleted',
-  ActionType.RPC_CALL: 'RPC Call',
-  ActionType.CREDENTIALS_UPDATED: 'Credentials Updated',
-  ActionType.ASSIGNED_TO_CUSTOMER: 'Assigned to Customer',
-  ActionType.UNASSIGNED_FROM_CUSTOMER: 'Unassigned from Customer',
-  ActionType.ACTIVATED: 'Activated',
-  ActionType.SUSPENDED: 'Suspended',
-  ActionType.CREDENTIALS_READ: 'Credentials read',
-  ActionType.ATTRIBUTES_READ: 'Attributes read',
-  ActionType.RELATION_ADD_OR_UPDATE: 'Relation updated',
-  ActionType.RELATION_DELETED: 'Relation deleted',
-  ActionType.RELATIONS_DELETED: 'All relation deleted',
-  ActionType.ALARM_ACK: 'Acknowledged',
-  ActionType.ALARM_CLEAR: 'Cleared',
-  ActionType.LOGIN: 'Login',
-  ActionType.LOGOUT: 'Logout',
-  ActionType.LOCKOUT: 'Lockout',
-  ActionType.ASSIGNED_FROM_TENANT: 'Assigned from Tenant',
-  ActionType.ASSIGNED_TO_TENANT: 'Assigned to Tenant',
-  ActionType.PROVISION_SUCCESS: 'Device provisioned',
-  ActionType.PROVISION_FAILURE: 'Device provisioning was failed',
-  ActionType.TIMESERIES_UPDATED: 'Telemetry updated',
-  ActionType.TIMESERIES_DELETED: 'Telemetry deleted',
-  ActionType.ASSIGNED_TO_EDGE: 'Assigned to Edge',
-  ActionType.UNASSIGNED_FROM_EDGE: 'Unassigned from Edge'
+import '../../generated/l10n.dart';
+
+Map<ActionType, String> actionTypeTranslations = {
+  ActionType.ADDED: S.current.audit_log_type_added,
+  ActionType.DELETED: S.current.audit_log_type_deleted,
+  ActionType.UPDATED: S.current.audit_log_type_updated,
+  ActionType.ATTRIBUTES_DELETED: S.current.audit_log_type_attributes_deleted,
+  ActionType.ATTRIBUTES_UPDATED: S.current.audit_log_type_attributes_updated,
+  ActionType.RPC_CALL: S.current.audit_log_type_rpc_call,
+  ActionType.CREDENTIALS_UPDATED: S.current.audit_log_type_credentials_updated,
+  ActionType.ASSIGNED_TO_CUSTOMER: S.current.audit_log_type_assigned_to_customer,
+  ActionType.UNASSIGNED_FROM_CUSTOMER: S.current.audit_log_type_unassigned_from_customer,
+  ActionType.ACTIVATED: S.current.audit_log_type_activated,
+  ActionType.SUSPENDED: S.current.audit_log_type_suspended,
+  ActionType.CREDENTIALS_READ: S.current.audit_log_type_credentials_read,
+  ActionType.ATTRIBUTES_READ: S.current.audit_log_type_attributes_read,
+  ActionType.RELATION_ADD_OR_UPDATE: S.current.audit_log_type_relation_add_or_update,
+  ActionType.RELATION_DELETED: S.current.audit_log_type_relation_deleted,
+  ActionType.RELATIONS_DELETED: S.current.audit_log_type_relations_deleted,
+  ActionType.ALARM_ACK: S.current.audit_log_type_alarm_ack,
+  ActionType.ALARM_CLEAR: S.current.audit_log_type_alarm_clear,
+  ActionType.LOGIN: S.current.audit_log_type_login,
+  ActionType.LOGOUT: S.current.audit_log_type_logout,
+  ActionType.LOCKOUT: S.current.audit_log_type_lockout,
+  ActionType.ASSIGNED_FROM_TENANT: S.current.audit_log_type_assigned_from_tenant,
+  ActionType.ASSIGNED_TO_TENANT: S.current.audit_log_type_assigned_to_tenant,
+  ActionType.PROVISION_SUCCESS: S.current.audit_log_type_provision_success,
+  ActionType.PROVISION_FAILURE: S.current.audit_log_type_provision_failure,
+  ActionType.TIMESERIES_UPDATED: S.current.audit_log_type_timeseries_updated,
+  ActionType.TIMESERIES_DELETED: S.current.audit_log_type_timeseries_deleted,
+  ActionType.ASSIGNED_TO_EDGE: S.current.audit_log_type_assigned_to_edge,
+  ActionType.UNASSIGNED_FROM_EDGE: S.current.audit_log_type_unassigned_from_edge,
 };
 
-const Map<ActionStatus, String> actionStatusTranslations = {
-  ActionStatus.SUCCESS: 'Success',
-  ActionStatus.FAILURE: 'Failure'
+Map<ActionStatus, String> actionStatusTranslations = {
+  ActionStatus.SUCCESS: S.current.audit_log_status_success,
+  ActionStatus.FAILURE: S.current.audit_log_status_failure
 };
 
 mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   @override
-  String get title => 'Audit Logs';
+  String get title => S.current.audit_logs_title;
 
   @override
-  String get noItemsFoundText => 'No audit logs found';
+  String get noItemsFoundText => S.current.audit_logs_not_found;
 
   @override
   Future<PageData<AuditLog>> fetchEntities(TimePageLink pageLink) {

@@ -29,7 +29,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
         backgroundColor: Colors.white,
         appBar: TbAppBar(
           tbContext,
-          title: Text('${S.of(context).changePassword}'),
+          title: Text(S.of(context).change_pwd_title),
         ),
         body: Stack(
           children: [
@@ -55,7 +55,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(
                                         errorText:
-                                            '${S.of(context).currentPasswordRequireText}')
+                                        S.of(context).change_pwd_old_pwd_required)
                                   ]),
                                   decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -70,7 +70,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                       ),
                                       border: OutlineInputBorder(),
                                       labelText:
-                                          '${S.of(context).currentPasswordStar}'),
+                                      S.of(context).change_pwd_old_pwd),
                                 );
                               }),
                           SizedBox(height: 24),
@@ -84,7 +84,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(
                                         errorText:
-                                            '${S.of(context).newPasswordRequireText}')
+                                        S.of(context).change_pwd_new_pwd_required)
                                   ]),
                                   decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -98,7 +98,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                       ),
                                       border: OutlineInputBorder(),
                                       labelText:
-                                          '${S.of(context).newPasswordStar}'),
+                                      S.of(context).change_pwd_new_pwd),
                                 );
                               }),
                           SizedBox(height: 24),
@@ -112,7 +112,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(
                                         errorText:
-                                            '${S.of(context).newPassword2RequireText}')
+                                        S.of(context).change_pwd_new_pwd2_required)
                                   ]),
                                   decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -126,7 +126,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                                       ),
                                       border: OutlineInputBorder(),
                                       labelText:
-                                          '${S.of(context).newPassword2Star}'),
+                                      S.of(context).change_pwd_new_pwd2),
                                 );
                               }),
                           SizedBox(height: 24),
@@ -139,7 +139,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
                               },
                               child: Center(
                                   child:
-                                      Text('${S.of(context).changePassword}')))
+                                      Text(S.of(context).change_pwd_btn_txt)))
                         ]),
                   ))),
             ),
@@ -168,7 +168,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       String newPassword = formValue['newPassword'];
       String newPassword2 = formValue['newPassword2'];
       if (newPassword != newPassword2) {
-        showErrorNotification('${S.of(context).passwordErrorNotification}');
+        showErrorNotification(S.of(context).change_pwd_info);
       } else {
         _isLoadingNotifier.value = true;
         try {

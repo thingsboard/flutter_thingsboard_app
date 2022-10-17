@@ -17,10 +17,10 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   final RefreshDeviceCounts refreshDeviceCounts = RefreshDeviceCounts();
 
   @override
-  String get title => 'Devices';
+  String get title => S.current.devices_title;
 
   @override
-  String get noItemsFoundText => 'No devices found';
+  String get noItemsFoundText => S.current.devices_not_found;
 
   @override
   Future<PageData<DeviceProfileInfo>> fetchEntities(PageLink pageLink) {
@@ -136,7 +136,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${S.of(context).allDevices}',
+                          Text(S.current.device_all,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
@@ -417,8 +417,8 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
             SizedBox(width: 8.67),
             Text(
                 active
-                    ? '${S.of(context).active}'
-                    : '${S.of(context).inactive}',
+                    ? S.current.device_active
+                    : S.current.device_inactive,
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,

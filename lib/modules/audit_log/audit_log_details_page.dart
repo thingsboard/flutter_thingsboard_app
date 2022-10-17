@@ -40,7 +40,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       height: 20 / 16)),
-            Text('${S.of(context).auditLogDetails}',
+            Text(S.of(context).audit_log_subtitle,
                 style: TextStyle(
                     color: Theme.of(context)
                         .primaryTextTheme
@@ -57,24 +57,24 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('${S.of(context).entityType}', style: labelTextStyle),
+              Text(S.of(context).audit_log_entity_type, style: labelTextStyle),
               Text(entityTypeTranslations[widget.auditLog.entityId.entityType]!,
                   style: valueTextStyle),
               SizedBox(height: 16),
-              Text('${S.of(context).type}', style: labelTextStyle),
+              Text(S.of(context).audit_log_action_type, style: labelTextStyle),
               Text(actionTypeTranslations[widget.auditLog.actionType]!,
                   style: valueTextStyle),
               SizedBox(height: 16),
               Flexible(
                   fit: FlexFit.loose,
-                  child: buildBorderedText('${S.of(context).actionData}',
+                  child: buildBorderedText(S.of(context).audit_log_action_data,
                       encoder.convert(widget.auditLog.actionData))),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
                 SizedBox(height: 16),
               if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
                 Flexible(
                     fit: FlexFit.loose,
-                    child: buildBorderedText('${S.of(context).failureDetails}',
+                    child: buildBorderedText(S.of(context).audit_log_failure_details,
                         widget.auditLog.actionFailureDetails!))
             ]),
       ),

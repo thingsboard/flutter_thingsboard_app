@@ -79,7 +79,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                               ]),
                               SizedBox(height: 32),
                               Row(children: [
-                                Text('${S.of(context).loginNotification}',
+                                Text(S.of(context).login_welcome,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
@@ -99,7 +99,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 16),
-                                          child: Text('${S.of(context).OR}'),
+                                          child: Text(S.of(context).login_or),
                                         ),
                                         Flexible(child: Divider())
                                       ],
@@ -119,15 +119,15 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                             FormBuilderValidators.compose([
                                           FormBuilderValidators.required(
                                               errorText:
-                                                  '${S.of(context).emailRequireText}'),
+                                              S.of(context).login_email_required),
                                           FormBuilderValidators.email(
                                               errorText:
-                                                  '${S.of(context).emailInvalidText}')
+                                              S.of(context).login_email_invalid)
                                         ]),
                                         decoration: InputDecoration(
                                             border: OutlineInputBorder(),
                                             labelText:
-                                                '${S.of(context).email}'),
+                                            S.of(context).login_email),
                                       ),
                                       SizedBox(height: 28),
                                       ValueListenableBuilder(
@@ -142,7 +142,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                   .compose([
                                                 FormBuilderValidators.required(
                                                     errorText:
-                                                        '${S.of(context).passwordRequireText}')
+                                                    S.of(context).login_pwd_required)
                                               ]),
                                               decoration: InputDecoration(
                                                   suffixIcon: IconButton(
@@ -158,7 +158,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                                   ),
                                                   border: OutlineInputBorder(),
                                                   labelText:
-                                                      '${S.of(context).password}'),
+                                                  S.of(context).login_pwd),
                                             );
                                           })
                                     ],
@@ -171,7 +171,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                       _forgotPassword();
                                     },
                                     child: Text(
-                                      '${S.of(context).passwordForgotText}',
+                                      S.of(context).login_pwd_forgot,
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -185,7 +185,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                               ),
                               Spacer(),
                               ElevatedButton(
-                                child: Text('${S.of(context).login}'),
+                                child: Text(S.of(context).login_btn_txt),
                                 style: ElevatedButton.styleFrom(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 16)),
@@ -237,7 +237,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
               .asMap()
               .map((index, client) => MapEntry(
                   index,
-                  _buildOAuth2Button(client, 'Login with ${client.name}', false,
+                  _buildOAuth2Button(client, S.of(context).login_with(client.name), false,
                       index == clients.length - 1)))
               .values
               .toList());
@@ -247,7 +247,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: Text('LOGIN WITH')),
+            child: Center(child: Text(S.of(context).login_with2)),
           ),
           Row(
               children: clients

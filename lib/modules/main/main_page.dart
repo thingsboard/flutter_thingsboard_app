@@ -42,7 +42,7 @@ class TbMainNavigationItem {
       List<TbMainNavigationItem> items = [
         TbMainNavigationItem(
             page: HomePage(tbContext),
-            title: 'Home',
+            title: S.current.home,
             icon: Icon(Icons.home),
             path: '/home')
       ];
@@ -54,12 +54,12 @@ class TbMainNavigationItem {
           items.addAll([
             TbMainNavigationItem(
                 page: AlarmsPage(tbContext),
-                title: 'Alarms',
+                title: S.current.alarms,
                 icon: Icon(Icons.notifications),
                 path: '/alarms'),
             TbMainNavigationItem(
                 page: DevicesMainPage(tbContext),
-                title: 'Devices',
+                title: S.current.devices,
                 icon: Icon(Icons.devices_other),
                 path: '/devices')
           ]);
@@ -73,7 +73,7 @@ class TbMainNavigationItem {
       }
       items.add(TbMainNavigationItem(
           page: MorePage(tbContext),
-          title: 'More',
+          title: S.current.more,
           icon: Icon(Icons.menu),
           path: '/more'));
       return items;

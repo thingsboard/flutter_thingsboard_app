@@ -16,27 +16,27 @@ const Map<AlarmSeverity, Color> alarmSeverityColors = {
   AlarmSeverity.INDETERMINATE: Color(0xFF00FF00),
 };
 
-const Map<AlarmSeverity, String> alarmSeverityTranslations = {
-  AlarmSeverity.CRITICAL: 'Critical',
-  AlarmSeverity.MAJOR: 'Major',
-  AlarmSeverity.MINOR: 'Minor',
-  AlarmSeverity.WARNING: 'Warning',
-  AlarmSeverity.INDETERMINATE: 'Indeterminate',
+Map<AlarmSeverity, String> alarmSeverityTranslations = {
+  AlarmSeverity.CRITICAL: S.current.alarm_severity_critical,
+  AlarmSeverity.MAJOR: S.current.alarm_severity_major,
+  AlarmSeverity.MINOR: S.current.alarm_severity_minor,
+  AlarmSeverity.WARNING: S.current.alarm_severity_warning,
+  AlarmSeverity.INDETERMINATE: S.current.alarm_severity_indeterminate,
 };
 
-const Map<AlarmStatus, String> alarmStatusTranslations = {
-  AlarmStatus.ACTIVE_ACK: 'Active Acknowledged',
-  AlarmStatus.ACTIVE_UNACK: 'Active Unacknowledged',
-  AlarmStatus.CLEARED_ACK: 'Cleared Acknowledged',
-  AlarmStatus.CLEARED_UNACK: 'Cleared Unacknowledged',
+Map<AlarmStatus, String> alarmStatusTranslations = {
+  AlarmStatus.ACTIVE_ACK: S.current.alarm_status_active_ack,
+  AlarmStatus.ACTIVE_UNACK: S.current.alarm_status_active_unack,
+  AlarmStatus.CLEARED_ACK: S.current.alarm_status_cleared_ack,
+  AlarmStatus.CLEARED_UNACK: S.current.alarm_status_cleared_unack,
 };
 
 mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
   @override
-  String get title => 'Alarms';
+  String get title => S.current.alarms;
 
   @override
-  String get noItemsFoundText => 'No alarms found';
+  String get noItemsFoundText => S.current.alarms_not_found;
 
   @override
   Future<PageData<AlarmInfo>> fetchEntities(AlarmQuery query) {
@@ -53,8 +53,7 @@ mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
           dashboardTitle: alarm.originatorName, state: state);
     } else {
       if (tbClient.isTenantAdmin()) {
-        showWarnNotification(
-            'Mobile dashboard should be configured in device profile alarm rules!');
+        showWarnNotification(S.current.alarm_info);
       }
     }
   }
@@ -282,10 +281,10 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
 
   _clearAlarm(AlarmInfo alarm, BuildContext context) async {
     var res = await confirm(
-        title: '${S.of(context).alarmClearTitle}',
-        message: '${S.of(context).alarmClearText}',
-        cancel: '${S.of(context).No}',
-        ok: '${S.of(context).Yes}');
+        title: S.of(context).alarm_clear_title,
+        message: S.of(context).alarm_clear_info,
+        cancel: S.of(context).no,
+        ok: S.of(context).yes);
     if (res != null && res) {
       setState(() {
         loading = true;
@@ -302,10 +301,10 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
 
   _ackAlarm(AlarmInfo alarm, BuildContext context) async {
     var res = await confirm(
-        title: '${S.of(context).alarmAcknowledgeTitle}',
-        message: '${S.of(context).alarmAcknowledgeText}',
-        cancel: '${S.of(context).No}',
-        ok: '${S.of(context).Yes}');
+        title: S.of(context).alarm_ack_title,
+        message: S.of(context).alarm_ack_info,
+        cancel: S.of(context).no,
+        ok: S.of(context).yes);
     if (res != null && res) {
       setState(() {
         loading = true;

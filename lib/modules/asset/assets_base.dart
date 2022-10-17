@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../generated/l10n.dart';
+
 mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
   @override
-  String get title => 'Assets';
+  String get title => S.current.assets_title;
 
   @override
-  String get noItemsFoundText => 'No assets found';
+  String get noItemsFoundText => S.current.assets_not_found;
 
   @override
   Future<PageData<AssetInfo>> fetchEntities(PageLink pageLink) {

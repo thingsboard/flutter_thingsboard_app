@@ -32,7 +32,7 @@ class _ResetPasswordRequestPageState
               backgroundColor: Colors.transparent,
               appBar: TbAppBar(
                 tbContext,
-                title: Text('${S.of(context).passwordReset}'),
+                title: Text(S.of(context).reset_pwd_title),
               ),
               body: Stack(children: [
                 SizedBox.expand(
@@ -46,7 +46,7 @@ class _ResetPasswordRequestPageState
                                 children: [
                                   SizedBox(height: 16),
                                   Text(
-                                    '${S.of(context).passwordResetText}',
+                                    S.of(context).reset_pwd_tips,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Color(0xFFAFAFAF),
@@ -60,19 +60,19 @@ class _ResetPasswordRequestPageState
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(
                                           errorText:
-                                              '${S.of(context).emailRequireText}'),
+                                          S.of(context).reset_pwd_email_required),
                                       FormBuilderValidators.email(
                                           errorText:
-                                              '${S.of(context).emailInvalidText}')
+                                          S.of(context).reset_pwd_email_invalid)
                                     ]),
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: '${S.of(context).email} *'),
+                                        labelText: S.of(context).reset_pwd_email),
                                   ),
                                   Spacer(),
                                   ElevatedButton(
                                     child: Text(
-                                        '${S.of(context).requestPasswordReset}'),
+                                        S.of(context).reset_pwd_btn_txt),
                                     style: ElevatedButton.styleFrom(
                                         padding:
                                             EdgeInsets.symmetric(vertical: 16)),
@@ -109,7 +109,7 @@ class _ResetPasswordRequestPageState
         await tbClient.sendResetPasswordLink(email);
         _isLoadingNotifier.value = false;
         showSuccessNotification(
-            '${S.of(context).passwordResetLinkSuccessfullySentNotification}');
+            S.of(context).reset_pwd_info);
       } catch (e) {
         _isLoadingNotifier.value = false;
       }

@@ -4,6 +4,8 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
+import '../../generated/l10n.dart';
+
 class FullscreenDashboardPage extends TbPageWidget {
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
@@ -26,7 +28,7 @@ class _FullscreenDashboardPageState
   @override
   void initState() {
     super.initState();
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
+    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? S.of(context).dashboard_title);
   }
 
   @override

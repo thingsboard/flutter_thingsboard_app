@@ -6,6 +6,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
+import '../../generated/l10n.dart';
+
 class QrCodeScannerPage extends TbPageWidget {
   QrCodeScannerPage(TbContext tbContext) : super(tbContext);
 
@@ -53,7 +55,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
             right: 0,
             height: kToolbarHeight,
             child: Center(
-                child: Text('Scan a code',
+                child: Text(S.of(context).scan_code,
                     style: TextStyle(color: Colors.white, fontSize: 20)))),
         Positioned(
           child: AppBar(
@@ -74,7 +76,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
                   await controller?.toggleFlash();
                   setState(() {});
                 },
-                tooltip: 'Toggle flash',
+                tooltip: S.of(context).scan_toggle_flash,
               ),
               IconButton(
                 icon: FutureBuilder(
@@ -88,7 +90,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
                   await controller?.flipCamera();
                   setState(() {});
                 },
-                tooltip: 'Toggle camera',
+                tooltip: S.of(context).scan_toggle_camera,
               ),
             ],
           ),
@@ -127,7 +129,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
       });
     } else {
       simulatedQrTimer = Timer(Duration(seconds: 3), () {
-        pop(Barcode('test code', BarcodeFormat.qrcode, null));
+        pop(Barcode(S.of(context).scan_test_code, BarcodeFormat.qrcode, null));
       });
     }
   }

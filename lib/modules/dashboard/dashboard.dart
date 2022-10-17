@@ -12,6 +12,8 @@ import 'package:thingsboard_app/widgets/two_value_listenable_builder.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../generated/l10n.dart';
+
 class DashboardController {
   final ValueNotifier<bool> canGoBack = ValueNotifier(false);
   final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
@@ -276,7 +278,7 @@ class _DashboardState extends TbContextState<Dashboard> {
               } else {
                 return Stack(children: [
                   UniversalPlatform.isWeb
-                      ? Center(child: Text('Not implemented!'))
+                      ? Center(child: Text(S.of(context).dashboard_not_implemented))
                       : InAppWebView(
                           key: webViewKey,
                           initialUrlRequest: URLRequest(url: _initialUrl),

@@ -31,27 +31,27 @@ class TwoFactorAuthProviderLoginData {
 final Map<TwoFaProviderType, TwoFactorAuthProviderLoginData>
     twoFactorAuthProvidersLoginData = {
   TwoFaProviderType.TOTP: TwoFactorAuthProviderLoginData(
-      nameFunction: (context) => S.of(context).mfaProviderTopt,
-      descFunction: (context, contact) => S.of(context).totpAuthDescription,
-      placeholderFunction: (context) => S.of(context).toptAuthPlaceholder,
+      nameFunction: (context) => S.of(context).two_factor_mfa_provider_topt,
+      descFunction: (context, contact) => S.of(context).two_factor_totp_auth_description,
+      placeholderFunction: (context) => S.of(context).two_factor_topt_auth_placeholder,
       icon: 'cellphone-key'),
   TwoFaProviderType.SMS: TwoFactorAuthProviderLoginData(
-      nameFunction: (context) => S.of(context).mfaProviderSms,
+      nameFunction: (context) => S.of(context).two_factor_mfa_provider_sms,
       descFunction: (context, contact) =>
-          S.of(context).smsAuthDescription(contact ?? ''),
-      placeholderFunction: (context) => S.of(context).smsAuthPlaceholder,
+          S.of(context).two_factor_sms_auth_description(contact ?? ''),
+      placeholderFunction: (context) => S.of(context).two_factor_sms_auth_placeholder,
       icon: 'message-reply-text-outline'),
   TwoFaProviderType.EMAIL: TwoFactorAuthProviderLoginData(
-      nameFunction: (context) => S.of(context).mfaProviderEmail,
+      nameFunction: (context) => S.of(context).two_factor_mfa_provider_email,
       descFunction: (context, contact) =>
-          S.of(context).emailAuthDescription(contact ?? ''),
-      placeholderFunction: (context) => S.of(context).emailAuthPlaceholder,
+          S.of(context).two_factor_email_auth_description(contact ?? ''),
+      placeholderFunction: (context) => S.of(context).two_factor_email_auth_placeholder,
       icon: 'email-outline'),
   TwoFaProviderType.BACKUP_CODE: TwoFactorAuthProviderLoginData(
-      nameFunction: (context) => S.of(context).mfaProviderBackupCode,
+      nameFunction: (context) => S.of(context).two_factor_mfa_provider_backup_code,
       descFunction: (context, contact) =>
-          S.of(context).backupCodeAuthDescription,
-      placeholderFunction: (context) => S.of(context).backupCodeAuthPlaceholder,
+          S.of(context).two_factor_backup_code_auth_description,
+      placeholderFunction: (context) => S.of(context).two_factor_backup_code_auth_placeholder,
       icon: 'lock-outline')
 };
 
@@ -130,7 +130,7 @@ class _TwoFactorAuthenticationPageState
                   backgroundColor: Colors.transparent,
                   appBar: TbAppBar(
                     tbContext,
-                    title: Text('${S.of(context).verifyYourIdentity}'),
+                    title: Text(S.of(context).two_factor_verify_your_identity),
                   ),
                   body: Stack(children: [
                     SizedBox.expand(
@@ -144,7 +144,7 @@ class _TwoFactorAuthenticationPageState
                                       Padding(
                                           padding: EdgeInsets.only(bottom: 16),
                                           child: Text(
-                                              '${S.of(context).selectWayToVerify}',
+                                              S.of(context).two_factor_select_way_to_verify,
                                               style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 16,
@@ -228,8 +228,7 @@ class _TwoFactorAuthenticationPageState
                                                       disableSendButton,
                                                       _widget) {
                                                     return ElevatedButton(
-                                                        child: Text(
-                                                            '${S.of(context).continueText}'),
+                                                        child: Text(S.of(context).two_factor_continue_text),
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                                 padding: EdgeInsets
@@ -274,7 +273,7 @@ class _TwoFactorAuthenticationPageState
                                                                               return Padding(
                                                                                 padding: EdgeInsets.symmetric(vertical: 12),
                                                                                 child: Text(
-                                                                                  S.of(context).resendCodeWait(countDown),
+                                                                                  S.of(context).two_factor_resendCode_wait(countDown),
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(color: Color(0xFF7F7F7F), fontSize: 12, height: 24 / 12),
                                                                                 ),
@@ -292,7 +291,7 @@ class _TwoFactorAuthenticationPageState
                                                                               _widget) {
                                                                             if (!hideResendButton) {
                                                                               return TextButton(
-                                                                                child: Text('${S.of(context).resendCode}'),
+                                                                                child: Text(S.of(context).two_factor_resend_code),
                                                                                 style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
                                                                                 onPressed: () {
                                                                                   _sendCode();
@@ -314,7 +313,7 @@ class _TwoFactorAuthenticationPageState
                                                           Expanded(
                                                               child: TextButton(
                                                             child: Text(
-                                                                '${S.of(context).tryAnotherWay}'),
+                                                                S.of(context).two_factor_try_another_way),
                                                             style: ElevatedButton.styleFrom(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
@@ -350,11 +349,11 @@ class _TwoFactorAuthenticationPageState
 
     List<FormFieldValidator<String>> validators = [
       FormBuilderValidators.required(
-          errorText: '${S.of(context).verificationCodeInvalid}'),
+          errorText: S.of(context).two_factor_verification_code_invalid),
       FormBuilderValidators.equalLength(maxLengthInput,
-          errorText: '${S.of(context).verificationCodeInvalid}'),
+          errorText: S.of(context).two_factor_verification_code_invalid),
       FormBuilderValidators.match(pattern,
-          errorText: '${S.of(context).verificationCodeInvalid}')
+          errorText: S.of(context).two_factor_verification_code_invalid)
     ];
 
     var providerFormData = twoFactorAuthProvidersLoginData[providerType]!;
@@ -383,10 +382,10 @@ class _TwoFactorAuthenticationPageState
         if (e is ThingsboardError) {
           if (e.status == 400) {
             _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
-                .invalidate(S.of(context).verificationCodeIncorrect);
+                .invalidate(S.of(context).two_factor_verification_code_incorrect);
           } else if (e.status == 429) {
             _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
-                .invalidate(S.of(context).verificationCodeManyRequest);
+                .invalidate(S.of(context).two_factor_verification_code_many_request);
             _disableSendButton.value = true;
             if (_tooManyRequestsTimer != null) {
               _tooManyRequestsTimer!.cancel();

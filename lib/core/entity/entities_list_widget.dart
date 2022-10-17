@@ -7,6 +7,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../generated/l10n.dart';
 import 'entity_list_card.dart';
 
 class EntitiesListWidgetController {
@@ -142,7 +143,7 @@ class _EntitiesListWidgetState<T, P>
                               },
                               style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero),
-                              child: Text('View all'))
+                              child: Text(S.of(context).entities_view_all))
                         ],
                       ),
                     ),

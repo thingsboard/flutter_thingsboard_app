@@ -10,6 +10,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'package:thingsboard_app/generated/l10n.dart';
+
 class WidgetMobileActionResult<T extends MobileActionResult> {
   T? result;
   bool hasResult = false;
@@ -167,11 +169,10 @@ class WidgetActionHandler with HasTbContext {
           return await _takeScreenshot(controller);
         case WidgetMobileActionType.unknown:
           return WidgetMobileActionResult.errorResult(
-              'Unknown actionType: ${args[0]}');
+              S.current.action_err_type_unknown + '${args[0]}');
       }
     } else {
-      return WidgetMobileActionResult.errorResult(
-          'actionType is not provided.');
+      return WidgetMobileActionResult.errorResult(S.current.action_err_type_not_provided);
     }
   }
 
@@ -189,8 +190,7 @@ class WidgetActionHandler with HasTbContext {
           return WidgetMobileActionResult.successResult(
               MobileActionResult.image(imageUrl));
         } else {
-          return WidgetMobileActionResult.errorResult(
-              'Unknown picture mime type');
+          return WidgetMobileActionResult.errorResult(S.current.action_err_pic_mimetype_unknown);
         }
       } else {
         return WidgetMobileActionResult.emptyResult();
@@ -209,8 +209,7 @@ class WidgetActionHandler with HasTbContext {
         lat = args[1];
         lon = args[2];
       } else {
-        return WidgetMobileActionResult.errorResult(
-            'Missing target latitude or longitude arguments!');
+        return WidgetMobileActionResult.errorResult(S.current.action_err_position_args_missing);
       }
       var url = 'https://www.google.com/maps/';
       url += directionElseLocation
@@ -243,8 +242,7 @@ class WidgetActionHandler with HasTbContext {
       if (args.length > 1 && args[1] != null) {
         phoneNumber = args[1];
       } else {
-        return WidgetMobileActionResult.errorResult(
-            'Missing or invalid phone number!');
+        return WidgetMobileActionResult.errorResult(S.current.action_err_phone_missing);
       }
       return WidgetMobileActionResult.successResult(
           await _tryLaunch('tel://$phoneNumber'));
@@ -259,20 +257,17 @@ class WidgetActionHandler with HasTbContext {
       LocationPermission permission;
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        return WidgetMobileActionResult.errorResult(
-            'Location services are disabled.');
+        return WidgetMobileActionResult.errorResult(S.current.action_err_location_service_disabled);
       }
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          return WidgetMobileActionResult.errorResult(
-              'Location permissions are denied.');
+          return WidgetMobileActionResult.errorResult(S.current.action_err_location_permission_denied);
         }
       }
       if (permission == LocationPermission.deniedForever) {
-        return WidgetMobileActionResult.errorResult(
-            'Location permissions are permanently denied, we cannot request permissions.');
+        return WidgetMobileActionResult.errorResult(S.current.action_err_location_permission_denied2);
       }
       var position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);

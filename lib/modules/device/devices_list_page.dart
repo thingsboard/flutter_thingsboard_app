@@ -44,12 +44,12 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
     } else {
       String titleText = widget.deviceType != null
           ? widget.deviceType!
-          : '${S.of(context).allDevices}';
+          : S.of(context).device_all;
       String? subTitleText;
       if (widget.active != null) {
         subTitleText = widget.active == true
-            ? '${S.of(context).active}'
-            : '${S.of(context).inactive}';
+            ? S.current.device_active
+            : S.current.device_inactive;
       }
       Column title =
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

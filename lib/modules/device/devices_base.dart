@@ -15,10 +15,10 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   @override
-  String get title => 'Devices';
+  String get title => S.current.devices_title;
 
   @override
-  String get noItemsFoundText => 'No devices found';
+  String get noItemsFoundText => S.current.devices_not_found;
 
   @override
   Future<PageData<EntityData>> fetchEntities(EntityDataQuery dataQuery) {
@@ -38,8 +38,7 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
           dashboardTitle: device.field('name'), state: state);
     } else {
       if (tbClient.isTenantAdmin()) {
-        showWarnNotification(
-            'Mobile dashboard should be configured in device profile!');
+        showWarnNotification(S.current.device_info);
       }
     }
   }
@@ -267,8 +266,8 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                 widget.device.attribute(
                                                             'active') ==
                                                         'true'
-                                                    ? '${S.of(context).active}'
-                                                    : '${S.of(context).inactive}',
+                                                    ? S.current.device_active
+                                                    : S.current.device_inactive,
                                                 style: TextStyle(
                                                   color: widget.device
                                                               .attribute(

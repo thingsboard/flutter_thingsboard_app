@@ -15,6 +15,8 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
+import '../../generated/l10n.dart';
+
 enum NotificationType { info, warn, success, error }
 
 class TbLogOutput extends LogOutput {
@@ -227,7 +229,7 @@ class TbContext {
         style: TextStyle(color: textColor),
       ),
       action: SnackBarAction(
-        label: 'Close',
+        label: S.current.close,
         textColor: textColor,
         onPressed: () {
           messengerKey.currentState!
@@ -293,10 +295,10 @@ class TbContext {
       log.error('Error: $e', e, s);
       if (_isConnectionError(e)) {
         var res = await confirm(
-            title: 'Connection error',
-            message: 'Failed to connect to server',
-            cancel: 'Cancel',
-            ok: 'Retry');
+            title: S.current.context_conn_err_title,
+            message: S.current.context_conn_err_info,
+            cancel: S.current.cancel,
+            ok: S.current.retry);
         if (res == true) {
           onUserLoaded();
         } else {
@@ -506,6 +508,8 @@ class TbContext {
       required String message,
       String cancel = 'Cancel',
       String ok = 'Ok'}) {
+    if (cancel == 'Cancel') cancel = S.current.cancel;
+    if (ok == 'Ok') ok = S.current.ok;
     return showDialog<bool>(
         context: currentState!.context,
         builder: (context) => AlertDialog(

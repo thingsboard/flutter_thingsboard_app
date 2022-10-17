@@ -4,6 +4,8 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
+import '../../generated/l10n.dart';
+
 class MainDashboardPageController {
   DashboardController? _dashboardController;
   _MainDashboardPageState? _mainDashboardPageState;
@@ -76,7 +78,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
     if (widget._controller != null) {
       widget._controller!._setMainDashboardPageState(this);
     }
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
+    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? S.of(context).dashboard_title);
   }
 
   @override

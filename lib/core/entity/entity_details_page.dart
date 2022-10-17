@@ -5,6 +5,8 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../generated/l10n.dart';
+
 abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
   final labelTextStyle =
       TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
@@ -117,7 +119,7 @@ class _EntityDetailsPageState<T extends BaseData>
             if (entity != null) {
               return widget.buildEntityDetails(context, entity);
             } else {
-              return Center(child: Text('Requested entity does not exists.'));
+              return Center(child: Text(S.of(context).entities_not_exists));
             }
           } else {
             return Center(
@@ -156,10 +158,10 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('Title', style: labelTextStyle),
+              Text(S.of(context).entity_name, style: labelTextStyle),
               Text(contact.getName(), style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Country', style: labelTextStyle),
+              Text(S.of(context).entity_country, style: labelTextStyle),
               Text(contact.country ?? '', style: valueTextStyle),
               SizedBox(height: 16),
               Row(
@@ -171,7 +173,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text('City', style: labelTextStyle),
+                          Text(S.of(context).entity_city, style: labelTextStyle),
                           Text(contact.city ?? '', style: valueTextStyle),
                         ],
                       )),
@@ -181,26 +183,26 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text('State / Province', style: labelTextStyle),
+                          Text(S.of(context).entity_province, style: labelTextStyle),
                           Text(contact.state ?? '', style: valueTextStyle),
                         ],
                       )),
                 ],
               ),
               SizedBox(height: 16),
-              Text('Zip / Postal Code', style: labelTextStyle),
+              Text(S.of(context).entity_zip, style: labelTextStyle),
               Text(contact.zip ?? '', style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Address', style: labelTextStyle),
+              Text(S.of(context).entity_address, style: labelTextStyle),
               Text(contact.address ?? '', style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Address 2', style: labelTextStyle),
+              Text(S.of(context).entity_address2, style: labelTextStyle),
               Text(contact.address2 ?? '', style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Phone', style: labelTextStyle),
+              Text(S.of(context).entity_phone, style: labelTextStyle),
               Text(contact.phone ?? '', style: valueTextStyle),
               SizedBox(height: 16),
-              Text('Email', style: labelTextStyle),
+              Text(S.of(context).entity_email, style: labelTextStyle),
               Text(contact.email ?? '', style: valueTextStyle),
             ]));
   }
