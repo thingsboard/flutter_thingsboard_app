@@ -101,7 +101,6 @@ abstract class TbMainDashboardHolder {
 
 class TbContext {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  bool _initialized = false;
   bool isUserLoaded = false;
   final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
   PlatformType? _oauth2PlatformType;
@@ -112,16 +111,16 @@ class TbContext {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
   late final _widgetActionHandler;
-  late final AndroidDeviceInfo? _androidInfo;
-  late final IosDeviceInfo? _iosInfo;
-  late final String packageName;
+  late AndroidDeviceInfo? _androidInfo;
+  late IosDeviceInfo? _iosInfo;
+  late String packageName;
   TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  late final ThingsboardClient tbClient;
-  late final TbOAuth2Client oauth2Client;
+  late ThingsboardClient tbClient;
+  late TbOAuth2Client oauth2Client;
 
   final FluroRouter router;
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -136,13 +135,6 @@ class TbContext {
   WidgetActionHandler get widgetActionHandler => _widgetActionHandler;
 
   Future<void> init() async {
-    assert(() {
-      if (_initialized) {
-        throw StateError('TbContext already initialized!');
-      }
-      return true;
-    }());
-    _initialized = true;
     var storage = createAppStorage();
     tbClient = ThingsboardClient(ThingsboardAppConstants.thingsBoardApiEndpoint,
         storage: storage,

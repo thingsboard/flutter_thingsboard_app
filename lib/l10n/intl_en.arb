@@ -94,7 +94,12 @@
   "more_sys_admin": "System Administrator",
   "more_tenant_admin": "Tenant Administrator",
   "more_customer": "Customer",
+  "more_language": "Language",
   "more_logout": "Log out",
+
+  "language_title": "Change language",
+  "language_auto_title": "Auto",
+  "language_auto_subtitle": "Follow Operating System",
 
   "customers": "Customers",
   "customers_title": "Customers",

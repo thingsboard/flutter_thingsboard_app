@@ -8,11 +8,13 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
+import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 
 import 'config/themes/tb_theme.dart';
 import 'generated/l10n.dart';
 
 final appRouter = ThingsboardAppRouter();
+late final Locale? appLocale;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,17 @@ void main() async {
   if (UniversalPlatform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
-
+  var localeCode = await createAppStorage().getItem('localeCode');
+  if (localeCode != null) {
+    var codes = localeCode.split('_');
+    if (codes.length == 2) {
+      appLocale = Locale.fromSubtags(languageCode: codes[0], countryCode: codes[1]);
+    } else {
+      appLocale = Locale.fromSubtags(languageCode: codes[0]);
+    }
+  } else {
+    appLocale = null;
+  }
   runApp(ThingsboardApp());
 }
 
@@ -153,6 +165,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
+              locale: appLocale,
               supportedLocales: S.delegate.supportedLocales,
               onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
               theme: tbTheme,
@@ -170,6 +183,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
+              locale: appLocale,
               supportedLocales: S.delegate.supportedLocales,
               onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
               theme: tbTheme,

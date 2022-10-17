@@ -57,6 +57,35 @@ class _MorePageState extends TbContextState<MorePage> {
               Divider(color: Color(0xFFEDEDED)),
               SizedBox(height: 8),
               GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  height: 48,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 18),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Icon(Icons.language_sharp, color: Color(0xFF282828)),
+                        SizedBox(width: 34),
+                        Text(
+                          S.of(context).more_language,
+                          style: const TextStyle(
+                            color: Color(0xFF282828),
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 20 / 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  navigateTo('/language');
+                },
+              ),
+              GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   child: Container(
                       height: 48,

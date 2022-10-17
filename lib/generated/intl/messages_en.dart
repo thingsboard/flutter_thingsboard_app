@@ -270,6 +270,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Widget type"),
         "entity_zip": MessageLookupByLibrary.simpleMessage("Zip / Postal Code"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "language_auto_subtitle":
+            MessageLookupByLibrary.simpleMessage("Follow Operating System"),
+        "language_auto_title": MessageLookupByLibrary.simpleMessage("Auto"),
+        "language_title":
+            MessageLookupByLibrary.simpleMessage("Change language"),
         "login_btn_txt": MessageLookupByLibrary.simpleMessage("Login"),
         "login_email": MessageLookupByLibrary.simpleMessage("Email"),
         "login_email_invalid":
@@ -290,6 +295,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ThingsBoard Logo"),
         "more": MessageLookupByLibrary.simpleMessage("More"),
         "more_customer": MessageLookupByLibrary.simpleMessage("Customer"),
+        "more_language": MessageLookupByLibrary.simpleMessage("Language"),
         "more_logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "more_sys_admin":
             MessageLookupByLibrary.simpleMessage("System Administrator"),

@@ -78,7 +78,6 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
     if (widget._controller != null) {
       widget._controller!._setMainDashboardPageState(this);
     }
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? S.of(context).dashboard_title);
   }
 
   @override
@@ -93,6 +92,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
 
   @override
   Widget build(BuildContext context) {
+    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? S.of(context).dashboard_title);
     return Scaffold(
         appBar: TbAppBar(
           tbContext,

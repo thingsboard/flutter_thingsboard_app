@@ -94,7 +94,12 @@
   "more_sys_admin": "系统管理员",
   "more_tenant_admin": "租户管理员",
   "more_customer": "客户",
+  "more_language": "语言",
   "more_logout": "注销",
+
+  "language_title": "切换语言",
+  "language_auto_title": "自动",
+  "language_auto_subtitle": "与系统同步",
 
   "customers": "客户",
   "customers_title": "客户",

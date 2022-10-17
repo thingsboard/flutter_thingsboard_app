@@ -11,6 +11,7 @@ import 'package:thingsboard_app/modules/dashboard/dashboard_routes.dart';
 import 'package:thingsboard_app/modules/device/device_routes.dart';
 import 'package:thingsboard_app/modules/home/home_routes.dart';
 import 'package:thingsboard_app/modules/profile/profile_routes.dart';
+import 'package:thingsboard_app/modules/language/language_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
@@ -34,6 +35,7 @@ class ThingsboardAppRouter {
     UiUtilsRoutes(_tbContext).registerRoutes();
     HomeRoutes(_tbContext).registerRoutes();
     ProfileRoutes(_tbContext).registerRoutes();
+    LanguageRoutes(_tbContext).registerRoutes();
     AssetRoutes(_tbContext).registerRoutes();
     DeviceRoutes(_tbContext).registerRoutes();
     AlarmRoutes(_tbContext).registerRoutes();

@@ -880,11 +880,51 @@ class S {
     );
   }
 
+  /// `Language`
+  String get more_language {
+    return Intl.message(
+      'Language',
+      name: 'more_language',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get more_logout {
     return Intl.message(
       'Log out',
       name: 'more_logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change language`
+  String get language_title {
+    return Intl.message(
+      'Change language',
+      name: 'language_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auto`
+  String get language_auto_title {
+    return Intl.message(
+      'Auto',
+      name: 'language_auto_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow Operating System`
+  String get language_auto_subtitle {
+    return Intl.message(
+      'Follow Operating System',
+      name: 'language_auto_subtitle',
       desc: '',
       args: [],
     );

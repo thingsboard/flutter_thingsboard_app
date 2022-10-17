@@ -16,21 +16,6 @@ const Map<AlarmSeverity, Color> alarmSeverityColors = {
   AlarmSeverity.INDETERMINATE: Color(0xFF00FF00),
 };
 
-Map<AlarmSeverity, String> alarmSeverityTranslations = {
-  AlarmSeverity.CRITICAL: S.current.alarm_severity_critical,
-  AlarmSeverity.MAJOR: S.current.alarm_severity_major,
-  AlarmSeverity.MINOR: S.current.alarm_severity_minor,
-  AlarmSeverity.WARNING: S.current.alarm_severity_warning,
-  AlarmSeverity.INDETERMINATE: S.current.alarm_severity_indeterminate,
-};
-
-Map<AlarmStatus, String> alarmStatusTranslations = {
-  AlarmStatus.ACTIVE_ACK: S.current.alarm_status_active_ack,
-  AlarmStatus.ACTIVE_UNACK: S.current.alarm_status_active_unack,
-  AlarmStatus.CLEARED_ACK: S.current.alarm_status_cleared_ack,
-  AlarmStatus.CLEARED_UNACK: S.current.alarm_status_cleared_unack,
-};
-
 mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
   @override
   String get title => S.current.alarms;
@@ -119,6 +104,22 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
 
   @override
   Widget build(BuildContext context) {
+
+    Map<AlarmSeverity, String> alarmSeverityTranslations = {
+      AlarmSeverity.CRITICAL: S.of(context).alarm_severity_critical,
+      AlarmSeverity.MAJOR: S.of(context).alarm_severity_major,
+      AlarmSeverity.MINOR: S.of(context).alarm_severity_minor,
+      AlarmSeverity.WARNING: S.of(context).alarm_severity_warning,
+      AlarmSeverity.INDETERMINATE: S.of(context).alarm_severity_indeterminate,
+    };
+
+    Map<AlarmStatus, String> alarmStatusTranslations = {
+      AlarmStatus.ACTIVE_ACK: S.of(context).alarm_status_active_ack,
+      AlarmStatus.ACTIVE_UNACK: S.of(context).alarm_status_active_unack,
+      AlarmStatus.CLEARED_ACK: S.of(context).alarm_status_cleared_ack,
+      AlarmStatus.CLEARED_UNACK: S.of(context).alarm_status_cleared_unack,
+    };
+
     if (this.loading) {
       return Container(
           height: 134,
