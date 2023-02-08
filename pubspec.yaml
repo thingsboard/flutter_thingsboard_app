@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_pe_client: 1.0.4
+  thingsboard_pe_client: 1.0.5
   intl: ^0.17.0
   flutter_secure_storage: ^6.0.0
   flutter_speed_dial: ^6.0.0

@@ -643,7 +643,7 @@ packages:
       name: thingsboard_pe_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   typed_data:
     dependency: transitive
     description:
