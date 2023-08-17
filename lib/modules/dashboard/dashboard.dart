@@ -289,7 +289,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                                   bool hasRightLayout = args[0];
                                   bool rightLayoutOpened = args[1];
                                   log.debug(
-                                      "Invoked tbMobileDashboardLoadedHandler: hasRightLayout: $hasRightLayout, rightLayoutOpened: $rightLayoutOpened");
+                                      "Invoked tbMobileDashboardLoadedHandler: hasRightLayout: $hasRightLayout, =rightLayoutOpened: $rightLayoutOpened");
                                   _dashboardController
                                       .onHasRightLayout(hasRightLayout);
                                   _dashboardController

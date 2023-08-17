@@ -1,8 +1,104 @@
+// import 'package:flutter/material.dart';
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: ProfileScreen(),
+//     );
+//   }
+// }
+
+// // class to draw the profile screen
+// class ProfileScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         appBar: AppBar(
+//           elevation: 0.0,
+//           backgroundColor: const Color(0xffea5d49),
+//           leading: Icon(
+//             Icons.menu,
+//             color: Colors.white,
+//           ),
+//         ),
+//         body: Stack(
+//           alignment: Alignment.center,
+//           children: [
+//             CustomPaint(
+//               child: Container(
+//                 width: MediaQuery.of(context).size.width,
+//                 height: MediaQuery.of(context).size.height,
+//               ),
+//               painter: HeaderCurvedContainer(),
+//             ),
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.all(20.0),
+//                   child: Text(
+//                     'Profile',
+//                     style: TextStyle(
+//                       fontSize: 35.0,
+//                       letterSpacing: 1.5,
+//                       color: Colors.white,
+//                       fontWeight: FontWeight.w600,
+
+//                     ),
+//                   ),
+//                 ),
+//                 Container(
+//                   width: MediaQuery.of(context).size.width / 2,
+//                   height: MediaQuery.of(context).size.width / 2,
+//                   padding: const EdgeInsets.all(10.0),
+//                   decoration: BoxDecoration(
+//                     shape: BoxShape.circle,
+//                     color: Colors.white,
+//                     // image: DecorationImage(
+//                     //   image: AssetImage(null),
+//                     //   fit: BoxFit.cover,
+//                     // ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/constants/app_colors.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+
+// CustomPainter class to for the header curved-container
+class HeaderCurvedContainer extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = AppColors.appBarColor;
+    Path path = Path()
+      ..relativeLineTo(0, 150)
+      ..quadraticBezierTo(size.width / 2, 250.0, size.width, 150)
+      ..relativeLineTo(0, -150)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
 
 class MorePage extends TbContextWidget {
   MorePage(TbContext tbContext) : super(tbContext);
@@ -15,41 +111,65 @@ class _MorePageState extends TbContextState<MorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: EdgeInsets.fromLTRB(16, 40, 16, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppColors.appBarColor,
+        leading: Icon(
+          Icons.menu,
+          color: Colors.white,
+        ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.settings, color: AppColors.backgroundColor),
+              onPressed: () async {
+                await navigateTo('/profile');
+                setState(() {});
+              })
+        ],
+      ),
+
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+            painter: HeaderCurvedContainer(),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
                 children: [
-                  Icon(Icons.account_circle,
-                      size: 48, color: Color(0xFFAFAFAF)),
-                  Spacer(),
-                  IconButton(
-                      icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)),
-                      onPressed: () async {
-                        await navigateTo('/profile');
-                        setState(() {});
-                      })
+                  Icon(
+                    Icons.account_circle,
+                    size: MediaQuery.of(context).size.width / 6,
+                    color: AppColors.backgroundColor,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    _getUserDisplayName(),
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      letterSpacing: 1.5,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(_getAuthorityName(context),
+                      style: TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 17,
+                          height: 16 / 14)),
                 ],
               ),
-              SizedBox(height: 22),
-              Text(_getUserDisplayName(),
-                  style: TextStyle(
-                      color: Color(0xFF282828),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                      height: 23 / 20)),
-              SizedBox(height: 2),
-              Text(_getAuthorityName(context),
-                  style: TextStyle(
-                      color: Color(0xFFAFAFAF),
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14,
-                      height: 16 / 14)),
-              SizedBox(height: 24),
+              // Spacer(),
+              SizedBox(height: 90),
               Divider(color: Color(0xFFEDEDED)),
               SizedBox(height: 8),
               buildMoreMenuItems(context),
@@ -64,11 +184,11 @@ class _MorePageState extends TbContextState<MorePage> {
                           padding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 18),
                           child: Row(mainAxisSize: MainAxisSize.max, children: [
-                            Icon(Icons.logout, color: Color(0xFFE04B2F)),
+                            Icon(Icons.logout, color: AppColors.redColor),
                             SizedBox(width: 34),
                             Text('${S.of(context).logout}',
                                 style: TextStyle(
-                                    color: Color(0xFFE04B2F),
+                                    color: AppColors.redColor,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
@@ -77,10 +197,78 @@ class _MorePageState extends TbContextState<MorePage> {
                   onTap: () {
                     tbClient.logout(
                         requestConfig: RequestConfig(ignoreErrors: true));
-                  })
+                  }),
             ],
           ),
-        ));
+        ],
+      ),
+
+      // body: Container(
+      //   padding: EdgeInsets.fromLTRB(16, 40, 16, 20),
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       Row(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Icon(Icons.account_circle,
+      //               size: 48, color: Color(0xFFAFAFAF)),
+      //           Spacer(),
+      //           IconButton(
+      //               icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)),
+      //               onPressed: () async {
+      //                 await navigateTo('/profile');
+      //                 setState(() {});
+      //               })
+      //         ],
+      //       ),
+      //       SizedBox(height: 22),
+      //       Text(_getUserDisplayName(),
+      //           style: TextStyle(
+      //               color: Color(0xFF282828),
+      //               fontWeight: FontWeight.w500,
+      //               fontSize: 20,
+      //               height: 23 / 20)),
+      //       SizedBox(height: 2),
+      //       Text(_getAuthorityName(context),
+      //           style: TextStyle(
+      //               color: Color(0xFFAFAFAF),
+      //               fontWeight: FontWeight.normal,
+      //               fontSize: 14,
+      //               height: 16 / 14)),
+      //       SizedBox(height: 24),
+      //       Divider(color: Color(0xFFEDEDED)),
+      //       SizedBox(height: 8),
+      //       buildMoreMenuItems(context),
+      //       SizedBox(height: 8),
+      //       Divider(color: Color(0xFFEDEDED)),
+      //       SizedBox(height: 8),
+      //       GestureDetector(
+      //           behavior: HitTestBehavior.opaque,
+      //           child: Container(
+      //               height: 48,
+      //               child: Padding(
+      //                   padding:
+      //                       EdgeInsets.symmetric(vertical: 0, horizontal: 18),
+      //                   child: Row(mainAxisSize: MainAxisSize.max, children: [
+      //                     Icon(Icons.logout, color: Color(0xFFE04B2F)),
+      //                     SizedBox(width: 34),
+      //                     Text('${S.of(context).logout}',
+      //                         style: TextStyle(
+      //                             color: Color(0xFFE04B2F),
+      //                             fontStyle: FontStyle.normal,
+      //                             fontWeight: FontWeight.w500,
+      //                             fontSize: 14,
+      //                             height: 20 / 14))
+      //                   ]))),
+      //           onTap: () {
+      //             tbClient.logout(
+      //                 requestConfig: RequestConfig(ignoreErrors: true));
+      //           })
+      //     ],
+      //   ),
+      // ),
+    );
   }
 
   Widget buildMoreMenuItems(BuildContext context) {

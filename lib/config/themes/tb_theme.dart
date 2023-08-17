@@ -27,7 +27,7 @@ const tbMatIndigo = MaterialColor(
   },
 );
 
-const tbDarkMatIndigo = MaterialColor(
+const   tbDarkMatIndigo = MaterialColor(
   _tbPrimaryColorValue,
   <int, Color>{
     50: Color(0xFFE8EAF6),

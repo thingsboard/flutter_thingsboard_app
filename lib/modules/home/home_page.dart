@@ -7,6 +7,7 @@ import 'package:thingsboard_app/modules/dashboard/dashboard.dart'
     as dashboardUi;
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
 import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
+import 'package:thingsboard_app/widgets/app_bar_painter.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -46,9 +47,10 @@ class _HomePageState extends TbContextState<HomePage>
         title: Center(
             child: Container(
                 height: 24,
-                child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
+                child: SvgPicture.asset(ThingsboardImage.thingsboardCenter,
                     color: Theme.of(context).primaryColor,
                     semanticsLabel: 'ThingsBoard Logo'))),
+
         actions: [
           if (tbClient.isSystemAdmin())
             IconButton(
@@ -59,13 +61,29 @@ class _HomePageState extends TbContextState<HomePage>
             )
         ],
       ),
-      body: Builder(builder: (context) {
+      // body: Builder(builder: (context) {
+      //   if (dashboardState) {
+      //     return _buildDashboardHome(context, homeDashboard!);
+      //   } else {
+      //     return _buildDefaultHome(context);
+      //   }
+      // }),
+      backgroundColor: Color(0xfff1f2fa),
+      body: Stack(
+        children: [
+          Builder(builder: (context) {
         if (dashboardState) {
           return _buildDashboardHome(context, homeDashboard!);
         } else {
           return _buildDefaultHome(context);
         }
       }),
+          CustomPaint(
+            painter: AppBarPainter(),
+            child: Container(height: 0),
+          ),
+        ],
+      ),
     );
   }
 

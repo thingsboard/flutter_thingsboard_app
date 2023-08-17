@@ -1,4 +1,6 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/constants/app_colors.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -6,6 +8,7 @@ import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
+import 'package:thingsboard_app/widgets/app_bar_painter.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TbMainNavigationItem {
@@ -13,6 +16,10 @@ class TbMainNavigationItem {
   String title;
   final Icon icon;
   final String path;
+
+  Icon get whiteIcon {
+    return Icon(icon.icon, color: AppColors.backgroundColor,);
+  }
 
   TbMainNavigationItem(
       {required this.page,
@@ -148,40 +155,77 @@ class _MainPageState extends TbPageState<MainPage>
     _currentIndexNotifier.value = targetIndex;
   }
 
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
     return WillPopScope(
-        onWillPop: () async {
-          if (!await tbContext.willPop()) {
-            return false;
-          }
-          if (_tabController.index > 0) {
-            _setIndex(0);
-            return false;
-          }
-          return true;
-        },
-        child: Scaffold(
-            body: TabBarView(
-              physics: tbContext.homeDashboard != null
-                  ? NeverScrollableScrollPhysics()
-                  : null,
-              controller: _tabController,
-              children: _tabItems.map((item) => item.page).toList(),
-            ),
-            bottomNavigationBar: ValueListenableBuilder<int>(
-              valueListenable: _currentIndexNotifier,
-              builder: (context, index, child) => BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: index,
-                  onTap: (int index) =>
-                      _setIndex(index) /*_currentIndex = index*/,
-                  items: _tabItems
-                      .map((item) => BottomNavigationBarItem(
-                          icon: item.icon, label: item.title))
-                      .toList()),
-            )));
+      onWillPop: () async {
+        if (!await tbContext.willPop()) {
+          return false;
+        }
+        if (_tabController.index > 0) {
+          _setIndex(0);
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        extendBody: true,
+        body: TabBarView(
+          physics: tbContext.homeDashboard != null
+              ? NeverScrollableScrollPhysics()
+              : null,
+          controller: _tabController,
+          children: _tabItems.map((item) => item.page).toList(),
+        ),
+      //   body: Stack(
+      //   children: [
+      //     TabBarView(
+      //     physics: tbContext.homeDashboard != null
+      //         ? NeverScrollableScrollPhysics()
+      //         : null,
+      //     controller: _tabController,
+      //     children: _tabItems.map((item) => item.page).toList(),
+      //   ),
+      //     CustomPaint(
+      //       painter: AppBarPainter(),
+      //       child: Container(height: 0),
+      //     ),
+      //   ],
+      // ),
+        // bottomNavigationBar: ValueListenableBuilder<int>(
+        //   valueListenable: _currentIndexNotifier,
+        //   builder: (context, index, child) => BottomNavigationBar(
+        //       type: BottomNavigationBarType.fixed,
+        //       currentIndex: index,
+        //       onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+        //       items: _tabItems
+        //           .map((item) => BottomNavigationBarItem(
+        //               icon: item.icon, label: item.title))
+        //           .toList()),
+        // ),
+        backgroundColor: AppColors.backgroundColor,
+        bottomNavigationBar: ValueListenableBuilder<int>(
+          valueListenable: _currentIndexNotifier,
+          builder: (context, index, child) => CurvedNavigationBar(
+            items: _tabItems
+                .map(
+                  (item) => item.whiteIcon,
+                )
+                .toList(),
+            index: index,
+            key: _bottomNavigationKey,
+            onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+            height: 60,
+            backgroundColor: Colors.transparent,
+            color: AppColors.appBarColor,
+            animationDuration: const Duration(milliseconds: 300),
+          ),
+        ),
+      ),
+    );
   }
 
   int _indexFromPath(String path) {

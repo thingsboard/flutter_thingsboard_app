@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:stream_transform/stream_transform.dart';
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/constants/app_colors.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
@@ -65,9 +66,12 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
   AppBar buildDefaultBar() {
     return AppBar(
       leading: widget.leading,
+      backgroundColor: AppColors.appBarColor,
+      foregroundColor: Colors.white,
       title: widget.title,
+      // toolbarHeight: 80,
       actions: widget.actions,
-      elevation: widget.elevation ?? 8,
+      elevation: 0,
       shadowColor: widget.shadowColor ?? Color(0xFFFFFFFF).withAlpha(150),
     );
   }

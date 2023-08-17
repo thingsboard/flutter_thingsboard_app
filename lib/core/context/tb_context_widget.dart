@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/widgets/app_bar_painter.dart';
 
 abstract class RefreshableWidget extends Widget {
   refresh();
@@ -89,6 +90,21 @@ class TextContextWidget extends TbContextWidget {
 class _TextContextWidgetState extends TbContextState<TextContextWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(widget.text)));
+    Widget body = Center(
+      child: Text(widget.text),
+    );
+
+    return Scaffold(
+      backgroundColor: Color(0xfff1f2fa),
+      body: Stack(
+        children: [
+          body,
+          CustomPaint(
+            painter: AppBarPainter(),
+            child: Container(height: 0),
+          ),
+        ],
+      ),
+    );
   }
 }
