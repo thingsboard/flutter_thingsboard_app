@@ -14,6 +14,8 @@ import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
+import '../../widgets/app_bar_painter.dart';
+
 class ThingsboardAppRouter {
   final router = FluroRouter();
   late final _tbContext = TbContext(router);
@@ -24,7 +26,16 @@ class ThingsboardAppRouter {
       var settings = context!.settings;
       return Scaffold(
         appBar: AppBar(title: Text('Not Found')),
-        body: Center(child: Text('Route not defined: ${settings!.name}')),
+        backgroundColor: Color(0xfff1f2fa),
+        body: Stack(
+          children: [
+            Center(child: Text('Route not defined: ${settings!.name}')),
+            CustomPaint(
+              painter: AppBarPainter(),
+              child: Container(height: 0),
+            ),
+          ],
+        ),
       );
     });
     InitRoutes(_tbContext).registerRoutes();
