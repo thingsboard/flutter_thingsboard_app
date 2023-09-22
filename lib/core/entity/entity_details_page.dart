@@ -91,7 +91,7 @@ class _EntityDetailsPageState<T extends BaseData>
                                 style: widget._subTitle != null
                                     ? Theme.of(context)
                                         .primaryTextTheme
-                                        .headline6!
+                                        .titleLarge!
                                         .copyWith(fontSize: 16)
                                     : null)),
                         if (widget._subTitle != null)
@@ -99,7 +99,7 @@ class _EntityDetailsPageState<T extends BaseData>
                               style: TextStyle(
                                   color: Theme.of(context)
                                       .primaryTextTheme
-                                      .headline6!
+                                      .titleLarge!
                                       .color!
                                       .withAlpha((0.38 * 255).ceil()),
                                   fontSize: 12,

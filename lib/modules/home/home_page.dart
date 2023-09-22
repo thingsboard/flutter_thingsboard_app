@@ -47,7 +47,9 @@ class _HomePageState extends TbContextState<HomePage>
             child: Container(
                 height: 24,
                 child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
-                    color: Theme.of(context).primaryColor,
+                    colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor, BlendMode.srcIn 
+                    ),
                     semanticsLabel: 'ThingsBoard Logo'))),
         actions: [
           if (tbClient.isSystemAdmin())
@@ -61,7 +63,7 @@ class _HomePageState extends TbContextState<HomePage>
       ),
       body: Builder(builder: (context) {
         if (dashboardState) {
-          return _buildDashboardHome(context, homeDashboard!);
+          return _buildDashboardHome(context, homeDashboard);
         } else {
           return _buildDefaultHome(context);
         }
