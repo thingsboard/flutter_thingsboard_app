@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:fluro/fluro.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
@@ -228,7 +227,7 @@ class WidgetActionHandler with HasTbContext {
           transition: TransitionType.nativeModal);
       if (barcode != null && barcode.code != null) {
         return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(
-            barcode.code!, describeEnum(barcode.format)));
+            barcode.code!, barcode.format.toString()));
       } else {
         return WidgetMobileActionResult.emptyResult();
       }

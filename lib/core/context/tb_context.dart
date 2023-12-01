@@ -5,7 +5,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
@@ -49,28 +49,28 @@ class TbLogger {
           printTime: false)),
       output: TbLogOutput());
 
-  void verbose(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.v(message, error, stackTrace);
+  void trace(dynamic message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.t(message, error: error, stackTrace: stackTrace);
   }
 
   void debug(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.d(message, error, stackTrace);
+    _logger.d(message, error: error, stackTrace: stackTrace);
   }
 
   void info(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.i(message, error, stackTrace);
+    _logger.i(message, error: error, stackTrace: stackTrace);
   }
 
   void warn(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.w(message, error, stackTrace);
+    _logger.w(message, error: error, stackTrace: stackTrace);
   }
 
   void error(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.e(message, error, stackTrace);
+    _logger.e(message, error: error, stackTrace: stackTrace);
   }
 
   void fatal(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.wtf(message, error, stackTrace);
+    _logger.f(message, error: error, stackTrace: stackTrace);
   }
 }
 
@@ -383,7 +383,7 @@ class TbContext {
     String userAgent = 'Mozilla/5.0';
     if (UniversalPlatform.isAndroid) {
       userAgent +=
-          ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo!.model})';
+          ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo.model})';
     } else if (UniversalPlatform.isIOS) {
       userAgent += ' (${_iosInfo!.model})';
     }
@@ -529,13 +529,13 @@ mixin HasTbContext {
 
   void setupCurrentState(TbContextState currentState) {
     if (_tbContext.currentState != null) {
-      ModalRoute.of(_tbContext.currentState!.context)
-          ?.removeScopedWillPopCallback(_tbContext.willPop);
+      // ignore: deprecated_member_use
+      ModalRoute.of(_tbContext.currentState!.context)?.removeScopedWillPopCallback(_tbContext.willPop);
     }
     _tbContext.currentState = currentState;
     if (_tbContext.currentState != null) {
-      ModalRoute.of(_tbContext.currentState!.context)
-          ?.addScopedWillPopCallback(_tbContext.willPop);
+      // ignore: deprecated_member_use
+      ModalRoute.of(_tbContext.currentState!.context)?.addScopedWillPopCallback(_tbContext.willPop);
     }
     if (_tbContext._closeMainFirst) {
       _tbContext._closeMainFirst = false;

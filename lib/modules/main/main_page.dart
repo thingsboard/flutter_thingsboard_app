@@ -151,6 +151,7 @@ class _MainPageState extends TbPageState<MainPage>
   @override
   Widget build(BuildContext context) {
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
+    // ignore: deprecated_member_use
     return WillPopScope(
         onWillPop: () async {
           if (!await tbContext.willPop()) {
