@@ -6,24 +6,21 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.6
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client:
-    git:
-      url: https://github.com/thingsboard/dart_thingsboard_client.git
-      ref: updated/dart/3.0
+  thingsboard_client: ^1.0.7
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0
   cupertino_icons: ^1.0.6
   fluro: ^2.0.5
-  flutter_svg: ^2.0.7
+  flutter_svg: ^2.0.9
   auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^4.0.0
-  fading_edge_scrollview: ^3.0.0
+  fading_edge_scrollview: ^4.0.0
   stream_transform: ^2.1.0
   flutter_inappwebview:
     git:
@@ -32,16 +29,16 @@ dependencies:
 #  flutter_downloader: ^1.6.0
 #  permission_handler: ^8.0.0+2
 #  path_provider: ^2.0.2
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.1
   image_picker: ^1.0.4
   mime: ^1.0.4
-  logger: ^2.0.2
+  logger: ^2.0.2+1
   qr_code_scanner: ^1.0.1
-  device_info_plus: ^9.0.3
-  geolocator: ^10.0.1
+  device_info_plus: ^9.1.1
+  geolocator: ^10.1.0
   material_design_icons_flutter: ^7.0.7296
-  package_info_plus: ^4.1.0
-  dart_jsonwebtoken: ^2.11.0
+  package_info_plus: ^5.0.1
+  dart_jsonwebtoken: ^2.12.1
   crypto: ^3.0.3
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^9.1.0

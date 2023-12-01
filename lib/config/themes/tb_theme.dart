@@ -46,6 +46,7 @@ const tbDarkMatIndigo = MaterialColor(
 final ThemeData theme = ThemeData(primarySwatch: tbMatIndigo);
 
 ThemeData tbTheme = ThemeData(
+    useMaterial3: false,
     primarySwatch: tbMatIndigo,
     colorScheme: theme.colorScheme.copyWith(secondary: Colors.deepOrange),
     scaffoldBackgroundColor: Color(0xFFFAFAFA),

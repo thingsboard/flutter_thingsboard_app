@@ -77,7 +77,7 @@ class _EntitiesListWidgetState<T, P>
     super.initState();
     _pageKeyController = widget.createPageKeyController();
     if (_controller != null) {
-      _controller!._registerEntitiesWidgetState(this);
+      _controller._registerEntitiesWidgetState(this);
     }
     _refresh();
   }
@@ -85,7 +85,7 @@ class _EntitiesListWidgetState<T, P>
   @override
   void dispose() {
     if (_controller != null) {
-      _controller!._unregisterEntitiesWidgetState(this);
+      _controller._unregisterEntitiesWidgetState(this);
     }
     _pageKeyController.dispose();
     _entitiesStreamController.close();
@@ -205,7 +205,6 @@ class _EntitiesListWidgetState<T, P>
     return FadingEdgeScrollView.fromScrollView(
         gradientFractionOnStart: 0.2,
         gradientFractionOnEnd: 0.2,
-        shouldDisposeScrollController: true,
         child: ListView(
             scrollDirection: Axis.horizontal,
             controller: ScrollController(),

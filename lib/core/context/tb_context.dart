@@ -383,7 +383,7 @@ class TbContext {
     String userAgent = 'Mozilla/5.0';
     if (UniversalPlatform.isAndroid) {
       userAgent +=
-          ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo!.model})';
+          ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo.model})';
     } else if (UniversalPlatform.isIOS) {
       userAgent += ' (${_iosInfo!.model})';
     }
@@ -529,13 +529,13 @@ mixin HasTbContext {
 
   void setupCurrentState(TbContextState currentState) {
     if (_tbContext.currentState != null) {
-      ModalRoute.of(_tbContext.currentState!.context)
-          ?.removeScopedWillPopCallback(_tbContext.willPop);
+      // ignore: deprecated_member_use
+      ModalRoute.of(_tbContext.currentState!.context)?.removeScopedWillPopCallback(_tbContext.willPop);
     }
     _tbContext.currentState = currentState;
     if (_tbContext.currentState != null) {
-      ModalRoute.of(_tbContext.currentState!.context)
-          ?.addScopedWillPopCallback(_tbContext.willPop);
+      // ignore: deprecated_member_use
+      ModalRoute.of(_tbContext.currentState!.context)?.addScopedWillPopCallback(_tbContext.willPop);
     }
     if (_tbContext._closeMainFirst) {
       _tbContext._closeMainFirst = false;

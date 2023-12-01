@@ -257,6 +257,7 @@ class _DashboardState extends TbContextState<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
         onWillPop: () async {
           if (widget._home == true && !tbContext.isHomePage()) {
