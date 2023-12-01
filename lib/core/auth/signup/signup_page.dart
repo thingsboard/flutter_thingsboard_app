@@ -232,7 +232,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
                                                       '${S.of(context).imNotARobot}',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .bodyText2)
+                                                          .bodyMedium)
                                                 ],
                                               ),
                                               style: ButtonStyle(
@@ -360,7 +360,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
               builder: (BuildContext context, bool loading, child) {
                 if (loading) {
                   var data =
-                      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+                      MediaQueryData.fromView(View.of(context));
                   var bottomPadding = data.padding.top;
                   bottomPadding += kToolbarHeight;
                   return SizedBox.expand(

@@ -21,13 +21,17 @@ class WlService {
   static final _defaultLogo = SvgPicture.asset(
       ThingsboardImage.thingsBoardWithTitle,
       height: 36 / 3 * 2,
-      color: TbThemeUtils.tbPrimary,
+      colorFilter: ColorFilter.mode(
+          TbThemeUtils.tbPrimary, BlendMode.srcIn
+      ),
       semanticsLabel: 'ThingsBoard Logo');
 
   static final _defaultLoginLogo = SvgPicture.asset(
       ThingsboardImage.thingsBoardWithTitle,
       height: 50 / 3 * 2,
-      color: TbThemeUtils.tbPrimary,
+      colorFilter: ColorFilter.mode(
+          TbThemeUtils.tbPrimary, BlendMode.srcIn
+      ),
       semanticsLabel: 'ThingsBoard Logo');
 
   static WhiteLabelingParams _createDefaultWlParams() => WhiteLabelingParams(
@@ -298,7 +302,9 @@ class WlService {
     if (wlParams.logoImageUrl == DEFAULT_LOGO_URL) {
       image = SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
           height: height,
-          color: themeData.primaryColor,
+          colorFilter: ColorFilter.mode(
+              themeData.primaryColor, BlendMode.srcIn
+          ),
           semanticsLabel: 'ThingsBoard Logo');
     } else {
       image = Utils.imageFromBase64(wlParams.logoImageUrl!,

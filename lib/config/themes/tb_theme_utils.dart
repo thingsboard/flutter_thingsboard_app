@@ -19,8 +19,9 @@ abstract class TbThemeUtils {
     var primaryColor = primarySwatch[500]!;
     ThemeData theme = ThemeData(primarySwatch: primarySwatch);
     return ThemeData(
+        useMaterial3: false,
         primarySwatch: primarySwatch,
-        colorScheme: theme.colorScheme.copyWith(secondary: accentColor),
+        colorScheme: theme.colorScheme.copyWith(primary: primarySwatch, secondary: accentColor),
         scaffoldBackgroundColor: Color(0xFFFAFAFA),
         textTheme: _tbTypography.black,
         primaryTextTheme: _tbTypography.black,
