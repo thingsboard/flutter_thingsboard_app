@@ -290,7 +290,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     BoxFit imageFit;
     double padding;
     if (hasImage) {
-      image = Utils.imageFromBase64(entity.image!);
+      image = Utils.imageFromTbImage(tbClient, entity.image!);
       imageFit = BoxFit.contain;
       padding = 8;
     } else {

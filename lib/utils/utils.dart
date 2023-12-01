@@ -4,7 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../constants/app_constants.dart';
+
 abstract class Utils {
+
+  static const _tbImagePrefix = 'tb-image;';
+  static const _imageBase64UrlPrefix = 'data:image/';
+  static final _imagesUrlRegexp = RegExp('\/api\/images\/(tenant|system)\/(.*)');
+  static final _noImageDataUri = UriData.parse('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==').contentAsBytes();
+
+  static const _authScheme = 'Bearer ';
+  static const _authHeaderName = 'X-Authorization';
+
   static String createDashboardEntityState(EntityId entityId,
       {String? entityName, String? entityLabel}) {
     var stateObj = [
@@ -46,7 +57,64 @@ abstract class Utils {
     }
   }
 
-  static Widget imageFromBase64(String base64,
+  static Widget imageFromTbImage(ThingsboardClient tbClient,
+      String? imageUrl,
+      {Color? color, double? width, double? height, String? semanticLabel}) {
+    var jwtToken = tbClient.getJwtToken();
+    if (imageUrl == null || imageUrl.isEmpty || jwtToken == null) {
+      return Image.memory(_noImageDataUri,
+          color: color,
+          width: width,
+          height: height,
+          semanticLabel: semanticLabel);
+    } else {
+      imageUrl = _removeTbImagePrefix(imageUrl);
+      if (_isImageResourceUrl(imageUrl)) {
+        var parts = imageUrl.split('/');
+        var key = parts[parts.length - 1];
+        parts[parts.length - 1] = Uri.encodeComponent(key);
+        var encodedUrl = parts.join('/');
+        var imageLink = ThingsboardAppConstants.thingsBoardApiEndpoint + encodedUrl;
+        return Image.network(imageLink,
+            headers: {
+              _authHeaderName: _authScheme + jwtToken
+            },
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+            errorBuilder: (context, error, stackTrace) =>
+                SvgPicture.network(
+                  imageLink,
+                  headers: {
+                    _authHeaderName: _authScheme + jwtToken
+                  },
+                  colorFilter: color != null ? ColorFilter.mode(
+                      color, BlendMode.srcIn
+                  ) : null,
+                  width: width,
+                  height: height,
+                  semanticsLabel: semanticLabel
+                )
+        );
+      } else if (_isBase64DataImageUrl(imageUrl)) {
+        return _imageFromBase64(imageUrl,
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel);
+      } else {
+        return Image.network(imageUrl,
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel);
+      }
+    }
+  }
+
+
+  static Widget _imageFromBase64(String base64,
       {Color? color, double? width, double? height, String? semanticLabel}) {
     var uriData = UriData.parse(base64);
     if (uriData.mimeType == 'image/svg+xml') {
@@ -66,5 +134,17 @@ abstract class Utils {
           height: height,
           semanticLabel: semanticLabel);
     }
+  }
+
+  static String _removeTbImagePrefix(String url) {
+    return url.replaceFirst(_tbImagePrefix, '');
+  }
+
+  static bool _isImageResourceUrl(String url) {
+    return _imagesUrlRegexp.hasMatch(url);
+  }
+
+  static bool _isBase64DataImageUrl (String url) {
+    return url.startsWith(_imageBase64UrlPrefix);
   }
 }

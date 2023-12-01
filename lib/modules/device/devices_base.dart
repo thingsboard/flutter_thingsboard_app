@@ -166,7 +166,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
               Widget image;
               BoxFit imageFit;
               if (profile.image != null) {
-                image = Utils.imageFromBase64(profile.image!);
+                image = Utils.imageFromTbImage(tbClient, profile.image!);
                 imageFit = BoxFit.contain;
               } else {
                 image = SvgPicture.asset(
@@ -326,7 +326,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                 Widget image;
                 BoxFit imageFit;
                 if (profile.image != null) {
-                  image = Utils.imageFromBase64(profile.image!);
+                  image = Utils.imageFromTbImage(tbClient, profile.image!);
                   imageFit = BoxFit.contain;
                 } else {
                   image = SvgPicture.asset(
