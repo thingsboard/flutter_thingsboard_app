@@ -70,9 +70,19 @@ class _LoginPageState extends TbPageState<LoginPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Row(children: [
+<<<<<<< HEAD
                                 tbContext.wlService.loginLogoImage != null
                                     ? tbContext.wlService.loginLogoImage!
                                     : SizedBox(height: 25)
+=======
+                                SvgPicture.asset(
+                                    ThingsboardImage.thingsBoardWithTitle,
+                                    height: 25,
+                                    colorFilter: ColorFilter.mode(
+                                        Theme.of(context).primaryColor, BlendMode.srcIn),
+                                    semanticsLabel:
+                                        '${S.of(context).logoDefaultValue}')
+>>>>>>> upstream/master
                               ]),
                               if (tbContext.wlService.loginShowNameVersion ==
                                       true &&
@@ -258,8 +268,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
               valueListenable: _isLoginNotifier,
               builder: (BuildContext context, bool loading, child) {
                 if (loading) {
-                  var data =
-                      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+                  var data = MediaQuery.of(context);
                   var bottomPadding = data.padding.top;
                   bottomPadding += kToolbarHeight;
                   return SizedBox.expand(

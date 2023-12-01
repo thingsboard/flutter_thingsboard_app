@@ -50,8 +50,12 @@ abstract class Utils {
       {Color? color, double? width, double? height, String? semanticLabel}) {
     var uriData = UriData.parse(base64);
     if (uriData.mimeType == 'image/svg+xml') {
+      ColorFilter? colorFilter;
+      if (color != null) {
+        colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+      }
       return SvgPicture.memory(uriData.contentAsBytes(),
-          color: color,
+          colorFilter: colorFilter,
           width: width,
           height: height,
           semanticsLabel: semanticLabel);

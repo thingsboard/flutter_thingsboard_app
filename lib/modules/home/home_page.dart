@@ -59,7 +59,7 @@ class _HomePageState extends TbContextState<HomePage>
       ),
       body: Builder(builder: (context) {
         if (dashboardState) {
-          return _buildDashboardHome(context, homeDashboard!);
+          return _buildDashboardHome(context, homeDashboard);
         } else {
           return _buildDefaultHome(context);
         }

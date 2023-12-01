@@ -63,7 +63,7 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
               style: TextStyle(
                   color: Theme.of(context)
                       .primaryTextTheme
-                      .headline6!
+                      .titleLarge!
                       .color!
                       .withAlpha((0.38 * 255).ceil()),
                   fontSize: 12,

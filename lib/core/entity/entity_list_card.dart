@@ -50,7 +50,7 @@ class EntityListCard<T> extends StatelessWidget {
         ),
         onTap: () {
           if (_onEntityTap != null) {
-            _onEntityTap!(_entity);
+            _onEntityTap(_entity);
           }
         });
   }
