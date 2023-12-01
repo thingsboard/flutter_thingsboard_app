@@ -48,7 +48,7 @@ final ThemeData theme = ThemeData(primarySwatch: tbMatIndigo);
 ThemeData tbTheme = ThemeData(
     useMaterial3: false,
     primarySwatch: tbMatIndigo,
-    colorScheme: theme.colorScheme.copyWith(secondary: Colors.deepOrange),
+    colorScheme: theme.colorScheme.copyWith(primary: tbMatIndigo, secondary: Colors.deepOrange),
     scaffoldBackgroundColor: Color(0xFFFAFAFA),
     textTheme: tbTypography.black,
     primaryTextTheme: tbTypography.black,
