@@ -166,6 +166,13 @@ abstract class Utils {
         child: image,
       );
     }
+    if (height != null || width != null) {
+      image = SizedBox(
+        width: width,
+        height: height,
+        child: image,
+      );
+    }
     return image;
   }
 
