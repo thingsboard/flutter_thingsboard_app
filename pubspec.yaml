@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   thingsboard_pe_client:
     git:
-      url: git://github.com/thingsboard/dart_thingsboard_pe_client
+      url: git@github.com:thingsboard/dart_thingsboard_pe_client.git
       ref: develop/1.0.9
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
