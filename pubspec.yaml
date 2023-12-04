@@ -3,7 +3,7 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.8
+version: 1.0.9
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -11,13 +11,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_pe_client: 1.0.8
+  thingsboard_pe_client:
+    git:
+      url: git://github.com/thingsboard/dart_thingsboard_pe_client
+      ref: develop/1.0.9
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0
   cupertino_icons: ^1.0.6
   fluro: ^2.0.5
   flutter_svg: ^2.0.9
+  jovial_svg: ^1.1.19
   auto_size_text: ^3.0.0-nullsafety.0
   infinite_scroll_pagination: ^4.0.0
   fading_edge_scrollview: ^4.0.0
