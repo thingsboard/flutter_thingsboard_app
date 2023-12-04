@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../constants/app_constants.dart';
@@ -57,25 +57,29 @@ abstract class Utils {
     }
   }
 
-  static Widget imageFromTbImage(ThingsboardClient tbClient,
-      String? imageUrl,
-      {Color? color, double? width, double? height, String? semanticLabel}) {
-    var jwtToken = tbClient.getJwtToken();
-    if (imageUrl == null || imageUrl.isEmpty || jwtToken == null) {
-      return Image.memory(_noImageDataUri,
-          color: color,
-          width: width,
-          height: height,
-          semanticLabel: semanticLabel);
+  static Widget imageFromTbImage(BuildContext context,
+                                 ThingsboardClient tbClient,
+                                 String? imageUrl,
+                                 {Color? color, double? width, double? height, String? semanticLabel,
+                                 Widget Function(BuildContext)? onError}) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return _onErrorImage(context, color: color, width: width, height: height,
+          semanticLabel: semanticLabel, onError: onError);
     } else {
       imageUrl = _removeTbImagePrefix(imageUrl);
       if (_isImageResourceUrl(imageUrl)) {
+        var jwtToken = tbClient.getJwtToken();
+        if (jwtToken == null) {
+          return _onErrorImage(context, color: color, width: width, height: height,
+              semanticLabel: semanticLabel, onError: onError);
+        }
         var parts = imageUrl.split('/');
         var key = parts[parts.length - 1];
         parts[parts.length - 1] = Uri.encodeComponent(key);
         var encodedUrl = parts.join('/');
         var imageLink = ThingsboardAppConstants.thingsBoardApiEndpoint + encodedUrl;
-        return Image.network(imageLink,
+        return _networkImage(context,
+            imageLink,
             headers: {
               _authHeaderName: _authScheme + jwtToken
             },
@@ -83,57 +87,100 @@ abstract class Utils {
             width: width,
             height: height,
             semanticLabel: semanticLabel,
-            errorBuilder: (context, error, stackTrace) =>
-                SvgPicture.network(
-                  imageLink,
-                  headers: {
-                    _authHeaderName: _authScheme + jwtToken
-                  },
-                  colorFilter: color != null ? ColorFilter.mode(
-                      color, BlendMode.srcIn
-                  ) : null,
-                  width: width,
-                  height: height,
-                  semanticsLabel: semanticLabel
-                )
-        );
+            onError: onError);
       } else if (_isBase64DataImageUrl(imageUrl)) {
-        return _imageFromBase64(imageUrl,
+        return _imageFromBase64(context,
+            imageUrl,
             color: color,
             width: width,
             height: height,
-            semanticLabel: semanticLabel);
+            semanticLabel: semanticLabel,
+            onError: onError);
+      } else if (_isValidUrl(imageUrl)) {
+        return _networkImage(context,
+            imageUrl,
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+            onError: onError);
       } else {
-        return Image.network(imageUrl,
-            color: color,
-            width: width,
-            height: height,
-            semanticLabel: semanticLabel);
+        return _onErrorImage(context, color: color, width: width, height: height,
+            semanticLabel: semanticLabel, onError: onError);
       }
     }
   }
 
+  static Widget _networkImage(BuildContext context,
+                              String imageUrl,
+                              { Map<String, String>? headers,
+                                Color? color, double? width, double? height, String? semanticLabel,
+                                Widget Function(BuildContext)? onError}) {
+    return Image.network(imageUrl,
+        headers: headers,
+        color: color,
+        width: width,
+        height: height,
+        semanticLabel: semanticLabel,
+        errorBuilder: (context, error, stackTrace) =>
+            _svgImageFromUrl(context, imageUrl,
+                headers: headers,
+                width: width, height: height, semanticLabel: semanticLabel, onError: onError));
+  }
 
-  static Widget _imageFromBase64(String base64,
-      {Color? color, double? width, double? height, String? semanticLabel}) {
+
+  static Widget _imageFromBase64(BuildContext context,
+                                 String base64,
+                                 {Color? color, double? width, double? height, String? semanticLabel,
+                                 Widget Function(BuildContext)? onError}) {
     var uriData = UriData.parse(base64);
     if (uriData.mimeType == 'image/svg+xml') {
-      ColorFilter? colorFilter;
-      if (color != null) {
-        colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
-      }
-      return SvgPicture.memory(uriData.contentAsBytes(),
-          colorFilter: colorFilter,
-          width: width,
-          height: height,
-          semanticsLabel: semanticLabel);
+      return _svgImageFromUrl(context, base64, color: color, width: width,
+                              height: height, semanticLabel: semanticLabel, onError: onError);
     } else {
       return Image.memory(uriData.contentAsBytes(),
           color: color,
           width: width,
           height: height,
-          semanticLabel: semanticLabel);
+          semanticLabel: semanticLabel,
+          errorBuilder: (context, error, stackTrace) => _onErrorImage(context, color: color, width: width, height: height,
+              semanticLabel: semanticLabel, onError: onError));
     }
+  }
+
+  static Widget _svgImageFromUrl(BuildContext context,
+                                 String imageUrl,
+                                 { Map<String, String>? headers,
+                                   Color? color, double? width, double? height, String? semanticLabel,
+                                   Widget Function(BuildContext)? onError}) {
+    Widget image = ScalableImageWidget.fromSISource(
+                  si: ScalableImageSource.fromSvgHttpUrl(
+                      Uri.parse(imageUrl),
+                      httpHeaders: headers),
+                  onError: (context) => _onErrorImage(context, color: color, width: width, height: height,
+                      semanticLabel: semanticLabel, onError: onError));
+    if (color != null) {
+      var colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+      image = ColorFiltered(
+        colorFilter: colorFilter,
+        child: image,
+      );
+    }
+    return image;
+  }
+
+
+  static Widget _onErrorImage(BuildContext context,
+      {Color? color, double? width, double? height, String? semanticLabel, Widget Function(BuildContext)? onError}) {
+    return onError != null ? onError(context) : _emptyImage(color: color, width: width, height: height, semanticLabel: semanticLabel);
+  }
+
+  static Widget _emptyImage({Color? color, double? width, double? height, String? semanticLabel}) {
+    return Image.memory(_noImageDataUri,
+        color: color,
+        width: width,
+        height: height,
+        semanticLabel: semanticLabel);
   }
 
   static String _removeTbImagePrefix(String url) {
@@ -142,6 +189,10 @@ abstract class Utils {
 
   static bool _isImageResourceUrl(String url) {
     return _imagesUrlRegexp.hasMatch(url);
+  }
+
+  static bool _isValidUrl(String url) {
+    return Uri.tryParse(url) != null;
   }
 
   static bool _isBase64DataImageUrl (String url) {

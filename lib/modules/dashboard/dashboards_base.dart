@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -157,7 +158,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
     var hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      image = Utils.imageFromTbImage(tbClient, widget.dashboard.image!);
+      image = Utils.imageFromTbImage(context, tbClient, widget.dashboard.image!);
     } else {
       image = SvgPicture.asset(ThingsboardImage.dashboardPlaceholder,
           colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.overlay),
