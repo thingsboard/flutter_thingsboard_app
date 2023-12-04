@@ -60,7 +60,7 @@ abstract class Utils {
   static Widget imageFromTbImage(BuildContext context,
                                  ThingsboardClient tbClient,
                                  String? imageUrl,
-                                 {Color? color, double? width, double? height, String? semanticLabel,
+                                 {Color? color, double? width, double? height, String? semanticLabel, bool? loginLogo,
                                  Widget Function(BuildContext)? onError}) {
     if (imageUrl == null || imageUrl.isEmpty) {
       return _onErrorImage(context, color: color, width: width, height: height,
@@ -68,21 +68,30 @@ abstract class Utils {
     } else {
       imageUrl = _removeTbImagePrefix(imageUrl);
       if (_isImageResourceUrl(imageUrl)) {
-        var jwtToken = tbClient.getJwtToken();
-        if (jwtToken == null) {
-          return _onErrorImage(context, color: color, width: width, height: height,
-              semanticLabel: semanticLabel, onError: onError);
-        }
         var parts = imageUrl.split('/');
-        var key = parts[parts.length - 1];
-        parts[parts.length - 1] = Uri.encodeComponent(key);
-        var encodedUrl = parts.join('/');
-        var imageLink = ThingsboardAppConstants.thingsBoardApiEndpoint + encodedUrl;
+        var key = Uri.encodeComponent(parts[parts.length - 1]);
+        String imageLink;
+        Map<String,String>? headers;
+        if (loginLogo != null && loginLogo) {
+          var type = parts[parts.length - 2];
+          imageLink = ThingsboardAppConstants.thingsBoardApiEndpoint + '/api/noauth/whiteLabel/loginLogo/'+type+'/'+key;
+        } else {
+          var jwtToken = tbClient.getJwtToken();
+          if (jwtToken == null) {
+            return _onErrorImage(context, color: color, width: width, height: height,
+                semanticLabel: semanticLabel, onError: onError);
+          }
+          parts[parts.length - 1] = key;
+          var encodedUrl = parts.join('/');
+          imageLink =
+              ThingsboardAppConstants.thingsBoardApiEndpoint + encodedUrl;
+          headers = {
+            _authHeaderName: _authScheme + jwtToken
+          };
+        }
         return _networkImage(context,
             imageLink,
-            headers: {
-              _authHeaderName: _authScheme + jwtToken
-            },
+            headers: headers,
             color: color,
             width: width,
             height: height,
@@ -163,6 +172,13 @@ abstract class Utils {
       var colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
       image = ColorFiltered(
         colorFilter: colorFilter,
+        child: image,
+      );
+    }
+    if (height != null || width != null) {
+      image = SizedBox(
+        width: width,
+        height: height,
         child: image,
       );
     }
