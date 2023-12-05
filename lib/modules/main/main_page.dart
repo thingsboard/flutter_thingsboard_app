@@ -206,6 +206,7 @@ class _MainPageState extends TbPageState<MainPage>
   }
 
   _setIndex(int index) {
+    hideNotification();
     _tabController.index = index;
   }
 }
