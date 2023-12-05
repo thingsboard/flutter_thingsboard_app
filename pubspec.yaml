@@ -23,10 +23,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   fading_edge_scrollview: ^4.0.0
   stream_transform: ^2.1.0
-  flutter_inappwebview:
-    git:
-      url: https://github.com/rshrc/flutter_inappwebview
-      ref: master
+  flutter_inappwebview: ^5.8.0
 #  flutter_downloader: ^1.6.0
 #  permission_handler: ^8.0.0+2
 #  path_provider: ^2.0.2

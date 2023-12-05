@@ -23,8 +23,9 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
     super.reassemble();
     if (Platform.isAndroid) {
       controller!.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller!.resumeCamera();
     }
-    controller!.resumeCamera();
   }
 
   @override
