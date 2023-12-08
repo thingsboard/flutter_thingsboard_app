@@ -407,6 +407,9 @@ class _LoginPageState extends TbPageState<LoginPage> {
         await tbClient.login(LoginRequest(username, password));
       } catch (e) {
         _isLoginNotifier.value = false;
+        if (!(e is ThingsboardError) || e.errorCode == ThingsBoardErrorCode.general) {
+          await tbContext.onFatalError(e);
+        }
       }
     }
   }
