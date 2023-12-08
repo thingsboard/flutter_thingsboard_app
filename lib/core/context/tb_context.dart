@@ -172,11 +172,19 @@ class TbContext {
       await tbClient.init();
     } catch (e, s) {
       log.error('Failed to init tbContext: $e', e, s);
+      await onFatalError(e);
     }
   }
 
   void setMainDashboardHolder(TbMainDashboardHolder holder) {
     _mainDashboardHolder = holder;
+  }
+
+  Future<void> onFatalError(e) async {
+    var message = e is ThingsboardError ? (e.message ?? 'Unknown error.') : 'Unknown error.';
+    message = 'Fatal application error occured:\n' + message + '.';
+    await alert(title: 'Fatal error', message: message, ok: 'Close');
+    tbClient.logout();
   }
 
   void onError(ThingsboardError tbError) {
@@ -499,6 +507,21 @@ class TbContext {
       }
     }
     return false;
+  }
+
+  Future<void> alert(
+      {required String title,
+        required String message,
+        String ok = 'Ok'}) {
+    return showDialog<bool>(
+        context: currentState!.context,
+        builder: (context) => AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(onPressed: () => pop(null, context), child: Text(ok))
+          ],
+        ));
   }
 
   Future<bool?> confirm(
