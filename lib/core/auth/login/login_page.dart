@@ -351,6 +351,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
         await tbClient.login(LoginRequest(username, password));
       } catch (e) {
         _isLoginNotifier.value = false;
+        showErrorNotification(e is ThingsboardError ? (e.message ?? 'Login failed!') : 'Login failed!');
       }
     }
   }
