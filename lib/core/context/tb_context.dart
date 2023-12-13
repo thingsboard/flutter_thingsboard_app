@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
@@ -97,7 +98,7 @@ abstract class TbMainDashboardHolder {
   Future<bool> dashboardGoBack();
 }
 
-class TbContext {
+class TbContext implements PopEntry {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   bool _initialized = false;
   bool isUserLoaded = false;
@@ -115,6 +116,9 @@ class TbContext {
   late final String packageName;
   TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
+
+  final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
+  PopInvokedCallback get onPopInvoked => onPopInvokedImpl;
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -501,6 +505,22 @@ class TbContext {
     return true;
   }
 
+  void onPopInvokedImpl(bool didPop) async {
+    if (didPop) {
+      return;
+    }
+    if (await willPop()) {
+      if (await currentState!.willPop()) {
+        var navigator = Navigator.of(currentState!.context);
+        if (navigator.canPop()) {
+          navigator.pop();
+        } else {
+          SystemNavigator.pop();
+        }
+      }
+    }
+  }
+
   Future<bool> closeMainIfNeeded() async {
     if (currentState != null) {
       if (currentState!.closeMainFirst && _mainDashboardHolder != null) {
@@ -554,13 +574,13 @@ mixin HasTbContext {
     if (_tbContext.currentState != null) {
       // ignore: deprecated_member_use
       ModalRoute.of(_tbContext.currentState!.context)
-          ?.removeScopedWillPopCallback(_tbContext.willPop);
+          ?.unregisterPopEntry(_tbContext);
     }
     _tbContext.currentState = currentState;
     if (_tbContext.currentState != null) {
       // ignore: deprecated_member_use
       ModalRoute.of(_tbContext.currentState!.context)
-          ?.addScopedWillPopCallback(_tbContext.willPop);
+          ?.registerPopEntry(_tbContext);
     }
     if (_tbContext._closeMainFirst) {
       _tbContext._closeMainFirst = false;
