@@ -157,10 +157,12 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
     var hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, tbClient, widget.dashboard.image!);
+      image =
+          Utils.imageFromTbImage(context, tbClient, widget.dashboard.image!);
     } else {
       image = SvgPicture.asset(ThingsboardImage.dashboardPlaceholder,
-          colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.overlay),
+          colorFilter: ColorFilter.mode(
+              Theme.of(context).primaryColor, BlendMode.overlay),
           semanticsLabel: 'Dashboard');
     }
     return ClipRRect(

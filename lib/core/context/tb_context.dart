@@ -181,7 +181,9 @@ class TbContext {
   }
 
   Future<void> onFatalError(e) async {
-    var message = e is ThingsboardError ? (e.message ?? 'Unknown error.') : 'Unknown error.';
+    var message = e is ThingsboardError
+        ? (e.message ?? 'Unknown error.')
+        : 'Unknown error.';
     message = 'Fatal application error occured:\n' + message + '.';
     await alert(title: 'Fatal error', message: message, ok: 'Close');
     tbClient.logout();
@@ -510,18 +512,16 @@ class TbContext {
   }
 
   Future<void> alert(
-      {required String title,
-        required String message,
-        String ok = 'Ok'}) {
+      {required String title, required String message, String ok = 'Ok'}) {
     return showDialog<bool>(
         context: currentState!.context,
         builder: (context) => AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(onPressed: () => pop(null, context), child: Text(ok))
-          ],
-        ));
+              title: Text(title),
+              content: Text(message),
+              actions: [
+                TextButton(onPressed: () => pop(null, context), child: Text(ok))
+              ],
+            ));
   }
 
   Future<bool?> confirm(
@@ -553,12 +553,14 @@ mixin HasTbContext {
   void setupCurrentState(TbContextState currentState) {
     if (_tbContext.currentState != null) {
       // ignore: deprecated_member_use
-      ModalRoute.of(_tbContext.currentState!.context)?.removeScopedWillPopCallback(_tbContext.willPop);
+      ModalRoute.of(_tbContext.currentState!.context)
+          ?.removeScopedWillPopCallback(_tbContext.willPop);
     }
     _tbContext.currentState = currentState;
     if (_tbContext.currentState != null) {
       // ignore: deprecated_member_use
-      ModalRoute.of(_tbContext.currentState!.context)?.addScopedWillPopCallback(_tbContext.willPop);
+      ModalRoute.of(_tbContext.currentState!.context)
+          ?.addScopedWillPopCallback(_tbContext.willPop);
     }
     if (_tbContext._closeMainFirst) {
       _tbContext._closeMainFirst = false;

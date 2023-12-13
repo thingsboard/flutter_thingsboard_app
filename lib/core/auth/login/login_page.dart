@@ -74,7 +74,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     ThingsboardImage.thingsBoardWithTitle,
                                     height: 25,
                                     colorFilter: ColorFilter.mode(
-                                        Theme.of(context).primaryColor, BlendMode.srcIn),
+                                        Theme.of(context).primaryColor,
+                                        BlendMode.srcIn),
                                     semanticsLabel:
                                         '${S.of(context).logoDefaultValue}')
                               ]),
@@ -351,7 +352,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
         await tbClient.login(LoginRequest(username, password));
       } catch (e) {
         _isLoginNotifier.value = false;
-        if (!(e is ThingsboardError) || e.errorCode == ThingsBoardErrorCode.general) {
+        if (!(e is ThingsboardError) ||
+            e.errorCode == ThingsBoardErrorCode.general) {
           await tbContext.onFatalError(e);
         }
       }

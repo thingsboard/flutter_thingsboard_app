@@ -48,8 +48,7 @@ class _HomePageState extends TbContextState<HomePage>
                 height: 24,
                 child: SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
                     colorFilter: ColorFilter.mode(
-                        Theme.of(context).primaryColor, BlendMode.srcIn 
-                    ),
+                        Theme.of(context).primaryColor, BlendMode.srcIn),
                     semanticsLabel: 'ThingsBoard Logo'))),
         actions: [
           if (tbClient.isSystemAdmin())

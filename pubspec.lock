@@ -862,10 +862,10 @@ packages:
     dependency: "direct main"
     description:
       name: thingsboard_client
-      sha256: c4579b739eb997ff88f86a51e85719a13d24ef21246e925692e5a354fe75d161
+      sha256: addae7f2ae7c14234f97c64313f4f7a1f98765624cda04935dd5cce329d364bf
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.7"
+    version: "1.0.8"
   typed_data:
     dependency: transitive
     description:

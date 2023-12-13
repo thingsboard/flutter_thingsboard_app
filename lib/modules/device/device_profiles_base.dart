@@ -296,8 +296,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     } else {
       image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
           colorFilter: ColorFilter.mode(
-            Theme.of(context).primaryColor, BlendMode.overlay
-          ),
+              Theme.of(context).primaryColor, BlendMode.overlay),
           semanticsLabel: 'Device profile');
       imageFit = BoxFit.cover;
       padding = 0;
