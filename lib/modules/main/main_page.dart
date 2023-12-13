@@ -149,40 +149,37 @@ class _MainPageState extends TbPageState<MainPage>
   }
 
   @override
+  Future<bool> willPop() async {
+    if (_tabController.index > 0) {
+      _setIndex(0);
+      return false;
+    }
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
     // ignore: deprecated_member_use
-    return WillPopScope(
-        onWillPop: () async {
-          if (!await tbContext.willPop()) {
-            return false;
-          }
-          if (_tabController.index > 0) {
-            _setIndex(0);
-            return false;
-          }
-          return true;
-        },
-        child: Scaffold(
-            body: TabBarView(
-              physics: tbContext.homeDashboard != null
-                  ? NeverScrollableScrollPhysics()
-                  : null,
-              controller: _tabController,
-              children: _tabItems.map((item) => item.page).toList(),
-            ),
-            bottomNavigationBar: ValueListenableBuilder<int>(
-              valueListenable: _currentIndexNotifier,
-              builder: (context, index, child) => BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: index,
-                  onTap: (int index) =>
-                      _setIndex(index) /*_currentIndex = index*/,
-                  items: _tabItems
-                      .map((item) => BottomNavigationBarItem(
-                          icon: item.icon, label: item.title))
-                      .toList()),
-            )));
+    return Scaffold(
+        body: TabBarView(
+          physics: tbContext.homeDashboard != null
+              ? NeverScrollableScrollPhysics()
+              : null,
+          controller: _tabController,
+          children: _tabItems.map((item) => item.page).toList(),
+        ),
+        bottomNavigationBar: ValueListenableBuilder<int>(
+          valueListenable: _currentIndexNotifier,
+          builder: (context, index, child) => BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: index,
+              onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+              items: _tabItems
+                  .map((item) => BottomNavigationBarItem(
+                      icon: item.icon, label: item.title))
+                  .toList()),
+        ));
   }
 
   int _indexFromPath(String path) {
