@@ -65,8 +65,8 @@ class _EmailVerifiedPageState extends TbPageState<EmailVerifiedPage> {
                                         ThingsboardImage.emailVerified,
                                         height: 85,
                                         colorFilter: ColorFilter.mode(
-                                            Theme.of(context).primaryColor, BlendMode.srcIn
-                                        ),
+                                            Theme.of(context).primaryColor,
+                                            BlendMode.srcIn),
                                         semanticsLabel:
                                             '${S.of(context).emailVerified}'),
                                   SizedBox(height: 77),

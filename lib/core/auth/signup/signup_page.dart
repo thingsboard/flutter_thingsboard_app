@@ -359,8 +359,7 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
               valueListenable: _isSignUpNotifier,
               builder: (BuildContext context, bool loading, child) {
                 if (loading) {
-                  var data =
-                      MediaQueryData.fromView(View.of(context));
+                  var data = MediaQueryData.fromView(View.of(context));
                   var bottomPadding = data.padding.top;
                   bottomPadding += kToolbarHeight;
                   return SizedBox.expand(

@@ -21,17 +21,13 @@ class WlService {
   static final _defaultLogo = SvgPicture.asset(
       ThingsboardImage.thingsBoardWithTitle,
       height: 36 / 3 * 2,
-      colorFilter: ColorFilter.mode(
-          TbThemeUtils.tbPrimary, BlendMode.srcIn
-      ),
+      colorFilter: ColorFilter.mode(TbThemeUtils.tbPrimary, BlendMode.srcIn),
       semanticsLabel: 'ThingsBoard Logo');
 
   static final _defaultLoginLogo = SvgPicture.asset(
       ThingsboardImage.thingsBoardWithTitle,
       height: 50 / 3 * 2,
-      colorFilter: ColorFilter.mode(
-          TbThemeUtils.tbPrimary, BlendMode.srcIn
-      ),
+      colorFilter: ColorFilter.mode(TbThemeUtils.tbPrimary, BlendMode.srcIn),
       semanticsLabel: 'ThingsBoard Logo');
 
   static WhiteLabelingParams _createDefaultWlParams() => WhiteLabelingParams(
@@ -225,7 +221,8 @@ class WlService {
       _loginWlParams = loginWlParams;
       _loginThemeData =
           TbThemeUtils.createTheme(_loginWlParams!.paletteSettings);
-      await _updateImages(_tbContext.currentState!.context, _tbContext.tbClient, _loginWlParams!, _loginThemeData!, true);
+      await _updateImages(_tbContext.currentState!.context, _tbContext.tbClient,
+          _loginWlParams!, _loginThemeData!, true);
       loginWlChanged = true;
     }
     if (loginWlChanged || _isUserWlMode) {
@@ -249,7 +246,8 @@ class WlService {
     if (!_wlIsEqual(_wlParams, userWlParams)) {
       _wlParams = userWlParams;
       _themeData = TbThemeUtils.createTheme(_wlParams!.paletteSettings);
-      await _updateImages(_tbContext.currentState!.context, _tbContext.tbClient, _wlParams!, _themeData!, false);
+      await _updateImages(_tbContext.currentState!.context, _tbContext.tbClient,
+          _wlParams!, _themeData!, false);
       userWlChanged = true;
     }
     if (userWlChanged || !_isUserWlMode) {
@@ -265,13 +263,14 @@ class WlService {
     if (wlParams.logoImageUrl == DEFAULT_LOGO_URL) {
       image = SvgPicture.asset(ThingsboardImage.thingsBoardWithTitle,
           height: height,
-          colorFilter: ColorFilter.mode(
-              themeData.primaryColor, BlendMode.srcIn
-          ),
+          colorFilter:
+              ColorFilter.mode(themeData.primaryColor, BlendMode.srcIn),
           semanticsLabel: 'ThingsBoard Logo');
     } else {
       image = Utils.imageFromTbImage(context, tbClient, wlParams.logoImageUrl!,
-          height: height, semanticLabel: 'ThingsBoard Logo', loginLogo: isLogin);
+          height: height,
+          semanticLabel: 'ThingsBoard Logo',
+          loginLogo: isLogin);
     }
     if (isLogin) {
       _loginLogo = image;

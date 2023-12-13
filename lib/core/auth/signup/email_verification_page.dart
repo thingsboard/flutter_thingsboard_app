@@ -37,8 +37,8 @@ class _EmailVerificationPageState extends TbPageState<EmailVerificationPage> {
                           SvgPicture.asset(ThingsboardImage.emailVerification,
                               height: 50,
                               colorFilter: ColorFilter.mode(
-                                  Theme.of(context).primaryColor, BlendMode.srcIn
-                              ),
+                                  Theme.of(context).primaryColor,
+                                  BlendMode.srcIn),
                               semanticsLabel:
                                   '${S.of(context).emailVerification}'),
                           SizedBox(height: 48),
