@@ -39,6 +39,12 @@ class _SignUpPageState extends TbPageState<SignUpPage> {
   }
 
   @override
+  Future<bool> willPop() async {
+    navigateTo('/login', replace: true);
+    return false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
