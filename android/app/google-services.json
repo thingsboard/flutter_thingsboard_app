@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009973759579",
+    "project_id": "notification-tb",
+    "storage_bucket": "notification-tb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009973759579:android:304c66fd32953805a3b97e",
+        "android_client_info": {
+          "package_name": "org.thingsboard.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009973759579-rfso13b8nlg6om11ih69efj1ncvedu1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6Tans2X5hq2gWoBl7I-lI1sE90CNnXrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009973759579-rfso13b8nlg6om11ih69efj1ncvedu1l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

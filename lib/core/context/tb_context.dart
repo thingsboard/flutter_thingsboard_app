@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
@@ -190,7 +191,7 @@ class TbContext implements PopEntry {
         : 'Unknown error.';
     message = 'Fatal application error occured:\n' + message + '.';
     await alert(title: 'Fatal error', message: message, ok: 'Close');
-    tbClient.logout();
+    logout();
   }
 
   void onError(ThingsboardError tbError) {
@@ -278,9 +279,10 @@ class TbContext implements PopEntry {
             userDetails = await tbClient.getUserService().getUser();
             homeDashboard =
                 await tbClient.getDashboardService().getHomeDashboardInfo();
+            NotificationService().init(tbClient, log);
           } catch (e) {
             if (!_isConnectionError(e)) {
-              tbClient.logout();
+              logout();
             } else {
               rethrow;
             }
@@ -322,6 +324,11 @@ class TbContext implements PopEntry {
         }
       }
     }
+  }
+
+  Future<void> logout({RequestConfig? requestConfig}) async {
+    await NotificationService().logout();
+    tbClient.logout(requestConfig: requestConfig);
   }
 
   bool _isConnectionError(e) {

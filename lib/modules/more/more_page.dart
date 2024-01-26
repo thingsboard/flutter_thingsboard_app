@@ -75,7 +75,7 @@ class _MorePageState extends TbContextState<MorePage> {
                                     height: 20 / 14))
                           ]))),
                   onTap: () {
-                    tbClient.logout(
+                    tbContext.logout(
                         requestConfig: RequestConfig(ignoreErrors: true));
                   })
             ],

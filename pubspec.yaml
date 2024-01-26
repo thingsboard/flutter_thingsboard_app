@@ -11,7 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: 1.0.8
+  thingsboard_client:
+    git:
+      url: git@github.com:thingsboard/dart_thingsboard_client.git
+      ref: improvemnt/push-notificaion
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0
@@ -45,6 +48,9 @@ dependencies:
   preload_page_view: ^0.2.0
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+  flutter_local_notifications: ^16.3.0
 
 dev_dependencies:
   flutter_test:
