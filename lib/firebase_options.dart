@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA6s7Xc1EsLDuBkBcz2Bi2svul5gdVE1x4',
-    appId: '1:1009973759579:ios:461db5759ee5b55ba3b97e',
+    appId: '1:1009973759579:ios:bcb77129a98de905a3b97e',
     messagingSenderId: '1009973759579',
     projectId: 'notification-tb',
     storageBucket: 'notification-tb.appspot.com',
-    iosBundleId: 'org.thingsboard.app',
+    iosBundleId: 'org.thingsboard.dev',
   );
 }
