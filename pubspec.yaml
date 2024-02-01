@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   thingsboard_client:
     git:
-      url: git@github.com:thingsboard/dart_thingsboard_client.git
+      url: https://github.com/thingsboard/dart_thingsboard_client.git
       ref: improvemnt/push-notificaion
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0

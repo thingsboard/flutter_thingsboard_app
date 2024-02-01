@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -100,17 +102,24 @@ class NotificationService {
       return result;
     }
 
-    /// Update the iOS foreground notification presentation options to allow
-    /// heads up notifications.
-    await _messaging.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    if (Platform.isIOS) {
+      await _messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
     return result;
   }
 
   Future<String?> getToken() async {
+    if (Platform.isIOS) {
+      var apnsToken = await _messaging.getAPNSToken();
+      _log.debug('APNS token: $apnsToken');
+      if (apnsToken == null) {
+        return null;
+      }
+    }
     _fcmToken = await _messaging.getToken();
     return _fcmToken;
   }
@@ -171,6 +180,7 @@ class NotificationService {
 
   void _subscribeOnForegroundMessage() {
     FirebaseMessaging.onMessage.listen((message) {
+      _log.debug('Message:' + message.toString());
       showNotification(message);
     });
   }
