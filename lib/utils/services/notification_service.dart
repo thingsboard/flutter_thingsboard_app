@@ -15,11 +15,9 @@ Future<void> _backgroundHandler(RemoteMessage message) async {
 class NotificationService {
   static final NotificationService _instance = NotificationService._();
   static FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  late final NotificationDetails _notificationDetails;
-  late final TbLogger _log;
-  late final ThingsboardClient _tbClient;
-
-  bool isFlutterLocalNotificationsInitialized = false;
+  late NotificationDetails _notificationDetails;
+  late TbLogger _log;
+  late ThingsboardClient _tbClient;
 
   String? _fcmToken;
 
@@ -33,9 +31,6 @@ class NotificationService {
   Future<void> init(ThingsboardClient tbClient, TbLogger log) async {
     _log = log;
     _tbClient = tbClient;
-    if (isFlutterLocalNotificationsInitialized) {
-      return;
-    }
     var settings = await _requestPermission();
     _log.debug('Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
@@ -47,7 +42,30 @@ class NotificationService {
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
     }
-    isFlutterLocalNotificationsInitialized = true;
+  }
+
+  Future<String?> getToken() async {
+    if (Platform.isIOS) {
+      var apnsToken = await _messaging.getAPNSToken();
+      _log.debug('APNS token: $apnsToken');
+      if (apnsToken == null) {
+        return null;
+      }
+    }
+    _fcmToken = await _messaging.getToken();
+    return _fcmToken;
+  }
+
+  Future<RemoteMessage?> initialMessage() async {
+    return _messaging.getInitialMessage();
+  }
+
+  Future<void> logout() async {
+    if (_fcmToken != null) {
+      _tbClient.getUserService().removeMobileSession(_fcmToken!);
+    }
+    await _messaging.setAutoInitEnabled(false);
+    await _messaging.deleteToken();
   }
 
   Future<void> _configFirebaseMessaging() async {
@@ -112,32 +130,12 @@ class NotificationService {
     return result;
   }
 
-  Future<String?> getToken() async {
-    if (Platform.isIOS) {
-      var apnsToken = await _messaging.getAPNSToken();
-      _log.debug('APNS token: $apnsToken');
-      if (apnsToken == null) {
-        return null;
-      }
-    }
-    _fcmToken = await _messaging.getToken();
-    return _fcmToken;
-  }
-
   Future<String?> _resetToken(String? token) async {
     if (token != null) {
       _tbClient.getUserService().removeMobileSession(token);
     }
     await _messaging.deleteToken();
     return await getToken();
-  }
-
-  Future<void> logout() async {
-    if (_fcmToken != null) {
-      _tbClient.getUserService().removeMobileSession(_fcmToken!);
-    }
-    await _messaging.setAutoInitEnabled(false);
-    await _messaging.deleteToken();
   }
 
   Future<void> _getAndSaveToken() async {
@@ -170,9 +168,8 @@ class NotificationService {
   void showNotification(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
-    AppleNotification? iOs = message.notification?.apple;
 
-    if (notification != null && (android != null || iOs != null)) {
+    if (notification != null && android != null) {
       flutterLocalNotificationsPlugin.show(notification.hashCode,
           notification.title, notification.body, _notificationDetails);
     }

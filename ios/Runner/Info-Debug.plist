@@ -22,6 +22,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+    <false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
