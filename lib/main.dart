@@ -1,18 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:universal_platform/universal_platform.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'config/themes/tb_theme.dart';
-import 'generated/l10n.dart';
 import 'firebase_options.dart';
+import 'generated/l10n.dart';
 
 final appRouter = ThingsboardAppRouter();
 
@@ -25,9 +25,7 @@ void main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ThingsboardApp());
 }
 
@@ -52,6 +50,25 @@ class ThingsboardAppState extends State<ThingsboardApp>
   void initState() {
     super.initState();
     appRouter.tbContext.setMainDashboardHolder(this);
+
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (message) async {
+        final message = await FirebaseMessaging.instance.getInitialMessage();
+        if (message == null) {
+          return;
+        }
+
+        final data = message.data;
+        if (data['onClick.enabled'] == 'true') {
+          if (data['onClick.linkType'] == 'DASHBOARD') {
+            final dashboardId = data['onClick.dashboardId'];
+            if (dashboardId != null) {
+              navigateToDashboard(dashboardId);
+            }
+          }
+        }
+      },
+    );
   }
 
   @override
