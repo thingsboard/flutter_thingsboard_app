@@ -120,6 +120,7 @@ class TbContext implements PopEntry {
   bool _closeMainFirst = false;
 
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
+
   PopInvokedCallback get onPopInvoked => onPopInvokedImpl;
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
@@ -137,6 +138,7 @@ class TbContext implements PopEntry {
   }
 
   TbLogger get log => _log;
+
   WidgetActionHandler get widgetActionHandler => _widgetActionHandler;
 
   Future<void> init() async {
@@ -480,11 +482,14 @@ class TbContext implements PopEntry {
   }
 
   Future<T?> showFullScreenDialog<T>(Widget dialog) {
-    return Navigator.of(currentState!.context).push<T>(new MaterialPageRoute<T>(
+    return Navigator.of(currentState!.context).push<T>(
+      new MaterialPageRoute<T>(
         builder: (BuildContext context) {
           return dialog;
         },
-        fullscreenDialog: true));
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   void pop<T>([T? result, BuildContext? context]) async {

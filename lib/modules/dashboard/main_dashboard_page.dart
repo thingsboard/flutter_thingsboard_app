@@ -92,44 +92,48 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TbAppBar(
-          tbContext,
-          leading: BackButton(onPressed: () {
-            maybePop();
-          }),
-          showLoadingIndicator: false,
-          elevation: 1,
-          shadowColor: Colors.transparent,
-          title: ValueListenableBuilder<String>(
-            valueListenable: dashboardTitleValue,
-            builder: (context, title, widget) {
-              return FittedBox(
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.centerLeft,
-                  child: Text(title));
-            },
-          ),
-          actions: [
-            ValueListenableBuilder<bool>(
-                valueListenable: hasRightLayout,
-                builder: (context, _hasRightLayout, widget) {
-                  if (_hasRightLayout) {
-                    return IconButton(
-                        onPressed: () =>
-                            _dashboardController?.toggleRightLayout(),
-                        icon: AnimatedIcon(
-                            progress: rightLayoutMenuAnimation,
-                            icon: AnimatedIcons.menu_close));
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                })
-          ],
+      appBar: TbAppBar(
+        tbContext,
+        leading: BackButton(onPressed: maybePop),
+        showLoadingIndicator: false,
+        elevation: 1,
+        shadowColor: Colors.transparent,
+        title: ValueListenableBuilder<String>(
+          valueListenable: dashboardTitleValue,
+          builder: (context, title, widget) {
+            return FittedBox(
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.centerLeft,
+              child: Text(title),
+            );
+          },
         ),
-        body: Dashboard(tbContext, activeByDefault: false,
-            titleCallback: (title) {
+        actions: [
+          ValueListenableBuilder<bool>(
+            valueListenable: hasRightLayout,
+            builder: (context, _hasRightLayout, widget) {
+              if (_hasRightLayout) {
+                return IconButton(
+                  onPressed: () => _dashboardController?.toggleRightLayout(),
+                  icon: AnimatedIcon(
+                    progress: rightLayoutMenuAnimation,
+                    icon: AnimatedIcons.menu_close,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          )
+        ],
+      ),
+      body: Dashboard(
+        tbContext,
+        activeByDefault: false,
+        titleCallback: (title) {
           dashboardTitleValue.value = title;
-        }, controllerCallback: (controller) {
+        },
+        controllerCallback: (controller) {
           _dashboardController = controller;
           if (widget._controller != null) {
             widget._controller!._setDashboardController(controller);
@@ -144,6 +148,8 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
               }
             });
           }
-        }));
+        },
+      ),
+    );
   }
 }

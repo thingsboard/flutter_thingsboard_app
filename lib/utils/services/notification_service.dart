@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/firebase_options.dart';
+import 'package:thingsboard_app/modules/url/url_page.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -51,32 +52,6 @@ class NotificationService {
 
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
-
-      FirebaseMessaging.onMessageOpenedApp.listen(
-        (message) async {
-          final message = await _messaging.getInitialMessage();
-          if (message == null) {
-            return;
-          }
-
-          final data = message.data;
-          if (data['onClick.enabled'] == 'true') {
-            if (data['onClick.linkType'] == 'DASHBOARD') {
-              final dashboardId = data['onClick.dashboardId'];
-              var entityId;
-              if (data['stateEntityId'] != null && data['stateEntityType'] != null) {
-                entityId = EntityId.fromTypeAndUuid(entityTypeFromString(data['stateEntityType']), data['stateEntityId']);
-              }
-              final state = Utils.createDashboardEntityState(entityId, stateId:  data['onClick.dashboardState']);
-              if (dashboardId != null) {
-                _tbContext.navigateToDashboard(dashboardId,
-                    state: state
-                );
-              }
-            }
-          }
-        },
-      );
     }
   }
 
@@ -124,21 +99,7 @@ class NotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         final data = json.decode(response.payload ?? '');
-        if (data['onClick.enabled'] == 'true') {
-          if (data['onClick.linkType'] == 'DASHBOARD') {
-            final dashboardId = data['onClick.dashboardId'];
-            var entityId;
-            if (data['stateEntityId'] != null && data['stateEntityType'] != null) {
-              entityId = EntityId.fromTypeAndUuid(entityTypeFromString(data['stateEntityType']), data['stateEntityId']);
-            }
-            final state = Utils.createDashboardEntityState(entityId, stateId:  data['onClick.dashboardState']);
-            if (dashboardId != null) {
-              _tbContext.navigateToDashboard(dashboardId,
-                state: state
-              );
-            }
-          }
-        }
+        handleNotification(data, _tbContext);
       },
     );
 
@@ -240,5 +201,43 @@ class NotificationService {
       _log.debug('Message:' + message.toString());
       showNotification(message);
     });
+  }
+
+  static void handleNotification(
+    Map<String, dynamic> data,
+    TbContext tbContext,
+  ) {
+    if (data['onClick.enabled'] == 'true') {
+      switch (data['onClick.linkType']) {
+        case 'DASHBOARD':
+          final dashboardId = data['onClick.dashboardId'];
+          var entityId;
+          if (data['stateEntityId'] != null &&
+              data['stateEntityType'] != null) {
+            entityId = EntityId.fromTypeAndUuid(
+                entityTypeFromString(data['stateEntityType']),
+                data['stateEntityId']);
+          }
+          final state = Utils.createDashboardEntityState(entityId,
+              stateId: data['onClick.dashboardState']);
+          if (dashboardId != null) {
+            tbContext.navigateToDashboard(dashboardId, state: state);
+          }
+
+          break;
+        case 'LINK':
+          final link = data['onClick.link'];
+          if (link != null) {
+            tbContext.showFullScreenDialog(
+              UrlPage(
+                url: link,
+                tbContext: tbContext,
+              ),
+            );
+          }
+
+          break;
+      }
+    }
   }
 }
