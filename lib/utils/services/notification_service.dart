@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/modules/url/url_page.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
@@ -63,8 +64,15 @@ class NotificationService {
           if (data['onClick.enabled'] == 'true') {
             if (data['onClick.linkType'] == 'DASHBOARD') {
               final dashboardId = data['onClick.dashboardId'];
+              var entityId;
+              if (data['stateEntityId'] != null && data['stateEntityType'] != null) {
+                entityId = EntityId.fromTypeAndUuid(entityTypeFromString(data['stateEntityType']), data['stateEntityId']);
+              }
+              final state = Utils.createDashboardEntityState(entityId, stateId:  data['onClick.dashboardState']);
               if (dashboardId != null) {
-                _tbContext.navigateToDashboard(dashboardId);
+                _tbContext.navigateToDashboard(dashboardId,
+                    state: state
+                );
               }
             }
           }
@@ -118,6 +126,18 @@ class NotificationService {
       onDidReceiveNotificationResponse: (response) {
         final data = json.decode(response.payload ?? '');
         if (data['onClick.enabled'] == 'true') {
+          if (data['onClick.linkType'] == 'DASHBOARD') {
+            final dashboardId = data['onClick.dashboardId'];
+            var entityId;
+            if (data['stateEntityId'] != null && data['stateEntityType'] != null) {
+              entityId = EntityId.fromTypeAndUuid(entityTypeFromString(data['stateEntityType']), data['stateEntityId']);
+            }
+            final state = Utils.createDashboardEntityState(entityId, stateId:  data['onClick.dashboardState']);
+            if (dashboardId != null) {
+              _tbContext.navigateToDashboard(dashboardId,
+                state: state
+              );
+            }
           switch (data['onClick.linkType']) {
             case 'DASHBOARD':
               final dashboardId = data['onClick.dashboardId'];
