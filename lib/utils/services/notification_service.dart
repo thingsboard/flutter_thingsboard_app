@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/firebase_options.dart';
+import 'package:thingsboard_app/modules/url/url_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
@@ -117,11 +118,26 @@ class NotificationService {
       onDidReceiveNotificationResponse: (response) {
         final data = json.decode(response.payload ?? '');
         if (data['onClick.enabled'] == 'true') {
-          if (data['onClick.linkType'] == 'DASHBOARD') {
-            final dashboardId = data['onClick.dashboardId'];
-            if (dashboardId != null) {
-              _tbContext.navigateToDashboard(dashboardId);
-            }
+          switch (data['onClick.linkType']) {
+            case 'DASHBOARD':
+              final dashboardId = data['onClick.dashboardId'];
+              if (dashboardId != null) {
+                _tbContext.navigateToDashboard(dashboardId);
+              }
+
+              break;
+            case 'LINK':
+              final link = data['onClick.link'];
+              if (link != null) {
+                _tbContext.showFullScreenDialog(
+                  UrlPage(
+                    url: link,
+                    tbContext: _tbContext,
+                  ),
+                );
+              }
+
+              break;
           }
         }
       },
