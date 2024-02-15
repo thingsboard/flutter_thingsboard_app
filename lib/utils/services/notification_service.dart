@@ -137,11 +137,7 @@ class NotificationService {
     }
 
     if (Platform.isIOS) {
-      await _messaging.setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+      _messaging.setForegroundNotificationPresentationOptions();
     }
     return result;
   }
