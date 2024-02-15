@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ class NotificationService {
   late NotificationDetails _notificationDetails;
   late TbLogger _log;
   late ThingsboardClient _tbClient;
+  late TbContext _tbContext;
 
   String? _fcmToken;
 
@@ -28,11 +30,18 @@ class NotificationService {
 
   factory NotificationService() => _instance;
 
-  Future<void> init(ThingsboardClient tbClient, TbLogger log) async {
+  Future<void> init(
+    ThingsboardClient tbClient,
+    TbLogger log,
+    TbContext context,
+  ) async {
     _log = log;
     _tbClient = tbClient;
+    _tbContext = context;
+
     var settings = await _requestPermission();
-    _log.debug('Notification authorizationStatus: ${settings.authorizationStatus}');
+    _log.debug(
+        'Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       _getAndSaveToken();
@@ -41,6 +50,25 @@ class NotificationService {
 
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
+
+      FirebaseMessaging.onMessageOpenedApp.listen(
+        (message) async {
+          final message = await _messaging.getInitialMessage();
+          if (message == null) {
+            return;
+          }
+
+          final data = message.data;
+          if (data['onClick.enabled'] == 'true') {
+            if (data['onClick.linkType'] == 'DASHBOARD') {
+              final dashboardId = data['onClick.dashboardId'];
+              if (dashboardId != null) {
+                _tbContext.navigateToDashboard(dashboardId);
+              }
+            }
+          }
+        },
+      );
     }
   }
 
@@ -74,19 +102,30 @@ class NotificationService {
   }
 
   Future<void> _initFlutterLocalNotificationsPlugin() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
+    const initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings();
+    const initializationSettingsIOS = DarwinInitializationSettings();
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
+    const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (response) {
+        final data = json.decode(response.payload ?? '');
+        if (data['onClick.enabled'] == 'true') {
+          if (data['onClick.linkType'] == 'DASHBOARD') {
+            final dashboardId = data['onClick.dashboardId'];
+            if (dashboardId != null) {
+              _tbContext.navigateToDashboard(dashboardId);
+            }
+          }
+        }
+      },
+    );
 
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'general',
@@ -101,8 +140,9 @@ class NotificationService {
         DarwinNotificationDetails();
 
     _notificationDetails = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
   }
 
   Future<NotificationSettings> _requestPermission() async {
@@ -170,8 +210,13 @@ class NotificationService {
     AndroidNotification? android = message.notification?.android;
 
     if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(notification.hashCode,
-          notification.title, notification.body, _notificationDetails);
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        _notificationDetails,
+        payload: json.encode(message.data),
+      );
     }
   }
 

@@ -1,21 +1,22 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:universal_platform/universal_platform.dart';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
 
@@ -279,7 +280,7 @@ class TbContext implements PopEntry {
             userDetails = await tbClient.getUserService().getUser();
             homeDashboard =
                 await tbClient.getDashboardService().getHomeDashboardInfo();
-            NotificationService().init(tbClient, log);
+            NotificationService().init(tbClient, log, this);
           } catch (e) {
             if (!_isConnectionError(e)) {
               logout();
