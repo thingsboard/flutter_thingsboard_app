@@ -28,18 +28,27 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   @override
   void onEntityTap(EntityData device) async {
     var profile = await DeviceProfileCache.getDeviceProfileInfo(
-        tbClient, device.field('type')!, device.entityId.id!);
+      tbClient,
+      device.field('type')!,
+      device.entityId.id!,
+    );
     if (profile.defaultDashboardId != null) {
       var dashboardId = profile.defaultDashboardId!.id!;
-      var state = Utils.createDashboardEntityState(device.entityId,
-          entityName: device.field('name')!,
-          entityLabel: device.field('label')!);
-      navigateToDashboard(dashboardId,
-          dashboardTitle: device.field('name'), state: state);
+      var state = Utils.createDashboardEntityState(
+        device.entityId,
+        entityName: device.field('name')!,
+        entityLabel: device.field('label')!,
+      );
+      navigateToDashboard(
+        dashboardId,
+        dashboardTitle: device.field('name'),
+        state: state,
+      );
     } else {
       if (tbClient.isTenantAdmin()) {
         showWarnNotification(
-            'Mobile dashboard should be configured in device profile!');
+          'Mobile dashboard should be configured in device profile!',
+        );
       }
     }
   }
@@ -62,26 +71,36 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   bool displayCardImage(bool listWidgetCard) => listWidgetCard;
 
   Widget _buildEntityListCard(
-      BuildContext context, EntityData device, bool listWidgetCard) {
-    return DeviceCard(tbContext,
-        device: device,
-        listWidgetCard: listWidgetCard,
-        displayImage: displayCardImage(listWidgetCard));
+    BuildContext context,
+    EntityData device,
+    bool listWidgetCard,
+  ) {
+    return DeviceCard(
+      tbContext,
+      device: device,
+      listWidgetCard: listWidgetCard,
+      displayImage: displayCardImage(listWidgetCard),
+    );
   }
 }
 
 class DeviceQueryController extends PageKeyController<EntityDataQuery> {
-  DeviceQueryController(
-      {int pageSize = 20, String? searchText, String? deviceType, bool? active})
-      : super(EntityQueryApi.createDefaultDeviceQuery(
+  DeviceQueryController({
+    int pageSize = 20,
+    String? searchText,
+    String? deviceType,
+    bool? active,
+  }) : super(
+          EntityQueryApi.createDefaultDeviceQuery(
             pageSize: pageSize,
             searchText: searchText,
             deviceType: deviceType,
-            active: active));
+            active: active,
+          ),
+        );
 
   @override
-  EntityDataQuery nextPageKey(EntityDataQuery deviceQuery) =>
-      deviceQuery.next();
+  EntityDataQuery nextPageKey(EntityDataQuery pageKey) => pageKey.next();
 
   onSearchText(String searchText) {
     value.pageKey.pageLink.page = 0;
@@ -95,14 +114,16 @@ class DeviceCard extends TbContextWidget {
   final bool listWidgetCard;
   final bool displayImage;
 
-  DeviceCard(TbContext tbContext,
-      {required this.device,
-      this.listWidgetCard = false,
-      this.displayImage = false})
-      : super(tbContext);
+  DeviceCard(
+    TbContext tbContext, {
+    super.key,
+    required this.device,
+    this.listWidgetCard = false,
+    this.displayImage = false,
+  }) : super(tbContext);
 
   @override
-  _DeviceCardState createState() => _DeviceCardState();
+  State<StatefulWidget> createState() => _DeviceCardState();
 }
 
 class _DeviceCardState extends TbContextState<DeviceCard> {
@@ -115,7 +136,10 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
     super.initState();
     if (widget.displayImage || !widget.listWidgetCard) {
       deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
-          tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+        tbClient,
+        widget.device.field('type')!,
+        widget.device.entityId.id!,
+      );
     }
   }
 
@@ -127,7 +151,10 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
       var device = widget.device;
       if (oldDevice.field('type')! != device.field('type')!) {
         deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
-            tbClient, widget.device.field('type')!, widget.device.entityId.id!);
+          tbClient,
+          widget.device.field('type')!,
+          widget.device.entityId.id!,
+        );
       }
     }
   }
@@ -142,21 +169,26 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
   }
 
   Widget buildCard(BuildContext context) {
-    return Stack(children: [
-      Positioned.fill(
+    return Stack(
+      children: [
+        Positioned.fill(
           child: Container(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                width: 4,
-                decoration: BoxDecoration(
-                    color: widget.device.attribute('active') == 'true'
-                        ? Color(0xFF008A00)
-                        : Color(0xFFAFAFAF),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        bottomLeft: Radius.circular(4))),
-              ))),
-      FutureBuilder<DeviceProfileInfo>(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: 4,
+              decoration: BoxDecoration(
+                color: widget.device.attribute('active') == 'true'
+                    ? const Color(0xFF008A00)
+                    : const Color(0xFFAFAFAF),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4),
+                ),
+              ),
+            ),
+          ),
+        ),
+        FutureBuilder<DeviceProfileInfo>(
           future: deviceProfileFuture,
           builder: (context, snapshot) {
             if (snapshot.hasData &&
@@ -171,229 +203,285 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                 imageFit = BoxFit.contain;
               } else {
                 image = SvgPicture.asset(
-                    ThingsboardImage.deviceProfilePlaceholder,
-                    colorFilter: ColorFilter.mode(
-                        Theme.of(context).primaryColor, BlendMode.overlay),
-                    semanticsLabel: 'Device');
+                  ThingsboardImage.deviceProfilePlaceholder,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor,
+                    BlendMode.overlay,
+                  ),
+                  semanticsLabel: 'Device',
+                );
                 imageFit = BoxFit.cover;
               }
               return Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 20),
-                    Flexible(
-                        fit: FlexFit.tight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 20),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 12),
-                            Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                            if (widget.displayImage)
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: FittedBox(
+                                          fit: imageFit,
+                                          child: image,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            const SizedBox(width: 12),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: Column(
                                 children: [
-                                  if (widget.displayImage)
-                                    Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4))),
-                                        child: ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4)),
-                                            child: Stack(
-                                              children: [
-                                                Positioned.fill(
-                                                    child: FittedBox(
-                                                  fit: imageFit,
-                                                  child: image,
-                                                ))
-                                              ],
-                                            ))),
-                                  SizedBox(width: 12),
-                                  Flexible(
-                                      fit: FlexFit.tight,
-                                      child: Column(children: [
-                                        Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Flexible(
-                                                  fit: FlexFit.tight,
-                                                  child: FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                          '${widget.device.field('name')!}',
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF282828),
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height:
-                                                                  20 / 14)))),
-                                              SizedBox(width: 12),
-                                              Text(
-                                                  entityDateFormat.format(DateTime
-                                                      .fromMillisecondsSinceEpoch(
-                                                          widget.device
-                                                              .createdTime!)),
-                                                  style: TextStyle(
-                                                      color: Color(0xFFAFAFAF),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 16 / 12))
-                                            ]),
-                                        SizedBox(height: 4),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                                '${widget.device.field('type')!}',
-                                                style: TextStyle(
-                                                    color: Color(0xFFAFAFAF),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    height: 16 / 12)),
-                                            Text(
-                                                widget.device.attribute(
-                                                            'active') ==
-                                                        'true'
-                                                    ? '${S.of(context).active}'
-                                                    : '${S.of(context).inactive}',
-                                                style: TextStyle(
-                                                  color: widget.device
-                                                              .attribute(
-                                                                  'active') ==
-                                                          'true'
-                                                      ? Color(0xFF008A00)
-                                                      : Color(0xFFAFAFAF),
-                                                  fontSize: 12,
-                                                  height: 16 / 12,
-                                                  fontWeight: FontWeight.normal,
-                                                ))
-                                          ],
-                                        )
-                                      ])),
-                                  SizedBox(width: 16),
-                                  if (hasDashboard)
-                                    Icon(Icons.chevron_right,
-                                        color: Color(0xFFACACAC)),
-                                  if (hasDashboard) SizedBox(width: 16),
-                                ]),
-                            SizedBox(height: 12)
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        fit: FlexFit.tight,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            widget.device.field('name')!,
+                                            style: const TextStyle(
+                                              color: Color(
+                                                0xFF282828,
+                                              ),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              height: 20 / 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        entityDateFormat.format(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                            widget.device.createdTime!,
+                                          ),
+                                        ),
+                                        style: const TextStyle(
+                                          color: Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          height: 16 / 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.device.field('type')!,
+                                        style: const TextStyle(
+                                          color: Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          height: 16 / 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        widget.device.attribute(
+                                                  'active',
+                                                ) ==
+                                                'true'
+                                            ? S.of(context).active
+                                            : S.of(context).inactive,
+                                        style: TextStyle(
+                                          color: widget.device.attribute(
+                                                    'active',
+                                                  ) ==
+                                                  'true'
+                                              ? const Color(0xFF008A00)
+                                              : const Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          height: 16 / 12,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            if (hasDashboard)
+                              const Icon(
+                                Icons.chevron_right,
+                                color: Color(0xFFACACAC),
+                              ),
+                            if (hasDashboard) const SizedBox(width: 16),
                           ],
-                        ))
-                  ]);
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                ],
+              );
             } else {
-              return Container(
-                  height: 64,
-                  child: Center(
-                      child: RefreshProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(
-                              Theme.of(tbContext.currentState!.context)
-                                  .colorScheme
-                                  .primary))));
+              return SizedBox(
+                height: 64,
+                child: Center(
+                  child: RefreshProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(tbContext.currentState!.context)
+                          .colorScheme
+                          .primary,
+                    ),
+                  ),
+                ),
+              );
             }
-          })
-    ]);
+          },
+        ),
+      ],
+    );
   }
 
   Widget buildListWidgetCard(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      if (widget.displayImage)
-        Container(
-          width: 58,
-          height: 58,
-          decoration: BoxDecoration(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (widget.displayImage)
+          Container(
+            width: 58,
+            height: 58,
+            decoration: const BoxDecoration(
               // color: Color(0xFFEEEEEE),
-              borderRadius: BorderRadius.horizontal(left: Radius.circular(4))),
-          child: FutureBuilder<DeviceProfileInfo>(
-            future: deviceProfileFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                var profile = snapshot.data!;
-                Widget image;
-                BoxFit imageFit;
-                if (profile.image != null) {
-                  image =
-                      Utils.imageFromTbImage(context, tbClient, profile.image!);
-                  imageFit = BoxFit.contain;
-                } else {
-                  image = SvgPicture.asset(
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
+            ),
+            child: FutureBuilder<DeviceProfileInfo>(
+              future: deviceProfileFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  var profile = snapshot.data!;
+                  Widget image;
+                  BoxFit imageFit;
+                  if (profile.image != null) {
+                    image = Utils.imageFromTbImage(
+                      context,
+                      tbClient,
+                      profile.image!,
+                    );
+                    imageFit = BoxFit.contain;
+                  } else {
+                    image = SvgPicture.asset(
                       ThingsboardImage.deviceProfilePlaceholder,
                       colorFilter: ColorFilter.mode(
-                          Theme.of(context).primaryColor, BlendMode.overlay),
-                      semanticsLabel: 'Device');
-                  imageFit = BoxFit.cover;
-                }
-                return ClipRRect(
+                        Theme.of(context).primaryColor,
+                        BlendMode.overlay,
+                      ),
+                      semanticsLabel: 'Device',
+                    );
+                    imageFit = BoxFit.cover;
+                  }
+                  return ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(4)),
+                        const BorderRadius.horizontal(left: Radius.circular(4)),
                     child: Stack(
                       children: [
                         Positioned.fill(
-                            child: FittedBox(
-                          fit: imageFit,
-                          child: image,
-                        ))
+                          child: FittedBox(
+                            fit: imageFit,
+                            child: image,
+                          ),
+                        ),
                       ],
-                    ));
-              } else {
-                return Center(
+                    ),
+                  );
+                } else {
+                  return Center(
                     child: RefreshProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                            Theme.of(tbContext.currentState!.context)
-                                .colorScheme
-                                .primary)));
-              }
-            },
+                      valueColor: AlwaysStoppedAnimation(
+                        Theme.of(tbContext.currentState!.context)
+                            .colorScheme
+                            .primary,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
-        ),
-      Flexible(
+        Flexible(
           fit: FlexFit.loose,
           child: Container(
-              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
-              child: Column(
-                children: [
-                  Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.centerLeft,
-                            child: Text('${widget.device.field('name')!}',
-                                style: TextStyle(
-                                    color: Color(0xFF282828),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    height: 20 / 14)))
-                      ]),
-                  SizedBox(height: 4),
-                  Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('${widget.device.field('type')!}',
-                            style: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                height: 16 / 12)),
-                      ])
-                ],
-              )))
-    ]);
+            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.device.field('name')!,
+                        style: const TextStyle(
+                          color: Color(0xFF282828),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 20 / 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.device.field('type')!,
+                      style: const TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        height: 16 / 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

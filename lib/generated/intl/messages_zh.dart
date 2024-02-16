@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "No": MessageLookupByLibrary.simpleMessage("否"),
         "OR": MessageLookupByLibrary.simpleMessage("或"),
@@ -88,7 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordResetLinkSuccessfullySentNotification":
             MessageLookupByLibrary.simpleMessage("密码重置链接已发送"),
         "passwordResetText": MessageLookupByLibrary.simpleMessage(
-            "输入和账号关联的Email，我们将发送一个密码重置链接到的Email"),
+          "输入和账号关联的Email，我们将发送一个密码重置链接到的Email",
+        ),
         "passwordSuccessNotification":
             MessageLookupByLibrary.simpleMessage("密码修改成功"),
         "phone": MessageLookupByLibrary.simpleMessage("电话"),
@@ -102,6 +104,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("标题"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("再试一次"),
         "type": MessageLookupByLibrary.simpleMessage("类型"),
-        "username": MessageLookupByLibrary.simpleMessage("用户名")
+        "username": MessageLookupByLibrary.simpleMessage("用户名"),
       };
 }

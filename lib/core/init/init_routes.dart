@@ -8,14 +8,15 @@ import 'init_app.dart';
 
 class InitRoutes extends TbRoutes {
   late var initHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return ThingsboardInitApp(tbContext);
-  });
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return ThingsboardInitApp(tbContext);
+    },
+  );
 
   InitRoutes(TbContext tbContext) : super(tbContext);
 
   @override
   void doRegisterRoutes(router) {
-    router.define("/", handler: initHandler);
+    router.define('/', handler: initHandler);
   }
 }

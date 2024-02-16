@@ -8,14 +8,16 @@ class FullscreenDashboardPage extends TbPageWidget {
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
 
-  FullscreenDashboardPage(TbContext tbContext, this.fullscreenDashboardId,
-      {String? dashboardTitle})
-      : _dashboardTitle = dashboardTitle,
+  FullscreenDashboardPage(
+    TbContext tbContext,
+    this.fullscreenDashboardId, {
+    String? dashboardTitle,
+    super.key,
+  })  : _dashboardTitle = dashboardTitle,
         super(tbContext);
 
   @override
-  _FullscreenDashboardPageState createState() =>
-      _FullscreenDashboardPageState();
+  State<StatefulWidget> createState() => _FullscreenDashboardPageState();
 }
 
 class _FullscreenDashboardPageState
@@ -29,11 +31,6 @@ class _FullscreenDashboardPageState
     dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   _onCanGoBack(bool canGoBack) {
     showBackValue.value = canGoBack;
   }
@@ -41,45 +38,58 @@ class _FullscreenDashboardPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: ValueListenableBuilder<bool>(
-              valueListenable: showBackValue,
-              builder: (context, canGoBack, widget) {
-                return TbAppBar(tbContext,
-                    leading: canGoBack
-                        ? BackButton(onPressed: () {
-                            maybePop();
-                          })
-                        : null,
-                    showLoadingIndicator: false,
-                    elevation: 1,
-                    shadowColor: Colors.transparent,
-                    title: ValueListenableBuilder<String>(
-                      valueListenable: dashboardTitleValue,
-                      builder: (context, title, widget) {
-                        return FittedBox(
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.centerLeft,
-                            child: Text(title));
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: ValueListenableBuilder<bool>(
+          valueListenable: showBackValue,
+          builder: (context, canGoBack, widget) {
+            return TbAppBar(
+              tbContext,
+              leading: canGoBack
+                  ? BackButton(
+                      onPressed: () {
+                        maybePop();
                       },
-                    ),
-                    actions: [
-                      IconButton(
-                          icon: Icon(Icons.settings),
-                          onPressed: () =>
-                              navigateTo('/profile?fullscreen=true'))
-                    ]);
-              }),
+                    )
+                  : null,
+              showLoadingIndicator: false,
+              elevation: 1,
+              shadowColor: Colors.transparent,
+              title: ValueListenableBuilder<String>(
+                valueListenable: dashboardTitleValue,
+                builder: (context, title, widget) {
+                  return FittedBox(
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.centerLeft,
+                    child: Text(title),
+                  );
+                },
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () => navigateTo('/profile?fullscreen=true'),
+                ),
+              ],
+            );
+          },
         ),
-        body: Dashboard(tbContext, titleCallback: (title) {
+      ),
+      body: Dashboard(
+        tbContext,
+        titleCallback: (title) {
           dashboardTitleValue.value = title;
-        }, controllerCallback: (controller) {
+        },
+        controllerCallback: (controller) {
           controller.canGoBack.addListener(() {
             _onCanGoBack(controller.canGoBack.value);
           });
-          controller.openDashboard(widget.fullscreenDashboardId,
-              fullscreen: true);
-        }));
+          controller.openDashboard(
+            widget.fullscreenDashboardId,
+            fullscreen: true,
+          );
+        },
+      ),
+    );
   }
 }

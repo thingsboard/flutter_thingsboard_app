@@ -9,10 +9,11 @@ import 'alarms_list.dart';
 class AlarmsPage extends TbContextWidget {
   final bool searchMode;
 
-  AlarmsPage(TbContext tbContext, {this.searchMode = false}) : super(tbContext);
+  AlarmsPage(TbContext tbContext, {this.searchMode = false, super.key})
+      : super(tbContext);
 
   @override
-  _AlarmsPageState createState() => _AlarmsPageState();
+  State<StatefulWidget> createState() => _AlarmsPageState();
 }
 
 class _AlarmsPageState extends TbContextState<AlarmsPage>
@@ -27,8 +28,11 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var alarmsList = AlarmsList(tbContext, _alarmQueryController,
-        searchMode: widget.searchMode);
+    var alarmsList = AlarmsList(
+      tbContext,
+      _alarmQueryController,
+      searchMode: widget.searchMode,
+    );
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
@@ -37,14 +41,18 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
             _alarmQueryController.onSearchText(searchText),
       );
     } else {
-      appBar = TbAppBar(tbContext, title: Text(alarmsList.title), actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            navigateTo('/alarms?search=true');
-          },
-        )
-      ]);
+      appBar = TbAppBar(
+        tbContext,
+        title: Text(alarmsList.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              navigateTo('/alarms?search=true');
+            },
+          ),
+        ],
+      );
     }
     return Scaffold(appBar: appBar, body: alarmsList);
   }

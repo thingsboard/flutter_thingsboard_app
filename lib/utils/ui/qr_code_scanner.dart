@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -7,10 +7,10 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class QrCodeScannerPage extends TbPageWidget {
-  QrCodeScannerPage(TbContext tbContext) : super(tbContext);
+  QrCodeScannerPage(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
-  _QrCodeScannerPageState createState() => _QrCodeScannerPageState();
+  State<StatefulWidget> createState() => _QrCodeScannerPageState();
 }
 
 class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
@@ -29,11 +29,6 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     controller?.dispose();
     if (simulatedQrTimer != null) {
@@ -45,57 +40,68 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        _buildQrView(context),
-        Positioned(
+      body: Stack(
+        children: [
+          _buildQrView(context),
+          const Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             height: kToolbarHeight,
             child: Center(
-                child: Text('Scan a code',
-                    style: TextStyle(color: Colors.white, fontSize: 20)))),
-        Positioned(
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.white),
-            elevation: 0,
-            actions: <Widget>[
-              IconButton(
-                icon: FutureBuilder(
+              child: Text(
+                'Scan a code',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+          ),
+          Positioned(
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.white,
+              iconTheme: const IconThemeData(color: Colors.white),
+              elevation: 0,
+              actions: <Widget>[
+                IconButton(
+                  icon: FutureBuilder(
                     future: controller?.getFlashStatus(),
                     builder: (context, snapshot) {
-                      return Icon(snapshot.data == false
-                          ? Icons.flash_on
-                          : Icons.flash_off);
-                    }),
-                onPressed: () async {
-                  await controller?.toggleFlash();
-                  setState(() {});
-                },
-                tooltip: 'Toggle flash',
-              ),
-              IconButton(
-                icon: FutureBuilder(
+                      return Icon(
+                        snapshot.data == false
+                            ? Icons.flash_on
+                            : Icons.flash_off,
+                      );
+                    },
+                  ),
+                  onPressed: () async {
+                    await controller?.toggleFlash();
+                    setState(() {});
+                  },
+                  tooltip: 'Toggle flash',
+                ),
+                IconButton(
+                  icon: FutureBuilder(
                     future: controller?.getCameraInfo(),
                     builder: (context, snapshot) {
-                      return Icon(snapshot.data == CameraFacing.front
-                          ? Icons.camera_rear
-                          : Icons.camera_front);
-                    }),
-                onPressed: () async {
-                  await controller?.flipCamera();
-                  setState(() {});
-                },
-                tooltip: 'Toggle camera',
-              ),
-            ],
+                      return Icon(
+                        snapshot.data == CameraFacing.front
+                            ? Icons.camera_rear
+                            : Icons.camera_front,
+                      );
+                    },
+                  ),
+                  onPressed: () async {
+                    await controller?.flipCamera();
+                    setState(() {});
+                  },
+                  tooltip: 'Toggle camera',
+                ),
+              ],
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Widget _buildQrView(BuildContext context) {
@@ -110,11 +116,12 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderLength: 30,
+        borderWidth: 10,
+        cutOutSize: scanArea,
+      ),
     );
   }
 
@@ -127,7 +134,7 @@ class _QrCodeScannerPageState extends TbPageState<QrCodeScannerPage> {
         pop(scanData);
       });
     } else {
-      simulatedQrTimer = Timer(Duration(seconds: 3), () {
+      simulatedQrTimer = Timer(const Duration(seconds: 3), () {
         pop(Barcode('test code', BarcodeFormat.qrcode, null));
       });
     }

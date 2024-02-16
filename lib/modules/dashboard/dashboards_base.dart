@@ -23,8 +23,10 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
           .getTenantDashboards(pageLink, mobile: true);
     } else {
       return tbClient.getDashboardService().getCustomerDashboards(
-          tbClient.getAuthUser()!.customerId!, pageLink,
-          mobile: true);
+            tbClient.getAuthUser()!.customerId!,
+            pageLink,
+            mobile: true,
+          );
     }
   }
 
@@ -42,7 +44,9 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 
   @override
   Widget buildEntityListWidgetCard(
-      BuildContext context, DashboardInfo dashboard) {
+    BuildContext context,
+    DashboardInfo dashboard,
+  ) {
     return _buildEntityListCard(context, dashboard, true);
   }
 
@@ -56,61 +60,80 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   }
 
   Widget _buildEntityListCard(
-      BuildContext context, DashboardInfo dashboard, bool listWidgetCard) {
+    BuildContext context,
+    DashboardInfo dashboard,
+    bool listWidgetCard,
+  ) {
     return Row(
-        mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
-        children: [
-          Flexible(
-              fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: listWidgetCard ? 9 : 10, horizontal: 16),
-                child: Row(
-                  mainAxisSize:
-                      listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
-                  children: [
-                    Flexible(
-                        fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FittedBox(
-                                fit: BoxFit.fitWidth,
-                                alignment: Alignment.centerLeft,
-                                child: Text('${dashboard.title}',
-                                    style: TextStyle(
-                                        color: Color(0xFF282828),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.7))),
-                            Text('${_dashboardDetailsText(dashboard)}',
-                                style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.33))
-                          ],
-                        )),
-                    (!listWidgetCard
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                  entityDateFormat.format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          dashboard.createdTime!)),
-                                  style: TextStyle(
-                                      color: Color(0xFFAFAFAF),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1.33))
-                            ],
-                          )
-                        : Container())
-                  ],
+      mainAxisSize: listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+      children: [
+        Flexible(
+          fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: listWidgetCard ? 9 : 10,
+              horizontal: 16,
+            ),
+            child: Row(
+              mainAxisSize:
+                  listWidgetCard ? MainAxisSize.min : MainAxisSize.max,
+              children: [
+                Flexible(
+                  fit: listWidgetCard ? FlexFit.loose : FlexFit.tight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          dashboard.title,
+                          style: const TextStyle(
+                            color: Color(0xFF282828),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 1.7,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _dashboardDetailsText(dashboard),
+                        style: const TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          height: 1.33,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ))
-        ]);
+                (!listWidgetCard
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            entityDateFormat.format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                dashboard.createdTime!,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              color: Color(0xFFAFAFAF),
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              height: 1.33,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container()),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   String _dashboardDetailsText(DashboardInfo dashboard) {
@@ -132,20 +155,15 @@ mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
 class DashboardGridCard extends TbContextWidget {
   final DashboardInfo dashboard;
 
-  DashboardGridCard(TbContext tbContext, {required this.dashboard})
+  DashboardGridCard(TbContext tbContext, {required this.dashboard, super.key})
       : super(tbContext);
 
   @override
-  _DashboardGridCardState createState() => _DashboardGridCardState();
+  State<StatefulWidget> createState() => _DashboardGridCardState();
 }
 
 class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
   _DashboardGridCardState() : super();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didUpdateWidget(DashboardGridCard oldWidget) {
@@ -160,42 +178,55 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
       image =
           Utils.imageFromTbImage(context, tbClient, widget.dashboard.image!);
     } else {
-      image = SvgPicture.asset(ThingsboardImage.dashboardPlaceholder,
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor, BlendMode.overlay),
-          semanticsLabel: 'Dashboard');
+      image = SvgPicture.asset(
+        ThingsboardImage.dashboardPlaceholder,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).primaryColor,
+          BlendMode.overlay,
+        ),
+        semanticsLabel: 'Dashboard',
+      );
     }
     return ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Column(
-          children: [
-            Expanded(
-                child: Stack(children: [
-              SizedBox.expand(
+      borderRadius: BorderRadius.circular(4),
+      child: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                SizedBox.expand(
                   child: FittedBox(
-                      clipBehavior: Clip.hardEdge,
-                      fit: BoxFit.cover,
-                      child: image))
-            ])),
-            Divider(height: 1),
-            Container(
-              height: 44,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Center(
-                      child: AutoSizeText(
-                    widget.dashboard.title,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    minFontSize: 12,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 20 / 14),
-                  ))),
-            )
-          ],
-        ));
+                    clipBehavior: Clip.hardEdge,
+                    fit: BoxFit.cover,
+                    child: image,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          SizedBox(
+            height: 44,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Center(
+                child: AutoSizeText(
+                  widget.dashboard.title,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  minFontSize: 12,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    height: 20 / 14,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

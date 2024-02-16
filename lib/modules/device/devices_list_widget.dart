@@ -6,9 +6,11 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery>
     with DevicesBase {
-  DevicesListWidget(TbContext tbContext,
-      {EntitiesListWidgetController? controller})
-      : super(tbContext, controller: controller);
+  DevicesListWidget(
+    TbContext tbContext, {
+    super.key,
+    EntitiesListWidgetController? controller,
+  }) : super(tbContext, controller: controller);
 
   @override
   void onViewAll() {

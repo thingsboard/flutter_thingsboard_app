@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class TwoValueListenableBuilder<A, B> extends StatelessWidget {
-  TwoValueListenableBuilder({
-    Key? key,
+  const TwoValueListenableBuilder({
     required this.firstValueListenable,
     required this.secondValueListenable,
     required this.builder,
     this.child,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueListenable<A> firstValueListenable;
   final ValueListenable<B> secondValueListenable;
