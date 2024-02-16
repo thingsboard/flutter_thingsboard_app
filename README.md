@@ -3,6 +3,8 @@ Powered by [ThingsBoard](https://thingsboard.io) IoT Platform
 
 Build your own IoT mobile application **with minimum coding efforts**
 
+## Please be informed the Web platform is not supported, because it's a part of our main platform!
+
 ## Resources
 
 - [Getting started](https://thingsboard.io/docs/mobile/getting-started/) - learn how to set up and run your first IoT mobile app
