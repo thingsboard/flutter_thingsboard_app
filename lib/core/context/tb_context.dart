@@ -282,7 +282,9 @@ class TbContext implements PopEntry {
             userDetails = await tbClient.getUserService().getUser();
             homeDashboard =
                 await tbClient.getDashboardService().getHomeDashboardInfo();
-            NotificationService().init(tbClient, log, this);
+
+            // TODO: firebase_init: run flutterfire configure and uncomment it
+            // NotificationService().init(tbClient, log, this);
           } catch (e) {
             if (!_isConnectionError(e)) {
               logout();
