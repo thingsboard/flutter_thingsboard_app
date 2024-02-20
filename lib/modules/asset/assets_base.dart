@@ -53,15 +53,17 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('${asset.name}',
-                                      style: TextStyle(
-                                          color: Color(0xFF282828),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          height: 20 / 14))),
+                              Flexible(
+                                child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('${asset.name}',
+                                        style: TextStyle(
+                                            color: Color(0xFF282828),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            height: 20 / 14))),
+                              ),
                               Text(
                                   entityDateFormat.format(
                                       DateTime.fromMillisecondsSinceEpoch(

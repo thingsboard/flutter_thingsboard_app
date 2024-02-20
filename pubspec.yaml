@@ -47,6 +47,9 @@ dependencies:
   preload_page_view: ^0.2.0
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+  flutter_local_notifications: ^16.3.0
 
 dev_dependencies:
   flutter_test:
