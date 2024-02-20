@@ -933,11 +933,10 @@ packages:
   thingsboard_client:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "improvemnt/push-notificaion"
-      resolved-ref: "5898513943c8349b0e72890922313e6eacf56fc8"
-      url: "https://github.com/thingsboard/dart_thingsboard_client.git"
-    source: git
+      name: thingsboard_client
+      sha256: addae7f2ae7c14234f97c64313f4f7a1f98765624cda04935dd5cce329d364bf
+      url: "https://pub.dev"
+    source: hosted
     version: "1.0.8"
   timezone:
     dependency: transitive
