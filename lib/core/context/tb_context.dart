@@ -332,7 +332,8 @@ class TbContext implements PopEntry {
   }
 
   Future<void> logout({RequestConfig? requestConfig}) async {
-    await NotificationService().logout();
+    // TODO: firebase_init: run flutterfire configure and uncomment it
+    // await NotificationService().logout();
     tbClient.logout(requestConfig: requestConfig);
   }
 
