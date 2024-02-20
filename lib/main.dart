@@ -1,4 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
+// TODO: firebase_init: run flutterfire configure and uncomment it
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,10 @@ import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+// TODO: firebase_init: run flutterfire configure and uncomment it
+// import 'package:thingsboard_app/firebase_options.dart';
+
 import 'config/themes/tb_theme.dart';
-import 'firebase_options.dart';
 import 'generated/l10n.dart';
 
 final appRouter = ThingsboardAppRouter();
@@ -26,7 +29,9 @@ void main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // TODO: firebase_init: run firebase cli then uncomment it
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(ThingsboardApp());
 }
 

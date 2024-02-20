@@ -1,18 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
+// TODO: firebase_init: run flutterfire configure and uncomment it
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/firebase_options.dart';
+
+// TODO: firebase_init: run flutterfire configure and uncomment it
+// import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/modules/url/url_page.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
 Future<void> _backgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // TODO: firebase_init: run flutterfire configure and uncomment it
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
 class NotificationService {
