@@ -4,12 +4,14 @@ import 'dart:io';
 // TODO: firebase_init: run flutterfire configure and uncomment it
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 
 // TODO: firebase_init: run flutterfire configure and uncomment it
 // import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/modules/url/url_page.dart';
+import 'package:thingsboard_app/utils/services/_tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -17,6 +19,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 Future<void> _backgroundHandler(RemoteMessage message) async {
   // TODO: firebase_init: run flutterfire configure and uncomment it
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  NotificationService.updateNotificationBadgeCount();
 }
 
 class NotificationService {
@@ -26,6 +29,8 @@ class NotificationService {
   late TbLogger _log;
   late ThingsboardClient _tbClient;
   late TbContext _tbContext;
+
+  static const _notificationCounterKey = 'notifications_counter';
 
   String? _fcmToken;
 
@@ -103,7 +108,7 @@ class NotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         final data = json.decode(response.payload ?? '');
-        handleNotification(data, _tbContext);
+        handleClickOnNotification(data, _tbContext);
       },
     );
 
@@ -181,7 +186,7 @@ class NotificationService {
         token, MobileSessionInfo(DateTime.now().millisecondsSinceEpoch));
   }
 
-  void showNotification(RemoteMessage message) {
+  void showNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
 
@@ -193,6 +198,8 @@ class NotificationService {
         _notificationDetails,
         payload: json.encode(message.data),
       );
+
+      updateNotificationBadgeCount();
     }
   }
 
@@ -203,10 +210,12 @@ class NotificationService {
     });
   }
 
-  static void handleNotification(
+  static void handleClickOnNotification(
     Map<String, dynamic> data,
     TbContext tbContext,
   ) {
+    clearNotificationBadgeCount();
+
     if (data['onClick.enabled'] == 'true') {
       switch (data['onClick.linkType']) {
         case 'DASHBOARD':
@@ -238,6 +247,24 @@ class NotificationService {
 
           break;
       }
+    }
+  }
+
+  static void updateNotificationBadgeCount() async {
+    if (await FlutterAppBadger.isAppBadgeSupported()) {
+      final storage = createAppStorage();
+      final counter = await storage.getItem(_notificationCounterKey);
+      final updatedCounter = int.parse(counter ?? '0') + 1;
+      FlutterAppBadger.updateBadgeCount(updatedCounter);
+      storage.setItem(_notificationCounterKey, updatedCounter.toString());
+    }
+  }
+
+  static void clearNotificationBadgeCount() async {
+    if (await FlutterAppBadger.isAppBadgeSupported()) {
+      final storage = createAppStorage();
+      storage.deleteItem(_notificationCounterKey);
+      FlutterAppBadger.removeBadge();
     }
   }
 }
