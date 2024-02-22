@@ -18,18 +18,24 @@ abstract class Utils {
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
 
-  static String createDashboardEntityState(EntityId entityId,
-      {String? entityName, String? entityLabel}) {
+  static String createDashboardEntityState(EntityId? entityId,
+      {String? entityName, String? entityLabel, String? stateId}) {
     var stateObj = [
       <String, dynamic>{
-        'params': <String, dynamic>{'entityId': entityId.toJson()}
+        'params': <String, dynamic>{}
       }
     ];
+    if (entityId != null) {
+      stateObj[0]['params']['entityId'] = entityId.toJson();
+    }
     if (entityName != null) {
       stateObj[0]['params']['entityName'] = entityName;
     }
     if (entityLabel != null) {
       stateObj[0]['params']['entityLabel'] = entityLabel;
+    }
+    if (stateId != null) {
+      stateObj[0]['id'] = stateId;
     }
     var stateJson = json.encode(stateObj);
     var encodedUri = Uri.encodeComponent(stateJson);
