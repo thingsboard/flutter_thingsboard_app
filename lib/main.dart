@@ -64,7 +64,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
           return;
         }
 
-        NotificationService.handleNotification(
+        NotificationService.handleClickOnNotification(
           message.data,
           appRouter.tbContext,
         );
