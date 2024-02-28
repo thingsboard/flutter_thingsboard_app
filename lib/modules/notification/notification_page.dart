@@ -37,12 +37,22 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
               child: Text('Mark all as read'),
               onPressed: () {
                 setState(() {
-                  _notifications.clear();
+                  for (int i = 0; i < _notifications.length; ++i) {
+                    if (!_notifications[i].read) {
+                      _notifications[i] =
+                          _notifications[i].copyWith(read: true);
+                      NotificationService.decreaseNotificationBadgeCount();
+                    }
+                  }
                 });
 
-                final storage = createAppStorage();
-                storage.deleteItem(NotificationService.notificationsListKey);
-                NotificationService.clearNotificationBadgeCount();
+                final storage = tbContext.storage;
+                storage.setItem(
+                  NotificationService.notificationsListKey,
+                  jsonEncode(
+                    _notifications.map((e) => e.toJson()).toList(),
+                  ),
+                );
               },
             ),
           ],

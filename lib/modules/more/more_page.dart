@@ -243,6 +243,8 @@ class MoreMenuItem {
   }
 
   static Widget _notificationNumberWidget() {
+    NotificationService.triggerNotificationCountStream();
+
     return StreamBuilder<int>(
       stream: NotificationService.notificationsNumberStream.stream,
       builder: (context, snapshot) {

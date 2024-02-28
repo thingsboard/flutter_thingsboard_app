@@ -19,8 +19,8 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 Future<void> _backgroundHandler(RemoteMessage message) async {
   // TODO: firebase_init: run flutterfire configure and uncomment it
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  NotificationService.saveNotification(message);
-  NotificationService.increaseNotificationBadgeCount();
+  await NotificationService.saveNotification(message);
+  await NotificationService.increaseNotificationBadgeCount();
 }
 
 class NotificationService {
@@ -33,7 +33,7 @@ class NotificationService {
 
   static const notificationCounterKey = 'notifications_counter';
   static const notificationsListKey = 'notifications_list';
-  static final notificationsNumberStream = StreamController<int>();
+  static final notificationsNumberStream = StreamController<int>.broadcast();
 
   String? _fcmToken;
 
@@ -254,19 +254,19 @@ class NotificationService {
     }
   }
 
-  static void increaseNotificationBadgeCount() async {
+  static Future<void> increaseNotificationBadgeCount() async {
     final storage = createAppStorage();
     final counter = await storage.getItem(notificationCounterKey);
     final updatedCounter = int.parse(counter ?? '0') + 1;
-    notificationsNumberStream.add(updatedCounter);
-    storage.setItem(notificationCounterKey, updatedCounter.toString());
+    await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
     if (await FlutterAppBadger.isAppBadgeSupported()) {
       FlutterAppBadger.updateBadgeCount(updatedCounter);
     }
+    notificationsNumberStream.add(updatedCounter);
   }
 
-  static void decreaseNotificationBadgeCount() async {
+  static Future<void> decreaseNotificationBadgeCount() async {
     final storage = createAppStorage();
     final counter = await storage.getItem(notificationCounterKey);
     final updatedCounter = int.parse(counter ?? '0') - 1;
@@ -276,23 +276,24 @@ class NotificationService {
       if (await FlutterAppBadger.isAppBadgeSupported()) {
         FlutterAppBadger.updateBadgeCount(updatedCounter);
       }
+      await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
       notificationsNumberStream.add(updatedCounter);
-      storage.setItem(notificationCounterKey, updatedCounter.toString());
     }
   }
 
-  static void clearNotificationBadgeCount() async {
+  static Future<void> clearNotificationBadgeCount() async {
     final storage = createAppStorage();
-    storage.deleteItem(notificationCounterKey);
-    notificationsNumberStream.add(0);
+    await storage.deleteItem(notificationCounterKey);
 
     if (await FlutterAppBadger.isAppBadgeSupported()) {
       FlutterAppBadger.removeBadge();
     }
+
+    notificationsNumberStream.add(0);
   }
 
-  static void saveNotification(RemoteMessage message) async {
+  static Future<void> saveNotification(RemoteMessage message) async {
     final storage = createAppStorage();
     final notifications = await storage.getItem(notificationsListKey);
     if (notifications != null) {
@@ -304,16 +305,24 @@ class NotificationService {
 
       notificationsList.add(NotificationModel(message: message));
 
-      storage.setItem(
+      await storage.setItem(
         notificationsListKey,
         jsonEncode(notificationsList.map((e) => e.toJson()).toList()),
       );
     } else {
       final notification = NotificationModel(message: message);
-      storage.setItem(
+      await storage.setItem(
         notificationsListKey,
         jsonEncode([notification.toJson()]),
       );
     }
+  }
+
+  static Future<void> triggerNotificationCountStream() async {
+    final storage = createAppStorage();
+    final counter = await storage.getItem(notificationCounterKey);
+    final parsedCounter = int.parse(counter ?? '0');
+
+    notificationsNumberStream.add(parsedCounter);
   }
 }
