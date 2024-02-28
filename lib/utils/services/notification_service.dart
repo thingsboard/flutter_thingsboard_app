@@ -2,14 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-// TODO: firebase_init: run flutterfire configure and uncomment it
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-// TODO: firebase_init: run flutterfire configure and uncomment it
-// import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/modules/notification/notification_model.dart';
 import 'package:thingsboard_app/utils/services/_tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -52,6 +48,20 @@ class NotificationService {
     _log = log;
     _tbClient = tbClient;
     _tbContext = context;
+
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (message) async {
+        final message = await FirebaseMessaging.instance.getInitialMessage();
+        if (message == null) {
+          return;
+        }
+
+        NotificationService.handleClickOnNotification(
+          message.data,
+          _tbContext,
+        );
+      },
+    );
 
     var settings = await _requestPermission();
     _log.debug(
@@ -250,7 +260,7 @@ class NotificationService {
           break;
       }
     } else {
-      tbContext.navigateTo('/notifications');
+      tbContext.navigateTo('/notifications', replace: true);
     }
   }
 
