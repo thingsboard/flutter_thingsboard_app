@@ -17,8 +17,8 @@ import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_app/utils/services/wl_service.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
 
