@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -217,8 +218,6 @@ class NotificationService {
     Map<String, dynamic> data,
     TbContext tbContext,
   ) {
-    decreaseNotificationBadgeCount();
-
     if (data['onClick.enabled'] == 'true') {
       switch (data['onClick.linkType']) {
         case 'DASHBOARD':
