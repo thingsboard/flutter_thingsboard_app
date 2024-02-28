@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class MorePage extends TbContextWidget {
@@ -11,76 +12,82 @@ class MorePage extends TbContextWidget {
   _MorePageState createState() => _MorePageState();
 }
 
-class _MorePageState extends TbContextState<MorePage> {
+class _MorePageState extends TbContextState<MorePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: EdgeInsets.fromLTRB(16, 40, 16, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    super.build(context);
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Container(
+              padding: EdgeInsets.fromLTRB(16, 40, 16, 20),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.account_circle,
-                      size: 48, color: Color(0xFFAFAFAF)),
-                  Spacer(),
-                  IconButton(
-                      icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)),
-                      onPressed: () async {
-                        await navigateTo('/profile');
-                        setState(() {});
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.account_circle,
+                          size: 48, color: Color(0xFFAFAFAF)),
+                      Spacer(),
+                      IconButton(
+                          icon: Icon(Icons.settings, color: Color(0xFFAFAFAF)),
+                          onPressed: () async {
+                            await navigateTo('/profile');
+                            setState(() {});
+                          })
+                    ],
+                  ),
+                  SizedBox(height: 22),
+                  Text(_getUserDisplayName(),
+                      style: TextStyle(
+                          color: Color(0xFF282828),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          height: 23 / 20)),
+                  SizedBox(height: 2),
+                  Text(_getAuthorityName(context),
+                      style: TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 16 / 14)),
+                  SizedBox(height: 24),
+                  Divider(color: Color(0xFFEDEDED)),
+                  SizedBox(height: 8),
+                  buildMoreMenuItems(context),
+                  SizedBox(height: 8),
+                  Divider(color: Color(0xFFEDEDED)),
+                  SizedBox(height: 8),
+                  GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                          height: 48,
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 18),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(Icons.logout,
+                                        color: Color(0xFFE04B2F)),
+                                    SizedBox(width: 34),
+                                    Text('${S.of(context).logout}',
+                                        style: TextStyle(
+                                            color: Color(0xFFE04B2F),
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 20 / 14))
+                                  ]))),
+                      onTap: () {
+                        tbContext.logout(
+                            requestConfig: RequestConfig(ignoreErrors: true));
                       })
                 ],
               ),
-              SizedBox(height: 22),
-              Text(_getUserDisplayName(),
-                  style: TextStyle(
-                      color: Color(0xFF282828),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                      height: 23 / 20)),
-              SizedBox(height: 2),
-              Text(_getAuthorityName(context),
-                  style: TextStyle(
-                      color: Color(0xFFAFAFAF),
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14,
-                      height: 16 / 14)),
-              SizedBox(height: 24),
-              Divider(color: Color(0xFFEDEDED)),
-              SizedBox(height: 8),
-              buildMoreMenuItems(context),
-              SizedBox(height: 8),
-              Divider(color: Color(0xFFEDEDED)),
-              SizedBox(height: 8),
-              GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                      height: 48,
-                      child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 18),
-                          child: Row(mainAxisSize: MainAxisSize.max, children: [
-                            Icon(Icons.logout, color: Color(0xFFE04B2F)),
-                            SizedBox(width: 34),
-                            Text('${S.of(context).logout}',
-                                style: TextStyle(
-                                    color: Color(0xFFE04B2F),
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 20 / 14))
-                          ]))),
-                  onTap: () {
-                    tbContext.logout(
-                        requestConfig: RequestConfig(ignoreErrors: true));
-                  })
-            ],
-          ),
-        ));
+            )));
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
@@ -94,7 +101,11 @@ class _MorePageState extends TbContextState<MorePage> {
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 18),
                   child: Row(mainAxisSize: MainAxisSize.max, children: [
                     Icon(menuItem.icon, color: Color(0xFF282828)),
-                    SizedBox(width: 34),
+                    Visibility(
+                      visible: menuItem.showAdditionalIcon,
+                      child: menuItem.additionalIcon ?? const SizedBox.shrink(),
+                    ),
+                    SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
                     Text(menuItem.title,
                         style: TextStyle(
                             color: Color(0xFF282828),
@@ -153,14 +164,25 @@ class _MorePageState extends TbContextState<MorePage> {
     }
     return name;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class MoreMenuItem {
   final String title;
   final IconData icon;
   final String path;
+  final bool showAdditionalIcon;
+  final Widget? additionalIcon;
 
-  MoreMenuItem({required this.title, required this.icon, required this.path});
+  MoreMenuItem({
+    required this.title,
+    required this.icon,
+    required this.path,
+    this.showAdditionalIcon = false,
+    this.additionalIcon,
+  });
 
   static List<MoreMenuItem> getItems(
       TbContext tbContext, BuildContext context) {
@@ -182,7 +204,14 @@ class MoreMenuItem {
             MoreMenuItem(
                 title: '${S.of(context).auditLogs}',
                 icon: Icons.track_changes,
-                path: '/auditLogs')
+                path: '/auditLogs'),
+            MoreMenuItem(
+              title: 'Notifications',
+              icon: Icons.notifications_active,
+              path: '/notifications',
+              showAdditionalIcon: true,
+              additionalIcon: _notificationNumberWidget(),
+            )
           ]);
           break;
         case Authority.CUSTOMER_USER:
@@ -190,7 +219,14 @@ class MoreMenuItem {
             MoreMenuItem(
                 title: '${S.of(context).assets}',
                 icon: Icons.domain,
-                path: '/assets')
+                path: '/assets'),
+            MoreMenuItem(
+              title: 'Notifications',
+              icon: Icons.notifications_active,
+              path: '/notifications',
+              showAdditionalIcon: true,
+              additionalIcon: _notificationNumberWidget(),
+            ),
           ]);
           break;
         case Authority.REFRESH_TOKEN:
@@ -204,5 +240,31 @@ class MoreMenuItem {
     } else {
       return [];
     }
+  }
+
+  static Widget _notificationNumberWidget() {
+    return StreamBuilder<int>(
+      stream: NotificationService.notificationsNumberStream.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data! > 0) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.red,
+            ),
+            alignment: Alignment.center,
+            height: 20,
+            width: 20,
+            child: Text(
+              '${snapshot.data}',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        }
+
+        return const SizedBox(width: 20);
+      },
+    );
   }
 }
