@@ -13,10 +13,9 @@ class MorePage extends TbContextWidget {
 }
 
 class _MorePageState extends TbContextState<MorePage>
-    with AutomaticKeepAliveClientMixin {
+    with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return SafeArea(
         child: Scaffold(
             backgroundColor: Colors.white,
@@ -88,6 +87,25 @@ class _MorePageState extends TbContextState<MorePage>
                 ],
               ),
             )));
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      NotificationService.triggerNotificationCountStream();
+    }
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
@@ -164,9 +182,6 @@ class _MorePageState extends TbContextState<MorePage>
     }
     return name;
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class MoreMenuItem {
