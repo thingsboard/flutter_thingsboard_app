@@ -270,12 +270,17 @@ class MoreMenuItem {
               borderRadius: BorderRadius.circular(20),
               color: Colors.red,
             ),
+            padding: const EdgeInsets.all(3),
             alignment: Alignment.center,
             height: 20,
             width: 20,
-            child: Text(
-              '${snapshot.data}',
-              style: TextStyle(color: Colors.white),
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                '${snapshot.data! > 99 ? '99+' : snapshot.data}',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           );
         }
