@@ -205,6 +205,15 @@ class MoreMenuItem {
       List<MoreMenuItem> items = [];
       switch (tbContext.tbClient.getAuthUser()!.authority) {
         case Authority.SYS_ADMIN:
+          items.add(
+            MoreMenuItem(
+              title: 'Notifications',
+              icon: Icons.notifications_active,
+              path: '/notifications',
+              showAdditionalIcon: true,
+              additionalIcon: _notificationNumberWidget(),
+            ),
+          );
           break;
         case Authority.TENANT_ADMIN:
           items.addAll([
