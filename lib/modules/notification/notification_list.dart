@@ -23,18 +23,27 @@ class NotificationsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (notifications.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'No notifications found',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
+      return LayoutBuilder(
+        builder: (_, c) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            width: c.maxWidth,
+            height: c.maxHeight,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'No notifications found',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       );
     }

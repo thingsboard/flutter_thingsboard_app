@@ -97,8 +97,11 @@ class NotificationService {
     if (_fcmToken != null) {
       _tbClient.getUserService().removeMobileSession(_fcmToken!);
     }
+
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
+    _clearAllNotifications();
+    clearNotificationBadgeCount();
   }
 
   Future<void> _configFirebaseMessaging() async {
@@ -334,5 +337,9 @@ class NotificationService {
     final parsedCounter = int.parse(counter ?? '0');
 
     notificationsNumberStream.add(parsedCounter);
+  }
+
+  Future<void> _clearAllNotifications() async {
+    await _tbContext.storage.deleteItem(notificationsListKey);
   }
 }
