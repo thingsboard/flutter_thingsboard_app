@@ -16,7 +16,6 @@ Future<void> _backgroundHandler(RemoteMessage message) async {
   // TODO: firebase_init: run flutterfire configure and uncomment it
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService.saveNotification(message);
-  await NotificationService.increaseNotificationBadgeCount();
 }
 
 class NotificationService {
@@ -216,7 +215,6 @@ class NotificationService {
       );
 
       saveNotification(message);
-      increaseNotificationBadgeCount();
     }
   }
 
@@ -307,6 +305,10 @@ class NotificationService {
   }
 
   static Future<void> saveNotification(RemoteMessage message) async {
+    if (message.messageId == null) {
+      return;
+    }
+
     final storage = createAppStorage();
     final notifications = await storage.getItem(notificationsListKey);
     if (notifications != null) {
@@ -329,6 +331,8 @@ class NotificationService {
         jsonEncode([notification.toJson()]),
       );
     }
+
+    increaseNotificationBadgeCount();
   }
 
   static Future<void> triggerNotificationCountStream() async {
