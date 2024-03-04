@@ -56,20 +56,6 @@ class ThingsboardAppState extends State<ThingsboardApp>
   void initState() {
     super.initState();
     appRouter.tbContext.setMainDashboardHolder(this);
-
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) async {
-        final message = await FirebaseMessaging.instance.getInitialMessage();
-        if (message == null) {
-          return;
-        }
-
-        NotificationService.handleClickOnNotification(
-          message.data,
-          appRouter.tbContext,
-        );
-      },
-    );
   }
 
   @override

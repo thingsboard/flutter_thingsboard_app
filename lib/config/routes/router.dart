@@ -10,8 +10,10 @@ import 'package:thingsboard_app/modules/customer/customer_routes.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard_routes.dart';
 import 'package:thingsboard_app/modules/device/device_routes.dart';
 import 'package:thingsboard_app/modules/home/home_routes.dart';
+import 'package:thingsboard_app/modules/notification/notification_routes.dart';
 import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
+import 'package:thingsboard_app/modules/url/url_routes.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
 class ThingsboardAppRouter {
@@ -39,6 +41,8 @@ class ThingsboardAppRouter {
     AuditLogsRoutes(_tbContext).registerRoutes();
     CustomerRoutes(_tbContext).registerRoutes();
     TenantRoutes(_tbContext).registerRoutes();
+    NotificationRoutes(_tbContext).registerRoutes();
+    UrlPageRoutes(_tbContext).registerRoutes();
   }
 
   TbContext get tbContext => _tbContext;

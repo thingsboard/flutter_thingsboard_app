@@ -19,15 +19,7 @@ class UrlPage extends StatelessWidget {
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        leading: BackButton(onPressed: () => tbContext.pop()),
-        showLoadingIndicator: false,
-        elevation: 1,
-        shadowColor: Colors.transparent,
-        title: FittedBox(
-          fit: BoxFit.fitWidth,
-          alignment: Alignment.centerLeft,
-          child: const Text('URL'),
-        ),
+        title: const Text('Url'),
       ),
       body: UniversalPlatform.isWeb
           ? const Center(child: Text('Not implemented!'))
