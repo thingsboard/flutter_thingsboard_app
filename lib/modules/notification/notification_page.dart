@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/config/themes/tb_theme_utils.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/notification/notification_list.dart';
@@ -48,7 +47,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                     }
                   });
 
-                  final storage = tbContext.storage;
+                  final storage = createAppStorage();
                   storage.setItem(
                     NotificationService.notificationsListKey,
                     jsonEncode(
@@ -78,7 +77,6 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                         color: Color(0x99FFFFFF),
                         child: Center(
                           child: TbProgressIndicator(
-                            tbContext,
                             size: 50.0,
                           ),
                         ),
@@ -159,7 +157,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                                   (states) {
                                     if (states
                                         .contains(MaterialState.selected)) {
-                                      return TbThemeUtils.tbPrimary;
+                                      return Colors.teal;
                                     }
 
                                     return Colors.grey.withOpacity(0.3);
@@ -208,7 +206,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                                   );
                                 });
 
-                                final storage = tbContext.storage;
+                                final storage = createAppStorage();
                                 storage.setItem(
                                   NotificationService.notificationsListKey,
                                   jsonEncode(
@@ -230,7 +228,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                                   }
                                 });
 
-                                final storage = tbContext.storage;
+                                final storage = createAppStorage();
                                 storage.setItem(
                                   NotificationService.notificationsListKey,
                                   jsonEncode(
