@@ -18,6 +18,10 @@ Future<void> _backgroundHandler(RemoteMessage message) async {
   await NotificationService.saveNotification(message);
 }
 
+@pragma('vm:entry-point')
+Future<void> _onDidReceiveBackgroundNotification(
+    NotificationResponse details) async {}
+
 class NotificationService {
   static final NotificationService _instance = NotificationService._();
   static FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -99,8 +103,8 @@ class NotificationService {
 
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
-    _clearAllNotifications();
-    clearNotificationBadgeCount();
+    await _clearAllNotifications();
+    await clearNotificationBadgeCount();
   }
 
   Future<void> _configFirebaseMessaging() async {
@@ -122,9 +126,14 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
-        final data = json.decode(response.payload ?? '');
-        handleClickOnNotification(data, _tbContext);
+        if (response.notificationResponseType ==
+            NotificationResponseType.selectedNotification) {
+          final data = json.decode(response.payload ?? '');
+          handleClickOnNotification(data, _tbContext);
+        }
       },
+      onDidReceiveBackgroundNotificationResponse:
+          _onDidReceiveBackgroundNotification,
     );
 
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
