@@ -286,7 +286,7 @@ class NotificationService {
     notificationsNumberStream.add(updatedCounter);
   }
 
-  static Future<void> decreaseNotificationBadgeCount() async {
+  static Future<void> decreaseNotificationBadgeCount(int id) async {
     final storage = createAppStorage();
     final counter = await storage.getItem(notificationCounterKey);
     final updatedCounter = int.parse(counter ?? '0') - 1;
@@ -296,8 +296,9 @@ class NotificationService {
       if (await FlutterAppBadger.isAppBadgeSupported()) {
         FlutterAppBadger.updateBadgeCount(updatedCounter);
       }
-      await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
+      await storage.setItem(notificationCounterKey, updatedCounter.toString());
+      FlutterLocalNotificationsPlugin().cancel(id);
       notificationsNumberStream.add(updatedCounter);
     }
   }
@@ -310,6 +311,7 @@ class NotificationService {
       FlutterAppBadger.removeBadge();
     }
 
+    FlutterLocalNotificationsPlugin().cancelAll();
     notificationsNumberStream.add(0);
   }
 

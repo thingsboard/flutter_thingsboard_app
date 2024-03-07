@@ -42,7 +42,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                       if (!_notifications[i].read) {
                         _notifications[i] =
                             _notifications[i].copyWith(read: true);
-                        NotificationService.decreaseNotificationBadgeCount();
+                        NotificationService.clearNotificationBadgeCount();
                       }
                     }
                   });
@@ -197,7 +197,9 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
 
                                 if (!notification.read) {
                                   NotificationService
-                                      .decreaseNotificationBadgeCount();
+                                      .decreaseNotificationBadgeCount(
+                                    notification.hashCode,
+                                  );
                                 }
 
                                 setState(() {
@@ -225,6 +227,11 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                                     _notifications[index] =
                                         _notifications[index]
                                             .copyWith(read: true);
+
+                                    NotificationService
+                                        .decreaseNotificationBadgeCount(
+                                      _notifications[index].hashCode,
+                                    );
                                   }
                                 });
 
@@ -237,9 +244,6 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                                         .toList(),
                                   ),
                                 );
-
-                                NotificationService
-                                    .decreaseNotificationBadgeCount();
                               },
                             ),
                           ),
