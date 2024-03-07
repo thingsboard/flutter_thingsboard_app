@@ -116,7 +116,11 @@ class NotificationService {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    const initializationSettingsIOS = DarwinInitializationSettings();
+    const initializationSettingsIOS = DarwinInitializationSettings(
+      defaultPresentSound: false,
+      defaultPresentAlert: false,
+      defaultPresentBadge: false,
+    );
 
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -169,9 +173,6 @@ class NotificationService {
       return result;
     }
 
-    if (Platform.isIOS) {
-      _messaging.setForegroundNotificationPresentationOptions();
-    }
     return result;
   }
 
@@ -212,9 +213,8 @@ class NotificationService {
 
   void showNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
 
-    if (notification != null && android != null) {
+    if (notification != null) {
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -230,7 +230,13 @@ class NotificationService {
   void _subscribeOnForegroundMessage() {
     FirebaseMessaging.onMessage.listen((message) {
       _log.debug('Message:' + message.toString());
-      showNotification(message);
+      if (message.sentTime == null) {
+        final map = message.toMap();
+        map['sentTime'] = DateTime.now().millisecondsSinceEpoch;
+        showNotification(RemoteMessage.fromMap(map));
+      } else {
+        showNotification(message);
+      }
     });
   }
 
@@ -323,7 +329,7 @@ class NotificationService {
     final storage = createAppStorage();
     final notifications = await storage.getItem(notificationsListKey);
     if (notifications != null) {
-      final List<NotificationModel> notificationsList = json
+      final notificationsList = json
           .decode(notifications)
           .map((e) => NotificationModel.fromJson(e))
           .toList()
