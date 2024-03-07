@@ -28,24 +28,23 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => _refresh(),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: TbAppBar(
-            tbContext,
-            title: const Text('Notifications'),
-            actions: [
-              TextButton(
-                child: Text('Mark all as read'),
-                onPressed: () {
-                  setState(() {
-                    for (int i = 0; i < _notifications.length; ++i) {
-                      if (!_notifications[i].read) {
-                        _notifications[i] =
-                            _notifications[i].copyWith(read: true);
-                        NotificationService.clearNotificationBadgeCount();
-                      }
+      child: Scaffold(
+        appBar: TbAppBar(
+          tbContext,
+          title: const Text('Notifications'),
+          actions: [
+            TextButton(
+              child: Text('Mark all as read'),
+              onPressed: () {
+                setState(() {
+                  for (int i = 0; i < _notifications.length; ++i) {
+                    if (!_notifications[i].read) {
+                      _notifications[i] =
+                          _notifications[i].copyWith(read: true);
+                      NotificationService.clearNotificationBadgeCount();
                     }
-                  });
+                  }
+                });
 
                   final storage = createAppStorage();
                   storage.setItem(
