@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/modules/notification/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/notification_list.dart';
 import 'package:thingsboard_app/modules/notification/notification_model.dart';
 import 'package:thingsboard_app/utils/services/_tb_secure_storage.dart';
@@ -118,65 +119,27 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: SegmentedButton(
-                              segments: [
-                                ButtonSegment(
-                                  value: NotificationsFilter.unread,
-                                  label: Center(
-                                    child: Text(
-                                      'Unread',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ButtonSegment(
-                                  value: NotificationsFilter.all,
-                                  label: Text(
-                                    'All',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              selected: {notificationsFilter},
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: FilterSegmentedButton(
+                              selected: notificationsFilter,
                               onSelectionChanged: (newSelection) {
                                 setState(() {
-                                  notificationsFilter = newSelection.first;
+                                  notificationsFilter = newSelection;
                                 });
                               },
-                              showSelectedIcon: false,
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith(
-                                  (states) {
-                                    if (states
-                                        .contains(MaterialState.selected)) {
-                                      return Colors.teal;
-                                    }
-
-                                    return Colors.grey.withOpacity(0.3);
-                                  },
+                              segments: [
+                                FilterSegments(
+                                  label: 'Unread',
+                                  value: NotificationsFilter.unread,
                                 ),
-                                foregroundColor:
-                                    MaterialStateProperty.resolveWith(
-                                  (states) {
-                                    if (states
-                                        .contains(MaterialState.selected)) {
-                                      return Colors.white;
-                                    }
-
-                                    return Colors.grey;
-                                  },
+                                FilterSegments(
+                                  label: 'All',
+                                  value: NotificationsFilter.all,
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 10),
                           Expanded(
                             child: NotificationsList(
                               notifications: _notifications.reversed.where((e) {
