@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -118,7 +119,12 @@ class _MorePageState extends TbContextState<MorePage>
               child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 18),
                   child: Row(mainAxisSize: MainAxisSize.max, children: [
-                    Icon(menuItem.icon, color: Color(0xFF282828)),
+                    Icon(
+                      menuItem.icon,
+                      color: !menuItem.disabled
+                          ? Color(0xFF282828)
+                          : Colors.grey.withOpacity(0.5),
+                    ),
                     Visibility(
                       visible: menuItem.showAdditionalIcon,
                       child: menuItem.additionalIcon ?? const SizedBox.shrink(),
@@ -126,14 +132,26 @@ class _MorePageState extends TbContextState<MorePage>
                     SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
                     Text(menuItem.title,
                         style: TextStyle(
-                            color: Color(0xFF282828),
+                            color: !menuItem.disabled
+                                ? Color(0xFF282828)
+                                : Colors.grey.withOpacity(0.5),
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                             height: 20 / 14))
                   ]))),
           onTap: () {
-            navigateTo(menuItem.path);
+            if (!menuItem.disabled) {
+              navigateTo(menuItem.path);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    menuItem.disabledReasonMessage ?? 'The item is disabled',
+                  ),
+                ),
+              );
+            }
           });
     }).toList();
     return Column(children: items);
@@ -190,6 +208,8 @@ class MoreMenuItem {
   final String path;
   final bool showAdditionalIcon;
   final Widget? additionalIcon;
+  final bool disabled;
+  final String? disabledReasonMessage;
 
   MoreMenuItem({
     required this.title,
@@ -197,6 +217,8 @@ class MoreMenuItem {
     required this.path,
     this.showAdditionalIcon = false,
     this.additionalIcon,
+    this.disabled = false,
+    this.disabledReasonMessage,
   });
 
   static List<MoreMenuItem> getItems(
@@ -212,6 +234,10 @@ class MoreMenuItem {
               path: '/notifications',
               showAdditionalIcon: true,
               additionalIcon: _notificationNumberWidget(),
+              disabled: Firebase.apps.isEmpty,
+              disabledReasonMessage: 'Firebase is not configured.'
+                  ' Please refer to the official Firebase documentation for'
+                  ' guidance on how to do so.',
             ),
           );
           break;
@@ -235,6 +261,10 @@ class MoreMenuItem {
               path: '/notifications',
               showAdditionalIcon: true,
               additionalIcon: _notificationNumberWidget(),
+              disabled: Firebase.apps.isEmpty,
+              disabledReasonMessage: 'Firebase is not configured.'
+                  ' Please refer to the official Firebase documentation for'
+                  ' guidance on how to do so.',
             )
           ]);
           break;
@@ -250,6 +280,10 @@ class MoreMenuItem {
               path: '/notifications',
               showAdditionalIcon: true,
               additionalIcon: _notificationNumberWidget(),
+              disabled: Firebase.apps.isEmpty,
+              disabledReasonMessage: 'Firebase is not configured.'
+                  ' Please refer to the official Firebase documentation for'
+                  ' guidance on how to do so.',
             ),
           ]);
           break;

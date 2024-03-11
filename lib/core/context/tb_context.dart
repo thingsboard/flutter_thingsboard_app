@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -308,8 +309,9 @@ class TbContext implements PopEntry {
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
       await updateRouteState();
       if (tbClient.getAuthUser()!.userId != null) {
-        // TODO: firebase_init: run flutterfire configure and uncomment it
-        // NotificationService().init(tbClient, log, this);
+        if (Firebase.apps.isNotEmpty) {
+          NotificationService().init(tbClient, log, this);
+        }
       }
     } catch (e, s) {
       log.error('Error: $e', e, s);
@@ -333,8 +335,9 @@ class TbContext implements PopEntry {
   }
 
   Future<void> logout({RequestConfig? requestConfig}) async {
-    // TODO: firebase_init: run flutterfire configure and uncomment it
-    // await NotificationService().logout();
+    if (Firebase.apps.isNotEmpty) {
+      await NotificationService().logout();
+    }
     tbClient.logout(requestConfig: requestConfig);
   }
 

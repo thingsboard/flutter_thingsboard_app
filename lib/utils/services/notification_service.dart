@@ -13,8 +13,6 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
 Future<void> _backgroundHandler(RemoteMessage message) async {
-  // TODO: firebase_init: run flutterfire configure and uncomment it
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService.saveNotification(message);
 }
 
