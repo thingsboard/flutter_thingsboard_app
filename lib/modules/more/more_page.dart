@@ -262,9 +262,8 @@ class MoreMenuItem {
               showAdditionalIcon: true,
               additionalIcon: _notificationNumberWidget(),
               disabled: Firebase.apps.isEmpty,
-              disabledReasonMessage: 'Firebase is not configured.'
-                  ' Please refer to the official Firebase documentation for'
-                  ' guidance on how to do so.',
+              disabledReasonMessage: 'Notifications are not configured. '
+                  'Please contact your system administrator.',
             )
           ]);
           break;
@@ -281,9 +280,8 @@ class MoreMenuItem {
               showAdditionalIcon: true,
               additionalIcon: _notificationNumberWidget(),
               disabled: Firebase.apps.isEmpty,
-              disabledReasonMessage: 'Firebase is not configured.'
-                  ' Please refer to the official Firebase documentation for'
-                  ' guidance on how to do so.',
+              disabledReasonMessage: 'Notifications are not configured. '
+                  'Please contact your system administrator.',
             ),
           ]);
           break;
