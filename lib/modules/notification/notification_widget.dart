@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/notification/notification_icon.dart';
 import 'package:thingsboard_app/modules/notification/notification_model.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -51,10 +52,7 @@ class NotificationWidget extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.black54,
-                  ),
+                  NotificationIcon(notification: notification),
                 ],
               ),
               Expanded(
