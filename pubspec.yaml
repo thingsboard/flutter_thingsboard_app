@@ -40,6 +40,7 @@ dependencies:
   crypto: ^3.0.3
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^9.1.0
+  flutter_html: 3.0.0-alpha.5
   universal_html: ^2.2.4
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.2.0

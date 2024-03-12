@@ -47,176 +47,174 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                   }
                 });
 
-                  final storage = createAppStorage();
-                  storage.setItem(
-                    NotificationService.notificationsListKey,
-                    jsonEncode(
-                      _notifications.map((e) => e.toJson()).toList(),
+                final storage = createAppStorage();
+                storage.setItem(
+                  NotificationService.notificationsListKey,
+                  jsonEncode(
+                    _notifications.map((e) => e.toJson()).toList(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        body: StreamBuilder(
+          stream: NotificationService.notificationsNumberStream.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (_notifications.where((e) => !e.read).toList().length !=
+                  snapshot.data) {
+                _refresh();
+              }
+            }
+
+            return ValueListenableBuilder<bool>(
+              valueListenable: _isLoadingNotifier,
+              builder: (context, loading, _) {
+                if (loading) {
+                  return SizedBox.expand(
+                    child: Container(
+                      color: Color(0x99FFFFFF),
+                      child: Center(
+                        child: TbProgressIndicator(
+                          size: 50.0,
+                        ),
+                      ),
                     ),
                   );
-                },
-              ),
-            ],
-          ),
-          body: StreamBuilder(
-            stream: NotificationService.notificationsNumberStream.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (_notifications.where((e) => !e.read).toList().length !=
-                    snapshot.data) {
-                  _refresh();
-                }
-              }
-
-              return ValueListenableBuilder<bool>(
-                valueListenable: _isLoadingNotifier,
-                builder: (context, loading, _) {
-                  if (loading) {
-                    return SizedBox.expand(
-                      child: Container(
-                        color: Color(0x99FFFFFF),
-                        child: Center(
-                          child: TbProgressIndicator(
-                            size: 50.0,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    if (_notifications.isEmpty) {
-                      return Scaffold(
-                        body: LayoutBuilder(
-                          builder: (_, c) {
-                            return SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: SizedBox(
-                                height: c.maxHeight,
-                                width: c.maxWidth,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'No notifications yet',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16,
-                                      ),
+                } else {
+                  if (_notifications.isEmpty) {
+                    return Scaffold(
+                      body: LayoutBuilder(
+                        builder: (_, c) {
+                          return SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: SizedBox(
+                              height: c.maxHeight,
+                              width: c.maxWidth,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'No notifications yet',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 10,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 20),
-                            child: FilterSegmentedButton(
-                              selected: notificationsFilter,
-                              onSelectionChanged: (newSelection) {
-                                setState(() {
-                                  notificationsFilter = newSelection;
-                                });
-                              },
-                              segments: [
-                                FilterSegments(
-                                  label: 'Unread',
-                                  value: NotificationsFilter.unread,
-                                ),
-                                FilterSegments(
-                                  label: 'All',
-                                  value: NotificationsFilter.all,
-                                ),
-                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: NotificationsList(
-                              notifications: _notifications.reversed.where((e) {
-                                if (notificationsFilter ==
-                                    NotificationsFilter.unread) {
-                                  return !e.read;
-                                }
-
-                                return true;
-                              }).toList(),
-                              thingsboardClient: tbClient,
-                              tbContext: tbContext,
-                              onClearNotification: (id) {
-                                final notification = _notifications.firstWhere(
-                                  (e) => e.message.messageId == id,
-                                );
-
-                                if (!notification.read) {
-                                  NotificationService
-                                      .decreaseNotificationBadgeCount(
-                                    notification.hashCode,
-                                  );
-                                }
-
-                                setState(() {
-                                  _notifications.removeWhere(
-                                    (e) => e.message.messageId == id,
-                                  );
-                                });
-
-                                final storage = createAppStorage();
-                                storage.setItem(
-                                  NotificationService.notificationsListKey,
-                                  jsonEncode(
-                                    _notifications
-                                        .map((e) => e.toJson())
-                                        .toList(),
-                                  ),
-                                );
-                              },
-                              onReadNotification: (id) {
-                                setState(() {
-                                  final index = _notifications.indexWhere(
-                                    (e) => e.message.messageId == id,
-                                  );
-                                  if (index != -1) {
-                                    _notifications[index] =
-                                        _notifications[index]
-                                            .copyWith(read: true);
-
-                                    NotificationService
-                                        .decreaseNotificationBadgeCount(
-                                      _notifications[index].hashCode,
-                                    );
-                                  }
-                                });
-
-                                final storage = createAppStorage();
-                                storage.setItem(
-                                  NotificationService.notificationsListKey,
-                                  jsonEncode(
-                                    _notifications
-                                        .map((e) => e.toJson())
-                                        .toList(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     );
                   }
-                },
-              );
-            },
-          ),
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          child: FilterSegmentedButton(
+                            selected: notificationsFilter,
+                            onSelectionChanged: (newSelection) {
+                              setState(() {
+                                notificationsFilter = newSelection;
+                              });
+                            },
+                            segments: [
+                              FilterSegments(
+                                label: 'Unread',
+                                value: NotificationsFilter.unread,
+                              ),
+                              FilterSegments(
+                                label: 'All',
+                                value: NotificationsFilter.all,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: NotificationsList(
+                            notifications: _notifications.reversed.where((e) {
+                              if (notificationsFilter ==
+                                  NotificationsFilter.unread) {
+                                return !e.read;
+                              }
+
+                              return true;
+                            }).toList(),
+                            thingsboardClient: tbClient,
+                            tbContext: tbContext,
+                            onClearNotification: (id) {
+                              final notification = _notifications.firstWhere(
+                                (e) => e.message.messageId == id,
+                              );
+
+                              if (!notification.read) {
+                                NotificationService
+                                    .decreaseNotificationBadgeCount(
+                                  notification.hashCode,
+                                );
+                              }
+
+                              setState(() {
+                                _notifications.removeWhere(
+                                  (e) => e.message.messageId == id,
+                                );
+                              });
+
+                              final storage = createAppStorage();
+                              storage.setItem(
+                                NotificationService.notificationsListKey,
+                                jsonEncode(
+                                  _notifications
+                                      .map((e) => e.toJson())
+                                      .toList(),
+                                ),
+                              );
+                            },
+                            onReadNotification: (id) {
+                              setState(() {
+                                final index = _notifications.indexWhere(
+                                  (e) => e.message.messageId == id,
+                                );
+                                if (index != -1) {
+                                  _notifications[index] = _notifications[index]
+                                      .copyWith(read: true);
+
+                                  NotificationService
+                                      .decreaseNotificationBadgeCount(
+                                    _notifications[index].hashCode,
+                                  );
+                                }
+                              });
+
+                              final storage = createAppStorage();
+                              storage.setItem(
+                                NotificationService.notificationsListKey,
+                                jsonEncode(
+                                  _notifications
+                                      .map((e) => e.toJson())
+                                      .toList(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            );
+          },
         ),
       ),
     );
