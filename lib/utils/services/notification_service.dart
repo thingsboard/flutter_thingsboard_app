@@ -112,7 +112,7 @@ class NotificationService {
 
   Future<void> _initFlutterLocalNotificationsPlugin() async {
     const initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/launcher_icon');
+        AndroidInitializationSettings('@mipmap/thingsboard');
 
     const initializationSettingsIOS = DarwinInitializationSettings(
       defaultPresentSound: false,
