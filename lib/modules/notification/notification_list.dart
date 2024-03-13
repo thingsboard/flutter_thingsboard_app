@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/notification/notification_model.dart';
+import 'package:thingsboard_app/modules/notification/notification_slidable_widget.dart';
 import 'package:thingsboard_app/modules/notification/notification_widget.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -57,11 +58,18 @@ class NotificationsList extends StatelessWidget {
             tbContext,
           );
         },
-        child: NotificationWidget(
+        child: NotificationSlidableWidget(
+          child: NotificationWidget(
+            notification: notifications[index],
+            thingsboardClient: thingsboardClient,
+            onClearNotification: onClearNotification,
+            onReadNotification: onReadNotification,
+          ),
           notification: notifications[index],
-          thingsboardClient: thingsboardClient,
-          onClearNotification: onClearNotification,
           onReadNotification: onReadNotification,
+          onClearNotification: onClearNotification,
+          tbContext: tbContext,
+          thingsboardClient: thingsboardClient,
         ),
       ),
       separatorBuilder: (_, __) => const Divider(thickness: 1),

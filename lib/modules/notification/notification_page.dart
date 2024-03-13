@@ -181,20 +181,31 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                               );
                             },
                             onReadNotification: (id) {
-                              setState(() {
-                                final index = _notifications.indexWhere(
-                                  (e) => e.message.messageId == id,
-                                );
-                                if (index != -1) {
-                                  _notifications[index] = _notifications[index]
-                                      .copyWith(read: true);
+                              final index = _notifications.indexWhere(
+                                (e) => e.message.messageId == id,
+                              );
+                              if (index == -1) {
+                                return;
+                              }
 
-                                  NotificationService
-                                      .decreaseNotificationBadgeCount(
-                                    _notifications[index].hashCode,
-                                  );
-                                }
+                              setState(() {
+                                _notifications[index] =
+                                    _notifications[index].copyWith(read: true);
+
+                                NotificationService
+                                    .decreaseNotificationBadgeCount(
+                                  _notifications[index].hashCode,
+                                );
                               });
+
+                              final type = _notifications[index]
+                                  .message
+                                  .data['notificationType'];
+
+                              if (type?.toUpperCase().contains('ALARM') ==
+                                  true) {
+                                _updateAlarmStatusById(_notifications[index]);
+                              }
 
                               final storage = createAppStorage();
                               storage.setItem(
@@ -245,9 +256,35 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
   }
 
   Future<void> _refresh() async {
+    // final uniqueAlarms = _notifications
+    //     .where((n) => n.message.data['info.alarmId'] != null)
+    //     .toSet();
+    //
+    // final updatedAlarms = await Future.wait(
+    //   uniqueAlarms
+    //       .map((e) => tbClient
+    //           .getAlarmService()
+    //           .getAlarms(e.message.data['info.alarmId']))
+    //       .toList(),
+    // );
+
+    // print(updatedAlarms);
+
     await _loadNotifications();
+
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void _updateAlarmStatusById(NotificationModel notification) {
+    final id = notification.message.data['info.alarmId'];
+    final status = notification.message.data['info.alarmStatus'];
+
+    for (int i = 0; i < _notifications.length; ++i) {
+      if (_notifications[i].message.data['info.alarmId'] == id) {
+        _notifications[i].message.data['info.alarmStatus'] = status;
+      }
     }
   }
 }

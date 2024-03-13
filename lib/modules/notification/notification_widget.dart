@@ -109,22 +109,16 @@ class NotificationWidget extends StatelessWidget {
                             ),
                             icon: Icon(
                               Icons.check_circle_outline,
-                              color: Colors.black54,
+                              color: Colors.black.withOpacity(0.38),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 30,
-                        height: 50,
-                        child: IconButton(
-                          onPressed: () => onClearNotification(
-                            notification.message.messageId!,
-                          ),
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.black54,
-                          ),
+                      Visibility(
+                        visible: notification.read,
+                        child: SizedBox(
+                          width: 30,
+                          height: 50,
                         ),
                       ),
                     ],
