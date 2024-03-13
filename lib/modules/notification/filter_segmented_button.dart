@@ -40,7 +40,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   color: segments[index].value == selected
-                      ? Color(0xff00695C)
+                      ? Color(0xFF305680)
                       : null,
                 ),
                 child: Center(

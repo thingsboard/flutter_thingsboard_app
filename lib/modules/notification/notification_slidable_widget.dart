@@ -52,7 +52,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
                   onPressed: (context) => widget.onReadNotification(
                     widget.notification.message.messageId!,
                   ),
-                  backgroundColor: Color(0xFF00695C),
+                  backgroundColor: Color(0xFF198038),
                   foregroundColor: Colors.white,
                   icon: Icons.check_circle_outline,
                   label: 'Mark as read',
@@ -72,7 +72,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
                 widget.notification.message.messageId!,
               );
             },
-            backgroundColor: Color(0xFFD12730),
+            backgroundColor: Color(0xFFD12730).withOpacity(0.94),
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Delete',
@@ -103,7 +103,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
         items.add(
           SlidableAction(
             onPressed: (context) => _ackAlarm(id, context),
-            backgroundColor: Color(0xFF00695C),
+            backgroundColor: Color(0xFF198038),
             foregroundColor: Colors.white,
             icon: Icons.done,
             label: 'Acknowledge',
