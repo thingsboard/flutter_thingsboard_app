@@ -1,4 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/notification/notification_icon.dart';
 import 'package:thingsboard_app/modules/notification/notification_model.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -19,13 +23,23 @@ class NotificationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final diff = DateTime.now().difference(notification.message.sentTime!);
+    final severity = AlarmSeverity.values.firstWhereOrNull(
+      (s) {
+        return notification.message.data['info.alarmSeverity']
+                ?.toUpperCase()
+                .compareTo(s.toString().split('.').last) ==
+            0;
+      },
+    );
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
-        // border: Border.all(
-        //   color: Colors.grey,
-        // ),
+        border: severity != null
+            ? Border.all(
+                color: alarmSeverityColors[severity]!,
+              )
+            : null,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
@@ -38,10 +52,7 @@ class NotificationWidget extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.black54,
-                  ),
+                  NotificationIcon(notification: notification),
                 ],
               ),
               Expanded(
@@ -52,17 +63,20 @@ class NotificationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
-                        child: Text(
-                          notification.message.notification?.title ?? '',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 7),
+                          child: Text(
+                            notification.message.notification?.title ?? '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
                       Flexible(
-                        child: Text(
-                          notification.message.notification?.body ?? '',
+                        child: Html(
+                          data: notification.message.notification?.body ?? '',
                         ),
                       ),
                     ],
@@ -70,7 +84,7 @@ class NotificationWidget extends StatelessWidget {
                 ),
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
                     width: 30,
@@ -115,21 +129,23 @@ class NotificationWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     color: alarmSeverityColors[AlarmSeverity.CRITICAL]!
-                  //         .withOpacity(0.1),
-                  //     borderRadius: BorderRadius.circular(5),
-                  //   ),
-                  //   padding: const EdgeInsets.all(5),
-                  //   child: Text(
-                  //     'Critical',
-                  //     style: TextStyle(
-                  //       color: alarmSeverityColors[AlarmSeverity.CRITICAL]!,
-                  //       fontWeight: FontWeight.w600,
-                  //     ),
-                  //   ),
-                  // )
+                  Visibility(
+                    visible: severity != null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: alarmSeverityColors[severity]?.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        alarmSeverityTranslations[severity] ?? '',
+                        style: TextStyle(
+                          color: alarmSeverityColors[AlarmSeverity.CRITICAL]!,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

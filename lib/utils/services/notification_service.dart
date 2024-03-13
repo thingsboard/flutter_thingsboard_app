@@ -13,10 +13,12 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
 Future<void> _backgroundHandler(RemoteMessage message) async {
-  // TODO: firebase_init: run flutterfire configure and uncomment it
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService.saveNotification(message);
 }
+
+@pragma('vm:entry-point')
+Future<void> _onDidReceiveBackgroundNotification(
+    NotificationResponse details) async {}
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._();
@@ -99,8 +101,8 @@ class NotificationService {
 
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
-    _clearAllNotifications();
-    clearNotificationBadgeCount();
+    await _clearAllNotifications();
+    await clearNotificationBadgeCount();
   }
 
   Future<void> _configFirebaseMessaging() async {
@@ -112,7 +114,11 @@ class NotificationService {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    const initializationSettingsIOS = DarwinInitializationSettings();
+    const initializationSettingsIOS = DarwinInitializationSettings(
+      defaultPresentSound: false,
+      defaultPresentAlert: false,
+      defaultPresentBadge: false,
+    );
 
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -122,9 +128,14 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
-        final data = json.decode(response.payload ?? '');
-        handleClickOnNotification(data, _tbContext);
+        if (response.notificationResponseType ==
+            NotificationResponseType.selectedNotification) {
+          final data = json.decode(response.payload ?? '');
+          handleClickOnNotification(data, _tbContext);
+        }
       },
+      onDidReceiveBackgroundNotificationResponse:
+          _onDidReceiveBackgroundNotification,
     );
 
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -160,9 +171,6 @@ class NotificationService {
       return result;
     }
 
-    if (Platform.isIOS) {
-      _messaging.setForegroundNotificationPresentationOptions();
-    }
     return result;
   }
 
@@ -203,9 +211,8 @@ class NotificationService {
 
   void showNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
 
-    if (notification != null && android != null) {
+    if (notification != null) {
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -221,7 +228,13 @@ class NotificationService {
   void _subscribeOnForegroundMessage() {
     FirebaseMessaging.onMessage.listen((message) {
       _log.debug('Message:' + message.toString());
-      showNotification(message);
+      if (message.sentTime == null) {
+        final map = message.toMap();
+        map['sentTime'] = DateTime.now().millisecondsSinceEpoch;
+        showNotification(RemoteMessage.fromMap(map));
+      } else {
+        showNotification(message);
+      }
     });
   }
 
@@ -277,7 +290,7 @@ class NotificationService {
     notificationsNumberStream.add(updatedCounter);
   }
 
-  static Future<void> decreaseNotificationBadgeCount() async {
+  static Future<void> decreaseNotificationBadgeCount(int id) async {
     final storage = createAppStorage();
     final counter = await storage.getItem(notificationCounterKey);
     final updatedCounter = int.parse(counter ?? '0') - 1;
@@ -287,8 +300,9 @@ class NotificationService {
       if (await FlutterAppBadger.isAppBadgeSupported()) {
         FlutterAppBadger.updateBadgeCount(updatedCounter);
       }
-      await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
+      await storage.setItem(notificationCounterKey, updatedCounter.toString());
+      FlutterLocalNotificationsPlugin().cancel(id);
       notificationsNumberStream.add(updatedCounter);
     }
   }
@@ -301,6 +315,7 @@ class NotificationService {
       FlutterAppBadger.removeBadge();
     }
 
+    FlutterLocalNotificationsPlugin().cancelAll();
     notificationsNumberStream.add(0);
   }
 
@@ -312,7 +327,7 @@ class NotificationService {
     final storage = createAppStorage();
     final notifications = await storage.getItem(notificationsListKey);
     if (notifications != null) {
-      final List<NotificationModel> notificationsList = json
+      final notificationsList = json
           .decode(notifications)
           .map((e) => NotificationModel.fromJson(e))
           .toList()
