@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -311,6 +312,14 @@ class TbContext implements PopEntry {
       if (tbClient.getAuthUser()!.userId != null) {
         if (Firebase.apps.isNotEmpty) {
           NotificationService().init(tbClient, log, this);
+
+          final message = await FirebaseMessaging.instance.getInitialMessage();
+          if (message != null) {
+            NotificationService.handleClickOnNotification(
+              message.data,
+              this,
+            );
+          }
         }
       }
     } catch (e, s) {

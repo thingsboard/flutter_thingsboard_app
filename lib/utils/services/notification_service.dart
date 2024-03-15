@@ -12,8 +12,14 @@ import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 @pragma('vm:entry-point')
-Future<void> _backgroundHandler(RemoteMessage message) async {
-  await NotificationService.saveNotification(message);
+Future<void> backgroundHandler(RemoteMessage message) async {
+  if (message.sentTime == null) {
+    final map = message.toMap();
+    map['sentTime'] = DateTime.now().millisecondsSinceEpoch;
+    await NotificationService.saveNotification(RemoteMessage.fromMap(map));
+  } else {
+    await NotificationService.saveNotification(message);
+  }
 }
 
 @pragma('vm:entry-point')
@@ -52,11 +58,6 @@ class NotificationService {
 
     FirebaseMessaging.onMessageOpenedApp.listen(
       (message) async {
-        final message = await FirebaseMessaging.instance.getInitialMessage();
-        if (message == null) {
-          return;
-        }
-
         NotificationService.handleClickOnNotification(
           message.data,
           _tbContext,
@@ -107,7 +108,6 @@ class NotificationService {
 
   Future<void> _configFirebaseMessaging() async {
     await _messaging.setAutoInitEnabled(true);
-    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
   }
 
   Future<void> _initFlutterLocalNotificationsPlugin() async {
