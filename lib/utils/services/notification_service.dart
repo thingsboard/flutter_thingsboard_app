@@ -359,7 +359,6 @@ class NotificationService {
   }
 
   Future<void> _clearAllNotifications() async {
-    final storage = createAppStorage();
-    await storage.deleteItem(notificationsListKey);
+    await createAppStorage().deleteItem(notificationsListKey);
   }
 }
