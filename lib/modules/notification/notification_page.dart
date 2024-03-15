@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -32,6 +34,24 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
       child: Scaffold(
         appBar: TbAppBar(
           tbContext,
+          leading: IconButton(
+            onPressed: () {
+              final navigator = Navigator.of(tbContext.currentState!.context);
+              if (navigator.canPop()) {
+                tbContext.pop();
+              } else {
+                tbContext.navigateTo(
+                  '/home',
+                  replace: true,
+                  transition: TransitionType.fadeIn,
+                  transitionDuration: Duration(milliseconds: 750),
+                );
+              }
+            },
+            icon: Icon(
+              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+            ),
+          ),
           title: const Text('Notifications'),
           actions: [
             TextButton(
