@@ -56,6 +56,14 @@ class NotificationService {
     _tbClient = tbClient;
     _tbContext = context;
 
+    final message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      NotificationService.handleClickOnNotification(
+        message.data,
+        _tbContext,
+      );
+    }
+
     FirebaseMessaging.onMessageOpenedApp.listen(
       (message) async {
         NotificationService.handleClickOnNotification(
