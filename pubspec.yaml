@@ -3,7 +3,7 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.8
+version: 1.1.0
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: 1.0.8
+  thingsboard_client: ^1.1.0
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0
@@ -40,11 +40,18 @@ dependencies:
   crypto: ^3.0.3
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^9.1.0
+  flutter_html: 3.0.0-alpha.5
   universal_html: ^2.2.4
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.2.0
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+  flutter_local_notifications: ^16.3.0
+  flutter_app_badger: ^1.5.0
+  timeago: ^3.6.1
+  flutter_slidable: ^3.0.1
 
 dev_dependencies:
   flutter_test:

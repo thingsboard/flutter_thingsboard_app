@@ -1,20 +1,23 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:universal_platform/universal_platform.dart';
+
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
 
@@ -118,6 +121,7 @@ class TbContext implements PopEntry {
   bool _closeMainFirst = false;
 
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
+
   PopInvokedCallback get onPopInvoked => onPopInvokedImpl;
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
@@ -135,6 +139,7 @@ class TbContext implements PopEntry {
   }
 
   TbLogger get log => _log;
+
   WidgetActionHandler get widgetActionHandler => _widgetActionHandler;
 
   Future<void> init() async {
@@ -190,7 +195,7 @@ class TbContext implements PopEntry {
         : 'Unknown error.';
     message = 'Fatal application error occured:\n' + message + '.';
     await alert(title: 'Fatal error', message: message, ok: 'Close');
-    tbClient.logout();
+    logout();
   }
 
   void onError(ThingsboardError tbError) {
@@ -280,7 +285,7 @@ class TbContext implements PopEntry {
                 await tbClient.getDashboardService().getHomeDashboardInfo();
           } catch (e) {
             if (!_isConnectionError(e)) {
-              tbClient.logout();
+              logout();
             } else {
               rethrow;
             }
@@ -303,6 +308,11 @@ class TbContext implements PopEntry {
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
       await updateRouteState();
+      if (tbClient.getAuthUser()!.userId != null) {
+        if (Firebase.apps.isNotEmpty) {
+          NotificationService().init(tbClient, log, this);
+        }
+      }
     } catch (e, s) {
       log.error('Error: $e', e, s);
       if (_isConnectionError(e)) {
@@ -322,6 +332,13 @@ class TbContext implements PopEntry {
         }
       }
     }
+  }
+
+  Future<void> logout({RequestConfig? requestConfig}) async {
+    if (Firebase.apps.isNotEmpty) {
+      await NotificationService().logout();
+    }
+    tbClient.logout(requestConfig: requestConfig);
   }
 
   bool _isConnectionError(e) {
@@ -472,11 +489,14 @@ class TbContext implements PopEntry {
   }
 
   Future<T?> showFullScreenDialog<T>(Widget dialog) {
-    return Navigator.of(currentState!.context).push<T>(new MaterialPageRoute<T>(
+    return Navigator.of(currentState!.context).push<T>(
+      new MaterialPageRoute<T>(
         builder: (BuildContext context) {
           return dialog;
         },
-        fullscreenDialog: true));
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   void pop<T>([T? result, BuildContext? context]) async {
