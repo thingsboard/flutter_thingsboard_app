@@ -17,7 +17,7 @@ class NotificationService {
   late TbLogger _log;
   late ThingsboardClient _tbClient;
   late TbContext _tbContext;
-  late final INotificationsLocalService _localService;
+  late INotificationsLocalService _localService;
 
   String? _fcmToken;
 
