@@ -308,7 +308,7 @@ class TbContext implements PopEntry {
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
       await updateRouteState();
-      if (tbClient.getAuthUser()!.userId != null) {
+      if (tbClient.getAuthUser()?.userId != null) {
         if (Firebase.apps.isNotEmpty) {
           NotificationService().init(tbClient, log, this);
         }
