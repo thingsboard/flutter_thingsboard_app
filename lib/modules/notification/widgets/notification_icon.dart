@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
-import 'package:thingsboard_app/modules/notification/notification_model.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationIcon extends StatelessWidget {
   const NotificationIcon({required this.notification});
 
-  final NotificationModel notification;
+  final PushNotification notification;
 
   @override
   Widget build(BuildContext context) {
-    final iconData = _toIcon(notification.message.data);
+    final iconData = _toIcon(notification.additionalConfig?['icon']);
 
     return iconData;
   }
@@ -34,20 +34,20 @@ class NotificationIcon extends StatelessWidget {
   }
 
   Widget _toIcon(Map<String, dynamic> data) {
-    final imageData = notification.message.data['icon.icon'];
+    final imageData = data['icon'];
 
     if (imageData != null) {
       if (imageData!.contains('mdi')) {
         return SvgPicture.network(
           '${ThingsboardAppConstants.thingsBoardApiEndpoint}/assets/mdi/${imageData.split('mdi:').last}.svg',
-          color: _toColor(data['icon.color']),
+          color: _toColor(data['color']),
         );
       }
 
       return Icon(
         materialIconsMap[imageData],
         color: _toColor(
-          data['icon.color'],
+          data['color'],
         ),
       );
     }
