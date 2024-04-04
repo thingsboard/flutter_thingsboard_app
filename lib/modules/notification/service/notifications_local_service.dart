@@ -53,5 +53,6 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> updateNotificationsCount(int count) async {
     storage.setItem(notificationCounterKey, count.toString());
+    notificationsNumberStream.add(count);
   }
 }
