@@ -238,20 +238,28 @@ class NotificationService {
     Map<String, dynamic> data,
     TbContext tbContext,
   ) {
-    if (data['enabled'] == true) {
-      switch (data['linkType']) {
+    if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
+      switch (data['linkType'] ?? data['onClick.linkType']) {
         case 'DASHBOARD':
-          final dashboardId = data['dashboardId'];
+          final dashboardId =
+              data['dashboardId'] ?? data['onClick.dashboardId'];
           var entityId;
-          if (data['stateEntityId'] != null &&
-              data['stateEntityType'] != null) {
+          if ((data['stateEntityId'] ?? data['onClick.stateEntityId']) !=
+                  null &&
+              (data['stateEntityType'] ?? data['onClick.stateEntityType']) !=
+                  null) {
             entityId = EntityId.fromTypeAndUuid(
-                entityTypeFromString(data['stateEntityType']),
-                data['stateEntityId']);
+              entityTypeFromString(
+                  data['stateEntityType'] ?? data['onClick.stateEntityType']),
+              data['stateEntityId'] ?? data['onClick.stateEntityId'],
+            );
           }
 
-          final state = Utils.createDashboardEntityState(entityId,
-              stateId: data['dashboardState']);
+          final state = Utils.createDashboardEntityState(
+            entityId,
+            stateId: data['dashboardState'] ?? data['onClick.dashboardState'],
+          );
+
           if (dashboardId != null) {
             tbContext.navigateToDashboard(dashboardId, state: state);
           }
