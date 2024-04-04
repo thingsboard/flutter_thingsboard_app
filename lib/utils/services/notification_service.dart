@@ -101,6 +101,7 @@ class NotificationService {
 
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
+    await flutterLocalNotificationsPlugin.cancelAll();
     await _localService.clearNotificationBadgeCount();
   }
 
@@ -113,9 +114,9 @@ class NotificationService {
         AndroidInitializationSettings('@mipmap/thingsboard');
 
     const initializationSettingsIOS = DarwinInitializationSettings(
-      defaultPresentSound: false,
-      defaultPresentAlert: false,
-      defaultPresentBadge: false,
+      defaultPresentSound: true,
+      defaultPresentAlert: true,
+      defaultPresentBadge: true,
     );
 
     const initializationSettings = InitializationSettings(
@@ -143,8 +144,7 @@ class NotificationService {
       showWhen: false,
     );
 
-    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails();
+    const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
     _notificationDetails = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -206,7 +206,7 @@ class NotificationService {
   }
 
   void showNotification(RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
+    final notification = message.notification;
 
     if (notification != null) {
       flutterLocalNotificationsPlugin.show(
