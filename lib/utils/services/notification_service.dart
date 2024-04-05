@@ -266,7 +266,7 @@ class NotificationService {
 
           break;
         case 'LINK':
-          final link = data['link'];
+          final link = data['link'] ?? data['onClick.link'];
           if (link != null) {
             if (Uri.parse(link).isAbsolute) {
               tbContext.navigateTo('/url/${Uri.encodeComponent(link)}');
