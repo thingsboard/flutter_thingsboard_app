@@ -18,6 +18,7 @@ class NotificationService {
   late ThingsboardClient _tbClient;
   late TbContext _tbContext;
   late INotificationsLocalService _localService;
+  late StreamSubscription _foregroundMessageSubscription;
 
   String? _fcmToken;
 
@@ -99,6 +100,7 @@ class NotificationService {
       _tbClient.getUserService().removeMobileSession(_fcmToken!);
     }
 
+    await _foregroundMessageSubscription.cancel();
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
     await flutterLocalNotificationsPlugin.cancelAll();
@@ -113,11 +115,7 @@ class NotificationService {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/thingsboard');
 
-    const initializationSettingsIOS = DarwinInitializationSettings(
-      defaultPresentSound: true,
-      defaultPresentAlert: true,
-      defaultPresentBadge: true,
-    );
+    const initializationSettingsIOS = DarwinInitializationSettings();
 
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -222,7 +220,8 @@ class NotificationService {
   }
 
   void _subscribeOnForegroundMessage() {
-    FirebaseMessaging.onMessage.listen((message) {
+    _foregroundMessageSubscription =
+        FirebaseMessaging.onMessage.listen((message) {
       _log.debug('Message:' + message.toString());
       if (message.sentTime == null) {
         final map = message.toMap();
