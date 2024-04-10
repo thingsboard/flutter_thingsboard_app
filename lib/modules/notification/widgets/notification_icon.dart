@@ -10,7 +10,7 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconData = _toIcon(notification.additionalConfig?['icon']);
+    final iconData = _toIcon(notification.additionalConfig?['icon'] ?? {});
 
     return iconData;
   }
