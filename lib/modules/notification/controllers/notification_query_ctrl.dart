@@ -17,7 +17,10 @@ class NotificationQueryCtrl extends PageKeyController<PushNotificationQuery> {
 
   @override
   PushNotificationQuery nextPageKey(PushNotificationQuery pageKey) {
-    return PushNotificationQuery(pageKey.pageLink.nextPageLink());
+    return PushNotificationQuery(
+      pageKey.pageLink.nextPageLink(),
+      unreadOnly: value.pageKey.unreadOnly,
+    );
   }
 
   void onSearchText(String searchText) {
