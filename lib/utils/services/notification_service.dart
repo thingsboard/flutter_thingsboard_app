@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -61,10 +60,19 @@ class NotificationService {
         'Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      _getAndSaveToken();
+      await _getAndSaveToken();
+      FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+        if (_fcmToken != null) {
+          _tbClient.getUserService().removeMobileSession(_fcmToken!).then((_) {
+            _fcmToken = token;
+            if (_fcmToken != null) {
+              _saveToken(_fcmToken!);
+            }
+          });
+        }
+      });
 
       await _initFlutterLocalNotificationsPlugin();
-
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
       updateNotificationsCount();
@@ -80,13 +88,14 @@ class NotificationService {
   }
 
   Future<String?> getToken() async {
-    if (Platform.isIOS) {
-      var apnsToken = await _messaging.getAPNSToken();
-      _log.debug('APNS token: $apnsToken');
-      if (apnsToken == null) {
-        return null;
-      }
-    }
+    // if (Platform.isIOS) {
+    //   final apnsToken = await _messaging.getAPNSToken();
+    //   _log.debug('APNS token: $apnsToken');
+    //   if (apnsToken == null) {
+    //     return null;
+    //   }
+    // }
+
     _fcmToken = await _messaging.getToken();
     return _fcmToken;
   }
