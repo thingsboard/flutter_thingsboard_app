@@ -43,15 +43,19 @@ class TbLogsFilter extends LogFilter {
 
 class TbLogger {
   final _logger = Logger(
-      filter: TbLogsFilter(),
-      printer: PrefixPrinter(PrettyPrinter(
-          methodCount: 0,
-          errorMethodCount: 8,
-          lineLength: 200,
-          colors: false,
-          printEmojis: true,
-          printTime: false)),
-      output: TbLogOutput());
+    filter: TbLogsFilter(),
+    printer: PrefixPrinter(
+      PrettyPrinter(
+        methodCount: 0,
+        errorMethodCount: 8,
+        lineLength: 200,
+        colors: false,
+        printEmojis: true,
+        printTime: false,
+      ),
+    ),
+    output: TbLogOutput(),
+  );
 
   void trace(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     _logger.t(message, error: error, stackTrace: stackTrace);
@@ -105,7 +109,7 @@ class TbContext implements PopEntry {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   bool _initialized = false;
   bool isUserLoaded = false;
-  final ValueNotifier<bool> _isAuthenticated = ValueNotifier(false);
+  final _isAuthenticated = ValueNotifier<bool>(false);
   PlatformType? _oauth2PlatformType;
   List<OAuth2ClientInfo>? oauth2ClientInfos;
   List<TwoFaProviderInfo>? twoFactorAuthProviders;
@@ -126,11 +130,18 @@ class TbContext implements PopEntry {
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  late final ThingsboardClient tbClient;
-  late final TbOAuth2Client oauth2Client;
+  late ThingsboardClient tbClient;
+  late TbOAuth2Client oauth2Client;
 
   final FluroRouter router;
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+  Listenable get isAuthenticatedListenable => _isAuthenticated;
+
+  bool get isAuthenticated => _isAuthenticated.value;
+
+  bool get hasOAuthClients =>
+      oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
   TbContextState? currentState;
 
@@ -149,18 +160,25 @@ class TbContext implements PopEntry {
       }
       return true;
     }());
+
     _initialized = true;
-    var storage = createAppStorage();
-    tbClient = ThingsboardClient(ThingsboardAppConstants.thingsBoardApiEndpoint,
-        storage: storage,
-        onUserLoaded: onUserLoaded,
-        onError: onError,
-        onLoadStarted: onLoadStarted,
-        onLoadFinished: onLoadFinished,
-        computeFunc: <Q, R>(callback, message) => compute(callback, message));
+
+    final storage = createAppStorage();
+    final endpoint = await storage.getItem('thingsBoardApiEndpoint');
+    tbClient = ThingsboardClient(
+      endpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint,
+      storage: storage,
+      onUserLoaded: onUserLoaded,
+      onError: onError,
+      onLoadStarted: onLoadStarted,
+      onLoadFinished: onLoadFinished,
+      computeFunc: <Q, R>(callback, message) => compute(callback, message),
+    );
 
     oauth2Client = TbOAuth2Client(
-        tbContext: this, appSecretProvider: AppSecretProvider.local());
+      tbContext: this,
+      appSecretProvider: AppSecretProvider.local(),
+    );
 
     try {
       if (UniversalPlatform.isAndroid) {
@@ -183,6 +201,36 @@ class TbContext implements PopEntry {
       log.error('Failed to init tbContext: $e', e, s);
       await onFatalError(e);
     }
+  }
+
+  Future<void> reInit({
+    required String endpoint,
+    required VoidCallback onDone,
+    required ErrorCallback onError,
+  }) async {
+    log.debug('TbContext:reinit()');
+
+    _initialized = false;
+
+    createAppStorage().setItem('thingsBoardApiEndpoint', endpoint);
+
+    tbClient = ThingsboardClient(
+      endpoint,
+      storage: createAppStorage(),
+      onUserLoaded: () => onUserLoaded(handleRouteState: false, onDone: onDone),
+      onError: onError,
+      onLoadStarted: onLoadStarted,
+      onLoadFinished: onLoadFinished,
+      computeFunc: <Q, R>(callback, message) => compute(callback, message),
+    );
+
+    oauth2Client = TbOAuth2Client(
+      tbContext: this,
+      appSecretProvider: AppSecretProvider.local(),
+    );
+
+    await tbClient.init();
+    _initialized = true;
   }
 
   void setMainDashboardHolder(TbMainDashboardHolder holder) {
@@ -263,18 +311,20 @@ class TbContext implements PopEntry {
   }
 
   void onLoadStarted() {
-    log.debug('On load started.');
+    log.debug('TbContext: On load started.');
     _isLoadingNotifier.value = true;
   }
 
-  void onLoadFinished() {
-    log.debug('On load finished.');
+  void onLoadFinished() async {
+    log.debug('TbContext: On load finished.');
     _isLoadingNotifier.value = false;
   }
 
-  Future<void> onUserLoaded() async {
+  Future<void> onUserLoaded(
+      {bool handleRouteState = true, VoidCallback? onDone}) async {
     try {
-      log.debug('onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
+      log.debug(
+          'TbContext.onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
       isUserLoaded = true;
       if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
         log.debug('authUser: ${tbClient.getAuthUser()}');
@@ -300,45 +350,87 @@ class TbContext implements PopEntry {
         } else {
           twoFactorAuthProviders = null;
         }
+
         userDetails = null;
         homeDashboard = null;
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
-            pkgName: packageName, platform: _oauth2PlatformType);
+              pkgName: packageName,
+              platform: _oauth2PlatformType,
+            );
       }
+
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
-      await updateRouteState();
+
+      if (isAuthenticated) {
+        onDone?.call();
+      }
+
+      if (handleRouteState) {
+        await updateRouteState();
+      }
+
       if (tbClient.getAuthUser()?.userId != null) {
         if (Firebase.apps.isNotEmpty) {
-          NotificationService().init(tbClient, log, this);
+          await NotificationService().init(tbClient, log, this);
         }
       }
     } catch (e, s) {
-      log.error('Error: $e', e, s);
+      log.error('TbContext.onUserLoaded: $e', e, s);
+
       if (_isConnectionError(e)) {
-        var res = await confirm(
-            title: 'Connection error',
-            message: 'Failed to connect to server',
-            cancel: 'Cancel',
-            ok: 'Retry');
+        final res = await confirm(
+          title: 'Connection error',
+          message: 'Failed to connect to server',
+          cancel: 'Cancel',
+          ok: 'Retry',
+        );
         if (res == true) {
           onUserLoaded();
         } else {
-          navigateTo('/login',
-              replace: true,
-              clearStack: true,
-              transition: TransitionType.fadeIn,
-              transitionDuration: Duration(milliseconds: 750));
+          navigateTo(
+            '/login',
+            replace: true,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+            transitionDuration: Duration(milliseconds: 750),
+          );
         }
+      }
+    } finally {
+      try {
+        final link = await createAppStorage().getItem('initialDeepLink');
+        if (link != null) {
+          final uri = Uri.parse(link);
+          await createAppStorage().deleteItem('initialDeepLink');
+
+          log.debug('TbContext: navigate by appLink $uri');
+          router.navigateTo(
+            currentState!.context,
+            uri.path,
+            routeSettings: RouteSettings(
+              arguments: {...uri.queryParameters, 'uri': uri},
+            ),
+          );
+        }
+      } catch (e) {
+        log.error('TbContext:getInitialUri() exception $e');
       }
     }
   }
 
-  Future<void> logout({RequestConfig? requestConfig}) async {
+  Future<void> logout({
+    RequestConfig? requestConfig,
+    bool notifyUser = true,
+  }) async {
     if (Firebase.apps.isNotEmpty) {
       await NotificationService().logout();
     }
-    tbClient.logout(requestConfig: requestConfig);
+
+    await tbClient.logout(
+      requestConfig: requestConfig,
+      notifyUser: notifyUser,
+    );
   }
 
   bool _isConnectionError(e) {
@@ -347,41 +439,45 @@ class TbContext implements PopEntry {
         e.message == 'Unable to connect';
   }
 
-  Listenable get isAuthenticatedListenable => _isAuthenticated;
-
-  bool get isAuthenticated => _isAuthenticated.value;
-
-  bool get hasOAuthClients =>
-      oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
-
   Future<void> updateRouteState() async {
-    if (currentState != null) {
+    log.debug(
+        'TbContext:updateRouteState() ${currentState != null && currentState!.mounted}');
+    if (currentState != null && currentState!.mounted) {
       if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
-        var defaultDashboardId = _defaultDashboardId();
+        final defaultDashboardId = _defaultDashboardId();
         if (defaultDashboardId != null) {
           bool fullscreen = _userForceFullscreen();
           if (!fullscreen) {
             await navigateToDashboard(defaultDashboardId, animate: false);
-            navigateTo('/home',
-                replace: true,
-                closeDashboard: false,
-                transition: TransitionType.none);
+            navigateTo(
+              '/home',
+              replace: true,
+              closeDashboard: false,
+              transition: TransitionType.none,
+            );
           } else {
-            navigateTo('/fullscreenDashboard/$defaultDashboardId',
-                replace: true, transition: TransitionType.fadeIn);
-          }
-        } else {
-          navigateTo('/home',
+            navigateTo(
+              '/fullscreenDashboard/$defaultDashboardId',
               replace: true,
               transition: TransitionType.fadeIn,
-              transitionDuration: Duration(milliseconds: 750));
+            );
+          }
+        } else {
+          navigateTo(
+            '/home',
+            replace: true,
+            transition: TransitionType.fadeIn,
+            transitionDuration: Duration(milliseconds: 750),
+          );
         }
       } else {
-        navigateTo('/login',
-            replace: true,
-            clearStack: true,
-            transition: TransitionType.fadeIn,
-            transitionDuration: Duration(milliseconds: 750));
+        navigateTo(
+          '/login',
+          replace: true,
+          clearStack: true,
+          transition: TransitionType.fadeIn,
+          transitionDuration: Duration(milliseconds: 750),
+        );
       }
     }
   }
@@ -433,13 +529,16 @@ class TbContext implements PopEntry {
     return false;
   }
 
-  Future<dynamic> navigateTo(String path,
-      {bool replace = false,
-      bool clearStack = false,
-      closeDashboard = true,
-      TransitionType? transition,
-      Duration? transitionDuration,
-      bool restoreDashboard = true}) async {
+  Future<dynamic> navigateTo(
+    String path, {
+    bool replace = false,
+    bool clearStack = false,
+    closeDashboard = true,
+    TransitionType? transition,
+    Duration? transitionDuration,
+    bool restoreDashboard = true,
+    RouteSettings? routeSettings,
+  }) async {
     if (currentState != null) {
       hideNotification();
       bool isOpenedDashboard =
@@ -468,11 +567,15 @@ class TbContext implements PopEntry {
         }
       }
       _closeMainFirst = isOpenedDashboard;
-      return await router.navigateTo(currentState!.context, path,
-          transition: transition,
-          transitionDuration: transitionDuration,
-          replace: replace,
-          clearStack: clearStack);
+      return await router.navigateTo(
+        currentState!.context,
+        path,
+        transition: transition,
+        transitionDuration: transitionDuration,
+        replace: replace,
+        clearStack: clearStack,
+        routeSettings: routeSettings,
+      );
     }
   }
 

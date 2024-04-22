@@ -17,8 +17,8 @@ class NotificationService {
   late TbLogger _log;
   late ThingsboardClient _tbClient;
   late TbContext _tbContext;
-  late INotificationsLocalService _localService;
-  late StreamSubscription _foregroundMessageSubscription;
+  final INotificationsLocalService _localService = NotificationsLocalService();
+  StreamSubscription? _foregroundMessageSubscription;
 
   String? _fcmToken;
 
@@ -37,7 +37,6 @@ class NotificationService {
     _log = log;
     _tbClient = tbClient;
     _tbContext = context;
-    _localService = NotificationsLocalService();
 
     final message = await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
@@ -56,7 +55,7 @@ class NotificationService {
       },
     );
 
-    var settings = await _requestPermission();
+    final settings = await _requestPermission();
     _log.debug(
         'Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
@@ -67,14 +66,14 @@ class NotificationService {
 
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
-      updateNotificationsCount();
+      await updateNotificationsCount();
     }
   }
 
   Future<void> updateNotificationsCount() async {
     final localService = NotificationsLocalService();
 
-    localService.updateNotificationsCount(
+    await localService.updateNotificationsCount(
       await _getNotificationsCountRemote(),
     );
   }
@@ -100,7 +99,7 @@ class NotificationService {
       _tbClient.getUserService().removeMobileSession(_fcmToken!);
     }
 
-    await _foregroundMessageSubscription.cancel();
+    await _foregroundMessageSubscription?.cancel();
     await _messaging.setAutoInitEnabled(false);
     await _messaging.deleteToken();
     await flutterLocalNotificationsPlugin.cancelAll();
@@ -282,8 +281,12 @@ class NotificationService {
   }
 
   Future<int> _getNotificationsCountRemote() async {
-    return _tbClient
-        .getNotificationService()
-        .getUnreadNotificationsCount('MOBILE_APP');
+    try {
+      return _tbClient
+          .getNotificationService()
+          .getUnreadNotificationsCount('MOBILE_APP');
+    } catch (_) {
+      return 0;
+    }
   }
 }
