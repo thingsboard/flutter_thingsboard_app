@@ -62,7 +62,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
         onDone: params.onDone,
         onError: (error) {
           logger.error('SwitchEndpointUseCase:onError $error');
-          params.onError(error.toString());
+          params.onError(error.message ?? error.toString());
         },
       );
     } on ThingsboardError catch (e) {

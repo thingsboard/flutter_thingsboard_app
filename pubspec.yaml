@@ -61,6 +61,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  mocktail: ^1.0.3
+  bloc_test: ^9.1.7
 
 flutter:
   uses-material-design: true
