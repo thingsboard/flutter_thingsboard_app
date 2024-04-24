@@ -1,21 +1,39 @@
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/fb_options2.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+
+final class SwitchEndpointParams {
+  const SwitchEndpointParams({
+    required this.data,
+    required this.onDone,
+    required this.onError,
+  });
+
+  final Map<String, dynamic> data;
+  final VoidCallback onDone;
+  final Function(String) onError;
+
+  dynamic operator [](String key) => data[key];
+}
 
 class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
   SwitchEndpointUseCase({
     required this.repository,
     required this.tbContext,
+    required this.logger,
   }) : _progressSteamCtrl = StreamController.broadcast();
 
   final INoAuthRepository repository;
+
   final TbContext tbContext;
+  final TbLogger logger;
   late final StreamController<String> _progressSteamCtrl;
 
   Stream<String> get stream => _progressSteamCtrl.stream;
@@ -26,10 +44,9 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
     final host = params['host'] ?? uri.origin;
     final key = params['secret']!;
 
-    _progressSteamCtrl.add('Getting data from your host $host');
-
-    final loginData = await repository.getJwtToken(host: host, key: key);
     try {
+      _progressSteamCtrl.add('Getting data from your host $host');
+      final loginData = await repository.getJwtToken(host: host, key: key);
       _progressSteamCtrl.add('Logout you ...');
 
       await tbContext.logout(
@@ -40,40 +57,27 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       _progressSteamCtrl.add('Switching you to the new host $host');
       await repository.setUserFromJwtToken(loginData);
 
-      await Firebase.initializeApp(
-        name: 'secondary',
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-
-      tbContext.log.debug('SwitchEndpointUseCase:deleteFB App');
-      await Firebase.app('initial').delete();
+      logger.debug('SwitchEndpointUseCase:deleteFB App');
+      await getIt<IFirebaseService>().removeApp();
 
       await tbContext.reInit(
         endpoint: host,
         onDone: params.onDone,
         onError: (error) {
-          tbContext.log.error('SwitchEndpointUseCase:onError $error');
-          _progressSteamCtrl.add('Somethings went wrong ... Rollback');
-          tbContext.pop();
+          logger.error('SwitchEndpointUseCase:onError $error');
+          params.onError(error.toString());
         },
       );
+    } on ThingsboardError catch (e) {
+      logger.error('SwitchEndpointUseCase:ThingsboardError $e', e);
+      params.onError(e.message ?? e.toString());
     } catch (e) {
-      tbContext.log.error('SwitchEndpointUseCase:catch $e');
-      _progressSteamCtrl.add('Somethings went wrong ... Rollback');
-      tbContext.pop();
+      logger.error('SwitchEndpointUseCase:catch $e', e);
+      params.onError(e.toString());
     }
   }
 
   void dispose() {
     _progressSteamCtrl.close();
   }
-}
-
-final class SwitchEndpointParams {
-  const SwitchEndpointParams({required this.data, required this.onDone});
-
-  final Map<String, dynamic> data;
-  final VoidCallback onDone;
-
-  dynamic operator [](String key) => data[key];
 }

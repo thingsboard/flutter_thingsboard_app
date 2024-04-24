@@ -30,6 +30,7 @@ class ThingsboardAppRouter {
         body: Center(child: Text('Route not defined: ${settings!.name}')),
       );
     });
+
     InitRoutes(_tbContext).registerRoutes();
     AuthRoutes(_tbContext).registerRoutes();
     UiUtilsRoutes(_tbContext).registerRoutes();

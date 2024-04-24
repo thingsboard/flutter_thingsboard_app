@@ -35,7 +35,12 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
           body: BlocConsumer<NoAuthBloc, NoAuthState>(
             listener: (context, state) {
               if (state is NoAuthErrorState) {
-                widget.tbContext.pop();
+                widget.tbContext.showErrorNotification(state.message);
+                Future.delayed(const Duration(seconds: 5), () {
+                  if (mounted) {
+                    widget.tbContext.pop();
+                  }
+                });
               } else if (state is NoAuthDoneState) {
                 widget.tbContext.router.navigateTo(
                   context,
@@ -45,6 +50,7 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                 );
               }
             },
+            buildWhen: (_, state) => state is! NoAuthDoneState,
             builder: (context, state) {
               switch (state) {
                 case NoAuthLoadingState():
@@ -61,11 +67,15 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                           buildWhen: (_, state) => state is NoAuthWipState,
                           builder: (context, state) {
                             if (state is NoAuthWipState) {
-                              return FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(
-                                  state.currentStateMessage,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                              return SizedBox(
+                                width: MediaQuery.of(context).size.width - 20,
+                                child: Flexible(
+                                  child: Text(
+                                    state.currentStateMessage,
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
                                 ),
                               );
                             }
@@ -75,6 +85,28 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                         ),
                       ),
                     ],
+                  );
+
+                case NoAuthErrorState():
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error,
+                          color: Colors.red,
+                          size: 50,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Something went wrong ... Rollback',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
                   );
 
                 default:

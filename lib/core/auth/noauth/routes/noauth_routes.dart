@@ -9,8 +9,6 @@ class NoAuthRoutes extends TbRoutes {
 
   late final noAuthQrHandler = Handler(
     handlerFunc: (context, params) {
-      print('SwitchEndpointNoAuthView $params');
-
       return SwitchEndpointNoAuthView(
         tbContext: tbContext,
         arguments: context?.settings?.arguments as Map<String, dynamic>?,
@@ -20,7 +18,6 @@ class NoAuthRoutes extends TbRoutes {
 
   @override
   void doRegisterRoutes(FluroRouter router) {
-    print('NoAuthRoutes:doRegisterRoutes()');
     router.define(noAuthPageRoutes, handler: noAuthQrHandler);
   }
 }

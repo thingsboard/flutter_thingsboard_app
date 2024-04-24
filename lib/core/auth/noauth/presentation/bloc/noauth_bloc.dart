@@ -14,6 +14,7 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
     _switchEndpointEventHandler();
     _switchEndpointUpdatesHandler();
     _switchEndpointDoneEvent();
+    _switchEndpointErrorEvent();
   }
 
   final SwitchEndpointUseCase switchEndpointUseCase;
@@ -23,7 +24,11 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
     on<SwitchToAnotherEndpointEvent>(
       (event, emit) async {
         if (event.parameters == null) {
-          emit(const NoAuthErrorState(message: 'add message'));
+          emit(
+            const NoAuthErrorState(
+              message: 'An empty request data received.',
+            ),
+          );
           return;
         }
 
@@ -31,8 +36,10 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
           SwitchEndpointParams(
             data: event.parameters!,
             onDone: () {
-              print('SwitchEndpointParams:onDone()');
               add(const SwitchEndpointDoneEvent());
+            },
+            onError: (message) {
+              add(SwitchEndpointErrorEvent(message: message));
             },
           ),
         );
@@ -52,6 +59,14 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
     on<SwitchEndpointDoneEvent>(
       (event, emit) async {
         emit(const NoAuthDoneState());
+      },
+    );
+  }
+
+  void _switchEndpointErrorEvent() {
+    on<SwitchEndpointErrorEvent>(
+      (event, emit) async {
+        emit(NoAuthErrorState(message: event.message));
       },
     );
   }

@@ -32,6 +32,7 @@ abstract final class NoAuthDi {
           () => SwitchEndpointUseCase(
             repository: locator(),
             tbContext: tbContext,
+            logger: locator(),
           ),
         );
 

@@ -1,15 +1,15 @@
 import 'dart:developer';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get_it/get_it.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/firebase_options.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
 import 'package:uni_links/uni_links.dart';
@@ -18,38 +18,27 @@ import 'package:universal_platform/universal_platform.dart';
 import 'config/themes/tb_theme.dart';
 import 'generated/l10n.dart';
 
-// final appRouter = ThingsboardAppRouter();
-
-final getIt = GetIt.instance;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 //  await FlutterDownloader.initialize();
 //  await Permission.storage.request();
 
-  getIt.registerSingleton(ThingsboardAppRouter());
-
+  setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  try {
-    await Firebase.initializeApp(
-      name: 'initial',
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    log(e.toString());
-  }
+  getIt<IFirebaseService>().initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   try {
     final uri = await getInitialUri();
-    print('initial link $uri');
     if (uri != null) {
-      createAppStorage().setItem('initialDeepLink', uri.toString());
+      await createAppStorage().setItem('initialDeepLink', uri.toString());
     }
   } catch (e) {
-    log('TbContext:getInitialUri() exception $e', error: e);
+    log('main::getInitialUri() exception $e', error: e);
   }
 
   runApp(ThingsboardApp());
@@ -178,6 +167,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
     );
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -187,21 +177,10 @@ class ThingsboardAppState extends State<ThingsboardApp>
       supportedLocales: S.delegate.supportedLocales,
       onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
       themeMode: ThemeMode.light,
-      home: MaterialApp(
-        key: dashboardKey,
-        // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        onGenerateTitle: (context) => S.of(context).appTitle,
-        theme: tbTheme,
-        themeMode: ThemeMode.light,
-        darkTheme: tbDarkTheme,
-        home: MaterialApp(
+      home: TwoPageView(
+        controller: _mainPageViewController,
+        first: MaterialApp(
+          debugShowCheckedModeBanner: false,
           key: mainAppKey,
           scaffoldMessengerKey:
               getIt<ThingsboardAppRouter>().tbContext.messengerKey,
@@ -212,59 +191,36 @@ class ThingsboardAppState extends State<ThingsboardApp>
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          onGenerateTitle: (context) => S.of(context).appTitle,
+          onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
           theme: tbTheme,
           themeMode: ThemeMode.light,
           darkTheme: tbDarkTheme,
           onGenerateRoute: getIt<ThingsboardAppRouter>().router.generator,
           navigatorObservers: [
-            getIt<ThingsboardAppRouter>().tbContext.routeObserver
+            getIt<ThingsboardAppRouter>().tbContext.routeObserver,
           ],
         ),
+        second: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          key: dashboardKey,
+          // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
+          theme: tbTheme,
+          themeMode: ThemeMode.light,
+          darkTheme: tbDarkTheme,
+          home: MainDashboardPage(
+            getIt<ThingsboardAppRouter>().tbContext,
+            controller: _mainDashboardPageController,
+          ),
+        ),
       ),
-
-      // home: TwoPageView(
-      //   controller: _mainPageViewController,
-      //   first: MaterialApp(
-      //     key: mainAppKey,
-      //     scaffoldMessengerKey:
-      //         getIt<ThingsboardAppRouter>().tbContext.messengerKey,
-      //     localizationsDelegates: [
-      //       S.delegate,
-      //       GlobalMaterialLocalizations.delegate,
-      //       GlobalWidgetsLocalizations.delegate,
-      //       GlobalCupertinoLocalizations.delegate,
-      //     ],
-      //     supportedLocales: S.delegate.supportedLocales,
-      //     onGenerateTitle: (context) => S.of(context).appTitle,
-      //     theme: tbTheme,
-      //     themeMode: ThemeMode.light,
-      //     darkTheme: tbDarkTheme,
-      //     onGenerateRoute: getIt<ThingsboardAppRouter>().router.generator,
-      //     navigatorObservers: [
-      //       getIt<ThingsboardAppRouter>().tbContext.routeObserver
-      //     ],
-      //   ),
-      //   second: MaterialApp(
-      //     key: dashboardKey,
-      //     // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-      //     localizationsDelegates: [
-      //       S.delegate,
-      //       GlobalMaterialLocalizations.delegate,
-      //       GlobalWidgetsLocalizations.delegate,
-      //       GlobalCupertinoLocalizations.delegate,
-      //     ],
-      //     supportedLocales: S.delegate.supportedLocales,
-      //     onGenerateTitle: (context) => S.of(context).appTitle,
-      //     theme: tbTheme,
-      //     themeMode: ThemeMode.light,
-      //     darkTheme: tbDarkTheme,
-      //     home: MainDashboardPage(
-      //       getIt<ThingsboardAppRouter>().tbContext,
-      //       controller: _mainDashboardPageController,
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

@@ -1,18 +1,19 @@
 import 'dart:async';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
@@ -20,67 +21,6 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
-
-class TbLogOutput extends LogOutput {
-  @override
-  void output(OutputEvent event) {
-    for (var line in event.lines) {
-      debugPrint(line);
-    }
-  }
-}
-
-class TbLogsFilter extends LogFilter {
-  @override
-  bool shouldLog(LogEvent event) {
-    if (kReleaseMode) {
-      return event.level.index >= Level.warning.index;
-    } else {
-      return true;
-    }
-  }
-}
-
-class TbLogger {
-  final _logger = Logger(
-    filter: TbLogsFilter(),
-    printer: PrefixPrinter(
-      PrettyPrinter(
-        methodCount: 0,
-        errorMethodCount: 8,
-        lineLength: 200,
-        colors: false,
-        printEmojis: true,
-        printTime: false,
-      ),
-    ),
-    output: TbLogOutput(),
-  );
-
-  void trace(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.t(message, error: error, stackTrace: stackTrace);
-  }
-
-  void debug(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.d(message, error: error, stackTrace: stackTrace);
-  }
-
-  void info(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.i(message, error: error, stackTrace: stackTrace);
-  }
-
-  void warn(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.w(message, error: error, stackTrace: stackTrace);
-  }
-
-  void error(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.e(message, error: error, stackTrace: stackTrace);
-  }
-
-  void fatal(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.f(message, error: error, stackTrace: stackTrace);
-  }
-}
 
 typedef OpenDashboardCallback = void Function(String dashboardId,
     {String? dashboardTitle, String? state, bool? hideToolbar});
@@ -371,7 +311,7 @@ class TbContext implements PopEntry {
       }
 
       if (tbClient.getAuthUser()?.userId != null) {
-        if (Firebase.apps.isNotEmpty) {
+        if (getIt<IFirebaseService>().apps.isNotEmpty) {
           await NotificationService().init(tbClient, log, this);
         }
       }
@@ -423,7 +363,7 @@ class TbContext implements PopEntry {
     RequestConfig? requestConfig,
     bool notifyUser = true,
   }) async {
-    if (Firebase.apps.isNotEmpty) {
+    if (getIt<IFirebaseService>().apps.isNotEmpty) {
       await NotificationService().logout();
     }
 

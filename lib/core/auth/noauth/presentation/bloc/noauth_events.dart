@@ -28,3 +28,12 @@ final class SwitchEndpointProgressUpdateEvent extends NoAuthEvent {
 final class SwitchEndpointDoneEvent extends NoAuthEvent {
   const SwitchEndpointDoneEvent();
 }
+
+final class SwitchEndpointErrorEvent extends NoAuthEvent {
+  const SwitchEndpointErrorEvent({required this.message});
+
+  final String message;
+
+  @override
+  List<Object?> get props => [message];
+}
