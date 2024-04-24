@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -22,6 +21,7 @@ class NotificationService {
   final INotificationsLocalService _localService = NotificationsLocalService();
   StreamSubscription? _foregroundMessageSubscription;
   StreamSubscription? _onMessageOpenedAppSubscription;
+  StreamSubscription? _onTokenRefreshSubscription;
 
   String? _fcmToken;
 
@@ -68,6 +68,18 @@ class NotificationService {
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       _getAndSaveToken();
 
+      _onTokenRefreshSubscription =
+          FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+        if (_fcmToken != null) {
+          _tbClient.getUserService().removeMobileSession(_fcmToken!).then((_) {
+            _fcmToken = token;
+            if (_fcmToken != null) {
+              _saveToken(_fcmToken!);
+            }
+          });
+        }
+      });
+
       await _initFlutterLocalNotificationsPlugin();
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
@@ -84,14 +96,6 @@ class NotificationService {
   }
 
   Future<String?> getToken() async {
-    if (Platform.isIOS) {
-      final apnsToken = await _messaging.getAPNSToken();
-      _log.debug('APNS token: $apnsToken');
-      if (apnsToken == null) {
-        return null;
-      }
-    }
-
     _fcmToken = await _messaging.getToken();
     return _fcmToken;
   }
@@ -111,6 +115,7 @@ class NotificationService {
 
     await _foregroundMessageSubscription?.cancel();
     await _onMessageOpenedAppSubscription?.cancel();
+    await _onTokenRefreshSubscription?.cancel();
     await _messaging.deleteToken();
     await _messaging.setAutoInitEnabled(false);
     await flutterLocalNotificationsPlugin.cancelAll();
