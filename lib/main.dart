@@ -28,9 +28,13 @@ void main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  getIt<IFirebaseService>().initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    getIt<IFirebaseService>().initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    log('main::FirebaseService.initializeApp() exception $e', error: e);
+  }
 
   try {
     final uri = await getInitialUri();
