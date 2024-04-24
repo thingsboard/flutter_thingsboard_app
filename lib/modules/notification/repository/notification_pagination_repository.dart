@@ -39,8 +39,6 @@ class NotificationPaginationRepository {
             pageKey,
           );
 
-      print(pageData.totalElements);
-
       final isLastPage = !pageData.hasNext;
       if (refresh) {
         var state = pagingController.value;

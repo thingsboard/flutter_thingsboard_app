@@ -66,7 +66,7 @@ class NotificationService {
         'Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      _getAndSaveToken();
+      await _getAndSaveToken();
 
       _onTokenRefreshSubscription =
           FirebaseMessaging.instance.onTokenRefresh.listen((token) {
