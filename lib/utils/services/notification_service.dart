@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -84,12 +85,13 @@ class NotificationService {
 
   Future<String?> getToken() async {
     if (Platform.isIOS) {
-      var apnsToken = await _messaging.getAPNSToken();
+      final apnsToken = await _messaging.getAPNSToken();
       _log.debug('APNS token: $apnsToken');
       if (apnsToken == null) {
         return null;
       }
     }
+
     _fcmToken = await _messaging.getToken();
     return _fcmToken;
   }
@@ -99,9 +101,11 @@ class NotificationService {
   }
 
   Future<void> logout() async {
-    _log.debug('NotificationService::logout()');
+    getIt<TbLogger>().debug('NotificationService::logout()');
     if (_fcmToken != null) {
-      _log.debug('NotificationService::logout() removeMobileSession');
+      getIt<TbLogger>().debug(
+        'NotificationService::logout() removeMobileSession',
+      );
       _tbClient.getUserService().removeMobileSession(_fcmToken!);
     }
 
@@ -158,7 +162,7 @@ class NotificationService {
 
   Future<NotificationSettings> _requestPermission() async {
     _messaging = FirebaseMessaging.instance;
-    var result = await _messaging.requestPermission(
+    final result = await _messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -167,6 +171,7 @@ class NotificationService {
       provisional: true,
       sound: true,
     );
+
     if (result.authorizationStatus == AuthorizationStatus.denied) {
       return result;
     }
@@ -178,6 +183,7 @@ class NotificationService {
     if (token != null) {
       _tbClient.getUserService().removeMobileSession(token);
     }
+
     await _messaging.deleteToken();
     return await getToken();
   }

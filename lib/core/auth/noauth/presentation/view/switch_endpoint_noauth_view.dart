@@ -71,13 +71,19 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                             if (state is NoAuthWipState) {
                               return SizedBox(
                                 width: MediaQuery.of(context).size.width - 20,
-                                child: Flexible(
-                                  child: Text(
-                                    state.currentStateMessage,
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        state.currentStateMessage,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             }
