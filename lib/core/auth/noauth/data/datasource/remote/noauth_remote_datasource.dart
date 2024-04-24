@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:thingsboard_app/core/auth/noauth/data/datasource/remote/i_noauth_remote_datasource.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -6,10 +9,12 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
   const NoAuthRemoteDatasource({
     required this.thingsboardClient,
     required this.tbLogger,
+    required this.tbContext,
   });
 
   final ThingsboardClient thingsboardClient;
   final TbLogger tbLogger;
+  final TbContext tbContext;
 
   @override
   Future<LoginResponse> getJwtToken({
@@ -35,6 +40,30 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
       loginData.token,
       loginData.refreshToken,
       false,
+    );
+  }
+
+  @override
+  Future<void> logout({
+    RequestConfig? requestConfig,
+    bool notifyUser = true,
+  }) async {
+    await tbContext.logout(
+      requestConfig: requestConfig,
+      notifyUser: notifyUser,
+    );
+  }
+
+  @override
+  Future<void> reInit({
+    required String endpoint,
+    required VoidCallback onDone,
+    required ErrorCallback onError,
+  }) async {
+    await tbContext.reInit(
+      endpoint: endpoint,
+      onDone: onDone,
+      onError: onError,
     );
   }
 }

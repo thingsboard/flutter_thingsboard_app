@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -26,13 +25,11 @@ final class SwitchEndpointParams {
 class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
   SwitchEndpointUseCase({
     required this.repository,
-    required this.tbContext,
     required this.logger,
   }) : _progressSteamCtrl = StreamController.broadcast();
 
   final INoAuthRepository repository;
 
-  final TbContext tbContext;
   final TbLogger logger;
   late final StreamController<String> _progressSteamCtrl;
 
@@ -49,7 +46,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       final loginData = await repository.getJwtToken(host: host, key: key);
       _progressSteamCtrl.add('Logout you ...');
 
-      await tbContext.logout(
+      await repository.logout(
         requestConfig: RequestConfig(ignoreErrors: true),
         notifyUser: false,
       );
@@ -60,7 +57,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       logger.debug('SwitchEndpointUseCase:deleteFB App');
       await getIt<IFirebaseService>().removeApp();
 
-      await tbContext.reInit(
+      await repository.reInit(
         endpoint: host,
         onDone: params.onDone,
         onError: (error) {

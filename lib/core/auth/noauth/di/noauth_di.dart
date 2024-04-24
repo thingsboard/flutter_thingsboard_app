@@ -17,6 +17,7 @@ abstract final class NoAuthDi {
           () => NoAuthRemoteDatasource(
             thingsboardClient: tbContext.tbClient,
             tbLogger: tbContext.log,
+            tbContext: tbContext,
           ),
         );
 
@@ -31,7 +32,6 @@ abstract final class NoAuthDi {
         locator.registerFactory(
           () => SwitchEndpointUseCase(
             repository: locator(),
-            tbContext: tbContext,
             logger: locator(),
           ),
         );

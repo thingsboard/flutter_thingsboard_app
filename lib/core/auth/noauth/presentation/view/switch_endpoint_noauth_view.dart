@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loading_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends StatefulWidget {
   SwitchEndpointNoAuthView({
@@ -42,12 +44,12 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                   }
                 });
               } else if (state is NoAuthDoneState) {
-                widget.tbContext.router.navigateTo(
-                  context,
-                  '/home',
-                  replace: true,
-                  maintainState: false,
-                );
+                getIt<ThingsboardAppRouter>().router.navigateTo(
+                      context,
+                      '/home',
+                      replace: true,
+                      maintainState: false,
+                    );
               }
             },
             buildWhen: (_, state) => state is! NoAuthDoneState,
