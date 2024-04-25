@@ -18,6 +18,7 @@ import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
@@ -63,6 +64,7 @@ class TbContext implements PopEntry {
   late final String packageName;
   TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
+  StreamSubscription? _appLinkStreamSubscription;
 
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
 
@@ -340,22 +342,32 @@ class TbContext implements PopEntry {
     } finally {
       try {
         final link = await createAppStorage().getItem('initialDeepLink');
-        if (link != null) {
-          final uri = Uri.parse(link);
-          await createAppStorage().deleteItem('initialDeepLink');
-
-          log.debug('TbContext: navigate by appLink $uri');
-          router.navigateTo(
-            currentState!.context,
-            uri.path,
-            routeSettings: RouteSettings(
-              arguments: {...uri.queryParameters, 'uri': uri},
-            ),
-          );
-        }
+        _navigateByAppLink(link);
       } catch (e) {
         log.error('TbContext:getInitialUri() exception $e');
       }
+
+      _appLinkStreamSubscription = linkStream.listen((link) {
+        _navigateByAppLink(link);
+      }, onError: (err) {
+        log.error('linkStream.listen $err');
+      });
+    }
+  }
+
+  Future<void> _navigateByAppLink(String? link) async {
+    if (link != null) {
+      final uri = Uri.parse(link);
+      await createAppStorage().deleteItem('initialDeepLink');
+
+      log.debug('TbContext: navigate by appLink $uri');
+      router.navigateTo(
+        currentState!.context,
+        uri.path,
+        routeSettings: RouteSettings(
+          arguments: {...uri.queryParameters, 'uri': uri},
+        ),
+      );
     }
   }
 
@@ -371,6 +383,8 @@ class TbContext implements PopEntry {
       requestConfig: requestConfig,
       notifyUser: notifyUser,
     );
+
+    _appLinkStreamSubscription?.cancel();
   }
 
   bool _isConnectionError(e) {
