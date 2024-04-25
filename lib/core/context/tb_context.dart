@@ -6,16 +6,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
+import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:uni_links/uni_links.dart';
@@ -105,11 +106,12 @@ class TbContext implements PopEntry {
 
     _initialized = true;
 
-    final storage = createAppStorage();
-    final endpoint = await storage.getItem('thingsBoardApiEndpoint');
+    final endpoint = await getIt<IEndpointService>().getEndpoint();
+    log.debug('TbContext::init() endpoint: $endpoint');
+
     tbClient = ThingsboardClient(
-      endpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint,
-      storage: storage,
+      endpoint,
+      storage: getIt<ILocalDatabaseService>(),
       onUserLoaded: onUserLoaded,
       onError: onError,
       onLoadStarted: onLoadStarted,
@@ -154,11 +156,9 @@ class TbContext implements PopEntry {
 
     _initialized = false;
 
-    createAppStorage().setItem('thingsBoardApiEndpoint', endpoint);
-
     tbClient = ThingsboardClient(
       endpoint,
-      storage: createAppStorage(),
+      storage: getIt<ILocalDatabaseService>(),
       onUserLoaded: () => onUserLoaded(handleRouteState: false, onDone: onDone),
       onError: onError,
       onLoadStarted: onLoadStarted,
@@ -341,24 +341,30 @@ class TbContext implements PopEntry {
       }
     } finally {
       try {
-        final link = await createAppStorage().getItem('initialDeepLink');
+        final link = await getIt<ILocalDatabaseService>().getItem(
+          DatabaseKeys.initialAppLink,
+        );
         _navigateByAppLink(link);
       } catch (e) {
         log.error('TbContext:getInitialUri() exception $e');
       }
 
-      _appLinkStreamSubscription = linkStream.listen((link) {
-        _navigateByAppLink(link);
-      }, onError: (err) {
-        log.error('linkStream.listen $err');
-      });
+      if (_appLinkStreamSubscription == null) {
+        _appLinkStreamSubscription = linkStream.listen((link) {
+          _navigateByAppLink(link);
+        }, onError: (err) {
+          log.error('linkStream.listen $err');
+        });
+      }
     }
   }
 
   Future<void> _navigateByAppLink(String? link) async {
     if (link != null) {
       final uri = Uri.parse(link);
-      await createAppStorage().deleteItem('initialDeepLink');
+      await getIt<ILocalDatabaseService>().deleteItem(
+        DatabaseKeys.initialAppLink,
+      );
 
       log.debug('TbContext: navigate by appLink $uri');
       router.navigateTo(
@@ -385,6 +391,7 @@ class TbContext implements PopEntry {
     );
 
     _appLinkStreamSubscription?.cancel();
+    _appLinkStreamSubscription = null;
   }
 
   bool _isConnectionError(e) {

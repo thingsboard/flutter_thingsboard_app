@@ -4,9 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_app/widgets/two_value_listenable_builder.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -139,8 +140,11 @@ class _DashboardState extends TbContextState<Dashboard> {
   void _onAuthenticated() async {
     if (tbContext.isAuthenticated) {
       if (!readyState.value) {
-        _initialUrl = Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint +
-            '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}');
+        _initialUrl = Uri.parse(
+          await getIt<IEndpointService>().getEndpoint() +
+              '?accessToken=${tbClient.getJwtToken()!}&refreshToken=${tbClient.getRefreshToken()!}',
+        );
+
         readyState.value = true;
       } else {
         var windowMessage = <String, dynamic>{
@@ -384,18 +388,18 @@ class _DashboardState extends TbContextState<Dashboard> {
                         },
                         shouldOverrideUrlLoading:
                             (controller, navigationAction) async {
-                          var uri = navigationAction.request.url!;
-                          var uriString = uri.toString();
+                          final uri = navigationAction.request.url!;
+                          final uriString = uri.toString();
+                          final endpoint =
+                              await getIt<IEndpointService>().getEndpoint();
+
                           log.debug('shouldOverrideUrlLoading $uriString');
                           if (Platform.isAndroid ||
                               Platform.isIOS &&
                                   navigationAction.iosWKNavigationType ==
                                       IOSWKNavigationType.LINK_ACTIVATED) {
-                            if (uriString.startsWith(ThingsboardAppConstants
-                                .thingsBoardApiEndpoint)) {
-                              var target = uriString.substring(
-                                  ThingsboardAppConstants
-                                      .thingsBoardApiEndpoint.length);
+                            if (uriString.startsWith(endpoint)) {
+                              var target = uriString.substring(endpoint.length);
                               if (!target.startsWith("?accessToken")) {
                                 if (target.startsWith("/")) {
                                   target = target.substring(1);

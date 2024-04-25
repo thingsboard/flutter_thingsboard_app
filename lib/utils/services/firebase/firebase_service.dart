@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
-import 'package:thingsboard_app/utils/services/tb_app_storage.dart';
 
 class FirebaseService implements IFirebaseService {
-  FirebaseService({required this.logger});
+  FirebaseService({
+    required this.logger,
+    required this.endpointService,
+  });
 
   final TbLogger logger;
   final _apps = <String>[];
+  final IEndpointService endpointService;
 
   @override
   List<String> get apps => _apps;
@@ -19,12 +22,7 @@ class FirebaseService implements IFirebaseService {
     FirebaseOptions? options,
   }) async {
     try {
-      final endpoint =
-          await createAppStorage().getItem('thingsBoardApiEndpoint') ??
-              ThingsboardAppConstants.thingsBoardApiEndpoint;
-      if (endpoint != ThingsboardAppConstants.thingsBoardApiEndpoint) {
-        logger.debug(Firebase.apps);
-
+      if (await endpointService.isCustomEndpoint()) {
         throw UnimplementedError(
           'The current limitation is that Firebase can only be '
           'used with the endpoint with which the app was initially initialized.',

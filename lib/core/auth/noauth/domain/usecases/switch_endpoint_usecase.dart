@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -57,6 +58,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       logger.debug('SwitchEndpointUseCase:deleteFB App');
       await getIt<IFirebaseService>().removeApp();
 
+      await getIt<IEndpointService>().setEndpoint(host);
       await repository.reInit(
         endpoint: host,
         onDone: params.onDone,
