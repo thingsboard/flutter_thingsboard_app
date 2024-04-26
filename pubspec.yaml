@@ -52,11 +52,17 @@ dependencies:
   flutter_app_badger: ^1.5.0
   timeago: ^3.6.1
   flutter_slidable: ^3.0.1
+  flutter_bloc: ^8.1.5
+  get_it: ^7.6.7
+  equatable: ^2.0.5
+  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  mocktail: ^1.0.3
+  bloc_test: ^9.1.7
 
 flutter:
   uses-material-design: true

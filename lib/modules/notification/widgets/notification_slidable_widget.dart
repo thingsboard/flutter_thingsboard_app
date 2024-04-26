@@ -94,7 +94,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
     final type = notification.type;
     if (type == PushNotificationType.ALARM) {
       final status = notification.info?.alarmStatus;
-      final id = notification.info?.stateEntityId?.id;
+      final id = notification.info?.alarmId;
 
       if (id != null) {
         if ([AlarmStatus.CLEARED_UNACK, AlarmStatus.ACTIVE_UNACK]
