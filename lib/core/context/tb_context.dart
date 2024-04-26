@@ -344,14 +344,14 @@ class TbContext implements PopEntry {
         final link = await getIt<ILocalDatabaseService>().getItem(
           DatabaseKeys.initialAppLink,
         );
-        _navigateByAppLink(link);
+        navigateByAppLink(link);
       } catch (e) {
         log.error('TbContext:getInitialUri() exception $e');
       }
 
       if (_appLinkStreamSubscription == null) {
         _appLinkStreamSubscription = linkStream.listen((link) {
-          _navigateByAppLink(link);
+          navigateByAppLink(link);
         }, onError: (err) {
           log.error('linkStream.listen $err');
         });
@@ -359,7 +359,7 @@ class TbContext implements PopEntry {
     }
   }
 
-  Future<void> _navigateByAppLink(String? link) async {
+  Future<void> navigateByAppLink(String? link) async {
     if (link != null) {
       final uri = Uri.parse(link);
       await getIt<ILocalDatabaseService>().deleteItem(

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -89,22 +90,72 @@ class _LoginPageState extends TbPageState<LoginPage> {
                               SizedBox(height: 48),
                               if (tbContext.hasOAuthClients)
                                 _buildOAuth2Buttons(
-                                    tbContext.oauth2ClientInfos!),
-                              if (tbContext.hasOAuthClients)
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 16),
-                                    child: Row(
+                                  tbContext.oauth2ClientInfos!,
+                                ),
+                              Visibility(
+                                visible: !tbContext.hasOAuthClients,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16),
+                                      child: const Center(
+                                        child: Text('LOGIN WITH'),
+                                      ),
+                                    ),
+                                    Row(
                                       children: [
-                                        Flexible(child: Divider()),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: Text('${S.of(context).OR}'),
-                                        ),
-                                        Flexible(child: Divider())
+                                        OutlinedButton(
+                                          style: _oauth2IconButtonStyle,
+                                          onPressed: () async {
+                                            try {
+                                              final barcode =
+                                                  await tbContext.navigateTo(
+                                                '/qrCodeScan',
+                                                transition:
+                                                    TransitionType.nativeModal,
+                                              );
+
+                                              if (barcode != null &&
+                                                  barcode.code != null) {
+                                                tbContext.navigateByAppLink(
+                                                  barcode.code,
+                                                );
+                                              } else {}
+                                            } catch (e) {
+                                              log.error(
+                                                'Login with qr code error',
+                                                e,
+                                              );
+                                            }
+                                          },
+                                          child: SvgPicture.asset(
+                                            ThingsboardImage
+                                                .oauth2Logos['qr-code-logo']!,
+                                            height: 24,
+                                          ),
+                                        )
                                       ],
-                                    )),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 16),
+                                child: Row(
+                                  children: [
+                                    Flexible(child: Divider()),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: Text('${S.of(context).OR}'),
+                                    ),
+                                    Flexible(child: Divider())
+                                  ],
+                                ),
+                              ),
                               FormBuilder(
                                   key: _loginFormKey,
                                   autovalidateMode: AutovalidateMode.disabled,
@@ -232,35 +283,106 @@ class _LoginPageState extends TbPageState<LoginPage> {
   Widget _buildOAuth2Buttons(List<OAuth2ClientInfo> clients) {
     if (clients.length == 1 || clients.length > 6) {
       return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: clients
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...clients
               .asMap()
-              .map((index, client) => MapEntry(
+              .map(
+                (index, client) => MapEntry(
                   index,
-                  _buildOAuth2Button(client, 'Login with ${client.name}', false,
-                      index == clients.length - 1)))
+                  _buildOAuth2Button(
+                    client,
+                    'Login with ${client.name}',
+                    false,
+                    index == clients.length - 1,
+                  ),
+                ),
+              )
               .values
-              .toList());
+              .toList(),
+          OutlinedButton(
+            style: _oauth2IconButtonStyle,
+            onPressed: () async {
+              try {
+                final barcode = await tbContext.navigateTo(
+                  '/qrCodeScan',
+                  transition: TransitionType.nativeModal,
+                );
+
+                if (barcode != null && barcode.code != null) {
+                  tbContext.navigateByAppLink(
+                    barcode.code,
+                  );
+                } else {}
+              } catch (e) {
+                log.error(
+                  'Login with qr code error',
+                  e,
+                );
+              }
+            },
+            child: SvgPicture.asset(
+              ThingsboardImage.oauth2Logos['qr-code-logo']!,
+              height: 24,
+            ),
+          ),
+        ],
+      );
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: Text('LOGIN WITH')),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: const Center(
+              child: Text('LOGIN WITH'),
+            ),
           ),
           Row(
-              children: clients
+            children: [
+              ...clients
                   .asMap()
-                  .map((index, client) => MapEntry(
+                  .map(
+                    (index, client) => MapEntry(
                       index,
                       _buildOAuth2Button(
-                          client,
-                          clients.length == 2 ? client.name : null,
-                          true,
-                          index == clients.length - 1)))
+                        client,
+                        clients.length == 2 ? client.name : null,
+                        true,
+                        index == clients.length - 1,
+                      ),
+                    ),
+                  )
                   .values
-                  .toList())
+                  .toList(),
+              OutlinedButton(
+                style: _oauth2IconButtonStyle,
+                onPressed: () async {
+                  try {
+                    final barcode = await tbContext.navigateTo(
+                      '/qrCodeScan',
+                      transition: TransitionType.nativeModal,
+                    );
+
+                    if (barcode != null && barcode.code != null) {
+                      tbContext.navigateByAppLink(
+                        barcode.code,
+                      );
+                    } else {}
+                  } catch (e) {
+                    log.error(
+                      'Login with qr code error',
+                      e,
+                    );
+                  }
+                },
+                child: SvgPicture.asset(
+                  ThingsboardImage.oauth2Logos['qr-code-logo']!,
+                  height: 24,
+                ),
+              ),
+            ],
+          )
         ],
       );
     }
