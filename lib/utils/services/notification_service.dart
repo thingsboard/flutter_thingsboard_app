@@ -287,7 +287,7 @@ class NotificationService {
             if (Uri.parse(link).isAbsolute) {
               tbContext.navigateTo('/url/${Uri.encodeComponent(link)}');
             } else {
-              tbContext.navigateTo(link, replace: true);
+              tbContext.navigateTo(link);
             }
           }
 
