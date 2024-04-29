@@ -66,6 +66,7 @@ class TbContext implements PopEntry {
   TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
   StreamSubscription? _appLinkStreamSubscription;
+  late bool _handleRootState;
 
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
 
@@ -103,7 +104,7 @@ class TbContext implements PopEntry {
       }
       return true;
     }());
-
+    _handleRootState = true;
     _initialized = true;
 
     final endpoint = await getIt<IEndpointService>().getEndpoint();
@@ -154,12 +155,13 @@ class TbContext implements PopEntry {
   }) async {
     log.debug('TbContext:reinit()');
 
+    _handleRootState = false;
     _initialized = false;
 
     tbClient = ThingsboardClient(
       endpoint,
       storage: getIt<ILocalDatabaseService>(),
-      onUserLoaded: () => onUserLoaded(handleRouteState: false, onDone: onDone),
+      onUserLoaded: () => onUserLoaded(onDone: onDone),
       onError: onError,
       onLoadStarted: onLoadStarted,
       onLoadFinished: onLoadFinished,
@@ -262,8 +264,7 @@ class TbContext implements PopEntry {
     _isLoadingNotifier.value = false;
   }
 
-  Future<void> onUserLoaded(
-      {bool handleRouteState = true, VoidCallback? onDone}) async {
+  Future<void> onUserLoaded({VoidCallback? onDone}) async {
     try {
       log.debug(
           'TbContext.onUserLoaded: isAuthenticated=${tbClient.isAuthenticated()}');
@@ -308,7 +309,7 @@ class TbContext implements PopEntry {
         onDone?.call();
       }
 
-      if (handleRouteState) {
+      if (_handleRootState) {
         await updateRouteState();
       }
 
@@ -381,6 +382,9 @@ class TbContext implements PopEntry {
     RequestConfig? requestConfig,
     bool notifyUser = true,
   }) async {
+    log.debug('TbContext::logout($requestConfig, $notifyUser)');
+    _handleRootState = true;
+
     if (getIt<IFirebaseService>().apps.isNotEmpty) {
       await NotificationService().logout();
     }

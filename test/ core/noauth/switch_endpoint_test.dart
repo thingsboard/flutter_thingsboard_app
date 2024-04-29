@@ -6,6 +6,7 @@ import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -15,17 +16,23 @@ void main() {
   late final TbContext tbContext;
   late final ThingsboardClient tbClient;
   late final IFirebaseService firebaseService;
+  late final IEndpointService endpointService;
 
   setUpAll(() {
     tbContext = MockTbContext();
     tbClient = MockTbClient();
     firebaseService = MockFirebaseService();
+    endpointService = MockEndpointService();
 
     when(() => tbContext.tbClient).thenReturn(tbClient);
     when(() => firebaseService.removeApp()).thenAnswer((_) => Future.value());
+    when(() => endpointService.setEndpoint(any())).thenAnswer(
+      (_) => Future.value(),
+    );
 
     getIt.registerLazySingleton(() => TbLogger());
     getIt.registerLazySingleton<IFirebaseService>(() => firebaseService);
+    getIt.registerLazySingleton<IEndpointService>(() => endpointService);
 
     NoAuthDi.init(tbContext: tbContext);
   });
