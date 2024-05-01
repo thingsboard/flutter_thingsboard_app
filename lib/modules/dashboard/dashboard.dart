@@ -84,7 +84,7 @@ class Dashboard extends TbContextWidget {
         this._activeByDefault = activeByDefault,
         this._titleCallback = titleCallback,
         this._controllerCallback = controllerCallback,
-        super(tbContext);
+        super(tbContext, key: key);
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -278,7 +278,6 @@ class _DashboardState extends TbContextState<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         if (widget._home == true && !tbContext.isHomePage()) {

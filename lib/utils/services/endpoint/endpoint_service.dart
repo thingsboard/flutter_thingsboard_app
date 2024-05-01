@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -7,11 +8,14 @@ class EndpointService implements IEndpointService {
   EndpointService({required this.databaseService});
 
   final ILocalDatabaseService databaseService;
-  String? _cachedEndpoint;
+  final _cachedEndpoint = ValueNotifier<String?>(null);
+
+  @override
+  ValueListenable<String?> get listenEndpointChanges => _cachedEndpoint;
 
   @override
   Future<void> setEndpoint(String endpoint) async {
-    _cachedEndpoint = endpoint;
+    _cachedEndpoint.value = endpoint;
 
     await databaseService.setItem(
       DatabaseKeys.thingsBoardApiEndpointKey,
@@ -21,21 +25,24 @@ class EndpointService implements IEndpointService {
 
   @override
   Future<String> getEndpoint() async {
-    _cachedEndpoint ??= await databaseService.getItem(
+    _cachedEndpoint.value ??= await databaseService.getItem(
       DatabaseKeys.thingsBoardApiEndpointKey,
     );
 
-    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint.value ??
+        ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 
   @override
   Future<bool> isCustomEndpoint() async {
-    _cachedEndpoint ??= await getEndpoint();
-    return _cachedEndpoint != ThingsboardAppConstants.thingsBoardApiEndpoint;
+    _cachedEndpoint.value ??= await getEndpoint();
+    return _cachedEndpoint.value !=
+        ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 
   @override
   String getCachedEndpoint() {
-    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint.value ??
+        ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 }
