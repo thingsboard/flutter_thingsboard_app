@@ -24,8 +24,14 @@ class SwitchEndpointNoAuthView extends StatefulWidget {
 class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
   @override
   Widget build(BuildContext context) {
+    if (getIt<NoAuthBloc>().isClosed) {
+      return const Scaffold(
+        body: NoAuthLoadingWidget(),
+      );
+    }
+
     return BlocProvider<NoAuthBloc>.value(
-      value: GetIt.instance()
+      value: getIt()
         ..add(
           SwitchToAnotherEndpointEvent(
             parameters: widget.arguments,
@@ -44,11 +50,13 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                   }
                 });
               } else if (state is NoAuthDoneState) {
+                GetIt.instance<NoAuthBloc>().close();
                 getIt<ThingsboardAppRouter>().router.navigateTo(
                       context,
                       '/home',
                       replace: true,
                       maintainState: false,
+                      clearStack: true,
                     );
               }
             },
@@ -135,7 +143,6 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
 
   @override
   void dispose() {
-    GetIt.instance<NoAuthBloc>().close();
     NoAuthDi.dispose();
     super.dispose();
   }

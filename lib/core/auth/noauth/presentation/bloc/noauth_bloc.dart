@@ -23,6 +23,10 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
   void _switchEndpointEventHandler() {
     on<SwitchToAnotherEndpointEvent>(
       (event, emit) async {
+        if (isClosed) {
+          return;
+        }
+
         if (event.parameters == null) {
           emit(
             const NoAuthErrorState(

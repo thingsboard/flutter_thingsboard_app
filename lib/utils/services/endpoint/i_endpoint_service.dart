@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// This service provides information about the current active endpoint.
 /// Since we have a feature that allows for changing endpoints, there is some
 /// logic associated with the active endpoint, such as dashboard loading and OAuth2A.
@@ -11,4 +13,6 @@ abstract interface class IEndpointService {
   /// At times, we need to retrieve the endpoint synchronously.
   /// We might consider using Hive in the future.
   String getCachedEndpoint();
+
+  ValueListenable<String?> get listenEndpointChanges;
 }
