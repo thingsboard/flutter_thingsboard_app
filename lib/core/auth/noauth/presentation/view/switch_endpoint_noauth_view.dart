@@ -37,10 +37,9 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
             parameters: widget.arguments,
           ),
         ),
-      child: SafeArea(
-        bottom: false,
-        child: Scaffold(
-          body: BlocConsumer<NoAuthBloc, NoAuthState>(
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocConsumer<NoAuthBloc, NoAuthState>(
             listener: (context, state) {
               if (state is NoAuthErrorState) {
                 widget.tbContext.showErrorNotification(state.message);
