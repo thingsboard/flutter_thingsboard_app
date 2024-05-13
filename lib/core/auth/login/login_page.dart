@@ -106,6 +106,8 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                       ),
                                     ),
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         OutlinedButton(
                                           style: _oauth2IconButtonStyle,
@@ -131,10 +133,22 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                               );
                                             }
                                           },
-                                          child: SvgPicture.asset(
-                                            ThingsboardImage
-                                                .oauth2Logos['qr-code-logo']!,
-                                            height: 24,
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                ThingsboardImage.oauth2Logos[
+                                                    'qr-code-logo']!,
+                                                height: 24,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Text(
+                                                'Scan QR code',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         )
                                       ],
@@ -281,81 +295,35 @@ class _LoginPageState extends TbPageState<LoginPage> {
   }
 
   Widget _buildOAuth2Buttons(List<OAuth2ClientInfo> clients) {
-    if (clients.length == 1 || clients.length > 6) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ...clients
-              .asMap()
-              .map(
-                (index, client) => MapEntry(
-                  index,
-                  _buildOAuth2Button(
-                    client,
-                    'Login with ${client.name}',
-                    false,
-                    index == clients.length - 1,
-                  ),
-                ),
-              )
-              .values
-              .toList(),
-          OutlinedButton(
-            style: _oauth2IconButtonStyle,
-            onPressed: () async {
-              try {
-                final barcode = await tbContext.navigateTo(
-                  '/qrCodeScan',
-                  transition: TransitionType.nativeModal,
-                );
-
-                if (barcode != null && barcode.code != null) {
-                  tbContext.navigateByAppLink(
-                    barcode.code,
-                  );
-                } else {}
-              } catch (e) {
-                log.error(
-                  'Login with qr code error',
-                  e,
-                );
-              }
-            },
-            child: SvgPicture.asset(
-              ThingsboardImage.oauth2Logos['qr-code-logo']!,
-              height: 24,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: const Center(
+            child: Text('LOGIN WITH'),
           ),
-        ],
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: const Center(
-              child: Text('LOGIN WITH'),
-            ),
-          ),
-          Row(
-            children: [
-              ...clients
-                  .asMap()
-                  .map(
-                    (index, client) => MapEntry(
-                      index,
-                      _buildOAuth2Button(
-                        client,
-                        clients.length == 2 ? client.name : null,
-                        true,
-                        index == clients.length - 1,
-                      ),
+        ),
+        Row(
+          children: [
+            ...clients
+                .asMap()
+                .map(
+                  (index, client) => MapEntry(
+                    index,
+                    _buildOAuth2Button(
+                      client,
+                      clients.length == 2 ? client.name : null,
+                      true,
+                      index == clients.length - 1,
                     ),
-                  )
-                  .values
-                  .toList(),
-              OutlinedButton(
+                  ),
+                )
+                .values
+                .toList(),
+            const SizedBox(width: 8),
+            Expanded(
+              child: OutlinedButton(
                 style: _oauth2IconButtonStyle,
                 onPressed: () async {
                   try {
@@ -377,15 +345,15 @@ class _LoginPageState extends TbPageState<LoginPage> {
                   }
                 },
                 child: SvgPicture.asset(
-                  ThingsboardImage.oauth2Logos['qr-code-logo']!,
+                  ThingsboardImage.oauth2Logos['qr-code']!,
                   height: 24,
                 ),
               ),
-            ],
-          )
-        ],
-      );
-    }
+            ),
+          ],
+        )
+      ],
+    );
   }
 
   Widget _buildOAuth2Button(
