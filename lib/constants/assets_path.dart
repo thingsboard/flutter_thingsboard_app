@@ -13,6 +13,7 @@ abstract class ThingsboardImage {
     'github-logo': 'assets/images/github-logo.svg',
     'facebook-logo': 'assets/images/facebook-logo.svg',
     'apple-logo': 'assets/images/apple-logo.svg',
-    'qr-code-logo': 'assets/images/qr-demo-thingsboard.svg'
+    'qr-code-logo': 'assets/images/qr_code_scanner.svg',
+    'qr-code': 'assets/images/qr_code_scanner2.svg'
   };
 }
