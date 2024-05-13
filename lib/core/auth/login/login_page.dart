@@ -321,33 +321,30 @@ class _LoginPageState extends TbPageState<LoginPage> {
                 )
                 .values
                 .toList(),
-            const SizedBox(width: 8),
-            Expanded(
-              child: OutlinedButton(
-                style: _oauth2IconButtonStyle,
-                onPressed: () async {
-                  try {
-                    final barcode = await tbContext.navigateTo(
-                      '/qrCodeScan',
-                      transition: TransitionType.nativeModal,
-                    );
+            OutlinedButton(
+              style: _oauth2IconButtonStyle,
+              onPressed: () async {
+                try {
+                  final barcode = await tbContext.navigateTo(
+                    '/qrCodeScan',
+                    transition: TransitionType.nativeModal,
+                  );
 
-                    if (barcode != null && barcode.code != null) {
-                      tbContext.navigateByAppLink(
-                        barcode.code,
-                      );
-                    } else {}
-                  } catch (e) {
-                    log.error(
-                      'Login with qr code error',
-                      e,
+                  if (barcode != null && barcode.code != null) {
+                    tbContext.navigateByAppLink(
+                      barcode.code,
                     );
-                  }
-                },
-                child: SvgPicture.asset(
-                  ThingsboardImage.oauth2Logos['qr-code']!,
-                  height: 24,
-                ),
+                  } else {}
+                } catch (e) {
+                  log.error(
+                    'Login with qr code error',
+                    e,
+                  );
+                }
+              },
+              child: SvgPicture.asset(
+                ThingsboardImage.oauth2Logos['qr-code']!,
+                height: 24,
               ),
             ),
           ],
