@@ -299,6 +299,7 @@ class TbContext implements PopEntry {
         oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
               pkgName: packageName,
               platform: _oauth2PlatformType,
+              requestConfig: RequestConfig(followRedirect: false),
             );
       }
 
