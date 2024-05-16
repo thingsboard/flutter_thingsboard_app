@@ -31,16 +31,16 @@ class TwoPageView extends StatefulWidget {
   final Duration duration;
   final TwoPageViewController? controller;
 
-  const TwoPageView({
-    Key? key,
-    required this.first,
-    required this.second,
-    this.controller,
-    this.duration = const Duration(milliseconds: 250),
-  }) : super(key: key);
+  const TwoPageView(
+      {Key? key,
+      required this.first,
+      required this.second,
+      this.controller,
+      this.duration = const Duration(milliseconds: 250)})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TwoPageViewState();
+  _TwoPageViewState createState() => _TwoPageViewState();
 }
 
 class _TwoPageViewState extends State<TwoPageView> {
@@ -64,11 +64,8 @@ class _TwoPageViewState extends State<TwoPageView> {
           _reverse = true;
         });
       }
-      await _pageController.animateToPage(
-        _selectedIndex,
-        duration: widget.duration,
-        curve: Curves.fastOutSlowIn,
-      );
+      await _pageController.animateToPage(_selectedIndex,
+          duration: widget.duration, curve: Curves.fastOutSlowIn);
       return true;
     }
     return false;
@@ -77,11 +74,8 @@ class _TwoPageViewState extends State<TwoPageView> {
   Future<bool> _close(int index, {bool animate = true}) async {
     if (_selectedIndex == index) {
       _selectedIndex = index == 1 ? 0 : 1;
-      await _pageController.animateToPage(
-        _selectedIndex,
-        duration: widget.duration,
-        curve: Curves.fastOutSlowIn,
-      );
+      await _pageController.animateToPage(_selectedIndex,
+          duration: widget.duration, curve: Curves.fastOutSlowIn);
       if (index == 0) {
         setState(() {
           _reverse = false;
@@ -100,14 +94,14 @@ class _TwoPageViewState extends State<TwoPageView> {
   @override
   Widget build(BuildContext context) {
     return PreloadPageView(
-      physics: const NeverScrollableScrollPhysics(),
+      children: _pages,
+      physics: NeverScrollableScrollPhysics(),
       reverse: _reverse,
       onPageChanged: (int position) {
         _selectedIndex = position;
       },
       preloadPagesCount: 2,
       controller: _pageController,
-      children: _pages,
     );
   }
 }

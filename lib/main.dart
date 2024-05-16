@@ -1,32 +1,59 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/firebase_options.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/main_dashboard_page.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/widgets/two_page_view.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'config/themes/tb_theme.dart';
 import 'generated/l10n.dart';
-
-final appRouter = ThingsboardAppRouter();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 //  await FlutterDownloader.initialize();
 //  await Permission.storage.request();
 
+  setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  runApp(const ThingsboardApp());
+  try {
+    getIt<IFirebaseService>().initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    log('main::FirebaseService.initializeApp() exception $e', error: e);
+  }
+
+  try {
+    final uri = await getInitialUri();
+    if (uri != null) {
+      await getIt<ILocalDatabaseService>().setItem(
+        DatabaseKeys.initialAppLink,
+        uri.toString(),
+      );
+    }
+  } catch (e) {
+    log('main::getInitialUri() exception $e', error: e);
+  }
+
+  runApp(ThingsboardApp());
 }
 
 class ThingsboardApp extends StatefulWidget {
-  const ThingsboardApp({Key? key}) : super(key: key);
+  ThingsboardApp({Key? key}) : super(key: key);
 
   @override
   ThingsboardAppState createState() => ThingsboardAppState();
@@ -35,17 +62,16 @@ class ThingsboardApp extends StatefulWidget {
 class ThingsboardAppState extends State<ThingsboardApp>
     with TickerProviderStateMixin
     implements TbMainDashboardHolder {
-  final TwoPageViewController _mainPageViewController = TwoPageViewController();
-  final MainDashboardPageController _mainDashboardPageController =
-      MainDashboardPageController();
+  final _mainPageViewController = TwoPageViewController();
+  final _mainDashboardPageController = MainDashboardPageController();
 
-  final GlobalKey mainAppKey = GlobalKey();
-  final GlobalKey dashboardKey = GlobalKey();
+  final mainAppKey = GlobalKey();
+  final dashboardKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    appRouter.tbContext.setMainDashboardHolder(this);
+    getIt<ThingsboardAppRouter>().tbContext.setMainDashboardHolder(this);
   }
 
   @override
@@ -62,18 +88,21 @@ class ThingsboardAppState extends State<ThingsboardApp>
       state: state,
       hideToolbar: hideToolbar,
     );
+
     _openDashboard(animate: animate);
   }
 
   @override
   Future<bool> dashboardGoBack() async {
     if (_mainPageViewController.index == 1) {
-      var canGoBack = await _mainDashboardPageController.dashboardGoBack();
+      final canGoBack = await _mainDashboardPageController.dashboardGoBack();
       if (canGoBack) {
         closeDashboard();
       }
+
       return false;
     }
+
     return true;
   }
 
@@ -97,16 +126,16 @@ class ThingsboardAppState extends State<ThingsboardApp>
     return _closeDashboard(animate: animate);
   }
 
-  @override
   bool isDashboardOpen() {
     return _mainPageViewController.index == 1;
   }
 
   Future<bool> _openMain({bool animate = true}) async {
-    var res = await _mainPageViewController.open(0, animate: animate);
+    final res = await _mainPageViewController.open(0, animate: animate);
     if (res) {
       await _mainDashboardPageController.deactivateDashboard();
     }
+
     return res;
   }
 
@@ -114,6 +143,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
     if (!isDashboardOpen()) {
       await _mainDashboardPageController.activateDashboard();
     }
+
     return _mainPageViewController.close(0, animate: animate);
   }
 
@@ -121,28 +151,32 @@ class ThingsboardAppState extends State<ThingsboardApp>
     if (!isDashboardOpen()) {
       _mainDashboardPageController.activateDashboard();
     }
+
     return _mainPageViewController.open(1, animate: animate);
   }
 
   Future<bool> _closeDashboard({bool animate = true}) async {
-    var res = await _mainPageViewController.close(1, animate: animate);
+    final res = await _mainPageViewController.close(1, animate: animate);
     if (res) {
       _mainDashboardPageController.deactivateDashboard();
     }
+
     return res;
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
+      SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
+
     return MaterialApp(
-      localizationsDelegates: const [
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -154,9 +188,11 @@ class ThingsboardAppState extends State<ThingsboardApp>
       home: TwoPageView(
         controller: _mainPageViewController,
         first: MaterialApp(
+          debugShowCheckedModeBanner: false,
           key: mainAppKey,
-          scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-          localizationsDelegates: const [
+          scaffoldMessengerKey:
+              getIt<ThingsboardAppRouter>().tbContext.messengerKey,
+          localizationsDelegates: [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -167,13 +203,16 @@ class ThingsboardAppState extends State<ThingsboardApp>
           theme: tbTheme,
           themeMode: ThemeMode.light,
           darkTheme: tbDarkTheme,
-          onGenerateRoute: appRouter.router.generator,
-          navigatorObservers: [appRouter.tbContext.routeObserver],
+          onGenerateRoute: getIt<ThingsboardAppRouter>().router.generator,
+          navigatorObservers: [
+            getIt<ThingsboardAppRouter>().tbContext.routeObserver,
+          ],
         ),
         second: MaterialApp(
+          debugShowCheckedModeBanner: false,
           key: dashboardKey,
           // scaffoldMessengerKey: appRouter.tbContext.messengerKey,
-          localizationsDelegates: const [
+          localizationsDelegates: [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -185,7 +224,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
           themeMode: ThemeMode.light,
           darkTheme: tbDarkTheme,
           home: MainDashboardPage(
-            appRouter.tbContext,
+            getIt<ThingsboardAppRouter>().tbContext,
             controller: _mainDashboardPageController,
           ),
         ),

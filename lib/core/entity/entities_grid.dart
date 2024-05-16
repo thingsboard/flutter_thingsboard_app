@@ -7,7 +7,7 @@ import 'entity_grid_card.dart';
 
 mixin EntitiesGridStateBase on StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _EntitiesGridState();
+  _EntitiesGridState createState() => _EntitiesGridState();
 }
 
 class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
@@ -15,9 +15,10 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
 
   @override
   Widget pagedViewBuilder(BuildContext context) {
-    var heading = widget.buildHeading(context);
-    var gridChildAspectRatio = widget.gridChildAspectRatio() ?? 156 / 150;
-    List<Widget> slivers = [];
+    final heading = widget.buildHeading(context);
+    final gridChildAspectRatio = widget.gridChildAspectRatio() ?? 156 / 150;
+
+    final slivers = <Widget>[];
     if (heading != null) {
       slivers.add(
         SliverPadding(
@@ -26,15 +27,15 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
         ),
       );
     }
+
     slivers.add(
       SliverPadding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         sliver: PagedSliverGrid(
           showNewPageProgressIndicatorAsGridChild: false,
           showNewPageErrorIndicatorAsGridChild: false,
           showNoMoreItemsIndicatorAsGridChild: false,
           pagingController: pagingController,
-          // padding: EdgeInsets.all(16),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: gridChildAspectRatio,
             crossAxisSpacing: 16,
@@ -57,6 +58,7 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
         ),
       ),
     );
+
     return CustomScrollView(slivers: slivers);
   }
 }

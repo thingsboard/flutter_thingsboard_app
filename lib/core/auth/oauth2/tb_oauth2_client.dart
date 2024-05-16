@@ -6,6 +6,8 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
 import 'app_secret_provider.dart';
 
@@ -25,10 +27,10 @@ class TbOAuth2Client {
   final TbContext _tbContext;
   final AppSecretProvider _appSecretProvider;
 
-  TbOAuth2Client({
-    required TbContext tbContext,
-    required AppSecretProvider appSecretProvider,
-  })  : _tbContext = tbContext,
+  TbOAuth2Client(
+      {required TbContext tbContext,
+      required AppSecretProvider appSecretProvider})
+      : _tbContext = tbContext,
         _appSecretProvider = appSecretProvider;
 
   Future<TbOAuth2AuthenticateResult> authenticate(String oauth2Url) async {
@@ -37,28 +39,24 @@ class TbOAuth2Client {
     final jwt = JWT(
       {
         'callbackUrlScheme':
-            ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme,
+            ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme
       },
       issuer: pkgName,
     );
     final key = SecretKey(appSecret);
-    final appToken = jwt.sign(
-      key,
-      algorithm: _HMACBase64Algorithm.HS512,
-      expiresIn: const Duration(minutes: 2),
-    );
+    final appToken = jwt.sign(key,
+        algorithm: _HMACBase64Algorithm.HS512, expiresIn: Duration(minutes: 2));
     var url =
-        Uri.parse(ThingsboardAppConstants.thingsBoardApiEndpoint + oauth2Url);
+        Uri.parse(await getIt<IEndpointService>().getEndpoint() + oauth2Url);
     final params = Map<String, String>.from(url.queryParameters);
     params['pkg'] = pkgName;
     params['appToken'] = appToken;
     url = url.replace(queryParameters: params);
     final result = await TbWebAuth.authenticate(
-      url: url.toString(),
-      callbackUrlScheme:
-          ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme,
-      saveHistory: false,
-    );
+        url: url.toString(),
+        callbackUrlScheme:
+            ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme,
+        saveHistory: false);
     final resultUri = Uri.parse(result);
     final error = resultUri.queryParameters['error'];
     if (error != null) {
@@ -70,8 +68,7 @@ class TbOAuth2Client {
         return TbOAuth2AuthenticateResult.success(accessToken, refreshToken);
       } else {
         return TbOAuth2AuthenticateResult.failed(
-          'No authentication credentials in response.',
-        );
+            'No authentication credentials in response.');
       }
     }
   }
