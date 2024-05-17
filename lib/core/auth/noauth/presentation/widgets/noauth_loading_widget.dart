@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class NoAuthLoadingWidget extends StatelessWidget {
-  const NoAuthLoadingWidget();
+  const NoAuthLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

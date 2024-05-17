@@ -43,12 +43,12 @@ const Map<ActionType, String> actionTypeTranslations = {
   ActionType.ADDED_COMMENT: 'Added Comment',
   ActionType.UPDATED_COMMENT: 'Updated Comment',
   ActionType.DELETED_COMMENT: 'Deleted Comment',
-  ActionType.SMS_SENT: 'SMS Sent'
+  ActionType.SMS_SENT: 'SMS Sent',
 };
 
 const Map<ActionStatus, String> actionStatusTranslations = {
   ActionStatus.SUCCESS: 'Success',
-  ActionStatus.FAILURE: 'Failure'
+  ActionStatus.FAILURE: 'Failure',
 };
 
 mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
@@ -79,20 +79,15 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
 class AuditLogCard extends TbContextWidget {
   final AuditLog auditLog;
 
-  AuditLogCard(TbContext tbContext, {required this.auditLog})
+  AuditLogCard(TbContext tbContext, {super.key, required this.auditLog})
       : super(tbContext);
 
   @override
-  _AuditLogCardState createState() => _AuditLogCardState();
+  State<StatefulWidget> createState() => _AuditLogCardState();
 }
 
 class _AuditLogCardState extends TbContextState<AuditLogCard> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didUpdateWidget(AuditLogCard oldWidget) {
@@ -104,138 +99,156 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
     return Stack(
       children: [
         Positioned.fill(
+          child: Container(
+            alignment: Alignment.centerLeft,
             child: Container(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: 4,
-                  decoration: BoxDecoration(
-                      color:
-                          widget.auditLog.actionStatus == ActionStatus.SUCCESS
-                              ? Color(0xFF008A00)
-                              : Color(0xFFFF0000),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          bottomLeft: Radius.circular(4))),
-                ))),
-        Row(mainAxisSize: MainAxisSize.max, children: [
-          SizedBox(width: 4),
-          Flexible(
+              width: 4,
+              decoration: BoxDecoration(
+                color: widget.auditLog.actionStatus == ActionStatus.SUCCESS
+                    ? const Color(0xFF008A00)
+                    : const Color(0xFFFF0000),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(width: 4),
+            Flexible(
               fit: FlexFit.tight,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 16),
-                          Flexible(
-                              fit: FlexFit.tight,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 12),
-                                  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                            fit: FlexFit.tight,
-                                            child: AutoSizeText(
-                                                widget.auditLog.entityName ??
-                                                    '',
-                                                maxLines: 2,
-                                                minFontSize: 8,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: Color(0xFF282828),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 20 / 14))),
-                                        Text(
-                                            entityDateFormat.format(DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                                    widget.auditLog
-                                                        .createdTime!)),
-                                            style: TextStyle(
-                                                color: Color(0xFFAFAFAF),
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 12,
-                                                height: 16 / 12))
-                                      ]),
-                                  SizedBox(height: 4),
-                                  Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                            fit: FlexFit.tight,
-                                            child: Text(
-                                                entityTypeTranslations[widget
-                                                    .auditLog
-                                                    .entityId
-                                                    .entityType]!,
-                                                style: TextStyle(
-                                                    color: Color(0xFFAFAFAF),
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    height: 16 / 12))),
-                                        Text(
-                                            actionStatusTranslations[
-                                                widget.auditLog.actionStatus]!,
-                                            style: TextStyle(
-                                                color: widget.auditLog
-                                                            .actionStatus ==
-                                                        ActionStatus.SUCCESS
-                                                    ? Color(0xFF008A00)
-                                                    : Color(0xFFFF0000),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                height: 16 / 12))
-                                      ]),
-                                  SizedBox(height: 12)
-                                ],
-                              )),
-                          SizedBox(width: 16)
-                        ]),
-                    SizedBox(height: 8),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 16),
-                        Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(
-                                actionTypeTranslations[
-                                    widget.auditLog.actionType]!,
-                                style: TextStyle(
-                                    color: Color(0xFF282828),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 16),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 12),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: AutoSizeText(
+                                    widget.auditLog.entityName ?? '',
+                                    maxLines: 2,
+                                    minFontSize: 8,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color(0xFF282828),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 20 / 14,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  entityDateFormat.format(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      widget.auditLog.createdTime!,
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                    color: Color(0xFFAFAFAF),
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 20 / 14))),
-                        SizedBox(height: 32),
-                        CircleAvatar(
-                            radius: 16,
-                            backgroundColor: Color(0xffF0F4F9),
-                            child: IconButton(
-                                icon: Icon(Icons.code, size: 18),
-                                padding: EdgeInsets.all(7.0),
-                                onPressed: () =>
-                                    _auditLogDetails(widget.auditLog))),
-                        SizedBox(width: 8)
-                      ],
-                    ),
-                    SizedBox(height: 8)
-                  ]))
-        ])
+                                    fontSize: 12,
+                                    height: 16 / 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: Text(
+                                    entityTypeTranslations[
+                                        widget.auditLog.entityId.entityType]!,
+                                    style: const TextStyle(
+                                      color: Color(0xFFAFAFAF),
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 12,
+                                      height: 16 / 12,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  actionStatusTranslations[
+                                      widget.auditLog.actionStatus]!,
+                                  style: TextStyle(
+                                    color: widget.auditLog.actionStatus ==
+                                            ActionStatus.SUCCESS
+                                        ? const Color(0xFF008A00)
+                                        : const Color(0xFFFF0000),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    height: 16 / 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 16),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Text(
+                          actionTypeTranslations[widget.auditLog.actionType]!,
+                          style: const TextStyle(
+                            color: Color(0xFF282828),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            height: 20 / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundColor: const Color(0xffF0F4F9),
+                        child: IconButton(
+                          icon: const Icon(Icons.code, size: 18),
+                          padding: const EdgeInsets.all(7.0),
+                          onPressed: () => _auditLogDetails(widget.auditLog),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 
   _auditLogDetails(AuditLog auditLog) {
-    tbContext
-        .showFullScreenDialog(new AuditLogDetailsPage(tbContext, auditLog));
+    tbContext.showFullScreenDialog(AuditLogDetailsPage(tbContext, auditLog));
   }
 }

@@ -261,7 +261,7 @@ class WidgetActionHandler with HasTbContext {
 
   Future<WidgetMobileActionResult> _makePhoneCall(List<dynamic> args) async {
     try {
-      var phoneNumber;
+      dynamic phoneNumber;
       if (args.length > 1 && args[1] != null) {
         phoneNumber = args[1];
       } else {

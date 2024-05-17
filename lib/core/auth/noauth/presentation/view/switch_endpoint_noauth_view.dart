@@ -9,9 +9,10 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends StatefulWidget {
-  SwitchEndpointNoAuthView({
+  const SwitchEndpointNoAuthView({
     required this.tbContext,
     required this.arguments,
+    super.key,
   });
 
   final Map<String, dynamic>? arguments;
@@ -107,7 +108,7 @@ class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error,
                           color: Colors.red,
                           size: 50,

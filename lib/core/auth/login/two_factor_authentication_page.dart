@@ -481,11 +481,15 @@ class _TwoFactorAuthenticationPageState
       } catch (e) {
         if (e is ThingsboardError) {
           if (e.status == 400) {
-            _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
-                .invalidate(S.of(context).verificationCodeIncorrect);
+            if (context.mounted) {
+              _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
+                  .invalidate(S.of(context).verificationCodeIncorrect);
+            }
           } else if (e.status == 429) {
-            _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
-                .invalidate(S.of(context).verificationCodeManyRequest);
+            if (context.mounted) {
+              _twoFactorAuthFormKey.currentState!.fields['verificationCode']!
+                  .invalidate(S.of(context).verificationCodeManyRequest);
+            }
             _disableSendButton.value = true;
             if (_tooManyRequestsTimer != null) {
               _tooManyRequestsTimer!.cancel();

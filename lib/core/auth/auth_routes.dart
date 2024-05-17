@@ -10,19 +10,22 @@ import 'login/login_page.dart';
 
 class AuthRoutes extends TbRoutes {
   late var loginHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return LoginPage(tbContext);
-  });
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return LoginPage(tbContext);
+    },
+  );
 
   late var resetPasswordRequestHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return ResetPasswordRequestPage(tbContext);
-  });
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return ResetPasswordRequestPage(tbContext);
+    },
+  );
 
   late var twoFactorAuthenticationHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return TwoFactorAuthenticationPage(tbContext);
-  });
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return TwoFactorAuthenticationPage(tbContext);
+    },
+  );
 
   AuthRoutes(TbContext tbContext) : super(tbContext);
 

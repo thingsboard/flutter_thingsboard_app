@@ -8,12 +8,13 @@ import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationsList extends StatelessWidget {
-  NotificationsList({
+  const NotificationsList({
     required this.pagingController,
     required this.thingsboardClient,
     required this.onClearNotification,
     required this.onReadNotification,
     required this.tbContext,
+    super.key,
   });
 
   final ThingsboardClient thingsboardClient;
@@ -29,18 +30,18 @@ class NotificationsList extends StatelessWidget {
       builderDelegate: PagedChildBuilderDelegate(
         itemBuilder: (context, item, index) {
           return NotificationSlidableWidget(
+            notification: item as PushNotification,
+            onReadNotification: onReadNotification,
+            onClearNotification: onClearNotification,
+            tbContext: tbContext,
+            thingsboardClient: thingsboardClient,
             child: NotificationWidget(
-              notification: item as PushNotification,
+              notification: item,
               thingsboardClient: thingsboardClient,
               onClearNotification: onClearNotification,
               onReadNotification: onReadNotification,
               tbContext: tbContext,
             ),
-            notification: item,
-            onReadNotification: onReadNotification,
-            onClearNotification: onClearNotification,
-            tbContext: tbContext,
-            thingsboardClient: thingsboardClient,
           );
         },
         firstPageProgressIndicatorBuilder: (_) => SizedBox.expand(
