@@ -6,13 +6,14 @@ import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loading_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 
-class SwitchEndpointNoAuthView extends StatefulWidget {
+class SwitchEndpointNoAuthView extends TbPageWidget {
   SwitchEndpointNoAuthView({
     required this.tbContext,
     required this.arguments,
-  });
+  }) : super(tbContext);
 
   final Map<String, dynamic>? arguments;
   final TbContext tbContext;
@@ -21,7 +22,8 @@ class SwitchEndpointNoAuthView extends StatefulWidget {
   State<StatefulWidget> createState() => _SwitchEndpointNoAuthViewState();
 }
 
-class _SwitchEndpointNoAuthViewState extends State<SwitchEndpointNoAuthView> {
+class _SwitchEndpointNoAuthViewState
+    extends TbPageState<SwitchEndpointNoAuthView> {
   @override
   Widget build(BuildContext context) {
     if (getIt<NoAuthBloc>().isClosed) {
