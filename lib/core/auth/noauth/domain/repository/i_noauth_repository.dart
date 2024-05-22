@@ -16,4 +16,6 @@ abstract interface class INoAuthRepository {
     required VoidCallback onDone,
     required ErrorCallback onError,
   });
+
+  bool isAuthenticated();
 }

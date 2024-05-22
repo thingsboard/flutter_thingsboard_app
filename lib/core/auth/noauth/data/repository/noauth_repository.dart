@@ -45,4 +45,9 @@ class NoAuthRepository implements INoAuthRepository {
       onError: onError,
     );
   }
+
+  @override
+  bool isAuthenticated() {
+    return remoteDatasource.isAuthenticated();
+  }
 }
