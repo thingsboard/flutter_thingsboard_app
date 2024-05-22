@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -41,24 +42,48 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
     final uri = params['uri']!;
     final host = params['host'] ?? uri.origin;
     final key = params['secret']!;
+    final currentEndpoint = await getIt<IEndpointService>().getEndpoint();
+    final isTheSameHost =
+        Uri.parse(host).host.compareTo(Uri.parse(currentEndpoint).host) == 0;
 
     try {
       _progressSteamCtrl.add('Getting data from your host $host');
       final loginData = await repository.getJwtToken(host: host, key: key);
-      _progressSteamCtrl.add('Logout you ...');
 
-      await repository.logout(
-        requestConfig: RequestConfig(ignoreErrors: true),
-        notifyUser: false,
-      );
+      if (repository.isAuthenticated()) {
+        _progressSteamCtrl.add('Logout you ...');
+        await repository.logout(
+          requestConfig: RequestConfig(ignoreErrors: true),
+          notifyUser: false,
+        );
+      }
 
-      _progressSteamCtrl.add('Switching you to the new host $host');
+      if (isTheSameHost) {
+        _progressSteamCtrl.add('Logging you into the host $host');
+      } else {
+        _progressSteamCtrl.add('Switching you to the new host $host');
+      }
+
       await repository.setUserFromJwtToken(loginData);
 
-      logger.debug('SwitchEndpointUseCase:deleteFB App');
-      await getIt<IFirebaseService>().removeApp();
+      if (!isTheSameHost) {
+        logger.debug('SwitchEndpointUseCase:deleteFB App');
+        await getIt<IFirebaseService>()
+          ..removeApp()
+          ..removeApp(name: currentEndpoint);
+        await getIt<IEndpointService>().setEndpoint(host);
 
-      await getIt<IEndpointService>().setEndpoint(host);
+        // If we revert to the original host configured in the app_constants
+        if (!await getIt<IEndpointService>().isCustomEndpoint()) {
+          await getIt<IFirebaseService>().initializeApp(
+            name: host,
+            options: DefaultFirebaseOptions.currentPlatform,
+          );
+        }
+      }
+
+      // A re-initialization is required if we set 'notifyUser' to true for
+      // 'setUserFromJwtToken'. This code will be executed twice.
       await repository.reInit(
         endpoint: host,
         onDone: params.onDone,

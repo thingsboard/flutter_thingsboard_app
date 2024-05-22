@@ -66,4 +66,9 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
       onError: onError,
     );
   }
+
+  @override
+  bool isAuthenticated() {
+    return tbContext.isAuthenticated;
+  }
 }
