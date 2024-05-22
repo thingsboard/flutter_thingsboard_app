@@ -21,6 +21,8 @@ class FirebaseService implements IFirebaseService {
     String name = defaultFirebaseAppName,
     FirebaseOptions? options,
   }) async {
+    logger.debug('FirebaseService::initializeApp(name: $name)');
+
     try {
       if (await endpointService.isCustomEndpoint()) {
         throw UnimplementedError(
@@ -29,7 +31,7 @@ class FirebaseService implements IFirebaseService {
         );
       }
 
-      final app = await Firebase.initializeApp(options: options);
+      final app = await Firebase.initializeApp(options: options, name: name);
       _apps.add(name);
 
       return app;
