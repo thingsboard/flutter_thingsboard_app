@@ -76,7 +76,6 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
         // If we revert to the original host configured in the app_constants
         if (!await getIt<IEndpointService>().isCustomEndpoint()) {
           await getIt<IFirebaseService>().initializeApp(
-            name: host,
             options: DefaultFirebaseOptions.currentPlatform,
           );
         }
