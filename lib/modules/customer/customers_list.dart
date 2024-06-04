@@ -8,7 +8,9 @@ import 'customers_base.dart';
 class CustomersList extends BaseEntitiesWidget<Customer, PageLink>
     with CustomersBase, ContactBasedBase, EntitiesListStateBase {
   CustomersList(
-      TbContext tbContext, PageKeyController<PageLink> pageKeyController,
-      {searchMode = false})
-      : super(tbContext, pageKeyController, searchMode: searchMode);
+    TbContext tbContext,
+    PageKeyController<PageLink> pageKeyController, {
+    super.key,
+    searchMode = false,
+  }) : super(tbContext, pageKeyController, searchMode: searchMode);
 }

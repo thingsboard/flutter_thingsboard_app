@@ -7,20 +7,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:thingsboard_app/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(ThingsboardApp());
+    await tester.pumpWidget(const ThingsboardApp());
 
     // Verify that our counter starts at 0.
-    expect(find.byWidgetPredicate((widget) {
-      if (widget is MaterialApp) {
-        return widget.title == 'ThingsBoard';
-      }
-      return false;
-    }), findsOneWidget);
+    expect(
+      find.byWidgetPredicate((widget) {
+        if (widget is MaterialApp) {
+          return widget.title == 'ThingsBoard';
+        }
+        return false;
+      }),
+      findsOneWidget,
+    );
   });
 }

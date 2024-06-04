@@ -4,19 +4,19 @@ import 'package:thingsboard_app/core/entity/entity_details_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
-  DeviceDetailsPage(TbContext tbContext, String deviceId)
+  DeviceDetailsPage(TbContext tbContext, String deviceId, {super.key})
       : super(tbContext, entityId: deviceId, defaultTitle: 'Device');
 
   @override
-  Future<DeviceInfo?> fetchEntity(String deviceId) {
-    return tbClient.getDeviceService().getDeviceInfo(deviceId);
+  Future<DeviceInfo?> fetchEntity(String id) {
+    return tbClient.getDeviceService().getDeviceInfo(id);
   }
 
   @override
-  Widget buildEntityDetails(BuildContext context, DeviceInfo device) {
+  Widget buildEntityDetails(BuildContext context, DeviceInfo entity) {
     return ListTile(
-      title: Text('${device.name}'),
-      subtitle: Text('${device.type}'),
+      title: Text(entity.name),
+      subtitle: Text(entity.type),
     );
   }
 }

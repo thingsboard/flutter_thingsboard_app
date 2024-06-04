@@ -8,11 +8,11 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class AuditLogsPage extends TbPageWidget {
   final bool searchMode;
 
-  AuditLogsPage(TbContext tbContext, {this.searchMode = false})
+  AuditLogsPage(TbContext tbContext, {this.searchMode = false, super.key})
       : super(tbContext);
 
   @override
-  _AuditLogsPageState createState() => _AuditLogsPageState();
+  State<StatefulWidget> createState() => _AuditLogsPageState();
 }
 
 class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
@@ -21,8 +21,11 @@ class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var auditLogsList = AuditLogsList(tbContext, _timePageLinkController,
-        searchMode: widget.searchMode);
+    var auditLogsList = AuditLogsList(
+      tbContext,
+      _timePageLinkController,
+      searchMode: widget.searchMode,
+    );
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
@@ -31,14 +34,18 @@ class _AuditLogsPageState extends TbPageState<AuditLogsPage> {
             _timePageLinkController.onSearchText(searchText),
       );
     } else {
-      appBar = TbAppBar(tbContext, title: Text(auditLogsList.title), actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            navigateTo('/auditLogs?search=true');
-          },
-        )
-      ]);
+      appBar = TbAppBar(
+        tbContext,
+        title: Text(auditLogsList.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              navigateTo('/auditLogs?search=true');
+            },
+          ),
+        ],
+      );
     }
     return Scaffold(appBar: appBar, body: auditLogsList);
   }

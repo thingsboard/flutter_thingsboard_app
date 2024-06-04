@@ -15,7 +15,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 enum NotificationsFilter { all, unread }
 
 class NotificationPage extends TbPageWidget {
-  NotificationPage(TbContext tbContext) : super(tbContext);
+  NotificationPage(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _NotificationPageState();
@@ -44,7 +44,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                   '/home',
                   replace: true,
                   transition: TransitionType.fadeIn,
-                  transitionDuration: Duration(milliseconds: 750),
+                  transitionDuration: const Duration(milliseconds: 750),
                 );
               }
             },
@@ -55,7 +55,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
           title: const Text('Notifications'),
           actions: [
             TextButton(
-              child: Text('Mark all as read'),
+              child: const Text('Mark all as read'),
               onPressed: () async {
                 await notificationRepository.markAllAsRead();
 
@@ -98,7 +98,7 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
                           );
                         });
                       },
-                      segments: [
+                      segments: const [
                         FilterSegments(
                           label: 'Unread',
                           value: NotificationsFilter.unread,

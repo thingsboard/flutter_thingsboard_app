@@ -26,7 +26,7 @@ class UrlPage extends StatelessWidget {
             onPressed: () {
               launchUrlString(url, mode: LaunchMode.externalApplication);
             },
-            icon: Icon(Icons.open_in_browser),
+            icon: const Icon(Icons.open_in_browser),
           ),
         ],
       ),

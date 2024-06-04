@@ -12,6 +12,7 @@ class NotificationSlidableWidget extends StatefulWidget {
     required this.onClearNotification,
     required this.onReadNotification,
     required this.tbContext,
+    super.key,
   });
 
   final Widget child;
@@ -34,13 +35,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
       return Container(
         height: 134,
         alignment: Alignment.center,
-        child: RefreshProgressIndicator(),
+        child: const RefreshProgressIndicator(),
       );
     }
 
     return Slidable(
       key: ValueKey(widget.notification.id!.id),
-      child: widget.child,
       startActionPane: widget.notification.status == PushNotificationStatus.READ
           ? null
           : ActionPane(
@@ -51,7 +51,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
                   onPressed: (context) => widget.onReadNotification(
                     widget.notification.id!.id!,
                   ),
-                  backgroundColor: Color(0xFF198038),
+                  backgroundColor: const Color(0xFF198038),
                   foregroundColor: Colors.white,
                   icon: Icons.check_circle_outline,
                   label: 'Mark as read',
@@ -72,19 +72,20 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
                 widget.notification.status == PushNotificationStatus.READ,
               );
             },
-            backgroundColor: Color(0xFFD12730).withOpacity(0.94),
+            backgroundColor: const Color(0xFFD12730).withOpacity(0.94),
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Delete',
             borderRadius: _buildAlarmRelatedButtons(widget.notification).isEmpty
                 ? BorderRadius.circular(8)
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     topRight: Radius.circular(8),
                     bottomRight: Radius.circular(8),
                   ),
           ),
         ],
       ),
+      child: widget.child,
     );
   }
 
@@ -102,12 +103,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
           items.add(
             SlidableAction(
               onPressed: (context) => _ackAlarm(id, context),
-              backgroundColor: Color(0xFF198038),
+              backgroundColor: const Color(0xFF198038),
               foregroundColor: Colors.white,
               icon: Icons.done,
               label: 'Acknowledge',
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 bottomLeft: Radius.circular(8),
               ),
@@ -120,12 +121,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
           items.add(
             SlidableAction(
               onPressed: (context) => _clearAlarm(id, context),
-              backgroundColor: Color(0xFF757575),
+              backgroundColor: const Color(0xFF757575),
               foregroundColor: Colors.white,
               icon: Icons.clear,
               label: 'Clear',
               borderRadius: items.isEmpty
-                  ? BorderRadius.only(
+                  ? const BorderRadius.only(
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8),
                     )
@@ -141,10 +142,11 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   void _ackAlarm(String alarmId, BuildContext context) async {
     final res = await widget.tbContext.confirm(
-        title: '${S.of(context).alarmAcknowledgeTitle}',
-        message: '${S.of(context).alarmAcknowledgeText}',
-        cancel: '${S.of(context).No}',
-        ok: '${S.of(context).Yes}');
+      title: S.of(context).alarmAcknowledgeTitle,
+      message: S.of(context).alarmAcknowledgeText,
+      cancel: S.of(context).No,
+      ok: S.of(context).Yes,
+    );
 
     if (res != null && res) {
       setState(() {
@@ -163,10 +165,11 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   void _clearAlarm(String alarmId, BuildContext context) async {
     final res = await widget.tbContext.confirm(
-        title: '${S.of(context).alarmClearTitle}',
-        message: '${S.of(context).alarmClearText}',
-        cancel: '${S.of(context).No}',
-        ok: '${S.of(context).Yes}');
+      title: S.of(context).alarmClearTitle,
+      message: S.of(context).alarmClearText,
+      cancel: S.of(context).No,
+      ok: S.of(context).Yes,
+    );
     if (res != null && res) {
       setState(() {
         loading = true;

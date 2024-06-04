@@ -56,6 +56,7 @@ dependencies:
   get_it: ^7.6.7
   equatable: ^2.0.5
   uni_links: ^0.5.1
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   mocktail: ^1.0.3
   bloc_test: ^9.1.7
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
