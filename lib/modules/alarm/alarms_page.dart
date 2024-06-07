@@ -8,9 +8,14 @@ import 'alarms_list.dart';
 
 class AlarmsPage extends TbContextWidget {
   final bool searchMode;
+  final bool filterMode;
 
-  AlarmsPage(TbContext tbContext, {this.searchMode = false, super.key})
-      : super(tbContext);
+  AlarmsPage(
+    TbContext tbContext, {
+    super.key,
+    this.searchMode = false,
+    this.filterMode = false,
+  }) : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _AlarmsPageState();
@@ -18,7 +23,7 @@ class AlarmsPage extends TbContextWidget {
 
 class _AlarmsPageState extends TbContextState<AlarmsPage>
     with AutomaticKeepAliveClientMixin<AlarmsPage> {
-  final AlarmQueryController _alarmQueryController = AlarmQueryController();
+  final _alarmQueryController = AlarmQueryController();
 
   @override
   bool get wantKeepAlive {
@@ -28,11 +33,12 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var alarmsList = AlarmsList(
+    final alarmsList = AlarmsList(
       tbContext,
       _alarmQueryController,
       searchMode: widget.searchMode,
     );
+
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
@@ -46,6 +52,12 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
         title: Text(alarmsList.title),
         actions: [
           IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {
+              navigateTo('/alarms?filter=true');
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               navigateTo('/alarms?search=true');
@@ -54,6 +66,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
         ],
       );
     }
+
     return Scaffold(appBar: appBar, body: alarmsList);
   }
 

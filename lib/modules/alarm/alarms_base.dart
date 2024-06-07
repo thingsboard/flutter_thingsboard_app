@@ -95,7 +95,7 @@ class AlarmQueryController extends PageKeyController<AlarmQuery> {
   }
 
   onSearchText(String searchText) {
-    var query = value.pageKey;
+    final query = value.pageKey;
     query.pageLink.page = 0;
     query.pageLink.textSearch = searchText;
     notifyListeners();
