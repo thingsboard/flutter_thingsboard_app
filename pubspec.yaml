@@ -57,6 +57,9 @@ dependencies:
   equatable: ^2.0.5
   uni_links: ^0.5.1
   collection: ^1.18.0
+  html: ^0.15.4
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +68,8 @@ dev_dependencies:
   mocktail: ^1.0.3
   bloc_test: ^9.1.7
   flutter_lints: ^2.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.9
 
 flutter:
   uses-material-design: true
