@@ -326,7 +326,7 @@ class TbContext implements PopEntry {
         await updateRouteState();
       }
 
-      if (tbClient.getAuthUser()?.userId != null) {
+      if (isAuthenticated) {
         if (getIt<IFirebaseService>().apps.isNotEmpty) {
           await NotificationService().init(tbClient, log, this);
         }
