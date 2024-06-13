@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_bloc.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_assignee_widget.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_types_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/filter_toggle_block_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class AlarmsFilterPage extends TbContextWidget {
-  AlarmsFilterPage(super.tbContext, {super.key});
+  AlarmsFilterPage(this.tbContext, {super.key}) : super(tbContext);
+
+  @override
+  final TbContext tbContext;
 
   @override
   State<StatefulWidget> createState() => _AlarmsFilterPageState();
@@ -28,37 +39,144 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     FilterDataEntity(label: 'Indeterminate', data: AlarmSeverity.INDETERMINATE),
   ];
 
+  final diScopeKey = UniqueKey();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TbAppBar(
-        tbContext,
-        title: const Text('Filters'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FilterToggleBlockWidget(
-                label: 'Alarm status list',
-                items: list,
-                selected: const {0},
-                onSelectedChanged: (values) {},
-                labelAtIndex: (index) => list[index].label,
-              ),
-              const SizedBox(height: 12),
-              FilterToggleBlockWidget(
-                label: 'Alarm severity list',
-                items: list2,
-                onSelectedChanged: (values) {},
-                labelAtIndex: (index) => list2[index].label,
-              ),
-            ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AlarmTypesBloc>.value(value: getIt()),
+        BlocProvider<AssigneeBloc>.value(value: getIt()),
+      ],
+      child: Scaffold(
+        appBar: TbAppBar(
+          tbContext,
+          title: const Text('Filters'),
+        ),
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: SizedBox(
+                    height: constraints.maxHeight - 16 * 2,
+                    child: Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FilterToggleBlockWidget(
+                              label: 'Alarm status list',
+                              items: list,
+                              selected: const {0},
+                              onSelectedChanged: (values) {},
+                              labelAtIndex: (index) => list[index].label,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: FilterToggleBlockWidget(
+                                label: 'Alarm severity list',
+                                items: list2,
+                                onSelectedChanged: (values) {},
+                                labelAtIndex: (index) => list2[index].label,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: AlarmTypesWidget(tbContext: tbContext),
+                            ),
+                            AlarmAssigneeFilter(tbContext: tbContext),
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                ),
+                              ),
+                              child: const Text(
+                                'Reset',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                ),
+                              ),
+                              child: const Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            FilledButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    // Change your radius here
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                ),
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                ),
+                              ),
+                              child: const Text(
+                                'Update',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    AlarmsDi.init(diScopeKey.toString(), tbClient: widget.tbContext.tbClient);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    AlarmsDi.dispose(diScopeKey.toString());
+    super.dispose();
   }
 }

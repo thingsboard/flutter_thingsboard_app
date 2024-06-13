@@ -12,10 +12,12 @@ class NotificationPaginationRepository {
 
   final NotificationQueryCtrl notificationQueryPageCtrl;
   final ThingsboardClient tbClient;
-  late final PagingController pagingController;
+  late final PagingController<PushNotificationQuery, PushNotification>
+      pagingController;
 
   void init() {
-    pagingController = PagingController(
+    pagingController =
+        PagingController<PushNotificationQuery, PushNotification>(
       firstPageKey: notificationQueryPageCtrl.value.pageKey,
     );
 

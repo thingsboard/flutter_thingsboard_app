@@ -21,16 +21,17 @@ class NotificationsList extends StatelessWidget {
   final Function(String id, bool read) onClearNotification;
   final ValueChanged<String> onReadNotification;
   final TbContext tbContext;
-  final PagingController pagingController;
+  final PagingController<PushNotificationQuery, PushNotification>
+      pagingController;
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView.separated(
+    return PagedListView<PushNotificationQuery, PushNotification>.separated(
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         itemBuilder: (context, item, index) {
           return NotificationSlidableWidget(
-            notification: item as PushNotification,
+            notification: item,
             onReadNotification: onReadNotification,
             onClearNotification: onClearNotification,
             tbContext: tbContext,
