@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:qr.thingsboard.fun</string>
+		<string>applinks:demo.thingsboard.io</string>
 	</array>
 </dict>
 </plist>
