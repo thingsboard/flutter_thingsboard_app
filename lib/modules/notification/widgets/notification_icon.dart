@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -10,7 +11,7 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconData = _toIcon(notification.additionalConfig?['icon']);
+    final iconData = _toIcon(notification.additionalConfig?['icon'] ?? {});
 
     return iconData;
   }
@@ -38,6 +39,11 @@ class NotificationIcon extends StatelessWidget {
 
     if (imageData != null) {
       if (imageData!.contains('mdi')) {
+        return Icon(
+          MdiIcons.fromString(imageData.split('mdi:').last),
+          color: _toColor(data['color']),
+        );
+
         return SvgPicture.network(
           '${ThingsboardAppConstants.thingsBoardApiEndpoint}/assets/mdi/${imageData.split('mdi:').last}.svg',
           color: _toColor(data['color']),

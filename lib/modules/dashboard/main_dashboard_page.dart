@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class MainDashboardPageController {
@@ -127,27 +129,33 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
           )
         ],
       ),
-      body: Dashboard(
-        tbContext,
-        activeByDefault: false,
-        titleCallback: (title) {
-          dashboardTitleValue.value = title;
-        },
-        controllerCallback: (controller) {
-          _dashboardController = controller;
-          if (widget._controller != null) {
-            widget._controller!._setDashboardController(controller);
-            controller.hasRightLayout.addListener(() {
-              hasRightLayout.value = controller.hasRightLayout.value;
-            });
-            controller.rightLayoutOpened.addListener(() {
-              if (controller.rightLayoutOpened.value) {
-                rightLayoutMenuController.forward();
-              } else {
-                rightLayoutMenuController.reverse();
+      body: ValueListenableBuilder<String?>(
+        valueListenable: getIt<IEndpointService>().listenEndpointChanges,
+        builder: (context, value, _) {
+          return Dashboard(
+            tbContext,
+            key: UniqueKey(),
+            activeByDefault: false,
+            titleCallback: (title) {
+              dashboardTitleValue.value = title;
+            },
+            controllerCallback: (controller) {
+              _dashboardController = controller;
+              if (widget._controller != null) {
+                widget._controller!._setDashboardController(controller);
+                controller.hasRightLayout.addListener(() {
+                  hasRightLayout.value = controller.hasRightLayout.value;
+                });
+                controller.rightLayoutOpened.addListener(() {
+                  if (controller.rightLayoutOpened.value) {
+                    rightLayoutMenuController.forward();
+                  } else {
+                    rightLayoutMenuController.reverse();
+                  }
+                });
               }
-            });
-          }
+            },
+          );
         },
       ),
     );

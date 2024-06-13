@@ -28,9 +28,15 @@ class AuthRoutes extends TbRoutes {
 
   @override
   void doRegisterRoutes(router) {
-    router.define("/login", handler: loginHandler);
-    router.define("/login/resetPasswordRequest",
-        handler: resetPasswordRequestHandler);
-    router.define("/login/mfa", handler: twoFactorAuthenticationHandler);
+    router
+      ..define('/login', handler: loginHandler)
+      ..define(
+        '/login/resetPasswordRequest',
+        handler: resetPasswordRequestHandler,
+      )
+      ..define(
+        '/login/mfa',
+        handler: twoFactorAuthenticationHandler,
+      );
   }
 }

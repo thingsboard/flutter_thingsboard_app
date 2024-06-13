@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -17,7 +18,10 @@ class NotificationService {
   late TbLogger _log;
   late ThingsboardClient _tbClient;
   late TbContext _tbContext;
-  late INotificationsLocalService _localService;
+  final INotificationsLocalService _localService = NotificationsLocalService();
+  StreamSubscription? _foregroundMessageSubscription;
+  StreamSubscription? _onMessageOpenedAppSubscription;
+  StreamSubscription? _onTokenRefreshSubscription;
 
   String? _fcmToken;
 
@@ -36,7 +40,8 @@ class NotificationService {
     _log = log;
     _tbClient = tbClient;
     _tbContext = context;
-    _localService = NotificationsLocalService();
+
+    _log.debug('NotificationService::init()');
 
     final message = await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
@@ -46,7 +51,8 @@ class NotificationService {
       );
     }
 
-    FirebaseMessaging.onMessageOpenedApp.listen(
+    _onMessageOpenedAppSubscription =
+        FirebaseMessaging.onMessageOpenedApp.listen(
       (message) async {
         NotificationService.handleClickOnNotification(
           message.data,
@@ -55,37 +61,41 @@ class NotificationService {
       },
     );
 
-    var settings = await _requestPermission();
+    final settings = await _requestPermission();
     _log.debug(
         'Notification authorizationStatus: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      _getAndSaveToken();
+      await _getAndSaveToken();
+
+      _onTokenRefreshSubscription =
+          FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+        if (_fcmToken != null) {
+          _tbClient.getUserService().removeMobileSession(_fcmToken!).then((_) {
+            _fcmToken = token;
+            if (_fcmToken != null) {
+              _saveToken(_fcmToken!);
+            }
+          });
+        }
+      });
 
       await _initFlutterLocalNotificationsPlugin();
-
       await _configFirebaseMessaging();
       _subscribeOnForegroundMessage();
-      updateNotificationsCount();
+      await updateNotificationsCount();
     }
   }
 
   Future<void> updateNotificationsCount() async {
     final localService = NotificationsLocalService();
 
-    localService.updateNotificationsCount(
+    await localService.updateNotificationsCount(
       await _getNotificationsCountRemote(),
     );
   }
 
   Future<String?> getToken() async {
-    if (Platform.isIOS) {
-      var apnsToken = await _messaging.getAPNSToken();
-      _log.debug('APNS token: $apnsToken');
-      if (apnsToken == null) {
-        return null;
-      }
-    }
     _fcmToken = await _messaging.getToken();
     return _fcmToken;
   }
@@ -95,12 +105,20 @@ class NotificationService {
   }
 
   Future<void> logout() async {
+    getIt<TbLogger>().debug('NotificationService::logout()');
     if (_fcmToken != null) {
+      getIt<TbLogger>().debug(
+        'NotificationService::logout() removeMobileSession',
+      );
       _tbClient.getUserService().removeMobileSession(_fcmToken!);
     }
 
-    await _messaging.setAutoInitEnabled(false);
+    await _foregroundMessageSubscription?.cancel();
+    await _onMessageOpenedAppSubscription?.cancel();
+    await _onTokenRefreshSubscription?.cancel();
     await _messaging.deleteToken();
+    await _messaging.setAutoInitEnabled(false);
+    await flutterLocalNotificationsPlugin.cancelAll();
     await _localService.clearNotificationBadgeCount();
   }
 
@@ -112,11 +130,7 @@ class NotificationService {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/thingsboard');
 
-    const initializationSettingsIOS = DarwinInitializationSettings(
-      defaultPresentSound: false,
-      defaultPresentAlert: false,
-      defaultPresentBadge: false,
-    );
+    const initializationSettingsIOS = DarwinInitializationSettings();
 
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -143,8 +157,7 @@ class NotificationService {
       showWhen: false,
     );
 
-    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails();
+    const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
     _notificationDetails = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -154,7 +167,7 @@ class NotificationService {
 
   Future<NotificationSettings> _requestPermission() async {
     _messaging = FirebaseMessaging.instance;
-    var result = await _messaging.requestPermission(
+    final result = await _messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -163,6 +176,7 @@ class NotificationService {
       provisional: true,
       sound: true,
     );
+
     if (result.authorizationStatus == AuthorizationStatus.denied) {
       return result;
     }
@@ -174,6 +188,7 @@ class NotificationService {
     if (token != null) {
       _tbClient.getUserService().removeMobileSession(token);
     }
+
     await _messaging.deleteToken();
     return await getToken();
   }
@@ -206,7 +221,7 @@ class NotificationService {
   }
 
   void showNotification(RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
+    final notification = message.notification;
 
     if (notification != null) {
       flutterLocalNotificationsPlugin.show(
@@ -222,7 +237,8 @@ class NotificationService {
   }
 
   void _subscribeOnForegroundMessage() {
-    FirebaseMessaging.onMessage.listen((message) {
+    _foregroundMessageSubscription =
+        FirebaseMessaging.onMessage.listen((message) {
       _log.debug('Message:' + message.toString());
       if (message.sentTime == null) {
         final map = message.toMap();
@@ -238,32 +254,40 @@ class NotificationService {
     Map<String, dynamic> data,
     TbContext tbContext,
   ) {
-    if (data['enabled'] == true) {
-      switch (data['linkType']) {
+    if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
+      switch (data['linkType'] ?? data['onClick.linkType']) {
         case 'DASHBOARD':
-          final dashboardId = data['dashboardId'];
+          final dashboardId =
+              data['dashboardId'] ?? data['onClick.dashboardId'];
           var entityId;
-          if (data['stateEntityId'] != null &&
-              data['stateEntityType'] != null) {
+          if ((data['stateEntityId'] ?? data['onClick.stateEntityId']) !=
+                  null &&
+              (data['stateEntityType'] ?? data['onClick.stateEntityType']) !=
+                  null) {
             entityId = EntityId.fromTypeAndUuid(
-                entityTypeFromString(data['stateEntityType']),
-                data['stateEntityId']);
+              entityTypeFromString(
+                  data['stateEntityType'] ?? data['onClick.stateEntityType']),
+              data['stateEntityId'] ?? data['onClick.stateEntityId'],
+            );
           }
 
-          final state = Utils.createDashboardEntityState(entityId,
-              stateId: data['dashboardState']);
+          final state = Utils.createDashboardEntityState(
+            entityId,
+            stateId: data['dashboardState'] ?? data['onClick.dashboardState'],
+          );
+
           if (dashboardId != null) {
             tbContext.navigateToDashboard(dashboardId, state: state);
           }
 
           break;
         case 'LINK':
-          final link = data['link'];
+          final link = data['link'] ?? data['onClick.link'];
           if (link != null) {
             if (Uri.parse(link).isAbsolute) {
               tbContext.navigateTo('/url/${Uri.encodeComponent(link)}');
             } else {
-              tbContext.navigateTo(link, replace: true);
+              tbContext.navigateTo(link);
             }
           }
 
@@ -275,8 +299,12 @@ class NotificationService {
   }
 
   Future<int> _getNotificationsCountRemote() async {
-    return _tbClient
-        .getNotificationService()
-        .getUnreadNotificationsCount('MOBILE_APP');
+    try {
+      return _tbClient
+          .getNotificationService()
+          .getUnreadNotificationsCount('MOBILE_APP');
+    } catch (_) {
+      return 0;
+    }
   }
 }

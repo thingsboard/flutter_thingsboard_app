@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class UrlPage extends StatelessWidget {
-  const UrlPage({
+class UrlPage extends TbPageWidget {
+  UrlPage({
     required this.url,
-    required this.tbContext,
+    required TbContext tbContext,
     super.key,
-  });
+  }) : super(tbContext);
 
   final String url;
-  final TbContext tbContext;
 
+  @override
+  State<StatefulWidget> createState() => _UrlPageState();
+}
+
+class _UrlPageState extends TbPageState<UrlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +29,7 @@ class UrlPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              launchUrlString(url, mode: LaunchMode.externalApplication);
+              launchUrlString(widget.url, mode: LaunchMode.externalApplication);
             },
             icon: Icon(Icons.open_in_browser),
           ),
@@ -34,7 +39,7 @@ class UrlPage extends StatelessWidget {
           ? const Center(child: Text('Not implemented!'))
           : InAppWebView(
               initialUrlRequest: URLRequest(
-                url: Uri.parse(url),
+                url: Uri.parse(widget.url),
               ),
               androidOnPermissionRequest:
                   (controller, origin, resources) async {

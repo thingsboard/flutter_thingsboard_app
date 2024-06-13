@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
-import 'package:thingsboard_app/utils/services/_tb_secure_storage.dart';
+import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 final class NotificationsLocalService implements INotificationsLocalService {
-  NotificationsLocalService() : storage = createAppStorage();
+  NotificationsLocalService() : storage = getIt<ILocalDatabaseService>();
 
   static const notificationCounterKey = 'notifications_counter';
   static final notificationsNumberStream = StreamController<int>.broadcast();
@@ -46,12 +47,13 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> clearNotificationBadgeCount() async {
     FlutterAppBadger.removeBadge();
-    createAppStorage().deleteItem(notificationCounterKey);
+    getIt<ILocalDatabaseService>().deleteItem(notificationCounterKey);
     notificationsNumberStream.add(0);
   }
 
   @override
   Future<void> updateNotificationsCount(int count) async {
     storage.setItem(notificationCounterKey, count.toString());
+    notificationsNumberStream.add(count);
   }
 }

@@ -124,9 +124,12 @@ class _MainPageState extends TbPageState<MainPage>
   void initState() {
     super.initState();
     _tabItems = TbMainNavigationItem.getItems(tbContext);
-    int currentIndex = _indexFromPath(widget._path);
+    final currentIndex = _indexFromPath(widget._path);
     _tabController = TabController(
-        initialIndex: currentIndex, length: _tabItems.length, vsync: this);
+      initialIndex: currentIndex,
+      length: _tabItems.length,
+      vsync: this,
+    );
     _currentIndexNotifier = ValueNotifier(currentIndex);
     _tabController.animation!.addListener(_onTabAnimation);
   }
