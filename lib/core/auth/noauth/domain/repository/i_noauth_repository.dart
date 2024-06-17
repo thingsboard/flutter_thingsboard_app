@@ -18,4 +18,8 @@ abstract interface class INoAuthRepository {
   });
 
   bool isAuthenticated();
+
+  AuthUser getAuthUserFromJwt(String jwt);
+
+  AuthUser? getCurrentlyAuthenticatedUserOrNull();
 }

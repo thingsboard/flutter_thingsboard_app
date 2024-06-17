@@ -71,4 +71,14 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
   bool isAuthenticated() {
     return tbContext.isAuthenticated;
   }
+
+  @override
+  AuthUser getAuthUserFromJwt(String jwt) {
+    return thingsboardClient.getAuthUserFromJwt(jwt);
+  }
+
+  @override
+  AuthUser? getCurrentlyAuthenticatedUserOrNull() {
+    return thingsboardClient.getAuthUser();
+  }
 }
