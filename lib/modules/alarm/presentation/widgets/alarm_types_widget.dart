@@ -28,29 +28,49 @@ class AlarmTypesWidget extends StatelessWidget {
                   bounce: true,
                   builder: (context) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.7,
-                    child: PagedListView<PageLink, AlarmType>.separated(
-                      pagingController: getIt<AlarmTypesBloc>()
-                          .paginationRepository
-                          .pagingController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, item, index) {
-                          return Text(item.type);
-                        },
-                        firstPageProgressIndicatorBuilder: (_) {
-                          return SizedBox.expand(
-                            child: Container(
-                              color: const Color(0x99FFFFFF),
-                              child: Center(
-                                child: TbProgressIndicator(
-                                  tbContext,
-                                  size: 50.0,
-                                ),
-                              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('Done'),
+                          ),
+                        ),
+                        Expanded(
+                          child: PagedListView<PageLink, AlarmType>.separated(
+                            pagingController: getIt<AlarmTypesBloc>()
+                                .paginationRepository
+                                .pagingController,
+                            builderDelegate: PagedChildBuilderDelegate(
+                              itemBuilder: (context, item, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(item.type),
+                                );
+                              },
+                              firstPageProgressIndicatorBuilder: (_) {
+                                return SizedBox.expand(
+                                  child: Container(
+                                    color: const Color(0x99FFFFFF),
+                                    child: Center(
+                                      child: TbProgressIndicator(
+                                        tbContext,
+                                        size: 50.0,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                      separatorBuilder: (_, __) => const Divider(thickness: 1),
+                            separatorBuilder: (_, __) =>
+                                const Divider(thickness: 1),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );

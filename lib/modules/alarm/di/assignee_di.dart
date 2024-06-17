@@ -2,6 +2,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/assignee_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/i_assignee_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/repository/assignee/assignee_repository.dart';
+import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assignee_pagination_repository.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assignee_query_ctrl.dart';
 import 'package:thingsboard_app/modules/alarm/domain/repository/assignee/i_assigne_repository.dart';
@@ -39,7 +40,7 @@ class AssigneeDi {
           ),
         );
 
-        locator.registerFactory<PaginationRepository<PageLink, UserInfo>>(
+        locator.registerFactory<PaginationRepository<PageLink, AssigneeEntity>>(
           () => AssigneePaginationRepository(
             assigneeQueryCtrl: locator(),
             onFetchPageData: locator<FetchAssigneeUseCase>(),

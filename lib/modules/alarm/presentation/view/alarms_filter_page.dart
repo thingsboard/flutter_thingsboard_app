@@ -8,6 +8,7 @@ import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_assignee_widget.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_control_filters_button.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_types_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/filter_toggle_block_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -54,114 +55,42 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
           title: const Text('Filters'),
         ),
         body: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(
-                    height: constraints.maxHeight - 16 * 2,
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterToggleBlockWidget(
-                              label: 'Alarm status list',
-                              items: list,
-                              selected: const {0},
-                              onSelectedChanged: (values) {},
-                              labelAtIndex: (index) => list[index].label,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: FilterToggleBlockWidget(
-                                label: 'Alarm severity list',
-                                items: list2,
-                                onSelectedChanged: (values) {},
-                                labelAtIndex: (index) => list2[index].label,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: AlarmTypesWidget(tbContext: tbContext),
-                            ),
-                            AlarmAssigneeFilter(tbContext: tbContext),
-                          ],
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FilterToggleBlockWidget(
+                        label: 'Alarm status list',
+                        items: list,
+                        selected: const {0},
+                        onSelectedChanged: (values) {},
+                        labelAtIndex: (index) => list[index].label,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: FilterToggleBlockWidget(
+                          label: 'Alarm severity list',
+                          items: list2,
+                          onSelectedChanged: (values) {},
+                          labelAtIndex: (index) => list2[index].label,
                         ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                ),
-                              ),
-                              child: const Text(
-                                'Reset',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                ),
-                              ),
-                              child: const Text(
-                                'Cancel',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            FilledButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    // Change your radius here
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                ),
-                                padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                ),
-                              ),
-                              child: const Text(
-                                'Update',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                      ),
+                      AlarmTypesWidget(tbContext: tbContext),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: AlarmAssigneeFilter(tbContext: tbContext),
+                      ),
+                    ],
                   ),
-                ),
-              );
-            },
+                  const AlarmControlFiltersButton(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

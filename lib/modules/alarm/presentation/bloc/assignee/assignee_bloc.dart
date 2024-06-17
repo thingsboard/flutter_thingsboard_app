@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/fetch_assignee_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_event.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_state.dart';
@@ -13,7 +14,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
     on(_onEvent);
   }
 
-  final PaginationRepository<PageLink, UserInfo> paginationRepository;
+  final PaginationRepository<PageLink, AssigneeEntity> paginationRepository;
   final FetchAssigneeUseCase fetchAssigneeUseCase;
 
   String? selectedUserId;
