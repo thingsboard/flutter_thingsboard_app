@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -47,17 +48,17 @@ class TbOAuth2Client {
     final appToken = jwt.sign(key,
         algorithm: _HMACBase64Algorithm.HS512, expiresIn: Duration(minutes: 2));
     var url =
-        Uri.parse(await getIt<IEndpointService>().getEndpoint() + oauth2Url);
+        WebUri(await getIt<IEndpointService>().getEndpoint() + oauth2Url);
     final params = Map<String, String>.from(url.queryParameters);
     params['pkg'] = pkgName;
     params['appToken'] = appToken;
-    url = url.replace(queryParameters: params);
+    url = WebUri(url.replace(queryParameters: params).toString());
     final result = await TbWebAuth.authenticate(
         url: url.toString(),
         callbackUrlScheme:
             ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme,
         saveHistory: false);
-    final resultUri = Uri.parse(result);
+    final resultUri = WebUri(result);
     final error = resultUri.queryParameters['error'];
     if (error != null) {
       return TbOAuth2AuthenticateResult.failed(error);

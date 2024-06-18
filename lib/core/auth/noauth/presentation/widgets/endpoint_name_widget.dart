@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class EndpointNameWidget extends StatelessWidget {
   const EndpointNameWidget({required this.endpoint});
@@ -17,7 +18,7 @@ class EndpointNameWidget extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: Center(
         child: Text(
-          Uri.parse(endpoint).host,
+          WebUri(endpoint).host,
           style: Theme.of(context)
               .textTheme
               .labelSmall

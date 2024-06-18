@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -187,7 +188,7 @@ abstract class Utils {
       String? semanticLabel,
       Widget Function(BuildContext)? onError}) {
     Widget image = ScalableImageWidget.fromSISource(
-        si: ScalableImageSource.fromSvgHttpUrl(Uri.parse(imageUrl),
+        si: ScalableImageSource.fromSvgHttpUrl(WebUri(imageUrl),
             httpHeaders: headers),
         onError: (context) => _onErrorImage(context,
             color: color,
