@@ -74,6 +74,7 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
   final bool showLoadingIndicator;
   final String? searchHint;
   final void Function(String searchText)? onSearch;
+  final Widget? leading;
 
   @override
   final Size preferredSize;
@@ -86,6 +87,7 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
     this.showLoadingIndicator = false,
     this.searchHint,
     this.onSearch,
+    this.leading,
   })  : preferredSize =
             Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
         super(tbContext);
@@ -149,7 +151,6 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
       title: TextField(
         controller: _filter,
         autofocus: true,
-        // cursorColor: Colors.white,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintStyle: TextStyle(
@@ -160,6 +161,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
           hintText: widget.searchHint ?? 'Search',
         ),
       ),
+      leading: widget.leading,
       actions: [
         ValueListenableBuilder(
           valueListenable: _filter,

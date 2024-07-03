@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 
 class AlarmControlFiltersButton extends StatelessWidget {
-  const AlarmControlFiltersButton({super.key});
+  const AlarmControlFiltersButton({
+    required this.onResetTap,
+    required this.onCancelTap,
+    required this.onUpdateTap,
+    super.key,
+  });
+
+  final VoidCallback? onResetTap;
+  final VoidCallback onCancelTap;
+  final VoidCallback? onUpdateTap;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: onResetTap,
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
               const EdgeInsets.symmetric(
@@ -27,7 +36,7 @@ class AlarmControlFiltersButton extends StatelessWidget {
         ),
         const Spacer(),
         TextButton(
-          onPressed: () {},
+          onPressed: onCancelTap,
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
               const EdgeInsets.symmetric(
@@ -46,7 +55,7 @@ class AlarmControlFiltersButton extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         FilledButton(
-          onPressed: () {},
+          onPressed: onUpdateTap,
           style: ButtonStyle(
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(

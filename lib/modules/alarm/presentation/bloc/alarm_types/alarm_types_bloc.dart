@@ -24,6 +24,38 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
     switch (event) {
       case AlarmTypesSelectedEvent():
         selectedTypes.add(event.type);
+        emit(
+          AlarmTypeSelectedState(
+            selectedTypes: selectedTypes,
+            allowToAddMore: selectedTypes.length <
+                (paginationRepository.pagingController.itemList?.length ?? 0),
+          ),
+        );
+        break;
+
+      case AlarmTypesRemoveSelectedEvent():
+        selectedTypes.remove(event.type);
+        if (selectedTypes.isNotEmpty) {
+          emit(
+            AlarmTypeSelectedState(
+              selectedTypes: selectedTypes,
+              allowToAddMore: selectedTypes.length <
+                  (paginationRepository.pagingController.itemList?.length ?? 0),
+            ),
+          );
+        } else {
+          emit(const AlarmTypesSelectionEmptyState());
+        }
+
+        break;
+      case AlarmTypesResetEvent():
+        selectedTypes.clear();
+        emit(const AlarmTypesSelectionEmptyState());
+
+        break;
+      case AlarmTypesRefreshEvent():
+        paginationRepository.refresh();
+
         break;
     }
   }

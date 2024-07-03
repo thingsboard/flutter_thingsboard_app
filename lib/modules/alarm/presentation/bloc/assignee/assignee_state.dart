@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 
 sealed class AssigneeState extends Equatable {
   const AssigneeState();
@@ -12,10 +13,14 @@ final class AssigneeEmptyState extends AssigneeState {
 }
 
 final class AssigneeSelectedState extends AssigneeState {
-  const AssigneeSelectedState({required this.userId});
+  const AssigneeSelectedState({required this.assignee});
 
-  final String userId;
+  final AssigneeEntity assignee;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [assignee];
+}
+
+final class AssigneeSelfAssignmentState extends AssigneeState {
+  const AssigneeSelfAssignmentState();
 }

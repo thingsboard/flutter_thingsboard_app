@@ -7,16 +7,16 @@ class FilterToggleBlockWidget<T> extends StatefulWidget {
     required this.items,
     required this.onSelectedChanged,
     required this.labelAtIndex,
-    this.selected,
+    this.selected = const {},
     this.multiselect = true,
     super.key,
   });
 
   final String label;
   final List<T> items;
-  final ValueChanged<Set<T>> onSelectedChanged;
+  final ValueChanged<List<dynamic>> onSelectedChanged;
   final String Function(int) labelAtIndex;
-  final Set<int>? selected;
+  final Set<T> selected;
   final bool multiselect;
 
   @override
@@ -24,11 +24,11 @@ class FilterToggleBlockWidget<T> extends StatefulWidget {
 }
 
 class _FilterToggleBlockWidgetState extends State<FilterToggleBlockWidget> {
-  final selected = <int>{};
+  final selected = <dynamic>{};
 
   @override
   void initState() {
-    selected.addAll(widget.selected ?? {});
+    selected.addAll(widget.selected);
     super.initState();
   }
 
@@ -44,16 +44,20 @@ class _FilterToggleBlockWidgetState extends State<FilterToggleBlockWidget> {
           (index) => FilledButton.icon(
             onPressed: () {
               setState(() {
-                if (selected.contains(index)) {
-                  selected.remove(index);
+                final element = widget.items[index];
+
+                if (selected.contains(element)) {
+                  selected.remove(element);
                 } else {
-                  selected.add(index);
+                  selected.add(element);
                 }
               });
+
+              widget.onSelectedChanged(selected.toList());
             },
             label: Text(
               widget.labelAtIndex(index),
-              style: !selected.contains(index)
+              style: !selected.contains(widget.items[index])
                   ? TextStyle(
                       color: Colors.black.withOpacity(0.38),
                       fontWeight: FontWeight.w400,
@@ -65,11 +69,11 @@ class _FilterToggleBlockWidgetState extends State<FilterToggleBlockWidget> {
                       fontSize: 13,
                     ),
             ),
-            icon: !selected.contains(index)
+            icon: !selected.contains(widget.items[index])
                 ? const SizedBox.shrink()
                 : const Icon(Icons.check),
             style: FilledButton.styleFrom(
-              backgroundColor: !selected.contains(index)
+              backgroundColor: !selected.contains(widget.items[index])
                   ? Colors.black.withOpacity(0.06)
                   : null,
             ),

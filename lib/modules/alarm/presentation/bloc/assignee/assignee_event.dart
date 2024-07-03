@@ -8,10 +8,31 @@ sealed class AssigneeEvent extends Equatable {
 }
 
 final class AssigneeSelectedEvent extends AssigneeEvent {
-  const AssigneeSelectedEvent({required this.userId});
+  const AssigneeSelectedEvent({
+    required this.userId,
+    this.selfAssignment = false,
+  });
 
   final String userId;
+  final bool selfAssignment;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, selfAssignment];
+}
+
+final class AssigneeSearchEvent extends AssigneeEvent {
+  const AssigneeSearchEvent({required this.searchText});
+
+  final String searchText;
+
+  @override
+  List<Object?> get props => [searchText];
+}
+
+final class AssigneeResetEvent extends AssigneeEvent {
+  const AssigneeResetEvent();
+}
+
+final class AssigneeRefreshEvent extends AssigneeEvent {
+  const AssigneeRefreshEvent();
 }

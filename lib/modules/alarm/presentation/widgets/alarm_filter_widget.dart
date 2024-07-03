@@ -19,7 +19,12 @@ class AlarmFilterWidget extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(6),
       ),
-      padding: const EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 8),
+      padding: const EdgeInsets.only(
+        top: 12,
+        bottom: 12,
+        left: 16,
+        right: 8,
+      ),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

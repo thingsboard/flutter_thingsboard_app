@@ -15,3 +15,20 @@ final class AlarmTypesSelectedEvent extends AlarmTypesEvent {
   @override
   List<Object?> get props => [type];
 }
+
+final class AlarmTypesRemoveSelectedEvent extends AlarmTypesEvent {
+  const AlarmTypesRemoveSelectedEvent({required this.type});
+
+  final String type;
+
+  @override
+  List<Object?> get props => [type];
+}
+
+final class AlarmTypesResetEvent extends AlarmTypesEvent {
+  const AlarmTypesResetEvent();
+}
+
+final class AlarmTypesRefreshEvent extends AlarmTypesEvent {
+  const AlarmTypesRefreshEvent();
+}

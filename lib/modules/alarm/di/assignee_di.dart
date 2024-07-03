@@ -30,7 +30,7 @@ class AssigneeDi {
           ),
         );
 
-        locator.registerFactory(
+        locator.registerLazySingleton(
           () => AssigneeQueryCtrl(),
         );
 
@@ -40,7 +40,8 @@ class AssigneeDi {
           ),
         );
 
-        locator.registerFactory<PaginationRepository<PageLink, AssigneeEntity>>(
+        locator.registerLazySingleton<
+            PaginationRepository<PageLink, AssigneeEntity>>(
           () => AssigneePaginationRepository(
             assigneeQueryCtrl: locator(),
             onFetchPageData: locator<FetchAssigneeUseCase>(),
@@ -51,6 +52,7 @@ class AssigneeDi {
           () => AssigneeBloc(
             paginationRepository: locator(),
             fetchAssigneeUseCase: locator(),
+            queryCtrl: locator(),
           ),
         );
       },
