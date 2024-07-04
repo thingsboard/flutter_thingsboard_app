@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -53,6 +55,8 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
   final alarmSeveritySelected = <FilterDataEntity>[];
 
   bool filtersChanged = false;
+
+  late final StreamSubscription listenNavigationChanges;
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +222,23 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
   @override
   void initState() {
     alarmStatusSelected.add(alarmStatus.first);
+    listenNavigationChanges = widget
+        .tbContext.bottomNavigationTabChangedStream.stream
+        .listen((tabIndex) {
+      widget.pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    listenNavigationChanges.cancel();
+
+    super.dispose();
   }
 }

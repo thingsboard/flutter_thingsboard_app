@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:preload_page_view/preload_page_view.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
@@ -10,12 +10,10 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class AlarmsSearchPage extends StatelessWidget {
   const AlarmsSearchPage({
     required this.tbContext,
-    required this.pageCtrl,
     super.key,
   });
 
   final TbContext tbContext;
-  final PreloadPageController pageCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,8 @@ class AlarmsSearchPage extends StatelessWidget {
                 searchText: null,
               ),
             );
-            pageCtrl.jumpToPage(0);
+
+            getIt<ThingsboardAppRouter>().router.pop(context);
           },
         ),
       ),

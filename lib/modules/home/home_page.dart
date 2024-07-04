@@ -27,8 +27,10 @@ class _HomePageState extends TbContextState<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var homeDashboard = tbContext.homeDashboard;
-    var dashboardState = homeDashboard != null;
+
+    final homeDashboard = tbContext.homeDashboard;
+    final dashboardState = homeDashboard != null;
+
     return Scaffold(
       appBar: TbAppBar(
         tbContext,

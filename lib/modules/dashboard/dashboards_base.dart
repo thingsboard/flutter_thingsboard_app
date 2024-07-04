@@ -187,6 +187,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
         semanticsLabel: 'Dashboard',
       );
     }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Column(

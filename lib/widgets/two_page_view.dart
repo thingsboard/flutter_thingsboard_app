@@ -47,13 +47,19 @@ class _TwoPageViewState extends State<TwoPageView> {
   late List<Widget> _pages;
   bool _reverse = false;
   int _selectedIndex = 0;
-  final PreloadPageController _pageController = PreloadPageController();
+  final _pageController = PreloadPageController();
 
   @override
   void initState() {
     widget.controller?.setTransitionIndexedStackState(this);
     _pages = [widget.first, widget.second];
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(TwoPageView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _pages = [widget.first, widget.second];
   }
 
   Future<bool> _open(int index, {bool animate = true}) async {
@@ -90,6 +96,12 @@ class _TwoPageViewState extends State<TwoPageView> {
       return true;
     }
     return false;
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override

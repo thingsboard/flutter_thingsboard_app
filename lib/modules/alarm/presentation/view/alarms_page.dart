@@ -9,17 +9,16 @@ import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_filter_page.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_search_page.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AlarmsPage extends TbContextWidget {
-  final bool searchMode;
-
   AlarmsPage(
     TbContext tbContext, {
-    super.key,
     this.searchMode = false,
+    super.key,
   }) : super(tbContext);
+
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _AlarmsPageState();
@@ -40,7 +39,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
     return BlocProvider<AlarmBloc>.value(
       value: getIt(),
       child: PreloadPageView.builder(
-        itemCount: 3,
+        itemCount: 2,
         itemBuilder: (context, index) {
           switch (index) {
             case 0:
@@ -90,22 +89,18 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                     IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () {
-                        _preloadPageCtrl.jumpToPage(2);
+                        navigateTo('/alarms?search=true');
                       },
                     ),
                   ],
                 ),
                 body: AlarmsList(tbContext: tbContext),
               );
+
             case 1:
               return AlarmsFilterPage(
                 tbContext,
                 pageController: _preloadPageCtrl,
-              );
-            case 2:
-              return AlarmsSearchPage(
-                tbContext: tbContext,
-                pageCtrl: _preloadPageCtrl,
               );
           }
 
@@ -125,7 +120,6 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
 
   @override
   void dispose() {
-    _preloadPageCtrl.dispose();
     AlarmsDi.dispose(diScopeKey.toString());
     super.dispose();
   }
