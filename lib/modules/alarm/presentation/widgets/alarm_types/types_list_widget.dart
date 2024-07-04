@@ -3,8 +3,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class TypesListWidget extends StatelessWidget {
   const TypesListWidget({
@@ -68,11 +68,8 @@ class TypesListWidget extends StatelessWidget {
                     return Container(
                       height: 200,
                       color: const Color(0x99FFFFFF),
-                      child: Center(
-                        child: TbProgressIndicator(
-                          tbContext,
-                          size: 50.0,
-                        ),
+                      child: const Center(
+                        child: TbProgressIndicator(size: 50.0),
                       ),
                     );
                   },

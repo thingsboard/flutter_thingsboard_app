@@ -8,8 +8,8 @@ import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assigne
 import 'package:thingsboard_app/modules/alarm/domain/repository/assignee/i_assigne_repository.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/fetch_assignee_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_bloc.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class AssigneeDi {
   static const _scopeName = 'AssigneeDi';

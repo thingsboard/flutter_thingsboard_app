@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarm_types/i_alarm_types_repository.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class FetchAlarmTypesUseCase
     extends UseCase<Future<PageData<AlarmType>>, PageLink> {

@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AssigneeQueryCtrl extends PageKeyController<PageLink> {
   AssigneeQueryCtrl({

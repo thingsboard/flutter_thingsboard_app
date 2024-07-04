@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NotificationQueryCtrl extends PageKeyController<PushNotificationQuery> {
   NotificationQueryCtrl({int pageSize = 20, String? searchText})

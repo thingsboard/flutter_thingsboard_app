@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarms/i_alarms_repository.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class FetchAlarmsUseCase
     extends UseCase<Future<PageData<AlarmInfo>>, AlarmQueryV2> {

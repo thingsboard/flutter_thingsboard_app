@@ -7,8 +7,8 @@ import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_types/alar
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarm_types/i_alarm_types_repository.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/alarm_types/fetch_alarm_types_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class AlarmTypesDi {
   static const _scopeName = 'AlarmTypesDi';

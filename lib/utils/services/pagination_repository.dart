@@ -1,6 +1,6 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract base class PaginationRepository<T, B> {
   PaginationRepository({

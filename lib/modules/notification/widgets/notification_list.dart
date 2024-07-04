@@ -4,8 +4,8 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/notification/widgets/no_notifications_found_widget.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_slidable_widget.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_widget.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationsList extends StatelessWidget {
   const NotificationsList({

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 const Map<AlarmSeverity, Color> alarmSeverityColors = {
   AlarmSeverity.CRITICAL: Color(0xFFFF0000),

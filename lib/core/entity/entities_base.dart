@@ -6,8 +6,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 const entityTypeTranslations = <EntityType, String>{
   EntityType.TENANT: 'Tenant',

@@ -6,9 +6,9 @@ import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.da
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_widget.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/string_utils.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 class AssigneeListWidget extends StatelessWidget {
   const AssigneeListWidget({
@@ -157,11 +157,8 @@ class AssigneeListWidget extends StatelessWidget {
                     return Container(
                       height: 200,
                       color: const Color(0x99FFFFFF),
-                      child: Center(
-                        child: TbProgressIndicator(
-                          tbContext,
-                          size: 50.0,
-                        ),
+                      child: const Center(
+                        child: TbProgressIndicator(size: 50.0),
                       ),
                     );
                   },

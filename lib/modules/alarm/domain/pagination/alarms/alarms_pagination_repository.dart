@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarms/alarms_query_ctrl.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
-import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 final class AlarmsPaginationRepository
     extends PaginationRepository<AlarmQueryV2, AlarmInfo> {

@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 mixin TenantsBase on EntitiesBase<Tenant, PageLink> {
   @override
