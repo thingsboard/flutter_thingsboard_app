@@ -6,14 +6,15 @@ import 'package:thingsboard_app/modules/main/main_page.dart';
 
 class HomeRoutes extends TbRoutes {
   late var homeHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return MainPage(tbContext, path: '/home');
-  });
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return MainPage(tbContext, path: '/home');
+    },
+  );
 
   HomeRoutes(TbContext tbContext) : super(tbContext);
 
   @override
   void doRegisterRoutes(router) {
-    router.define("/home", handler: homeHandler);
+    router.define('/home', handler: homeHandler);
   }
 }

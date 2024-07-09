@@ -8,10 +8,10 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 import 'dashboards_base.dart';
 
 class DashboardsGridWidget extends TbContextWidget {
-  DashboardsGridWidget(TbContext tbContext) : super(tbContext);
+  DashboardsGridWidget(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
-  _DashboardsGridWidgetState createState() => _DashboardsGridWidgetState();
+  State<StatefulWidget> createState() => _DashboardsGridWidgetState();
 }
 
 class _DashboardsGridWidgetState extends TbContextState<DashboardsGridWidget> {
@@ -19,7 +19,10 @@ class _DashboardsGridWidgetState extends TbContextState<DashboardsGridWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return DashboardsGrid(tbContext, _pageLinkController);
+    return DashboardsGrid(
+      tbContext,
+      _pageLinkController,
+    );
   }
 
   @override
@@ -32,6 +35,8 @@ class _DashboardsGridWidgetState extends TbContextState<DashboardsGridWidget> {
 class DashboardsGrid extends BaseEntitiesWidget<DashboardInfo, PageLink>
     with DashboardsBase, EntitiesGridStateBase {
   DashboardsGrid(
-      TbContext tbContext, PageKeyController<PageLink> pageKeyController)
-      : super(tbContext, pageKeyController);
+    TbContext tbContext,
+    PageKeyController<PageLink> pageKeyController, {
+    super.key,
+  }) : super(tbContext, pageKeyController);
 }

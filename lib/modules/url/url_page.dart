@@ -31,7 +31,7 @@ class _UrlPageState extends TbPageState<UrlPage> {
             onPressed: () {
               launchUrlString(widget.url, mode: LaunchMode.externalApplication);
             },
-            icon: Icon(Icons.open_in_browser),
+            icon: const Icon(Icons.open_in_browser),
           ),
         ],
       ),

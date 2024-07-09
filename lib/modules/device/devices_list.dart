@@ -9,9 +9,12 @@ class DevicesList extends BaseEntitiesWidget<EntityData, EntityDataQuery>
   final bool displayDeviceImage;
 
   DevicesList(
-      TbContext tbContext, PageKeyController<EntityDataQuery> pageKeyController,
-      {searchMode = false, this.displayDeviceImage = false})
-      : super(tbContext, pageKeyController, searchMode: searchMode);
+    TbContext tbContext,
+    PageKeyController<EntityDataQuery> pageKeyController, {
+    super.key,
+    searchMode = false,
+    this.displayDeviceImage = false,
+  }) : super(tbContext, pageKeyController, searchMode: searchMode);
 
   @override
   bool displayCardImage(bool listWidgetCard) => displayDeviceImage;

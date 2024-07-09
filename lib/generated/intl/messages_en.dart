@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "A security code has been sent to your phone at ${contact}.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "No": MessageLookupByLibrary.simpleMessage("No"),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
@@ -39,11 +40,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "address": MessageLookupByLibrary.simpleMessage("Address"),
         "address2": MessageLookupByLibrary.simpleMessage("Address 2"),
         "alarmAcknowledgeText": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to acknowledge Alarm?"),
+          "Are you sure you want to acknowledge Alarm?",
+        ),
         "alarmAcknowledgeTitle":
             MessageLookupByLibrary.simpleMessage("Acknowledge Alarm"),
         "alarmClearText": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to clear Alarm?"),
+          "Are you sure you want to clear Alarm?",
+        ),
         "alarmClearTitle": MessageLookupByLibrary.simpleMessage("Clear Alarm"),
         "alarms": MessageLookupByLibrary.simpleMessage("Alarms"),
         "allDevices": MessageLookupByLibrary.simpleMessage("All devices"),
@@ -56,7 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Audit log details"),
         "auditLogs": MessageLookupByLibrary.simpleMessage("Audit Logs"),
         "backupCodeAuthDescription": MessageLookupByLibrary.simpleMessage(
-            "Please enter one of your backup codes."),
+          "Please enter one of your backup codes.",
+        ),
         "backupCodeAuthPlaceholder":
             MessageLookupByLibrary.simpleMessage("Backup code"),
         "changePassword":
@@ -67,7 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("currentPassword"),
         "currentPasswordRequireText": MessageLookupByLibrary.simpleMessage(
-            "Current password is required."),
+          "Current password is required.",
+        ),
         "currentPasswordStar":
             MessageLookupByLibrary.simpleMessage("Current password *"),
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
@@ -93,7 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lastName": MessageLookupByLibrary.simpleMessage("lastName"),
         "lastNameUpper": MessageLookupByLibrary.simpleMessage("Last Name"),
         "listIsEmptyText": MessageLookupByLibrary.simpleMessage(
-            "The list is currently empty."),
+          "The list is currently empty.",
+        ),
         "login": MessageLookupByLibrary.simpleMessage("Log In"),
         "loginNotification":
             MessageLookupByLibrary.simpleMessage("Login to your account"),
@@ -110,7 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newPassword": MessageLookupByLibrary.simpleMessage("newPassword"),
         "newPassword2": MessageLookupByLibrary.simpleMessage("newPassword2"),
         "newPassword2RequireText": MessageLookupByLibrary.simpleMessage(
-            "New password again is required."),
+          "New password again is required.",
+        ),
         "newPassword2Star":
             MessageLookupByLibrary.simpleMessage("New password again *"),
         "newPasswordRequireText":
@@ -121,7 +128,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Not implemented!"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordErrorNotification": MessageLookupByLibrary.simpleMessage(
-            "Entered passwords must be same!"),
+          "Entered passwords must be same!",
+        ),
         "passwordForgotText":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
         "passwordRequireText":
@@ -129,15 +137,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordReset": MessageLookupByLibrary.simpleMessage("Reset password"),
         "passwordResetLinkSuccessfullySentNotification":
             MessageLookupByLibrary.simpleMessage(
-                "Password reset link was successfully sent!"),
+          "Password reset link was successfully sent!",
+        ),
         "passwordResetText": MessageLookupByLibrary.simpleMessage(
-            "Enter the email associated with your account and we\'ll send an email with password reset link"),
+          "Enter the email associated with your account and we\'ll send an email with password reset link",
+        ),
         "passwordSuccessNotification": MessageLookupByLibrary.simpleMessage(
-            "Password successfully changed"),
+          "Password successfully changed",
+        ),
         "phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "postalCode": MessageLookupByLibrary.simpleMessage("Zip / Postal Code"),
         "profileSuccessNotification": MessageLookupByLibrary.simpleMessage(
-            "Profile successfully updated"),
+          "Profile successfully updated",
+        ),
         "requestPasswordReset":
             MessageLookupByLibrary.simpleMessage("Request password reset"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
@@ -155,19 +167,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "toptAuthPlaceholder": MessageLookupByLibrary.simpleMessage("Code"),
         "totpAuthDescription": MessageLookupByLibrary.simpleMessage(
-            "Please enter the security code from your authenticator app."),
+          "Please enter the security code from your authenticator app.",
+        ),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "tryAnotherWay":
             MessageLookupByLibrary.simpleMessage("Try another way"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "username": MessageLookupByLibrary.simpleMessage("username"),
         "verificationCodeIncorrect": MessageLookupByLibrary.simpleMessage(
-            "Verification code is incorrect"),
+          "Verification code is incorrect",
+        ),
         "verificationCodeInvalid": MessageLookupByLibrary.simpleMessage(
-            "Invalid verification code format"),
+          "Invalid verification code format",
+        ),
         "verificationCodeManyRequest": MessageLookupByLibrary.simpleMessage(
-            "Too many requests check verification code"),
+          "Too many requests check verification code",
+        ),
         "verifyYourIdentity":
-            MessageLookupByLibrary.simpleMessage("Verify your identity")
+            MessageLookupByLibrary.simpleMessage("Verify your identity"),
       };
 }

@@ -14,11 +14,12 @@ class TbMainNavigationItem {
   final Icon icon;
   final String path;
 
-  TbMainNavigationItem(
-      {required this.page,
-      required this.title,
-      required this.icon,
-      required this.path});
+  TbMainNavigationItem({
+    required this.page,
+    required this.title,
+    required this.icon,
+    required this.path,
+  });
 
   static Map<Authority, Set<String>> mainPageStateMap = {
     Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/more']),
@@ -41,10 +42,11 @@ class TbMainNavigationItem {
     if (tbContext.isAuthenticated) {
       List<TbMainNavigationItem> items = [
         TbMainNavigationItem(
-            page: HomePage(tbContext),
-            title: 'Home',
-            icon: Icon(Icons.home),
-            path: '/home')
+          page: HomePage(tbContext),
+          title: 'Home',
+          icon: const Icon(Icons.home),
+          path: '/home',
+        ),
       ];
       switch (tbContext.tbClient.getAuthUser()!.authority) {
         case Authority.SYS_ADMIN:
@@ -53,15 +55,17 @@ class TbMainNavigationItem {
         case Authority.CUSTOMER_USER:
           items.addAll([
             TbMainNavigationItem(
-                page: AlarmsPage(tbContext),
-                title: 'Alarms',
-                icon: Icon(Icons.notifications),
-                path: '/alarms'),
+              page: AlarmsPage(tbContext),
+              title: 'Alarms',
+              icon: const Icon(Icons.notifications),
+              path: '/alarms',
+            ),
             TbMainNavigationItem(
-                page: DevicesMainPage(tbContext),
-                title: 'Devices',
-                icon: Icon(Icons.devices_other),
-                path: '/devices')
+              page: DevicesMainPage(tbContext),
+              title: 'Devices',
+              icon: const Icon(Icons.devices_other),
+              path: '/devices',
+            ),
           ]);
           break;
         case Authority.REFRESH_TOKEN:
@@ -71,11 +75,14 @@ class TbMainNavigationItem {
         case Authority.PRE_VERIFICATION_TOKEN:
           break;
       }
-      items.add(TbMainNavigationItem(
+      items.add(
+        TbMainNavigationItem(
           page: MorePage(tbContext),
           title: 'More',
-          icon: Icon(Icons.menu),
-          path: '/more'));
+          icon: const Icon(Icons.menu),
+          path: '/more',
+        ),
+      );
       return items;
     } else {
       return [];
@@ -83,20 +90,22 @@ class TbMainNavigationItem {
   }
 
   static void changeItemsTitleIntl(
-      List<TbMainNavigationItem> items, BuildContext context) {
+    List<TbMainNavigationItem> items,
+    BuildContext context,
+  ) {
     for (var item in items) {
       switch (item.path) {
         case '/home':
-          item.title = '${S.of(context).home}';
+          item.title = S.of(context).home;
           break;
         case '/alarms':
-          item.title = '${S.of(context).alarms}';
+          item.title = S.of(context).alarms;
           break;
         case '/devices':
-          item.title = '${S.of(context).devices}';
+          item.title = S.of(context).devices;
           break;
         case '/more':
-          item.title = '${S.of(context).more}';
+          item.title = S.of(context).more;
           break;
       }
     }
@@ -106,12 +115,12 @@ class TbMainNavigationItem {
 class MainPage extends TbPageWidget {
   final String _path;
 
-  MainPage(TbContext tbContext, {required String path})
+  MainPage(TbContext tbContext, {required String path, super.key})
       : _path = path,
         super(tbContext);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  State<StatefulWidget> createState() => _MainPageState();
 }
 
 class _MainPageState extends TbPageState<MainPage>
@@ -142,7 +151,7 @@ class _MainPageState extends TbPageState<MainPage>
 
   _onTabAnimation() {
     var value = _tabController.animation!.value;
-    var targetIndex;
+    int targetIndex;
     if (value >= _tabController.previousIndex) {
       targetIndex = value.round();
     } else {
@@ -165,24 +174,30 @@ class _MainPageState extends TbPageState<MainPage>
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
     // ignore: deprecated_member_use
     return Scaffold(
-        body: TabBarView(
-          physics: tbContext.homeDashboard != null
-              ? NeverScrollableScrollPhysics()
-              : null,
-          controller: _tabController,
-          children: _tabItems.map((item) => item.page).toList(),
+      body: TabBarView(
+        physics: tbContext.homeDashboard != null
+            ? const NeverScrollableScrollPhysics()
+            : null,
+        controller: _tabController,
+        children: _tabItems.map((item) => item.page).toList(),
+      ),
+      bottomNavigationBar: ValueListenableBuilder<int>(
+        valueListenable: _currentIndexNotifier,
+        builder: (context, index, child) => BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: index,
+          onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+          items: _tabItems
+              .map(
+                (item) => BottomNavigationBarItem(
+                  icon: item.icon,
+                  label: item.title,
+                ),
+              )
+              .toList(),
         ),
-        bottomNavigationBar: ValueListenableBuilder<int>(
-          valueListenable: _currentIndexNotifier,
-          builder: (context, index, child) => BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: index,
-              onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
-              items: _tabItems
-                  .map((item) => BottomNavigationBarItem(
-                      icon: item.icon, label: item.title))
-                  .toList()),
-        ));
+      ),
+    );
   }
 
   int _indexFromPath(String path) {

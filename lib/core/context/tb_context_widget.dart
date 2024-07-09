@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 
 abstract class RefreshableWidget extends Widget {
+  const RefreshableWidget({super.key});
+
   refresh();
 }
 
@@ -84,10 +86,11 @@ abstract class TbPageState<W extends TbPageWidget> extends TbContextState<W>
 class TextContextWidget extends TbContextWidget {
   final String text;
 
-  TextContextWidget(TbContext tbContext, this.text) : super(tbContext);
+  TextContextWidget(TbContext tbContext, this.text, {super.key})
+      : super(tbContext);
 
   @override
-  _TextContextWidgetState createState() => _TextContextWidgetState();
+  State<StatefulWidget> createState() => _TextContextWidgetState();
 }
 
 class _TextContextWidgetState extends TbContextState<TextContextWidget> {

@@ -18,4 +18,8 @@ abstract interface class INoAuthRemoteDatasource {
   });
 
   bool isAuthenticated();
+
+  AuthUser getAuthUserFromJwt(String jwt);
+
+  AuthUser? getCurrentlyAuthenticatedUserOrNull();
 }
