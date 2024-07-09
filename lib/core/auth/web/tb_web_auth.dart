@@ -17,19 +17,21 @@ class _OnAppLifecycleResumeObserver extends WidgetsBindingObserver {
 }
 
 class TbWebAuth {
-  static const MethodChannel _channel = const MethodChannel('tb_web_auth');
+  static const MethodChannel _channel = MethodChannel('tb_web_auth');
 
   static final _OnAppLifecycleResumeObserver _resumedObserver =
       _OnAppLifecycleResumeObserver(() {
     _cleanUpDanglingCalls();
   });
 
-  static Future<String> authenticate(
-      {required String url,
-      required String callbackUrlScheme,
-      bool? saveHistory}) async {
+  static Future<String> authenticate({
+    required String url,
+    required String callbackUrlScheme,
+    bool? saveHistory,
+  }) async {
     WidgetsBinding.instance.removeObserver(
-        _resumedObserver); // safety measure so we never add this observer twice
+      _resumedObserver,
+    ); // safety measure so we never add this observer twice
     WidgetsBinding.instance.addObserver(_resumedObserver);
     return await _channel.invokeMethod('authenticate', <String, dynamic>{
       'url': url,

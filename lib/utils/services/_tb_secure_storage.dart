@@ -10,7 +10,7 @@ class TbSecureStorage implements TbStorage {
   late Box encryptedBox;
 
   Future<void> init() async {
-    const secureStorage = FlutterSecureStorage();
+    final secureStorage = FlutterSecureStorage();
     // if key not exists return null
     final encryptionKeyString = await secureStorage.read(key: 'key');
     if (encryptionKeyString == null) {

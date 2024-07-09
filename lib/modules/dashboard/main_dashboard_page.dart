@@ -26,13 +26,20 @@ class MainDashboardPageController {
     }
   }
 
-  Future<void> openDashboard(String dashboardId,
-      {String? dashboardTitle, String? state, bool? hideToolbar}) async {
+  Future<void> openDashboard(
+    String dashboardId, {
+    String? dashboardTitle,
+    String? state,
+    bool? hideToolbar,
+  }) async {
     if (dashboardTitle != null) {
       _mainDashboardPageState?._updateTitle(dashboardTitle);
     }
-    await _dashboardController?.openDashboard(dashboardId,
-        state: state, hideToolbar: hideToolbar);
+    await _dashboardController?.openDashboard(
+      dashboardId,
+      state: state,
+      hideToolbar: hideToolbar,
+    );
   }
 
   Future<void> activateDashboard() async {
@@ -48,14 +55,17 @@ class MainDashboardPage extends TbContextWidget {
   final String? _dashboardTitle;
   final MainDashboardPageController? _controller;
 
-  MainDashboardPage(TbContext tbContext,
-      {MainDashboardPageController? controller, String? dashboardTitle})
-      : _controller = controller,
+  MainDashboardPage(
+    TbContext tbContext, {
+    MainDashboardPageController? controller,
+    String? dashboardTitle,
+    super.key,
+  })  : _controller = controller,
         _dashboardTitle = dashboardTitle,
         super(tbContext);
 
   @override
-  _MainDashboardPageState createState() => _MainDashboardPageState();
+  State<StatefulWidget> createState() => _MainDashboardPageState();
 }
 
 class _MainDashboardPageState extends TbContextState<MainDashboardPage>
@@ -71,10 +81,12 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
     super.initState();
     rightLayoutMenuController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
     rightLayoutMenuAnimation = CurvedAnimation(
-        curve: Curves.linear, parent: rightLayoutMenuController);
+      curve: Curves.linear,
+      parent: rightLayoutMenuController,
+    );
     if (widget._controller != null) {
       widget._controller!._setMainDashboardPageState(this);
     }
@@ -113,8 +125,8 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
         actions: [
           ValueListenableBuilder<bool>(
             valueListenable: hasRightLayout,
-            builder: (context, _hasRightLayout, widget) {
-              if (_hasRightLayout) {
+            builder: (context, hasRightLayout, widget) {
+              if (hasRightLayout) {
                 return IconButton(
                   onPressed: () => _dashboardController?.toggleRightLayout(),
                   icon: AnimatedIcon(
@@ -126,7 +138,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
                 return const SizedBox.shrink();
               }
             },
-          )
+          ),
         ],
       ),
       body: ValueListenableBuilder<String?>(

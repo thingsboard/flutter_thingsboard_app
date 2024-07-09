@@ -14,6 +14,7 @@ class NotificationWidget extends StatelessWidget {
     required this.onClearNotification,
     required this.onReadNotification,
     required this.tbContext,
+    super.key,
   });
 
   final PushNotification notification;
@@ -72,7 +73,7 @@ class NotificationWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 7),
                             child: Text(
                               notification.subject,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -123,7 +124,7 @@ class NotificationWidget extends StatelessWidget {
                         Visibility(
                           visible: notification.status ==
                               PushNotificationStatus.READ,
-                          child: SizedBox(
+                          child: const SizedBox(
                             width: 30,
                             height: 50,
                           ),

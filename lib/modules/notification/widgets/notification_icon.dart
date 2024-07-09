@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationIcon extends StatelessWidget {
-  const NotificationIcon({required this.notification});
+  const NotificationIcon({super.key, required this.notification});
 
   final PushNotification notification;
 
@@ -18,9 +16,9 @@ class NotificationIcon extends StatelessWidget {
 
   Color _toColor(String? data) {
     if (data != null) {
-      var hexColor = data.replaceAll("#", "");
+      var hexColor = data.replaceAll('#', '');
       if (hexColor.length == 6) {
-        hexColor = "FF" + hexColor;
+        hexColor = 'FF$hexColor';
       }
 
       if (hexColor.length == 8) {
@@ -43,11 +41,6 @@ class NotificationIcon extends StatelessWidget {
           MdiIcons.fromString(imageData.split('mdi:').last),
           color: _toColor(data['color']),
         );
-
-        return SvgPicture.network(
-          '${ThingsboardAppConstants.thingsBoardApiEndpoint}/assets/mdi/${imageData.split('mdi:').last}.svg',
-          color: _toColor(data['color']),
-        );
       }
 
       return Icon(
@@ -58,7 +51,7 @@ class NotificationIcon extends StatelessWidget {
       );
     }
 
-    return Icon(Icons.notifications, color: Colors.black54);
+    return const Icon(Icons.notifications, color: Colors.black54);
   }
 }
 

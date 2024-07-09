@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class EndpointNameWidget extends StatelessWidget {
-  const EndpointNameWidget({required this.endpoint});
+  const EndpointNameWidget({required this.endpoint, super.key});
 
   final String endpoint;
 
@@ -12,7 +12,7 @@ class EndpointNameWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
-          color: Color(0xFF305680),
+          color: const Color(0xFF305680),
         ),
       ),
       padding: const EdgeInsets.all(5),
@@ -22,7 +22,7 @@ class EndpointNameWidget extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .labelSmall
-              ?.copyWith(color: Color(0xFF305680)),
+              ?.copyWith(color: const Color(0xFF305680)),
         ),
       ),
     );

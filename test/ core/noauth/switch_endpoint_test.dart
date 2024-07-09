@@ -59,7 +59,7 @@ void main() {
             (e) => e.message,
             'error message',
             'An empty request data received.',
-          )
+          ),
         ],
       );
 
@@ -134,7 +134,8 @@ void main() {
             ),
           ).thenAnswer(
             (invocation) {
-              final onError = invocation.namedArguments[Symbol('onError')];
+              final onError =
+                  invocation.namedArguments[const Symbol('onError')];
               onError(
                 ThingsboardError(message: 'TBClient re-init error message'),
               );
@@ -212,7 +213,7 @@ void main() {
             ),
           ).thenAnswer(
             (invocation) {
-              final onDone = invocation.namedArguments[Symbol('onDone')];
+              final onDone = invocation.namedArguments[const Symbol('onDone')];
               onDone();
 
               return Future.value();

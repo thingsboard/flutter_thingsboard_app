@@ -23,13 +23,14 @@ class ThingsboardAppRouter {
 
   ThingsboardAppRouter() {
     router.notFoundHandler = Handler(
-        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-      var settings = context!.settings;
-      return Scaffold(
-        appBar: AppBar(title: Text('Not Found')),
-        body: Center(child: Text('Route not defined: ${settings!.name}')),
-      );
-    });
+      handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+        var settings = context!.settings;
+        return Scaffold(
+          appBar: AppBar(title: const Text('Not Found')),
+          body: Center(child: Text('Route not defined: ${settings!.name}')),
+        );
+      },
+    );
 
     InitRoutes(_tbContext).registerRoutes();
     AuthRoutes(_tbContext).registerRoutes();

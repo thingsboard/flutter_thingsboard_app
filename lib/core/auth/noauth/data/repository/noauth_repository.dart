@@ -50,4 +50,14 @@ class NoAuthRepository implements INoAuthRepository {
   bool isAuthenticated() {
     return remoteDatasource.isAuthenticated();
   }
+
+  @override
+  AuthUser getAuthUserFromJwt(String jwt) {
+    return remoteDatasource.getAuthUserFromJwt(jwt);
+  }
+
+  @override
+  AuthUser? getCurrentlyAuthenticatedUserOrNull() {
+    return remoteDatasource.getCurrentlyAuthenticatedUserOrNull();
+  }
 }

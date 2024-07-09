@@ -48,7 +48,9 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   Widget buildEntityGridCard(
-      BuildContext context, DeviceProfileInfo deviceProfile) {
+    BuildContext context,
+    DeviceProfileInfo deviceProfile,
+  ) {
     return DeviceProfileCard(tbContext, deviceProfile);
   }
 
@@ -65,11 +67,11 @@ class RefreshDeviceCounts {
 class AllDevicesCard extends TbContextWidget {
   final RefreshDeviceCounts refreshDeviceCounts;
 
-  AllDevicesCard(TbContext tbContext, this.refreshDeviceCounts)
+  AllDevicesCard(TbContext tbContext, this.refreshDeviceCounts, {super.key})
       : super(tbContext);
 
   @override
-  _AllDevicesCardState createState() => _AllDevicesCardState();
+  State<StatefulWidget> createState() => _AllDevicesCardState();
 }
 
 class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
@@ -109,7 +111,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
     Future<List<int>> countsFuture =
         Future.wait([activeDevicesCount, inactiveDevicesCount]);
     countsFuture.then((counts) {
-      if (this.mounted) {
+      if (mounted) {
         _activeDevicesCount.add(counts[0]);
         _inactiveDevicesCount.add(counts[1]);
       }
@@ -120,143 +122,165 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          child: Card(
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha((255 * 0.05).ceil()),
+              blurRadius: 6.0,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Card(
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          elevation: 0,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 15),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.of(context).allDevices,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 20 / 14,
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward, size: 18),
+                  ],
+                ),
               ),
-              elevation: 0,
-              child: Column(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(16, 12, 16, 15),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${S.of(context).allDevices}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 20 / 14)),
-                          Icon(Icons.arrow_forward, size: 18)
-                        ],
-                      )),
-                  Divider(height: 1),
-                  Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                child: Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: StreamBuilder<int?>(
-                                      stream: _activeDevicesCount.stream,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          var deviceCount = snapshot.data!;
-                                          return _buildDeviceCount(
-                                              context, true, deviceCount);
-                                        } else {
-                                          return Center(
-                                              child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation(
-                                                              Theme.of(tbContext
-                                                                      .currentState!
-                                                                      .context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                      strokeWidth: 2.5)));
-                                        }
-                                      },
-                                    )),
-                                onTap: () {
-                                  navigateTo('/deviceList?active=true');
-                                }),
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          // SizedBox(width: 4),
-                          Container(
-                              width: 1,
-                              height: 40,
-                              child: VerticalDivider(width: 1)),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                child: Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(4),
+                          child: StreamBuilder<int?>(
+                            stream: _activeDevicesCount.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                var deviceCount = snapshot.data!;
+                                return _buildDeviceCount(
+                                  context,
+                                  true,
+                                  deviceCount,
+                                );
+                              } else {
+                                return Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                        Theme.of(
+                                          tbContext.currentState!.context,
+                                        ).colorScheme.primary,
+                                      ),
+                                      strokeWidth: 2.5,
                                     ),
-                                    child: StreamBuilder<int?>(
-                                      stream: _inactiveDevicesCount.stream,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          var deviceCount = snapshot.data!;
-                                          return _buildDeviceCount(
-                                              context, false, deviceCount);
-                                        } else {
-                                          return Center(
-                                              child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation(
-                                                              Theme.of(tbContext
-                                                                      .currentState!
-                                                                      .context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                      strokeWidth: 2.5)));
-                                        }
-                                      },
-                                    )),
-                                onTap: () {
-                                  navigateTo('/deviceList?active=false');
-                                }),
-                          )
-                        ],
-                      ))
-                ],
-              )),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withAlpha((255 * 0.05).ceil()),
-                  blurRadius: 6.0,
-                  offset: Offset(0, 4))
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        onTap: () {
+                          navigateTo('/deviceList?active=true');
+                        },
+                      ),
+                    ),
+                    // SizedBox(width: 4),
+                    const SizedBox(
+                      width: 1,
+                      height: 40,
+                      child: VerticalDivider(width: 1),
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: StreamBuilder<int?>(
+                            stream: _inactiveDevicesCount.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                var deviceCount = snapshot.data!;
+                                return _buildDeviceCount(
+                                  context,
+                                  false,
+                                  deviceCount,
+                                );
+                              } else {
+                                return Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                        Theme.of(
+                                          tbContext.currentState!.context,
+                                        ).colorScheme.primary,
+                                      ),
+                                      strokeWidth: 2.5,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        onTap: () {
+                          navigateTo('/deviceList?active=false');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-        onTap: () {
-          navigateTo('/deviceList');
-        });
+      ),
+      onTap: () {
+        navigateTo('/deviceList');
+      },
+    );
   }
 }
 
 class DeviceProfileCard extends TbContextWidget {
   final DeviceProfileInfo deviceProfile;
 
-  DeviceProfileCard(TbContext tbContext, this.deviceProfile) : super(tbContext);
+  DeviceProfileCard(TbContext tbContext, this.deviceProfile, {super.key})
+      : super(tbContext);
 
   @override
-  _DeviceProfileCardState createState() => _DeviceProfileCardState();
+  State<StatefulWidget> createState() => _DeviceProfileCardState();
 }
 
 class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
@@ -276,10 +300,16 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
   }
 
   _countDevices() {
-    activeDevicesCount = EntityQueryApi.countDevices(tbClient,
-        deviceType: widget.deviceProfile.name, active: true);
-    inactiveDevicesCount = EntityQueryApi.countDevices(tbClient,
-        deviceType: widget.deviceProfile.name, active: false);
+    activeDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      deviceType: widget.deviceProfile.name,
+      active: true,
+    );
+    inactiveDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      deviceType: widget.deviceProfile.name,
+      active: false,
+    );
   }
 
   @override
@@ -294,109 +324,139 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
       imageFit = BoxFit.contain;
       padding = 8;
     } else {
-      image = SvgPicture.asset(ThingsboardImage.deviceProfilePlaceholder,
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor, BlendMode.overlay),
-          semanticsLabel: 'Device profile');
+      image = SvgPicture.asset(
+        ThingsboardImage.deviceProfilePlaceholder,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).primaryColor,
+          BlendMode.overlay,
+        ),
+        semanticsLabel: 'Device profile',
+      );
       imageFit = BoxFit.cover;
       padding = 0;
     }
     return ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Column(children: [
+      borderRadius: BorderRadius.circular(4),
+      child: Column(
+        children: [
           Expanded(
-              child: Stack(children: [
-            SizedBox.expand(
-                child: Padding(
+            child: Stack(
+              children: [
+                SizedBox.expand(
+                  child: Padding(
                     padding: EdgeInsets.all(padding),
                     child: FittedBox(
-                        clipBehavior: Clip.hardEdge,
-                        fit: imageFit,
-                        child: image)))
-          ])),
-          Container(
-              height: 44,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Center(
-                      child: AutoSizeText(
-                    entity.name,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    minFontSize: 12,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 20 / 14),
-                  )))),
-          Divider(height: 1),
-          GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: FutureBuilder<int>(
-                future: activeDevicesCount,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    var deviceCount = snapshot.data!;
-                    return _buildDeviceCount(context, true, deviceCount);
-                  } else {
-                    return Container(
-                        height: 40,
-                        child: Center(
-                            child: Container(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(Theme.of(
-                                            tbContext.currentState!.context)
-                                        .colorScheme
-                                        .primary),
-                                    strokeWidth: 2.5))));
-                  }
-                },
+                      clipBehavior: Clip.hardEdge,
+                      fit: imageFit,
+                      child: image,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 44,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Center(
+                child: AutoSizeText(
+                  entity.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  minFontSize: 12,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    height: 20 / 14,
+                  ),
+                ),
               ),
-              onTap: () {
-                navigateTo('/deviceList?active=true&deviceType=${entity.name}');
-              }),
-          Divider(height: 1),
+            ),
+          ),
+          const Divider(height: 1),
           GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: FutureBuilder<int>(
-                future: inactiveDevicesCount,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    var deviceCount = snapshot.data!;
-                    return _buildDeviceCount(context, false, deviceCount);
-                  } else {
-                    return Container(
-                        height: 40,
-                        child: Center(
-                            child: Container(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(Theme.of(
-                                            tbContext.currentState!.context)
-                                        .colorScheme
-                                        .primary),
-                                    strokeWidth: 2.5))));
-                  }
-                },
-              ),
-              onTap: () {
-                navigateTo(
-                    '/deviceList?active=false&deviceType=${entity.name}');
-              })
-        ]));
+            behavior: HitTestBehavior.opaque,
+            child: FutureBuilder<int>(
+              future: activeDevicesCount,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  var deviceCount = snapshot.data!;
+                  return _buildDeviceCount(context, true, deviceCount);
+                } else {
+                  return SizedBox(
+                    height: 40,
+                    child: Center(
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Theme.of(
+                              tbContext.currentState!.context,
+                            ).colorScheme.primary,
+                          ),
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+            onTap: () {
+              navigateTo('/deviceList?active=true&deviceType=${entity.name}');
+            },
+          ),
+          const Divider(height: 1),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: FutureBuilder<int>(
+              future: inactiveDevicesCount,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  var deviceCount = snapshot.data!;
+                  return _buildDeviceCount(context, false, deviceCount);
+                } else {
+                  return SizedBox(
+                    height: 40,
+                    child: Center(
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Theme.of(
+                              tbContext.currentState!.context,
+                            ).colorScheme.primary,
+                          ),
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+            onTap: () {
+              navigateTo(
+                '/deviceList?active=false&deviceType=${entity.name}',
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
 Widget _buildDeviceCount(BuildContext context, bool active, int count) {
-  Color color = active ? Color(0xFF008A00) : Color(0xFFAFAFAF);
+  Color color = active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
   return Padding(
-    padding: EdgeInsets.all(12),
+    padding: const EdgeInsets.all(12),
     child: Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -409,31 +469,34 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
                 Icon(Icons.devices_other, size: 16, color: color),
                 if (!active)
                   CustomPaint(
-                    size: Size.square(16),
+                    size: const Size.square(16),
                     painter: StrikeThroughPainter(color: color, offset: 2),
-                  )
+                  ),
               ],
             ),
-            SizedBox(width: 8.67),
+            const SizedBox(width: 8.67),
             Text(
-                active
-                    ? '${S.of(context).active}'
-                    : '${S.of(context).inactive}',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    height: 16 / 12,
-                    color: color)),
-            SizedBox(width: 8.67),
-            Text(count.toString(),
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    height: 16 / 12,
-                    color: color))
+              active ? S.of(context).active : S.of(context).inactive,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 16 / 12,
+                color: color,
+              ),
+            ),
+            const SizedBox(width: 8.67),
+            Text(
+              count.toString(),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 16 / 12,
+                color: color,
+              ),
+            ),
           ],
         ),
-        Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC))
+        const Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC)),
       ],
     ),
   );
@@ -449,10 +512,17 @@ class StrikeThroughPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = color;
     paint.strokeWidth = 1.5;
-    canvas.drawLine(Offset(offset, offset),
-        Offset(size.width - offset, size.height - offset), paint);
+    canvas.drawLine(
+      Offset(offset, offset),
+      Offset(size.width - offset, size.height - offset),
+      paint,
+    );
     paint.color = Colors.white;
-    canvas.drawLine(Offset(2, 0), Offset(size.width + 2, size.height), paint);
+    canvas.drawLine(
+      const Offset(2, 0),
+      Offset(size.width + 2, size.height),
+      paint,
+    );
   }
 
   @override

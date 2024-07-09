@@ -50,6 +50,14 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       _progressSteamCtrl.add('Getting data from your host $host');
       final loginData = await repository.getJwtToken(host: host, key: key);
 
+      final authUserFromJwt = repository.getAuthUserFromJwt(loginData.token);
+      final currentlyAuthUser =
+          repository.getCurrentlyAuthenticatedUserOrNull();
+      if (authUserFromJwt.userId == currentlyAuthUser?.userId) {
+        params.onDone();
+        return;
+      }
+
       if (repository.isAuthenticated()) {
         _progressSteamCtrl.add('Logout you ...');
         await repository.logout(
@@ -65,13 +73,13 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       }
 
       await repository.setUserFromJwtToken(loginData);
+      await getIt<IEndpointService>().setEndpoint(host);
 
       if (!isTheSameHost) {
         logger.debug('SwitchEndpointUseCase:deleteFB App');
         await getIt<IFirebaseService>()
           ..removeApp()
           ..removeApp(name: currentEndpoint);
-        await getIt<IEndpointService>().setEndpoint(host);
 
         // If we revert to the original host configured in the app_constants
         if (!await getIt<IEndpointService>().isCustomEndpoint()) {
