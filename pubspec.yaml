@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: ^1.2.0
-  intl: ^0.18.1
+  thingsboard_client: ^1.2.1
+  intl: ^0.19.0
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0
   cupertino_icons: ^1.0.6
@@ -23,7 +23,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   fading_edge_scrollview: ^4.0.0
   stream_transform: ^2.1.0
-  flutter_inappwebview: ^5.8.0
+  flutter_inappwebview: ^6.0.0
 #  flutter_downloader: ^1.6.0
 #  permission_handler: ^8.0.0+2
 #  path_provider: ^2.0.2
@@ -32,23 +32,23 @@ dependencies:
   mime: ^1.0.4
   logger: ^2.0.2+1
   qr_code_scanner: ^1.0.1
-  device_info_plus: ^9.1.1
-  geolocator: ^10.1.0
+  device_info_plus: ^10.1.0
+  geolocator: ^12.0.0
   material_design_icons_flutter: ^7.0.7296
-  package_info_plus: ^5.0.1
+  package_info_plus: ^8.0.0
   dart_jsonwebtoken: ^2.12.1
   crypto: ^3.0.3
   flutter_form_builder: ^9.1.1
-  form_builder_validators: ^9.1.0
-  flutter_html: 3.0.0-alpha.5
+  form_builder_validators: ^10.0.1
+  flutter_html: 3.0.0-beta.2
   universal_html: ^2.2.4
   universal_platform: ^1.0.0+1
   preload_page_view: ^0.2.0
   flutter_localizations:
     sdk: flutter
-  firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.10
-  flutter_local_notifications: ^16.3.0
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.1
+  flutter_local_notifications: ^17.1.2
   flutter_app_badger: ^1.5.0
   timeago: ^3.6.1
   flutter_slidable: ^3.0.1
