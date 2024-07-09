@@ -131,7 +131,7 @@ class _DashboardState extends TbContextState<Dashboard> {
     ),
   );
 
-  late Uri _initialUrl;
+  late WebUri _initialUrl;
 
   @override
   void initState() {
@@ -150,7 +150,7 @@ class _DashboardState extends TbContextState<Dashboard> {
   void _onAuthenticated() async {
     if (tbContext.isAuthenticated) {
       if (!readyState.value) {
-        _initialUrl = Uri.parse(
+        _initialUrl = WebUri(
           '${await getIt<IEndpointService>().getEndpoint()}'
           '?accessToken=${tbClient.getJwtToken()!}'
           '&refreshToken=${tbClient.getRefreshToken()!}',
@@ -169,7 +169,7 @@ class _DashboardState extends TbContextState<Dashboard> {
           var controller = await _controller.future;
           await controller.postWebMessage(
             message: WebMessage(data: jsonEncode(windowMessage)),
-            targetOrigin: Uri.parse('*'),
+            targetOrigin: WebUri('*'),
           );
         }
       }
@@ -239,7 +239,7 @@ class _DashboardState extends TbContextState<Dashboard> {
     var webMessage = WebMessage(data: jsonEncode(windowMessage));
     if (!UniversalPlatform.isWeb) {
       await controller!
-          .postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
+          .postWebMessage(message: webMessage, targetOrigin: WebUri('*'));
     }
   }
 
@@ -249,7 +249,7 @@ class _DashboardState extends TbContextState<Dashboard> {
     var webMessage = WebMessage(data: jsonEncode(windowMessage));
     await controller.postWebMessage(
       message: webMessage,
-      targetOrigin: Uri.parse('*'),
+      targetOrigin: WebUri('*'),
     );
   }
 
