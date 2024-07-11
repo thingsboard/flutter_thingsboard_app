@@ -1,0 +1,90 @@
+{
+  "appTitle": "Thingsboard",
+
+  "home": "首頁",
+  "alarms": "警報",
+  "devices": "設備",
+  "more": "更多",
+
+  "customers": "客戶",
+  "assets": "資產",
+  "auditLogs": "審計日誌",
+  "logout": "登出",
+  "login": "登入",
+
+  "logoDefaultValue": "Thingsboard Logo",
+  "loginNotification": "登入你的帳號",
+  "email": "電子郵件",
+  "emailRequireText": "輸入電子郵件",
+  "emailInvalidText": "電子郵件格式錯誤",
+  "username": "使用者名稱",
+  "password": "密碼",
+  "passwordRequireText": "輸入密碼",
+  "passwordForgotText": "忘記密碼?",
+  "passwordReset": "重設密碼",
+  "passwordResetText": "輸入和帳號關聯的電子郵件，我們將發送一個包含密碼重設連結的電子郵件",
+  "requestPasswordReset": "要求重設密碼",
+  "passwordResetLinkSuccessfullySentNotification": "密碼重設連結已發送",
+
+  "or": "或",
+  "no": "否",
+  "yes": "是",
+
+  "title": "標題",
+  "country": "國家",
+  "city": "城市",
+  "stateOrProvince": "州 / 省",
+  "postalCode": "郵遞區號",
+  "address": "地址",
+  "address2": "地址 2",
+  "phone": "電話",
+
+  "alarmClearTitle": "清除警報",
+  "alarmClearText": "你確定要清除警報嗎?",
+
+  "alarmAcknowledgeTitle": "確認警報",
+  "alarmAcknowledgeText": "你確定要確認警報嗎?",
+
+  "assetName": "資產名稱",
+  "type": "類型",
+  "label": "標籤",
+  "assignedToCustomer": "分派給客戶",
+
+  "auditLogDetails": "審計日誌詳情",
+  "entityType": "實體類型",
+  "actionData": "動作數據",
+  "failureDetails": "失敗詳情",
+
+  "allDevices": "所有設備",
+  "active": "active",
+  "inactive": "inactive",
+
+  "systemAdministrator": "系統管理員",
+  "tenantAdministrator": "租戶管理員",
+  "customer": "客戶",
+
+  "changePassword": "修改密碼",
+  "currentPassword": "目前密碼",
+  "currentPasswordRequireText": "輸入新密碼",
+  "currentPasswordStar": "目前密碼 *",
+  "newPassword": "新密碼",
+  "newPasswordRequireText": "輸入新密碼",
+  "newPasswordStar": "新密碼 *",
+  "newPassword2": "新密碼2",
+  "newPassword2RequireText": "再次輸入新密碼",
+  "newPassword2Star": "再次輸入新密碼 *",
+  "passwordErrorNotification": "輸入的密碼必須相同",
+
+  "emailStar": "電子郵件 *",
+  "firstName": "名",
+  "firstNameUpper": "名",
+  "lastName": "姓",
+  "lastNameUpper": "姓",
+  "profileSuccessNotification": "配置更新成功",
+  "passwordSuccessNotification": "密碼修改成功",
+
+  "notImplemented": "未實現!",
+
+  "listIsEmptyText": "列表當前為空",
+  "tryAgain": "再試一次"
+}

@@ -18,7 +18,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'config/themes/tb_theme.dart';
-import 'generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -185,7 +185,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: S.delegate.supportedLocales,
+      supportedLocales: S.supportedLocales,
       onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
       themeMode: ThemeMode.light,
       home: TwoPageView(
@@ -201,7 +201,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: S.delegate.supportedLocales,
+          supportedLocales: S.supportedLocales,
           onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
           theme: tbTheme,
           themeMode: ThemeMode.light,
@@ -221,7 +221,7 @@ class ThingsboardAppState extends State<ThingsboardApp>
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: S.delegate.supportedLocales,
+          supportedLocales: S.supportedLocales,
           onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
           theme: tbTheme,
           themeMode: ThemeMode.light,

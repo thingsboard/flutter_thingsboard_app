@@ -26,9 +26,9 @@
   "requestPasswordReset": "Request password reset",
   "passwordResetLinkSuccessfullySentNotification": "Password reset link was successfully sent!",
 
-  "OR": "OR",
-  "No": "No",
-  "Yes": "Yes",
+  "or": "Or",
+  "no": "No",
+  "yes": "Yes",
 
   "title": "Title",
   "country": "Country",
