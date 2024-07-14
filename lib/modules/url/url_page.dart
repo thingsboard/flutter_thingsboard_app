@@ -41,11 +41,10 @@ class _UrlPageState extends TbPageState<UrlPage> {
               initialUrlRequest: URLRequest(
                 url: WebUri(widget.url.toString()),
               ),
-              androidOnPermissionRequest:
-                  (controller, origin, resources) async {
-                return PermissionRequestResponse(
-                  resources: resources,
-                  action: PermissionRequestResponseAction.GRANT,
+              onPermissionRequest: (controller, request) async {
+                return PermissionResponse(
+                  resources: request.resources,
+                  action: PermissionResponseAction.GRANT,
                 );
               },
             ),

@@ -112,23 +112,19 @@ class _DashboardState extends TbContextState<Dashboard> {
 
   late final DashboardController _dashboardController;
 
-  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-    crossPlatform: InAppWebViewOptions(
-      useShouldOverrideUrlLoading: true,
-      mediaPlaybackRequiresUserGesture: false,
-      javaScriptEnabled: true,
-      cacheEnabled: true,
-      supportZoom: false,
-      // useOnDownloadStart: true
-    ),
-    android: AndroidInAppWebViewOptions(
-      useHybridComposition: true,
-      thirdPartyCookiesEnabled: true,
-    ),
-    ios: IOSInAppWebViewOptions(
-      allowsInlineMediaPlayback: true,
-      allowsBackForwardNavigationGestures: false,
-    ),
+  InAppWebViewSettings settings = InAppWebViewSettings(
+    useShouldOverrideUrlLoading: true,
+    mediaPlaybackRequiresUserGesture: false,
+    javaScriptEnabled: true,
+    cacheEnabled: true,
+    supportZoom: false,
+    // useOnDownloadStart: true
+
+    useHybridComposition: true,
+    thirdPartyCookiesEnabled: true,
+
+    allowsInlineMediaPlayback: true,
+    allowsBackForwardNavigationGestures: false,
   );
 
   late WebUri _initialUrl;
@@ -320,7 +316,7 @@ class _DashboardState extends TbContextState<Dashboard> {
                     : InAppWebView(
                         key: webViewKey,
                         initialUrlRequest: URLRequest(url: _initialUrl),
-                        initialOptions: options,
+                        initialSettings: settings,
                         onWebViewCreated: (webViewController) {
                           log.debug('onWebViewCreated');
                           webViewController.addJavaScriptHandler(
@@ -418,8 +414,8 @@ class _DashboardState extends TbContextState<Dashboard> {
                           log.debug('shouldOverrideUrlLoading $uriString');
                           if (Platform.isAndroid ||
                               Platform.isIOS &&
-                                  navigationAction.iosWKNavigationType ==
-                                      IOSWKNavigationType.LINK_ACTIVATED) {
+                                  navigationAction.navigationType ==
+                                      NavigationType.LINK_ACTIVATED) {
                             if (uriString.startsWith(endpoint)) {
                               var target = uriString.substring(endpoint.length);
                               if (!target.startsWith('?accessToken')) {
@@ -469,14 +465,13 @@ class _DashboardState extends TbContextState<Dashboard> {
                             _controller.complete(controller);
                           }
                         },
-                        androidOnPermissionRequest:
-                            (controller, origin, resources) async {
+                        onPermissionRequest: (controller, request) async {
                           log.debug(
-                            'androidOnPermissionRequest origin: $origin, resources: $resources',
+                            'androidOnPermissionRequest origin: ${request.origin}, resources: ${request.resources}',
                           );
-                          return PermissionRequestResponse(
-                            resources: resources,
-                            action: PermissionRequestResponseAction.GRANT,
+                          return PermissionResponse(
+                            resources: request.resources,
+                            action: PermissionResponseAction.GRANT,
                           );
                         },
                       ),
