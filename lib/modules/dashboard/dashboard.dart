@@ -155,10 +155,11 @@ class _DashboardState extends TbContextState<Dashboard> {
           }
         };
         if (!UniversalPlatform.isWeb) {
-          var controller = await _controller.future;
-          await controller.postWebMessage(
-              message: WebMessage(data: jsonEncode(windowMessage)),
-              targetOrigin: Uri.parse('*'));
+          _controller.future.then((controller) {
+            controller.postWebMessage(
+                message: WebMessage(data: jsonEncode(windowMessage)),
+                targetOrigin: Uri.parse('*'));
+          });
         }
       }
     }
@@ -170,6 +171,10 @@ class _DashboardState extends TbContextState<Dashboard> {
         await _toggleRightLayout();
         return false;
       }
+      if (!_controller.isCompleted) {
+        return false;
+      }
+
       var controller = await _controller.future;
       if (await controller.canGoBack()) {
         await controller.goBack();
@@ -205,34 +210,36 @@ class _DashboardState extends TbContextState<Dashboard> {
     dashboardLoading.value = true;
     InAppWebViewController? controller;
     if (!UniversalPlatform.isWeb) {
-      controller = await _controller.future;
-    }
-    var windowMessage = <String, dynamic>{
-      'type': 'openDashboardMessage',
-      'data': <String, dynamic>{'dashboardId': dashboardId}
-    };
-    if (state != null) {
-      windowMessage['data']['state'] = state;
-    }
-    if (widget._home == true) {
-      windowMessage['data']['embedded'] = true;
-    }
-    if (hideToolbar == true) {
-      windowMessage['data']['hideToolbar'] = true;
-    }
-    var webMessage = WebMessage(data: jsonEncode(windowMessage));
-    if (!UniversalPlatform.isWeb) {
-      await controller!
-          .postWebMessage(message: webMessage, targetOrigin: Uri.parse('*'));
+      _controller.future.then((controller) {
+        var windowMessage = <String, dynamic>{
+          'type': 'openDashboardMessage',
+          'data': <String, dynamic>{'dashboardId': dashboardId}
+        };
+        if (state != null) {
+          windowMessage['data']['state'] = state;
+        }
+        if (widget._home == true) {
+          windowMessage['data']['embedded'] = true;
+        }
+        if (hideToolbar == true) {
+          windowMessage['data']['hideToolbar'] = true;
+        }
+        var webMessage = WebMessage(data: jsonEncode(windowMessage));
+        if (!UniversalPlatform.isWeb) {
+          controller.postWebMessage(
+              message: webMessage, targetOrigin: Uri.parse('*'));
+        }
+      });
     }
   }
 
   Future<void> _toggleRightLayout() async {
-    var controller = await _controller.future;
-    var windowMessage = <String, dynamic>{'type': 'toggleDashboardLayout'};
-    var webMessage = WebMessage(data: jsonEncode(windowMessage));
-    await controller.postWebMessage(
-        message: webMessage, targetOrigin: Uri.parse('*'));
+    _controller.future.then((controller) {
+      var windowMessage = <String, dynamic>{'type': 'toggleDashboardLayout'};
+      var webMessage = WebMessage(data: jsonEncode(windowMessage));
+      controller.postWebMessage(
+          message: webMessage, targetOrigin: Uri.parse('*'));
+    });
   }
 
   Future<void> tryLocalNavigation(String? path) async {
