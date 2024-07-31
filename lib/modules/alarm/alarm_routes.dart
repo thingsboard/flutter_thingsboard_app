@@ -1,23 +1,27 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
-import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_page.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_search_page.dart';
 
 class AlarmRoutes extends TbRoutes {
-  late var alarmsHandler = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-      var searchMode = params['search']?.first == 'true';
-      if (searchMode) {
-        return AlarmsPage(tbContext, searchMode: true);
+  AlarmRoutes(TbContext tbContext) : super(tbContext);
+
+  late final alarmsHandler = Handler(
+    handlerFunc: (context, params) {
+      final searchMode = params['search']?.first == 'true';
+      if (!searchMode) {
+        return AlarmsPage(
+          tbContext,
+          searchMode: params['search']?.first == 'true',
+        );
       } else {
-        return MainPage(tbContext, path: '/alarms');
+        return AlarmsSearchPage(
+          tbContext: tbContext,
+        );
       }
     },
   );
-
-  AlarmRoutes(TbContext tbContext) : super(tbContext);
 
   @override
   void doRegisterRoutes(router) {

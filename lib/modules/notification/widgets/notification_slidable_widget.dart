@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NotificationSlidableWidget extends StatefulWidget {
   const NotificationSlidableWidget({

@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 const entityTypeTranslations = <EntityType, String>{
   EntityType.TENANT: 'Tenant',
@@ -388,70 +389,6 @@ abstract class BaseEntitiesState<T, P>
       title: widget.noItemsFoundText,
       message: S.of(context).listIsEmptyText,
       onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
-    );
-  }
-}
-
-class FirstPageExceptionIndicator extends StatelessWidget {
-  const FirstPageExceptionIndicator({
-    required this.title,
-    this.message,
-    this.onTryAgain,
-    Key? key,
-  }) : super(key: key);
-
-  final String title;
-  final String? message;
-  final VoidCallback? onTryAgain;
-
-  @override
-  Widget build(BuildContext context) {
-    final message = this.message;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-        child: Column(
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            if (message != null)
-              const SizedBox(
-                height: 16,
-              ),
-            if (message != null)
-              Text(
-                message,
-                textAlign: TextAlign.center,
-              ),
-            if (onTryAgain != null)
-              const SizedBox(
-                height: 48,
-              ),
-            if (onTryAgain != null)
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: onTryAgain,
-                  icon: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    S.of(context).tryAgain,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

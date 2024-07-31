@@ -7,8 +7,8 @@ import 'package:thingsboard_app/modules/dashboard/dashboard.dart'
     as dashboard_ui;
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
 import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class HomePage extends TbContextWidget {
   HomePage(TbContext tbContext, {super.key}) : super(tbContext);
@@ -27,8 +27,10 @@ class _HomePageState extends TbContextState<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var homeDashboard = tbContext.homeDashboard;
-    var dashboardState = homeDashboard != null;
+
+    final homeDashboard = tbContext.homeDashboard;
+    final dashboardState = homeDashboard != null;
+
     return Scaffold(
       appBar: TbAppBar(
         tbContext,

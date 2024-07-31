@@ -5,10 +5,10 @@ import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repo
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 final class SwitchEndpointParams {
   const SwitchEndpointParams({

@@ -1,123 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
-import 'package:thingsboard_app/modules/device/devices_main_page.dart';
-import 'package:thingsboard_app/modules/home/home_page.dart';
-import 'package:thingsboard_app/modules/more/more_page.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
-
-class TbMainNavigationItem {
-  final Widget page;
-  String title;
-  final Icon icon;
-  final String path;
-
-  TbMainNavigationItem({
-    required this.page,
-    required this.title,
-    required this.icon,
-    required this.path,
-  });
-
-  static Map<Authority, Set<String>> mainPageStateMap = {
-    Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/more']),
-    Authority.TENANT_ADMIN:
-        Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
-    Authority.CUSTOMER_USER:
-        Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
-  };
-
-  static bool isMainPageState(TbContext tbContext, String path) {
-    if (tbContext.isAuthenticated) {
-      return mainPageStateMap[tbContext.tbClient.getAuthUser()!.authority]!
-          .contains(path);
-    } else {
-      return false;
-    }
-  }
-
-  static List<TbMainNavigationItem> getItems(TbContext tbContext) {
-    if (tbContext.isAuthenticated) {
-      List<TbMainNavigationItem> items = [
-        TbMainNavigationItem(
-          page: HomePage(tbContext),
-          title: 'Home',
-          icon: const Icon(Icons.home),
-          path: '/home',
-        ),
-      ];
-      switch (tbContext.tbClient.getAuthUser()!.authority) {
-        case Authority.SYS_ADMIN:
-          break;
-        case Authority.TENANT_ADMIN:
-        case Authority.CUSTOMER_USER:
-          items.addAll([
-            TbMainNavigationItem(
-              page: AlarmsPage(tbContext),
-              title: 'Alarms',
-              icon: const Icon(Icons.notifications),
-              path: '/alarms',
-            ),
-            TbMainNavigationItem(
-              page: DevicesMainPage(tbContext),
-              title: 'Devices',
-              icon: const Icon(Icons.devices_other),
-              path: '/devices',
-            ),
-          ]);
-          break;
-        case Authority.REFRESH_TOKEN:
-          break;
-        case Authority.ANONYMOUS:
-          break;
-        case Authority.PRE_VERIFICATION_TOKEN:
-          break;
-      }
-      items.add(
-        TbMainNavigationItem(
-          page: MorePage(tbContext),
-          title: 'More',
-          icon: const Icon(Icons.menu),
-          path: '/more',
-        ),
-      );
-      return items;
-    } else {
-      return [];
-    }
-  }
-
-  static void changeItemsTitleIntl(
-    List<TbMainNavigationItem> items,
-    BuildContext context,
-  ) {
-    for (var item in items) {
-      switch (item.path) {
-        case '/home':
-          item.title = S.of(context).home;
-          break;
-        case '/alarms':
-          item.title = S.of(context).alarms;
-          break;
-        case '/devices':
-          item.title = S.of(context).devices;
-          break;
-        case '/more':
-          item.title = S.of(context).more;
-          break;
-      }
-    }
-  }
-}
+import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 
 class MainPage extends TbPageWidget {
-  final String _path;
-
-  MainPage(TbContext tbContext, {required String path, super.key})
-      : _path = path,
+  MainPage(
+    TbContext tbContext, {
+    super.key,
+    required String path,
+  })  : _path = path,
         super(tbContext);
+
+  final String _path;
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -172,12 +66,10 @@ class _MainPageState extends TbPageState<MainPage>
   @override
   Widget build(BuildContext context) {
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
-    // ignore: deprecated_member_use
+
     return Scaffold(
       body: TabBarView(
-        physics: tbContext.homeDashboard != null
-            ? const NeverScrollableScrollPhysics()
-            : null,
+        physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: _tabItems.map((item) => item.page).toList(),
       ),
@@ -186,7 +78,7 @@ class _MainPageState extends TbPageState<MainPage>
         builder: (context, index, child) => BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: index,
-          onTap: (int index) => _setIndex(index) /*_currentIndex = index*/,
+          onTap: (int index) => _setIndex(index),
           items: _tabItems
               .map(
                 (item) => BottomNavigationBarItem(
@@ -220,8 +112,11 @@ class _MainPageState extends TbPageState<MainPage>
     return _tabController.index == 0;
   }
 
-  _setIndex(int index) {
-    hideNotification();
-    _tabController.index = index;
+  void _setIndex(int index) {
+    if (_tabController.index != index) {
+      hideNotification();
+      _tabController.index = index;
+      tbContext.bottomNavigationTabChangedStream.add(index);
+    }
   }
 }

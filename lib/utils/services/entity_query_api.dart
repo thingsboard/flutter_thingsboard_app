@@ -1,4 +1,4 @@
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract class EntityQueryApi {
   static final activeDeviceKeyFilter = KeyFilter(

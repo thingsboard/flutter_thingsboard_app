@@ -12,13 +12,13 @@ import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/main_page.dart';
+import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -104,6 +104,8 @@ class TbContext implements PopEntry {
   TbLogger get log => _log;
 
   WidgetActionHandler get widgetActionHandler => _widgetActionHandler;
+
+  final bottomNavigationTabChangedStream = StreamController<int>.broadcast();
 
   Future<void> init() async {
     assert(() {

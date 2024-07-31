@@ -5,8 +5,8 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin DashboardsBase on EntitiesBase<DashboardInfo, PageLink> {
   @override
@@ -187,6 +187,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
         semanticsLabel: 'Dashboard',
       );
     }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Column(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,7 +19,6 @@ import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'config/themes/tb_theme.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

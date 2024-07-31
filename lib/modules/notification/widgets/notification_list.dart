@@ -4,8 +4,8 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/notification/widgets/no_notifications_found_widget.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_slidable_widget.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_widget.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationsList extends StatelessWidget {
   const NotificationsList({
@@ -21,16 +21,17 @@ class NotificationsList extends StatelessWidget {
   final Function(String id, bool read) onClearNotification;
   final ValueChanged<String> onReadNotification;
   final TbContext tbContext;
-  final PagingController pagingController;
+  final PagingController<PushNotificationQuery, PushNotification>
+      pagingController;
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView.separated(
+    return PagedListView<PushNotificationQuery, PushNotification>.separated(
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         itemBuilder: (context, item, index) {
           return NotificationSlidableWidget(
-            notification: item as PushNotification,
+            notification: item,
             onReadNotification: onReadNotification,
             onClearNotification: onClearNotification,
             tbContext: tbContext,
