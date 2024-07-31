@@ -77,7 +77,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
 
       if (!isTheSameHost) {
         logger.debug('SwitchEndpointUseCase:deleteFB App');
-        await getIt<IFirebaseService>()
+        getIt<IFirebaseService>()
           ..removeApp()
           ..removeApp(name: currentEndpoint);
 

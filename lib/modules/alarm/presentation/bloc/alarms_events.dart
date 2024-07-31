@@ -32,4 +32,7 @@ final class AlarmSearchTextChanged extends AlarmEvent {
 
 final class AlarmsRefreshPageEvent extends AlarmEvent {
   const AlarmsRefreshPageEvent();
+
+  @override
+  List<Object?> get props => [double.nan];
 }

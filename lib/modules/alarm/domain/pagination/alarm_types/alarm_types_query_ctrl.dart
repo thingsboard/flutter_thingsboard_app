@@ -18,20 +18,7 @@ class AlarmTypesQueryCtrl extends PageKeyController<PageLink> {
   @override
   PageLink nextPageKey(PageLink pageKey) {
     return pageKey.nextPageLink();
-
-    // return PushNotificationQuery(
-    //   pageKey.pageLink.nextPageLink(),
-    //   unreadOnly: value.pageKey.unreadOnly,
-    // );
   }
-
-  // void onSearchText(String searchText) {
-  //   final query = value.pageKey;
-  //   query.page = 0;
-  //   query.textSearch = searchText;
-  //
-  //   notifyListeners();
-  // }
 
   void refresh() {
     notifyListeners();

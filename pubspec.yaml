@@ -61,6 +61,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
+  event_bus: ^2.0.0
 
 dev_dependencies:
   flutter_test:

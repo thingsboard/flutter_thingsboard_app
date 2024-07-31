@@ -16,8 +16,6 @@ class EndpointService implements IEndpointService {
 
   @override
   Future<void> setEndpoint(String endpoint) async {
-    print('setEndpoint');
-
     _cachedEndpoint = endpoint;
     _notifierValue.value = UniqueKey().toString();
 

@@ -12,6 +12,7 @@ import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -23,35 +24,6 @@ import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 enum NotificationType { info, warn, success, error }
-
-typedef OpenDashboardCallback = void Function(
-  String dashboardId, {
-  String? dashboardTitle,
-  String? state,
-  bool? hideToolbar,
-});
-
-abstract class TbMainDashboardHolder {
-  Future<void> navigateToDashboard(
-    String dashboardId, {
-    String? dashboardTitle,
-    String? state,
-    bool? hideToolbar,
-    bool animate = true,
-  });
-
-  Future<bool> openMain({bool animate});
-
-  Future<bool> closeMain({bool animate});
-
-  Future<bool> openDashboard({bool animate});
-
-  Future<bool> closeDashboard({bool animate});
-
-  bool isDashboardOpen();
-
-  Future<bool> dashboardGoBack();
-}
 
 class TbContext implements PopEntry {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -69,7 +41,6 @@ class TbContext implements PopEntry {
   late final AndroidDeviceInfo? _androidInfo;
   late final IosDeviceInfo? _iosInfo;
   late final String packageName;
-  TbMainDashboardHolder? _mainDashboardHolder;
   bool _closeMainFirst = false;
   StreamSubscription? _appLinkStreamSubscription;
   late bool _handleRootState;
@@ -185,10 +156,6 @@ class TbContext implements PopEntry {
 
     await tbClient.init();
     _initialized = true;
-  }
-
-  void setMainDashboardHolder(TbMainDashboardHolder holder) {
-    _mainDashboardHolder = holder;
   }
 
   Future<void> onFatalError(e) async {
@@ -522,11 +489,7 @@ class TbContext implements PopEntry {
   }) async {
     if (currentState != null) {
       hideNotification();
-      bool isOpenedDashboard =
-          _mainDashboardHolder?.isDashboardOpen() == true && closeDashboard;
-      if (isOpenedDashboard) {
-        _mainDashboardHolder?.openMain();
-      }
+
       if (currentState is TbMainState) {
         var mainState = currentState as TbMainState;
         if (mainState.canNavigate(path) && !replace) {
@@ -538,7 +501,7 @@ class TbContext implements PopEntry {
         replace = true;
         clearStack = true;
       }
-      if (transition != TransitionType.nativeModal && isOpenedDashboard) {
+      if (transition != TransitionType.nativeModal) {
         transition = TransitionType.none;
       } else if (transition == null) {
         if (replace) {
@@ -547,7 +510,7 @@ class TbContext implements PopEntry {
           transition = TransitionType.native;
         }
       }
-      _closeMainFirst = isOpenedDashboard;
+
       return await router.navigateTo(
         currentState!.context,
         path,
@@ -567,12 +530,18 @@ class TbContext implements PopEntry {
     bool? hideToolbar,
     bool animate = true,
   }) async {
-    await _mainDashboardHolder?.navigateToDashboard(
-      dashboardId,
-      dashboardTitle: dashboardTitle,
-      state: state,
-      hideToolbar: hideToolbar,
-      animate: animate,
+    router.navigateTo(
+      currentState!.context,
+      '/dashboard',
+      routeSettings: RouteSettings(
+        arguments: DashboardArgumentsEntity(
+          dashboardId,
+          title: dashboardTitle,
+          state: state,
+          hideToolbar: hideToolbar,
+          animate: animate,
+        ),
+      ),
     );
   }
 
@@ -588,7 +557,6 @@ class TbContext implements PopEntry {
   }
 
   void pop<T>([T? result, BuildContext? context]) async {
-    await closeMainIfNeeded();
     var targetContext = context ?? currentState?.context;
     if (targetContext != null) {
       router.pop<T>(targetContext, result);
@@ -603,40 +571,18 @@ class TbContext implements PopEntry {
     }
   }
 
-  Future<bool> willPop() async {
-    if (await closeMainIfNeeded()) {
-      return true;
-    }
-    if (_mainDashboardHolder != null) {
-      return await _mainDashboardHolder!.dashboardGoBack();
-    }
-    return true;
-  }
-
   void onPopInvokedImpl(bool didPop) async {
     if (didPop) {
       return;
     }
-    if (await willPop()) {
-      if (await currentState!.willPop()) {
-        var navigator = Navigator.of(currentState!.context);
-        if (navigator.canPop()) {
-          navigator.pop();
-        } else {
-          SystemNavigator.pop();
-        }
+    if (await currentState!.willPop()) {
+      var navigator = Navigator.of(currentState!.context);
+      if (navigator.canPop()) {
+        navigator.pop();
+      } else {
+        SystemNavigator.pop();
       }
     }
-  }
-
-  Future<bool> closeMainIfNeeded() async {
-    if (currentState != null) {
-      if (currentState!.closeMainFirst && _mainDashboardHolder != null) {
-        await _mainDashboardHolder!.closeMain();
-        return true;
-      }
-    }
-    return false;
   }
 
   Future<void> alert({

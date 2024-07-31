@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -79,9 +79,8 @@ class _FullscreenDashboardPageState
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder: (context, _, __) => Dashboard(
+        builder: (context, _, __) => DashboardWidget(
           tbContext,
-          key: UniqueKey(),
           titleCallback: (title) {
             dashboardTitleValue.value = title;
           },
