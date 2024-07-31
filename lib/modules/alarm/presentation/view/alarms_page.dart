@@ -75,7 +75,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(16),
-                                    color: const Color(0xff00695C),
+                                    color: const Color(0xff305680),
                                   ),
                                 ),
                               );
