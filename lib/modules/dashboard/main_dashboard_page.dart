@@ -134,7 +134,6 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
         builder: (context, value, _) {
           return Dashboard(
             tbContext,
-            key: UniqueKey(),
             activeByDefault: false,
             titleCallback: (title) {
               dashboardTitleValue.value = title;
