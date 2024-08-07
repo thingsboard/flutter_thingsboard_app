@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class MainDashboardPage extends TbContextWidget {
-  MainDashboardPage(
+class SingleDashboardView extends TbContextWidget {
+  SingleDashboardView(
     TbContext tbContext, {
-    this.controller,
+    required this.id,
+    this.title,
+    this.state,
+    this.hideToolbar,
     super.key,
   }) : super(tbContext);
 
-  final DashboardPageController? controller;
+  final String id;
+  final String? title;
+  final String? state;
+  final bool? hideToolbar;
 
   @override
-  State<StatefulWidget> createState() => _MainDashboardPageState();
+  State<StatefulWidget> createState() => _SingleDashboardViewState();
 }
 
-class _MainDashboardPageState extends TbContextState<MainDashboardPage>
+class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
     with TickerProviderStateMixin {
-  final dashboardTitleValue = ValueNotifier('Dashboard');
+  final dashboardTitleValue = ValueNotifier<String>('Dashboard');
   final hasRightLayout = ValueNotifier(false);
 
   late final Animation<double> rightLayoutMenuAnimation;
@@ -69,30 +72,27 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
           ),
         ],
       ),
-      body: ValueListenableBuilder<String?>(
-        valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder: (context, value, _) {
-          return DashboardWidget(
-            tbContext,
-            titleCallback: (title) {
-              dashboardTitleValue.value = title;
-            },
-            pageController: widget.controller,
-            controllerCallback: (controller) {
-              _dashboardController = controller;
-              widget.controller?.setDashboardController(controller);
+      body: DashboardWidget(
+        tbContext,
+        titleCallback: (title) {
+          dashboardTitleValue.value = widget.title ?? title;
+        },
+        controllerCallback: (controller) {
+          controller.hasRightLayout.addListener(() {
+            hasRightLayout.value = controller.hasRightLayout.value;
+          });
+          controller.rightLayoutOpened.addListener(() {
+            if (controller.rightLayoutOpened.value) {
+              rightLayoutMenuController.forward();
+            } else {
+              rightLayoutMenuController.reverse();
+            }
+          });
 
-              controller.hasRightLayout.addListener(() {
-                hasRightLayout.value = controller.hasRightLayout.value;
-              });
-              controller.rightLayoutOpened.addListener(() {
-                if (controller.rightLayoutOpened.value) {
-                  rightLayoutMenuController.forward();
-                } else {
-                  rightLayoutMenuController.reverse();
-                }
-              });
-            },
+          controller.openDashboard(
+            widget.id,
+            state: widget.state,
+            hideToolbar: widget.hideToolbar,
           );
         },
       ),
@@ -112,7 +112,9 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
       parent: rightLayoutMenuController,
     );
 
-    widget.controller?.setDashboardTitleNotifier(dashboardTitleValue);
+    if (widget.title != null) {
+      dashboardTitleValue.value = widget.title!;
+    }
   }
 
   @override
