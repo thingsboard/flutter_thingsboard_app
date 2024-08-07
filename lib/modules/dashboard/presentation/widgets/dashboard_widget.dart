@@ -55,26 +55,6 @@ class _DashboardState extends State<DashboardWidget> {
     allowsBackForwardNavigationGestures: false,
   );
 
-  final options = InAppWebViewGroupOptions(
-    crossPlatform: InAppWebViewOptions(
-      useShouldOverrideUrlLoading: true,
-      mediaPlaybackRequiresUserGesture: false,
-      javaScriptEnabled: true,
-      cacheEnabled: true,
-      supportZoom: false,
-      clearCache: true,
-      // useOnDownloadStart: true
-    ),
-    android: AndroidInAppWebViewOptions(
-      useHybridComposition: true,
-      thirdPartyCookiesEnabled: true,
-    ),
-    ios: IOSInAppWebViewOptions(
-      allowsInlineMediaPlayback: true,
-      allowsBackForwardNavigationGestures: false,
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isWeb) {
