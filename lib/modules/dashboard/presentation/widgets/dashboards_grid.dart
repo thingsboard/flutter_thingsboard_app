@@ -27,7 +27,9 @@ class DashboardsGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: () async {
+        getIt<DashboardsPaginationRepository>().pagingController.refresh();
+      },
       child: PaginationGridWidget<PageLink, DashboardInfo>(
         pagingController:
             getIt<DashboardsPaginationRepository>().pagingController,
@@ -54,7 +56,11 @@ class DashboardsGridWidget extends StatelessWidget {
               FirstPageExceptionIndicator(
             title: 'No dashboards found',
             message: S.of(context).listIsEmptyText,
-            // onTryAgain: ,
+            onTryAgain: () {
+              getIt<DashboardsPaginationRepository>()
+                  .pagingController
+                  .refresh();
+            },
           ),
         ),
       ),
