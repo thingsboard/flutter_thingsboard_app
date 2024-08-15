@@ -6,6 +6,7 @@ import 'package:thingsboard_app/modules/device/devices_list_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
+import 'package:thingsboard_app/modules/notification/notification_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class TbMainNavigationItem {
@@ -23,7 +24,13 @@ class TbMainNavigationItem {
 
   static const mainPageStateMap = <Authority, Set<String>>{
     Authority.SYS_ADMIN: {'/home', '/more'},
-    Authority.TENANT_ADMIN: {'/home', '/alarms', '/devices', '/more'},
+    Authority.TENANT_ADMIN: {
+      '/home',
+      '/alarms',
+      '/devices',
+      '/more',
+      '/notifications',
+    },
     Authority.CUSTOMER_USER: {'/home', '/alarms', '/devices', '/more'},
   };
 
@@ -100,6 +107,14 @@ class TbMainNavigationItem {
           title: 'More',
           icon: Icons.menu_outlined,
           path: '/more',
+        ),
+      );
+      items.add(
+        TbMainNavigationItem(
+          page: NotificationPage(tbContext),
+          title: 'Notification',
+          icon: const Icon(Icons.notifications),
+          path: '/notifications',
         ),
       );
       return items;

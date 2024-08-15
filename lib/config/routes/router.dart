@@ -11,6 +11,7 @@ import 'package:thingsboard_app/modules/customer/customer_routes.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard_routes.dart';
 import 'package:thingsboard_app/modules/device/device_routes.dart';
 import 'package:thingsboard_app/modules/home/home_routes.dart';
+import 'package:thingsboard_app/modules/main/main_routes.dart';
 import 'package:thingsboard_app/modules/notification/routes/notification_routes.dart';
 import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
@@ -23,8 +24,9 @@ class ThingsboardAppRouter {
 
   ThingsboardAppRouter() {
     router.notFoundHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-        var settings = context!.settings;
+      handlerFunc: (context, params) {
+        final settings = context!.settings;
+
         return Scaffold(
           appBar: AppBar(title: const Text('Not Found')),
           body: Center(child: Text('Route not defined: ${settings!.name}')),
@@ -35,6 +37,7 @@ class ThingsboardAppRouter {
     InitRoutes(_tbContext).registerRoutes();
     AuthRoutes(_tbContext).registerRoutes();
     UiUtilsRoutes(_tbContext).registerRoutes();
+    MainRoutes(_tbContext).registerRoutes();
     HomeRoutes(_tbContext).registerRoutes();
     ProfileRoutes(_tbContext).registerRoutes();
     AssetRoutes(_tbContext).registerRoutes();

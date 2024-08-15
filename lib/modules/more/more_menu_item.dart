@@ -10,7 +10,7 @@ import 'package:thingsboard_app/utils/services/notification_service.dart';
 class MoreMenuItem {
   final String title;
   final IconData icon;
-  final String? path;
+  final String path;
   final bool showAdditionalIcon;
   final Widget? additionalIcon;
   final bool disabled;
@@ -19,7 +19,7 @@ class MoreMenuItem {
   MoreMenuItem({
     required this.title,
     required this.icon,
-    this.path,
+    required this.path,
     this.showAdditionalIcon = false,
     this.additionalIcon,
     this.disabled = false,
@@ -139,7 +139,7 @@ class MoreMenuItem {
           );
         }
 
-        return const SizedBox.shrink();
+        return const SizedBox(width: 20);
       },
     );
   }

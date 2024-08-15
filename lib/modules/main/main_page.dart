@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/view/single_dashboard_view.dart';
+import 'package:thingsboard_app/modules/main/bloc/bottom_bar_bloc.dart';
+import 'package:thingsboard_app/modules/main/main_item_widget.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
-import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class MainPage extends TbPageWidget {
   MainPage(
-    TbContext tbContext, {
+    super.tbContext, {
     super.key,
-    required String path,
-  })  : _path = path,
-        super(tbContext);
-
-  final String _path;
+  });
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -23,24 +22,29 @@ class _MainPageState extends TbPageState<MainPage>
   late ValueNotifier<int> _currentIndexNotifier;
   late final List<TbMainNavigationItem> _tabItems;
   late TabController _tabController;
+  late final BottomBarBloc bloc;
 
   @override
   void initState() {
     super.initState();
     _tabItems = TbMainNavigationItem.getItems(tbContext);
-    final currentIndex = _indexFromPath(widget._path);
-    _tabController = TabController(
-      initialIndex: currentIndex,
-      length: _tabItems.length,
-      vsync: this,
-    );
-    _currentIndexNotifier = ValueNotifier(currentIndex);
-    _tabController.animation!.addListener(_onTabAnimation);
+    // final currentIndex = _indexFromPath(widget._path);
+    // _tabController = TabController(
+    //   initialIndex: currentIndex,
+    //   length: _tabItems.length,
+    //   vsync: this,
+    // );
+
+    bloc = BottomBarBloc(router: tbContext.router)
+      ..add(BottomBarFetchEvent(context));
+    _currentIndexNotifier = ValueNotifier(0);
+    // _tabController.animation!.addListener(_onTabAnimation);
   }
 
   @override
   void dispose() {
     _tabController.animation!.removeListener(_onTabAnimation);
+    bloc.close();
     super.dispose();
   }
 
@@ -68,19 +72,65 @@ class _MainPageState extends TbPageState<MainPage>
   Widget build(BuildContext context) {
     TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
 
-    return Scaffold(
-      body: TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: _tabItems.map((item) => item.page).toList(),
-      ),
-      bottomNavigationBar: ValueListenableBuilder<int>(
-        valueListenable: _currentIndexNotifier,
-        builder: (context, index, child) => TbNavigationBarWidget(
-          currentIndex: index,
-          onTap: (int index) => _setIndex(index),
-          customBottomBarItems: _tabItems,
-        ),
+    return BlocProvider<BottomBarBloc>.value(
+      value: bloc,
+      child: BlocBuilder<BottomBarBloc, BottomBarState>(
+        builder: (context, state) {
+          if (state is BottomBarLoadingState) {
+            return Scaffold(
+              body: TbProgressIndicator(tbContext),
+            );
+          } else if (state is BottomBarDataState) {
+            _tabController = TabController(
+              initialIndex: 0,
+              length: state.items.length,
+              vsync: this,
+            );
+            _tabController.animation!.addListener(_onTabAnimation);
+
+            return Scaffold(
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _tabController,
+                children: state.items
+                    .map((item) {
+                      return MainItemWidget(
+                        getWidgetByPath(
+                              item.data['path'],
+                              data: item.data,
+                            ) ??
+                            Scaffold(
+                              appBar: AppBar(title: const Text('Not Found')),
+                              body: Center(
+                                  child: Text(
+                                      'Route not defined: ${item.data['path']}')),
+                            ),
+                      );
+                    })
+                    .toList()
+                    .cast<Widget>(),
+              ),
+              bottomNavigationBar: ValueListenableBuilder<int>(
+                valueListenable: _currentIndexNotifier,
+                builder: (context, index, child) => BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: index,
+                  onTap: (int index) => _setIndex(index),
+                  items: state.items
+                      .map(
+                        (item) => BottomNavigationBarItem(
+                          icon: item.icon,
+                          label: item.label,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
       ),
     );
   }
@@ -111,5 +161,23 @@ class _MainPageState extends TbPageState<MainPage>
       _tabController.index = index;
       tbContext.bottomNavigationTabChangedStream.add(index);
     }
+  }
+
+  Widget? getWidgetByPath(String path, {Map<String, dynamic>? data}) {
+    if (path == '/dashboard') {
+      return SingleDashboardView(
+        tbContext,
+        id: data?['id'],
+      );
+    }
+
+    // Find the route by its path
+    final match = tbContext.router.match(path);
+    if (match != null && match.route.handler != null) {
+      // Execute the handler's function to retrieve the widget
+      return match.route.handler?.handlerFunc(null, match.parameters);
+    }
+
+    return null;
   }
 }

@@ -3,17 +3,12 @@ import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/modules/more/more_menu_item.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
-import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class MorePage extends TbContextWidget {
   MorePage(TbContext tbContext, {super.key}) : super(tbContext);
@@ -26,54 +21,44 @@ class _MorePageState extends TbContextState<MorePage>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    final userDetails = getIt<UserDetailsUseCase>()(
-      UserDetailsParams(
-        firstName: tbContext.userDetails?.firstName ?? '',
-        lastName: tbContext.userDetails?.lastName ?? '',
-        email: tbContext.userDetails?.email ?? '',
-      ),
-    );
-
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Container(
           padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserInfoAvatarWidget(
-                    shortName: userDetails.shortName,
-                    color: UiUtils.colorFromString(userDetails.displayName),
+                  const Icon(
+                    Icons.account_circle,
+                    size: 48,
+                    color: Color(0xFFAFAFAF),
                   ),
-                  SizedBox(
-                    height: 32,
-                    width: 32,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.settings,
-                        color: Colors.black.withOpacity(.54),
-                        size: 18,
-                      ),
-                      onPressed: () async {
-                        await navigateTo('/profile');
-                        setState(() {});
-                      },
-                    ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings, color: Color(0xFFAFAFAF)),
+                    onPressed: () async {
+                      await navigateTo('/profile');
+                      setState(() {});
+                    },
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 22),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     child: Text(
-                      userDetails.displayName,
-                      style: TbTextStyles.labelLarge.copyWith(
-                        color: Colors.black.withOpacity(.76),
+                      _getUserDisplayName(),
+                      style: const TextStyle(
+                        color: Color(0xFF282828),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        height: 23 / 20,
                       ),
                     ),
                   ),
@@ -85,41 +70,72 @@ class _MorePageState extends TbContextState<MorePage>
                   ),
                 ],
               ),
+              const SizedBox(height: 2),
               Text(
                 _getAuthorityName(context),
-                style: TbTextStyles.labelSmall.copyWith(
-                  color: Colors.black.withOpacity(.38),
+                style: const TextStyle(
+                  color: Color(0xFFAFAFAF),
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                  height: 16 / 14,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Divider(
-                  color: Colors.black.withOpacity(.05),
-                  thickness: 1,
-                  height: 0,
-                ),
-              ),
+              const SizedBox(height: 24),
+              const Divider(color: Color(0xFFEDEDED)),
+              const SizedBox(height: 8),
               buildMoreMenuItems(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Divider(
-                  color: Colors.black.withOpacity(.05),
-                  thickness: 1,
-                  height: 0,
+              const SizedBox(height: 8),
+              const Divider(color: Color(0xFFEDEDED)),
+              const SizedBox(height: 8),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  height: 48,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 18,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: Color(0xFFE04B2F),
+                        ),
+                        const SizedBox(width: 34),
+                        Text(
+                          S.of(context).logout,
+                          style: const TextStyle(
+                            color: Color(0xFFE04B2F),
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 20 / 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              MoreMenuItemWidget(
-                MoreMenuItem(
-                  title: S.of(context).logout,
-                  icon: Icons.logout,
-                ),
-                color: const Color(0xffD12730),
                 onTap: () {
                   tbContext.logout(
                     requestConfig: RequestConfig(ignoreErrors: true),
                   );
                 },
               ),
+              const Spacer(),
+              if (tbContext.wlService.showNameVersion == true)
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      tbContext.wlService.platformNameAndVersion,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -149,30 +165,82 @@ class _MorePageState extends TbContextState<MorePage>
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
-    final items = MoreMenuItem.getItems(tbContext, context);
-
-    return ListView.separated(
-      itemBuilder: (_, index) => MoreMenuItemWidget(
-        items[index],
+    List<Widget> items =
+        MoreMenuItem.getItems(tbContext, context).map((menuItem) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          height: 48,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 18),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Icon(
+                  menuItem.icon,
+                  color: !menuItem.disabled
+                      ? const Color(0xFF282828)
+                      : Colors.grey.withOpacity(0.5),
+                ),
+                Visibility(
+                  visible: menuItem.showAdditionalIcon,
+                  child: menuItem.additionalIcon ?? const SizedBox.shrink(),
+                ),
+                SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
+                Text(
+                  menuItem.title,
+                  style: TextStyle(
+                    color: !menuItem.disabled
+                        ? const Color(0xFF282828)
+                        : Colors.grey.withOpacity(0.5),
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    height: 20 / 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         onTap: () {
-          if (!items[index].disabled && items[index].path != null) {
-            navigateTo(items[index].path!);
+          if (!menuItem.disabled) {
+            navigateTo(menuItem.path);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  items[index].disabledReasonMessage ?? 'The item is disabled',
+                  menuItem.disabledReasonMessage ?? 'The item is disabled',
                 ),
               ),
             );
           }
         },
-      ),
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
-      itemCount: items.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-    );
+      );
+    }).toList();
+    return Column(children: items);
+  }
+
+  String _getUserDisplayName() {
+    var user = tbContext.userDetails;
+    var name = '';
+    if (user != null) {
+      if ((user.firstName != null && user.firstName!.isNotEmpty) ||
+          (user.lastName != null && user.lastName!.isNotEmpty)) {
+        if (user.firstName != null) {
+          name += user.firstName!;
+        }
+        if (user.lastName != null) {
+          if (name.isNotEmpty) {
+            name += ' ';
+          }
+          name += user.lastName!;
+        }
+      } else {
+        name = user.email;
+      }
+    }
+    return name;
   }
 
   String _getAuthorityName(BuildContext context) {

@@ -14,14 +14,14 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 enum NotificationsFilter { all, unread }
 
-class NotificationPage extends TbPageWidget {
+class NotificationPage extends TbContextWidget {
   NotificationPage(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _NotificationPageState();
 }
 
-class _NotificationPageState extends TbPageState<NotificationPage> {
+class _NotificationPageState extends TbContextState<NotificationPage> {
   NotificationsFilter notificationsFilter = NotificationsFilter.unread;
   late final NotificationPaginationRepository paginationRepository;
   final notificationQueryCtrl = NotificationQueryCtrl();
