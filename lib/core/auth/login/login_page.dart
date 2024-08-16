@@ -120,6 +120,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
                                     OutlinedButton(
                                       style: _oauth2IconButtonStyle,
                                       onPressed: () async {
+                                        FocusScope.of(context).unfocus();
                                         try {
                                           final barcode =
                                               await tbContext.navigateTo(
@@ -354,6 +355,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
               child: OutlinedButton(
                 style: _oauth2IconButtonStyle,
                 onPressed: () async {
+                  FocusScope.of(context).unfocus();
                   try {
                     final barcode = await tbContext.navigateTo(
                       '/qrCodeScan',
