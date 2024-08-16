@@ -24,164 +24,173 @@ class AssigneeListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
-        minHeight: MediaQuery.of(context).size.height * 0.3,
+        maxHeight: MediaQuery.of(context).size.height * 0.7 +
+            MediaQuery.of(context).viewInsets.bottom,
+        minHeight: MediaQuery.of(context).size.height * 0.3 +
+            MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black.withOpacity(0.12),
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
                 ),
-                borderRadius: BorderRadius.circular(4),
               ),
-              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.black.withOpacity(0.38),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                        hintText: 'Search users',
-                        contentPadding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-                        isDense: true,
-                      ),
-                      onChanged: (text) {
-                        getIt<AssigneeBloc>().add(
-                          AssigneeSearchEvent(searchText: text),
-                        );
-                      },
-                    ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black.withOpacity(0.12),
                   ),
-                  Icon(Icons.search, color: Colors.black.withOpacity(0.54)),
-                  const SizedBox(width: 8),
-                ],
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                margin: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.38),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                          hintText: 'Search users',
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(16, 8, 8, 8),
+                          isDense: true,
+                        ),
+                        onChanged: (text) {
+                          getIt<AssigneeBloc>().add(
+                            AssigneeSearchEvent(searchText: text),
+                          );
+                        },
+                      ),
+                    ),
+                    Icon(Icons.search, color: Colors.black.withOpacity(0.54)),
+                    const SizedBox(width: 8),
+                  ],
+                ),
               ),
-            ),
-            Flexible(
-              child: PagedListView<PageLink, AssigneeEntity>.separated(
-                pagingController:
-                    getIt<AssigneeBloc>().paginationRepository.pagingController,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shrinkWrap: true,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) {
-                    final state = getIt<AssigneeBloc>().state;
-                    Widget? userInfoWidget;
+              Flexible(
+                child: PagedListView<PageLink, AssigneeEntity>.separated(
+                  pagingController: getIt<AssigneeBloc>()
+                      .paginationRepository
+                      .pagingController,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  shrinkWrap: true,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, item, index) {
+                      final state = getIt<AssigneeBloc>().state;
+                      Widget? userInfoWidget;
 
-                    if (state is AssigneeSelectedState) {
-                      final selectedId = state.assignee.userInfo.id.id;
-                      if (selectedId == item.userInfo.id.id) {
-                        userInfoWidget = const SizedBox.shrink();
+                      if (state is AssigneeSelectedState) {
+                        final selectedId = state.assignee.userInfo.id.id;
+                        if (selectedId == item.userInfo.id.id) {
+                          userInfoWidget = const SizedBox.shrink();
+                        }
                       }
-                    }
 
-                    return Column(
-                      children: [
-                        Visibility(
-                          visible: index == 0 &&
-                              state is! AssigneeSelfAssignmentState,
-                          child: Column(
-                            children: [
-                              UserInfoWidget(
-                                avatar: Icon(
-                                  Icons.account_circle,
-                                  color: Colors.black.withOpacity(0.38),
+                      return Column(
+                        children: [
+                          Visibility(
+                            visible: index == 0 &&
+                                state is! AssigneeSelfAssignmentState,
+                            child: Column(
+                              children: [
+                                UserInfoWidget(
+                                  avatar: Icon(
+                                    Icons.account_circle,
+                                    color: Colors.black.withOpacity(0.38),
+                                  ),
+                                  name: 'Assigned to me',
+                                  onUserTap: (id) {
+                                    Navigator.of(context).pop();
+                                    getIt<AssigneeBloc>().add(
+                                      AssigneeSelectedEvent(
+                                        userId: id,
+                                        selfAssignment: true,
+                                      ),
+                                    );
+
+                                    onChanged();
+                                  },
+                                  id: tbContext.tbClient.getAuthUser()!.userId!,
                                 ),
-                                name: 'Assigned to me',
+                                const Divider(thickness: 1, height: 24),
+                              ],
+                            ),
+                          ),
+                          userInfoWidget ??
+                              UserInfoWidget(
+                                avatar: UserInfoAvatarWidget(
+                                  shortName: item.shortName,
+                                  color: HSLColor.fromAHSL(
+                                    1,
+                                    item.displayName.hashCode % 360,
+                                    40 / 100,
+                                    60 / 100,
+                                  ).toColor(),
+                                ),
+                                name: item.displayName,
+                                email: item.userInfo.email,
+                                showEmail: !item.displayName.isValidEmail(),
                                 onUserTap: (id) {
                                   Navigator.of(context).pop();
                                   getIt<AssigneeBloc>().add(
-                                    AssigneeSelectedEvent(
-                                      userId: id,
-                                      selfAssignment: true,
-                                    ),
+                                    AssigneeSelectedEvent(userId: id),
                                   );
 
                                   onChanged();
                                 },
-                                id: tbContext.tbClient.getAuthUser()!.userId!,
+                                id: item.userInfo.id.id!,
                               ),
-                              const Divider(thickness: 1, height: 24),
-                            ],
-                          ),
+                        ],
+                      );
+                    },
+                    firstPageProgressIndicatorBuilder: (_) {
+                      return Container(
+                        height: 200,
+                        color: const Color(0x99FFFFFF),
+                        child: const Center(
+                          child: TbProgressIndicator(size: 50.0),
                         ),
-                        userInfoWidget ??
-                            UserInfoWidget(
-                              avatar: UserInfoAvatarWidget(
-                                shortName: item.shortName,
-                                color: HSLColor.fromAHSL(
-                                  1,
-                                  item.displayName.hashCode % 360,
-                                  40 / 100,
-                                  60 / 100,
-                                ).toColor(),
-                              ),
-                              name: item.displayName,
-                              email: item.userInfo.email,
-                              showEmail: !item.displayName.isValidEmail(),
-                              onUserTap: (id) {
-                                Navigator.of(context).pop();
-                                getIt<AssigneeBloc>().add(
-                                  AssigneeSelectedEvent(userId: id),
-                                );
+                      );
+                    },
+                  ),
+                  separatorBuilder: (_, index) {
+                    final state = getIt<AssigneeBloc>().state;
 
-                                onChanged();
-                              },
-                              id: item.userInfo.id.id!,
-                            ),
-                      ],
-                    );
-                  },
-                  firstPageProgressIndicatorBuilder: (_) {
-                    return Container(
-                      height: 200,
-                      color: const Color(0x99FFFFFF),
-                      child: const Center(
-                        child: TbProgressIndicator(size: 50.0),
-                      ),
-                    );
+                    if (state is AssigneeSelectedState) {
+                      final selectedId = state.assignee.userInfo.id.id;
+                      final userId = getIt<AssigneeBloc>()
+                          .paginationRepository
+                          .pagingController
+                          .itemList?[index];
+                      if (selectedId == userId?.userInfo.id.id) {
+                        return const SizedBox.shrink();
+                      }
+                    }
+
+                    return const Divider(thickness: 1, height: 24);
                   },
                 ),
-                separatorBuilder: (_, index) {
-                  final state = getIt<AssigneeBloc>().state;
-
-                  if (state is AssigneeSelectedState) {
-                    final selectedId = state.assignee.userInfo.id.id;
-                    final userId = getIt<AssigneeBloc>()
-                        .paginationRepository
-                        .pagingController
-                        .itemList?[index];
-                    if (selectedId == userId?.userInfo.id.id) {
-                      return const SizedBox.shrink();
-                    }
-                  }
-
-                  return const Divider(thickness: 1, height: 24);
-                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
