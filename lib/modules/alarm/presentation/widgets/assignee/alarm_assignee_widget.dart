@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_filter_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/assignee_list_widget.dart';
@@ -23,8 +24,8 @@ class AlarmAssigneeFilter extends StatelessWidget {
     return AlarmFilterWidget(
       filterTitle: 'Assignee',
       child: InkWell(
-        onTap: () {
-          UiUtils.showModalBottomSheet(
+        onTap: () async {
+          await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
             builder: (context) => AnimatedSize(
@@ -36,6 +37,7 @@ class AlarmAssigneeFilter extends StatelessWidget {
               ),
             ),
           );
+          getIt<AssigneeBloc>().add(const AssigneeResetSearchTextEvent());
         },
         child: Container(
           height: 38,
