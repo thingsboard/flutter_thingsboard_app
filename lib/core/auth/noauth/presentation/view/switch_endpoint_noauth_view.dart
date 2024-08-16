@@ -11,13 +11,12 @@ import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends TbPageWidget {
   SwitchEndpointNoAuthView({
-    super.key,
-    required this.tbContext,
+    required TbContext tbContext,
     required this.arguments,
+    super.key,
   }) : super(tbContext);
 
   final Map<String, dynamic>? arguments;
-  final TbContext tbContext;
 
   @override
   State<StatefulWidget> createState() => _SwitchEndpointNoAuthViewState();

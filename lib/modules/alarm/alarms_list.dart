@@ -42,8 +42,9 @@ class AlarmsList extends StatelessWidget {
                 String? dashboardId = alarm.details?['dashboardId'];
                 if (dashboardId != null) {
                   final state = Utils.createDashboardEntityState(
-                      alarm.originator,
-                      entityName: alarm.originatorName);
+                    alarm.originator,
+                    entityName: alarm.originatorName,
+                  );
                   tbContext.navigateToDashboard(
                     dashboardId,
                     dashboardTitle: alarm.originatorName,
