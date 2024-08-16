@@ -452,6 +452,7 @@ class _LoginPageState extends TbPageState<LoginPage> {
   }
 
   void _oauth2ButtonPressed(OAuth2ClientInfo client) async {
+    FocusScope.of(context).unfocus();
     _isLoginNotifier.value = true;
     try {
       final result = await tbContext.oauth2Client.authenticate(client.url);
