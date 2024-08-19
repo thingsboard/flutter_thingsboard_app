@@ -59,7 +59,9 @@ class TypesListWidget extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text(item.type),
+                          Flexible(
+                            child: Text(item.type),
+                          ),
                         ],
                       ),
                     );
