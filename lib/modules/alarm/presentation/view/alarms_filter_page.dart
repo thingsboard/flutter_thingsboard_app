@@ -71,11 +71,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
           title: const Text('Filters'),
           leading: BackButton(
             onPressed: () {
-              widget.pageController.animateToPage(
-                0,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeInOut,
-              );
+              _onBackButtonClick();
             },
           ),
         ),
@@ -150,33 +146,9 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                       ],
                     ),
                     AlarmControlFiltersButton(
-                      onResetTap: filtersChanged
-                          ? () {
-                              setState(() {
-                                alarmStatusSelected
-                                  ..clear()
-                                  ..add(alarmStatus.first);
-                                alarmSeveritySelected.clear();
-                                filtersChanged = false;
-                              });
-
-                              getIt<AlarmTypesBloc>().add(
-                                const AlarmTypesResetEvent(),
-                              );
-                              getIt<AssigneeBloc>().add(
-                                const AssigneeResetEvent(),
-                              );
-                              getIt<AlarmBloc>().add(
-                                const AlarmFiltersResetEvent(),
-                              );
-                            }
-                          : null,
+                      onResetTap: filtersChanged ? _resetFilters : null,
                       onCancelTap: () {
-                        widget.pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                        );
+                        _onBackButtonClick();
                       },
                       onUpdateTap: filtersChanged
                           ? () {
@@ -225,11 +197,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     listenNavigationChanges = widget
         .tbContext.bottomNavigationTabChangedStream.stream
         .listen((tabIndex) {
-      widget.pageController.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-      );
+      _onBackButtonClick();
     });
 
     super.initState();
@@ -240,5 +208,37 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     listenNavigationChanges.cancel();
 
     super.dispose();
+  }
+
+  void _resetFilters() {
+    setState(() {
+      alarmStatusSelected
+        ..clear()
+        ..add(alarmStatus.first);
+      alarmSeveritySelected.clear();
+      filtersChanged = false;
+    });
+
+    getIt<AlarmTypesBloc>().add(
+      const AlarmTypesResetEvent(),
+    );
+    getIt<AssigneeBloc>().add(
+      const AssigneeResetEvent(),
+    );
+    getIt<AlarmBloc>().add(
+      const AlarmFiltersResetEvent(),
+    );
+  }
+
+  void _onBackButtonClick() {
+    widget.pageController.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+
+    if (filtersChanged) {
+      _resetFilters();
+    }
   }
 }

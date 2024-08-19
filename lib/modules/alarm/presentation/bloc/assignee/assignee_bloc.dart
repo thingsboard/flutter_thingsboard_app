@@ -52,10 +52,16 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
       case AssigneeResetEvent():
         selectedUserId = null;
         emit(const AssigneeEmptyState());
+        queryCtrl.onSearchText(null);
 
         break;
       case AssigneeRefreshEvent():
         paginationRepository.refresh();
+
+        break;
+
+      case AssigneeResetSearchTextEvent():
+        queryCtrl.onSearchText(null);
 
         break;
     }

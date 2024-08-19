@@ -38,6 +38,7 @@ class AlarmTypesWidget extends StatelessWidget {
                   onTap: () {
                     UiUtils.showModalBottomSheet(
                       context: context,
+                      topControl: const SizedBox.shrink(),
                       builder: (context) => AnimatedSize(
                         curve: Curves.easeInOut,
                         duration: const Duration(milliseconds: 500),
@@ -128,6 +129,7 @@ class AlarmTypesWidget extends StatelessWidget {
                           onTap: () {
                             UiUtils.showModalBottomSheet(
                               context: context,
+                              topControl: const SizedBox.shrink(),
                               builder: (context) => TypesListWidget(
                                 tbContext: tbContext,
                                 onChanged: onChanged,
