@@ -40,14 +40,14 @@ class AlarmAssigneeFilter extends StatelessWidget {
           getIt<AssigneeBloc>().add(const AssigneeResetSearchTextEvent());
         },
         child: Container(
-          height: 38,
+          constraints: const BoxConstraints(minHeight: 38),
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black.withOpacity(0.12),
             ),
             borderRadius: BorderRadius.circular(4),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: BlocBuilder<AssigneeBloc, AssigneeState>(
             builder: (context, state) {
               switch (state) {
