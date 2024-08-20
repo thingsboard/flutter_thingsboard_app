@@ -39,16 +39,17 @@ class UserInfoWidget extends StatelessWidget {
                   Text(
                     name,
                     style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   Visibility(
                     visible: showEmail,
                     child: Text(
                       email,
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 16,
                         fontWeight: FontWeight.w400,
                         color: Colors.black.withOpacity(0.38),
                       ),

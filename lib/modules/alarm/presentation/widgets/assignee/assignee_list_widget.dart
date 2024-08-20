@@ -37,14 +37,29 @@ class AssigneeListWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 12, bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Alarm types',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -69,7 +84,7 @@ class AssigneeListWidget extends StatelessWidget {
                           ),
                           hintText: 'Search users',
                           contentPadding:
-                              const EdgeInsets.fromLTRB(16, 8, 8, 8),
+                              const EdgeInsets.fromLTRB(16, 12, 16, 12),
                           isDense: true,
                         ),
                         onChanged: (text) {
@@ -79,8 +94,12 @@ class AssigneeListWidget extends StatelessWidget {
                         },
                       ),
                     ),
-                    Icon(Icons.search, color: Colors.black.withOpacity(0.54)),
-                    const SizedBox(width: 8),
+                    Icon(
+                      Icons.search,
+                      color: Colors.black.withOpacity(0.54),
+                      size: 24,
+                    ),
+                    const SizedBox(width: 16),
                   ],
                 ),
               ),
@@ -90,7 +109,7 @@ class AssigneeListWidget extends StatelessWidget {
                       .paginationRepository
                       .pagingController,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   shrinkWrap: true,
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, item, index) {
@@ -115,6 +134,7 @@ class AssigneeListWidget extends StatelessWidget {
                                   avatar: Icon(
                                     Icons.account_circle,
                                     color: Colors.black.withOpacity(0.38),
+                                    size: 32,
                                   ),
                                   name: 'Assigned to me',
                                   onUserTap: (id) {
@@ -130,7 +150,7 @@ class AssigneeListWidget extends StatelessWidget {
                                   },
                                   id: tbContext.tbClient.getAuthUser()!.userId!,
                                 ),
-                                const Divider(thickness: 1, height: 24),
+                                const Divider(thickness: 1, height: 32),
                               ],
                             ),
                           ),

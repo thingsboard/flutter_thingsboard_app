@@ -17,15 +17,15 @@ class UserInfoAvatarWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         color: color,
       ),
-      height: 24,
-      width: 24,
+      height: 32,
+      width: 32,
       child: Center(
         child: Text(
           shortName,
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w700,
-            fontSize: 11,
+            fontSize: 12,
           ),
         ),
       ),

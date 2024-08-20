@@ -37,8 +37,7 @@ class _FilterToggleBlockWidgetState extends State<FilterToggleBlockWidget> {
     return AlarmFilterWidget(
       filterTitle: widget.label,
       child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
+        spacing: 8,
         children: List.generate(
           widget.items.length,
           (index) => FilledButton.icon(

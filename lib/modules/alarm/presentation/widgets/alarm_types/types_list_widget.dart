@@ -28,14 +28,29 @@ class TypesListWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Assignee',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ),
+                ],
               ),
             ),
             Flexible(
@@ -45,7 +60,7 @@ class TypesListWidget extends StatelessWidget {
                     .pagingController,
                 shrinkWrap: true,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {
                     return GestureDetector(
@@ -60,7 +75,13 @@ class TypesListWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Flexible(
-                            child: Text(item.type),
+                            child: Text(
+                              item.type,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                height: 1.5,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -76,10 +97,8 @@ class TypesListWidget extends StatelessWidget {
                     );
                   },
                 ),
-                separatorBuilder: (_, __) => const Divider(
-                  thickness: 1,
-                  height: 24,
-                ),
+                separatorBuilder: (_, __) =>
+                    const Divider(thickness: 1, height: 32),
               ),
             ),
           ],
