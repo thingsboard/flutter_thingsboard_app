@@ -161,24 +161,29 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
     if (_currentUser != null) {
       FocusScope.of(context).unfocus();
       if (_profileFormKey.currentState?.saveAndValidate() ?? false) {
-        var formValue = _profileFormKey.currentState!.value;
+        final formValue = _profileFormKey.currentState!.value;
         _currentUser!.email = formValue['email'];
         _currentUser!.firstName = formValue['firstName'];
         _currentUser!.lastName = formValue['lastName'];
         _isLoadingNotifier.value = true;
-        _currentUser = await tbClient.getUserService().saveUser(_currentUser!);
-        tbContext.userDetails = _currentUser;
-        _setUser();
-        await Future.delayed(const Duration(milliseconds: 300));
-        _isLoadingNotifier.value = false;
-        showSuccessNotification(
-          S.of(context).profileSuccessNotification,
-          duration: const Duration(milliseconds: 1500),
-        );
-        showSuccessNotification(
-          S.of(context).profileSuccessNotification,
-          duration: const Duration(milliseconds: 1500),
-        );
+        try {
+          _currentUser =
+              await tbClient.getUserService().saveUser(_currentUser!);
+          tbContext.userDetails = _currentUser;
+          _setUser();
+          await Future.delayed(const Duration(milliseconds: 300));
+          _isLoadingNotifier.value = false;
+          showSuccessNotification(
+            S.of(context).profileSuccessNotification,
+            duration: const Duration(milliseconds: 1500),
+          );
+          showSuccessNotification(
+            S.of(context).profileSuccessNotification,
+            duration: const Duration(milliseconds: 1500),
+          );
+        } catch (_) {
+          _isLoadingNotifier.value = false;
+        }
       }
     }
   }
