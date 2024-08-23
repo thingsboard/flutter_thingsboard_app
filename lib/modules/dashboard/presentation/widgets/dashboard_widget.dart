@@ -191,8 +191,8 @@ class _DashboardState extends State<DashboardWidget> {
               log.debug('shouldOverrideUrlLoading $uriString');
               if (Platform.isAndroid ||
                   Platform.isIOS &&
-                      navigationAction.iosWKNavigationType ==
-                          IOSWKNavigationType.LINK_ACTIVATED) {
+                      navigationAction.navigationType ==
+                          NavigationType.LINK_ACTIVATED) {
                 if (uriString.startsWith(endpoint)) {
                   var target = uriString.substring(endpoint.length);
                   if (!target.startsWith('?accessToken')) {
@@ -242,13 +242,14 @@ class _DashboardState extends State<DashboardWidget> {
                 webViewLoading = false;
               }
             },
-            androidOnPermissionRequest: (controller, origin, resources) async {
+            onPermissionRequest: (controller, request) async {
               log.debug(
-                'androidOnPermissionRequest origin: $origin, resources: $resources',
+                'onPermissionRequest resources: ${request.resources}',
               );
-              return PermissionRequestResponse(
-                resources: resources,
-                action: PermissionRequestResponseAction.GRANT,
+
+              return PermissionResponse(
+                action: PermissionResponseAction.GRANT,
+                resources: request.resources,
               );
             },
           ),
