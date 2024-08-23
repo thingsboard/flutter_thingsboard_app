@@ -54,7 +54,16 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
   final alarmStatusSelected = <FilterDataEntity>[];
   final alarmSeveritySelected = <FilterDataEntity>[];
 
+  /// This flag indicates that the user has made changes to the filters.
+  /// For example, selecting a status, assignee, or any other filter option.
   bool filtersChanged = false;
+
+  /// This flag is used to indicate that the user has changed and applied filters by clicking the Update button.
+  /// It helps determine whether to reset filter changes when the user clicks the back or cancel button.
+  /// Logic:
+  /// -- If the filters were changed but not applied, clicking the back or cancel button will discard the changes.
+  /// -- If the filters were changed and applied, the filters will be preserved as they are.
+  bool filtersChangesApplied = false;
 
   late final StreamSubscription listenNavigationChanges;
 
@@ -178,6 +187,10 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                                 duration: const Duration(milliseconds: 400),
                                 curve: Curves.easeInOut,
                               );
+
+                              setState(() {
+                                filtersChangesApplied = true;
+                              });
                             }
                           : null,
                     ),
@@ -217,6 +230,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
         ..add(alarmStatus.first);
       alarmSeveritySelected.clear();
       filtersChanged = false;
+      filtersChangesApplied = false;
     });
 
     getIt<AlarmTypesBloc>().add(
@@ -237,7 +251,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
       curve: Curves.easeInOut,
     );
 
-    if (filtersChanged) {
+    if (filtersChanged && !filtersChangesApplied) {
       _resetFilters();
     }
   }
