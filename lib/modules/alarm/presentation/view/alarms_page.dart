@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -46,7 +47,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
               return Scaffold(
                 appBar: TbAppBar(
                   tbContext,
-                  title: const Text('Alarms'),
+                  title: Text(S.of(context).alarms),
                   actions: [
                     Stack(
                       children: [
