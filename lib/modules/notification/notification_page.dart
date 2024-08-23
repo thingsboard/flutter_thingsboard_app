@@ -29,44 +29,44 @@ class _NotificationPageState extends TbPageState<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async => _refresh(),
-      child: Scaffold(
-        appBar: TbAppBar(
-          tbContext,
-          leading: IconButton(
-            onPressed: () {
-              final navigator = Navigator.of(tbContext.currentState!.context);
-              if (navigator.canPop()) {
-                tbContext.pop();
-              } else {
-                tbContext.navigateTo(
-                  '/home',
-                  replace: true,
-                  transition: TransitionType.fadeIn,
-                  transitionDuration: const Duration(milliseconds: 750),
-                );
+    return Scaffold(
+      appBar: TbAppBar(
+        tbContext,
+        leading: IconButton(
+          onPressed: () {
+            final navigator = Navigator.of(tbContext.currentState!.context);
+            if (navigator.canPop()) {
+              tbContext.pop();
+            } else {
+              tbContext.navigateTo(
+                '/home',
+                replace: true,
+                transition: TransitionType.fadeIn,
+                transitionDuration: const Duration(milliseconds: 750),
+              );
+            }
+          },
+          icon: Icon(
+            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+          ),
+        ),
+        title: const Text('Notifications'),
+        actions: [
+          TextButton(
+            child: const Text('Mark all as read'),
+            onPressed: () async {
+              await notificationRepository.markAllAsRead();
+
+              if (mounted) {
+                notificationQueryCtrl.refresh();
               }
             },
-            icon: Icon(
-              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-            ),
           ),
-          title: const Text('Notifications'),
-          actions: [
-            TextButton(
-              child: const Text('Mark all as read'),
-              onPressed: () async {
-                await notificationRepository.markAllAsRead();
-
-                if (mounted) {
-                  notificationQueryCtrl.refresh();
-                }
-              },
-            ),
-          ],
-        ),
-        body: StreamBuilder(
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async => _refresh(),
+        child: StreamBuilder(
           stream: NotificationsLocalService.notificationsNumberStream.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
