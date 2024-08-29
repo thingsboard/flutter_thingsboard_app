@@ -4,6 +4,7 @@ import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assigne
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/fetch_assignee_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_event.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_state.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 
@@ -12,6 +13,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
     required this.paginationRepository,
     required this.fetchAssigneeUseCase,
     required this.queryCtrl,
+    required this.filtersService,
   }) : super(const AssigneeEmptyState()) {
     on(_onEvent);
   }
@@ -19,8 +21,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
   final PaginationRepository<PageLink, AssigneeEntity> paginationRepository;
   final FetchAssigneeUseCase fetchAssigneeUseCase;
   final AssigneeQueryCtrl queryCtrl;
-
-  String? selectedUserId;
+  final IAlarmFiltersService filtersService;
 
   Future<void> _onEvent(
     AssigneeEvent event,
@@ -28,7 +29,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
   ) async {
     switch (event) {
       case AssigneeSelectedEvent():
-        selectedUserId = event.userId;
+        filtersService.setSelectedFilter(Filters.assignee, data: event.userId);
         queryCtrl.onSearchText(null);
 
         final assignee =
@@ -50,7 +51,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         break;
 
       case AssigneeResetEvent():
-        selectedUserId = null;
+        filtersService.setSelectedFilter(Filters.assignee, data: null);
         emit(const AssigneeEmptyState());
         queryCtrl.onSearchText(null);
 
@@ -62,6 +63,15 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
 
       case AssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);
+
+        break;
+      case AssigneeResetUnCommittedChanges():
+        final assignee = filtersService.getSelectedFilter(Filters.assignee);
+        if (assignee != null) {
+          add(AssigneeSelectedEvent(userId: assignee));
+        } else {
+          emit(const AssigneeEmptyState());
+        }
 
         break;
     }

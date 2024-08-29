@@ -32,3 +32,7 @@ final class AlarmTypesResetEvent extends AlarmTypesEvent {
 final class AlarmTypesRefreshEvent extends AlarmTypesEvent {
   const AlarmTypesRefreshEvent();
 }
+
+final class AlarmTypesResetUnCommittedChanges extends AlarmTypesEvent {
+  const AlarmTypesResetUnCommittedChanges();
+}

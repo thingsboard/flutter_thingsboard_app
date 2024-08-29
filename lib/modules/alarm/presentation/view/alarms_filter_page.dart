@@ -6,18 +6,17 @@ import 'package:preload_page_view/preload_page_view.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_event.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_event.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/bloc.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_control_filters_button.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_types/alarm_types_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/alarm_assignee_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/filter_toggle_block_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AlarmsFilterPage extends TbContextWidget {
@@ -36,34 +35,11 @@ class AlarmsFilterPage extends TbContextWidget {
 }
 
 class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
-  final alarmStatus = const <FilterDataEntity>[
-    FilterDataEntity(label: 'Active', data: AlarmSearchStatus.ACTIVE),
-    FilterDataEntity(label: 'Cleared', data: AlarmSearchStatus.CLEARED),
-    FilterDataEntity(label: 'Acknowledged', data: AlarmSearchStatus.ACK),
-    FilterDataEntity(label: 'Unacknowledged', data: AlarmSearchStatus.UNACK),
-  ];
-
-  final alarmSeverity = const [
-    FilterDataEntity(label: 'Critical', data: AlarmSeverity.CRITICAL),
-    FilterDataEntity(label: 'Major', data: AlarmSeverity.MAJOR),
-    FilterDataEntity(label: 'Minor', data: AlarmSeverity.MINOR),
-    FilterDataEntity(label: 'Warning', data: AlarmSeverity.WARNING),
-    FilterDataEntity(label: 'Indeterminate', data: AlarmSeverity.INDETERMINATE),
-  ];
-
-  final alarmStatusSelected = <FilterDataEntity>[];
-  final alarmSeveritySelected = <FilterDataEntity>[];
+  late final IAlarmFiltersService filtersService;
 
   /// This flag indicates that the user has made changes to the filters.
   /// For example, selecting a status, assignee, or any other filter option.
   bool filtersChanged = false;
-
-  /// This flag is used to indicate that the user has changed and applied filters by clicking the Update button.
-  /// It helps determine whether to reset filter changes when the user clicks the back or cancel button.
-  /// Logic:
-  /// -- If the filters were changed but not applied, clicking the back or cancel button will discard the changes.
-  /// -- If the filters were changed and applied, the filters will be preserved as they are.
-  bool filtersChangesApplied = false;
 
   late final StreamSubscription listenNavigationChanges;
 
@@ -100,38 +76,49 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FilterToggleBlockWidget<FilterDataEntity>(
-                          key: ValueKey(alarmStatusSelected.length),
+                          key: ValueKey(
+                            filtersService.getSelectedFilter(Filters.status),
+                          ),
                           label: 'Alarm status list',
-                          items: alarmStatus,
-                          selected: alarmStatusSelected.toSet(),
+                          items: filtersService.statuses,
+                          selected:
+                              filtersService.getSelectedFilter(Filters.status),
                           onSelectedChanged: (values) {
-                            alarmStatusSelected
-                              ..clear()
-                              ..addAll(values.cast<FilterDataEntity>());
+                            filtersService.setSelectedFilter(
+                              Filters.status,
+                              data: values.cast<FilterDataEntity>(),
+                            );
 
                             setState(() {
                               filtersChanged = true;
                             });
                           },
-                          labelAtIndex: (index) => alarmStatus[index].label,
+                          labelAtIndex: (index) =>
+                              filtersService.statuses[index].label,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: FilterToggleBlockWidget<FilterDataEntity>(
-                            key: ValueKey(alarmSeveritySelected.length),
+                            key: ValueKey(
+                              filtersService
+                                  .getSelectedFilter(Filters.severity),
+                            ),
                             label: 'Alarm severity list',
-                            items: alarmSeverity,
-                            selected: alarmSeveritySelected.toSet(),
+                            items: filtersService.severities,
+                            selected: filtersService
+                                .getSelectedFilter(Filters.severity),
                             onSelectedChanged: (values) {
-                              alarmSeveritySelected
-                                ..clear()
-                                ..addAll(values.cast<FilterDataEntity>());
+                              filtersService.setSelectedFilter(
+                                Filters.severity,
+                                data: values.cast<FilterDataEntity>(),
+                              );
 
                               setState(() {
                                 filtersChanged = true;
                               });
                             },
-                            labelAtIndex: (index) => alarmSeverity[index].label,
+                            labelAtIndex: (index) =>
+                                filtersService.severities[index].label,
                           ),
                         ),
                         AlarmTypesWidget(
@@ -162,24 +149,12 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                       },
                       onUpdateTap: filtersChanged
                           ? () {
-                              final filters = AlarmFiltersEntity.fromUiFilters(
-                                typeList: getIt<AlarmTypesBloc>()
-                                    .selectedTypes
-                                    .toList(),
-                                status: alarmStatusSelected
-                                    .map((e) => e.data)
-                                    .toList()
-                                    .cast<AlarmSearchStatus>(),
-                                severity: alarmSeveritySelected
-                                    .map((e) => e.data)
-                                    .toList()
-                                    .cast<AlarmSeverity>(),
-                                userId: getIt<AssigneeBloc>().selectedUserId,
-                              );
+                              filtersService.commitChanges();
 
                               getIt<AlarmBloc>().add(
                                 AlarmFiltersUpdateEvent(
-                                  filtersEntity: filters,
+                                  filtersEntity:
+                                      filtersService.getCommittedFilters(),
                                 ),
                               );
 
@@ -188,10 +163,6 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                                 duration: const Duration(milliseconds: 400),
                                 curve: Curves.easeInOut,
                               );
-
-                              setState(() {
-                                filtersChangesApplied = true;
-                              });
                             }
                           : null,
                     ),
@@ -207,7 +178,8 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
 
   @override
   void initState() {
-    alarmStatusSelected.add(alarmStatus.first);
+    filtersService = getIt<IAlarmFiltersService>();
+
     listenNavigationChanges = widget
         .tbContext.bottomNavigationTabChangedStream.stream
         .listen((tabIndex) {
@@ -220,18 +192,13 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
   @override
   void dispose() {
     listenNavigationChanges.cancel();
-
     super.dispose();
   }
 
   void _resetFilters() {
     setState(() {
-      alarmStatusSelected
-        ..clear()
-        ..add(alarmStatus.first);
-      alarmSeveritySelected.clear();
+      filtersService.reset();
       filtersChanged = false;
-      filtersChangesApplied = false;
     });
 
     getIt<AlarmTypesBloc>().add(
@@ -246,14 +213,22 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
   }
 
   void _onBackButtonClick() {
-    widget.pageController.animateToPage(
+    widget.pageController
+        .animateToPage(
       0,
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
-    );
+    )
+        .then((_) {
+      if (mounted && filtersChanged) {
+        setState(() {
+          filtersService.resetUnCommittedChanges();
 
-    if (filtersChanged && !filtersChangesApplied) {
-      _resetFilters();
-    }
+          getIt<AlarmTypesBloc>()
+              .add(const AlarmTypesResetUnCommittedChanges());
+          getIt<AssigneeBloc>().add(const AssigneeResetUnCommittedChanges());
+        });
+      }
+    });
   }
 }

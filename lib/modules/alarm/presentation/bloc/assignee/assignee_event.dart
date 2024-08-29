@@ -40,3 +40,7 @@ final class AssigneeResetEvent extends AssigneeEvent {
 final class AssigneeRefreshEvent extends AssigneeEvent {
   const AssigneeRefreshEvent();
 }
+
+final class AssigneeResetUnCommittedChanges extends AssigneeEvent {
+  const AssigneeResetUnCommittedChanges();
+}

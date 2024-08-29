@@ -50,6 +50,7 @@ class AlarmTypesDi {
           () => AlarmTypesBloc(
             paginationRepository: locator(),
             fetchAlarmTypesUseCase: locator(),
+            filtersService: locator(),
           ),
         );
       },
