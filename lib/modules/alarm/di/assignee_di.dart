@@ -53,6 +53,7 @@ class AssigneeDi {
             paginationRepository: locator(),
             fetchAssigneeUseCase: locator(),
             queryCtrl: locator(),
+            filtersService: locator(),
           ),
         );
       },
