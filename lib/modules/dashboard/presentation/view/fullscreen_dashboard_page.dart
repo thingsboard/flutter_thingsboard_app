@@ -47,13 +47,7 @@ class _FullscreenDashboardPageState
           builder: (context, canGoBack, widget) {
             return TbAppBar(
               tbContext,
-              leading: canGoBack
-                  ? BackButton(
-                      onPressed: () {
-                        maybePop();
-                      },
-                    )
-                  : null,
+              leading: canGoBack ? BackButton(onPressed: maybePop) : null,
               showLoadingIndicator: false,
               elevation: 1,
               shadowColor: Colors.transparent,
