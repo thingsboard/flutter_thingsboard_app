@@ -11,11 +11,11 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class MainDashboardPage extends TbContextWidget {
   MainDashboardPage(
     TbContext tbContext, {
-    this.controller,
+    required this.controller,
     super.key,
   }) : super(tbContext);
 
-  final DashboardPageController? controller;
+  final DashboardPageController controller;
 
   @override
   State<StatefulWidget> createState() => _MainDashboardPageState();
@@ -80,7 +80,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
             pageController: widget.controller,
             controllerCallback: (controller) {
               _dashboardController = controller;
-              widget.controller?.setDashboardController(controller);
+              widget.controller.setDashboardController(controller);
 
               controller.hasRightLayout.addListener(() {
                 hasRightLayout.value = controller.hasRightLayout.value;
@@ -112,7 +112,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
       parent: rightLayoutMenuController,
     );
 
-    widget.controller?.setDashboardTitleNotifier(dashboardTitleValue);
+    widget.controller.setDashboardTitleNotifier(dashboardTitleValue);
   }
 
   @override

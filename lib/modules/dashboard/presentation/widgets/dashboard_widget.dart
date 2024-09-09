@@ -74,7 +74,8 @@ class _DashboardState extends State<DashboardWidget> {
           widget.pageController?.closeDashboard().then(
                 (_) => dashboardLoading.value = true,
               );
-          return true;
+
+          return false;
         }
 
         return true;
