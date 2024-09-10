@@ -74,11 +74,9 @@ class _DashboardState extends State<DashboardWidget> {
           widget.pageController?.closeDashboard().then(
                 (_) => dashboardLoading.value = true,
               );
-
-          return false;
         }
 
-        return true;
+        return false;
       },
       child: Stack(
         children: [
