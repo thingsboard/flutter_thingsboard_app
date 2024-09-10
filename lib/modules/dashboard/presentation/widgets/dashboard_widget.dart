@@ -71,9 +71,13 @@ class _DashboardState extends State<DashboardWidget> {
         if (await controller?.canGoBack() == true) {
           await controller?.goBack();
         } else {
-          widget.pageController?.closeDashboard().then(
-                (_) => dashboardLoading.value = true,
-              );
+          if (widget.pageController != null) {
+            widget.pageController?.closeDashboard().then(
+                  (_) => dashboardLoading.value = true,
+                );
+          } else {
+            return true;
+          }
         }
 
         return false;
