@@ -24,12 +24,6 @@ class LoginPage extends TbPageWidget {
 }
 
 class _LoginPageState extends TbPageState<LoginPage> {
-  final ButtonStyle _oauth2ButtonWithTextStyle = OutlinedButton.styleFrom(
-    padding: const EdgeInsets.all(16),
-    alignment: Alignment.centerLeft,
-    foregroundColor: Colors.black87,
-  );
-
   final ButtonStyle _oauth2IconButtonStyle = OutlinedButton.styleFrom(
     padding: const EdgeInsets.all(16),
     alignment: Alignment.center,
@@ -342,7 +336,6 @@ class _LoginPageState extends TbPageState<LoginPage> {
                     index,
                     _buildOAuth2Button(
                       client,
-                      clients.length == 2 ? client.name : null,
                       true,
                       index == clients.length - 1,
                     ),
@@ -388,7 +381,6 @@ class _LoginPageState extends TbPageState<LoginPage> {
 
   Widget _buildOAuth2Button(
     OAuth2ClientInfo client,
-    String? text,
     bool expand,
     bool isLast,
   ) {
@@ -412,32 +404,12 @@ class _LoginPageState extends TbPageState<LoginPage> {
       }
     }
     icon ??= Icon(Icons.login, size: 24, color: Theme.of(context).primaryColor);
-    Widget button;
-    bool iconOnly = text == null;
-    if (iconOnly) {
-      button = OutlinedButton(
-        style: _oauth2IconButtonStyle,
-        onPressed: () => _oauth2ButtonPressed(client),
-        child: icon,
-      );
-    } else {
-      button = OutlinedButton(
-        style: _oauth2ButtonWithTextStyle,
-        onPressed: () => _oauth2ButtonPressed(client),
-        child: Stack(
-          children: [
-            Align(alignment: Alignment.centerLeft, child: icon),
-            SizedBox(
-              height: 24,
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(text, textAlign: TextAlign.center),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    final button = OutlinedButton(
+      style: _oauth2IconButtonStyle,
+      onPressed: () => _oauth2ButtonPressed(client),
+      child: icon,
+    );
+
     if (expand) {
       return Expanded(
         child: Padding(
