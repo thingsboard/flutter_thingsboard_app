@@ -20,7 +20,7 @@ abstract class DashboardsDi {
           () => FetchDashboardsUseCase(tbClient),
         );
 
-        locator.registerLazySingleton(
+        locator.registerFactory(
           () => DashboardsPaginationRepository(
             queryController: locator(),
             onFetchData: locator<FetchDashboardsUseCase>(),
