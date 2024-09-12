@@ -53,6 +53,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
 
   @override
   Future<void> updateNotificationsCount(int count) async {
+    FlutterAppBadger.updateBadgeCount(count);
     storage.setItem(notificationCounterKey, count.toString());
     notificationsNumberStream.add(count);
   }
