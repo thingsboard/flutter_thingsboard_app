@@ -58,7 +58,6 @@ class ThingsboardApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
         statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
