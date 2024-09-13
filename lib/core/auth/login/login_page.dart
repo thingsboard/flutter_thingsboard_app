@@ -23,7 +23,8 @@ class LoginPage extends TbPageWidget {
   State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends TbPageState<LoginPage> {
+class _LoginPageState extends TbPageState<LoginPage>
+    with WidgetsBindingObserver {
   final ButtonStyle _oauth2IconButtonStyle = OutlinedButton.styleFrom(
     padding: const EdgeInsets.all(16),
     alignment: Alignment.center,
@@ -37,10 +38,24 @@ class _LoginPageState extends TbPageState<LoginPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     if (tbClient.isPreVerificationToken()) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         navigateTo('/login/mfa');
       });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _isLoginNotifier.value = false;
     }
   }
 
