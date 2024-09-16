@@ -1,42 +1,54 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboards_page.dart';
-import 'package:thingsboard_app/modules/dashboard/fullscreen_dashboard_page.dart';
-
-import 'dashboard_page.dart';
+import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboards_page.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/view/fullscreen_dashboard_page.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/view/single_dashboard_view.dart';
 
 class DashboardRoutes extends TbRoutes {
-  late var dashboardsHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return DashboardsPage(tbContext);
-  });
+  late final dashboardsHandler = Handler(
+    handlerFunc: (context, params) {
+      return DashboardsPage(tbContext);
+    },
+  );
 
-  late var dashboardDetailsHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-    var fullscreen = params['fullscreen']?.first == 'true';
-    var dashboardTitle = params['title']?.first;
-    var state = params['state']?.first;
-    return DashboardPage(tbContext,
-        dashboardId: params["id"]![0],
-        fullscreen: fullscreen,
-        dashboardTitle: dashboardTitle,
-        state: state);
-  });
+  late final dashboardHandler = Handler(
+    handlerFunc: (context, params) {
+      final args = context?.settings?.arguments as DashboardArgumentsEntity;
 
-  late var fullscreenDashboardHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return FullscreenDashboardPage(tbContext, params["id"]![0]);
-  });
+      return SingleDashboardView(
+        tbContext,
+        id: args.id,
+        title: args.title,
+        state: args.state,
+        hideToolbar: args.hideToolbar,
+      );
+    },
+  );
+
+  late final fullscreenDashboardHandler = Handler(
+    handlerFunc: (context, params) {
+      return FullscreenDashboardPage(tbContext, params['id']![0]);
+    },
+  );
 
   DashboardRoutes(TbContext tbContext) : super(tbContext);
 
   @override
   void doRegisterRoutes(router) {
-    router.define("/dashboards", handler: dashboardsHandler);
-    router.define("/dashboard/:id", handler: dashboardDetailsHandler);
-    router.define("/fullscreenDashboard/:id",
-        handler: fullscreenDashboardHandler);
+    router
+      ..define(
+        '/dashboards',
+        handler: dashboardsHandler,
+      )
+      ..define(
+        '/dashboard',
+        handler: dashboardHandler,
+      )
+      ..define(
+        '/fullscreenDashboard/:id',
+        handler: fullscreenDashboardHandler,
+      );
   }
 }

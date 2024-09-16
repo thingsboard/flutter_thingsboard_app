@@ -6,10 +6,10 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'tenants_list.dart';
 
 class TenantsWidget extends TbContextWidget {
-  TenantsWidget(TbContext tbContext) : super(tbContext);
+  TenantsWidget(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
-  _TenantsWidgetState createState() => _TenantsWidgetState();
+  State<StatefulWidget> createState() => _TenantsWidgetState();
 }
 
 class _TenantsWidgetState extends TbContextState<TenantsWidget> {

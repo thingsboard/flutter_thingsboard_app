@@ -8,50 +8,52 @@ class EntityListCard<T> extends StatelessWidget {
   final EntityTapFunction<T>? _onEntityTap;
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
 
-  EntityListCard(T entity,
-      {Key? key,
-      EntityTapFunction<T>? onEntityTap,
-      required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
-      bool listWidgetCard = false})
-      : this._entity = entity,
-        this._onEntityTap = onEntityTap,
-        this._entityCardWidgetBuilder = entityCardWidgetBuilder,
-        this._listWidgetCard = listWidgetCard,
-        super(key: key);
+  const EntityListCard(
+    T entity, {
+    EntityTapFunction<T>? onEntityTap,
+    required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
+    bool listWidgetCard = false,
+    super.key,
+  })  : _entity = entity,
+        _onEntityTap = onEntityTap,
+        _entityCardWidgetBuilder = entityCardWidgetBuilder,
+        _listWidgetCard = listWidgetCard;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          margin: _listWidgetCard ? EdgeInsets.only(right: 8) : EdgeInsets.zero,
-          child: Card(
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              elevation: 0,
-              child: _entityCardWidgetBuilder(context, _entity)),
-          decoration: _listWidgetCard
-              ? BoxDecoration(
-                  border: Border.all(
-                      color: Color(0xFFDEDEDE),
-                      style: BorderStyle.solid,
-                      width: 1),
-                  borderRadius: BorderRadius.circular(4))
-              : BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withAlpha((255 * 0.05).ceil()),
-                        blurRadius: 6.0,
-                        offset: Offset(0, 4)),
-                  ],
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        margin:
+            _listWidgetCard ? const EdgeInsets.only(right: 8) : EdgeInsets.zero,
+        decoration: _listWidgetCard
+            ? BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFFDEDEDE),
+                  style: BorderStyle.solid,
+                  width: 1,
                 ),
+                borderRadius: BorderRadius.circular(4),
+              )
+            : BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha((255 * 0.05).ceil()),
+                    blurRadius: 6.0,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+        child: Card(
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          elevation: 0,
+          child: _entityCardWidgetBuilder(context, _entity),
         ),
-        onTap: () {
-          if (_onEntityTap != null) {
-            _onEntityTap(_entity);
-          }
-        });
+      ),
+      onTap: () => _onEntityTap?.call(_entity),
+    );
   }
 }

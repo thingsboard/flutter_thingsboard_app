@@ -25,6 +25,8 @@
         </intent>
     </queries>
     <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:requestLegacyExternalStorage="true"
         android:label="ThingsBoard App"
         android:networkSecurityConfig="@xml/network_security_config"

@@ -8,7 +8,7 @@ class ThingsboardInitApp extends TbPageWidget {
       : super(tbContext, key: key);
 
   @override
-  _ThingsboardInitAppState createState() => _ThingsboardInitAppState();
+  State<StatefulWidget> createState() => _ThingsboardInitAppState();
 }
 
 class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
@@ -23,7 +23,7 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitApp> {
     return Container(
       alignment: Alignment.center,
       color: Colors.white,
-      child: TbProgressIndicator(size: 50.0),
+      child: const TbProgressIndicator(size: 50.0),
     );
   }
 }

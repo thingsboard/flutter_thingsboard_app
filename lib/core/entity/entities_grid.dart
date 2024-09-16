@@ -7,7 +7,7 @@ import 'entity_grid_card.dart';
 
 mixin EntitiesGridStateBase on StatefulWidget {
   @override
-  _EntitiesGridState createState() => _EntitiesGridState();
+  State<StatefulWidget> createState() => _EntitiesGridState();
 }
 
 class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
@@ -30,7 +30,7 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
 
     slivers.add(
       SliverPadding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         sliver: PagedSliverGrid(
           showNewPageProgressIndicatorAsGridChild: false,
           showNewPageErrorIndicatorAsGridChild: false,

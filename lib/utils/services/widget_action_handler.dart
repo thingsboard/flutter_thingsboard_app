@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -64,6 +65,7 @@ class MobileActionResult {
 
 class _LaunchResult extends MobileActionResult {
   bool launched;
+
   _LaunchResult(this.launched);
 
   @override
@@ -76,6 +78,7 @@ class _LaunchResult extends MobileActionResult {
 
 class _ImageResult extends MobileActionResult {
   String imageUrl;
+
   _ImageResult(this.imageUrl);
 
   @override
@@ -89,6 +92,7 @@ class _ImageResult extends MobileActionResult {
 class _QrCodeResult extends MobileActionResult {
   String code;
   String format;
+
   _QrCodeResult(this.code, this.format);
 
   @override
@@ -103,6 +107,7 @@ class _QrCodeResult extends MobileActionResult {
 class _LocationResult extends MobileActionResult {
   num latitude;
   num longitude;
+
   _LocationResult(this.latitude, this.longitude);
 
   @override
@@ -128,8 +133,9 @@ enum WidgetMobileActionType {
 
 WidgetMobileActionType widgetMobileActionTypeFromString(String value) {
   return WidgetMobileActionType.values.firstWhere(
-      (e) => e.toString().split('.')[1].toUpperCase() == value.toUpperCase(),
-      orElse: () => WidgetMobileActionType.unknown);
+    (e) => e.toString().split('.')[1].toUpperCase() == value.toUpperCase(),
+    orElse: () => WidgetMobileActionType.unknown,
+  );
 }
 
 class WidgetActionHandler with HasTbContext {
@@ -138,13 +144,17 @@ class WidgetActionHandler with HasTbContext {
   }
 
   Future<Map<String, dynamic>> handleWidgetMobileAction(
-      List<dynamic> args, InAppWebViewController controller) async {
+    List<dynamic> args,
+    InAppWebViewController controller,
+  ) async {
     var result = await _handleWidgetMobileAction(args, controller);
     return result.toJson();
   }
 
   Future<WidgetMobileActionResult> _handleWidgetMobileAction(
-      List<dynamic> args, InAppWebViewController controller) async {
+    List<dynamic> args,
+    InAppWebViewController controller,
+  ) async {
     if (args.isNotEmpty && args[0] is String) {
       var actionType = widgetMobileActionTypeFromString(args[0]);
       switch (actionType) {
@@ -166,11 +176,13 @@ class WidgetActionHandler with HasTbContext {
           return await _takeScreenshot(controller);
         case WidgetMobileActionType.unknown:
           return WidgetMobileActionResult.errorResult(
-              'Unknown actionType: ${args[0]}');
+            'Unknown actionType: ${args[0]}',
+          );
       }
     } else {
       return WidgetMobileActionResult.errorResult(
-          'actionType is not provided.');
+        'actionType is not provided.',
+      );
     }
   }
 
@@ -186,10 +198,12 @@ class WidgetActionHandler with HasTbContext {
           String imageUrl =
               UriData.fromBytes(imageBytes, mimeType: mimeType).toString();
           return WidgetMobileActionResult.successResult(
-              MobileActionResult.image(imageUrl));
+            MobileActionResult.image(imageUrl),
+          );
         } else {
           return WidgetMobileActionResult.errorResult(
-              'Unknown picture mime type');
+            'Unknown picture mime type',
+          );
         }
       } else {
         return WidgetMobileActionResult.emptyResult();
@@ -200,7 +214,9 @@ class WidgetActionHandler with HasTbContext {
   }
 
   Future<WidgetMobileActionResult> _launchMap(
-      List<dynamic> args, bool directionElseLocation) async {
+    List<dynamic> args,
+    bool directionElseLocation,
+  ) async {
     try {
       num? lat;
       num? lon;
@@ -209,7 +225,8 @@ class WidgetActionHandler with HasTbContext {
         lon = args[2];
       } else {
         return WidgetMobileActionResult.errorResult(
-            'Missing target latitude or longitude arguments!');
+          'Missing target latitude or longitude arguments!',
+        );
       }
       var url = 'https://www.google.com/maps/';
       url += directionElseLocation
@@ -223,11 +240,17 @@ class WidgetActionHandler with HasTbContext {
 
   Future<WidgetMobileActionResult> _scanQrCode() async {
     try {
-      Barcode? barcode = await tbContext.navigateTo('/qrCodeScan',
-          transition: TransitionType.nativeModal);
+      Barcode? barcode = await tbContext.navigateTo(
+        '/qrCodeScan',
+        transition: TransitionType.nativeModal,
+      );
       if (barcode != null && barcode.code != null) {
-        return WidgetMobileActionResult.successResult(MobileActionResult.qrCode(
-            barcode.code!, barcode.format.toString()));
+        return WidgetMobileActionResult.successResult(
+          MobileActionResult.qrCode(
+            barcode.code!,
+            barcode.format.toString(),
+          ),
+        );
       } else {
         return WidgetMobileActionResult.emptyResult();
       }
@@ -238,15 +261,17 @@ class WidgetActionHandler with HasTbContext {
 
   Future<WidgetMobileActionResult> _makePhoneCall(List<dynamic> args) async {
     try {
-      var phoneNumber;
+      dynamic phoneNumber;
       if (args.length > 1 && args[1] != null) {
         phoneNumber = args[1];
       } else {
         return WidgetMobileActionResult.errorResult(
-            'Missing or invalid phone number!');
+          'Missing or invalid phone number!',
+        );
       }
       return WidgetMobileActionResult.successResult(
-          await _tryLaunch('tel://$phoneNumber'));
+        await _tryLaunch('tel://$phoneNumber'),
+      );
     } catch (e) {
       return _handleError(e);
     }
@@ -259,38 +284,45 @@ class WidgetActionHandler with HasTbContext {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         return WidgetMobileActionResult.errorResult(
-            'Location services are disabled.');
+          'Location services are disabled.',
+        );
       }
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           return WidgetMobileActionResult.errorResult(
-              'Location permissions are denied.');
+            'Location permissions are denied.',
+          );
         }
       }
       if (permission == LocationPermission.deniedForever) {
         return WidgetMobileActionResult.errorResult(
-            'Location permissions are permanently denied, we cannot request permissions.');
+          'Location permissions are permanently denied, we cannot request permissions.',
+        );
       }
       var position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.high,
+      );
       return WidgetMobileActionResult.successResult(
-          MobileActionResult.location(position.latitude, position.longitude));
+        MobileActionResult.location(position.latitude, position.longitude),
+      );
     } catch (e) {
       return _handleError(e);
     }
   }
 
   Future<WidgetMobileActionResult> _takeScreenshot(
-      InAppWebViewController controller) async {
+    InAppWebViewController controller,
+  ) async {
     try {
       List<int>? imageBytes = await controller.takeScreenshot();
       if (imageBytes != null) {
         String imageUrl =
             UriData.fromBytes(imageBytes, mimeType: 'image/png').toString();
         return WidgetMobileActionResult.successResult(
-            MobileActionResult.image(imageUrl));
+          MobileActionResult.image(imageUrl),
+        );
       } else {
         return WidgetMobileActionResult.emptyResult();
       }

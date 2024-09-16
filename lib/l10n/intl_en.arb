@@ -26,9 +26,9 @@
   "requestPasswordReset": "Request password reset",
   "passwordResetLinkSuccessfullySentNotification": "Password reset link was successfully sent!",
 
-  "OR": "OR",
-  "No": "No",
-  "Yes": "Yes",
+  "or": "Or",
+  "no": "No",
+  "yes": "Yes",
 
   "title": "Title",
   "country": "Country",
@@ -108,5 +108,44 @@
   "mfaProviderTopt": "Authenticator app",
   "mfaProviderSms": "SMS",
   "mfaProviderEmail": "Email",
-  "mfaProviderBackupCode": "Backup code"
+  "mfaProviderBackupCode": "Backup code",
+
+  "newUserText": "New User?",
+  "createAccount": "Create Account",
+
+  "emailVerification": "Email verification",
+  "emailVerificationSentText": "An email with verification details was sent to the specified email address ",
+  "emailVerificationInstructionsText": "Please follow instructions provided in the email in order to complete your sign up procedure. Note: if you haven't seen the email for a while, please check your 'spam' folder or try to resend email by clicking 'Resend' button.",
+  "resend": "Resend",
+
+  "activatingAccount": "Activating account...",
+  "accountActivated": "Account successfully activated!",
+  "emailVerified": "Email verified",
+  "activatingAccountText": "Your account is currently activating.\nPlease wait...",
+  "accountActivatedText": "Congratulations!\nYour {appTitle} account has been activated.\nNow you can login to your {appTitle} space.",
+
+  "privacyPolicy": "Privacy Policy",
+  "cancel": "Cancel",
+  "accept": "Accept",
+
+  "termsOfUse": "Terms of Use",
+
+  "firstNameStar": "First name *",
+  "firstNameRequireText": "First name is required.",
+  "lastNameStar": "Last name *",
+  "lastNameRequireText": "Last name is required.",
+  "createPasswordStar": "Create a password *",
+  "repeatPasswordStar": "Repeat your password *",
+  "imNotARobot": "I'm not a robot",
+  "signUp": "Sign up",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "signIn": "Sign In",
+  "invalidPasswordLengthMessage": "Your password must be at least 6 characters long",
+  "confirmNotRobotMessage": "You must confirm that you are not a robot",
+  "acceptPrivacyPolicyMessage": "You must accept our Privacy Policy",
+  "acceptTermsOfUseMessage": "You must accept our Terms of Use",
+  "inactiveUserAlreadyExists": "Inactive user already exists",
+  "inactiveUserAlreadyExistsMessage": "There is already registered user with unverified email address.\nClick 'Resend' button if you wish to resend verification email.",
+  "assignee": "Assignee",
+  "alarmTypes": "Alarm types"
 }

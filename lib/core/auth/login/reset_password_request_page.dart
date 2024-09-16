@@ -4,16 +4,15 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ResetPasswordRequestPage extends TbPageWidget {
-  ResetPasswordRequestPage(TbContext tbContext) : super(tbContext);
+  ResetPasswordRequestPage(TbContext tbContext, {super.key}) : super(tbContext);
 
   @override
-  _ResetPasswordRequestPageState createState() =>
-      _ResetPasswordRequestPageState();
+  State<StatefulWidget> createState() => _ResetPasswordRequestPageState();
 }
 
 class _ResetPasswordRequestPageState
@@ -25,77 +24,98 @@ class _ResetPasswordRequestPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      LoginPageBackground(),
-      SizedBox.expand(
-          child: Scaffold(
+      body: Stack(
+        children: [
+          const LoginPageBackground(),
+          SizedBox.expand(
+            child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: TbAppBar(
                 tbContext,
-                title: Text('${S.of(context).passwordReset}'),
+                title: Text(S.of(context).passwordReset),
               ),
-              body: Stack(children: [
-                SizedBox.expand(
+              body: Stack(
+                children: [
+                  SizedBox.expand(
                     child: Padding(
-                        padding: EdgeInsets.all(24),
-                        child: FormBuilder(
-                            key: _resetPasswordFormKey,
-                            autovalidateMode: AutovalidateMode.disabled,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  SizedBox(height: 16),
-                                  Text(
-                                    '${S.of(context).passwordResetText}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color(0xFFAFAFAF),
-                                        fontSize: 14,
-                                        height: 24 / 14),
+                      padding: const EdgeInsets.all(24),
+                      child: FormBuilder(
+                        key: _resetPasswordFormKey,
+                        autovalidateMode: AutovalidateMode.disabled,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 16),
+                            Text(
+                              S.of(context).passwordResetText,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 14,
+                                height: 24 / 14,
+                              ),
+                            ),
+                            const SizedBox(height: 61),
+                            FormBuilderTextField(
+                              name: 'email',
+                              autofocus: true,
+                              validator: FormBuilderValidators.compose(
+                                [
+                                  FormBuilderValidators.required(
+                                    errorText: S.of(context).emailRequireText,
                                   ),
-                                  SizedBox(height: 61),
-                                  FormBuilderTextField(
-                                    name: 'email',
-                                    autofocus: true,
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(
-                                          errorText:
-                                              '${S.of(context).emailRequireText}'),
-                                      FormBuilderValidators.email(
-                                          errorText:
-                                              '${S.of(context).emailInvalidText}')
-                                    ]),
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: '${S.of(context).email} *'),
+                                  FormBuilderValidators.email(
+                                    errorText: S.of(context).emailInvalidText,
                                   ),
-                                  Spacer(),
-                                  ElevatedButton(
-                                    child: Text(
-                                        '${S.of(context).requestPasswordReset}'),
-                                    style: ElevatedButton.styleFrom(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 16)),
-                                    onPressed: () {
-                                      _requestPasswordReset();
-                                    },
-                                  )
-                                ])))),
-                ValueListenableBuilder<bool>(
+                                ],
+                              ),
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: '${S.of(context).email} *',
+                              ),
+                            ),
+                            const Spacer(),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              onPressed: () {
+                                _requestPasswordReset();
+                              },
+                              child: Text(
+                                S.of(context).requestPasswordReset,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  ValueListenableBuilder<bool>(
                     valueListenable: _isLoadingNotifier,
                     builder: (BuildContext context, bool loading, child) {
                       if (loading) {
                         return SizedBox.expand(
-                            child: Container(
-                          color: Color(0x99FFFFFF),
-                          child: Center(child: TbProgressIndicator(size: 50.0)),
-                        ));
+                          child: Container(
+                            color: const Color(0x99FFFFFF),
+                            child: const Center(
+                              child: TbProgressIndicator(size: 50.0),
+                            ),
+                          ),
+                        );
                       } else {
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       }
-                    })
-              ])))
-    ]));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _requestPasswordReset() async {
@@ -105,11 +125,14 @@ class _ResetPasswordRequestPageState
       String email = formValue['email'];
       _isLoadingNotifier.value = true;
       try {
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         await tbClient.sendResetPasswordLink(email);
         _isLoadingNotifier.value = false;
-        showSuccessNotification(
-            '${S.of(context).passwordResetLinkSuccessfullySentNotification}');
+        if (mounted) {
+          showSuccessNotification(
+            S.of(context).passwordResetLinkSuccessfullySentNotification,
+          );
+        }
       } catch (e) {
         _isLoadingNotifier.value = false;
       }

@@ -5,13 +5,14 @@ class FilterSegmentedButton<T> extends StatelessWidget {
     required this.segments,
     required this.selected,
     required this.onSelectionChanged,
+    super.key,
   });
 
   final List<FilterSegments> segments;
   final T selected;
   final void Function(T) onSelectionChanged;
 
-  final selectedTextStyle = TextStyle(
+  final selectedTextStyle = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
@@ -40,7 +41,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   color: segments[index].value == selected
-                      ? Color(0xFF305680)
+                      ? const Color(0xFF305680)
                       : null,
                 ),
                 child: Center(

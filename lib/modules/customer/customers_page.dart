@@ -8,11 +8,11 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 class CustomersPage extends TbPageWidget {
   final bool searchMode;
 
-  CustomersPage(TbContext tbContext, {this.searchMode = false})
+  CustomersPage(TbContext tbContext, {this.searchMode = false, super.key})
       : super(tbContext);
 
   @override
-  _CustomersPageState createState() => _CustomersPageState();
+  State<StatefulWidget> createState() => _CustomersPageState();
 }
 
 class _CustomersPageState extends TbPageState<CustomersPage> {
@@ -20,8 +20,11 @@ class _CustomersPageState extends TbPageState<CustomersPage> {
 
   @override
   Widget build(BuildContext context) {
-    var customersList = CustomersList(tbContext, _pageLinkController,
-        searchMode: widget.searchMode);
+    var customersList = CustomersList(
+      tbContext,
+      _pageLinkController,
+      searchMode: widget.searchMode,
+    );
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
@@ -29,14 +32,18 @@ class _CustomersPageState extends TbPageState<CustomersPage> {
         onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
-      appBar = TbAppBar(tbContext, title: Text(customersList.title), actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            navigateTo('/customers?search=true');
-          },
-        )
-      ]);
+      appBar = TbAppBar(
+        tbContext,
+        title: Text(customersList.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              navigateTo('/customers?search=true');
+            },
+          ),
+        ],
+      );
     }
     return Scaffold(appBar: appBar, body: customersList);
   }

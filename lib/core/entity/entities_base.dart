@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
-const Map<EntityType, String> entityTypeTranslations = {
+const entityTypeTranslations = <EntityType, String>{
   EntityType.TENANT: 'Tenant',
   EntityType.TENANT_PROFILE: 'Tenant profile',
   EntityType.CUSTOMER: 'Customer',
@@ -27,15 +28,18 @@ const Map<EntityType, String> entityTypeTranslations = {
   EntityType.WIDGET_TYPE: 'Widget type',
   EntityType.API_USAGE_STATE: 'Api Usage State',
   EntityType.TB_RESOURCE: 'Resource',
-  EntityType.OTA_PACKAGE: 'OTA package'
+  EntityType.OTA_PACKAGE: 'OTA package',
 };
 
 typedef EntityTapFunction<T> = Function(T entity);
 typedef EntityCardWidgetBuilder<T> = Widget Function(
-    BuildContext context, T entity);
+  BuildContext context,
+  T entity,
+);
 
 class EntityCardSettings {
   bool dropShadow;
+
   EntityCardSettings({this.dropShadow = true});
 }
 
@@ -55,15 +59,15 @@ mixin EntitiesBase<T, P> on HasTbContext {
   Key? getKey(T entity) => null;
 
   Widget buildEntityListCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).notImplemented);
   }
 
   Widget buildEntityListWidgetCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).notImplemented);
   }
 
   Widget buildEntityGridCard(BuildContext context, T entity) {
-    return Text('${S.of(context).notImplemented}');
+    return Text(S.of(context).notImplemented);
   }
 
   double? gridChildAspectRatio() => null;
@@ -80,61 +84,77 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
   Widget buildEntityListCard(BuildContext context, T contact) {
     var address = Utils.contactToShortAddress(contact);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-              fit: FlexFit.tight,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.centerLeft,
-                            child: Text('${contact.getName()}',
-                                style: TextStyle(
-                                    color: Color(0xFF282828),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    height: 20 / 14))),
-                        Text(
-                            entityDateFormat.format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                    contact.createdTime!)),
-                            style: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                height: 16 / 12))
-                      ]),
-                  SizedBox(height: 4),
-                  if (contact.email != null)
-                    Text(contact.email!,
-                        style: TextStyle(
-                            color: Color(0xFFAFAFAF),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            height: 16 / 12)),
-                  if (contact.email == null) SizedBox(height: 16),
-                  if (address != null) SizedBox(height: 4),
-                  if (address != null)
-                    Text(address,
-                        style: TextStyle(
-                            color: Color(0xFFAFAFAF),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            height: 16 / 12)),
-                ],
-              )),
-          SizedBox(width: 16),
-          Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
-          SizedBox(width: 8)
+            fit: FlexFit.tight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        contact.getName(),
+                        style: const TextStyle(
+                          color: Color(0xFF282828),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 20 / 14,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      entityDateFormat.format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          contact.createdTime!,
+                        ),
+                      ),
+                      style: const TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        height: 16 / 12,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                if (contact.email != null)
+                  Text(
+                    contact.email!,
+                    style: const TextStyle(
+                      color: Color(0xFFAFAFAF),
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      height: 16 / 12,
+                    ),
+                  ),
+                if (contact.email == null) const SizedBox(height: 16),
+                if (address != null) const SizedBox(height: 4),
+                if (address != null)
+                  Text(
+                    address,
+                    style: const TextStyle(
+                      color: Color(0xFFAFAFAF),
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      height: 16 / 12,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          const Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
+          const SizedBox(width: 8),
         ],
       ),
     );
@@ -155,8 +175,17 @@ class PageKeyValue<P> {
 
 class PageLinkController extends PageKeyController<PageLink> {
   PageLinkController({int pageSize = 20, String? searchText})
-      : super(PageLink(
-            pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+      : super(
+          PageLink(
+            pageSize,
+            0,
+            searchText,
+            SortOrder(
+              'createdTime',
+              Direction.DESC,
+            ),
+          ),
+        );
 
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
@@ -170,8 +199,14 @@ class PageLinkController extends PageKeyController<PageLink> {
 
 class TimePageLinkController extends PageKeyController<TimePageLink> {
   TimePageLinkController({int pageSize = 20, String? searchText})
-      : super(TimePageLink(
-            pageSize, 0, searchText, SortOrder('createdTime', Direction.DESC)));
+      : super(
+          TimePageLink(
+            pageSize,
+            0,
+            searchText,
+            SortOrder('createdTime', Direction.DESC),
+          ),
+        );
 
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();
@@ -188,15 +223,23 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
   final bool searchMode;
   final PageKeyController<P> pageKeyController;
 
-  BaseEntitiesWidget(TbContext tbContext, this.pageKeyController,
-      {this.searchMode = false})
-      : super(tbContext);
+  BaseEntitiesWidget(
+    TbContext tbContext,
+    this.pageKeyController, {
+    super.key,
+    this.searchMode = false,
+  }) : super(tbContext);
 
   @override
   Widget? buildHeading(BuildContext context) => searchMode
-      ? Text('Search results',
+      ? const Text(
+          'Search results',
           style: TextStyle(
-              color: Color(0xFFAFAFAF), fontSize: 16, height: 24 / 16))
+            color: Color(0xFFAFAFAF),
+            fontSize: 16,
+            height: 24 / 16,
+          ),
+        )
       : null;
 }
 
@@ -243,14 +286,13 @@ abstract class BaseEntitiesState<T, P>
   }
 
   Future<void> _refresh() {
-    if (_refreshCompleter == null) {
-      _refreshCompleter = Completer();
-    }
+    _refreshCompleter ??= Completer();
     if (_dataLoading) {
       _scheduleRefresh = true;
     } else {
       _refreshPagingController();
     }
+
     return _refreshCompleter!.future;
   }
 
@@ -305,105 +347,48 @@ abstract class BaseEntitiesState<T, P>
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-        onRefresh: () => Future.wait([widget.onRefresh(), _refresh()]),
-        child: pagedViewBuilder(context));
+      onRefresh: () => Future.wait([widget.onRefresh(), _refresh()]),
+      child: pagedViewBuilder(context),
+    );
   }
 
   Widget pagedViewBuilder(BuildContext context);
 
   Widget firstPageProgressIndicatorBuilder(BuildContext context) {
-    return Stack(children: [
-      Positioned(
-        top: 20,
-        left: 0,
-        right: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [RefreshProgressIndicator()],
+    return const Stack(
+      children: [
+        Positioned(
+          top: 20,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RefreshProgressIndicator(),
+            ],
+          ),
         ),
-      )
-    ]);
+      ],
+    );
   }
 
   Widget newPageProgressIndicatorBuilder(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
+    return const Padding(
+      padding: EdgeInsets.only(
         top: 16,
         bottom: 16,
       ),
-      child: Center(child: RefreshProgressIndicator()),
+      child: Center(
+        child: RefreshProgressIndicator(),
+      ),
     );
   }
 
   Widget noItemsFoundIndicatorBuilder(BuildContext context) {
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText,
-      message: '${S.of(context).listIsEmptyText}',
+      message: S.of(context).listIsEmptyText,
       onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
-    );
-  }
-}
-
-class FirstPageExceptionIndicator extends StatelessWidget {
-  const FirstPageExceptionIndicator({
-    required this.title,
-    this.message,
-    this.onTryAgain,
-    Key? key,
-  }) : super(key: key);
-
-  final String title;
-  final String? message;
-  final VoidCallback? onTryAgain;
-
-  @override
-  Widget build(BuildContext context) {
-    final message = this.message;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-        child: Column(
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            if (message != null)
-              const SizedBox(
-                height: 16,
-              ),
-            if (message != null)
-              Text(
-                message,
-                textAlign: TextAlign.center,
-              ),
-            if (onTryAgain != null)
-              const SizedBox(
-                height: 48,
-              ),
-            if (onTryAgain != null)
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: onTryAgain,
-                  icon: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    '${S.of(context).tryAgain}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

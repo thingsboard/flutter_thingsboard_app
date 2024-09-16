@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:thingsboard_app/core/auth/noauth/data/datasource/remote/i_noauth_remote_datasource.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
   const NoAuthRemoteDatasource({
@@ -70,5 +70,15 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
   @override
   bool isAuthenticated() {
     return tbContext.isAuthenticated;
+  }
+
+  @override
+  AuthUser getAuthUserFromJwt(String jwt) {
+    return thingsboardClient.getAuthUserFromJwt(jwt);
+  }
+
+  @override
+  AuthUser? getCurrentlyAuthenticatedUserOrNull() {
+    return thingsboardClient.getAuthUser();
   }
 }

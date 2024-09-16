@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 TbStorage createAppStorage() => TbSecureStorage();
 
@@ -10,7 +10,7 @@ class TbSecureStorage implements TbStorage {
   late Box encryptedBox;
 
   Future<void> init() async {
-    const secureStorage = FlutterSecureStorage();
+    final secureStorage = FlutterSecureStorage();
     // if key not exists return null
     final encryptionKeyString = await secureStorage.read(key: 'key');
     if (encryptionKeyString == null) {

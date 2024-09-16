@@ -8,14 +8,16 @@ class EndpointService implements IEndpointService {
   EndpointService({required this.databaseService});
 
   final ILocalDatabaseService databaseService;
-  final _cachedEndpoint = ValueNotifier<String?>(null);
+  String? _cachedEndpoint;
+  final _notifierValue = ValueNotifier<String?>(UniqueKey().toString());
 
   @override
-  ValueListenable<String?> get listenEndpointChanges => _cachedEndpoint;
+  ValueListenable<String?> get listenEndpointChanges => _notifierValue;
 
   @override
   Future<void> setEndpoint(String endpoint) async {
-    _cachedEndpoint.value = endpoint;
+    _cachedEndpoint = endpoint;
+    _notifierValue.value = UniqueKey().toString();
 
     await databaseService.setItem(
       DatabaseKeys.thingsBoardApiEndpointKey,
@@ -25,24 +27,21 @@ class EndpointService implements IEndpointService {
 
   @override
   Future<String> getEndpoint() async {
-    _cachedEndpoint.value ??= await databaseService.getItem(
+    _cachedEndpoint ??= await databaseService.getItem(
       DatabaseKeys.thingsBoardApiEndpointKey,
     );
 
-    return _cachedEndpoint.value ??
-        ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 
   @override
   Future<bool> isCustomEndpoint() async {
-    _cachedEndpoint.value ??= await getEndpoint();
-    return _cachedEndpoint.value !=
-        ThingsboardAppConstants.thingsBoardApiEndpoint;
+    _cachedEndpoint ??= await getEndpoint();
+    return _cachedEndpoint != ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 
   @override
   String getCachedEndpoint() {
-    return _cachedEndpoint.value ??
-        ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
 }
