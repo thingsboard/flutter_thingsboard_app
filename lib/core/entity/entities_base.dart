@@ -19,6 +19,7 @@ const entityTypeTranslations = <EntityType, String>{
   EntityType.ASSET: 'Asset',
   EntityType.DEVICE: 'Device',
   EntityType.DEVICE_PROFILE: 'Device profile',
+  EntityType.ASSET_PROFILE: 'Asset profile',
   EntityType.ALARM: 'Alarm',
   EntityType.RULE_CHAIN: 'Rule chain',
   EntityType.RULE_NODE: 'Rule node',
@@ -29,6 +30,13 @@ const entityTypeTranslations = <EntityType, String>{
   EntityType.API_USAGE_STATE: 'Api Usage State',
   EntityType.TB_RESOURCE: 'Resource',
   EntityType.OTA_PACKAGE: 'OTA package',
+  EntityType.RPC: 'RPC',
+  EntityType.QUEUE: 'Queue',
+  EntityType.NOTIFICATION_TARGET: 'Notification target',
+  EntityType.NOTIFICATION_TEMPLATE: 'Notification template',
+  EntityType.NOTIFICATION_REQUEST: 'Notification request',
+  EntityType.NOTIFICATION: 'Notification',
+  EntityType.NOTIFICATION_RULE: 'Notification rule',
 };
 
 typedef EntityTapFunction<T> = Function(T entity);
