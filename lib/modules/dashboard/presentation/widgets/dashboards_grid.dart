@@ -28,7 +28,7 @@ class DashboardsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        getIt<DashboardsPaginationRepository>().pagingController.refresh();
+        getIt<DashboardsPaginationRepository>().refresh();
       },
       child: PaginationGridWidget<PageLink, DashboardInfo>(
         pagingController:
