@@ -38,6 +38,10 @@
 	<string>Get location to place the device on a map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Get location to place the device on a map.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Get location to place the device on a map.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Get location to place the device on a map.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access photo library to take existing photos.</string>
 	<key>UIBackgroundModes</key>
