@@ -8,8 +8,8 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._();
@@ -63,7 +63,8 @@ class NotificationService {
 
     final settings = await _requestPermission();
     _log.debug(
-        'Notification authorizationStatus: ${settings.authorizationStatus}');
+      'Notification authorizationStatus: ${settings.authorizationStatus}',
+    );
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       await _getAndSaveToken();
@@ -148,7 +149,7 @@ class NotificationService {
       },
     );
 
-    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'general',
       'General notifications',
       importance: Importance.max,
@@ -159,7 +160,7 @@ class NotificationService {
 
     const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
-    _notificationDetails = NotificationDetails(
+    _notificationDetails = const NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
@@ -203,7 +204,7 @@ class NotificationService {
       if (mobileInfo != null) {
         int timeAfterCreatedToken = DateTime.now().millisecondsSinceEpoch -
             mobileInfo.fcmTokenTimestamp;
-        if (timeAfterCreatedToken > Duration(days: 30).inMilliseconds) {
+        if (timeAfterCreatedToken > const Duration(days: 30).inMilliseconds) {
           fcmToken = await _resetToken(fcmToken);
           if (fcmToken != null) {
             await _saveToken(fcmToken);
@@ -217,7 +218,9 @@ class NotificationService {
 
   Future<void> _saveToken(String token) async {
     await _tbClient.getUserService().saveMobileSession(
-        token, MobileSessionInfo(DateTime.now().millisecondsSinceEpoch));
+          token,
+          MobileSessionInfo(DateTime.now().millisecondsSinceEpoch),
+        );
   }
 
   void showNotification(RemoteMessage message) async {
@@ -239,7 +242,7 @@ class NotificationService {
   void _subscribeOnForegroundMessage() {
     _foregroundMessageSubscription =
         FirebaseMessaging.onMessage.listen((message) {
-      _log.debug('Message:' + message.toString());
+      _log.debug('Message:$message');
       if (message.sentTime == null) {
         final map = message.toMap();
         map['sentTime'] = DateTime.now().millisecondsSinceEpoch;
@@ -259,14 +262,15 @@ class NotificationService {
         case 'DASHBOARD':
           final dashboardId =
               data['dashboardId'] ?? data['onClick.dashboardId'];
-          var entityId;
+          EntityId? entityId;
           if ((data['stateEntityId'] ?? data['onClick.stateEntityId']) !=
                   null &&
               (data['stateEntityType'] ?? data['onClick.stateEntityType']) !=
                   null) {
             entityId = EntityId.fromTypeAndUuid(
               entityTypeFromString(
-                  data['stateEntityType'] ?? data['onClick.stateEntityType']),
+                data['stateEntityType'] ?? data['onClick.stateEntityType'],
+              ),
               data['stateEntityId'] ?? data['onClick.stateEntityId'],
             );
           }

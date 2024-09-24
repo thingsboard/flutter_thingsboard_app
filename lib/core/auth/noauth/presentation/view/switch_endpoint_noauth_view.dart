@@ -11,12 +11,12 @@ import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends TbPageWidget {
   SwitchEndpointNoAuthView({
-    required this.tbContext,
+    required TbContext tbContext,
     required this.arguments,
+    super.key,
   }) : super(tbContext);
 
   final Map<String, dynamic>? arguments;
-  final TbContext tbContext;
 
   @override
   State<StatefulWidget> createState() => _SwitchEndpointNoAuthViewState();
@@ -109,7 +109,7 @@ class _SwitchEndpointNoAuthViewState
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error,
                           color: Colors.red,
                           size: 50,

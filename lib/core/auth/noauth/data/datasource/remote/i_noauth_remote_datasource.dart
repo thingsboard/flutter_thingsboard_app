@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract interface class INoAuthRemoteDatasource {
   Future<LoginResponse> getJwtToken({
@@ -18,4 +18,8 @@ abstract interface class INoAuthRemoteDatasource {
   });
 
   bool isAuthenticated();
+
+  AuthUser getAuthUserFromJwt(String jwt);
+
+  AuthUser? getCurrentlyAuthenticatedUserOrNull();
 }

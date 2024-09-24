@@ -22,7 +22,7 @@ class TbProgressIndicator extends ProgressIndicator {
         );
 
   @override
-  _TbProgressIndicatorState createState() => _TbProgressIndicatorState();
+  State<StatefulWidget> createState() => _TbProgressIndicatorState();
 
   Color _getValueColor(BuildContext context) =>
       valueColor?.value ?? Theme.of(context).primaryColor;
@@ -37,10 +37,11 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500),
-        vsync: this,
-        upperBound: 1,
-        animationBehavior: AnimationBehavior.preserve);
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+      upperBound: 1,
+      animationBehavior: AnimationBehavior.preserve,
+    );
     _rotation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _controller.repeat();
   }
@@ -61,23 +62,33 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SvgPicture.asset(ThingsboardImage.thingsboardCenter,
+        SvgPicture.asset(
+          ThingsboardImage.thingsboardCenter,
+          height: widget.size,
+          width: widget.size,
+          colorFilter: ColorFilter.mode(
+            widget._getValueColor(context),
+            BlendMode.srcIn,
+          ),
+        ),
+        AnimatedBuilder(
+          animation: _rotation,
+          child: SvgPicture.asset(
+            ThingsboardImage.thingsboardOuter,
             height: widget.size,
             width: widget.size,
             colorFilter: ColorFilter.mode(
-                widget._getValueColor(context), BlendMode.srcIn)),
-        AnimatedBuilder(
-          animation: _rotation,
-          child: SvgPicture.asset(ThingsboardImage.thingsboardOuter,
-              height: widget.size,
-              width: widget.size,
-              colorFilter: ColorFilter.mode(
-                  widget._getValueColor(context), BlendMode.srcIn)),
+              widget._getValueColor(context),
+              BlendMode.srcIn,
+            ),
+          ),
           builder: (BuildContext context, Widget? child) {
             return Transform.rotate(
-                angle: _rotation.value * pi * 2, child: child);
+              angle: _rotation.value * pi * 2,
+              child: child,
+            );
           },
-        )
+        ),
       ],
     );
   }

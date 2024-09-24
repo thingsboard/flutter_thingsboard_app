@@ -46,39 +46,39 @@ const tbDarkMatIndigo = MaterialColor(
 final ThemeData theme = ThemeData(primarySwatch: tbMatIndigo);
 
 ThemeData tbTheme = ThemeData(
-    useMaterial3: false,
-    primarySwatch: tbMatIndigo,
-    colorScheme: theme.colorScheme
-        .copyWith(primary: tbMatIndigo, secondary: Colors.deepOrange),
-    scaffoldBackgroundColor: Color(0xFFFAFAFA),
-    textTheme: tbTypography.black,
-    primaryTextTheme: tbTypography.black,
-    typography: tbTypography,
-    appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: _tbTextColor,
-        /* titleTextStyle: TextStyle(
-          color: _tbTextColor
-      ),
-      toolbarTextStyle: TextStyle(
-            color: _tbTextColor
-      ), */
-        iconTheme: IconThemeData(color: _tbTextColor)),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.white,
-        selectedItemColor: _tbPrimaryColor,
-        unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
-        showSelectedLabels: true,
-        showUnselectedLabels: true),
-    pageTransitionsTheme: PageTransitionsTheme(builders: {
+  useMaterial3: false,
+  primarySwatch: tbMatIndigo,
+  colorScheme: theme.colorScheme
+      .copyWith(primary: tbMatIndigo, secondary: Colors.deepOrange),
+  scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+  textTheme: tbTypography.black,
+  primaryTextTheme: tbTypography.black,
+  typography: tbTypography,
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.white,
+    foregroundColor: _tbTextColor,
+    iconTheme: IconThemeData(color: _tbTextColor),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Colors.white,
+    selectedItemColor: _tbPrimaryColor,
+    unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
+    showSelectedLabels: true,
+    showUnselectedLabels: true,
+  ),
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
       TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
       TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
-    }));
+    },
+  ),
+);
 
 final ThemeData darkTheme =
     ThemeData(primarySwatch: tbDarkMatIndigo, brightness: Brightness.dark);
 
 ThemeData tbDarkTheme = ThemeData(
-    primarySwatch: tbDarkMatIndigo,
-    colorScheme: darkTheme.colorScheme.copyWith(secondary: Colors.deepOrange),
-    brightness: Brightness.dark);
+  primarySwatch: tbDarkMatIndigo,
+  colorScheme: darkTheme.colorScheme.copyWith(secondary: Colors.deepOrange),
+  brightness: Brightness.dark,
+);

@@ -31,7 +31,7 @@ class _UrlPageState extends TbPageState<UrlPage> {
             onPressed: () {
               launchUrlString(widget.url, mode: LaunchMode.externalApplication);
             },
-            icon: Icon(Icons.open_in_browser),
+            icon: const Icon(Icons.open_in_browser),
           ),
         ],
       ),
@@ -39,13 +39,12 @@ class _UrlPageState extends TbPageState<UrlPage> {
           ? const Center(child: Text('Not implemented!'))
           : InAppWebView(
               initialUrlRequest: URLRequest(
-                url: Uri.parse(widget.url),
+                url: WebUri(widget.url.toString()),
               ),
-              androidOnPermissionRequest:
-                  (controller, origin, resources) async {
-                return PermissionRequestResponse(
-                  resources: resources,
-                  action: PermissionRequestResponseAction.GRANT,
+              onPermissionRequest: (controller, request) async {
+                return PermissionResponse(
+                  resources: request.resources,
+                  action: PermissionResponseAction.GRANT,
                 );
               },
             ),

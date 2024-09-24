@@ -5,10 +5,10 @@ import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repo
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 final class SwitchEndpointParams {
   const SwitchEndpointParams({
@@ -50,6 +50,14 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       _progressSteamCtrl.add('Getting data from your host $host');
       final loginData = await repository.getJwtToken(host: host, key: key);
 
+      final authUserFromJwt = repository.getAuthUserFromJwt(loginData.token);
+      final currentlyAuthUser =
+          repository.getCurrentlyAuthenticatedUserOrNull();
+      if (authUserFromJwt.userId == currentlyAuthUser?.userId) {
+        params.onDone();
+        return;
+      }
+
       if (repository.isAuthenticated()) {
         _progressSteamCtrl.add('Logout you ...');
         await repository.logout(
@@ -65,13 +73,13 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       }
 
       await repository.setUserFromJwtToken(loginData);
+      await getIt<IEndpointService>().setEndpoint(host);
 
       if (!isTheSameHost) {
         logger.debug('SwitchEndpointUseCase:deleteFB App');
-        await getIt<IFirebaseService>()
+        getIt<IFirebaseService>()
           ..removeApp()
           ..removeApp(name: currentEndpoint);
-        await getIt<IEndpointService>().setEndpoint(host);
 
         // If we revert to the original host configured in the app_constants
         if (!await getIt<IEndpointService>().isCustomEndpoint()) {

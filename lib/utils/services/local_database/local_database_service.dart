@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LocalDatabaseService implements ILocalDatabaseService {
   const LocalDatabaseService({

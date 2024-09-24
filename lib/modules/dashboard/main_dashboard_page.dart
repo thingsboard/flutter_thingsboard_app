@@ -2,94 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/dashboard.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class MainDashboardPageController {
-  DashboardController? _dashboardController;
-  _MainDashboardPageState? _mainDashboardPageState;
-
-  _setMainDashboardPageState(_MainDashboardPageState state) {
-    _mainDashboardPageState = state;
-  }
-
-  _setDashboardController(DashboardController controller) {
-    _dashboardController = controller;
-  }
-
-  Future<bool> dashboardGoBack() {
-    if (_dashboardController != null) {
-      return _dashboardController!.goBack();
-    } else {
-      return Future.value(true);
-    }
-  }
-
-  Future<void> openDashboard(String dashboardId,
-      {String? dashboardTitle, String? state, bool? hideToolbar}) async {
-    if (dashboardTitle != null) {
-      _mainDashboardPageState?._updateTitle(dashboardTitle);
-    }
-    await _dashboardController?.openDashboard(dashboardId,
-        state: state, hideToolbar: hideToolbar);
-  }
-
-  Future<void> activateDashboard() async {
-    await _dashboardController?.activateDashboard();
-  }
-
-  Future<void> deactivateDashboard() async {
-    await _dashboardController?.deactivateDashboard();
-  }
-}
-
 class MainDashboardPage extends TbContextWidget {
-  final String? _dashboardTitle;
-  final MainDashboardPageController? _controller;
+  MainDashboardPage(
+    TbContext tbContext, {
+    required this.controller,
+    super.key,
+  }) : super(tbContext);
 
-  MainDashboardPage(TbContext tbContext,
-      {MainDashboardPageController? controller, String? dashboardTitle})
-      : _controller = controller,
-        _dashboardTitle = dashboardTitle,
-        super(tbContext);
+  final DashboardPageController controller;
 
   @override
-  _MainDashboardPageState createState() => _MainDashboardPageState();
+  State<StatefulWidget> createState() => _MainDashboardPageState();
 }
 
 class _MainDashboardPageState extends TbContextState<MainDashboardPage>
     with TickerProviderStateMixin {
-  late ValueNotifier<String> dashboardTitleValue;
-  final ValueNotifier<bool> hasRightLayout = ValueNotifier(false);
-  DashboardController? _dashboardController;
+  final dashboardTitleValue = ValueNotifier('Dashboard');
+  final hasRightLayout = ValueNotifier(false);
+
   late final Animation<double> rightLayoutMenuAnimation;
   late final AnimationController rightLayoutMenuController;
 
-  @override
-  void initState() {
-    super.initState();
-    rightLayoutMenuController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    );
-    rightLayoutMenuAnimation = CurvedAnimation(
-        curve: Curves.linear, parent: rightLayoutMenuController);
-    if (widget._controller != null) {
-      widget._controller!._setMainDashboardPageState(this);
-    }
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
-  }
-
-  @override
-  void dispose() {
-    rightLayoutMenuController.dispose();
-    super.dispose();
-  }
-
-  _updateTitle(String newTitle) {
-    dashboardTitleValue.value = newTitle;
-  }
+  DashboardController? _dashboardController;
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +53,8 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
         actions: [
           ValueListenableBuilder<bool>(
             valueListenable: hasRightLayout,
-            builder: (context, _hasRightLayout, widget) {
-              if (_hasRightLayout) {
+            builder: (context, hasRightLayout, widget) {
+              if (hasRightLayout) {
                 return IconButton(
                   onPressed: () => _dashboardController?.toggleRightLayout(),
                   icon: AnimatedIcon(
@@ -126,37 +66,58 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
                 return const SizedBox.shrink();
               }
             },
-          )
+          ),
         ],
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
         builder: (context, value, _) {
-          return Dashboard(
+          return DashboardWidget(
             tbContext,
-            activeByDefault: false,
             titleCallback: (title) {
               dashboardTitleValue.value = title;
             },
+            pageController: widget.controller,
             controllerCallback: (controller) {
               _dashboardController = controller;
-              if (widget._controller != null) {
-                widget._controller!._setDashboardController(controller);
-                controller.hasRightLayout.addListener(() {
-                  hasRightLayout.value = controller.hasRightLayout.value;
-                });
-                controller.rightLayoutOpened.addListener(() {
-                  if (controller.rightLayoutOpened.value) {
-                    rightLayoutMenuController.forward();
-                  } else {
-                    rightLayoutMenuController.reverse();
-                  }
-                });
-              }
+              widget.controller.setDashboardController(controller);
+
+              controller.hasRightLayout.addListener(() {
+                hasRightLayout.value = controller.hasRightLayout.value;
+              });
+              controller.rightLayoutOpened.addListener(() {
+                if (controller.rightLayoutOpened.value) {
+                  rightLayoutMenuController.forward();
+                } else {
+                  rightLayoutMenuController.reverse();
+                }
+              });
             },
           );
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    rightLayoutMenuController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    rightLayoutMenuAnimation = CurvedAnimation(
+      curve: Curves.linear,
+      parent: rightLayoutMenuController,
+    );
+
+    widget.controller.setDashboardTitleNotifier(dashboardTitleValue);
+  }
+
+  @override
+  void dispose() {
+    rightLayoutMenuController.dispose();
+    super.dispose();
   }
 }

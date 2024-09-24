@@ -3,8 +3,8 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {
@@ -14,6 +14,7 @@ class NotificationWidget extends StatelessWidget {
     required this.onClearNotification,
     required this.onReadNotification,
     required this.tbContext,
+    super.key,
   });
 
   final PushNotification notification;
@@ -72,7 +73,7 @@ class NotificationWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 7),
                             child: Text(
                               notification.subject,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -123,7 +124,7 @@ class NotificationWidget extends StatelessWidget {
                         Visibility(
                           visible: notification.status ==
                               PushNotificationStatus.READ,
-                          child: SizedBox(
+                          child: const SizedBox(
                             width: 30,
                             height: 50,
                           ),
