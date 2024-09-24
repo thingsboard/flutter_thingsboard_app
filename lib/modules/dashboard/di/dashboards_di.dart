@@ -31,7 +31,6 @@ abstract class DashboardsDi {
   }
 
   static void dispose(String scopeName) {
-    getIt<DashboardsPaginationRepository>().dispose();
     getIt.dropScope(scopeName);
   }
 }
