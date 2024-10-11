@@ -10,6 +10,7 @@ import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_filter_page.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AlarmsPage extends TbContextWidget {
@@ -47,7 +48,10 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
               return Scaffold(
                 appBar: TbAppBar(
                   tbContext,
-                  title: Text(S.of(context).alarms),
+                  title: Text(
+                    S.of(context).alarms,
+                    style: TbTextStyles.titleXs,
+                  ),
                   actions: [
                     Stack(
                       children: [
@@ -76,7 +80,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(16),
-                                    color: const Color(0xff305680),
+                                    color: Theme.of(context).primaryColor,
                                   ),
                                 ),
                               );

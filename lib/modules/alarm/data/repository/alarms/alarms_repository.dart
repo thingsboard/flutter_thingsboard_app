@@ -11,4 +11,9 @@ class AlarmsRepository implements IAlarmsRepository {
   Future<PageData<AlarmInfo>> fetchAlarms(AlarmQueryV2 query) {
     return datasource.fetchAlarms(query);
   }
+
+  @override
+  Future<AlarmInfo?> getAlarmInfo(String id) {
+    return datasource.getAlarmInfo(id);
+  }
 }

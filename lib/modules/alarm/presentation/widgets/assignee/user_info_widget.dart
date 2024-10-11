@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/ui/text_extension.dart';
 
 class UserInfoWidget extends StatelessWidget {
   const UserInfoWidget({
@@ -7,6 +9,7 @@ class UserInfoWidget extends StatelessWidget {
     required this.name,
     this.email = '',
     this.showEmail = false,
+    this.searchText,
     this.onUserTap,
     super.key,
   });
@@ -16,6 +19,7 @@ class UserInfoWidget extends StatelessWidget {
   final String name;
   final String email;
   final bool showEmail;
+  final String? searchText;
   final Function(String)? onUserTap;
 
   @override
@@ -27,6 +31,7 @@ class UserInfoWidget extends StatelessWidget {
       child: Row(
         children: [
           avatar,
+          const SizedBox(width: 6),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -38,20 +43,24 @@ class UserInfoWidget extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  ).boldSubString(
+                    searchText ?? '',
+                    highlightedColor: Theme.of(context).primaryColor,
+                    regularColor: Colors.black.withOpacity(.76),
                   ),
                   const SizedBox(height: 4),
                   Visibility(
                     visible: showEmail,
                     child: Text(
                       email,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black.withOpacity(0.38),
+                    ).boldSubString(
+                      searchText ?? '',
+                      highlightedTextStyle: TbTextStyles.bodyMedium.copyWith(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      regularTextStyle: TbTextStyles.bodyMedium.copyWith(
+                        color: Colors.black.withOpacity(.38),
                       ),
                     ),
                   ),

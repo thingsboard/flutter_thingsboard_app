@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AssigneeEntity extends Equatable {
@@ -12,26 +13,22 @@ class AssigneeEntity extends Equatable {
   final String shortName;
   final String displayName;
 
-  factory AssigneeEntity.fromUserInfo(UserInfo info) {
-    final name = '${info.firstName ?? ''} ${info.lastName ?? ''}';
-    final displayName = name.length > 1 ? name : info.email;
-
-    String shortName = '';
-    if (info.firstName?.isNotEmpty == true) {
-      shortName = info.firstName?[0] ?? '';
-    }
-    if (info.lastName?.isNotEmpty == true) {
-      shortName += info.lastName?[0] ?? '';
-    }
-
-    if (shortName.isEmpty) {
-      shortName = info.email[0];
-    }
+  factory AssigneeEntity.fromUserInfo(
+    UserInfo info, {
+    required UserDetailsUseCase detailsUseCase,
+  }) {
+    final details = detailsUseCase(
+      UserDetailsParams(
+        firstName: info.firstName,
+        lastName: info.lastName,
+        email: info.email,
+      ),
+    );
 
     return AssigneeEntity(
       userInfo: info,
-      displayName: displayName,
-      shortName: shortName.toUpperCase(),
+      displayName: details.displayName,
+      shortName: details.shortName,
     );
   }
 

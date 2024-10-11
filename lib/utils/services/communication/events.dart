@@ -16,3 +16,12 @@ final class UserLoggedInEvent extends CommunicationEvent {
   @override
   List<Object?> get props => [user];
 }
+
+final class AlarmAssigneeUpdatedEvent extends CommunicationEvent {
+  const AlarmAssigneeUpdatedEvent(this.id);
+
+  final String? id;
+
+  @override
+  List<Object?> get props => [];
+}

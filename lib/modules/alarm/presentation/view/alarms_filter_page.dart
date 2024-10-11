@@ -48,7 +48,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmTypesBloc>.value(value: getIt()),
-        BlocProvider<AssigneeBloc>.value(value: getIt()),
+        BlocProvider<AssigneeBloc>(create: (_) => AssigneeBloc.create()),
       ],
       child: Scaffold(
         appBar: TbAppBar(
@@ -63,7 +63,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
         body: RefreshIndicator(
           onRefresh: () async {
             getIt<AlarmTypesBloc>().add(const AlarmTypesRefreshEvent());
-            getIt<AssigneeBloc>().add(const AssigneeRefreshEvent());
+            context.read<AssigneeBloc>().add(const AssigneeRefreshEvent());
           },
           child: SafeArea(
             child: SingleChildScrollView(
@@ -131,7 +131,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: AlarmAssigneeFilter(
+                          child: AlarmAssigneeFilterWidget(
                             tbContext: tbContext,
                             onChanged: () {
                               setState(() {
@@ -204,9 +204,9 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     getIt<AlarmTypesBloc>().add(
       const AlarmTypesResetEvent(),
     );
-    getIt<AssigneeBloc>().add(
-      const AssigneeResetEvent(),
-    );
+    context.read<AssigneeBloc>().add(
+          const AssigneeResetEvent(),
+        );
     getIt<AlarmBloc>().add(
       const AlarmFiltersResetEvent(),
     );
@@ -226,7 +226,9 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
 
           getIt<AlarmTypesBloc>()
               .add(const AlarmTypesResetUnCommittedChanges());
-          getIt<AssigneeBloc>().add(const AssigneeResetUnCommittedChanges());
+          context
+              .read<AssigneeBloc>()
+              .add(const AssigneeResetUnCommittedChanges());
         });
       }
     });
