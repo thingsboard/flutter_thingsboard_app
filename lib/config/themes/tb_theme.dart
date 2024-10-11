@@ -62,7 +62,7 @@ ThemeData tbTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.white,
     selectedItemColor: _tbPrimaryColor,
-    unselectedItemColor: _tbPrimaryColor.withAlpha((255 * 0.38).ceil()),
+    unselectedItemColor: Colors.black.withOpacity(.38),
     showSelectedLabels: true,
     showUnselectedLabels: true,
   ),

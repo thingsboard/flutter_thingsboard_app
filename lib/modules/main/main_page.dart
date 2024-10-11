@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
 
 class MainPage extends TbPageWidget {
   MainPage(
@@ -75,18 +76,10 @@ class _MainPageState extends TbPageState<MainPage>
       ),
       bottomNavigationBar: ValueListenableBuilder<int>(
         valueListenable: _currentIndexNotifier,
-        builder: (context, index, child) => BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
+        builder: (context, index, child) => TbNavigationBarWidget(
           currentIndex: index,
           onTap: (int index) => _setIndex(index),
-          items: _tabItems
-              .map(
-                (item) => BottomNavigationBarItem(
-                  icon: item.icon,
-                  label: item.title,
-                ),
-              )
-              .toList(),
+          customBottomBarItems: _tabItems,
         ),
       ),
     );
