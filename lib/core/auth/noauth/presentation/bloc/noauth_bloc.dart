@@ -40,7 +40,9 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
           SwitchEndpointParams(
             data: event.parameters!,
             onDone: () {
-              add(const SwitchEndpointDoneEvent());
+              if (!isClosed) {
+                add(const SwitchEndpointDoneEvent());
+              }
             },
             onError: (message) {
               if (!isClosed) {
