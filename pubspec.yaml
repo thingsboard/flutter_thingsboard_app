@@ -24,9 +24,6 @@ dependencies:
   fading_edge_scrollview: ^4.0.0
   stream_transform: ^2.1.0
   flutter_inappwebview: ^6.0.0
-#  flutter_downloader: ^1.6.0
-#  permission_handler: ^8.0.0+2
-#  path_provider: ^2.0.2
   url_launcher: ^6.2.1
   image_picker: ^1.0.4
   mime: ^1.0.4
@@ -62,6 +59,9 @@ dependencies:
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   event_bus: ^2.0.0
+  google_fonts: ^6.2.1
+  expandable: ^5.0.1
+  focused_menu: ^1.0.5
 
 dev_dependencies:
   flutter_test:

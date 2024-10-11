@@ -12,7 +12,6 @@ import 'package:thingsboard_app/utils/ui/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 
 class AlarmsList extends StatelessWidget {
   const AlarmsList({required this.tbContext, super.key});
@@ -32,31 +31,11 @@ class AlarmsList extends StatelessWidget {
           itemBuilder: (context, alarm, index) {
             return EntityListCard(
               alarm,
-              entityCardWidgetBuilder: (context, alarm) {
+              entityCardWidgetBuilder: (_, alarm) {
                 return AlarmCard(
                   tbContext,
                   alarm: alarm,
                 );
-              },
-              onEntityTap: (alarm) {
-                String? dashboardId = alarm.details?['dashboardId'];
-                if (dashboardId != null) {
-                  final state = Utils.createDashboardEntityState(
-                    alarm.originator,
-                    entityName: alarm.originatorName,
-                  );
-                  tbContext.navigateToDashboard(
-                    dashboardId,
-                    dashboardTitle: alarm.originatorName,
-                    state: state,
-                  );
-                } else {
-                  if (tbContext.tbClient.isTenantAdmin()) {
-                    tbContext.showWarnNotification(
-                      'Mobile dashboard should be configured in device profile alarm rules!',
-                    );
-                  }
-                }
               },
             );
           },

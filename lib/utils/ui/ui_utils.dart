@@ -15,4 +15,13 @@ abstract class UiUtils {
       topControl: topControl,
     );
   }
+
+  static Color colorFromString(String str) {
+    return HSLColor.fromAHSL(
+      1,
+      str.hashCode % 360,
+      40 / 100,
+      60 / 100,
+    ).toColor();
+  }
 }
