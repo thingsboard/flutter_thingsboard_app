@@ -20,20 +20,17 @@ class BottomBarBloc extends Bloc<BottomBarEvent, BottomBarState> {
         final items = [
           const BottomBarModel(
             label: 'Notifications',
-            icon: Icon(Icons.notifications),
-            type: BottomBarType.page,
+            icon: Icons.notifications_outlined,
             data: {'path': '/notifications'},
           ),
           const BottomBarModel(
             label: 'Dashboards',
-            icon: Icon(Icons.dashboard),
-            type: BottomBarType.page,
+            icon: Icons.dashboard_outlined,
             data: {'path': '/dashboards'},
           ),
           const BottomBarModel(
             label: 'Fuel Level Monitoring',
-            icon: Icon(Icons.dashboard),
-            type: BottomBarType.page,
+            icon: Icons.dashboard_outlined,
             data: {
               'path': '/dashboard',
               'id': '8a8d81b0-5975-11ef-83b1-d3209c242a36',
@@ -41,23 +38,14 @@ class BottomBarBloc extends Bloc<BottomBarEvent, BottomBarState> {
           ),
           const BottomBarModel(
             label: 'Devices',
-            icon: Icon(Icons.devices),
-            type: BottomBarType.page,
+            icon: Icons.devices_outlined,
             data: {'path': '/devices'},
           ),
-
           const BottomBarModel(
             label: 'More',
-            icon: Icon(Icons.menu),
-            type: BottomBarType.page,
+            icon: Icons.menu_outlined,
             data: {'path': '/more'},
           ),
-          // const BottomBarModel(
-          //   label: 'Devices',
-          //   icon: Icon(Icons.devices),
-          //   type: BottomBarType.page,
-          //   data: {'path': '/devices'},
-          // ),
         ];
 
         emit(BottomBarDataState(items: items));

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -10,6 +8,7 @@ import 'package:thingsboard_app/modules/notification/repository/notification_rep
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
+import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 enum NotificationsFilter { all, unread }
@@ -32,7 +31,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        leading: IconButton(
+        leading: BackButtonWidget(
           onPressed: () {
             final navigator = Navigator.of(tbContext.currentState!.context);
             if (navigator.canPop()) {
@@ -46,9 +45,6 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
               );
             }
           },
-          icon: Icon(
-            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-          ),
         ),
         title: const Text('Notifications'),
         actions: [
