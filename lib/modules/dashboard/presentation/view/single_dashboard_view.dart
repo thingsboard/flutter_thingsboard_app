@@ -28,6 +28,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
     with TickerProviderStateMixin {
   final dashboardTitleValue = ValueNotifier<String>('Dashboard');
   final hasRightLayout = ValueNotifier(false);
+  bool canGoBack = false;
 
   late final Animation<double> rightLayoutMenuAnimation;
   late final AnimationController rightLayoutMenuController;
@@ -71,6 +72,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
             },
           ),
         ],
+        canGoBack: canGoBack,
       ),
       body: DashboardWidget(
         tbContext,
@@ -87,6 +89,12 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
             } else {
               rightLayoutMenuController.reverse();
             }
+          });
+
+          controller.canGoBack.addListener(() {
+            setState(() {
+              canGoBack = controller.canGoBack.value;
+            });
           });
 
           controller.openDashboard(
@@ -120,6 +128,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
   @override
   void dispose() {
     rightLayoutMenuController.dispose();
+    _dashboardController?.canGoBack.dispose();
     super.dispose();
   }
 }

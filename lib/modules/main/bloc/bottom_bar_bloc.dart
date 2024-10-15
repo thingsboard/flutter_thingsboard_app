@@ -1,15 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/modules/main/bottom_bar_model.dart';
 
 class BottomBarBloc extends Bloc<BottomBarEvent, BottomBarState> {
-  BottomBarBloc({required this.router}) : super(const BottomBarLoadingState()) {
+  BottomBarBloc() : super(const BottomBarLoadingState()) {
     on(_onEvent);
   }
-
-  final FluroRouter router;
 
   Future<void> _onEvent(
     BottomBarEvent event,
@@ -63,9 +60,7 @@ sealed class BottomBarEvent extends Equatable {
 }
 
 final class BottomBarFetchEvent extends BottomBarEvent {
-  const BottomBarFetchEvent(this.context);
-
-  final BuildContext context;
+  const BottomBarFetchEvent();
 }
 
 /// State

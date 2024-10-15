@@ -17,137 +17,73 @@ class MainPage extends TbPageWidget {
 class _MainPageState extends TbPageState<MainPage>
     with TickerProviderStateMixin {
   final _currentIndexNotifier = ValueNotifier(0);
-  late final List<TbMainNavigationItem> _tabItems;
   late TabController _tabController;
-  late final BottomBarBloc bloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-    bloc = BottomBarBloc(router: tbContext.router)
-      ..add(BottomBarFetchEvent(context));
-  }
-
-  @override
-  void dispose() {
-    // _tabController.animation!.removeListener(_onTabAnimation);
-    bloc.close();
-    super.dispose();
-  }
-
-  // _onTabAnimation() {
-  //   var value = _tabController.animation!.value;
-  //   int targetIndex;
-  //   if (value >= _tabController.previousIndex) {
-  //     targetIndex = value.round();
-  //   } else {
-  //     targetIndex = value.floor();
-  //   }
-  //   _currentIndexNotifier.value = targetIndex;
-  // }
-
-  // @override
-  // Future<bool> willPop() async {
-  //   if (_tabController.index > 0) {
-  //     _setIndex(0);
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<BottomBarBloc>.value(
-      value: bloc,
+    return BlocProvider<BottomBarBloc>(
+      create: (_) => BottomBarBloc()..add(const BottomBarFetchEvent()),
       child: BlocBuilder<BottomBarBloc, BottomBarState>(
         builder: (context, state) {
-          if (state is BottomBarLoadingState) {
-            return Scaffold(
-              body: TbProgressIndicator(
-                tbContext,
-                size: 50,
-              ),
-            );
-          } else if (state is BottomBarDataState) {
-            _tabController = TabController(
-              initialIndex: _currentIndexNotifier.value,
-              length: state.items.length,
-              vsync: this,
-            );
-            // _tabController.animation!.addListener(_onTabAnimation);
+          switch (state) {
+            case BottomBarLoadingState():
+              return Scaffold(
+                body: Center(
+                  child: TbProgressIndicator(
+                    tbContext,
+                    size: 50,
+                  ),
+                ),
+              );
 
-            TbMainNavigationItem.mainPageStateMap.addAll(
-              state.items.map((e) => e.data['path']),
-            );
+            case BottomBarDataState():
+              _tabController = TabController(
+                initialIndex: _currentIndexNotifier.value,
+                length: state.items.length,
+                vsync: this,
+              );
 
-            print('build');
-
-            return Scaffold(
-              body: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                children: state.items
-                    .map(
-                      (e) => MainItemWidget(
-                        getWidgetByPath(e.data['path'], data: e.data),
-                        path: e.data['path'],
-                      ),
-                    )
-                    .toList(),
-              ),
-              bottomNavigationBar: ValueListenableBuilder<int>(
-                valueListenable: _currentIndexNotifier,
-                builder: (context, index, child) => TbNavigationBarWidget(
-                  currentIndex: _currentIndexNotifier.value,
-                  onTap: (int index) => _setIndex(index),
-                  customBottomBarItems: state.items
+              return Scaffold(
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: state.items
                       .map(
-                        (e) => TbMainNavigationItem(
-                          page: MainItemWidget(
-                            getWidgetByPath(e.data['path'], data: e.data),
-                            path: e.data['path'],
-                          ),
-                          title: e.label,
-                          icon: e.icon,
+                        (e) => MainItemWidget(
+                          getWidgetByPath(e.data['path'], data: e.data),
                           path: e.data['path'],
                         ),
                       )
                       .toList(),
                 ),
-              ),
-            );
+                bottomNavigationBar: ValueListenableBuilder<int>(
+                  valueListenable: _currentIndexNotifier,
+                  builder: (context, index, child) => TbNavigationBarWidget(
+                    currentIndex: _currentIndexNotifier.value,
+                    onTap: (int index) => _setIndex(index),
+                    customBottomBarItems: state.items
+                        .map(
+                          (e) => TbMainNavigationItem(
+                            page: MainItemWidget(
+                              getWidgetByPath(e.data['path'], data: e.data),
+                              path: e.data['path'],
+                            ),
+                            title: e.label,
+                            icon: e.icon,
+                            path: e.data['path'],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
           }
-
-          return const SizedBox.shrink();
         },
       ),
     );
   }
 
-  // int _indexFromPath(String path) {
-  //   return _tabItems.indexWhere((item) => item.path == path);
-  // }
-
-  // @override
-  // bool canNavigate(String path) {
-  //   return _indexFromPath(path) > -1;
-  // }
-  //
-  // @override
-  // navigateToPath(String path) {
-  //   int targetIndex = _indexFromPath(path);
-  //   _setIndex(targetIndex);
-  // }
-  //
-  // @override
-  // bool isHomePage() {
-  //   return _tabController.index == 0;
-  // }
-
   void _setIndex(int index) {
-    print('_setIndex($index) ${_tabController.index}');
-
     if (_tabController.index != index) {
       hideNotification();
       _tabController.index = index;
