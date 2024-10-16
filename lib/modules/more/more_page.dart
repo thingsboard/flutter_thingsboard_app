@@ -8,6 +8,7 @@ import 'package:thingsboard_app/modules/more/more_menu_item.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 
 class MorePage extends TbContextWidget {
@@ -165,8 +166,9 @@ class _MorePageState extends TbContextState<MorePage>
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
-    List<Widget> items =
-        MoreMenuItem.getItems(tbContext, context).map((menuItem) {
+    final items = getIt<ILayoutService>()
+        .getMorePageItems(tbContext, context)
+        .map((menuItem) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         child: SizedBox(
@@ -176,23 +178,12 @@ class _MorePageState extends TbContextState<MorePage>
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Icon(
-                  menuItem.icon,
-                  color: !menuItem.disabled
-                      ? const Color(0xFF282828)
-                      : Colors.grey.withOpacity(0.5),
-                ),
-                Visibility(
-                  visible: menuItem.showAdditionalIcon,
-                  child: menuItem.additionalIcon ?? const SizedBox.shrink(),
-                ),
-                SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
+                Icon(menuItem.icon, color: const Color(0xFF282828)),
+                const SizedBox(width: 34),
                 Text(
                   menuItem.title,
-                  style: TextStyle(
-                    color: !menuItem.disabled
-                        ? const Color(0xFF282828)
-                        : Colors.grey.withOpacity(0.5),
+                  style: const TextStyle(
+                    color: Color(0xFF282828),
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -204,21 +195,76 @@ class _MorePageState extends TbContextState<MorePage>
           ),
         ),
         onTap: () {
-          if (!menuItem.disabled) {
-            navigateTo(menuItem.path);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  menuItem.disabledReasonMessage ?? 'The item is disabled',
-                ),
-              ),
-            );
-          }
+          navigateTo(menuItem.path);
         },
       );
     }).toList();
-    return Column(children: items);
+
+    return Column(
+      children: [
+        ...items,
+        buildNotificationsMenuItem(
+          MoreMenuItem.getNotificationMenuItem(tbContext),
+        ),
+      ],
+    );
+  }
+
+  Widget buildNotificationsMenuItem(MoreMenuItem? menuItem) {
+    if (menuItem == null) {
+      return const SizedBox.shrink();
+    }
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        height: 48,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 18),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Icon(
+                menuItem.icon,
+                color: !menuItem.disabled
+                    ? const Color(0xFF282828)
+                    : Colors.grey.withOpacity(0.5),
+              ),
+              Visibility(
+                visible: menuItem.showAdditionalIcon,
+                child: menuItem.additionalIcon ?? const SizedBox.shrink(),
+              ),
+              SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
+              Text(
+                menuItem.title,
+                style: TextStyle(
+                  color: !menuItem.disabled
+                      ? const Color(0xFF282828)
+                      : Colors.grey.withOpacity(0.5),
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  height: 20 / 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      onTap: () {
+        if (!menuItem.disabled) {
+          navigateTo(menuItem.path);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                menuItem.disabledReasonMessage ?? 'The item is disabled',
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 
   String _getUserDisplayName() {

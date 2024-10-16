@@ -72,71 +72,74 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
               _refresh();
             }
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 5,
-                vertical: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    child: FilterSegmentedButton(
-                      selected: notificationsFilter,
-                      onSelectionChanged: (newSelection) {
-                        if (notificationsFilter == newSelection) {
-                          return;
-                        }
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
+                      child: FilterSegmentedButton(
+                        selected: notificationsFilter,
+                        onSelectionChanged: (newSelection) {
+                          if (notificationsFilter == newSelection) {
+                            return;
+                          }
 
-                        setState(() {
-                          notificationsFilter = newSelection;
+                          setState(() {
+                            notificationsFilter = newSelection;
 
-                          notificationRepository.filterByReadStatus(
-                            notificationsFilter == NotificationsFilter.unread,
-                          );
-                        });
-                      },
-                      segments: const [
-                        FilterSegments(
-                          label: 'Unread',
-                          value: NotificationsFilter.unread,
-                        ),
-                        FilterSegments(
-                          label: 'All',
-                          value: NotificationsFilter.all,
-                        ),
-                      ],
+                            notificationRepository.filterByReadStatus(
+                              notificationsFilter == NotificationsFilter.unread,
+                            );
+                          });
+                        },
+                        segments: const [
+                          FilterSegments(
+                            label: 'Unread',
+                            value: NotificationsFilter.unread,
+                          ),
+                          FilterSegments(
+                            label: 'All',
+                            value: NotificationsFilter.all,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: NotificationsList(
-                      pagingController: paginationRepository.pagingController,
-                      thingsboardClient: tbClient,
-                      tbContext: tbContext,
-                      onClearNotification: (id, read) async {
-                        await notificationRepository.deleteNotification(id);
-                        if (!read) {
+                    Expanded(
+                      child: NotificationsList(
+                        pagingController: paginationRepository.pagingController,
+                        thingsboardClient: tbClient,
+                        tbContext: tbContext,
+                        onClearNotification: (id, read) async {
+                          await notificationRepository.deleteNotification(id);
+                          if (!read) {
+                            await notificationRepository
+                                .decreaseNotificationBadgeCount();
+                          }
+
+                          if (mounted) {
+                            notificationQueryCtrl.refresh();
+                          }
+                        },
+                        onReadNotification: (id) async {
+                          await notificationRepository
+                              .markNotificationAsRead(id);
                           await notificationRepository
                               .decreaseNotificationBadgeCount();
-                        }
 
-                        if (mounted) {
-                          notificationQueryCtrl.refresh();
-                        }
-                      },
-                      onReadNotification: (id) async {
-                        await notificationRepository.markNotificationAsRead(id);
-                        await notificationRepository
-                            .decreaseNotificationBadgeCount();
-
-                        if (mounted) {
-                          notificationQueryCtrl.refresh();
-                        }
-                      },
+                          if (mounted) {
+                            notificationQueryCtrl.refresh();
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

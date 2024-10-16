@@ -97,6 +97,8 @@ class BottomNavbarItems extends StatelessWidget {
     final isSelected = currentIndex == index;
 
     return SafeArea(
+      left: false,
+      right: false,
       child: Padding(
         padding: const EdgeInsets.only(right: 7),
         child: Material(

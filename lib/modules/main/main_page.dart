@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/modules/dashboard/presentation/view/single_dashboard_view.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/bloc/bottom_bar_bloc.dart';
-import 'package:thingsboard_app/modules/main/main_item_widget.dart';
-import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class MainPage extends TbPageWidget {
@@ -18,63 +18,61 @@ class _MainPageState extends TbPageState<MainPage>
     with TickerProviderStateMixin {
   final _currentIndexNotifier = ValueNotifier(0);
   late TabController _tabController;
+  late Orientation orientation;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BottomBarBloc>(
-      create: (_) => BottomBarBloc()..add(const BottomBarFetchEvent()),
+      create: (_) => BottomBarBloc(
+        layoutService: getIt<ILayoutService>(),
+        tbContext: tbContext,
+      )..add(const BottomBarFetchEvent()),
       child: BlocBuilder<BottomBarBloc, BottomBarState>(
         builder: (context, state) {
           switch (state) {
-            case BottomBarLoadingState():
-              return Scaffold(
-                body: Center(
-                  child: TbProgressIndicator(
-                    tbContext,
-                    size: 50,
-                  ),
-                ),
-              );
-
             case BottomBarDataState():
+              if (_currentIndexNotifier.value > state.items.length) {
+                _currentIndexNotifier.value = state.items.length - 1;
+                _tabController.index = _currentIndexNotifier.value;
+              }
+
               _tabController = TabController(
                 initialIndex: _currentIndexNotifier.value,
                 length: state.items.length,
                 vsync: this,
               );
 
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  if (this.orientation != orientation) {
+                    this.orientation = orientation;
+                    context
+                        .read<BottomBarBloc>()
+                        .add(const BottomBarOrientationChangedEvent());
+                  }
+
+                  return Scaffold(
+                    body: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _tabController,
+                      children: state.items.map((e) => e.page).toList(),
+                    ),
+                    bottomNavigationBar: ValueListenableBuilder<int>(
+                      valueListenable: _currentIndexNotifier,
+                      builder: (context, index, child) => TbNavigationBarWidget(
+                        currentIndex: _currentIndexNotifier.value,
+                        onTap: (int index) => _setIndex(index),
+                        customBottomBarItems: state.items,
+                      ),
+                    ),
+                  );
+                },
+              );
+
+            default:
               return Scaffold(
-                body: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: state.items
-                      .map(
-                        (e) => MainItemWidget(
-                          getWidgetByPath(e.data['path'], data: e.data),
-                          path: e.data['path'],
-                        ),
-                      )
-                      .toList(),
-                ),
-                bottomNavigationBar: ValueListenableBuilder<int>(
-                  valueListenable: _currentIndexNotifier,
-                  builder: (context, index, child) => TbNavigationBarWidget(
-                    currentIndex: _currentIndexNotifier.value,
-                    onTap: (int index) => _setIndex(index),
-                    customBottomBarItems: state.items
-                        .map(
-                          (e) => TbMainNavigationItem(
-                            page: MainItemWidget(
-                              getWidgetByPath(e.data['path'], data: e.data),
-                              path: e.data['path'],
-                            ),
-                            title: e.label,
-                            icon: e.icon,
-                            path: e.data['path'],
-                          ),
-                        )
-                        .toList(),
-                  ),
+                body: Center(
+                  child: TbProgressIndicator(tbContext, size: 50),
                 ),
               );
           }
@@ -92,18 +90,12 @@ class _MainPageState extends TbPageState<MainPage>
     }
   }
 
-  Widget? getWidgetByPath(String path, {Map<String, dynamic>? data}) {
-    if (path == '/dashboard') {
-      return SingleDashboardView(tbContext, id: data?['id']);
-    }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      orientation = MediaQuery.of(context).orientation;
+    });
 
-    // Find the route by its path
-    final match = tbContext.router.match(path);
-    if (match != null && match.route.handler != null) {
-      // Execute the handler's function to retrieve the widget
-      return match.route.handler?.handlerFunc(null, match.parameters);
-    }
-
-    return null;
+    super.initState();
   }
 }

@@ -33,21 +33,6 @@ class MoreMenuItem {
     if (tbContext.isAuthenticated) {
       List<MoreMenuItem> items = [];
       switch (tbContext.tbClient.getAuthUser()!.authority) {
-        case Authority.SYS_ADMIN:
-          items.add(
-            MoreMenuItem(
-              title: 'Notifications',
-              icon: Icons.notifications_active,
-              path: '/notifications',
-              showAdditionalIcon: true,
-              additionalIcon: _notificationNumberWidget(tbContext.tbClient),
-              disabled: getIt<IFirebaseService>().apps.isEmpty,
-              disabledReasonMessage: 'Firebase is not configured.'
-                  ' Please refer to the official Firebase documentation for'
-                  ' guidance on how to do so.',
-            ),
-          );
-          break;
         case Authority.TENANT_ADMIN:
           items.addAll([
             MoreMenuItem(
@@ -65,16 +50,6 @@ class MoreMenuItem {
               icon: Icons.track_changes,
               path: '/auditLogs',
             ),
-            MoreMenuItem(
-              title: 'Notifications',
-              icon: Icons.notifications_active,
-              path: '/notifications',
-              showAdditionalIcon: true,
-              additionalIcon: _notificationNumberWidget(tbContext.tbClient),
-              disabled: getIt<IFirebaseService>().apps.isEmpty,
-              disabledReasonMessage: 'Notifications are not configured. '
-                  'Please contact your system administrator.',
-            ),
           ]);
           break;
         case Authority.CUSTOMER_USER:
@@ -84,22 +59,11 @@ class MoreMenuItem {
               icon: Icons.domain,
               path: '/assets',
             ),
-            MoreMenuItem(
-              title: 'Notifications',
-              icon: Icons.notifications_active,
-              path: '/notifications',
-              showAdditionalIcon: true,
-              additionalIcon: _notificationNumberWidget(tbContext.tbClient),
-              disabled: getIt<IFirebaseService>().apps.isEmpty,
-              disabledReasonMessage: 'Notifications are not configured. '
-                  'Please contact your system administrator.',
-            ),
           ]);
           break;
+        case Authority.SYS_ADMIN:
         case Authority.REFRESH_TOKEN:
-          break;
         case Authority.ANONYMOUS:
-          break;
         case Authority.PRE_VERIFICATION_TOKEN:
           break;
       }
@@ -107,6 +71,45 @@ class MoreMenuItem {
     } else {
       return [];
     }
+  }
+
+  static MoreMenuItem? getNotificationMenuItem(TbContext tbContext) {
+    if (tbContext.isAuthenticated) {
+      switch (tbContext.tbClient.getAuthUser()!.authority) {
+        case Authority.SYS_ADMIN:
+          return MoreMenuItem(
+            title: 'Notifications',
+            icon: Icons.notifications_active,
+            path: '/notifications',
+            showAdditionalIcon: true,
+            additionalIcon: _notificationNumberWidget(tbContext.tbClient),
+            disabled: getIt<IFirebaseService>().apps.isEmpty,
+            disabledReasonMessage: 'Firebase is not configured.'
+                ' Please refer to the official Firebase documentation for'
+                ' guidance on how to do so.',
+          );
+
+        case Authority.TENANT_ADMIN:
+        case Authority.CUSTOMER_USER:
+          return MoreMenuItem(
+            title: 'Notifications',
+            icon: Icons.notifications_active,
+            path: '/notifications',
+            showAdditionalIcon: true,
+            additionalIcon: _notificationNumberWidget(tbContext.tbClient),
+            disabled: getIt<IFirebaseService>().apps.isEmpty,
+            disabledReasonMessage: 'Notifications are not configured. '
+                'Please contact your system administrator.',
+          );
+
+        case Authority.REFRESH_TOKEN:
+        case Authority.ANONYMOUS:
+        case Authority.PRE_VERIFICATION_TOKEN:
+          break;
+      }
+    }
+
+    return null;
   }
 
   static Widget _notificationNumberWidget(ThingsboardClient tbClient) {

@@ -74,35 +74,37 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
         ],
         canGoBack: canGoBack,
       ),
-      body: DashboardWidget(
-        tbContext,
-        titleCallback: (title) {
-          dashboardTitleValue.value = widget.title ?? title;
-        },
-        controllerCallback: (controller) {
-          controller.hasRightLayout.addListener(() {
-            hasRightLayout.value = controller.hasRightLayout.value;
-          });
-          controller.rightLayoutOpened.addListener(() {
-            if (controller.rightLayoutOpened.value) {
-              rightLayoutMenuController.forward();
-            } else {
-              rightLayoutMenuController.reverse();
-            }
-          });
-
-          controller.canGoBack.addListener(() {
-            setState(() {
-              canGoBack = controller.canGoBack.value;
+      body: SafeArea(
+        child: DashboardWidget(
+          tbContext,
+          titleCallback: (title) {
+            dashboardTitleValue.value = widget.title ?? title;
+          },
+          controllerCallback: (controller) {
+            controller.hasRightLayout.addListener(() {
+              hasRightLayout.value = controller.hasRightLayout.value;
             });
-          });
+            controller.rightLayoutOpened.addListener(() {
+              if (controller.rightLayoutOpened.value) {
+                rightLayoutMenuController.forward();
+              } else {
+                rightLayoutMenuController.reverse();
+              }
+            });
 
-          controller.openDashboard(
-            widget.id,
-            state: widget.state,
-            hideToolbar: widget.hideToolbar,
-          );
-        },
+            controller.canGoBack.addListener(() {
+              setState(() {
+                canGoBack = controller.canGoBack.value;
+              });
+            });
+
+            controller.openDashboard(
+              widget.id,
+              state: widget.state,
+              hideToolbar: widget.hideToolbar,
+            );
+          },
+        ),
       ),
     );
   }
