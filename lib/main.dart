@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/firebase_options.dart';
@@ -46,6 +49,10 @@ void main() async {
     }
   } catch (e) {
     log('main::getInitialUri() exception $e', error: e);
+  }
+
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver(getIt());
   }
 
   runApp(const ThingsboardApp());
