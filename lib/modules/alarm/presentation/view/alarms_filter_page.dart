@@ -48,7 +48,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmTypesBloc>.value(value: getIt()),
-        BlocProvider<AssigneeBloc>(create: (_) => AssigneeBloc.create()),
+        BlocProvider<AssigneeBloc>.value(value: getIt()),
       ],
       child: Scaffold(
         appBar: TbAppBar(
