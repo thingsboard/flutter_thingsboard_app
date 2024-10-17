@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assignee_query_ctrl.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
@@ -14,14 +13,6 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
     required this.filtersService,
   }) : super(const AssigneeEmptyState()) {
     on(_onEvent);
-  }
-
-  factory AssigneeBloc.create() {
-    return AssigneeBloc(
-      paginationRepository: getIt(),
-      queryCtrl: getIt(),
-      filtersService: getIt(),
-    );
   }
 
   final PaginationRepository<PageLink, AssigneeEntity> paginationRepository;
