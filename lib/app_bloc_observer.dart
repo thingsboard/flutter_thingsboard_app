@@ -9,24 +9,26 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
-    logger.debug('AppBlocObserver::onCreate($bloc)');
+    logger.info('AppBlocObserver::onCreate(${bloc.runtimeType})');
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    logger.debug('AppBlocObserver::onEvent($bloc, $event)');
+    logger.info('AppBlocObserver::onEvent(${bloc.runtimeType}, $event)');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
-    logger.error('AppBlocObserver::onError($bloc, $error, $stackTrace)');
+    logger.info(
+      'AppBlocObserver::onError(${bloc.runtimeType}, $error, $stackTrace)',
+    );
   }
 
   @override
   void onClose(BlocBase bloc) {
     super.onClose(bloc);
-    logger.debug('AppBlocObserver::onClose($bloc)');
+    logger.info('AppBlocObserver::onClose(${bloc.runtimeType})');
   }
 }
