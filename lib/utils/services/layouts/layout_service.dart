@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {
@@ -60,19 +59,6 @@ class LayoutService implements ILayoutService {
 
     final allItems = Set.of(bottomBarItems);
     final bottomBarElements = Set.of(getBottomBarItems());
-    final difference = allItems.difference(bottomBarElements).toList();
-
-    return difference.isNotEmpty
-        ? difference
-        : MoreMenuItem.getItems(tbContext, context)
-            .map(
-              (e) => TbMainNavigationItem(
-                page: const SizedBox.shrink(),
-                title: e.title,
-                icon: e.icon,
-                path: e.path,
-              ),
-            )
-            .toList();
+    return allItems.difference(bottomBarElements).toList();
   }
 }

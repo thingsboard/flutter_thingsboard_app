@@ -31,7 +31,7 @@ class _MainPageState extends TbPageState<MainPage>
         builder: (context, state) {
           switch (state) {
             case BottomBarDataState():
-              if (_currentIndexNotifier.value > state.items.length) {
+              if (_currentIndexNotifier.value >= state.items.length) {
                 _currentIndexNotifier.value = state.items.length - 1;
                 _tabController.index = _currentIndexNotifier.value;
               }

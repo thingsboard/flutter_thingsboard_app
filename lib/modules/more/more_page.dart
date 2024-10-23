@@ -4,7 +4,6 @@ import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_n
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -22,122 +21,129 @@ class _MorePageState extends TbContextState<MorePage>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: IntrinsicHeight(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.account_circle,
-                    size: 48,
-                    color: Color(0xFFAFAFAF),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.account_circle,
+                        size: 48,
+                        color: Color(0xFFAFAFAF),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.settings,
+                          color: Color(0xFFAFAFAF),
+                        ),
+                        onPressed: () async {
+                          await navigateTo('/profile');
+                          setState(() {});
+                        },
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.settings, color: Color(0xFFAFAFAF)),
-                    onPressed: () async {
-                      await navigateTo('/profile');
-                      setState(() {});
-                    },
+                  const SizedBox(height: 22),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          _getUserDisplayName(),
+                          style: const TextStyle(
+                            color: Color(0xFF282828),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            height: 23 / 20,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: EndpointNameWidget(
+                          endpoint:
+                              getIt<IEndpointService>().getCachedEndpoint(),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 22),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      _getUserDisplayName(),
-                      style: const TextStyle(
-                        color: Color(0xFF282828),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                        height: 23 / 20,
+                  const SizedBox(height: 2),
+                  Text(
+                    _getAuthorityName(context),
+                    style: const TextStyle(
+                      color: Color(0xFFAFAFAF),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 16 / 14,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Divider(color: Color(0xFFEDEDED)),
+                  const SizedBox(height: 8),
+                  buildMoreMenuItems(context),
+                  const SizedBox(height: 8),
+                  const Divider(color: Color(0xFFEDEDED)),
+                  const SizedBox(height: 8),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: SizedBox(
+                      height: 48,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 18,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const Icon(
+                              Icons.logout,
+                              color: Color(0xFFE04B2F),
+                            ),
+                            const SizedBox(width: 34),
+                            Text(
+                              S.of(context).logout,
+                              style: const TextStyle(
+                                color: Color(0xFFE04B2F),
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 20 / 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    onTap: () {
+                      tbContext.logout(
+                        requestConfig: RequestConfig(ignoreErrors: true),
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: EndpointNameWidget(
-                      endpoint: getIt<IEndpointService>().getCachedEndpoint(),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 2),
-              Text(
-                _getAuthorityName(context),
-                style: const TextStyle(
-                  color: Color(0xFFAFAFAF),
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  height: 16 / 14,
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Divider(color: Color(0xFFEDEDED)),
-              const SizedBox(height: 8),
-              buildMoreMenuItems(context),
-              const SizedBox(height: 8),
-              const Divider(color: Color(0xFFEDEDED)),
-              const SizedBox(height: 8),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child: SizedBox(
-                  height: 48,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 18,
-                    ),
-                    child: Row(
+                  const Spacer(),
+                  if (tbContext.wlService.showNameVersion == true)
+                    Row(
                       mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Icon(
-                          Icons.logout,
-                          color: Color(0xFFE04B2F),
-                        ),
-                        const SizedBox(width: 34),
                         Text(
-                          S.of(context).logout,
-                          style: const TextStyle(
-                            color: Color(0xFFE04B2F),
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            height: 20 / 14,
-                          ),
+                          tbContext.wlService.platformNameAndVersion,
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
-                  ),
-                ),
-                onTap: () {
-                  tbContext.logout(
-                    requestConfig: RequestConfig(ignoreErrors: true),
-                  );
-                },
+                ],
               ),
-              const Spacer(),
-              if (tbContext.wlService.showNameVersion == true)
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      tbContext.wlService.platformNameAndVersion,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-            ],
+            ),
           ),
         ),
       ),
@@ -200,71 +206,7 @@ class _MorePageState extends TbContextState<MorePage>
       );
     }).toList();
 
-    return Column(
-      children: [
-        ...items,
-        buildNotificationsMenuItem(
-          MoreMenuItem.getNotificationMenuItem(tbContext),
-        ),
-      ],
-    );
-  }
-
-  Widget buildNotificationsMenuItem(MoreMenuItem? menuItem) {
-    if (menuItem == null) {
-      return const SizedBox.shrink();
-    }
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        height: 48,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 18),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Icon(
-                menuItem.icon,
-                color: !menuItem.disabled
-                    ? const Color(0xFF282828)
-                    : Colors.grey.withOpacity(0.5),
-              ),
-              Visibility(
-                visible: menuItem.showAdditionalIcon,
-                child: menuItem.additionalIcon ?? const SizedBox.shrink(),
-              ),
-              SizedBox(width: menuItem.showAdditionalIcon ? 15 : 34),
-              Text(
-                menuItem.title,
-                style: TextStyle(
-                  color: !menuItem.disabled
-                      ? const Color(0xFF282828)
-                      : Colors.grey.withOpacity(0.5),
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  height: 20 / 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      onTap: () {
-        if (!menuItem.disabled) {
-          navigateTo(menuItem.path);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                menuItem.disabledReasonMessage ?? 'The item is disabled',
-              ),
-            ),
-          );
-        }
-      },
-    );
+    return Column(children: items);
   }
 
   String _getUserDisplayName() {
