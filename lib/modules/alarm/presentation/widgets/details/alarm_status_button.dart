@@ -13,7 +13,12 @@ class AlarmStatusButton extends StatelessWidget {
       onPressed: onTap,
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Text(text, style: TbTextStyles.titleXs),
+        child: Text(
+          text,
+          style: TbTextStyles.titleXs,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
