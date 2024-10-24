@@ -131,8 +131,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                             color: Theme.of(context).primaryColor,
                           ),
                           padding: const EdgeInsets.all(7.0),
-                          onPressed: () => tbContext.router.navigateTo(
-                            context,
+                          onPressed: () => navigateTo(
                             '/alarmDetails/${widget.alarm.id?.id}',
                           ),
                         ),
