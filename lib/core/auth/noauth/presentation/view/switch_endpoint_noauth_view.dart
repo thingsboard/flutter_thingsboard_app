@@ -55,8 +55,6 @@ class _SwitchEndpointNoAuthViewState
                       context,
                       '/home',
                       replace: true,
-                      maintainState: false,
-                      clearStack: true,
                     );
               }
             },
