@@ -17,7 +17,9 @@ class _TenantsWidgetState extends TbContextState<TenantsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TenantsList(tbContext, _pageLinkController);
+    return SafeArea(
+      child: TenantsList(tbContext, _pageLinkController),
+    );
   }
 
   @override
