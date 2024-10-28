@@ -10,6 +10,9 @@ class EndpointService implements IEndpointService {
   final ILocalDatabaseService databaseService;
   String? _cachedEndpoint;
   final _notifierValue = ValueNotifier<String?>(UniqueKey().toString());
+  final _defaultEndpoints = <String>{
+    ThingsboardAppConstants.thingsBoardApiEndpoint,
+  };
 
   @override
   ValueListenable<String?> get listenEndpointChanges => _notifierValue;
@@ -32,7 +35,7 @@ class EndpointService implements IEndpointService {
   @override
   Future<bool> isCustomEndpoint() async {
     _cachedEndpoint ??= await getEndpoint();
-    return _cachedEndpoint != ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return !_defaultEndpoints.contains(_cachedEndpoint);
   }
 
   @override
