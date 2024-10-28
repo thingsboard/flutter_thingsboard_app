@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -23,7 +23,8 @@ class DevicesListPage extends TbPageWidget {
   State<StatefulWidget> createState() => _DevicesListPageState();
 }
 
-class _DevicesListPageState extends TbPageState<DevicesListPage> {
+class _DevicesListPageState extends TbPageState<DevicesListPage>
+    with AutomaticKeepAliveClientMixin<DevicesListPage> {
   late final DeviceQueryController _deviceQueryController;
 
   @override
@@ -37,6 +38,7 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var devicesList = DevicesList(
       tbContext,
       _deviceQueryController,
@@ -117,4 +119,7 @@ class _DevicesListPageState extends TbPageState<DevicesListPage> {
     _deviceQueryController.dispose();
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

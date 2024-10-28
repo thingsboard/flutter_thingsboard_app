@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_page.dart';
+import 'package:thingsboard_app/modules/device/devices_list_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
@@ -50,7 +51,6 @@ class TbMainNavigationItem {
         case Authority.SYS_ADMIN:
           break;
         case Authority.TENANT_ADMIN:
-        case Authority.CUSTOMER_USER:
           items.addAll(
             [
               TbMainNavigationItem(
@@ -61,6 +61,24 @@ class TbMainNavigationItem {
               ),
               TbMainNavigationItem(
                 page: DevicesMainPage(tbContext),
+                title: 'Devices',
+                icon: Icons.devices_outlined,
+                path: '/devices',
+              ),
+            ],
+          );
+          break;
+        case Authority.CUSTOMER_USER:
+          items.addAll(
+            [
+              TbMainNavigationItem(
+                page: AlarmsPage(tbContext),
+                title: 'Alarms',
+                icon: Icons.notifications_outlined,
+                path: '/alarms',
+              ),
+              TbMainNavigationItem(
+                page: DevicesListPage(tbContext),
                 title: 'Devices',
                 icon: Icons.devices_outlined,
                 path: '/devices',
