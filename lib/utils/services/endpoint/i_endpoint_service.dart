@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:thingsboard_app/core/auth/login/region.dart';
 
 /// This service provides information about the current active endpoint.
 /// Since we have a feature that allows for changing endpoints, there is some
@@ -13,6 +14,10 @@ abstract interface class IEndpointService {
   /// At times, we need to retrieve the endpoint synchronously.
   /// We might consider using Hive in the future.
   String getCachedEndpoint();
+
+  Future<void> setRegion(Region region);
+
+  Region? getSelectedRegion();
 
   ValueListenable<String?> get listenEndpointChanges;
 }

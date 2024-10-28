@@ -22,7 +22,7 @@
   "passwordResetText": "Enter the email associated with your account and we'll send an email with password reset link",
   "requestPasswordReset": "Request password reset",
   "passwordResetLinkSuccessfullySentNotification": "Password reset link was successfully sent!",
-  "or": "Or",
+  "or": "OR",
   "no": "No",
   "yes": "Yes",
   "title": "Title",
@@ -156,5 +156,11 @@
   "users": "Users",
   "unassigned": "Unassigned",
   "failedToLoadAlarmDetails": "Failed to load alarm details",
-  "somethingWentWrong" : "Something Went Wrong"
+  "somethingWentWrong": "Something Went Wrong",
+  "chooseRegion": "Choose region",
+  "selectRegion": "Select region",
+  "northAmerica": "North America",
+  "europe": "Europe",
+  "northAmericaRegionShort": "N. Virginia",
+  "europeRegionShort": "Frankfurt"
 }
