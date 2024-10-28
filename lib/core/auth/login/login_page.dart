@@ -13,9 +13,7 @@ import 'package:thingsboard_app/core/auth/login/choose_region_screen.dart';
 import 'package:thingsboard_app/core/auth/login/region.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -45,7 +43,6 @@ class _LoginPageState extends TbPageState<LoginPage>
   @override
   void initState() {
     super.initState();
-    selectedRegion = getIt<IEndpointService>().getSelectedRegion();
     WidgetsBinding.instance.addObserver(this);
     if (tbClient.isPreVerificationToken()) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
