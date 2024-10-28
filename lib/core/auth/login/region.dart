@@ -8,7 +8,9 @@ enum Region {
   @HiveField(0)
   northAmerica,
   @HiveField(1)
-  europe
+  europe,
+  @HiveField(2)
+  custom
 }
 
 extension RegionToString on Region {
@@ -18,6 +20,8 @@ extension RegionToString on Region {
         return 'North America';
       case Region.europe:
         return 'Europe';
+      case Region.custom:
+        return 'Regions';
     }
   }
 }

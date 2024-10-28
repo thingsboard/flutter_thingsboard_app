@@ -17,6 +17,8 @@ class RegionAdapter extends TypeAdapter<Region> {
         return Region.northAmerica;
       case 1:
         return Region.europe;
+      case 2:
+        return Region.custom;
       default:
         return Region.northAmerica;
     }
@@ -30,6 +32,9 @@ class RegionAdapter extends TypeAdapter<Region> {
         break;
       case Region.europe:
         writer.writeByte(1);
+        break;
+      case Region.custom:
+        writer.writeByte(2);
         break;
     }
   }
