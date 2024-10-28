@@ -6,7 +6,7 @@ class UserInfoAvatarWidget extends StatelessWidget {
     required this.shortName,
     required this.color,
     super.key,
-  }) : assert(shortName.length <= 2);
+  }) : assert(shortName.length <= 2, 'shortName is $shortName');
 
   final String shortName;
   final Color color;
