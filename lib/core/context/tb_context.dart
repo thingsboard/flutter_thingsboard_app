@@ -48,7 +48,14 @@ class TbContext implements PopEntry {
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
 
   @override
-  PopInvokedCallback get onPopInvoked => onPopInvokedImpl;
+  void onPopInvoked(bool didPop) {
+    onPopInvokedImpl(didPop);
+  }
+
+  @override
+  void onPopInvokedWithResult(bool didPop, result) {
+    onPopInvokedImpl(didPop, result);
+  }
 
   GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -562,14 +569,14 @@ class TbContext implements PopEntry {
     }
   }
 
-  void onPopInvokedImpl(bool didPop) async {
+  void onPopInvokedImpl<T>(bool didPop, [T? result]) async {
     if (didPop) {
       return;
     }
     if (await currentState!.willPop()) {
       var navigator = Navigator.of(currentState!.context);
       if (navigator.canPop()) {
-        navigator.pop();
+        navigator.pop(result);
       } else {
         SystemNavigator.pop();
       }

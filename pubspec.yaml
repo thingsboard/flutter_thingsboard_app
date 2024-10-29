@@ -23,7 +23,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   fading_edge_scrollview: ^4.0.0
   stream_transform: ^2.1.0
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview: ^6.1.5
   url_launcher: ^6.2.1
   image_picker: ^1.0.4
   mime: ^1.0.4
