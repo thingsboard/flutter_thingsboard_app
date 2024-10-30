@@ -59,16 +59,21 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                   fit: FlexFit.tight,
                                   child: Text(
                                     widget.alarm.type,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TbTextStyles.labelLarge,
                                   ),
                                 ),
+                                const SizedBox(width: 5),
                                 Text(
                                   entityDateFormat.format(
                                     DateTime.fromMillisecondsSinceEpoch(
                                       widget.alarm.createdTime!,
                                     ),
                                   ),
-                                  style: TbTextStyles.bodyMedium,
+                                  style: TbTextStyles.bodyMedium.copyWith(
+                                    color: Colors.black.withOpacity(.54),
+                                  ),
                                 ),
                               ],
                             ),
@@ -82,9 +87,12 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                     widget.alarm.originatorName != null
                                         ? widget.alarm.originatorName!
                                         : '',
-                                    style: TbTextStyles.bodyMedium,
+                                    style: TbTextStyles.bodyMedium.copyWith(
+                                      color: Colors.black.withOpacity(.54),
+                                    ),
                                   ),
                                 ),
+                                const SizedBox(width: 5),
                                 Text(
                                   alarmSeverityTranslations[
                                       widget.alarm.severity]!,
@@ -146,46 +154,4 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
       ),
     );
   }
-
-// _clearAlarm(AlarmInfo alarm, BuildContext context) async {
-//   var res = await confirm(
-//     title: S.of(context).alarmClearTitle,
-//     message: S.of(context).alarmClearText,
-//     cancel: S.of(context).no,
-//     ok: S.of(context).yes,
-//   );
-//   if (res != null && res) {
-//     setState(() {
-//       loading = true;
-//     });
-//     await tbClient.getAlarmService().clearAlarm(alarm.id!.id!);
-//     var newAlarm =
-//         await tbClient.getAlarmService().getAlarmInfo(alarm.id!.id!);
-//     setState(() {
-//       loading = false;
-//       this.alarm = newAlarm!;
-//     });
-//   }
-// }
-//
-// _ackAlarm(AlarmInfo alarm, BuildContext context) async {
-//   var res = await confirm(
-//     title: S.of(context).alarmAcknowledgeTitle,
-//     message: S.of(context).alarmAcknowledgeText,
-//     cancel: S.of(context).no,
-//     ok: S.of(context).yes,
-//   );
-//   if (res != null && res) {
-//     setState(() {
-//       loading = true;
-//     });
-//     await tbClient.getAlarmService().ackAlarm(alarm.id!.id!);
-//     var newAlarm =
-//         await tbClient.getAlarmService().getAlarmInfo(alarm.id!.id!);
-//     setState(() {
-//       loading = false;
-//       this.alarm = newAlarm!;
-//     });
-//   }
-// }
 }
