@@ -29,7 +29,8 @@ class AlarmDetailsContentWidget extends StatelessWidget {
                 color: Colors.black.withOpacity(.38),
               ),
             ),
-            Expanded(
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
               child: Text(
                 details,
                 textAlign: TextAlign.end,

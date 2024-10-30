@@ -235,10 +235,6 @@ class _DashboardState extends State<DashboardWidget> {
                 '[JavaScript console] ${consoleMessage.messageLevel}: '
                 '${consoleMessage.message}',
               );
-
-              if (dashboardLoading.value) {
-                dashboardLoading.value = false;
-              }
             },
             onLoadStart: (controller, url) async {
               log.debug('onLoadStart: $url');

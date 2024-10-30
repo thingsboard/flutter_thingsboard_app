@@ -1,3 +1,5 @@
+import 'dart:math' show pi;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
@@ -72,19 +74,40 @@ class AlarmAssigneeWidget extends StatelessWidget {
                           color: Colors.black.withOpacity(0.38),
                         ),
                       ),
+                      const Spacer(),
+                      Transform.rotate(
+                        angle: -pi / 2,
+                        child: Icon(
+                          Icons.arrow_left_outlined,
+                          color: Colors.black.withOpacity(.38),
+                        ),
+                      ),
                     ],
                   );
 
                 case AlarmAssigneeSelectedState():
-                  return UserInfoWidget(
-                    id: state.assignee.userInfo.id.id ?? '',
-                    avatar: UserInfoAvatarWidget(
-                      shortName: state.assignee.shortName,
-                      color: UiUtils.colorFromString(
-                        state.assignee.displayName,
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: UserInfoWidget(
+                          id: state.assignee.userInfo.id.id ?? '',
+                          avatar: UserInfoAvatarWidget(
+                            shortName: state.assignee.shortName,
+                            color: UiUtils.colorFromString(
+                              state.assignee.displayName,
+                            ),
+                          ),
+                          name: state.assignee.displayName,
+                        ),
                       ),
-                    ),
-                    name: state.assignee.displayName,
+                      Transform.rotate(
+                        angle: -pi / 2,
+                        child: Icon(
+                          Icons.arrow_left_outlined,
+                          color: Colors.black.withOpacity(.38),
+                        ),
+                      ),
+                    ],
                   );
               }
             },

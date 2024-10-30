@@ -46,10 +46,10 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
         title: ValueListenableBuilder<String>(
           valueListenable: dashboardTitleValue,
           builder: (context, title, widget) {
-            return FittedBox(
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.centerLeft,
-              child: Text(title),
+            return Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             );
           },
         ),

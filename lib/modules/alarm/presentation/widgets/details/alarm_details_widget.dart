@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
@@ -9,7 +11,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
-class AlarmDetailsWidget extends StatelessWidget {
+class AlarmDetailsWidget extends StatefulWidget {
   AlarmDetailsWidget({
     required this.alarmInfo,
     required this.alamDashboardId,
@@ -23,9 +25,18 @@ class AlarmDetailsWidget extends StatelessWidget {
   final TbContext tbContext;
 
   @override
+  State<StatefulWidget> createState() => _AlarmDetailsWidgetState();
+}
+
+class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
+    with SingleTickerProviderStateMixin {
+  late final ExpandableController expandableController;
+  late final AnimationController animationController;
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
-      initialExpanded: true,
+      controller: expandableController,
       child: ScrollOnExpand(
         child: Container(
           decoration: BoxDecoration(
@@ -36,13 +47,31 @@ class AlarmDetailsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: ExpandablePanel(
+            theme: const ExpandableThemeData(hasIcon: false),
             header: Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
-                S.of(context).details,
-                style: TbTextStyles.labelLarge.copyWith(
-                  color: Colors.black.withOpacity(.76),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    S.of(context).details,
+                    style: TbTextStyles.labelLarge.copyWith(
+                      color: Colors.black.withOpacity(.76),
+                    ),
+                  ),
+                  RotationTransition(
+                    turns: Tween(begin: .0, end: .5).animate(
+                      animationController,
+                    ),
+                    child: Transform.rotate(
+                      angle: pi / 2,
+                      child: Icon(
+                        Icons.arrow_left_outlined,
+                        color: Colors.black.withOpacity(.38),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             collapsed: const SizedBox.shrink(),
@@ -52,49 +81,51 @@ class AlarmDetailsWidget extends StatelessWidget {
                 children: [
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
-                    details: alarmStatusTranslations[alarmInfo.status] ?? '',
+                    details:
+                        alarmStatusTranslations[widget.alarmInfo.status] ?? '',
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
-                    details: alarmInfo.type,
+                    details: widget.alarmInfo.type,
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).severity,
                     details:
-                        alarmSeverityTranslations[alarmInfo.severity] ?? '',
+                        alarmSeverityTranslations[widget.alarmInfo.severity] ??
+                            '',
                     detailsStyle: TbTextStyles.labelLarge.copyWith(
-                      color: alarmSeverityColors[alarmInfo.severity],
+                      color: alarmSeverityColors[widget.alarmInfo.severity],
                     ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).originator,
-                    details: alarmInfo.originatorName ?? '',
+                    details: widget.alarmInfo.originatorName ?? '',
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).startTime,
-                    details: startTimeDateFormat.format(
+                    details: widget.startTimeDateFormat.format(
                       DateTime.fromMillisecondsSinceEpoch(
-                        alarmInfo.startTs!,
+                        widget.alarmInfo.startTs!,
                       ),
                     ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).duration,
                     details: _alarmDuration(context),
-                    showDivider: alamDashboardId != null,
+                    showDivider: widget.alamDashboardId != null,
                   ),
                   Visibility(
-                    visible: alamDashboardId != null,
+                    visible: widget.alamDashboardId != null,
                     child: SizedBox(
                       width: double.infinity,
                       child: TextButton(
                         onPressed: () {
-                          tbContext.navigateToDashboard(
-                            alamDashboardId!,
-                            dashboardTitle: alarmInfo.originatorName,
+                          widget.tbContext.navigateToDashboard(
+                            widget.alamDashboardId!,
+                            dashboardTitle: widget.alarmInfo.originatorName,
                             state: Utils.createDashboardEntityState(
-                              alarmInfo.originator,
-                              entityName: alarmInfo.originatorName,
+                              widget.alarmInfo.originator,
+                              entityName: widget.alarmInfo.originatorName,
                             ),
                           );
                         },
@@ -121,10 +152,36 @@ class AlarmDetailsWidget extends StatelessWidget {
     );
   }
 
+  @override
+  void initState() {
+    expandableController = ExpandableController(initialExpanded: true);
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    expandableController.addListener(() {
+      if (expandableController.expanded) {
+        animationController.reverse();
+      } else {
+        animationController.forward();
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    expandableController.dispose();
+    animationController.dispose();
+    super.dispose();
+  }
+
   String _alarmDuration(BuildContext context) {
     final now = DateTime.now();
     final startDateTime = DateTime.fromMillisecondsSinceEpoch(
-      alarmInfo.startTs!,
+      widget.alarmInfo.startTs!,
     );
     final difference = now.difference(startDateTime);
 
