@@ -36,6 +36,7 @@ class NotificationWidget extends StatelessWidget {
         NotificationService.handleClickOnNotification(
           notification.additionalConfig?['onClick'] ?? {},
           tbContext,
+          isOnNotificationsScreenAlready: true,
         );
       },
       child: Container(

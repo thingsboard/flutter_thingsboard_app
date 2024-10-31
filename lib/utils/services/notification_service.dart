@@ -255,8 +255,9 @@ class NotificationService {
 
   static void handleClickOnNotification(
     Map<String, dynamic> data,
-    TbContext tbContext,
-  ) {
+    TbContext tbContext, {
+    bool isOnNotificationsScreenAlready = false,
+  }) {
     if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
       switch (data['linkType'] ?? data['onClick.linkType']) {
         case 'DASHBOARD':
@@ -290,7 +291,8 @@ class NotificationService {
           if (link != null) {
             if (Uri.parse(link).isAbsolute) {
               tbContext.navigateTo('/url/${Uri.encodeComponent(link)}');
-            } else {
+            } else if (link == '/notifications' &&
+                !isOnNotificationsScreenAlready) {
               tbContext.navigateTo(link);
             }
           }
@@ -298,7 +300,9 @@ class NotificationService {
           break;
       }
     } else {
-      tbContext.navigateTo('/notifications', replace: true);
+      if (!isOnNotificationsScreenAlready) {
+        tbContext.navigateTo('/notifications', replace: true);
+      }
     }
   }
 
