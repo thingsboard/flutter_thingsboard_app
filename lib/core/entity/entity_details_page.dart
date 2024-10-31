@@ -86,18 +86,14 @@ class _EntityDetailsPageState<T extends BaseData>
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FittedBox(
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          title,
-                          style: widget._subTitle != null
-                              ? Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleLarge!
-                                  .copyWith(fontSize: 16)
-                              : null,
-                        ),
+                      Text(
+                        title,
+                        style: widget._subTitle != null
+                            ? Theme.of(context)
+                                .primaryTextTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 16)
+                            : null,
                       ),
                       if (widget._subTitle != null)
                         Text(
