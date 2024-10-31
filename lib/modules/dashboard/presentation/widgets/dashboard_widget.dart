@@ -147,7 +147,8 @@ class _DashboardState extends State<DashboardWidget> {
                     late String path;
 
                     if (args.first.contains('.')) {
-                      path = '/${args.first.split('.').last}';
+                      path =
+                          '/${args.first.split('.').first}/${args.first.split('.').last}';
                     } else {
                       path = '/${args.first}';
                     }
