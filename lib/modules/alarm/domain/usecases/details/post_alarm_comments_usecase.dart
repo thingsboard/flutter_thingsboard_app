@@ -10,15 +10,20 @@ final class PostAlarmCommentsUseCase
 
   @override
   Future<AlarmCommentInfo> call(PostAlarmCommentParams params) {
+    final comment = params.comment.trimLeft().trimRight();
+    if (comment.isEmpty) {
+      throw Exception('An empty comment was rejected to be posted.');
+    }
+
     if (params.id != null) {
       return repository.updateComment(
         params.alarmId,
         id: params.id!,
-        comment: params.comment,
+        comment: comment,
       );
     }
 
-    return repository.postComment(params.alarmId, comment: params.comment);
+    return repository.postComment(params.alarmId, comment: comment);
   }
 }
 
