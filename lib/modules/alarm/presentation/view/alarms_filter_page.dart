@@ -131,7 +131,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: AlarmAssigneeFilter(
+                          child: AlarmAssigneeFilterWidget(
                             tbContext: tbContext,
                             onChanged: () {
                               setState(() {

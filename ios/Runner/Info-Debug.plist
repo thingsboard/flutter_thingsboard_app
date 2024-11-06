@@ -45,6 +45,8 @@
 	<string>Scan QrCode or take photos using your camera.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Allow flutter tools on your computer to connect and debug your application.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Get location to place the device on a map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Get location to place the device on a map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

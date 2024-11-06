@@ -44,7 +44,6 @@ class _SwitchEndpointNoAuthViewState
           child: BlocConsumer<NoAuthBloc, NoAuthState>(
             listener: (context, state) {
               if (state is NoAuthErrorState) {
-                widget.tbContext.showErrorNotification(state.message);
                 Future.delayed(const Duration(seconds: 5), () {
                   if (mounted) {
                     widget.tbContext.pop();
@@ -56,8 +55,6 @@ class _SwitchEndpointNoAuthViewState
                       context,
                       '/home',
                       replace: true,
-                      maintainState: false,
-                      clearStack: true,
                     );
               }
             },

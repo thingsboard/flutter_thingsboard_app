@@ -1,9 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assignee_query_ctrl.dart';
-import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/fetch_assignee_usecase.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_event.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_state.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
@@ -11,7 +9,6 @@ import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
   AssigneeBloc({
     required this.paginationRepository,
-    required this.fetchAssigneeUseCase,
     required this.queryCtrl,
     required this.filtersService,
   }) : super(const AssigneeEmptyState()) {
@@ -19,7 +16,6 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
   }
 
   final PaginationRepository<PageLink, AssigneeEntity> paginationRepository;
-  final FetchAssigneeUseCase fetchAssigneeUseCase;
   final AssigneeQueryCtrl queryCtrl;
   final IAlarmFiltersService filtersService;
 

@@ -1,3 +1,5 @@
+import 'package:thingsboard_app/constants/database_keys.dart';
+import 'package:thingsboard_app/core/auth/login/region.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
@@ -12,20 +14,37 @@ class LocalDatabaseService implements ILocalDatabaseService {
   final TbLogger logger;
 
   @override
-  Future<void> deleteItem(String key) async {
-    logger.debug('LocalDatabaseService::deleteItem($key)');
-    await storage.deleteItem(key);
+  String? getSelectedEndpoint() {
+    return storage.getItem(DatabaseKeys.thingsBoardApiEndpointKey);
   }
 
   @override
-  Future<String?> getItem(String key) async {
-    logger.debug('LocalDatabaseService::getItem($key)');
-    return storage.getItem(key);
+  Region? getSelectedRegion() {
+    return storage.getItem(DatabaseKeys.selectedRegion);
   }
 
   @override
-  Future<void> setItem(String key, String value) async {
-    logger.debug('LocalDatabaseService::setItem($key, $value)');
-    await storage.setItem(key, value);
+  Future<void> saveSelectedRegion(Region region) async {
+    return storage.setItem(DatabaseKeys.selectedRegion, region);
+  }
+
+  @override
+  Future<void> setSelectedEndpoint(String endpoint) async {
+    return storage.setItem(DatabaseKeys.thingsBoardApiEndpointKey, endpoint);
+  }
+
+  @override
+  String? getInitialAppLink() {
+    return storage.getItem(DatabaseKeys.initialAppLink);
+  }
+
+  @override
+  Future<void> setInitialAppLink(String appLink) async {
+    return storage.setItem(DatabaseKeys.initialAppLink, appLink);
+  }
+
+  @override
+  Future<void> deleteInitialAppLink() async {
+    return storage.deleteItem(DatabaseKeys.initialAppLink);
   }
 }

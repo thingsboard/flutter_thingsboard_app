@@ -14,6 +14,8 @@ import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 class AssigneeDi {
   static const _scopeName = 'AssigneeDi';
 
+  AssigneeDi._();
+
   static void inti(ThingsboardClient tbClient) {
     getIt.pushNewScope(
       scopeName: _scopeName,
@@ -51,7 +53,6 @@ class AssigneeDi {
         locator.registerLazySingleton(
           () => AssigneeBloc(
             paginationRepository: locator(),
-            fetchAssigneeUseCase: locator(),
             queryCtrl: locator(),
             filtersService: locator(),
           ),

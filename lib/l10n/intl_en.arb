@@ -1,17 +1,14 @@
 {
   "appTitle": "ThingsBoard",
-
   "home": "Home",
   "alarms": "Alarms",
   "devices": "Devices",
   "more": "More",
-
   "customers": "Customers",
   "assets": "Assets",
   "auditLogs": "Audit Logs",
   "logout": "Log Out",
   "login": "Log In",
-
   "logoDefaultValue": "ThingsBoard Logo",
   "loginNotification": "Login to your account",
   "email": "Email",
@@ -25,11 +22,9 @@
   "passwordResetText": "Enter the email associated with your account and we'll send an email with password reset link",
   "requestPasswordReset": "Request password reset",
   "passwordResetLinkSuccessfullySentNotification": "Password reset link was successfully sent!",
-
-  "or": "Or",
+  "or": "OR",
   "no": "No",
   "yes": "Yes",
-
   "title": "Title",
   "country": "Country",
   "city": "City",
@@ -38,31 +33,24 @@
   "address": "Address",
   "address2": "Address 2",
   "phone": "Phone",
-
   "alarmClearTitle": "Clear Alarm",
   "alarmClearText": "Are you sure you want to clear Alarm?",
-
   "alarmAcknowledgeTitle": "Acknowledge Alarm",
   "alarmAcknowledgeText": "Are you sure you want to acknowledge Alarm?",
-
   "assetName": "Asset name",
   "type": "Type",
   "label": "Label",
   "assignedToCustomer": "Assigned to customer",
-
   "auditLogDetails": "Audit log details",
   "entityType": "Entity Type",
   "actionData": "Action data",
   "failureDetails": "Failure details",
-
   "allDevices": "All devices",
   "active": "Active",
   "inactive": "Inactive",
-
   "systemAdministrator": "System Administrator",
   "tenantAdministrator": "Tenant Administrator",
   "customer": "Customer",
-
   "changePassword": "Change Password",
   "currentPassword": "currentPassword",
   "currentPasswordRequireText": "Current password is required.",
@@ -74,7 +62,6 @@
   "newPassword2RequireText": "New password again is required.",
   "newPassword2Star": "New password again *",
   "passwordErrorNotification": "Entered passwords must be same!",
-
   "emailStar": "Email *",
   "firstName": "firstName",
   "firstNameUpper": "First Name",
@@ -82,12 +69,9 @@
   "lastNameUpper": "Last Name",
   "profileSuccessNotification": "Profile successfully updated",
   "passwordSuccessNotification": "Password successfully changed",
-
   "notImplemented": "Not implemented!",
-
   "listIsEmptyText": "The list is currently empty.",
   "tryAgain": "Try Again",
-
   "verifyYourIdentity": "Verify your identity",
   "continueText": "Continue",
   "resendCode": "Resend code",
@@ -109,27 +93,21 @@
   "mfaProviderSms": "SMS",
   "mfaProviderEmail": "Email",
   "mfaProviderBackupCode": "Backup code",
-
   "newUserText": "New User?",
   "createAccount": "Create Account",
-
   "emailVerification": "Email verification",
   "emailVerificationSentText": "An email with verification details was sent to the specified email address ",
   "emailVerificationInstructionsText": "Please follow instructions provided in the email in order to complete your sign up procedure. Note: if you haven't seen the email for a while, please check your 'spam' folder or try to resend email by clicking 'Resend' button.",
   "resend": "Resend",
-
   "activatingAccount": "Activating account...",
   "accountActivated": "Account successfully activated!",
   "emailVerified": "Email verified",
   "activatingAccountText": "Your account is currently activating.\nPlease wait...",
   "accountActivatedText": "Congratulations!\nYour {appTitle} account has been activated.\nNow you can login to your {appTitle} space.",
-
   "privacyPolicy": "Privacy Policy",
   "cancel": "Cancel",
   "accept": "Accept",
-
   "termsOfUse": "Terms of Use",
-
   "firstNameStar": "First name *",
   "firstNameRequireText": "First name is required.",
   "lastNameStar": "Last name *",
@@ -147,5 +125,42 @@
   "inactiveUserAlreadyExists": "Inactive user already exists",
   "inactiveUserAlreadyExistsMessage": "There is already registered user with unverified email address.\nClick 'Resend' button if you wish to resend verification email.",
   "assignee": "Assignee",
-  "alarmTypes": "Alarm types"
+  "alarmTypes": "Alarm types",
+  "details": "Details",
+  "status": "Status",
+  "severity": "Severity",
+  "originator": "Originator",
+  "startTime": "Start time",
+  "duration": "Duration",
+  "days": "days",
+  "hours": "hours",
+  "minutes": "minutes",
+  "seconds": "seconds",
+  "viewDashboard": "View Dashboard",
+  "activity": "Activity",
+  "addCommentMessage": "Add a comment...",
+  "selectUser": "Select users",
+  "assignedToMe": "Assigned to me",
+  "clear": "Clear",
+  "acknowledge": "Acknowledge",
+  "edit": "Edit",
+  "delete": "Delete",
+  "edited": "Edited",
+  "deleteComment": "Delete comment",
+  "areYouSure": "Are you sure?",
+  "noResultsFound": "No results found",
+  "tryRefiningYourQuery": "Please try refining your query",
+  "failedToLoadTheList": "Failed to load the list",
+  "tryRefreshing": "Please try refreshing",
+  "refresh": "Refresh",
+  "users": "Users",
+  "unassigned": "Unassigned",
+  "failedToLoadAlarmDetails": "Failed to load alarm details",
+  "somethingWentWrong": "Something Went Wrong",
+  "chooseRegion": "Choose region",
+  "selectRegion": "Select region",
+  "northAmerica": "North America",
+  "europe": "Europe",
+  "northAmericaRegionShort": "N. Virginia",
+  "europeRegionShort": "Frankfurt"
 }

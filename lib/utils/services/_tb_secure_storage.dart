@@ -10,7 +10,7 @@ class TbSecureStorage implements TbStorage {
   late Box encryptedBox;
 
   Future<void> init() async {
-    final secureStorage = FlutterSecureStorage();
+    const secureStorage = FlutterSecureStorage();
     // if key not exists return null
     final encryptionKeyString = await secureStorage.read(key: 'key');
     if (encryptionKeyString == null) {
@@ -31,17 +31,22 @@ class TbSecureStorage implements TbStorage {
   }
 
   @override
-  Future<void> deleteItem(String key) async {
+  Future<void> deleteItem(dynamic key) async {
     return await encryptedBox.delete(key);
   }
 
   @override
-  Future<String?> getItem(String key) async {
-    return await encryptedBox.get(key);
+  dynamic getItem(dynamic key, {dynamic defaultValue}) {
+    return encryptedBox.get(key);
   }
 
   @override
-  Future<void> setItem(String key, String value) async {
+  Future<void> setItem(dynamic key, dynamic value) async {
     return await encryptedBox.put(key, value);
+  }
+
+  @override
+  bool containsKey(dynamic key) {
+    return encryptedBox.containsKey(key);
   }
 }

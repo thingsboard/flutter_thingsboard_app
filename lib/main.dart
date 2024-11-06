@@ -1,13 +1,16 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/constants/database_keys.dart';
+import 'package:thingsboard_app/core/auth/login/region.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -19,9 +22,8 @@ import 'config/themes/tb_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-//  await FlutterDownloader.initialize();
-//  await Permission.storage.request();
   await Hive.initFlutter();
+  Hive.registerAdapter(RegionAdapter());
 
   await setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
@@ -39,13 +41,14 @@ void main() async {
   try {
     final uri = await getInitialUri();
     if (uri != null) {
-      await getIt<ILocalDatabaseService>().setItem(
-        DatabaseKeys.initialAppLink,
-        uri.toString(),
-      );
+      await getIt<ILocalDatabaseService>().setInitialAppLink(uri.toString());
     }
   } catch (e) {
     log('main::getInitialUri() exception $e', error: e);
+  }
+
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver(getIt());
   }
 
   runApp(const ThingsboardApp());
@@ -58,7 +61,6 @@ class ThingsboardApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
         statusBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light,
       ),

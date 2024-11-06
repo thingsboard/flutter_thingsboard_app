@@ -15,6 +15,8 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 
 class AlarmsDi {
+  AlarmsDi._();
+
   static void init(
     final String scopeName, {
     required ThingsboardClient tbClient,

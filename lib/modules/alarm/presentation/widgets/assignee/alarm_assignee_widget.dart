@@ -9,8 +9,8 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_widget.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
-class AlarmAssigneeFilter extends StatelessWidget {
-  const AlarmAssigneeFilter({
+class AlarmAssigneeFilterWidget extends StatelessWidget {
+  const AlarmAssigneeFilterWidget({
     required this.tbContext,
     required this.onChanged,
     super.key,

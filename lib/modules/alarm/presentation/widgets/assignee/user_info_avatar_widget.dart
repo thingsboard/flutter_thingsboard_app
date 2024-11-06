@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserInfoAvatarWidget extends StatelessWidget {
   const UserInfoAvatarWidget({
     required this.shortName,
     required this.color,
     super.key,
-  }) : assert(shortName.length <= 2);
+  }) : assert(shortName.length <= 2, 'shortName is $shortName');
 
   final String shortName;
   final Color color;
@@ -17,15 +18,18 @@ class UserInfoAvatarWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         color: color,
       ),
+      padding: const EdgeInsets.all(4),
       height: 32,
       width: 32,
       child: Center(
         child: Text(
           shortName,
-          style: const TextStyle(
-            color: Colors.white,
+          style: GoogleFonts.roboto(
             fontWeight: FontWeight.w700,
-            fontSize: 12,
+            fontSize: 14,
+            letterSpacing: 1,
+            height: 1.14,
+            color: Colors.white,
           ),
         ),
       ),

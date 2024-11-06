@@ -10,4 +10,9 @@ class AlarmsDatasource implements IAlarmsDatasource {
   Future<PageData<AlarmInfo>> fetchAlarms(AlarmQueryV2 query) {
     return thingsboardClient.getAlarmService().getAllAlarmsV2(query);
   }
+
+  @override
+  Future<AlarmInfo?> getAlarmInfo(String id) {
+    return thingsboardClient.getAlarmService().getAlarmInfo(id);
+  }
 }

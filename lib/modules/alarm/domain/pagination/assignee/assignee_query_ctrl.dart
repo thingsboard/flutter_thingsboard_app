@@ -31,8 +31,4 @@ class AssigneeQueryCtrl extends PageKeyController<PageLink> {
 
     notifyListeners();
   }
-
-  void refresh() {
-    notifyListeners();
-  }
 }
