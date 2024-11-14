@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' show PageLayout;
+import 'package:thingsboard_app/thingsboard_client.dart' show PageLayout, Pages;
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {
@@ -67,7 +67,19 @@ class LayoutService implements ILayoutService {
   @override
   void cachePageLayouts(List<PageLayout>? pages) {
     logger.debug('LayoutService::cachePagesLayout()');
-    pagesLayout = List.of(pages ?? []);
+    if (pages == null || pages.isEmpty) {
+      pagesLayout = [
+        const PageLayout(id: Pages.home),
+        const PageLayout(id: Pages.alarms),
+        const PageLayout(id: Pages.devices),
+        const PageLayout(id: Pages.customers),
+        const PageLayout(id: Pages.assets),
+        const PageLayout(id: Pages.audit_logs),
+        const PageLayout(id: Pages.notifications),
+      ];
+    } else {
+      pagesLayout = List.of(pages);
+    }
   }
 
   @override
