@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract interface class ILayoutService {
   List<TbMainNavigationItem> getBottomBarItems();
@@ -16,4 +17,8 @@ abstract interface class ILayoutService {
     TbContext tbContext,
     BuildContext context,
   );
+
+  void cachePageLayouts(List<PageLayout>? pages);
+
+  List<PageLayout> getCachedPageLayouts();
 }

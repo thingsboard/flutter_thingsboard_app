@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/thingsboard_client.dart' show PageLayout;
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {
@@ -12,6 +13,7 @@ class LayoutService implements ILayoutService {
   late Size deviceScreenSize;
   late final List<TbMainNavigationItem> bottomBarItems;
   late final TbMainNavigationItem more;
+  late final List<PageLayout> pagesLayout;
 
   @override
   List<TbMainNavigationItem> getBottomBarItems() {
@@ -60,5 +62,16 @@ class LayoutService implements ILayoutService {
     final allItems = Set.of(bottomBarItems);
     final bottomBarElements = Set.of(getBottomBarItems());
     return allItems.difference(bottomBarElements).toList();
+  }
+
+  @override
+  void cachePageLayouts(List<PageLayout>? pages) {
+    logger.debug('LayoutService::cachePagesLayout()');
+    pagesLayout = List.of(pages ?? []);
+  }
+
+  @override
+  List<PageLayout> getCachedPageLayouts() {
+    return pagesLayout;
   }
 }

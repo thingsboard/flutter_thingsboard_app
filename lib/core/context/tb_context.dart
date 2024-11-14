@@ -15,6 +15,7 @@ import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_argum
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
@@ -255,10 +256,18 @@ class TbContext implements PopEntry {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
-            userDetails = await tbClient.getUserService().getUser();
-            homeDashboard =
-                await tbClient.getDashboardService().getHomeDashboardInfo();
+            final mobileInfo =
+                await tbClient.getMobileService().getUserMobileInfo(
+                      MobileInfoQuery(
+                        platformType: _oauth2PlatformType!,
+                        packageName: packageName,
+                      ),
+                    );
+            userDetails = mobileInfo?.user;
+            homeDashboard = mobileInfo?.homeDashboardInfo;
+            getIt<ILayoutService>().cachePageLayouts(mobileInfo?.pages);
           } catch (e) {
+            log.error('TbContext::onUserLoaded error $e');
             if (!_isConnectionError(e)) {
               logout();
             } else {
@@ -322,6 +331,14 @@ class TbContext implements PopEntry {
             transitionDuration: const Duration(milliseconds: 750),
           );
         }
+      } else {
+        navigateTo(
+          '/login',
+          replace: true,
+          clearStack: true,
+          transition: TransitionType.fadeIn,
+          transitionDuration: const Duration(milliseconds: 750),
+        );
       }
     } finally {
       try {
