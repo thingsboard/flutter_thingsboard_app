@@ -29,7 +29,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   void onEntityTap(DeviceProfileInfo deviceProfile) {
-    navigateTo('/deviceList?deviceType=${deviceProfile.name}');
+    navigateTo('/deviceList?deviceType=${Uri.encodeComponent(deviceProfile.name)}');
   }
 
   @override
