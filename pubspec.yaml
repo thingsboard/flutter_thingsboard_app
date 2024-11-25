@@ -46,13 +46,13 @@ dependencies:
   firebase_core: ^3.1.0
   firebase_messaging: ^15.0.1
   flutter_local_notifications: ^17.1.2
-  flutter_app_badger: ^1.5.0
+  flutter_new_badger: ^1.0.1
   timeago: ^3.6.1
   flutter_slidable: ^3.0.1
   flutter_bloc: ^8.1.5
   get_it: ^7.6.7
   equatable: ^2.0.5
-  uni_links: ^0.5.1
+  app_links: ^6.3.2
   collection: ^1.18.0
   html: ^0.15.4
   hive: ^2.2.3
