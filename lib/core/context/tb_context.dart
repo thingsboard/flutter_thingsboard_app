@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -20,7 +21,6 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 part 'has_tb_context.dart';
@@ -47,6 +47,7 @@ class TbContext implements PopEntry {
   StreamSubscription? _appLinkStreamSubscription;
 
   late bool _handleRootState;
+  final appLinks = AppLinks();
 
   @override
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
@@ -358,9 +359,9 @@ class TbContext implements PopEntry {
         log.error('TbContext:getInitialUri() exception $e');
       }
 
-      _appLinkStreamSubscription ??= linkStream.listen(
+      _appLinkStreamSubscription ??= appLinks.uriLinkStream.listen(
         (link) {
-          navigateByAppLink(link);
+          navigateByAppLink(link.toString());
         },
         onError: (err) {
           log.error('linkStream.listen $err');

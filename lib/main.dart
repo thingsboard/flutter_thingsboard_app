@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +16,6 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'config/themes/tb_theme.dart';
@@ -39,7 +39,7 @@ void main() async {
   }
 
   try {
-    final uri = await getInitialUri();
+    final uri = await AppLinks().getInitialLink();
     if (uri != null) {
       await getIt<ILocalDatabaseService>().setInitialAppLink(uri.toString());
     }
