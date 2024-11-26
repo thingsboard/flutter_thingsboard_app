@@ -123,18 +123,6 @@ class _MorePageState extends TbContextState<MorePage>
                   );
                 },
               ),
-              const Spacer(),
-              if (tbContext.wlService.showNameVersion == true)
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      tbContext.wlService.platformNameAndVersion,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
             ],
           ),
         ),

@@ -165,5 +165,7 @@
   "europeRegionShort": "Frankfurt",
   "notifications": "Notifications",
   "deviceList": "Device list",
-  "dashboards": "Dashboards"
+  "dashboards": "Dashboards",
+  "updateRequired": "Update required",
+  "updateTo": "Update to {version}"
 }

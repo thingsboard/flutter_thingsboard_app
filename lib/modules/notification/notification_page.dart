@@ -38,7 +38,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
               tbContext.pop();
             } else {
               tbContext.navigateTo(
-                '/home',
+                '/main',
                 replace: true,
                 transition: TransitionType.fadeIn,
                 transitionDuration: const Duration(milliseconds: 750),

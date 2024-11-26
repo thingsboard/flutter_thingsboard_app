@@ -9,7 +9,6 @@ import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_p
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_grid_card.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/permission/i_permission_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
@@ -43,19 +42,10 @@ class DashboardsGridWidget extends StatelessWidget {
                 dashboard: dashboard,
               ),
               onEntityTap: (dashboard) {
-                final havePermission = getIt<IPermissionService>()
-                    .haveViewDashboardPermission(tbContext);
-
-                if (havePermission) {
-                  dashboardPageCtrl.openDashboard(
-                    dashboard.id!.id!,
-                    title: dashboard.title,
-                  );
-                } else {
-                  tbContext.showErrorNotification(
-                    'You don\'t have permissions to perform this operation!',
-                  );
-                }
+                dashboardPageCtrl.openDashboard(
+                  dashboard.id!.id!,
+                  title: dashboard.title,
+                );
               },
               settings: EntityCardSettings(dropShadow: true),
             ),

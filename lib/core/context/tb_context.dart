@@ -12,6 +12,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
+import 'package:thingsboard_app/modules/version/version_route.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -30,18 +31,21 @@ class TbContext implements PopEntry {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   bool isUserLoaded = false;
   final _isAuthenticated = ValueNotifier<bool>(false);
-  PlatformType? _oauth2PlatformType;
-  List<OAuth2ClientInfo>? oauth2ClientInfos;
+  late PlatformType platformType;
   List<TwoFaProviderInfo>? twoFactorAuthProviders;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
+  VersionInfo? versionInfo;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
   late final WidgetActionHandler _widgetActionHandler;
   AndroidDeviceInfo? _androidInfo;
   IosDeviceInfo? _iosInfo;
   late String packageName;
+  late PlatformVersion version;
+
   StreamSubscription? _appLinkStreamSubscription;
+
   late bool _handleRootState;
 
   @override
@@ -68,9 +72,6 @@ class TbContext implements PopEntry {
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
   bool get isAuthenticated => _isAuthenticated.value;
-
-  bool get hasOAuthClients =>
-      oauth2ClientInfos != null && oauth2ClientInfos!.isNotEmpty;
 
   TbContextState? currentState;
 
@@ -109,16 +110,17 @@ class TbContext implements PopEntry {
     try {
       if (UniversalPlatform.isAndroid) {
         _androidInfo = await deviceInfoPlugin.androidInfo;
-        _oauth2PlatformType = PlatformType.ANDROID;
+        platformType = PlatformType.ANDROID;
       } else if (UniversalPlatform.isIOS) {
         _iosInfo = await deviceInfoPlugin.iosInfo;
-        _oauth2PlatformType = PlatformType.IOS;
+        platformType = PlatformType.IOS;
       } else {
-        _oauth2PlatformType = PlatformType.WEB;
+        platformType = PlatformType.WEB;
       }
       if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         packageName = packageInfo.packageName;
+        version = PlatformVersion.fromString(packageInfo.version);
       } else {
         packageName = 'web.app';
       }
@@ -259,12 +261,13 @@ class TbContext implements PopEntry {
             final mobileInfo =
                 await tbClient.getMobileService().getUserMobileInfo(
                       MobileInfoQuery(
-                        platformType: _oauth2PlatformType!,
+                        platformType: platformType,
                         packageName: packageName,
                       ),
                     );
             userDetails = mobileInfo?.user;
             homeDashboard = mobileInfo?.homeDashboardInfo;
+            versionInfo = mobileInfo?.versionInfo;
             getIt<ILayoutService>().cachePageLayouts(mobileInfo?.pages);
           } catch (e) {
             log.error('TbContext::onUserLoaded error $e');
@@ -287,15 +290,22 @@ class TbContext implements PopEntry {
 
         userDetails = null;
         homeDashboard = null;
-        oauth2ClientInfos = await tbClient.getOAuth2Service().getOAuth2Clients(
-              pkgName: packageName,
-              platform: _oauth2PlatformType,
-              requestConfig: RequestConfig(followRedirect: false),
-            );
       }
 
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
+      if (versionInfo != null &&
+          versionInfo?.mobileVersionInfo?.minVersion != null) {
+        if (version.versionInt() <
+            versionInfo!.mobileVersionInfo!.minVersion.versionInt()) {
+          navigateTo(
+            VersionRoutes.updateRequiredRoutePath,
+            replace: true,
+            routeSettings: RouteSettings(arguments: versionInfo),
+          );
+          return;
+        }
+      }
 
       if (isAuthenticated) {
         onDone?.call();
@@ -411,7 +421,7 @@ class TbContext implements PopEntry {
           bool fullscreen = _userForceFullscreen();
           if (!fullscreen) {
             navigateTo(
-              '/home',
+              '/main',
               replace: true,
               closeDashboard: false,
               transition: TransitionType.none,
@@ -426,7 +436,7 @@ class TbContext implements PopEntry {
           }
         } else {
           navigateTo(
-            '/home',
+            '/main',
             replace: true,
             transition: TransitionType.fadeIn,
             transitionDuration: const Duration(milliseconds: 750),

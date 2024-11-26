@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class EndpointNameWidget extends StatelessWidget {
   const EndpointNameWidget({required this.endpoint, super.key});
@@ -9,19 +10,16 @@ class EndpointNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-        ),
+        borderRadius: BorderRadius.circular(4),
+        color: Theme.of(context).primaryColor.withOpacity(.06),
       ),
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Center(
         child: Text(
           Uri.parse(endpoint).host,
-          style: Theme.of(context)
-              .textTheme
-              .labelSmall
-              ?.copyWith(color: Theme.of(context).primaryColor),
+          style: TbTextStyles.bodySmall.copyWith(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );

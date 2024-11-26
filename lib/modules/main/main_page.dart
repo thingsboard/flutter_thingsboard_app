@@ -70,9 +70,9 @@ class _MainPageState extends TbPageState<MainPage>
               );
 
             default:
-              return Scaffold(
+              return const Scaffold(
                 body: Center(
-                  child: TbProgressIndicator(tbContext, size: 50),
+                  child: TbProgressIndicator(size: 50),
                 ),
               );
           }
