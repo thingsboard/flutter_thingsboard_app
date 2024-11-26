@@ -53,7 +53,7 @@ class _SwitchEndpointNoAuthViewState
                 GetIt.instance<NoAuthBloc>().close();
                 getIt<ThingsboardAppRouter>().router.navigateTo(
                       context,
-                      '/home',
+                      '/main',
                       replace: true,
                     );
               }

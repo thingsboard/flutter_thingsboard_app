@@ -7,6 +7,8 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart'
+    show PlatformTypeToString;
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
 import 'app_secret_provider.dart';
@@ -34,7 +36,9 @@ class TbOAuth2Client {
         _appSecretProvider = appSecretProvider;
 
   Future<TbOAuth2AuthenticateResult> authenticate(String oauth2Url) async {
-    final appSecret = await _appSecretProvider.getAppSecret();
+    final appSecret = await _appSecretProvider.getAppSecret(
+      _tbContext.platformType,
+    );
     final pkgName = _tbContext.packageName;
     final jwt = JWT(
       {
@@ -54,6 +58,7 @@ class TbOAuth2Client {
     final params = Map<String, String>.from(url.queryParameters);
     params['pkg'] = pkgName;
     params['appToken'] = appToken;
+    params['platform'] = _tbContext.platformType.toShortString();
     url = url.replace(queryParameters: params);
     final result = await TbWebAuth.authenticate(
       url: url.toString(),

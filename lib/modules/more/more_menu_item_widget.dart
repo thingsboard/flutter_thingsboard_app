@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item.dart';
+import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class MoreMenuItemWidget extends StatelessWidget {
@@ -10,7 +10,7 @@ class MoreMenuItemWidget extends StatelessWidget {
     super.key,
   });
 
-  final MoreMenuItem menuItem;
+  final TbMainNavigationItem menuItem;
   final VoidCallback onTap;
   final Color? color;
 

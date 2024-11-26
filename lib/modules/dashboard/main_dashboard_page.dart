@@ -68,31 +68,35 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
             },
           ),
         ],
+        canGoBack: true,
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
         builder: (context, value, _) {
-          return DashboardWidget(
-            tbContext,
-            titleCallback: (title) {
-              dashboardTitleValue.value = title;
-            },
-            pageController: widget.controller,
-            controllerCallback: (controller) {
-              _dashboardController = controller;
-              widget.controller.setDashboardController(controller);
+          return SafeArea(
+            bottom: false,
+            child: DashboardWidget(
+              tbContext,
+              titleCallback: (title) {
+                dashboardTitleValue.value = title;
+              },
+              pageController: widget.controller,
+              controllerCallback: (controller) {
+                _dashboardController = controller;
+                widget.controller.setDashboardController(controller);
 
-              controller.hasRightLayout.addListener(() {
-                hasRightLayout.value = controller.hasRightLayout.value;
-              });
-              controller.rightLayoutOpened.addListener(() {
-                if (controller.rightLayoutOpened.value) {
-                  rightLayoutMenuController.forward();
-                } else {
-                  rightLayoutMenuController.reverse();
-                }
-              });
-            },
+                controller.hasRightLayout.addListener(() {
+                  hasRightLayout.value = controller.hasRightLayout.value;
+                });
+                controller.rightLayoutOpened.addListener(() {
+                  if (controller.rightLayoutOpened.value) {
+                    rightLayoutMenuController.forward();
+                  } else {
+                    rightLayoutMenuController.reverse();
+                  }
+                });
+              },
+            ),
           );
         },
       ),

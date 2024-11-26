@@ -93,15 +93,12 @@ class NotificationWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      width: 30,
-                      child: Text(
-                        timeago.format(
-                          DateTime.now().subtract(diff),
-                          locale: 'en_short',
-                        ),
-                        textAlign: TextAlign.center,
+                    Text(
+                      timeago.format(
+                        DateTime.now().subtract(diff),
+                        locale: 'en_short',
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     Row(
                       children: [

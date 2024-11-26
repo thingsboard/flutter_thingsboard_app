@@ -59,6 +59,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
               _onBackButtonClick();
             },
           ),
+          canGoBack: true,
         ),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -66,50 +67,28 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
             getIt<AssigneeBloc>().add(const AssigneeRefreshEvent());
           },
           child: SafeArea(
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FilterToggleBlockWidget<FilterDataEntity>(
-                          key: ValueKey(
-                            filtersService.getSelectedFilter(Filters.status),
-                          ),
-                          label: 'Alarm status list',
-                          items: filtersService.statuses,
-                          selected:
-                              filtersService.getSelectedFilter(Filters.status),
-                          onSelectedChanged: (values) {
-                            filtersService.setSelectedFilter(
-                              Filters.status,
-                              data: values.cast<FilterDataEntity>(),
-                            );
-
-                            setState(() {
-                              filtersChanged = true;
-                            });
-                          },
-                          labelAtIndex: (index) =>
-                              filtersService.statuses[index].label,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: FilterToggleBlockWidget<FilterDataEntity>(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FilterToggleBlockWidget<FilterDataEntity>(
                             key: ValueKey(
-                              filtersService
-                                  .getSelectedFilter(Filters.severity),
+                              filtersService.getSelectedFilter(Filters.status),
                             ),
-                            label: 'Alarm severity list',
-                            items: filtersService.severities,
+                            label: 'Alarm status list',
+                            items: filtersService.statuses,
                             selected: filtersService
-                                .getSelectedFilter(Filters.severity),
+                                .getSelectedFilter(Filters.status),
                             onSelectedChanged: (values) {
                               filtersService.setSelectedFilter(
-                                Filters.severity,
+                                Filters.status,
                                 data: values.cast<FilterDataEntity>(),
                               );
 
@@ -118,20 +97,34 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                               });
                             },
                             labelAtIndex: (index) =>
-                                filtersService.severities[index].label,
+                                filtersService.statuses[index].label,
                           ),
-                        ),
-                        AlarmTypesWidget(
-                          tbContext: tbContext,
-                          onChanged: () {
-                            setState(() {
-                              filtersChanged = true;
-                            });
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: AlarmAssigneeFilterWidget(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: FilterToggleBlockWidget<FilterDataEntity>(
+                              key: ValueKey(
+                                filtersService
+                                    .getSelectedFilter(Filters.severity),
+                              ),
+                              label: 'Alarm severity list',
+                              items: filtersService.severities,
+                              selected: filtersService
+                                  .getSelectedFilter(Filters.severity),
+                              onSelectedChanged: (values) {
+                                filtersService.setSelectedFilter(
+                                  Filters.severity,
+                                  data: values.cast<FilterDataEntity>(),
+                                );
+
+                                setState(() {
+                                  filtersChanged = true;
+                                });
+                              },
+                              labelAtIndex: (index) =>
+                                  filtersService.severities[index].label,
+                            ),
+                          ),
+                          AlarmTypesWidget(
                             tbContext: tbContext,
                             onChanged: () {
                               setState(() {
@@ -139,35 +132,46 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                               });
                             },
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: AlarmAssigneeFilterWidget(
+                              tbContext: tbContext,
+                              onChanged: () {
+                                setState(() {
+                                  filtersChanged = true;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    AlarmControlFiltersButton(
-                      onResetTap: filtersChanged ? _resetFilters : null,
-                      onCancelTap: () {
-                        _onBackButtonClick();
-                      },
-                      onUpdateTap: filtersChanged
-                          ? () {
-                              filtersService.commitChanges();
+                  ),
+                  AlarmControlFiltersButton(
+                    onResetTap: filtersChanged ? _resetFilters : null,
+                    onCancelTap: () {
+                      _onBackButtonClick();
+                    },
+                    onUpdateTap: filtersChanged
+                        ? () {
+                            filtersService.commitChanges();
 
-                              getIt<AlarmBloc>().add(
-                                AlarmFiltersUpdateEvent(
-                                  filtersEntity:
-                                      filtersService.getCommittedFilters(),
-                                ),
-                              );
+                            getIt<AlarmBloc>().add(
+                              AlarmFiltersUpdateEvent(
+                                filtersEntity:
+                                    filtersService.getCommittedFilters(),
+                              ),
+                            );
 
-                              widget.pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          : null,
-                    ),
-                  ],
-                ),
+                            widget.pageController.animateToPage(
+                              0,
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        : null,
+                  ),
+                ],
               ),
             ),
           ),

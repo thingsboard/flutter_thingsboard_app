@@ -6,11 +6,12 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item.dart';
+import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
@@ -109,9 +110,11 @@ class _MorePageState extends TbContextState<MorePage>
                 ),
               ),
               MoreMenuItemWidget(
-                MoreMenuItem(
+                TbMainNavigationItem(
                   title: S.of(context).logout,
                   icon: Icons.logout,
+                  page: const SizedBox.shrink(),
+                  path: '',
                 ),
                 color: const Color(0xffD12730),
                 onTap: () {
@@ -149,14 +152,17 @@ class _MorePageState extends TbContextState<MorePage>
   }
 
   Widget buildMoreMenuItems(BuildContext context) {
-    final items = MoreMenuItem.getItems(tbContext, context);
+    final items = getIt<ILayoutService>().getMorePageItems(
+      tbContext,
+      context,
+    );
 
     return ListView.separated(
       itemBuilder: (_, index) => MoreMenuItemWidget(
         items[index],
         onTap: () {
-          if (!items[index].disabled && items[index].path != null) {
-            navigateTo(items[index].path!);
+          if (!items[index].disabled) {
+            navigateTo(items[index].path);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

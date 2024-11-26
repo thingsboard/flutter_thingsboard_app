@@ -21,30 +21,43 @@ class PaginationGridWidget<T, B> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverVisibility(
-          visible: heading != null,
-          sliver: SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            sliver: SliverToBoxAdapter(child: heading),
+    return OrientationBuilder(
+      builder: (context, orientation) => CustomScrollView(
+        slivers: [
+          SliverVisibility(
+            visible: heading != null,
+            sliver: SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              sliver: SliverToBoxAdapter(child: heading),
+            ),
           ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(16),
-          sliver: PagedSliverGrid<T, B>(
-            pagingController: pagingController,
-            builderDelegate: builderDelegate,
-            gridDelegate: gridDelegate ??
-                SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: gridChildAspectRatio ?? 156 / 150,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  crossAxisCount: 2,
-                ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: PagedSliverGrid<T, B>(
+              pagingController: pagingController,
+              builderDelegate: builderDelegate,
+              gridDelegate: gridDelegate ??
+                  SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: gridChildAspectRatio ?? 156 / 150,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    crossAxisCount: Orientation.portrait == orientation
+                        ? (isMobile(context) ? 2 : 4)
+                        : (isMobile(context) ? 4 : 5),
+                  ),
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
+  }
+
+  bool isMobile(BuildContext context) {
+    // The equivalent of the "smallestWidth" qualifier on Android.
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+
+    // Determine if we should use mobile layout or not, 600 here is
+    // a common breakpoint for a typical 7-inch tablet.
+    return shortestSide < 600;
   }
 }

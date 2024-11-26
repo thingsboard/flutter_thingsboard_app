@@ -28,6 +28,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
     with TickerProviderStateMixin {
   final dashboardTitleValue = ValueNotifier<String>('Dashboard');
   final hasRightLayout = ValueNotifier(false);
+  bool canGoBack = false;
 
   late final Animation<double> rightLayoutMenuAnimation;
   late final AnimationController rightLayoutMenuController;
@@ -71,30 +72,39 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
             },
           ),
         ],
+        canGoBack: canGoBack,
       ),
-      body: DashboardWidget(
-        tbContext,
-        titleCallback: (title) {
-          dashboardTitleValue.value = widget.title ?? title;
-        },
-        controllerCallback: (controller) {
-          controller.hasRightLayout.addListener(() {
-            hasRightLayout.value = controller.hasRightLayout.value;
-          });
-          controller.rightLayoutOpened.addListener(() {
-            if (controller.rightLayoutOpened.value) {
-              rightLayoutMenuController.forward();
-            } else {
-              rightLayoutMenuController.reverse();
-            }
-          });
+      body: SafeArea(
+        child: DashboardWidget(
+          tbContext,
+          titleCallback: (title) {
+            dashboardTitleValue.value = widget.title ?? title;
+          },
+          controllerCallback: (controller) {
+            controller.hasRightLayout.addListener(() {
+              hasRightLayout.value = controller.hasRightLayout.value;
+            });
+            controller.rightLayoutOpened.addListener(() {
+              if (controller.rightLayoutOpened.value) {
+                rightLayoutMenuController.forward();
+              } else {
+                rightLayoutMenuController.reverse();
+              }
+            });
 
-          controller.openDashboard(
-            widget.id,
-            state: widget.state,
-            hideToolbar: widget.hideToolbar,
-          );
-        },
+            controller.canGoBack.addListener(() {
+              setState(() {
+                canGoBack = controller.canGoBack.value;
+              });
+            });
+
+            controller.openDashboard(
+              widget.id,
+              state: widget.state,
+              hideToolbar: widget.hideToolbar,
+            );
+          },
+        ),
       ),
     );
   }
@@ -120,6 +130,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
   @override
   void dispose() {
     rightLayoutMenuController.dispose();
+    _dashboardController?.canGoBack.dispose();
     super.dispose();
   }
 }
