@@ -14,7 +14,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final ThingsboardClient tbClient;
-
   final TbContext tbContext;
 
   Future<void> _onEvent(AuthEvent event, Emitter<AuthState> emit) async {

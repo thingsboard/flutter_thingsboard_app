@@ -56,7 +56,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   double? gridChildAspectRatio() {
-    return 156 / 150;
+    return 156 / 200;
   }
 }
 

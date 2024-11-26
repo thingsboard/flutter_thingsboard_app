@@ -206,6 +206,7 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         } else if (pageLayout.dashboardId != null) {
           return '/dashboard/${pageLayout.dashboardId}';
         }
+
         return pageLayout.path ?? 'something went wrong';
     }
   }

@@ -155,7 +155,7 @@ class _MorePageState extends TbContextState<MorePage>
     final items = getIt<ILayoutService>().getMorePageItems(
       tbContext,
       context,
-    ); //MoreMenuItem.getItems(tbContext, context);
+    );
 
     return ListView.separated(
       itemBuilder: (_, index) => MoreMenuItemWidget(
