@@ -14,6 +14,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/version/version_route.dart';
+import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -36,6 +37,7 @@ class TbContext implements PopEntry {
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   VersionInfo? versionInfo;
+  StoreInfo? storeInfo;
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
   late final WidgetActionHandler _widgetActionHandler;
@@ -269,6 +271,7 @@ class TbContext implements PopEntry {
             userDetails = mobileInfo?.user;
             homeDashboard = mobileInfo?.homeDashboardInfo;
             versionInfo = mobileInfo?.versionInfo;
+            storeInfo = mobileInfo?.storeInfo;
             getIt<ILayoutService>().cachePageLayouts(mobileInfo?.pages);
           } catch (e) {
             log.error('TbContext::onUserLoaded error $e');
@@ -291,18 +294,24 @@ class TbContext implements PopEntry {
 
         userDetails = null;
         homeDashboard = null;
+        versionInfo = null;
+        storeInfo = null;
       }
 
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
-      if (versionInfo != null &&
-          versionInfo?.mobileVersionInfo?.minVersion != null) {
+      if (versionInfo != null && versionInfo?.minVersion != null) {
         if (version.versionInt() <
-            versionInfo!.mobileVersionInfo!.minVersion.versionInt()) {
+            (versionInfo!.minVersion?.versionInt() ?? 0)) {
           navigateTo(
             VersionRoutes.updateRequiredRoutePath,
             replace: true,
-            routeSettings: RouteSettings(arguments: versionInfo),
+            routeSettings: RouteSettings(
+              arguments: VersionRouteArguments(
+                versionInfo: versionInfo!,
+                storeInfo: storeInfo,
+              ),
+            ),
           );
           return;
         }

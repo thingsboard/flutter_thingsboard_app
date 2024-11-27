@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/modules/version/version_compare_widget.dart';
 import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class UpdateRequiredPage extends TbContextWidget {
-  UpdateRequiredPage(
+class VersionCompareWidget extends TbContextWidget {
+  VersionCompareWidget(
     super.tbContext, {
     required this.arguments,
     super.key,
@@ -17,19 +16,17 @@ class UpdateRequiredPage extends TbContextWidget {
   final VersionRouteArguments arguments;
 
   @override
-  State<StatefulWidget> createState() => _UpdateRequiredPageState();
+  State<StatefulWidget> createState() => _VersionCompareWidgetState();
 }
 
-class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
+class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
+    with SingleTickerProviderStateMixin {
+  late final tabCtrl = TabController(length: 2, vsync: this);
+  late String releaseNotes =
+      widget.arguments.versionInfo.minVersionReleaseNotes;
+
   @override
   Widget build(BuildContext context) {
-    if ((widget.arguments.versionInfo.minVersion?.versionInt() ?? 0) !=
-        (widget.arguments.versionInfo.latestVersion?.versionInt() ?? 0)) {
-      if (widget.arguments.versionInfo.latestVersion != null) {
-        return VersionCompareWidget(tbContext, arguments: widget.arguments);
-      }
-    }
-
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
@@ -42,11 +39,32 @@ class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TabBar(
+                controller: tabCtrl,
+                onTap: (index) {
+                  if (index == 0) {
+                    releaseNotes =
+                        widget.arguments.versionInfo.minVersionReleaseNotes;
+                  } else {
+                    releaseNotes =
+                        widget.arguments.versionInfo.latestVersionReleaseNotes;
+                  }
+
+                  setState(() {});
+                },
+                tabs: [
+                  Tab(
+                    text: widget.arguments.versionInfo.minVersion.toString(),
+                  ),
+                  Tab(
+                    text: widget.arguments.versionInfo.latestVersion.toString(),
+                  ),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Html(
-                    data:
-                        widget.arguments.versionInfo.latestVersionReleaseNotes,
+                    data: releaseNotes,
                     onLinkTap: (link, _, __) {
                       if (link != null) {
                         launchUrlString(
@@ -84,5 +102,11 @@ class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    tabCtrl.dispose();
+    super.dispose();
   }
 }
