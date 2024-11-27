@@ -253,7 +253,9 @@ class _LoginPageState extends TbPageState<LoginPage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 10, bottom: 16),
+                                        top: 10,
+                                        bottom: 16,
+                                      ),
                                       child: Row(
                                         children: [
                                           Flexible(
@@ -409,7 +411,8 @@ class _LoginPageState extends TbPageState<LoginPage>
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 16),
+                                          vertical: 16,
+                                        ),
                                       ),
                                       onPressed: () {
                                         _login();
