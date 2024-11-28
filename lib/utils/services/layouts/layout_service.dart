@@ -11,9 +11,9 @@ class LayoutService implements ILayoutService {
   final TbLogger logger;
 
   late Size deviceScreenSize;
-  late final List<TbMainNavigationItem> bottomBarItems;
-  late final TbMainNavigationItem more;
-  late final List<PageLayout> pagesLayout;
+  late List<TbMainNavigationItem> bottomBarItems;
+  late TbMainNavigationItem more;
+  late List<PageLayout> pagesLayout;
 
   @override
   List<TbMainNavigationItem> getBottomBarItems() {
