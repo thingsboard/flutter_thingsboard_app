@@ -21,6 +21,11 @@ class DashboardsAppbar extends StatelessWidget {
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
+        leading: Navigator.of(context).canPop()
+            ? BackButton(
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : null,
         elevation: dashboardState ? 0 : 8,
         title: Center(
           child: SizedBox(
