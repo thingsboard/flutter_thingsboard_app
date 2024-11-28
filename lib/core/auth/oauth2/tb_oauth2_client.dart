@@ -60,6 +60,8 @@ class TbOAuth2Client {
     params['appToken'] = appToken;
     params['platform'] = _tbContext.platformType.toShortString();
     url = url.replace(queryParameters: params);
+
+    _tbContext.log.debug('TbOAuth2Client::authenticate() request url -> $url');
     final result = await TbWebAuth.authenticate(
       url: url.toString(),
       callbackUrlScheme:
@@ -67,6 +69,8 @@ class TbOAuth2Client {
       saveHistory: false,
     );
     final resultUri = Uri.parse(result);
+    _tbContext.log
+        .debug('TbOAuth2Client::authenticate() result url -> $resultUri');
     final error = resultUri.queryParameters['error'];
     if (error != null) {
       return TbOAuth2AuthenticateResult.failed(error);
