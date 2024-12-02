@@ -157,27 +157,32 @@ class _MorePageState extends TbContextState<MorePage>
       context,
     );
 
-    return ListView.separated(
-      itemBuilder: (_, index) => MoreMenuItemWidget(
-        items[index],
-        onTap: () {
-          if (!items[index].disabled) {
-            navigateTo(items[index].path);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  items[index].disabledReasonMessage ?? 'The item is disabled',
-                ),
-              ),
-            );
-          }
-        },
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height / 2,
       ),
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
-      itemCount: items.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+      child: ListView.separated(
+        itemBuilder: (_, index) => MoreMenuItemWidget(
+          items[index],
+          onTap: () {
+            if (!items[index].disabled) {
+              navigateTo(items[index].path);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    items[index].disabledReasonMessage ??
+                        'The item is disabled',
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        itemCount: items.length,
+        shrinkWrap: true,
+      ),
     );
   }
 
