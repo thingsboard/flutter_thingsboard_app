@@ -115,6 +115,10 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   }
 
   String getLabel(PageLayout pageLayout, BuildContext context) {
+    if (pageLayout.label != null) {
+      return pageLayout.label!;
+    }
+
     switch (pageLayout.id) {
       case Pages.home:
         return S.of(context).home;
@@ -141,6 +145,10 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   }
 
   IconData getIcon(PageLayout pageLayout) {
+    if (pageLayout.icon != null) {
+      return getIconFromString(pageLayout.icon);
+    }
+
     switch (pageLayout.id) {
       case Pages.home:
         return Icons.home_outlined;
@@ -162,16 +170,7 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         return Icons.dashboard_outlined;
       case Pages.undefined:
       case null:
-        if (pageLayout.icon != null) {
-          if (pageLayout.icon!.contains('mdi')) {
-            return MdiIcons.fromString(pageLayout.icon!.split('mdi:').last) ??
-                Icons.error_outline;
-          }
-
-          return materialIconsMap[pageLayout.icon] ?? Icons.error_outline;
-        }
-
-        return Icons.error_outline;
+        return getIconFromString(pageLayout.icon);
     }
   }
 
@@ -209,5 +208,18 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
 
         return pageLayout.path ?? 'something went wrong';
     }
+  }
+
+  IconData getIconFromString(String? icon) {
+    if (icon != null) {
+      if (icon.contains('mdi')) {
+        return MdiIcons.fromString(icon.split('mdi:').last) ??
+            Icons.error_outline;
+      }
+
+      return materialIconsMap[icon] ?? Icons.error_outline;
+    }
+
+    return Icons.error_outline;
   }
 }
