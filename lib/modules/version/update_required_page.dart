@@ -20,14 +20,34 @@ class UpdateRequiredPage extends TbContextWidget {
   State<StatefulWidget> createState() => _UpdateRequiredPageState();
 }
 
-class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
+class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage>
+    with SingleTickerProviderStateMixin {
+  late final tabCtrl = TabController(length: 1, vsync: this);
+
   @override
   Widget build(BuildContext context) {
+    String releaseNotes = '';
+    String version;
+
     if ((widget.arguments.versionInfo.minVersion?.versionInt() ?? 0) !=
-        (widget.arguments.versionInfo.latestVersion?.versionInt() ?? 0)) {
-      if (widget.arguments.versionInfo.latestVersion != null) {
-        return VersionCompareWidget(tbContext, arguments: widget.arguments);
-      }
+            (widget.arguments.versionInfo.latestVersion?.versionInt() ?? 0) &&
+        widget.arguments.versionInfo.minVersionReleaseNotes.isNotEmpty &&
+        widget.arguments.versionInfo.latestVersionReleaseNotes.isNotEmpty) {
+      return VersionCompareWidget(tbContext, arguments: widget.arguments);
+    } else if (widget.arguments.versionInfo.minVersionReleaseNotes.isNotEmpty ||
+        widget.arguments.versionInfo.latestVersionReleaseNotes.isNotEmpty) {
+      releaseNotes =
+          widget.arguments.versionInfo.minVersionReleaseNotes.isNotEmpty
+              ? widget.arguments.versionInfo.minVersionReleaseNotes
+              : widget.arguments.versionInfo.latestVersionReleaseNotes;
+    }
+
+    if (widget.arguments.versionInfo.minVersion != null) {
+      version = widget.arguments.versionInfo.minVersion.toString();
+    } else if (widget.arguments.versionInfo.latestVersion != null) {
+      version = widget.arguments.versionInfo.latestVersion.toString();
+    } else {
+      version = '';
     }
 
     return Scaffold(
@@ -42,11 +62,19 @@ class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Visibility(
+                visible: version.isNotEmpty,
+                child: TabBar(
+                  controller: tabCtrl,
+                  tabs: [
+                    Tab(text: version),
+                  ],
+                ),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Html(
-                    data:
-                        widget.arguments.versionInfo.latestVersionReleaseNotes,
+                    data: releaseNotes,
                     onLinkTap: (link, _, __) {
                       if (link != null) {
                         launchUrlString(
@@ -72,8 +100,10 @@ class _UpdateRequiredPageState extends TbContextState<UpdateRequiredPage> {
                     },
                     child: Text(
                       S.of(context).updateTo(
-                            widget.arguments.versionInfo.latestVersion
-                                .toString(),
+                            widget.arguments.versionInfo.latestVersion != null
+                                ? widget.arguments.versionInfo.latestVersion
+                                    .toString()
+                                : 'latest',
                           ),
                     ),
                   ),

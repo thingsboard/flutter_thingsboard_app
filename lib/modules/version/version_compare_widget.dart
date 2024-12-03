@@ -54,10 +54,14 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
                 },
                 tabs: [
                   Tab(
-                    text: widget.arguments.versionInfo.minVersion.toString(),
+                    text: widget.arguments.versionInfo.minVersion == null
+                        ? 'Min'
+                        : widget.arguments.versionInfo.minVersion.toString(),
                   ),
                   Tab(
-                    text: widget.arguments.versionInfo.latestVersion.toString(),
+                    text: widget.arguments.versionInfo.latestVersion == null
+                        ? 'Latest'
+                        : widget.arguments.versionInfo.latestVersion.toString(),
                   ),
                 ],
               ),
@@ -90,8 +94,10 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
                     },
                     child: Text(
                       S.of(context).updateTo(
-                            widget.arguments.versionInfo.latestVersion
-                                .toString(),
+                            widget.arguments.versionInfo.latestVersion == null
+                                ? 'latest'
+                                : widget.arguments.versionInfo.latestVersion
+                                    .toString(),
                           ),
                     ),
                   ),
