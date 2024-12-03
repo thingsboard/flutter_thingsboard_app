@@ -51,9 +51,9 @@ class _SwitchEndpointNoAuthViewState
               } else if (state is NoAuthDoneState) {
                 GetIt.instance<NoAuthBloc>().close();
                 if (tbClient.isPreVerificationToken()) {
-                  navigateTo('/login/mfa', replace: true);
+                  navigateTo('/login/mfa', replace: true, clearStack: true);
                 } else {
-                  navigateTo('/main', replace: true);
+                  navigateTo('/main', replace: true, clearStack: true);
                 }
               }
             },
