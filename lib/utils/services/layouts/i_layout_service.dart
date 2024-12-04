@@ -18,7 +18,10 @@ abstract interface class ILayoutService {
     BuildContext context,
   );
 
-  void cachePageLayouts(List<PageLayout>? pages);
+  void cachePageLayouts(
+    List<PageLayout>? pages, {
+    required Authority authority,
+  });
 
   List<PageLayout> getCachedPageLayouts();
 }

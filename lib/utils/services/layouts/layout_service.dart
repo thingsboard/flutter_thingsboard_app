@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' show PageLayout, Pages;
+import 'package:thingsboard_app/thingsboard_client.dart'
+    show PageLayout, Pages, Authority;
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {
@@ -65,18 +66,37 @@ class LayoutService implements ILayoutService {
   }
 
   @override
-  void cachePageLayouts(List<PageLayout>? pages) {
+  void cachePageLayouts(
+    List<PageLayout>? pages, {
+    required Authority authority,
+  }) {
     logger.debug('LayoutService::cachePagesLayout()');
     if (pages == null || pages.isEmpty) {
       pagesLayout = [
         const PageLayout(id: Pages.home),
         const PageLayout(id: Pages.alarms),
         const PageLayout(id: Pages.devices),
-        const PageLayout(id: Pages.customers),
-        const PageLayout(id: Pages.assets),
-        const PageLayout(id: Pages.audit_logs),
-        const PageLayout(id: Pages.notifications),
       ];
+
+      if (authority == Authority.SYS_ADMIN) {
+        pagesLayout.add(const PageLayout(id: Pages.notifications));
+      } else if (authority == Authority.TENANT_ADMIN) {
+        pagesLayout.addAll(
+          [
+            const PageLayout(id: Pages.customers),
+            const PageLayout(id: Pages.assets),
+            const PageLayout(id: Pages.audit_logs),
+            const PageLayout(id: Pages.notifications),
+          ],
+        );
+      } else if (authority == Authority.CUSTOMER_USER) {
+        pagesLayout.addAll(
+          [
+            const PageLayout(id: Pages.assets),
+            const PageLayout(id: Pages.notifications),
+          ],
+        );
+      }
     } else {
       pagesLayout = List.of(pages);
     }
