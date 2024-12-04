@@ -17,10 +17,12 @@ import 'package:thingsboard_app/modules/main/main_item_widget.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
 import 'package:thingsboard_app/modules/notification/notification_page.dart';
+import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
 import 'package:thingsboard_app/modules/url/url_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   LayoutPagesBloc({
@@ -52,6 +54,13 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
                   title: getLabel(e, event.context),
                   icon: getIcon(e),
                   path: getPath(e),
+                  showAdditionalIcon: e.id == Pages.notifications,
+                  additionalIconSmall: e.id == Pages.notifications
+                      ? notificationSmallNumberWidget()
+                      : null,
+                  additionalIconLarge: e.id == Pages.notifications
+                      ? notificationLargeNumberWidget()
+                      : null,
                 ),
               )
               .toList(),
@@ -221,5 +230,57 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
     }
 
     return Icons.error_outline;
+  }
+
+  Widget notificationSmallNumberWidget() {
+    return StreamBuilder<int>(
+      stream: NotificationsLocalService.notificationsNumberStream.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data! > 0) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.red,
+            ),
+            alignment: Alignment.center,
+            height: 8,
+            width: 8,
+          );
+        }
+
+        return const SizedBox(width: 8, height: 8);
+      },
+    );
+  }
+
+  Widget notificationLargeNumberWidget() {
+    return StreamBuilder<int>(
+      stream: NotificationsLocalService.notificationsNumberStream.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data! > 0) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.red,
+            ),
+            alignment: Alignment.center,
+            height: 18,
+            width: 18,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                '${snapshot.data! > 99 ? '99+' : snapshot.data}',
+                textAlign: TextAlign.center,
+                style: TbTextStyles.labelSmall.copyWith(color: Colors.white),
+              ),
+            ),
+          );
+        }
+
+        return const SizedBox(width: 18, height: 18);
+      },
+    );
   }
 }

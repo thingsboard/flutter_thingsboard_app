@@ -68,6 +68,8 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
       actions: widget.actions,
       elevation: widget.elevation ?? 8,
       shadowColor: widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
+      centerTitle:
+          widget.canGoBack || Navigator.of(context).canPop() ? true : false,
     );
   }
 }

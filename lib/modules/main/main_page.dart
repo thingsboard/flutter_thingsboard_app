@@ -5,6 +5,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/layout_pages/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class MainPage extends TbPageWidget {
@@ -15,7 +16,7 @@ class MainPage extends TbPageWidget {
 }
 
 class _MainPageState extends TbPageState<MainPage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final _currentIndexNotifier = ValueNotifier(0);
   late TabController _tabController;
   late Orientation orientation;
@@ -59,9 +60,9 @@ class _MainPageState extends TbPageState<MainPage>
                     ),
                     bottomNavigationBar: ValueListenableBuilder<int>(
                       valueListenable: _currentIndexNotifier,
-                      builder: (context, index, child) => TbNavigationBarWidget(
+                      builder: (_, __, ___) => TbNavigationBarWidget(
                         currentIndex: _currentIndexNotifier.value,
-                        onTap: (int index) => _setIndex(index),
+                        onTap: (index) => _setIndex(index),
                         customBottomBarItems: state.items,
                       ),
                     ),
@@ -92,10 +93,25 @@ class _MainPageState extends TbPageState<MainPage>
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       orientation = MediaQuery.of(context).orientation;
+      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
     });
 
     super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

@@ -272,7 +272,10 @@ class TbContext implements PopEntry {
             homeDashboard = mobileInfo?.homeDashboardInfo;
             versionInfo = mobileInfo?.versionInfo;
             storeInfo = mobileInfo?.storeInfo;
-            getIt<ILayoutService>().cachePageLayouts(mobileInfo?.pages);
+            getIt<ILayoutService>().cachePageLayouts(
+              mobileInfo?.pages,
+              authority: tbClient.getAuthUser()!.authority,
+            );
           } catch (e) {
             log.error('TbContext::onUserLoaded error $e');
             if (!_isConnectionError(e)) {
@@ -327,7 +330,7 @@ class TbContext implements PopEntry {
 
       if (isAuthenticated) {
         if (getIt<IFirebaseService>().apps.isNotEmpty) {
-          await NotificationService().init(tbClient, log, this);
+          await NotificationService(tbClient, log, this).init();
         }
       }
     } catch (e, s) {
@@ -402,7 +405,7 @@ class TbContext implements PopEntry {
     _handleRootState = true;
 
     if (getIt<IFirebaseService>().apps.isNotEmpty) {
-      await NotificationService().logout();
+      await NotificationService(tbClient, log, this).logout();
     }
 
     await tbClient.logout(

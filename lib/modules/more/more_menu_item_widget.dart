@@ -29,22 +29,18 @@ class MoreMenuItemWidget extends StatelessWidget {
           children: [
             Icon(
               menuItem.icon,
-              color: !menuItem.disabled
-                  ? color ?? Colors.black.withOpacity(.76)
-                  : Colors.grey.withOpacity(0.5),
+              color: color ?? Colors.black.withOpacity(.76),
               size: 18,
             ),
             Visibility(
               visible: menuItem.showAdditionalIcon,
-              child: menuItem.additionalIcon ?? const SizedBox.shrink(),
+              child: menuItem.additionalIconSmall ?? const SizedBox.shrink(),
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: menuItem.showAdditionalIcon ? 12 : 20),
             Text(
               menuItem.title,
               style: TbTextStyles.bodyMedium.copyWith(
-                color: !menuItem.disabled
-                    ? color ?? Colors.black.withOpacity(.76)
-                    : Colors.grey.withOpacity(0.5),
+                color: color ?? Colors.black.withOpacity(.76),
               ),
             ),
           ],

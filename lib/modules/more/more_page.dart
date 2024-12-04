@@ -10,7 +10,6 @@ import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
@@ -23,8 +22,7 @@ class MorePage extends TbContextWidget {
   State<StatefulWidget> createState() => _MorePageState();
 }
 
-class _MorePageState extends TbContextState<MorePage>
-    with WidgetsBindingObserver {
+class _MorePageState extends TbContextState<MorePage> {
   @override
   Widget build(BuildContext context) {
     final userDetails = getIt<UserDetailsUseCase>()(
@@ -130,32 +128,9 @@ class _MorePageState extends TbContextState<MorePage>
     );
   }
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      if (getIt<IFirebaseService>().apps.isNotEmpty) {
-        NotificationService().updateNotificationsCount();
-      }
-    }
-  }
-
   Widget buildMoreMenuItems(BuildContext context) {
-    final items = getIt<ILayoutService>().getMorePageItems(
-      tbContext,
-      context,
-    );
+    final items = getIt<ILayoutService>().getMorePageItems(tbContext, context);
+    NotificationService(tbClient, log, tbContext).updateNotificationsCount();
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -165,18 +140,7 @@ class _MorePageState extends TbContextState<MorePage>
         itemBuilder: (_, index) => MoreMenuItemWidget(
           items[index],
           onTap: () {
-            if (!items[index].disabled) {
-              navigateTo(items[index].path);
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    items[index].disabledReasonMessage ??
-                        'The item is disabled',
-                  ),
-                ),
-              );
-            }
+            navigateTo(items[index].path);
           },
         ),
         separatorBuilder: (_, __) => const SizedBox(height: 16),

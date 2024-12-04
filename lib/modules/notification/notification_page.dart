@@ -1,20 +1,22 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
 import 'package:thingsboard_app/modules/notification/repository/notification_pagination_repository.dart';
 import 'package:thingsboard_app/modules/notification/repository/notification_repository.dart';
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 enum NotificationsFilter { all, unread }
 
 class NotificationPage extends TbContextWidget {
-  NotificationPage(TbContext tbContext, {super.key}) : super(tbContext);
+  NotificationPage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _NotificationPageState();
@@ -159,6 +161,26 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
       notificationQueryCtrl: notificationQueryCtrl,
       thingsboardClient: widget.tbContext.tbClient,
     );
+
+    final authority = widget.tbClient.getAuthUser()!.authority;
+    final pushNotificationsDisabled = getIt<IFirebaseService>().apps.isEmpty;
+    if (pushNotificationsDisabled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (authority == Authority.TENANT_ADMIN ||
+            authority == Authority.CUSTOMER_USER) {
+          showWarnNotification(
+            'Push notifications are not configured. '
+            'Please contact your system administrator.',
+          );
+        } else if (authority == Authority.SYS_ADMIN) {
+          showWarnNotification(
+            'Firebase is not configured.'
+            ' Please refer to the official Firebase documentation for'
+            ' guidance on how to do so.',
+          );
+        }
+      });
+    }
 
     super.initState();
   }
