@@ -48,8 +48,9 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
               .map(
                 (e) => TbMainNavigationItem(
                   page: MainItemWidget(
-                    getWidget(e),
+                    tbContext,
                     path: e.path ?? '',
+                    child: getWidget(e),
                   ),
                   title: getLabel(e, event.context),
                   icon: getIcon(e),
@@ -66,8 +67,9 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
               .toList(),
           more: TbMainNavigationItem(
             page: MainItemWidget(
-              MorePage(tbContext),
+              tbContext,
               path: '/more',
+              child: MorePage(tbContext),
             ),
             title: S.of(event.context).more,
             icon: Icons.menu_outlined,
