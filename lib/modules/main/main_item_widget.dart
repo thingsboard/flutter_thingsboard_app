@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
-class MainItemWidget extends StatefulWidget {
-  const MainItemWidget(this.child, {required this.path, super.key});
+class MainItemWidget extends TbContextWidget {
+  MainItemWidget(
+    super.tbContext, {
+    required this.child,
+    required this.path,
+    super.key,
+  });
 
   final Widget? child;
   final String path;
@@ -10,7 +16,7 @@ class MainItemWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _MainItemWidgetState();
 }
 
-class _MainItemWidgetState extends State<MainItemWidget>
+class _MainItemWidgetState extends TbContextState<MainItemWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
