@@ -22,15 +22,15 @@ class LayoutService implements ILayoutService {
 
     if (deviceScreenSize.width < 600) {
       return bottomBarItems.length > 4
-          ? [...bottomBarItems.sublist(0, 3), more]
+          ? [...bottomBarItems.sublist(0, 4), more]
           : [...bottomBarItems, more];
     } else if (deviceScreenSize.width < 960) {
       return bottomBarItems.length > 7
-          ? [...bottomBarItems.sublist(0, 6), more]
+          ? [...bottomBarItems.sublist(0, 7), more]
           : [...bottomBarItems, more];
     } else {
       return bottomBarItems.length > 9
-          ? [...bottomBarItems.sublist(0, 8), more]
+          ? [...bottomBarItems.sublist(0, 9), more]
           : [...bottomBarItems, more];
     }
   }
