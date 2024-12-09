@@ -122,5 +122,6 @@ class DashboardController {
     canGoBack.dispose();
     hasRightLayout.dispose();
     rightLayoutOpened.dispose();
+    controller?.dispose();
   }
 }

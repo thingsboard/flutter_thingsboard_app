@@ -68,8 +68,7 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
       actions: widget.actions,
       elevation: widget.elevation ?? 8,
       shadowColor: widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
-      centerTitle:
-          widget.canGoBack || Navigator.of(context).canPop() ? true : false,
+      centerTitle: false,
     );
   }
 }
@@ -109,7 +108,6 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
   @override
   void initState() {
     super.initState();
-    // _textUpdates.add('');
     _filter.addListener(() {
       _textUpdates.add(_filter.text);
     });
