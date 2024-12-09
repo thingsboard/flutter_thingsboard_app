@@ -6,7 +6,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class UrlPage extends TbPageWidget {
+class UrlPage extends TbContextWidget {
   UrlPage({
     required this.url,
     required TbContext tbContext,
@@ -19,7 +19,7 @@ class UrlPage extends TbPageWidget {
   State<StatefulWidget> createState() => _UrlPageState();
 }
 
-class _UrlPageState extends TbPageState<UrlPage> {
+class _UrlPageState extends TbContextState<UrlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

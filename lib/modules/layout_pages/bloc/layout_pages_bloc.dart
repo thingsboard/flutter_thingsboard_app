@@ -198,10 +198,6 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   }
 
   String getPath(PageLayout pageLayout) {
-    if (pageLayout.path != null) {
-      return pageLayout.path!;
-    }
-
     switch (pageLayout.id) {
       case Pages.home:
         return '/home';
@@ -227,6 +223,8 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
           return '/url/${Uri.encodeComponent(pageLayout.url!)}';
         } else if (pageLayout.dashboardId != null) {
           return '/dashboard/${pageLayout.dashboardId}';
+        } else if (pageLayout.path?.startsWith('/url/') == true) {
+          return '/url/${Uri.encodeComponent(pageLayout.path!.split('/url/').last)}';
         }
 
         return pageLayout.path ?? 'something went wrong';
