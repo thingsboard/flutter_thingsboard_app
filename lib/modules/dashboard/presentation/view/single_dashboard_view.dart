@@ -40,7 +40,23 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        leading: BackButton(onPressed: maybePop),
+        leading: BackButton(
+          onPressed: () async {
+            if (_dashboardController?.rightLayoutOpened.value == true) {
+              await _dashboardController?.toggleRightLayout();
+              return;
+            }
+
+            final controller = _dashboardController?.controller;
+            if (await controller?.canGoBack() == true) {
+              await controller?.goBack();
+            } else {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            }
+          },
+        ),
         showLoadingIndicator: false,
         elevation: 1,
         shadowColor: Colors.transparent,
@@ -80,7 +96,8 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
           titleCallback: (title) {
             dashboardTitleValue.value = widget.title ?? title;
           },
-          controllerCallback: (controller) {
+          controllerCallback: (controller, _) {
+            _dashboardController = controller;
             controller.hasRightLayout.addListener(() {
               hasRightLayout.value = controller.hasRightLayout.value;
             });

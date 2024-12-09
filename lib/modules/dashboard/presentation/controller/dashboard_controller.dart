@@ -8,6 +8,7 @@ typedef DashboardTitleCallback = void Function(String title);
 
 typedef DashboardControllerCallback = void Function(
   DashboardController controller,
+  ValueNotifier<bool> loadingCtrl,
 );
 
 class DashboardController {

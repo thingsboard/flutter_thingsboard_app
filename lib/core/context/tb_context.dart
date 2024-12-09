@@ -597,14 +597,6 @@ class TbContext implements PopEntry {
     }
   }
 
-  Future<bool> maybePop<T extends Object?>([T? result]) async {
-    if (currentState != null) {
-      return Navigator.of(currentState!.context).maybePop(result);
-    } else {
-      return true;
-    }
-  }
-
   void onPopInvokedImpl<T>(bool didPop, [T? result]) async {
     if (didPop) {
       return;

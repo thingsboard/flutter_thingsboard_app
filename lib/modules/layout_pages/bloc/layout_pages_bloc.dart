@@ -108,17 +108,17 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         return DashboardsPage(tbContext);
       case Pages.undefined:
       case null:
-        if (pageLayout.path != null) {
+        if (pageLayout.dashboardId != null) {
+          return SingleDashboardView(tbContext, id: pageLayout.dashboardId!);
+        } else if (pageLayout.url != null) {
+          return UrlPage(url: pageLayout.url!, tbContext: tbContext);
+        } else if (pageLayout.path != null) {
           // Find the route by its path
           final match = tbContext.router.match(pageLayout.path!);
           if (match != null && match.route.handler != null) {
             // Execute the handler's function to retrieve the widget
             return match.route.handler?.handlerFunc(null, match.parameters);
           }
-        } else if (pageLayout.url != null) {
-          return UrlPage(url: pageLayout.url!, tbContext: tbContext);
-        } else if (pageLayout.dashboardId != null) {
-          return SingleDashboardView(tbContext, id: pageLayout.dashboardId!);
         }
 
         return const SizedBox.shrink();
