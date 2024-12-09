@@ -113,8 +113,20 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         } else if (pageLayout.url != null) {
           return UrlPage(url: pageLayout.url!, tbContext: tbContext);
         } else if (pageLayout.path != null) {
+          late String path;
+
+          // Check if a user wants to open web view
+          if (pageLayout.path!.startsWith('/url/')) {
+            final link = Uri.encodeComponent(
+              pageLayout.path!.split('/url/').last,
+            );
+            path = '${'/url'}/$link';
+          } else {
+            path = pageLayout.path!;
+          }
+
           // Find the route by its path
-          final match = tbContext.router.match(pageLayout.path!);
+          final match = tbContext.router.match(path);
           if (match != null && match.route.handler != null) {
             // Execute the handler's function to retrieve the widget
             return match.route.handler?.handlerFunc(null, match.parameters);
