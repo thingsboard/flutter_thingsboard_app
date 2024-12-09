@@ -20,6 +20,8 @@ class AlarmsDi {
   static void init(
     final String scopeName, {
     required ThingsboardClient tbClient,
+    required String typesScopeName,
+    required String assigneeScopeName,
   }) {
     getIt.pushNewScope(
       scopeName: scopeName,
@@ -66,15 +68,19 @@ class AlarmsDi {
           ),
         );
 
-        AlarmTypesDi.init(tbClient);
-        AssigneeDi.inti(tbClient);
+        AlarmTypesDi.init(tbClient, scopeName: typesScopeName);
+        AssigneeDi.inti(tbClient, scopeName: assigneeScopeName);
       },
     );
   }
 
-  static void dispose(final String scopeName) {
-    AlarmTypesDi.dispose();
-    AssigneeDi.dispose();
+  static void dispose(
+    final String scopeName, {
+    required String typesScopeName,
+    required String assigneeScopeName,
+  }) {
+    AlarmTypesDi.dispose(typesScopeName);
+    AssigneeDi.dispose(assigneeScopeName);
     getIt<PaginationRepository<AlarmQuery, AlarmInfo>>().dispose();
     getIt<AlarmBloc>().close();
     getIt.dropScope(scopeName);
