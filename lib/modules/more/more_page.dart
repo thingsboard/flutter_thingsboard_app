@@ -36,7 +36,7 @@ class _MorePageState extends TbContextState<MorePage> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -98,7 +98,9 @@ class _MorePageState extends TbContextState<MorePage> {
                   height: 0,
                 ),
               ),
-              buildMoreMenuItems(context),
+              Flexible(
+                child: buildMoreMenuItems(context),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Divider(
@@ -130,7 +132,6 @@ class _MorePageState extends TbContextState<MorePage> {
 
   Widget buildMoreMenuItems(BuildContext context) {
     final items = getIt<ILayoutService>().getMorePageItems(tbContext, context);
-    NotificationService(tbClient, log, tbContext).updateNotificationsCount();
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -170,5 +171,12 @@ class _MorePageState extends TbContextState<MorePage> {
       }
     }
     return name;
+  }
+
+  @override
+  void initState() {
+    NotificationService(widget.tbClient, widget.log, widget.tbContext)
+        .updateNotificationsCount();
+    super.initState();
   }
 }
