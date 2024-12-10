@@ -24,7 +24,7 @@ class LayoutService implements ILayoutService {
     );
 
     if (deviceScreenSize.width < 600) {
-      return bottomBarItems.length > 4
+      return bottomBarItems.length > 3
           ? [...bottomBarItems.sublist(0, 3), more]
           : [...bottomBarItems, more];
     } else if (deviceScreenSize.width < 960) {
@@ -74,7 +74,7 @@ class LayoutService implements ILayoutService {
     required Authority authority,
   }) {
     logger.debug('LayoutService::cachePagesLayout()');
-    if (pages == null || pages.isEmpty) {
+    if (pages == null) {
       pagesLayout = [
         const PageLayout(id: Pages.home),
         const PageLayout(id: Pages.alarms),
