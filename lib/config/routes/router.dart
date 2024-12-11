@@ -17,6 +17,7 @@ import 'package:thingsboard_app/modules/notification/routes/notification_routes.
 import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
 import 'package:thingsboard_app/modules/url/url_routes.dart';
+import 'package:thingsboard_app/modules/version/version_route.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
 class ThingsboardAppRouter {
@@ -52,6 +53,7 @@ class ThingsboardAppRouter {
     UrlPageRoutes(_tbContext).registerRoutes();
     NoAuthRoutes(_tbContext).registerRoutes();
     MoreRoutes(_tbContext).registerRoutes();
+    VersionRoutes(_tbContext).registerRoutes();
   }
 
   TbContext get tbContext => _tbContext;
