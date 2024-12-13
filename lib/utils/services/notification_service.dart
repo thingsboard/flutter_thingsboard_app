@@ -95,8 +95,12 @@ class NotificationService {
   }
 
   Future<String?> getToken() async {
-    _fcmToken = await _messaging.getToken();
-    return _fcmToken;
+    try {
+      _fcmToken = await _messaging.getToken();
+      return _fcmToken;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<RemoteMessage?> initialMessage() async {
