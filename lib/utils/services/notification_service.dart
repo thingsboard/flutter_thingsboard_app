@@ -299,7 +299,7 @@ class NotificationService {
       }
     } else {
       if (!isOnNotificationsScreenAlready) {
-        tbContext.navigateTo('/notifications', replace: true);
+        tbContext.navigateTo('/notifications');
       }
     }
   }
