@@ -13,8 +13,8 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
-import 'package:thingsboard_app/modules/version/version_route.dart';
-import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
+import 'package:thingsboard_app/modules/version/route/version_route.dart';
+import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -308,6 +308,7 @@ class TbContext implements PopEntry {
             (versionInfo!.minVersion?.versionInt() ?? 0)) {
           navigateTo(
             VersionRoutes.updateRequiredRoutePath,
+            clearStack: true,
             replace: true,
             routeSettings: RouteSettings(
               arguments: VersionRouteArguments(

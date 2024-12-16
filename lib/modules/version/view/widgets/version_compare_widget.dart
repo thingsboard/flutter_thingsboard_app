@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class VersionCompareWidget extends TbContextWidget {
   VersionCompareWidget(
     super.tbContext, {
-    required this.arguments,
+    required this.minVersion,
+    required this.minVersionNotes,
+    required this.latestVersion,
+    required this.latestVersionNotes,
+    required this.storeLink,
     super.key,
   });
 
-  final VersionRouteArguments arguments;
+  final String minVersion;
+  final String minVersionNotes;
+  final String latestVersion;
+  final String latestVersionNotes;
+  final String? storeLink;
 
   @override
   State<StatefulWidget> createState() => _VersionCompareWidgetState();
@@ -22,8 +29,7 @@ class VersionCompareWidget extends TbContextWidget {
 class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
     with SingleTickerProviderStateMixin {
   late final tabCtrl = TabController(length: 2, vsync: this);
-  late String releaseNotes =
-      widget.arguments.versionInfo.minVersionReleaseNotes;
+  late String releaseNotes = widget.minVersionNotes;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,7 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
         tbContext,
         title: Text(S.of(context).updateRequired),
         leading: null,
+        canGoBack: false,
       ),
       body: SafeArea(
         child: Padding(
@@ -43,26 +50,16 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
                 controller: tabCtrl,
                 onTap: (index) {
                   if (index == 0) {
-                    releaseNotes =
-                        widget.arguments.versionInfo.minVersionReleaseNotes;
+                    releaseNotes = widget.minVersionNotes;
                   } else {
-                    releaseNotes =
-                        widget.arguments.versionInfo.latestVersionReleaseNotes;
+                    releaseNotes = widget.latestVersionNotes;
                   }
 
                   setState(() {});
                 },
                 tabs: [
-                  Tab(
-                    text: widget.arguments.versionInfo.minVersion == null
-                        ? 'Min'
-                        : widget.arguments.versionInfo.minVersion.toString(),
-                  ),
-                  Tab(
-                    text: widget.arguments.versionInfo.latestVersion == null
-                        ? 'Latest'
-                        : widget.arguments.versionInfo.latestVersion.toString(),
-                  ),
+                  Tab(text: widget.minVersion),
+                  Tab(text: widget.latestVersion),
                 ],
               ),
               Expanded(
@@ -83,22 +80,16 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
               Align(
                 alignment: Alignment.centerRight,
                 child: Visibility(
-                  visible:
-                      widget.arguments.storeInfo?.storeLink?.isNotEmpty == true,
+                  visible: widget.storeLink?.isNotEmpty == true,
                   child: ElevatedButton(
                     onPressed: () {
                       launchUrlString(
-                        widget.arguments.storeInfo!.storeLink!,
+                        widget.storeLink!,
                         mode: LaunchMode.externalApplication,
                       );
                     },
                     child: Text(
-                      S.of(context).updateTo(
-                            widget.arguments.versionInfo.latestVersion == null
-                                ? 'latest'
-                                : widget.arguments.versionInfo.latestVersion
-                                    .toString(),
-                          ),
+                      S.of(context).updateTo(widget.latestVersion),
                     ),
                   ),
                 ),

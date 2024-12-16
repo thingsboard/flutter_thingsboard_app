@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/auth/login/bloc/bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/version/version_route.dart';
-import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
+import 'package:thingsboard_app/modules/version/route/version_route.dart';
+import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -36,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   (versionInfo.minVersion?.versionInt() ?? 0)) {
                 tbContext.navigateTo(
                   VersionRoutes.updateRequiredRoutePath,
+                  clearStack: true,
                   replace: true,
                   routeSettings: RouteSettings(
                     arguments: VersionRouteArguments(

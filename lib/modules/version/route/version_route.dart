@@ -1,8 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/version/update_required_page.dart';
-import 'package:thingsboard_app/modules/version/version_route_arguments.dart';
+import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
+import 'package:thingsboard_app/modules/version/view/update_required_page.dart';
 
 class VersionRoutes extends TbRoutes {
   VersionRoutes(TbContext tbContext) : super(tbContext);
