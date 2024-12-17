@@ -6,11 +6,11 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item.dart';
+import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
@@ -22,8 +22,7 @@ class MorePage extends TbContextWidget {
   State<StatefulWidget> createState() => _MorePageState();
 }
 
-class _MorePageState extends TbContextState<MorePage>
-    with WidgetsBindingObserver {
+class _MorePageState extends TbContextState<MorePage> {
   @override
   Widget build(BuildContext context) {
     final userDetails = getIt<UserDetailsUseCase>()(
@@ -37,7 +36,7 @@ class _MorePageState extends TbContextState<MorePage>
     return SafeArea(
       child: Scaffold(
         body: Container(
-          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -99,7 +98,9 @@ class _MorePageState extends TbContextState<MorePage>
                   height: 0,
                 ),
               ),
-              buildMoreMenuItems(context),
+              Flexible(
+                child: buildMoreMenuItems(context),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Divider(
@@ -109,9 +110,11 @@ class _MorePageState extends TbContextState<MorePage>
                 ),
               ),
               MoreMenuItemWidget(
-                MoreMenuItem(
+                TbMainNavigationItem(
                   title: S.of(context).logout,
                   icon: Icons.logout,
+                  page: const SizedBox.shrink(),
+                  path: '',
                 ),
                 color: const Color(0xffD12730),
                 onTap: () {
@@ -127,51 +130,24 @@ class _MorePageState extends TbContextState<MorePage>
     );
   }
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      if (getIt<IFirebaseService>().apps.isNotEmpty) {
-        NotificationService().updateNotificationsCount();
-      }
-    }
-  }
-
   Widget buildMoreMenuItems(BuildContext context) {
-    final items = MoreMenuItem.getItems(tbContext, context);
+    final items = getIt<ILayoutService>().getMorePageItems(tbContext, context);
 
-    return ListView.separated(
-      itemBuilder: (_, index) => MoreMenuItemWidget(
-        items[index],
-        onTap: () {
-          if (!items[index].disabled && items[index].path != null) {
-            navigateTo(items[index].path!);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  items[index].disabledReasonMessage ?? 'The item is disabled',
-                ),
-              ),
-            );
-          }
-        },
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height / 2,
       ),
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
-      itemCount: items.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+      child: ListView.separated(
+        itemBuilder: (_, index) => MoreMenuItemWidget(
+          items[index],
+          onTap: () {
+            navigateTo(items[index].path);
+          },
+        ),
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        itemCount: items.length,
+        shrinkWrap: true,
+      ),
     );
   }
 
@@ -195,5 +171,12 @@ class _MorePageState extends TbContextState<MorePage>
       }
     }
     return name;
+  }
+
+  @override
+  void initState() {
+    NotificationService(widget.tbClient, widget.log, widget.tbContext)
+        .updateNotificationsCount();
+    super.initState();
   }
 }

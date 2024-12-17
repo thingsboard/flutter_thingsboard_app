@@ -60,6 +60,9 @@ class TbNavigationBarWidget extends StatelessWidget {
                   letterSpacing: .4,
                   color: bottomTheme.unselectedItemColor,
                 ),
+                showAdditionalIcon:
+                    customBottomBarItems[index].showAdditionalIcon,
+                additionalIcon: customBottomBarItems[index].additionalIconLarge,
               ),
             ),
           ),
@@ -70,15 +73,6 @@ class TbNavigationBarWidget extends StatelessWidget {
 }
 
 class BottomNavbarItems extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final int? currentIndex;
-  final int index;
-  final Function(int) onTap;
-  final double lineIndicatorWidth;
-  final TextStyle selectedTextStyle;
-  final TextStyle unSelectedTextStyle;
-
   const BottomNavbarItems({
     required this.label,
     required this.icon,
@@ -88,8 +82,21 @@ class BottomNavbarItems extends StatelessWidget {
     required this.index,
     this.currentIndex,
     this.lineIndicatorWidth = 3,
+    this.showAdditionalIcon = false,
+    this.additionalIcon,
     super.key,
   });
+
+  final String label;
+  final IconData icon;
+  final int? currentIndex;
+  final int index;
+  final Function(int) onTap;
+  final double lineIndicatorWidth;
+  final TextStyle selectedTextStyle;
+  final TextStyle unSelectedTextStyle;
+  final bool showAdditionalIcon;
+  final Widget? additionalIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +104,8 @@ class BottomNavbarItems extends StatelessWidget {
     final isSelected = currentIndex == index;
 
     return SafeArea(
+      left: false,
+      right: false,
       child: Padding(
         padding: const EdgeInsets.only(right: 7),
         child: Material(
@@ -120,12 +129,30 @@ class BottomNavbarItems extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Column(
                 children: [
-                  Icon(
-                    icon,
-                    size: 26,
-                    color: isSelected
-                        ? bottomTheme.selectedItemColor
-                        : bottomTheme.unselectedItemColor,
+                  Padding(
+                    padding: EdgeInsets.only(left: showAdditionalIcon ? 18 : 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          icon,
+                          size: 26,
+                          color: isSelected
+                              ? bottomTheme.selectedItemColor
+                              : bottomTheme.unselectedItemColor,
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 30,
+                            maxWidth: 30,
+                          ),
+                          child: Visibility(
+                            visible: showAdditionalIcon,
+                            child: additionalIcon ?? const SizedBox.shrink(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 5),
                   Text(

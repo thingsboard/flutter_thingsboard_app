@@ -30,6 +30,8 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
     with AutomaticKeepAliveClientMixin<AlarmsPage> {
   final _preloadPageCtrl = PreloadPageController();
   final diScopeKey = UniqueKey();
+  final typesScopeName = UniqueKey();
+  final assigneeScopeName = UniqueKey();
 
   @override
   bool get wantKeepAlive => true;
@@ -119,13 +121,22 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
 
   @override
   void initState() {
-    AlarmsDi.init(diScopeKey.toString(), tbClient: widget.tbContext.tbClient);
+    AlarmsDi.init(
+      diScopeKey.toString(),
+      tbClient: widget.tbContext.tbClient,
+      typesScopeName: typesScopeName.toString(),
+      assigneeScopeName: assigneeScopeName.toString(),
+    );
     super.initState();
   }
 
   @override
   void dispose() {
-    AlarmsDi.dispose(diScopeKey.toString());
+    AlarmsDi.dispose(
+      diScopeKey.toString(),
+      typesScopeName: typesScopeName.toString(),
+      assigneeScopeName: assigneeScopeName.toString(),
+    );
     super.dispose();
   }
 }

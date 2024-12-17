@@ -60,15 +60,21 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
 
       case ClearAlarmEvent():
         emit(const AlarmDetailsLoadingState());
-        await clearAlarmUseCase(event.id);
-        add(AlarmDetailsFetchEvent(id: event.id.id));
+        try {
+          await clearAlarmUseCase(event.id);
+        } finally {
+          add(AlarmDetailsFetchEvent(id: event.id.id));
+        }
 
         break;
 
       case AcknowledgeAlarmEvent():
         emit(const AlarmDetailsLoadingState());
-        await acknowledgeAlarmUseCase(event.id);
-        add(AlarmDetailsFetchEvent(id: event.id.id));
+        try {
+          await acknowledgeAlarmUseCase(event.id);
+        } finally {
+          add(AlarmDetailsFetchEvent(id: event.id.id));
+        }
 
         break;
     }

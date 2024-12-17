@@ -8,6 +8,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 const entityTypeTranslations = <EntityType, String>{
@@ -103,33 +104,27 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FittedBox(
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.centerLeft,
+                    Expanded(
                       child: Text(
                         contact.getName(),
-                        style: const TextStyle(
-                          color: Color(0xFF282828),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 20 / 14,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TbTextStyles.labelLarge.copyWith(
+                          color: Colors.black.withOpacity(.87),
                         ),
                       ),
                     ),
+                    const SizedBox(width: 10),
                     Text(
                       entityDateFormat.format(
                         DateTime.fromMillisecondsSinceEpoch(
                           contact.createdTime!,
                         ),
                       ),
-                      style: const TextStyle(
-                        color: Color(0xFFAFAFAF),
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        height: 16 / 12,
+                      style: TbTextStyles.bodyMedium.copyWith(
+                        color: Colors.black.withOpacity(.54),
                       ),
                     ),
                   ],

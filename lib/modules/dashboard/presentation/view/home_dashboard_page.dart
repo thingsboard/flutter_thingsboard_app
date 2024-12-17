@@ -24,7 +24,7 @@ class _HomeDashboardState extends TbContextState<HomeDashboardPage> {
       body: DashboardWidget(
         tbContext,
         home: true,
-        controllerCallback: (controller) {
+        controllerCallback: (controller, _) {
           controller.openDashboard(
             widget.dashboard.dashboardId!.id!,
             hideToolbar: widget.dashboard.hideDashboardToolbar,

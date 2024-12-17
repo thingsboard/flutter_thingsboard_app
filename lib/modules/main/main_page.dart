@@ -1,115 +1,117 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/layout_pages/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
+import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
+import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class MainPage extends TbPageWidget {
-  MainPage(
-    TbContext tbContext, {
-    super.key,
-    required String path,
-  })  : _path = path,
-        super(tbContext);
-
-  final String _path;
+  MainPage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
 }
 
 class _MainPageState extends TbPageState<MainPage>
-    with TbMainState, TickerProviderStateMixin {
-  late ValueNotifier<int> _currentIndexNotifier;
-  late final List<TbMainNavigationItem> _tabItems;
+    with TickerProviderStateMixin, WidgetsBindingObserver {
+  final _currentIndexNotifier = ValueNotifier(0);
   late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabItems = TbMainNavigationItem.getItems(tbContext);
-    final currentIndex = _indexFromPath(widget._path);
-    _tabController = TabController(
-      initialIndex: currentIndex,
-      length: _tabItems.length,
-      vsync: this,
-    );
-    _currentIndexNotifier = ValueNotifier(currentIndex);
-    _tabController.animation!.addListener(_onTabAnimation);
-  }
-
-  @override
-  void dispose() {
-    _tabController.animation!.removeListener(_onTabAnimation);
-    super.dispose();
-  }
-
-  _onTabAnimation() {
-    var value = _tabController.animation!.value;
-    int targetIndex;
-    if (value >= _tabController.previousIndex) {
-      targetIndex = value.round();
-    } else {
-      targetIndex = value.floor();
-    }
-    _currentIndexNotifier.value = targetIndex;
-  }
-
-  @override
-  Future<bool> willPop() async {
-    if (_tabController.index > 0) {
-      _setIndex(0);
-      return false;
-    }
-    return true;
-  }
+  late Orientation orientation;
 
   @override
   Widget build(BuildContext context) {
-    TbMainNavigationItem.changeItemsTitleIntl(_tabItems, context);
+    return BlocProvider<LayoutPagesBloc>(
+      create: (_) => LayoutPagesBloc(
+        layoutService: getIt<ILayoutService>(),
+        tbContext: tbContext,
+      )..add(BottomBarFetchEvent(context)),
+      child: BlocBuilder<LayoutPagesBloc, LayoutPagesState>(
+        builder: (context, state) {
+          switch (state) {
+            case BottomBarDataState():
+              if (_currentIndexNotifier.value >= state.items.length) {
+                _currentIndexNotifier.value = state.items.length - 1;
+                _tabController.index = _currentIndexNotifier.value;
+              }
 
-    return Scaffold(
-      body: TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: _tabItems.map((item) => item.page).toList(),
-      ),
-      bottomNavigationBar: ValueListenableBuilder<int>(
-        valueListenable: _currentIndexNotifier,
-        builder: (context, index, child) => TbNavigationBarWidget(
-          currentIndex: index,
-          onTap: (int index) => _setIndex(index),
-          customBottomBarItems: _tabItems,
-        ),
+              _tabController = TabController(
+                initialIndex: _currentIndexNotifier.value,
+                length: state.items.length,
+                vsync: this,
+              );
+
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  if (this.orientation != orientation) {
+                    this.orientation = orientation;
+                    context
+                        .read<LayoutPagesBloc>()
+                        .add(const BottomBarOrientationChangedEvent());
+                  }
+
+                  return Scaffold(
+                    body: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _tabController,
+                      children: state.items.map((e) => e.page).toList(),
+                    ),
+                    bottomNavigationBar: ValueListenableBuilder<int>(
+                      valueListenable: _currentIndexNotifier,
+                      builder: (_, __, ___) => TbNavigationBarWidget(
+                        currentIndex: _currentIndexNotifier.value,
+                        onTap: (index) => _setIndex(index),
+                        customBottomBarItems: state.items,
+                      ),
+                    ),
+                  );
+                },
+              );
+
+            default:
+              return const Scaffold(
+                body: Center(
+                  child: TbProgressIndicator(size: 50),
+                ),
+              );
+          }
+        },
       ),
     );
-  }
-
-  int _indexFromPath(String path) {
-    return _tabItems.indexWhere((item) => item.path == path);
-  }
-
-  @override
-  bool canNavigate(String path) {
-    return _indexFromPath(path) > -1;
-  }
-
-  @override
-  navigateToPath(String path) {
-    int targetIndex = _indexFromPath(path);
-    _setIndex(targetIndex);
-  }
-
-  @override
-  bool isHomePage() {
-    return _tabController.index == 0;
   }
 
   void _setIndex(int index) {
     if (_tabController.index != index) {
       hideNotification();
       _tabController.index = index;
+      _currentIndexNotifier.value = index;
       tbContext.bottomNavigationTabChangedStream.add(index);
     }
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      orientation = MediaQuery.of(context).orientation;
+      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
+    });
+
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

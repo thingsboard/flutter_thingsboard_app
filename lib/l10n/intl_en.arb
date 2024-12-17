@@ -162,5 +162,10 @@
   "northAmerica": "North America",
   "europe": "Europe",
   "northAmericaRegionShort": "N. Virginia",
-  "europeRegionShort": "Frankfurt"
+  "europeRegionShort": "Frankfurt",
+  "notifications": "Notifications",
+  "deviceList": "Device list",
+  "dashboards": "Dashboards",
+  "updateRequired": "Update required",
+  "updateTo": "Update to {version}"
 }

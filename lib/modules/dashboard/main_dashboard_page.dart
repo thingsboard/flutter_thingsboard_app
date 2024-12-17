@@ -30,13 +30,30 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
   late final AnimationController rightLayoutMenuController;
 
   DashboardController? _dashboardController;
+  ValueNotifier<bool>? _dashboardLoadingCtrl;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
-        leading: BackButton(onPressed: maybePop),
+        leading: BackButton(
+          onPressed: () async {
+            if (_dashboardController?.rightLayoutOpened.value == true) {
+              await _dashboardController?.toggleRightLayout();
+              return;
+            }
+
+            final controller = _dashboardController?.controller;
+            if (await controller?.canGoBack() == true) {
+              await controller?.goBack();
+            } else {
+              widget.controller.closeDashboard().then(
+                    (_) => _dashboardLoadingCtrl?.value = true,
+                  );
+            }
+          },
+        ),
         showLoadingIndicator: false,
         elevation: 1,
         shadowColor: Colors.transparent,
@@ -68,31 +85,36 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
             },
           ),
         ],
+        canGoBack: true,
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
         builder: (context, value, _) {
-          return DashboardWidget(
-            tbContext,
-            titleCallback: (title) {
-              dashboardTitleValue.value = title;
-            },
-            pageController: widget.controller,
-            controllerCallback: (controller) {
-              _dashboardController = controller;
-              widget.controller.setDashboardController(controller);
+          return SafeArea(
+            bottom: false,
+            child: DashboardWidget(
+              tbContext,
+              titleCallback: (title) {
+                dashboardTitleValue.value = title;
+              },
+              pageController: widget.controller,
+              controllerCallback: (controller, loadingCtrl) {
+                _dashboardController = controller;
+                _dashboardLoadingCtrl = loadingCtrl;
+                widget.controller.setDashboardController(controller);
 
-              controller.hasRightLayout.addListener(() {
-                hasRightLayout.value = controller.hasRightLayout.value;
-              });
-              controller.rightLayoutOpened.addListener(() {
-                if (controller.rightLayoutOpened.value) {
-                  rightLayoutMenuController.forward();
-                } else {
-                  rightLayoutMenuController.reverse();
-                }
-              });
-            },
+                controller.hasRightLayout.addListener(() {
+                  hasRightLayout.value = controller.hasRightLayout.value;
+                });
+                controller.rightLayoutOpened.addListener(() {
+                  if (controller.rightLayoutOpened.value) {
+                    rightLayoutMenuController.forward();
+                  } else {
+                    rightLayoutMenuController.reverse();
+                  }
+                });
+              },
+            ),
           );
         },
       ),
