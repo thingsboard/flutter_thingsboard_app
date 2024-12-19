@@ -296,6 +296,8 @@ class NotificationService {
             } else if (link == '/notifications' &&
                 !isOnNotificationsScreenAlready) {
               tbContext.navigateTo(link);
+            } else {
+              tbContext.navigateTo(link);
             }
           }
 
