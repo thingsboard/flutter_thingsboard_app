@@ -5,7 +5,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
+abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
   final labelTextStyle =
       const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
@@ -49,7 +49,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbPageWidget {
 }
 
 class _EntityDetailsPageState<T extends BaseData>
-    extends TbPageState<EntityDetailsPage<T>> {
+    extends TbContextState<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
   late ValueNotifier<String> titleValue;
 
