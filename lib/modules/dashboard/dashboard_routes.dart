@@ -7,6 +7,8 @@ import 'package:thingsboard_app/modules/dashboard/presentation/view/fullscreen_d
 import 'package:thingsboard_app/modules/dashboard/presentation/view/single_dashboard_view.dart';
 
 class DashboardRoutes extends TbRoutes {
+  DashboardRoutes(TbContext tbContext) : super(tbContext);
+
   late final dashboardsHandler = Handler(
     handlerFunc: (context, params) {
       return DashboardsPage(tbContext);
@@ -33,7 +35,11 @@ class DashboardRoutes extends TbRoutes {
     },
   );
 
-  DashboardRoutes(TbContext tbContext) : super(tbContext);
+  late final singleDashboard = Handler(
+    handlerFunc: (context, parameters) {
+      return SingleDashboardView(tbContext, id: parameters['id']![0]);
+    },
+  );
 
   @override
   void doRegisterRoutes(router) {
@@ -49,6 +55,10 @@ class DashboardRoutes extends TbRoutes {
       ..define(
         '/fullscreenDashboard/:id',
         handler: fullscreenDashboardHandler,
+      )
+      ..define(
+        '/dashboard/:id',
+        handler: singleDashboard,
       );
   }
 }

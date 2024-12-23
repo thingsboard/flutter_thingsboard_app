@@ -6,7 +6,7 @@ import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DevicesListPage extends TbPageWidget {
+class DevicesListPage extends TbContextWidget {
   final String? deviceType;
   final bool? active;
   final bool searchMode;
@@ -23,7 +23,7 @@ class DevicesListPage extends TbPageWidget {
   State<StatefulWidget> createState() => _DevicesListPageState();
 }
 
-class _DevicesListPageState extends TbPageState<DevicesListPage>
+class _DevicesListPageState extends TbContextState<DevicesListPage>
     with AutomaticKeepAliveClientMixin<DevicesListPage> {
   late final DeviceQueryController _deviceQueryController;
 

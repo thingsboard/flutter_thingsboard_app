@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
@@ -22,6 +23,7 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
     required this.deleteAlarmCommentUseCase,
     required this.fetchAlarmCommentsUseCase,
     required this.id,
+    required this.logger,
   }) : super(const AlarmActivityLoadingState()) {
     on(_onEvent);
     subscription = getIt<ICommunicationService>()
@@ -43,6 +45,7 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
       deleteAlarmCommentUseCase: getIt(),
       fetchAlarmCommentsUseCase: getIt(),
       id: id,
+      logger: getIt(),
     );
   }
 
@@ -54,6 +57,7 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   final FetchAlarmCommentsUseCase fetchAlarmCommentsUseCase;
   final AlarmId id;
   late final StreamSubscription subscription;
+  final TbLogger logger;
 
   List<AlarmCommentInfo>? comments;
 
@@ -89,30 +93,39 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
 
         break;
       case PostAlarmCommentEvent():
-        await postAlarmCommentsUseCase(
-          PostAlarmCommentParams(
-            alarmId: event.alarmId,
-            comment: event.comment,
-          ),
-        );
-        if (comments?.isNotEmpty == true) {
-          paginationRepository.pagingController.refresh();
-        } else {
-          add(const AlarmActivityRefreshEvent());
+        try {
+          await postAlarmCommentsUseCase(
+            PostAlarmCommentParams(
+              alarmId: event.alarmId,
+              comment: event.comment,
+            ),
+          );
+
+          if (comments?.isNotEmpty == true) {
+            paginationRepository.pagingController.refresh();
+          } else {
+            add(const AlarmActivityRefreshEvent());
+          }
+        } catch (e) {
+          logger.debug(e);
         }
 
         break;
 
       case UpdateAlarmCommentEvent():
         add(const AlarmActivityFetchEvent());
-        await postAlarmCommentsUseCase(
-          PostAlarmCommentParams(
-            alarmId: event.alarmId,
-            comment: event.comment,
-            id: event.id,
-          ),
-        );
-        paginationRepository.pagingController.refresh();
+        try {
+          await postAlarmCommentsUseCase(
+            PostAlarmCommentParams(
+              alarmId: event.alarmId,
+              comment: event.comment,
+              id: event.id,
+            ),
+          );
+          paginationRepository.pagingController.refresh();
+        } catch (e) {
+          logger.debug(e);
+        }
 
         break;
       case AlarmEditCommentEvent():

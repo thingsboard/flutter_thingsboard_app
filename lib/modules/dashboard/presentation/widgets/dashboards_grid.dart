@@ -30,37 +30,39 @@ class DashboardsGridWidget extends StatelessWidget {
       onRefresh: () async {
         getIt<DashboardsPaginationRepository>().refresh();
       },
-      child: PaginationGridWidget<PageLink, DashboardInfo>(
-        pagingController:
-            getIt<DashboardsPaginationRepository>().pagingController,
-        builderDelegate: PagedChildBuilderDelegate(
-          itemBuilder: (context, item, index) => EntityGridCard(
-            item,
-            entityCardWidgetBuilder: (_, dashboard) => DashboardGridCard(
-              tbContext,
-              dashboard: dashboard,
+      child: SafeArea(
+        child: PaginationGridWidget<PageLink, DashboardInfo>(
+          pagingController:
+              getIt<DashboardsPaginationRepository>().pagingController,
+          builderDelegate: PagedChildBuilderDelegate(
+            itemBuilder: (context, item, index) => EntityGridCard(
+              item,
+              entityCardWidgetBuilder: (_, dashboard) => DashboardGridCard(
+                tbContext,
+                dashboard: dashboard,
+              ),
+              onEntityTap: (dashboard) {
+                dashboardPageCtrl.openDashboard(
+                  dashboard.id!.id!,
+                  title: dashboard.title,
+                );
+              },
+              settings: EntityCardSettings(dropShadow: true),
             ),
-            onEntityTap: (dashboard) {
-              dashboardPageCtrl.openDashboard(
-                dashboard.id!.id!,
-                title: dashboard.title,
-              );
-            },
-            settings: EntityCardSettings(dropShadow: true),
-          ),
-          firstPageProgressIndicatorBuilder: (_) =>
-              const FirstPageProgressBuilder(),
-          newPageProgressIndicatorBuilder: (_) =>
-              const NewPageProgressBuilder(),
-          noItemsFoundIndicatorBuilder: (context) =>
-              FirstPageExceptionIndicator(
-            title: 'No dashboards found',
-            message: S.of(context).listIsEmptyText,
-            onTryAgain: () {
-              getIt<DashboardsPaginationRepository>()
-                  .pagingController
-                  .refresh();
-            },
+            firstPageProgressIndicatorBuilder: (_) =>
+                const FirstPageProgressBuilder(),
+            newPageProgressIndicatorBuilder: (_) =>
+                const NewPageProgressBuilder(),
+            noItemsFoundIndicatorBuilder: (context) =>
+                FirstPageExceptionIndicator(
+              title: 'No dashboards found',
+              message: S.of(context).listIsEmptyText,
+              onTryAgain: () {
+                getIt<DashboardsPaginationRepository>()
+                    .pagingController
+                    .refresh();
+              },
+            ),
           ),
         ),
       ),

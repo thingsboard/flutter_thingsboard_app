@@ -13,11 +13,9 @@ import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 class AlarmTypesDi {
   AlarmTypesDi._();
 
-  static const _scopeName = 'AlarmTypesDi';
-
-  static void init(ThingsboardClient tbClient) {
+  static void init(ThingsboardClient tbClient, {required String scopeName}) {
     getIt.pushNewScope(
-      scopeName: _scopeName,
+      scopeName: scopeName,
       init: (locator) {
         locator.registerFactory<IAlarmTypesDatasource>(
           () => AlarmTypesDatasource(
@@ -59,9 +57,9 @@ class AlarmTypesDi {
     );
   }
 
-  static void dispose() {
+  static void dispose(String scopeName) {
     getIt<PaginationRepository<PageLink, AlarmType>>().dispose();
     getIt<AlarmTypesBloc>().close();
-    getIt.dropScope(_scopeName);
+    getIt.dropScope(scopeName);
   }
 }

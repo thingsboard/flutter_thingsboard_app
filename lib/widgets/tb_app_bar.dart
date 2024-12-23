@@ -12,6 +12,7 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
   final double? elevation;
   final Color? shadowColor;
   final bool showLoadingIndicator;
+  final bool canGoBack;
 
   @override
   final Size preferredSize;
@@ -25,6 +26,7 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
     this.elevation = 8,
     this.shadowColor,
     this.showLoadingIndicator = false,
+    this.canGoBack = false,
   })  : preferredSize =
             Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
         super(tbContext);
@@ -59,11 +61,14 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
 
   AppBar buildDefaultBar() {
     return AppBar(
-      leading: widget.leading,
+      leading: widget.canGoBack || Navigator.of(context).canPop()
+          ? widget.leading
+          : null,
       title: widget.title,
       actions: widget.actions,
       elevation: widget.elevation ?? 8,
       shadowColor: widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
+      centerTitle: false,
     );
   }
 }
@@ -103,7 +108,6 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
   @override
   void initState() {
     super.initState();
-    // _textUpdates.add('');
     _filter.addListener(() {
       _textUpdates.add(_filter.text);
     });
