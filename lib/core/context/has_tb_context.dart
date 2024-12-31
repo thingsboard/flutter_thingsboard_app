@@ -51,9 +51,6 @@ mixin HasTbContext {
   void pop<T>([T? result, BuildContext? context]) =>
       _tbContext.pop<T>(result, context);
 
-  Future<bool> maybePop<T extends Object?>([T? result]) =>
-      _tbContext.maybePop<T>(result);
-
   Future<void> navigateToDashboard(
     String dashboardId, {
     String? dashboardTitle,

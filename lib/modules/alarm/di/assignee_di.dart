@@ -12,13 +12,11 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 
 class AssigneeDi {
-  static const _scopeName = 'AssigneeDi';
-
   AssigneeDi._();
 
-  static void inti(ThingsboardClient tbClient) {
+  static void inti(ThingsboardClient tbClient, {required String scopeName}) {
     getIt.pushNewScope(
-      scopeName: _scopeName,
+      scopeName: scopeName,
       init: (locator) {
         locator.registerFactory<IAssigneeDatasource>(
           () => AssigneeDatasource(
@@ -61,9 +59,9 @@ class AssigneeDi {
     );
   }
 
-  static void dispose() {
+  static void dispose(String scopeName) {
     getIt<PaginationRepository<PageLink, AlarmType>>().dispose();
     getIt<AssigneeBloc>().close();
-    getIt.dropScope(_scopeName);
+    getIt.dropScope(scopeName);
   }
 }

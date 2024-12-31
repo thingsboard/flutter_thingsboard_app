@@ -8,6 +8,7 @@ typedef DashboardTitleCallback = void Function(String title);
 
 typedef DashboardControllerCallback = void Function(
   DashboardController controller,
+  ValueNotifier<bool> loadingCtrl,
 );
 
 class DashboardController {
@@ -76,7 +77,10 @@ class DashboardController {
     tbContext.log.debug('tryLocalNavigation($path)');
 
     if (path != null && path != '/home') {
-      final parts = path.split('/');
+      final parts = path
+          .split('/')
+          .where((e) => e.isNotEmpty && e != 'entities')
+          .toList();
       if ([
         'profile',
         'devices',
@@ -90,8 +94,8 @@ class DashboardController {
         'customerGroups',
         'dashboardGroups',
         'alarms',
-      ].contains(parts[1])) {
-        var firstPart = parts[1];
+      ].contains(parts[0])) {
+        var firstPart = parts[0];
         if (firstPart.endsWith('Groups')) {
           firstPart = firstPart.replaceFirst('Groups', 's');
         }
@@ -118,5 +122,6 @@ class DashboardController {
     canGoBack.dispose();
     hasRightLayout.dispose();
     rightLayoutOpened.dispose();
+    controller?.dispose();
   }
 }
