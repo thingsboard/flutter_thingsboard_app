@@ -1539,10 +1539,10 @@ packages:
     dependency: "direct main"
     description:
       name: thingsboard_client
-      sha256: "86c7178f1b7c0d5204e58f685ee3295cfc49a596eb461f6ae3b97e4173f0456e"
+      sha256: "2bd7491afd751e11b92f835bab0f612fb8feb4085fe62402000a6c066275ba0f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.0"
   timeago:
     dependency: "direct main"
     description:
