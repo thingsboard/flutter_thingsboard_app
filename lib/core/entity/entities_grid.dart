@@ -28,49 +28,47 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
       );
     }
 
-    return OrientationBuilder(
-      builder: (context, orientation) => CustomScrollView(
-        slivers: [
-          ...slivers,
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: PagedSliverGrid(
-              showNewPageProgressIndicatorAsGridChild: false,
-              showNewPageErrorIndicatorAsGridChild: false,
-              showNoMoreItemsIndicatorAsGridChild: false,
-              pagingController: pagingController,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: gridChildAspectRatio,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                crossAxisCount: Orientation.portrait == orientation
-                    ? (isMobile(context) ? 2 : 4)
-                    : (isMobile(context) ? 4 : 5),
-              ),
-              builderDelegate: PagedChildBuilderDelegate<T>(
-                itemBuilder: (context, item, index) => EntityGridCard<T>(
-                  item,
-                  key: widget.getKey(item),
-                  entityCardWidgetBuilder: widget.buildEntityGridCard,
-                  onEntityTap: widget.onEntityTap,
-                  settings: widget.entityGridCardSettings(item),
-                ),
-                firstPageProgressIndicatorBuilder:
-                    firstPageProgressIndicatorBuilder,
-                newPageProgressIndicatorBuilder:
-                    newPageProgressIndicatorBuilder,
-                noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
-              ),
+    return CustomScrollView(
+      slivers: [
+        ...slivers,
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: PagedSliverGrid(
+            showNewPageProgressIndicatorAsGridChild: false,
+            showNewPageErrorIndicatorAsGridChild: false,
+            showNoMoreItemsIndicatorAsGridChild: false,
+            pagingController: pagingController,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: gridChildAspectRatio,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              crossAxisCount:
+                  Orientation.portrait == MediaQuery.of(context).orientation
+                      ? (isMobile(context) ? 2 : 4)
+                      : (isMobile(context) ? 4 : 5),
             ),
-          )
-        ],
-      ),
+            builderDelegate: PagedChildBuilderDelegate<T>(
+              itemBuilder: (context, item, index) => EntityGridCard<T>(
+                item,
+                key: widget.getKey(item),
+                entityCardWidgetBuilder: widget.buildEntityGridCard,
+                onEntityTap: widget.onEntityTap,
+                settings: widget.entityGridCardSettings(item),
+              ),
+              firstPageProgressIndicatorBuilder:
+                  firstPageProgressIndicatorBuilder,
+              newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
+              noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   bool isMobile(BuildContext context) {
     // The equivalent of the "smallestWidth" qualifier on Android.
-    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final shortestSide = MediaQuery.of(context).size.shortestSide;
 
     // Determine if we should use mobile layout or not, 600 here is
     // a common breakpoint for a typical 7-inch tablet.
