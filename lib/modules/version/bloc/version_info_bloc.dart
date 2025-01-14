@@ -18,30 +18,31 @@ class VersionInfoBloc extends Bloc<VersionInfoEvent, VersionInfoState> {
         final latestVersionNotes =
             event.args.versionInfo.latestVersionReleaseNotes;
 
-        if (minVersionNotes.isNotEmpty && latestVersionNotes.isNotEmpty) {
+        if (minVersionNotes?.isNotEmpty == true &&
+            latestVersionNotes?.isNotEmpty == true) {
           emit(
             VersionInfoCompareState(
               minVersion: minVersion?.toString() ?? 'min',
-              minVersionNotes: minVersionNotes,
+              minVersionNotes: minVersionNotes!,
               latestVersion: latestVersion?.toString() ?? 'latest',
-              latestVersionNotes: latestVersionNotes,
+              latestVersionNotes: latestVersionNotes!,
               storeLink: event.args.storeInfo?.storeLink,
             ),
           );
-        } else if (minVersionNotes.isNotEmpty) {
+        } else if (minVersionNotes?.isNotEmpty == true) {
           emit(
             VersionInfoSingleState(
               version: minVersion?.toString() ?? 'min',
-              notes: minVersionNotes,
+              notes: minVersionNotes!,
               storeLink: event.args.storeInfo?.storeLink,
               latestVersion: latestVersion?.toString() ?? 'latest',
             ),
           );
-        } else if (latestVersionNotes.isNotEmpty) {
+        } else if (latestVersionNotes?.isNotEmpty == true) {
           emit(
             VersionInfoSingleState(
               version: latestVersion?.toString() ?? 'latest',
-              notes: latestVersionNotes,
+              notes: latestVersionNotes!,
               storeLink: event.args.storeInfo?.storeLink,
               latestVersion: latestVersion?.toString() ?? 'latest',
             ),
