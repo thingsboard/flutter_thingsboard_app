@@ -86,7 +86,6 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  focusColor: Colors.red,
                   hintStyle: TbTextStyles.bodyLarge.copyWith(
                     color: Colors.black.withOpacity(.38),
                   ),

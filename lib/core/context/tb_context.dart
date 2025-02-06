@@ -29,7 +29,8 @@ part 'has_tb_context.dart';
 enum NotificationType { info, warn, success, error }
 
 class TbContext implements PopEntry {
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  static final deviceInfoPlugin = DeviceInfoPlugin();
+  static final rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   bool isUserLoaded = false;
   final _isAuthenticated = ValueNotifier<bool>(false);
   late PlatformType platformType;
@@ -64,8 +65,6 @@ class TbContext implements PopEntry {
     onPopInvokedImpl(didPop, result);
   }
 
-  GlobalKey<ScaffoldMessengerState> messengerKey =
-      GlobalKey<ScaffoldMessengerState>();
   late ThingsboardClient tbClient;
   late TbOAuth2Client oauth2Client;
 
@@ -228,17 +227,18 @@ class TbContext implements PopEntry {
         label: 'Close',
         textColor: textColor,
         onPressed: () {
-          messengerKey.currentState!
-              .hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
+          rootScaffoldMessengerKey.currentState
+              ?.hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
         },
       ),
     );
-    messengerKey.currentState!.removeCurrentSnackBar();
-    messengerKey.currentState!.showSnackBar(snackBar);
+
+    rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
+    rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
 
   void hideNotification() {
-    messengerKey.currentState!.removeCurrentSnackBar();
+    rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
   }
 
   void onLoadStarted() {
@@ -508,16 +508,6 @@ class TbContext implements PopEntry {
     return userAgent;
   }
 
-  bool isHomePage() {
-    if (currentState != null) {
-      if (currentState is TbMainState) {
-        var mainState = currentState as TbMainState;
-        return mainState.isHomePage();
-      }
-    }
-    return false;
-  }
-
   Future<dynamic> navigateTo(
     String path, {
     bool replace = false,
@@ -530,14 +520,6 @@ class TbContext implements PopEntry {
   }) async {
     if (currentState != null) {
       hideNotification();
-
-      if (currentState is TbMainState) {
-        var mainState = currentState as TbMainState;
-        if (mainState.canNavigate(path) && !replace) {
-          mainState.navigateToPath(path);
-          return;
-        }
-      }
 
       if (transition != TransitionType.nativeModal) {
         transition = TransitionType.none;
@@ -583,8 +565,8 @@ class TbContext implements PopEntry {
     );
   }
 
-  Future<T?> showFullScreenDialog<T>(Widget dialog) {
-    return Navigator.of(currentState!.context).push<T>(
+  Future<T?> showFullScreenDialog<T>(Widget dialog, {BuildContext? context}) {
+    return Navigator.of(context ?? currentState!.context).push<T>(
       MaterialPageRoute<T>(
         builder: (BuildContext context) {
           return dialog;
@@ -605,12 +587,16 @@ class TbContext implements PopEntry {
     if (didPop) {
       return;
     }
-    if (await currentState!.willPop()) {
-      var navigator = Navigator.of(currentState!.context);
-      if (navigator.canPop()) {
-        navigator.pop(result);
-      } else {
-        SystemNavigator.pop();
+
+    if (await currentState?.willPop() == true) {
+      if (currentState?.context != null &&
+          currentState?.context.mounted == true) {
+        final navigator = Navigator.of(currentState!.context);
+        if (navigator.canPop()) {
+          navigator.pop(result);
+        } else {
+          SystemNavigator.pop();
+        }
       }
     }
   }

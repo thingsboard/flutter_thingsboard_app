@@ -1,0 +1,35 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M56.6407 2.09678C68.5147 3.08527 76.2306 13.7619 83.8214 23.3322C91.676 33.2351 102.466 43.6563 99.4957 56.1274C96.5507 68.491 81.5724 70.6365 71.0226 77.0645C58.2869 84.8244 47.6431 100.049 33.2987 96.4616C16.7269 92.3175 2.44101 76.9712 0.21267 59.3571C-1.88315 42.7905 11.9252 29.9584 23.411 18.3032C32.6305 8.94774 43.8158 1.02913 56.6407 2.09678Z" fill="#D12730" fill-opacity="0.04"/>
+<path d="M51.3409 20.2025L50.0774 29.6247" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M44.0757 74.38L42.8122 83.8022" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M14.0989 47.58L23.5211 48.8435" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M70.632 55.1611L80.0542 56.4247" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M63.1186 21.7819L61.8551 31.2041" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M55.8534 75.9594L54.5899 85.3816" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M15.6785 35.8023L25.1006 37.0658" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M72.2114 43.3834L81.6336 44.6469" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M39.5633 18.623L38.2998 28.0452" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M32.2981 72.8006L31.0346 82.2228" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M12.5195 59.3577L21.9417 60.6212" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<path d="M69.0526 66.9389L78.4748 68.2024" stroke="#D12730" stroke-opacity="0.65" stroke-width="2.07955" stroke-linecap="round"/>
+<mask id="path-15-inside-1_2537_104419" fill="white">
+<rect x="26.6799" y="25.2881" width="47.5326" height="47.5326" rx="2.06748" transform="rotate(7.63783 26.6799 25.2881)"/>
+</mask>
+<rect x="26.6799" y="25.2881" width="47.5326" height="47.5326" rx="2.06748" transform="rotate(7.63783 26.6799 25.2881)" fill="white" stroke="#D12730" stroke-opacity="0.65" stroke-width="4.1591" mask="url(#path-15-inside-1_2537_104419)"/>
+<ellipse cx="55.9219" cy="49.4412" rx="4.1591" ry="4.21603" transform="rotate(7 55.9219 49.4412)" fill="#D12730" fill-opacity="0.4"/>
+<path d="M59.537 49.885C59.2872 51.9194 57.4611 53.3571 55.4711 53.1128C53.4811 52.8684 52.0571 51.0316 52.3069 48.9973C52.5566 46.9629 54.3828 45.5252 56.3728 45.7696C58.3628 46.0139 59.7868 47.8507 59.537 49.885Z" stroke="#D12730" stroke-opacity="0.56" stroke-width="1.03374"/>
+<ellipse cx="55.3181" cy="47.9223" rx="2.07955" ry="2.10801" transform="rotate(7 55.3181 47.9223)" fill="white"/>
+<ellipse cx="39.4097" cy="47.4137" rx="4.1591" ry="4.21603" transform="rotate(7 39.4097 47.4137)" fill="#D12730" fill-opacity="0.4"/>
+<path d="M43.0248 47.8576C42.775 49.8919 40.9489 51.3296 38.9589 51.0853C36.9689 50.8409 35.5448 49.0042 35.7946 46.9698C36.0444 44.9355 37.8705 43.4978 39.8605 43.7421C41.8505 43.9865 43.2746 45.8232 43.0248 47.8576Z" stroke="#D12730" stroke-opacity="0.56" stroke-width="1.03374"/>
+<ellipse cx="38.8057" cy="45.8949" rx="2.07955" ry="2.10801" transform="rotate(7 38.8057 45.8949)" fill="white"/>
+<path d="M42.2899 58.0832C43.6958 57.34 47.5511 56.5312 51.7255 59.2418" stroke="#D12730" stroke-opacity="0.65" stroke-width="1.03374" stroke-linecap="round"/>
+<circle cx="33.5" cy="17.5" r="1.5" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="57.5" cy="18.5" r="1.5" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="85.5" cy="54.5" r="1.5" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="45" cy="11" r="1" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="23" cy="27" r="1" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="10" cy="51" r="1" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="57" cy="9" r="1" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="71" cy="19" r="1" fill="#D12730" fill-opacity="0.2"/>
+<circle cx="78" cy="35" r="1" fill="#D12730" fill-opacity="0.2"/>
+</svg>
