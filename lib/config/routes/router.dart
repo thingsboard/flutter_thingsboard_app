@@ -10,7 +10,7 @@ import 'package:thingsboard_app/modules/audit_log/audit_logs_routes.dart';
 import 'package:thingsboard_app/modules/customer/customer_routes.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard_routes.dart';
 import 'package:thingsboard_app/modules/device/device_routes.dart';
-import 'package:thingsboard_app/modules/device/provisioning/esp_provisioning_route.dart';
+import 'package:thingsboard_app/modules/device/provisioning/route/esp_provisioning_route.dart';
 import 'package:thingsboard_app/modules/home/home_routes.dart';
 import 'package:thingsboard_app/modules/main/main_routes.dart';
 import 'package:thingsboard_app/modules/more/more_routes.dart';

@@ -1,5 +1,10 @@
-sealed class DeviceProvisioningState {
+import 'package:equatable/equatable.dart';
+
+sealed class DeviceProvisioningState extends Equatable {
   const DeviceProvisioningState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 final class DeviceProvisioningIdleState extends DeviceProvisioningState {
@@ -21,4 +26,33 @@ final class DeviceProvisioningConfirmConnection
 
 final class DeviceProvisioningSendWifiCreds extends DeviceProvisioningState {
   const DeviceProvisioningSendWifiCreds();
+}
+
+final class DeviceProvisioningClaimingWipState extends DeviceProvisioningState {
+  const DeviceProvisioningClaimingWipState();
+}
+
+// final class DeviceProvisioningClaimingDoneState
+//     extends DeviceProvisioningState {
+//   const DeviceProvisioningClaimingDoneState(this.deviceName);
+//
+//   final String deviceName;
+//
+//   @override
+//   List<Object?> get props => [deviceName];
+// }
+
+final class DeviceProvisioningClaimingErrorState
+    extends DeviceProvisioningState {
+  const DeviceProvisioningClaimingErrorState(this.message);
+
+  final String? message;
+
+  @override
+  List<Object?> get props => [message];
+}
+
+final class DeviceProvisioningReconnectToWifiState
+    extends DeviceProvisioningState {
+  const DeviceProvisioningReconnectToWifiState();
 }

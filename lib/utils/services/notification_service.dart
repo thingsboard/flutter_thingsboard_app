@@ -312,9 +312,10 @@ class NotificationService {
 
   Future<int> _getNotificationsCountRemote() async {
     try {
-      return _tbClient
-          .getNotificationService()
-          .getUnreadNotificationsCount('MOBILE_APP');
+      return _tbClient.getNotificationService().getUnreadNotificationsCount(
+            'MOBILE_APP',
+            requestConfig: RequestConfig(ignoreErrors: true),
+          );
     } catch (_) {
       return 0;
     }

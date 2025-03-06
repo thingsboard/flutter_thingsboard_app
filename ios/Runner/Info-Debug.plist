@@ -24,6 +24,8 @@
 	<false/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -36,7 +38,11 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSAllowsLocalNetworking</key>
+        <true/>
 	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Our app uses bluetooth to find, connect and transfer data between different devices</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_dartobservatory._tcp</string>
@@ -77,9 +83,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Our app uses bluetooth to find, connect and transfer data between different devices</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Our app uses bluetooth to provision devices</string>
 </dict>
 </plist>

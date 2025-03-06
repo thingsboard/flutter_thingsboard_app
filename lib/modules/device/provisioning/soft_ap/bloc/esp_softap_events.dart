@@ -28,3 +28,15 @@ final class EspSoftApStartProvisioningEvent extends EspSoftApEvent {
   @override
   List<Object?> get props => [ssid, password];
 }
+
+final class EspSoftApAutoConnectToDeviceWifi extends EspSoftApEvent {
+  const EspSoftApAutoConnectToDeviceWifi();
+}
+
+final class EspSoftApManuallyConnectToDeviceWifi extends EspSoftApEvent {
+  const EspSoftApManuallyConnectToDeviceWifi();
+}
+
+final class EspSoftApProvisioningDoneEvent extends EspSoftApEvent {
+  const EspSoftApProvisioningDoneEvent();
+}

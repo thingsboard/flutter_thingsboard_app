@@ -26,3 +26,7 @@ final class ErrorDuringProvisioningEvent extends DeviceProvisioningEvent {
 final class ProvisioningIdleEvent extends DeviceProvisioningEvent {
   const ProvisioningIdleEvent();
 }
+
+final class ProceedWithClaimingEvent extends DeviceProvisioningEvent {
+  const ProceedWithClaimingEvent();
+}

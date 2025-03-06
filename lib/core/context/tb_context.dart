@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -42,8 +43,8 @@ class TbContext implements PopEntry {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
   late final WidgetActionHandler _widgetActionHandler;
-  AndroidDeviceInfo? _androidInfo;
-  IosDeviceInfo? _iosInfo;
+  AndroidDeviceInfo? androidInfo;
+  IosDeviceInfo? iosInfo;
   late String packageName;
   late PlatformVersion version;
 
@@ -101,7 +102,7 @@ class TbContext implements PopEntry {
       onLoadStarted: onLoadStarted,
       onLoadFinished: onLoadFinished,
       computeFunc: <Q, R>(callback, message) => compute(callback, message),
-      debugMode: kDebugMode,
+      debugMode: EnvironmentVariables.apiCalls,
     );
 
     oauth2Client = TbOAuth2Client(
@@ -111,10 +112,10 @@ class TbContext implements PopEntry {
 
     try {
       if (UniversalPlatform.isAndroid) {
-        _androidInfo = await deviceInfoPlugin.androidInfo;
+        androidInfo = await deviceInfoPlugin.androidInfo;
         platformType = PlatformType.ANDROID;
       } else if (UniversalPlatform.isIOS) {
-        _iosInfo = await deviceInfoPlugin.iosInfo;
+        iosInfo = await deviceInfoPlugin.iosInfo;
         platformType = PlatformType.IOS;
       } else {
         platformType = PlatformType.WEB;
@@ -153,7 +154,7 @@ class TbContext implements PopEntry {
       onLoadStarted: onLoadStarted,
       onLoadFinished: onLoadFinished,
       computeFunc: <Q, R>(callback, message) => compute(callback, message),
-      debugMode: kDebugMode,
+      debugMode: EnvironmentVariables.apiCalls,
     );
 
     oauth2Client = TbOAuth2Client(
@@ -178,8 +179,17 @@ class TbContext implements PopEntry {
     showErrorNotification(tbError.message!);
   }
 
-  void showErrorNotification(String message, {Duration? duration}) {
-    showNotification(message, NotificationType.error, duration: duration);
+  void showErrorNotification(
+    String message, {
+    BuildContext? context,
+    Duration? duration,
+  }) {
+    showNotification(
+      message,
+      NotificationType.error,
+      duration: duration,
+      context: context,
+    );
   }
 
   void showInfoNotification(String message, {Duration? duration}) {
@@ -198,6 +208,7 @@ class TbContext implements PopEntry {
     String message,
     NotificationType type, {
     Duration? duration,
+    BuildContext? context,
   }) {
     duration ??= const Duration(days: 1);
     Color backgroundColor;
@@ -227,14 +238,24 @@ class TbContext implements PopEntry {
         label: 'Close',
         textColor: textColor,
         onPressed: () {
-          rootScaffoldMessengerKey.currentState
-              ?.hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
+          if (context != null) {
+            ScaffoldMessenger.of(context)
+                .hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
+          } else {
+            rootScaffoldMessengerKey.currentState
+                ?.hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
+          }
         },
       ),
     );
 
-    rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
-    rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+    if (context != null) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
+      rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+    }
   }
 
   void hideNotification() {
@@ -487,9 +508,9 @@ class TbContext implements PopEntry {
 
   bool isPhysicalDevice() {
     if (UniversalPlatform.isAndroid) {
-      return _androidInfo!.isPhysicalDevice == true;
+      return androidInfo!.isPhysicalDevice == true;
     } else if (UniversalPlatform.isIOS) {
-      return _iosInfo!.isPhysicalDevice;
+      return iosInfo!.isPhysicalDevice;
     } else {
       return false;
     }
@@ -499,9 +520,9 @@ class TbContext implements PopEntry {
     String userAgent = 'Mozilla/5.0';
     if (UniversalPlatform.isAndroid) {
       userAgent +=
-          ' (Linux; Android ${_androidInfo!.version.release}; ${_androidInfo?.model})';
+          ' (Linux; Android ${androidInfo!.version.release}; ${androidInfo?.model})';
     } else if (UniversalPlatform.isIOS) {
-      userAgent += ' (${_iosInfo!.model})';
+      userAgent += ' (${iosInfo!.model})';
     }
     userAgent +=
         ' AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36';

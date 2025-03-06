@@ -176,10 +176,14 @@
   "wifiHelpMessage": "To continue setup of your device {deviceName}, please provide your Network's credentials.",
   "wifiPasswordMessage": "Enter password for {network}",
   "deviceNotFoundMessage": "Devices not found. Please make sure that your phone’s Bluetooth is turned on and within range of your new device.",
-  "permissionsNotEnoughMessage": "You don't have enough permissions to proceed. Please grant the required permissions and tap 'Try Again'.",
+  "permissionsNotEnoughMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please grant the required permissions and tap \"Try Again\".",
   "sendingWifiCredentials": "Sending Wi-Fi credentials",
   "confirmingWifiConnection": "Confirming Wi-Fi connection",
   "provisionedSuccessfully": "Device has been successfully provisioned",
   "returnToDashboard": "Return to dashboard",
-  "cannotEstablishSession": "Cannot establish session with device {deviceName}. Please try again"
+  "cannotEstablishSession": "Cannot establish session with device {deviceName}. Please try again",
+  "claimingDevice": "Claiming device",
+  "claimingDeviceDone": "Device claiming done",
+  "claimingMessageSuccess": "Device has been\nsuccessfully claimed",
+  "openAppSettingsToGrantPermissionMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\"."
 }

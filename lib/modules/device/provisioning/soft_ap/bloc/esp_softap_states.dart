@@ -11,17 +11,16 @@ final class EspSoftAppLoadingState extends EspSoftApState {
   const EspSoftAppLoadingState();
 }
 
-final class EspConnectToDeviceNetworkState extends EspSoftApState {
-  const EspConnectToDeviceNetworkState();
+final class EspSoftApConnectionErrorState extends EspSoftApState {
+  const EspSoftApConnectionErrorState();
 }
 
-final class EspSoftApErrorState extends EspSoftApState {
-  const EspSoftApErrorState(this.message);
+final class EspSoftApWifiNetworksNotFoundState extends EspSoftApState {
+  const EspSoftApWifiNetworksNotFoundState();
+}
 
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
+final class EspConnectToDeviceNetworkState extends EspSoftApState {
+  const EspConnectToDeviceNetworkState();
 }
 
 final class EspSoftApWiFiListState extends EspSoftApState {
@@ -33,6 +32,19 @@ final class EspSoftApWiFiListState extends EspSoftApState {
   List<Object?> get props => [wifiList];
 }
 
-final class EspSoftApProvisionedSuccessfullyState extends EspSoftApState {
-  const EspSoftApProvisionedSuccessfullyState();
+final class EspSoftApProvisioningInProgressState extends EspSoftApState {
+  const EspSoftApProvisioningInProgressState({
+    required this.ssid,
+    required this.password,
+  });
+
+  final String ssid;
+  final String password;
+
+  @override
+  List<Object?> get props => [ssid, password];
+}
+
+final class EspSoftApProvisioningDoneState extends EspSoftApState {
+  const EspSoftApProvisioningDoneState();
 }
