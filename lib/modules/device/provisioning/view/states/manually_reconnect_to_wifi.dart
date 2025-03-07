@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/modules/device/provisioning/smart_config/dotted_point_widget.dart';
+import 'package:thingsboard_app/modules/device/provisioning/widgets/dotted_point_widget.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class ManuallyReconnectToWifi extends StatelessWidget {
