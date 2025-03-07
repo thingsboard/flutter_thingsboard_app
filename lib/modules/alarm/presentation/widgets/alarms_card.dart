@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/device/provisioning/route/esp_provisioning_route.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
@@ -140,7 +141,8 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                           ),
                           padding: const EdgeInsets.all(7.0),
                           onPressed: () => navigateTo(
-                            '/alarmDetails/${widget.alarm.id?.id}',
+                            // '/alarmDetails/${widget.alarm.id?.id}',
+                            EspProvisioningRoute.wifiRoute,
                           ),
                         ),
                       ),

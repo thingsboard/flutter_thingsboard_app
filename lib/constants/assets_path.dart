@@ -9,6 +9,15 @@ abstract class ThingsboardImage {
       'assets/images/device-profile-placeholder.svg';
   static const noDataImage = 'assets/images/no-data.svg';
   static const thingsboardBigLogo = 'assets/images/thingsboard_big_logo.svg';
+  static const deviceProvisioning = 'assets/images/provisioning.svg';
+  static const deviceProvisioningDone = 'assets/images/provisioning-done.svg';
+  static const deviceProvisioningError =
+      'assets/images/device-not-connected.svg';
+  static const deviceNotFound = 'assets/images/device_not_found.svg';
+  static const provisioningError = 'assets/images/provisioning_error.svg';
+  static const connectMobile = 'assets/images/connect_mobile.svg';
+  static const mobileConnectionError =
+      'assets/images/mobile-connection-error.svg';
 
   static final oauth2Logos = <String, String>{
     'google-logo': 'assets/images/google-logo.svg',

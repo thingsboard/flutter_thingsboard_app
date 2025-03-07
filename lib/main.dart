@@ -10,7 +10,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/auth/login/region.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -24,10 +26,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(RegionAdapter());
-
   await setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
-    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
   }
 
   try {
@@ -47,7 +48,7 @@ void main() async {
     log('main::getInitialUri() exception $e', error: e);
   }
 
-  if (kDebugMode) {
+  if (kDebugMode || EnvironmentVariables.verbose) {
     Bloc.observer = AppBlocObserver(getIt());
   }
 
@@ -67,8 +68,7 @@ class ThingsboardApp extends StatelessWidget {
         );
 
         return MaterialApp(
-          scaffoldMessengerKey:
-              getIt<ThingsboardAppRouter>().tbContext.messengerKey,
+          scaffoldMessengerKey: TbContext.rootScaffoldMessengerKey,
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
