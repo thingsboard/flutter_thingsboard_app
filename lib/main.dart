@@ -28,7 +28,7 @@ void main() async {
   Hive.registerAdapter(RegionAdapter());
   await setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
-    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
   }
 
   try {

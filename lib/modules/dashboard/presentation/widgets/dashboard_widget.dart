@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -7,6 +8,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -37,7 +39,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   late WebUri _initialUrl;
 
   final settings = InAppWebViewSettings(
-    isInspectable: true,
+    isInspectable: kDebugMode,
     useShouldOverrideUrlLoading: true,
     mediaPlaybackRequiresUserGesture: false,
     javaScriptEnabled: true,
@@ -234,27 +236,27 @@ class _DashboardState extends TbContextState<DashboardWidget> {
             );
           },
         ),
-        // ValueListenableBuilder(
-        //   valueListenable: dashboardLoading,
-        //   builder: (context, loading, child) {
-        //     if (!loading) {
-        //       return const SizedBox.shrink();
-        //     } else {
-        //       final data = MediaQuery.of(context);
-        //       var bottomPadding = data.padding.top;
-        //       if (widget.home != true) {
-        //         bottomPadding += kToolbarHeight;
-        //       }
-        //
-        //       return Container(
-        //         padding: EdgeInsets.only(bottom: bottomPadding),
-        //         alignment: Alignment.center,
-        //         color: Colors.white,
-        //         child: const TbProgressIndicator(size: 50.0),
-        //       );
-        //     }
-        //   },
-        // ),
+        ValueListenableBuilder(
+          valueListenable: dashboardLoading,
+          builder: (context, loading, child) {
+            if (!loading) {
+              return const SizedBox.shrink();
+            } else {
+              final data = MediaQuery.of(context);
+              var bottomPadding = data.padding.top;
+              if (widget.home != true) {
+                bottomPadding += kToolbarHeight;
+              }
+
+              return Container(
+                padding: EdgeInsets.only(bottom: bottomPadding),
+                alignment: Alignment.center,
+                color: Colors.white,
+                child: const TbProgressIndicator(size: 50.0),
+              );
+            }
+          },
+        ),
       ],
     );
   }
