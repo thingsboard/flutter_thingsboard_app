@@ -16,11 +16,6 @@ class HomePage extends TbContextWidget {
 class _HomePageState extends TbContextState<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
   @override
-  bool get wantKeepAlive {
-    return true;
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
 
@@ -50,4 +45,7 @@ class _HomePageState extends TbContextState<HomePage>
   Widget _buildSysAdminHome(BuildContext context) {
     return TenantsWidget(tbContext);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
