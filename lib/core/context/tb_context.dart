@@ -455,6 +455,7 @@ class TbContext implements PopEntry {
         if (defaultDashboardId != null) {
           bool fullscreen = _userForceFullscreen();
           if (!fullscreen) {
+            await navigateToDashboard(defaultDashboardId, animate: false);
             navigateTo(
               '/main',
               replace: true,
@@ -462,7 +463,6 @@ class TbContext implements PopEntry {
               clearStack: true,
               transition: TransitionType.none,
             );
-            await navigateToDashboard(defaultDashboardId, animate: false);
           } else {
             navigateTo(
               '/fullscreenDashboard/$defaultDashboardId',
@@ -571,7 +571,7 @@ class TbContext implements PopEntry {
     bool? hideToolbar,
     bool animate = true,
   }) async {
-    router.navigateTo(
+    return router.navigateTo(
       currentState!.context,
       '/dashboard',
       routeSettings: RouteSettings(
