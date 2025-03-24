@@ -175,8 +175,11 @@ class _MorePageState extends TbContextState<MorePage> {
 
   @override
   void initState() {
-    NotificationService(widget.tbClient, widget.log, widget.tbContext)
-        .updateNotificationsCount();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationService(tbClient, widget.log, tbContext)
+          .updateNotificationsCount();
+    });
+
     super.initState();
   }
 }
