@@ -12,7 +12,6 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class NotificationService {
-  static NotificationService? _instance;
   static FirebaseMessaging _messaging = FirebaseMessaging.instance;
   late NotificationDetails _notificationDetails;
   final TbLogger _log;
@@ -28,15 +27,7 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  NotificationService._(this._tbClient, this._log, this._tbContext);
-
-  factory NotificationService(
-    ThingsboardClient tbClient,
-    TbLogger log,
-    TbContext context,
-  ) {
-    return _instance ??= NotificationService._(tbClient, log, context);
-  }
+  NotificationService(this._tbClient, this._log, this._tbContext);
 
   Future<void> init() async {
     _log.debug('NotificationService::init()');
