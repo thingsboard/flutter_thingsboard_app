@@ -148,7 +148,7 @@ enum WidgetMobileActionType {
   makePhoneCall,
   getLocation,
   takeScreenshot,
-  provisionDevice,
+  deviceProvision,
   unknown
 }
 
@@ -195,7 +195,7 @@ class WidgetActionHandler with HasTbContext {
           return await _getLocation();
         case WidgetMobileActionType.takeScreenshot:
           return await _takeScreenshot(controller);
-        case WidgetMobileActionType.provisionDevice:
+        case WidgetMobileActionType.deviceProvision:
           return await _provisioningDevice();
         case WidgetMobileActionType.unknown:
           return WidgetMobileActionResult.errorResult(

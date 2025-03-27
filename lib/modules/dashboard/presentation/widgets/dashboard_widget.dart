@@ -225,6 +225,16 @@ class _DashboardState extends TbContextState<DashboardWidget> {
               webViewLoading = false;
             }
           },
+          onReceivedHttpError: (ctrl, req, errResponse) {
+            log.debug(
+              'onReceivedHttpError request: $req, response: $errResponse',
+            );
+
+            if (dashboardLoading.value &&
+                req.url.path.contains('/dashboard/')) {
+              dashboardLoading.value = false;
+            }
+          },
           onPermissionRequest: (controller, request) async {
             log.debug(
               'onPermissionRequest resources: ${request.resources}',
