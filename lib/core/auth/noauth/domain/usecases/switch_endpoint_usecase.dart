@@ -101,6 +101,15 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
       );
     } on ThingsboardError catch (e) {
       logger.error('SwitchEndpointUseCase:ThingsboardError $e', e);
+      if (e.message?.contains('Unsupported ThingsBoard platform version') ==
+          true) {
+        if (!repository.isAuthenticated()) {
+          await repository.logout(
+            requestConfig: RequestConfig(ignoreErrors: true),
+            notifyUser: false,
+          );
+        }
+      }
       params.onError(e.message ?? e.toString());
     } catch (e) {
       logger.error('SwitchEndpointUseCase:catch $e', e);

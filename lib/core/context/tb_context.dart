@@ -171,7 +171,6 @@ class TbContext implements PopEntry {
         : 'Unknown error.';
     message = 'Fatal application error occurred:\n$message.';
     await alert(title: 'Fatal error', message: message, ok: 'Close');
-    logout();
   }
 
   void onError(ThingsboardError tbError) {
@@ -299,11 +298,6 @@ class TbContext implements PopEntry {
             );
           } catch (e) {
             log.error('TbContext::onUserLoaded error $e');
-            if (!_isConnectionError(e)) {
-              logout();
-            } else {
-              rethrow;
-            }
           }
         }
       } else {
