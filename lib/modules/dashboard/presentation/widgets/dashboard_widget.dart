@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
@@ -39,7 +40,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   late WebUri _initialUrl;
 
   final settings = InAppWebViewSettings(
-    isInspectable: kDebugMode,
+    isInspectable: kDebugMode || EnvironmentVariables.verbose,
     useShouldOverrideUrlLoading: true,
     mediaPlaybackRequiresUserGesture: false,
     javaScriptEnabled: true,
