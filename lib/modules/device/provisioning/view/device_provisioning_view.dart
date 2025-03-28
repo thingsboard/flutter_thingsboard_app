@@ -9,6 +9,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/view/states/manually_reconnect_to_wifi.dart';
 import 'package:thingsboard_app/modules/device/provisioning/view/states/provision_states.dart';
+import 'package:thingsboard_app/modules/device/provisioning/widgets/return_to_dashboard_button.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
@@ -116,10 +117,8 @@ class DeviceProvisioningView extends TbContextStatelessWidget {
               if (state is DeviceProvisioningErrorState) {
                 return TryAgainButton(onTryAgain: onProvisioningTryAgain);
               } else if (state is DeviceProvisioningClaimingErrorState) {
-                return TryAgainButton(
-                  onTryAgain: () => context
-                      .read<DeviceProvisioningBloc>()
-                      .add(const SuccessfullyProvisionedEvent()),
+                return ReturnToDashboardButton(
+                  onTap: () => Navigator.of(context).pop(false),
                 );
               } else if (state is DeviceProvisioningReconnectToWifiState) {
                 return Column(

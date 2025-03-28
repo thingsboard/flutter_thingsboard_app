@@ -153,8 +153,8 @@ class DeviceProvisioningBloc
 
           emit(DeviceProvisioningClaimingErrorState(message));
         }
-
         break;
+
       case ErrorDuringProvisioningEvent():
         emit(const DeviceProvisioningErrorState());
         break;
