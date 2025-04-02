@@ -101,24 +101,29 @@ class _SwitchEndpointNoAuthViewState
                   );
 
                 case NoAuthErrorState():
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.error,
-                          color: Colors.red,
-                          size: 50,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Something went wrong ... Rollback',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 50,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            state.message ??
+                                'Something went wrong ... Rollback',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   );
 

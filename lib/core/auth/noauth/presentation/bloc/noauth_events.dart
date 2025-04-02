@@ -32,7 +32,7 @@ final class SwitchEndpointDoneEvent extends NoAuthEvent {
 final class SwitchEndpointErrorEvent extends NoAuthEvent {
   const SwitchEndpointErrorEvent({required this.message});
 
-  final String message;
+  final String? message;
 
   @override
   List<Object?> get props => [message];
