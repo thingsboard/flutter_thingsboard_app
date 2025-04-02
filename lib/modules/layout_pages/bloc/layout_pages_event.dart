@@ -15,5 +15,8 @@ final class BottomBarFetchEvent extends LayoutPagesEvent {
 }
 
 final class BottomBarOrientationChangedEvent extends LayoutPagesEvent {
-  const BottomBarOrientationChangedEvent();
+  const BottomBarOrientationChangedEvent(this.orientation, this.screenSize);
+
+  final Orientation orientation;
+  final Size screenSize;
 }

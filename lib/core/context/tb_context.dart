@@ -23,6 +23,7 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
+import 'package:toastification/toastification.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 part 'has_tb_context.dart';
@@ -31,7 +32,6 @@ enum NotificationType { info, warn, success, error }
 
 class TbContext implements PopEntry {
   static final deviceInfoPlugin = DeviceInfoPlugin();
-  static final rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   bool isUserLoaded = false;
   final _isAuthenticated = ValueNotifier<bool>(false);
   late PlatformType platformType;
@@ -180,14 +180,12 @@ class TbContext implements PopEntry {
 
   void showErrorNotification(
     String message, {
-    BuildContext? context,
     Duration? duration,
   }) {
     showNotification(
       message,
       NotificationType.error,
       duration: duration,
-      context: context,
     );
   }
 
@@ -207,58 +205,58 @@ class TbContext implements PopEntry {
     String message,
     NotificationType type, {
     Duration? duration,
-    BuildContext? context,
   }) {
     duration ??= const Duration(days: 1);
     Color backgroundColor;
-    var textColor = const Color(0xFFFFFFFF);
+    ToastificationType toastificationType;
     switch (type) {
       case NotificationType.info:
         backgroundColor = const Color(0xFF323232);
+        toastificationType = ToastificationType.info;
         break;
       case NotificationType.warn:
         backgroundColor = const Color(0xFFdc6d1b);
+        toastificationType = ToastificationType.warning;
         break;
       case NotificationType.success:
         backgroundColor = const Color(0xFF008000);
+        toastificationType = ToastificationType.success;
         break;
       case NotificationType.error:
         backgroundColor = const Color(0xFF800000);
+        toastificationType = ToastificationType.error;
         break;
     }
-    final snackBar = SnackBar(
-      duration: duration,
-      backgroundColor: backgroundColor,
-      content: Text(
-        message,
-        style: TextStyle(color: textColor),
-      ),
-      action: SnackBarAction(
-        label: 'Close',
-        textColor: textColor,
-        onPressed: () {
-          if (context != null) {
-            ScaffoldMessenger.of(context)
-                .hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
-          } else {
-            rootScaffoldMessengerKey.currentState
-                ?.hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
-          }
-        },
-      ),
-    );
 
-    if (context != null) {
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
-      rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
-    }
+    toastification.show(
+      type: toastificationType,
+      style: ToastificationStyle.fillColored,
+      primaryColor: backgroundColor,
+      backgroundColor: Colors.white,
+      alignment: Alignment.bottomCenter,
+      autoCloseDuration: duration,
+      title: Column(
+        children: [
+          const Text(''),
+          Text(message),
+        ],
+      ),
+      closeOnClick: false,
+      dragToClose: true,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x07000000),
+          blurRadius: 16,
+          offset: Offset(0, 16),
+          spreadRadius: 0,
+        ),
+      ],
+    );
   }
 
   void hideNotification() {
-    rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
+    toastification.dismissAll();
   }
 
   void onLoadStarted() {

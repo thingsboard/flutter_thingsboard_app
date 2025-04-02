@@ -78,7 +78,6 @@ class DeviceProvisioningView extends TbContextStatelessWidget {
                 if (state.message != null) {
                   tbContext.showErrorNotification(
                     state.message!,
-                    context: context,
                   );
                 }
               }
