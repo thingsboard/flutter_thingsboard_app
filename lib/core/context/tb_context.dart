@@ -236,14 +236,10 @@ class TbContext implements PopEntry {
       backgroundColor: Colors.white,
       alignment: Alignment.bottomCenter,
       autoCloseDuration: duration,
-      title: Column(
-        children: [
-          const Text(''),
-          Text(message),
-        ],
-      ),
+      title: Text(message),
       closeOnClick: false,
       dragToClose: true,
+      showProgressBar: false,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       boxShadow: const [
         BoxShadow(
