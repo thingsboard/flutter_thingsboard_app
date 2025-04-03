@@ -53,7 +53,7 @@ class _SwitchEndpointNoAuthViewState
                 if (tbClient.isPreVerificationToken()) {
                   navigateTo('/login/mfa', replace: true, clearStack: true);
                 } else {
-                  navigateTo('/main', replace: true, clearStack: true);
+                  tbContext.updateRouteState();
                 }
               }
             },
