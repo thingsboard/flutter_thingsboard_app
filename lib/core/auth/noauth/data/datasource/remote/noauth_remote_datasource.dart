@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/datasource/remote/i_noauth_remote_datasource.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
@@ -25,6 +26,7 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
       final data = await thingsboardClient.getLoginDataBySecretKey(
         host: host,
         key: key,
+        logging: EnvironmentVariables.apiCalls || EnvironmentVariables.verbose,
       );
 
       return data;
