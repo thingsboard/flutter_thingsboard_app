@@ -31,6 +31,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   device_info_plus: ^10.1.0
   geolocator: ^12.0.0
+  geolocator_android: 4.6.1
   material_design_icons_flutter: ^7.0.7296
   package_info_plus: ^8.0.0
   dart_jsonwebtoken: ^2.12.1
