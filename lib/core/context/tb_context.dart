@@ -236,7 +236,7 @@ class TbContext implements PopEntry {
       backgroundColor: Colors.white,
       alignment: Alignment.bottomCenter,
       autoCloseDuration: duration,
-      title: Text(message),
+      title: Text(message, maxLines: 10, overflow: TextOverflow.ellipsis),
       closeOnClick: false,
       dragToClose: true,
       showProgressBar: false,
