@@ -17,11 +17,14 @@ import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_argum
 import 'package:thingsboard_app/modules/version/route/version_route.dart';
 import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/communication/events.dart';
+import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
 import 'package:toastification/toastification.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -31,12 +34,20 @@ part 'has_tb_context.dart';
 enum NotificationType { info, warn, success, error }
 
 class TbContext implements PopEntry {
+  TbContext(
+    this.router, {
+    required this.communicationService,
+    required this.userService,
+  }) {
+    _widgetActionHandler = WidgetActionHandler(this);
+  }
+
   static final deviceInfoPlugin = DeviceInfoPlugin();
   bool isUserLoaded = false;
   final _isAuthenticated = ValueNotifier<bool>(false);
   late PlatformType platformType;
   List<TwoFaProviderInfo>? twoFactorAuthProviders;
-  User? userDetails;
+
   HomeDashboardInfo? homeDashboard;
   VersionInfo? versionInfo;
   StoreInfo? storeInfo;
@@ -52,6 +63,9 @@ class TbContext implements PopEntry {
 
   late bool _handleRootState;
   final appLinks = AppLinks();
+
+  final ICommunicationService communicationService;
+  final IUserService userService;
 
   @override
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
@@ -77,10 +91,6 @@ class TbContext implements PopEntry {
   bool get isAuthenticated => _isAuthenticated.value;
 
   TbContextState? currentState;
-
-  TbContext(this.router) {
-    _widgetActionHandler = WidgetActionHandler(this);
-  }
 
   TbLogger get log => _log;
 
@@ -283,7 +293,14 @@ class TbContext implements PopEntry {
                         packageName: packageName,
                       ),
                     );
-            userDetails = mobileInfo?.user;
+
+            communicationService.fire(
+              UserInfoChangedEvent(
+                user: mobileInfo?.user,
+                authUser: tbClient.getAuthUser(),
+              ),
+            );
+
             homeDashboard = mobileInfo?.homeDashboardInfo;
             versionInfo = mobileInfo?.versionInfo;
             storeInfo = mobileInfo?.storeInfo;
@@ -310,7 +327,13 @@ class TbContext implements PopEntry {
           twoFactorAuthProviders = null;
         }
 
-        userDetails = null;
+        communicationService.fire(
+          const UserInfoChangedEvent(
+            user: null,
+            authUser: null,
+          ),
+        );
+
         homeDashboard = null;
         versionInfo = null;
         storeInfo = null;
@@ -445,9 +468,9 @@ class TbContext implements PopEntry {
     );
     if (currentState != null && currentState!.mounted) {
       if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
-        final defaultDashboardId = _defaultDashboardId();
+        final defaultDashboardId = userService.getDefaultDashboardId();
         if (defaultDashboardId != null) {
-          bool fullscreen = _userForceFullscreen();
+          final fullscreen = userService.fullScreenDefaultDashboard();
           if (!fullscreen) {
             await navigateToDashboard(defaultDashboardId, animate: false);
             navigateTo(
@@ -484,20 +507,6 @@ class TbContext implements PopEntry {
         );
       }
     }
-  }
-
-  String? _defaultDashboardId() {
-    if (userDetails != null && userDetails!.additionalInfo != null) {
-      return userDetails!.additionalInfo!['defaultDashboardId'];
-    }
-    return null;
-  }
-
-  bool _userForceFullscreen() {
-    return tbClient.getAuthUser()!.isPublic! ||
-        (userDetails != null &&
-            userDetails!.additionalInfo != null &&
-            userDetails!.additionalInfo!['defaultDashboardFullscreen'] == true);
   }
 
   bool isPhysicalDevice() {

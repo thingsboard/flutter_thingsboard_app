@@ -4,6 +4,7 @@ import 'package:thingsboard_app/core/auth/auth_routes.dart';
 import 'package:thingsboard_app/core/auth/noauth/routes/noauth_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/init/init_routes.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarm_routes.dart';
 import 'package:thingsboard_app/modules/asset/asset_routes.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_routes.dart';
@@ -19,11 +20,17 @@ import 'package:thingsboard_app/modules/profile/profile_routes.dart';
 import 'package:thingsboard_app/modules/tenant/tenant_routes.dart';
 import 'package:thingsboard_app/modules/url/url_routes.dart';
 import 'package:thingsboard_app/modules/version/route/version_route.dart';
+import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 
 class ThingsboardAppRouter {
   final router = FluroRouter();
-  late final _tbContext = TbContext(router);
+  late final _tbContext = TbContext(
+    router,
+    communicationService: getIt<ICommunicationService>(),
+    userService: getIt<IUserService>(),
+  );
 
   ThingsboardAppRouter() {
     router.notFoundHandler = Handler(

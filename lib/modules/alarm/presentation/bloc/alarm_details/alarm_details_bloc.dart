@@ -5,12 +5,14 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/details/acknowledg
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/clear_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_details/bloc.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 
 class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
   AlarmDetailsBloc({
     required this.fetchAlarmUseCase,
     required this.acknowledgeAlarmUseCase,
     required this.clearAlarmUseCase,
+    required this.userService,
   }) : super(const AlarmDetailsLoadingState()) {
     on(_onEvents);
   }
@@ -20,12 +22,14 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
       fetchAlarmUseCase: getIt(),
       acknowledgeAlarmUseCase: getIt(),
       clearAlarmUseCase: getIt(),
+      userService: getIt(),
     );
   }
 
   final FetchAlarmUseCase fetchAlarmUseCase;
   final AcknowledgeAlarmUseCase acknowledgeAlarmUseCase;
   final ClearAlarmUseCase clearAlarmUseCase;
+  final IUserService userService;
 
   Future<void> _onEvents(
     AlarmDetailsEvent event,
@@ -50,6 +54,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
               alarmInfo,
               acknowledge: acknowledge,
               clear: clear,
+              userId: userService.getUserId()!,
             ),
           );
         } else {

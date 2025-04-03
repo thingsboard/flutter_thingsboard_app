@@ -17,14 +17,16 @@ final class AlarmDetailsLoadedState extends AlarmDetailsState {
     this.alarmInfo, {
     required this.acknowledge,
     required this.clear,
+    required this.userId,
   });
 
   final AlarmInfo alarmInfo;
   final bool acknowledge;
   final bool clear;
+  final UserId userId;
 
   @override
-  List<Object?> get props => [alarmInfo, acknowledge, clear];
+  List<Object?> get props => [alarmInfo, acknowledge, clear, userId];
 }
 
 final class AlarmDetailsErrorState extends AlarmDetailsState {

@@ -12,6 +12,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
@@ -23,13 +24,22 @@ class MorePage extends TbContextWidget {
 }
 
 class _MorePageState extends TbContextState<MorePage> {
+  late final ({
+    String? firstName,
+    String? lastName,
+    String? email
+  }) userPersonalInfo;
+
+  // I know it's bad
+  late final IUserService userService;
+
   @override
   Widget build(BuildContext context) {
     final userDetails = getIt<UserDetailsUseCase>()(
       UserDetailsParams(
-        firstName: tbContext.userDetails?.firstName ?? '',
-        lastName: tbContext.userDetails?.lastName ?? '',
-        email: tbContext.userDetails?.email ?? '',
+        firstName: userPersonalInfo.firstName ?? '',
+        lastName: userPersonalInfo.lastName ?? '',
+        email: userPersonalInfo.email ?? '',
       ),
     );
 
@@ -152,29 +162,24 @@ class _MorePageState extends TbContextState<MorePage> {
   }
 
   String _getAuthorityName(BuildContext context) {
-    var user = tbContext.userDetails;
-    var name = '';
-    if (user != null) {
-      var authority = user.authority;
-      switch (authority) {
-        case Authority.SYS_ADMIN:
-          name = S.of(context).systemAdministrator;
-          break;
-        case Authority.TENANT_ADMIN:
-          name = S.of(context).tenantAdministrator;
-          break;
-        case Authority.CUSTOMER_USER:
-          name = S.of(context).customer;
-          break;
-        default:
-          break;
-      }
+    switch (userService.getAuthority()) {
+      case Authority.SYS_ADMIN:
+        return S.of(context).systemAdministrator;
+
+      case Authority.TENANT_ADMIN:
+        return S.of(context).tenantAdministrator;
+
+      case Authority.CUSTOMER_USER:
+        return S.of(context).customer;
+      default:
+        return '';
     }
-    return name;
   }
 
   @override
   void initState() {
+    userService = getIt();
+    userPersonalInfo = userService.getUserDetails();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       NotificationService(tbClient, widget.log, tbContext)
           .updateNotificationsCount();

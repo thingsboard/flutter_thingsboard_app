@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
@@ -22,11 +21,11 @@ import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 class AlarmActivityWidget extends StatefulWidget {
   const AlarmActivityWidget(
     this.alarmId, {
-    required this.tbContext,
+    required this.userId,
     super.key,
   });
 
-  final TbContext tbContext;
+  final UserId userId;
   final AlarmId alarmId;
 
   @override
@@ -39,10 +38,8 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AlarmActivityBloc>(
-      create: (_) => AlarmActivityBloc.create(
-        widget.tbContext,
-        id: widget.alarmId,
-      )..add(const AlarmActivityFetchEvent()),
+      create: (_) => AlarmActivityBloc.create(id: widget.alarmId)
+        ..add(const AlarmActivityFetchEvent()),
       child: AlarmFilterWidget(
         filterTitle: S.of(context).activity,
         action: GestureDetector(
@@ -88,7 +85,7 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                         itemBuilder: (_, activity, __) {
                           return ActivityBuilderWidget(
                             activity,
-                            userId: widget.tbContext.userDetails!.id!,
+                            userId: widget.userId,
                           );
                         },
                         firstPageProgressIndicatorBuilder: (_) =>

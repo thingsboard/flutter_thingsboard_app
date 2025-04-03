@@ -100,7 +100,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                                 ),
                                 AlarmActivityWidget(
                                   state.alarmInfo.id!,
-                                  tbContext: tbContext,
+                                  userId: state.userId,
                                 ),
                               ],
                             ),

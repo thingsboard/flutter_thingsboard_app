@@ -26,9 +26,6 @@ Future<void> setUpRootDependencies() async {
   await secureStorage.init();
 
   getIt
-    ..registerSingleton(
-      ThingsboardAppRouter(),
-    )
     ..registerLazySingleton(
       () => TbLogger(),
     )
@@ -54,16 +51,22 @@ Future<void> setUpRootDependencies() async {
     )
     ..registerLazySingleton<ICommunicationService>(
       () => CommunicationService(
-        EventBus(),
+        EventBus(sync: true),
       ),
     )
     ..registerSingleton<IUserService>(
-      UserService(),
+      UserService(
+        communicationService: getIt(),
+        logger: getIt(),
+      ),
     )
     ..registerLazySingleton<ILayoutService>(
       () => LayoutService(getIt()),
     )
     ..registerFactory(
       () => const UserDetailsUseCase(),
+    )
+    ..registerSingleton(
+      ThingsboardAppRouter(),
     );
 }

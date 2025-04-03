@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -13,11 +12,12 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/bloc.da
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 
 class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   AlarmActivityBloc({
     required this.userDetailsUseCase,
-    required this.tbContext,
+    required this.userService,
     required this.paginationRepository,
     required this.postAlarmCommentsUseCase,
     required this.deleteAlarmCommentUseCase,
@@ -33,13 +33,12 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
     });
   }
 
-  factory AlarmActivityBloc.create(
-    TbContext tbContext, {
+  factory AlarmActivityBloc.create({
     required AlarmId id,
   }) {
     return AlarmActivityBloc(
       userDetailsUseCase: getIt(),
-      tbContext: tbContext,
+      userService: getIt(),
       paginationRepository: getIt<AlarmActivityPaginationRepository>(),
       postAlarmCommentsUseCase: getIt(),
       deleteAlarmCommentUseCase: getIt(),
@@ -50,7 +49,7 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   }
 
   final UserDetailsUseCase userDetailsUseCase;
-  final TbContext tbContext;
+  final IUserService userService;
   final AlarmActivityPaginationRepository paginationRepository;
   final PostAlarmCommentsUseCase postAlarmCommentsUseCase;
   final DeleteAlarmCommentUseCase deleteAlarmCommentUseCase;
@@ -75,11 +74,12 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
         ))
             .data;
 
+        final userDetails = userService.getUserDetails();
         final details = userDetailsUseCase(
           UserDetailsParams(
-            firstName: tbContext.userDetails?.firstName,
-            lastName: tbContext.userDetails?.lastName,
-            email: tbContext.userDetails?.email ?? '',
+            firstName: userDetails.firstName,
+            lastName: userDetails.lastName,
+            email: userDetails.email ?? '',
           ),
         );
 

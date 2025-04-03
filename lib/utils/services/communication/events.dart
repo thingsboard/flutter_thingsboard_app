@@ -10,13 +10,17 @@ base class CommunicationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class UserLoggedInEvent extends CommunicationEvent {
-  const UserLoggedInEvent(this.user);
+final class UserInfoChangedEvent extends CommunicationEvent {
+  const UserInfoChangedEvent({
+    required this.user,
+    required this.authUser,
+  });
 
   final User? user;
+  final AuthUser? authUser;
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, authUser];
 }
 
 final class AlarmAssigneeUpdatedEvent extends CommunicationEvent {
