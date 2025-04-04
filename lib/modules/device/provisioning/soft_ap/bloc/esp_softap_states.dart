@@ -19,8 +19,8 @@ final class EspSoftApWifiNetworksNotFoundState extends EspSoftApState {
   const EspSoftApWifiNetworksNotFoundState();
 }
 
-final class EspConnectToDeviceNetworkState extends EspSoftApState {
-  const EspConnectToDeviceNetworkState();
+final class EspManuallyConnectToDeviceNetworkState extends EspSoftApState {
+  const EspManuallyConnectToDeviceNetworkState();
 }
 
 final class EspSoftApWiFiListState extends EspSoftApState {
