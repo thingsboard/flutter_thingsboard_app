@@ -22,7 +22,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
     required this.pop,
   }) : super(
           Platform.isAndroid
-              ? const EspConnectToDeviceNetworkState()
+              ? const EspManuallyConnectToDeviceNetworkState()
               : const EspSoftAppLoadingState(),
         ) {
     on(_onEvent);
@@ -169,21 +169,21 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
         bool? connectionResult;
         try {
           connectionResult = await PluginWifiConnect.connect(deviceName);
-          await Future.delayed(const Duration(seconds: 5));
         } catch (_) {
-          emit(const EspConnectToDeviceNetworkState());
+          emit(const EspManuallyConnectToDeviceNetworkState());
         } finally {
           if (connectionResult == true) {
+            await Future.delayed(const Duration(seconds: 5));
             add(EspSoftApConnectToDeviceEvent(pop));
           } else {
-            emit(const EspConnectToDeviceNetworkState());
+            emit(const EspManuallyConnectToDeviceNetworkState());
           }
         }
 
         break;
 
       case EspSoftApManuallyConnectToDeviceWifi():
-        emit(const EspConnectToDeviceNetworkState());
+        emit(const EspManuallyConnectToDeviceNetworkState());
         break;
 
       case EspSoftApProvisioningDoneEvent():

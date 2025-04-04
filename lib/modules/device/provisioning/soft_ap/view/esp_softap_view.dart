@@ -61,7 +61,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     switch (state) {
                       case EspSoftAppLoadingState():
                         return 'Connecting to device';
-                      case EspConnectToDeviceNetworkState():
+                      case EspManuallyConnectToDeviceNetworkState():
                         return 'Connect to device';
                       case EspSoftApWiFiListState():
                         return 'Select Wi-Fi network';
@@ -105,7 +105,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                         ),
                       );
 
-                    case EspConnectToDeviceNetworkState():
+                    case EspManuallyConnectToDeviceNetworkState():
                       return ManuallyConnectToWifi(
                         wifiName: widget.name,
                         poofOfPossession: widget.poofOfPossession,
