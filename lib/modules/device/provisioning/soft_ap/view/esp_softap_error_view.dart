@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
@@ -37,6 +38,25 @@ class EspSoftApConnectionErrorView extends StatelessWidget {
           ),
         ),
         const Spacer(),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              ),
+            ),
+            child: Text(
+              'Open app settings',
+              style: TbTextStyles.labelMedium.copyWith(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () => openAppSettings(),
+          ),
+        ),
+        const SizedBox(height: 16),
         Visibility(
           visible: onTryAgain != null,
           child: TryAgainButton(onTryAgain: onTryAgain!),

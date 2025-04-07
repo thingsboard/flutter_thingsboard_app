@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,14 +21,14 @@ class EspSoftApView extends TbContextWidget {
     required this.tbDeviceName,
     required this.tbDeviceSecretKey,
     required this.name,
-    required this.poofOfPossession,
+    required this.proofOfPossession,
     super.key,
   });
 
   final String tbDeviceName;
   final String tbDeviceSecretKey;
   final String name;
-  final String poofOfPossession;
+  final String proofOfPossession;
 
   @override
   State<StatefulWidget> createState() => _EspSoftApViewState();
@@ -44,7 +42,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
     return BlocProvider<EspSoftApBloc>(
       create: (_) => EspSoftApBloc.create(
         deviceName: widget.name,
-        pop: widget.poofOfPossession,
+        pop: widget.proofOfPossession,
       ),
       child: BlocBuilder<EspSoftApBloc, EspSoftApState>(
         builder: (context, state) {
@@ -108,7 +106,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     case EspManuallyConnectToDeviceNetworkState():
                       return ManuallyConnectToWifi(
                         wifiName: widget.name,
-                        poofOfPossession: widget.poofOfPossession,
+                        poofOfPossession: widget.proofOfPossession,
                       );
 
                     case EspSoftApWiFiListState():
@@ -131,7 +129,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                         onProvisioningTryAgain: () =>
                             context.read<EspSoftApBloc>().add(
                                   EspSoftApConnectToDeviceEvent(
-                                    widget.poofOfPossession,
+                                    widget.proofOfPossession,
                                   ),
                                 ),
                       );
@@ -139,13 +137,15 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     case EspSoftApConnectionErrorState():
                       return EspSoftApConnectionErrorView(
                         onTryAgain: () => context.read<EspSoftApBloc>().add(
-                              Platform.isAndroid
-                                  ? const EspSoftApManuallyConnectToDeviceWifi()
-                                  : const EspSoftApAutoConnectToDeviceWifi(),
+                              EspSoftApConnectToDeviceEvent(
+                                widget.proofOfPossession,
+                              ),
                             ),
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message:
-                            'Connection to ${widget.name} Wi-Fi network failed',
+                            'Connection to the ${widget.name} Wi-Fi network failed.\n'
+                            'Please ensure that your phone is connected to the device Wi-Fi network '
+                            'and that Local Network access is enabled for this app in your device settings.',
                       );
 
                     case EspSoftApWifiNetworksNotFoundState():
