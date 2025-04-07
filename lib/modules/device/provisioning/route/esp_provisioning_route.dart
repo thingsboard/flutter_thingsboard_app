@@ -30,7 +30,7 @@ class EspProvisioningRoute extends TbRoutes {
         tbDeviceName: args['deviceName'] ?? '',
         tbDeviceSecretKey: args['deviceSecretKey'] ?? '',
         name: args['name'],
-        poofOfPossession: args['pop'],
+        proofOfPossession: args['pop'],
       );
     },
   );

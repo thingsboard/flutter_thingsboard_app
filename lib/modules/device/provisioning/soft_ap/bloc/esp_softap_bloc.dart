@@ -61,6 +61,8 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   final String pop;
   late final StreamSubscription subscription;
 
+  bool tryToConnectAgain = true;
+
   Future<void> _onEvent(
     EspSoftApEvent event,
     Emitter<EspSoftApState> emit,
@@ -82,8 +84,19 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
                 ),
               );
         } catch (e) {
-          logger.error('Error connecting to device $e');
-          emit(const EspSoftApConnectionErrorState());
+          logger.error('SoftAp Error connecting to device $e');
+          if (tryToConnectAgain && Platform.isIOS) {
+            tryToConnectAgain = false;
+            logger.info(
+              'SoftAP is attempting to reconnect because iOS prompted the user '
+              'to grant Local Network permission, which cannot be triggered '
+              'in advance by the developer.',
+            );
+            await Future.delayed(const Duration(seconds: 5));
+            add(EspSoftApConnectToDeviceEvent(pop));
+          } else {
+            emit(const EspSoftApConnectionErrorState());
+          }
           break;
         }
 
