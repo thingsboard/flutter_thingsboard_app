@@ -61,7 +61,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   final String pop;
   late final StreamSubscription subscription;
 
-  bool tryToConnectAgain = true;
+  int connectionRetries = 5;
 
   Future<void> _onEvent(
     EspSoftApEvent event,
@@ -75,7 +75,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
           provisioning = await softApService
               .startProvisioning(
                 hostname: '192.168.4.1:80',
-                pop: event.pop,
+                pop: pop,
               )
               .timeout(
                 const Duration(seconds: 20),
@@ -85,15 +85,17 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
               );
         } catch (e) {
           logger.error('SoftAp Error connecting to device $e');
-          if (tryToConnectAgain && Platform.isIOS) {
-            tryToConnectAgain = false;
+          if (connectionRetries > 0 && Platform.isIOS) {
             logger.info(
               'SoftAP is attempting to reconnect because iOS prompted the user '
               'to grant Local Network permission, which cannot be triggered '
               'in advance by the developer.',
             );
-            await Future.delayed(const Duration(seconds: 5));
-            add(EspSoftApConnectToDeviceEvent(pop));
+
+            --connectionRetries;
+            logger.debug('Connection retries left $connectionRetries');
+            await Future.delayed(const Duration(seconds: 15));
+            add(const EspSoftApConnectToDeviceEvent());
           } else {
             emit(const EspSoftApConnectionErrorState());
           }
@@ -187,7 +189,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
         } finally {
           if (connectionResult == true) {
             await Future.delayed(const Duration(seconds: 5));
-            add(EspSoftApConnectToDeviceEvent(pop));
+            add(const EspSoftApConnectToDeviceEvent());
           } else {
             emit(const EspManuallyConnectToDeviceNetworkState());
           }

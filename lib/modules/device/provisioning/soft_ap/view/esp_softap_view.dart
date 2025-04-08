@@ -126,21 +126,16 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                         ssid: state.ssid,
                         wifiPassword: state.password,
                         mustReconnectToWifiBeforeClaiming: true,
-                        onProvisioningTryAgain: () =>
-                            context.read<EspSoftApBloc>().add(
-                                  EspSoftApConnectToDeviceEvent(
-                                    widget.proofOfPossession,
-                                  ),
-                                ),
+                        onProvisioningTryAgain: () => context
+                            .read<EspSoftApBloc>()
+                            .add(const EspSoftApConnectToDeviceEvent()),
                       );
 
                     case EspSoftApConnectionErrorState():
                       return EspSoftApConnectionErrorView(
-                        onTryAgain: () => context.read<EspSoftApBloc>().add(
-                              EspSoftApConnectToDeviceEvent(
-                                widget.proofOfPossession,
-                              ),
-                            ),
+                        onTryAgain: () => context
+                            .read<EspSoftApBloc>()
+                            .add(const EspSoftApConnectToDeviceEvent()),
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message:
                             'Connection to the ${widget.name} Wi-Fi network failed.\n'
