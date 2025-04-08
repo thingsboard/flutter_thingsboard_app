@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart' show AppLifecycleState;
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart'
     show DeviceProvisioningStatus;
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart' show User;
 
 base class CommunicationEvent extends Equatable {
   const CommunicationEvent();
@@ -35,4 +36,13 @@ final class DeviceProvisioningStatusChangedEvent extends CommunicationEvent {
 
   @override
   List<Object?> get props => [double.nan];
+}
+
+final class AppLifecycleStateChangedEvent extends CommunicationEvent {
+  const AppLifecycleStateChangedEvent(this.state);
+
+  final AppLifecycleState state;
+
+  @override
+  List<Object?> get props => [state];
 }

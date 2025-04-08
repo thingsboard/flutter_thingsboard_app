@@ -73,7 +73,7 @@ class ManuallyConnectToWifi extends StatelessWidget {
             onPressed: () {
               context
                   .read<EspSoftApBloc>()
-                  .add(EspSoftApConnectToDeviceEvent(poofOfPossession));
+                  .add(const EspSoftApConnectToDeviceEvent());
             },
           ),
         ),

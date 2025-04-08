@@ -8,12 +8,7 @@ sealed class EspSoftApEvent extends Equatable {
 }
 
 final class EspSoftApConnectToDeviceEvent extends EspSoftApEvent {
-  const EspSoftApConnectToDeviceEvent(this.pop);
-
-  final String pop;
-
-  @override
-  List<Object?> get props => [pop];
+  const EspSoftApConnectToDeviceEvent();
 }
 
 final class EspSoftApStartProvisioningEvent extends EspSoftApEvent {

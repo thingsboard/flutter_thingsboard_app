@@ -16,6 +16,7 @@ class SoftApService implements ISoftApService {
 
     final success = await prov.establishSession();
     if (!success) {
+      await prov.dispose();
       throw Exception('Error establishSession');
     }
 
