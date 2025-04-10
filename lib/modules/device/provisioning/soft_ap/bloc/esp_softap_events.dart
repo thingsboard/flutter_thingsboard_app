@@ -9,6 +9,13 @@ sealed class EspSoftApEvent extends Equatable {
 
 final class EspSoftApConnectToDeviceEvent extends EspSoftApEvent {
   const EspSoftApConnectToDeviceEvent();
+
+  @override
+  List<Object?> get props => [double.nan];
+}
+
+final class EspSoftApRescanWifiEvent extends EspSoftApEvent {
+  const EspSoftApRescanWifiEvent();
 }
 
 final class EspSoftApStartProvisioningEvent extends EspSoftApEvent {
