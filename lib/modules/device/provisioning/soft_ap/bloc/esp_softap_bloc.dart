@@ -35,6 +35,8 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
       }
     });
 
+    // PluginWifiConnect.connect(deviceName);
+
     if (Platform.isIOS) {
       add(const EspSoftApAutoConnectToDeviceWifi());
     }
@@ -62,6 +64,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   late final StreamSubscription subscription;
 
   int connectionRetries = 5;
+  List<Map<String, dynamic>>? wiFis;
 
   Future<void> _onEvent(
     EspSoftApEvent event,
@@ -85,21 +88,28 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
               );
         } catch (e) {
           logger.error('SoftAp Error connecting to device $e');
-          if (connectionRetries > 0 && Platform.isIOS) {
-            logger.info(
-              'SoftAP is attempting to reconnect because iOS prompted the user '
-              'to grant Local Network permission, which cannot be triggered '
-              'in advance by the developer.',
-            );
+          if (!isClosed) {
+            if (connectionRetries >= 0) {
+              logger.info(
+                'SoftAP is attempting to reconnect because iOS prompted the user '
+                'to grant Local Network permission, which cannot be triggered '
+                'in advance by the developer.',
+              );
 
-            --connectionRetries;
-            logger.debug('Connection retries left $connectionRetries');
-            await Future.delayed(const Duration(seconds: 15));
-            add(const EspSoftApConnectToDeviceEvent());
+              --connectionRetries;
+              logger.debug('Connection retries left $connectionRetries');
+              await Future.delayed(const Duration(seconds: 15));
+              add(const EspSoftApConnectToDeviceEvent());
+              break;
+            } else {
+              emit(const EspSoftApConnectionErrorState());
+            }
+
+            connectionRetries = 5;
+            break;
           } else {
-            emit(const EspSoftApConnectionErrorState());
+            break;
           }
-          break;
         }
 
         try {
@@ -110,10 +120,12 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
                       'SoftAp startScanWiFi timeout reached',
                     ),
                   );
+
           if (wifiList?.isNotEmpty == true) {
+            wiFis = wifiList;
             emit(EspSoftApWiFiListState(wifiList!));
           } else {
-            throw Exception('Error scan WiFi network');
+            throw Exception('Wi-Fi networks are empty');
           }
         } catch (e) {
           logger.error('Error scan WiFi network $e');
@@ -151,20 +163,51 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
             ),
           );
 
-          await Future.delayed(const Duration(seconds: 10));
-          final status = await softApService.getStatus(provisioning);
-          if (status.state == WifiConnectionState.Connected) {
-            communicationService.fire(
-              const DeviceProvisioningStatusChangedEvent(
-                DeviceProvisioningStatus.success,
-              ),
+          int getStatusTries = 5;
+          while (getStatusTries >= 0) {
+            if (isClosed) return;
+
+            await Future.delayed(const Duration(seconds: 10));
+            final status = await softApService.getStatus(provisioning);
+            logger.info(
+              'SoftAp get connection status: ${status.state},'
+              ' failed reason: ${status.failedReason}, '
+              'ip: ${status.ip}, '
+              'getStatus tries left: $getStatusTries',
             );
-          } else {
-            communicationService.fire(
-              const DeviceProvisioningStatusChangedEvent(
-                DeviceProvisioningStatus.fail,
-              ),
-            );
+
+            if (status.state == WifiConnectionState.Connected) {
+              await PluginWifiConnect.disconnect();
+              communicationService.fire(
+                const DeviceProvisioningStatusChangedEvent(
+                  DeviceProvisioningStatus.success,
+                ),
+              );
+
+              break;
+            } else if (status.state == WifiConnectionState.ConnectionFailed) {
+              await PluginWifiConnect.disconnect();
+              communicationService.fire(
+                const DeviceProvisioningStatusChangedEvent(
+                  DeviceProvisioningStatus.fail,
+                ),
+              );
+
+              break;
+            } else if (getStatusTries == 0 &&
+                status.state == WifiConnectionState.Connecting) {
+              logger.info(
+                'SoftAp no more tries left to get device connection '
+                'status but the status still connecting considered as failed',
+              );
+              communicationService.fire(
+                const DeviceProvisioningStatusChangedEvent(
+                  DeviceProvisioningStatus.fail,
+                ),
+              );
+            }
+
+            --getStatusTries;
           }
         } catch (e) {
           logger.error('Error provisioning device $e');
@@ -174,8 +217,8 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
             ),
           );
         } finally {
-          await provisioning.dispose();
-          await Future.delayed(const Duration(seconds: 5));
+          // await provisioning.dispose();
+          // await Future.delayed(const Duration(seconds: 5));
         }
 
         break;
@@ -203,6 +246,10 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
 
       case EspSoftApProvisioningDoneEvent():
         emit(const EspSoftApProvisioningDoneState());
+        break;
+
+      case EspSoftApRescanWifiEvent():
+        emit(EspSoftApWiFiListState(wiFis!));
         break;
     }
   }
