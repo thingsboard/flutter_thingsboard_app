@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/modules/device/provisioning/route/esp_provisioning_route.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class WidgetMobileActionResult<T extends MobileActionResult> {
@@ -55,6 +58,10 @@ class MobileActionResult {
 
   factory MobileActionResult.location(num latitude, num longitude) {
     return _LocationResult(latitude, longitude);
+  }
+
+  factory MobileActionResult.provisioning(String deviceName) {
+    return _DeviceProvisioningResult(deviceName);
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +126,19 @@ class _LocationResult extends MobileActionResult {
   }
 }
 
+class _DeviceProvisioningResult extends MobileActionResult {
+  _DeviceProvisioningResult(this.deviceName);
+
+  final String deviceName;
+
+  @override
+  Map<String, dynamic> toJson() {
+    final json = super.toJson();
+    json['deviceName'] = deviceName;
+    return json;
+  }
+}
+
 enum WidgetMobileActionType {
   takePictureFromGallery,
   takePhoto,
@@ -128,6 +148,7 @@ enum WidgetMobileActionType {
   makePhoneCall,
   getLocation,
   takeScreenshot,
+  deviceProvision,
   unknown
 }
 
@@ -147,7 +168,7 @@ class WidgetActionHandler with HasTbContext {
     List<dynamic> args,
     InAppWebViewController controller,
   ) async {
-    var result = await _handleWidgetMobileAction(args, controller);
+    final result = await _handleWidgetMobileAction(args, controller);
     return result.toJson();
   }
 
@@ -174,6 +195,8 @@ class WidgetActionHandler with HasTbContext {
           return await _getLocation();
         case WidgetMobileActionType.takeScreenshot:
           return await _takeScreenshot(controller);
+        case WidgetMobileActionType.deviceProvision:
+          return await _provisioningDevice();
         case WidgetMobileActionType.unknown:
           return WidgetMobileActionResult.errorResult(
             'Unknown actionType: ${args[0]}',
@@ -328,6 +351,65 @@ class WidgetActionHandler with HasTbContext {
       }
     } catch (e) {
       return _handleError(e);
+    }
+  }
+
+  Future<WidgetMobileActionResult> _provisioningDevice() async {
+    try {
+      final barcode = await tbContext.navigateTo(
+        '/qrCodeScan',
+        transition: TransitionType.nativeModal,
+      );
+      if (barcode != null && barcode.code != null) {
+        final decodedJson = jsonDecode(barcode.code!);
+        final transport = decodedJson?['transport'];
+        if (transport != null) {
+          final arguments = {
+            'deviceName': decodedJson['tbDeviceName'] ?? decodedJson['name'],
+            'deviceSecretKey': decodedJson['tbSecretKey'] ?? decodedJson['pop'],
+            'name': decodedJson['name'] ?? decodedJson['tbDeviceName'],
+            'pop': decodedJson['pop'] ?? decodedJson['tbSecretKey'],
+          };
+
+          bool? provisioningResult;
+          switch (transport.toLowerCase()) {
+            case 'ble':
+              provisioningResult = await tbContext.navigateTo(
+                EspProvisioningRoute.wifiRoute,
+                routeSettings: RouteSettings(arguments: arguments),
+              );
+
+              break;
+
+            case 'softap':
+              provisioningResult = await tbContext.navigateTo(
+                EspProvisioningRoute.softApRoute,
+                routeSettings: RouteSettings(arguments: arguments),
+              );
+
+              break;
+          }
+
+          if (provisioningResult == true) {
+            return WidgetMobileActionResult.successResult(
+              MobileActionResult.provisioning(arguments['deviceName']),
+            );
+          } else {
+            return WidgetMobileActionResult.emptyResult();
+          }
+        } else {
+          return WidgetMobileActionResult.errorResult(
+            'Provisioning method wasn\'t specified.',
+          );
+        }
+      }
+
+      return WidgetMobileActionResult.emptyResult();
+    } catch (e) {
+      log.error('Provisioning device exception: $e', e);
+      return _handleError(
+        'Please check that your QR code is correct and try again.',
+      );
     }
   }
 

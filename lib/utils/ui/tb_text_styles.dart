@@ -9,6 +9,13 @@ abstract final class TbTextStyles {
     letterSpacing: .15,
   );
 
+  static final titleSmallSb = GoogleFonts.roboto(
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+    letterSpacing: .01,
+    height: 1.2,
+  );
+
   static final titleMedium = GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
     fontSize: 24,

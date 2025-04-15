@@ -23,7 +23,7 @@ final class NoAuthWipState extends NoAuthState {
 final class NoAuthErrorState extends NoAuthState {
   const NoAuthErrorState({required this.message});
 
-  final String message;
+  final String? message;
 
   @override
   List<Object?> get props => [message];

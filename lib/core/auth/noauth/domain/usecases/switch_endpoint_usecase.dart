@@ -19,7 +19,7 @@ final class SwitchEndpointParams {
 
   final Map<String, dynamic> data;
   final VoidCallback onDone;
-  final Function(String) onError;
+  final Function(String?) onError;
 
   dynamic operator [](String key) => data[key];
 }
@@ -96,7 +96,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
         onDone: params.onDone,
         onError: (error) {
           logger.error('SwitchEndpointUseCase:onError $error');
-          params.onError(error.message ?? error.toString());
+          params.onError(error.message);
         },
       );
     } on ThingsboardError catch (e) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
-class EditDialogAlertMessage extends StatelessWidget {
-  const EditDialogAlertMessage({
+class TbAlertDialog extends StatelessWidget {
+  const TbAlertDialog({
     required this.title,
     required this.content,
     required this.actions,

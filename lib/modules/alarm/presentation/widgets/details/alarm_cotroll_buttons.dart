@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_details/bloc.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/widgets/activity/edit_dialog_alert_message.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_status_button.dart';
+import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class AlarmControlButtons extends StatelessWidget {
@@ -41,7 +41,7 @@ class AlarmControlButtons extends StatelessWidget {
                             final response = await showDialog<bool>(
                               context: context,
                               builder: (context) {
-                                return EditDialogAlertMessage(
+                                return TbAlertDialog(
                                   title: Text(S.of(context).alarmClearTitle),
                                   content: Text(S.of(context).alarmClearText),
                                   actions: [
@@ -92,7 +92,7 @@ class AlarmControlButtons extends StatelessWidget {
                             final response = await showDialog<bool>(
                               context: context,
                               builder: (context) {
-                                return EditDialogAlertMessage(
+                                return TbAlertDialog(
                                   title:
                                       Text(S.of(context).alarmAcknowledgeTitle),
                                   content:

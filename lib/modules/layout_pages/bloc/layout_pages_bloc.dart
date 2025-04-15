@@ -79,9 +79,13 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
 
         emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
         break;
-      case BottomBarOrientationChangedEvent():
-        emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
 
+      case BottomBarOrientationChangedEvent():
+        layoutService.setDeviceScreenSize(
+          event.screenSize,
+          orientation: event.orientation,
+        );
+        emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
         break;
     }
   }

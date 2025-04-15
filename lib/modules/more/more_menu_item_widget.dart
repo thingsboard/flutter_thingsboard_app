@@ -37,10 +37,12 @@ class MoreMenuItemWidget extends StatelessWidget {
               child: menuItem.additionalIconSmall ?? const SizedBox.shrink(),
             ),
             SizedBox(width: menuItem.showAdditionalIcon ? 12 : 20),
-            Text(
-              menuItem.title,
-              style: TbTextStyles.bodyMedium.copyWith(
-                color: color ?? Colors.black.withOpacity(.76),
+            Flexible(
+              child: Text(
+                menuItem.title,
+                style: TbTextStyles.bodyMedium.copyWith(
+                  color: color ?? Colors.black.withOpacity(.76),
+                ),
               ),
             ),
           ],

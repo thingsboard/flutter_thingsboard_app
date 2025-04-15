@@ -47,9 +47,12 @@ class _MainPageState extends TbPageState<MainPage>
                 builder: (context, orientation) {
                   if (this.orientation != orientation) {
                     this.orientation = orientation;
-                    context
-                        .read<LayoutPagesBloc>()
-                        .add(const BottomBarOrientationChangedEvent());
+                    context.read<LayoutPagesBloc>().add(
+                          BottomBarOrientationChangedEvent(
+                            orientation,
+                            MediaQuery.of(context).size,
+                          ),
+                        );
                   }
 
                   return Scaffold(
