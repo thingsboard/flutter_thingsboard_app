@@ -11,6 +11,7 @@ import 'package:thingsboard_app/modules/notification/widgets/notification_list.d
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 enum NotificationsFilter { all, unread }
@@ -168,12 +169,12 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (authority == Authority.TENANT_ADMIN ||
             authority == Authority.CUSTOMER_USER) {
-          showWarnNotification(
+          context.showWarnNotification(
             'Push notifications are not configured. '
             'Please contact your system administrator.',
           );
         } else if (authority == Authority.SYS_ADMIN) {
-          showWarnNotification(
+          context.showWarnNotification(
             'Firebase is not configured.'
             ' Please refer to the official Firebase documentation for'
             ' guidance on how to do so.',

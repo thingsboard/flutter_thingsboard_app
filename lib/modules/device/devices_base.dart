@@ -8,9 +8,11 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/utils/services/toast_notification/i_toast_notification_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
@@ -46,7 +48,8 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
       );
     } else {
       if (tbClient.isTenantAdmin()) {
-        showWarnNotification(
+        // TODO rework
+        getIt<IToastNotificationService>().showWarnNotification(
           'Mobile dashboard should be configured in device profile!',
         );
       }

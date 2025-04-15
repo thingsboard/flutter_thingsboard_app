@@ -79,20 +79,6 @@ mixin HasTbContext {
         ok: ok,
       );
 
-  void hideNotification() => _tbContext.hideNotification();
-
-  void showErrorNotification(String message, {Duration? duration}) =>
-      _tbContext.showErrorNotification(message, duration: duration);
-
-  void showInfoNotification(String message, {Duration? duration}) =>
-      _tbContext.showInfoNotification(message, duration: duration);
-
-  void showWarnNotification(String message, {Duration? duration}) =>
-      _tbContext.showWarnNotification(message, duration: duration);
-
-  void showSuccessNotification(String message, {Duration? duration}) =>
-      _tbContext.showSuccessNotification(message, duration: duration);
-
   void subscribeRouteObserver(TbPageState pageState) {
     _tbContext.routeObserver
         .subscribe(pageState, ModalRoute.of(pageState.context) as PageRoute);

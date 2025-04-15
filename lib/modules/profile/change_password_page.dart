@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -195,7 +196,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       String newPassword = formValue['newPassword'];
       String newPassword2 = formValue['newPassword2'];
       if (newPassword != newPassword2) {
-        showErrorNotification(S.of(context).passwordErrorNotification);
+        context.showErrorNotification(S.of(context).passwordErrorNotification);
       } else {
         _isLoadingNotifier.value = true;
         try {

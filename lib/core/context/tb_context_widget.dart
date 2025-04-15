@@ -78,7 +78,8 @@ abstract class TbPageState<W extends TbPageWidget> extends TbContextState<W>
 
   @override
   void didPopNext() {
-    hideNotification();
+    // TODO rework, delete this class at all, create a new navigator observer with logs and possibility to hide toast notifications
+    // hideNotification();
     setupCurrentState(this);
   }
 }

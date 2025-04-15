@@ -5,6 +5,7 @@ import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -129,7 +130,7 @@ class _ResetPasswordRequestPageState
         await tbClient.sendResetPasswordLink(email);
         _isLoadingNotifier.value = false;
         if (mounted) {
-          showSuccessNotification(
+          context.showSuccessNotification(
             S.of(context).passwordResetLinkSuccessfullySentNotification,
           );
         }

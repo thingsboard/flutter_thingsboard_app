@@ -9,6 +9,7 @@ import 'package:thingsboard_app/modules/profile/change_password_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -181,14 +182,17 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           _setUser();
           await Future.delayed(const Duration(milliseconds: 300));
           _isLoadingNotifier.value = false;
-          showSuccessNotification(
-            S.of(context).profileSuccessNotification,
-            duration: const Duration(milliseconds: 1500),
-          );
-          showSuccessNotification(
-            S.of(context).profileSuccessNotification,
-            duration: const Duration(milliseconds: 1500),
-          );
+          if (mounted) {
+            context.showSuccessNotification(
+              S.of(context).profileSuccessNotification,
+              duration: const Duration(milliseconds: 1500),
+            );
+
+            context.showSuccessNotification(
+              S.of(context).profileSuccessNotification,
+              duration: const Duration(milliseconds: 1500),
+            );
+          }
         } catch (_) {
           _isLoadingNotifier.value = false;
         }
@@ -199,8 +203,8 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
   _changePassword() async {
     var res = await tbContext
         .showFullScreenDialog<bool>(ChangePasswordPage(tbContext));
-    if (res == true) {
-      showSuccessNotification(
+    if (res == true && mounted) {
+      context.showSuccessNotification(
         S.of(context).passwordSuccessNotification,
         duration: const Duration(milliseconds: 1500),
       );

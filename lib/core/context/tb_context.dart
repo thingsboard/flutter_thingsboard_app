@@ -24,9 +24,9 @@ import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart'
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/services/toast_notification/i_toast_notification_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/widget_action_handler.dart';
-import 'package:toastification/toastification.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 part 'has_tb_context.dart';
@@ -186,84 +186,8 @@ class TbContext implements PopEntry {
 
   void onError(ThingsboardError tbError) {
     log.error('onError', tbError, tbError.getStackTrace());
-    showErrorNotification(tbError.message!);
-  }
-
-  void showErrorNotification(
-    String message, {
-    Duration? duration,
-  }) {
-    showNotification(
-      message,
-      NotificationType.error,
-      duration: duration,
-    );
-  }
-
-  void showInfoNotification(String message, {Duration? duration}) {
-    showNotification(message, NotificationType.info, duration: duration);
-  }
-
-  void showWarnNotification(String message, {Duration? duration}) {
-    showNotification(message, NotificationType.warn, duration: duration);
-  }
-
-  void showSuccessNotification(String message, {Duration? duration}) {
-    showNotification(message, NotificationType.success, duration: duration);
-  }
-
-  void showNotification(
-    String message,
-    NotificationType type, {
-    Duration? duration,
-  }) {
-    duration ??= const Duration(days: 1);
-    Color backgroundColor;
-    ToastificationType toastificationType;
-    switch (type) {
-      case NotificationType.info:
-        backgroundColor = const Color(0xFF323232);
-        toastificationType = ToastificationType.info;
-        break;
-      case NotificationType.warn:
-        backgroundColor = const Color(0xFFdc6d1b);
-        toastificationType = ToastificationType.warning;
-        break;
-      case NotificationType.success:
-        backgroundColor = const Color(0xFF008000);
-        toastificationType = ToastificationType.success;
-        break;
-      case NotificationType.error:
-        backgroundColor = const Color(0xFF800000);
-        toastificationType = ToastificationType.error;
-        break;
-    }
-
-    toastification.show(
-      type: toastificationType,
-      style: ToastificationStyle.fillColored,
-      primaryColor: backgroundColor,
-      backgroundColor: Colors.white,
-      alignment: Alignment.bottomCenter,
-      autoCloseDuration: duration,
-      title: Text(message, maxLines: 10, overflow: TextOverflow.ellipsis),
-      closeOnClick: false,
-      dragToClose: true,
-      showProgressBar: false,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x07000000),
-          blurRadius: 16,
-          offset: Offset(0, 16),
-          spreadRadius: 0,
-        ),
-      ],
-    );
-  }
-
-  void hideNotification() {
-    toastification.dismissAll();
+    // TODO rework
+    getIt<IToastNotificationService>().showErrorNotification(tbError.message!);
   }
 
   void onLoadStarted() {
@@ -543,7 +467,8 @@ class TbContext implements PopEntry {
     RouteSettings? routeSettings,
   }) async {
     if (currentState != null) {
-      hideNotification();
+      // TODO rework
+      // hideNotification();
 
       if (transition != TransitionType.nativeModal) {
         transition = TransitionType.none;

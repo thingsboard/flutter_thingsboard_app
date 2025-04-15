@@ -12,6 +12,7 @@ import 'package:thingsboard_app/modules/device/provisioning/view/states/provisio
 import 'package:thingsboard_app/modules/device/provisioning/widgets/return_to_dashboard_button.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 
 class DeviceProvisioningView extends TbContextStatelessWidget {
   DeviceProvisioningView(
@@ -76,9 +77,7 @@ class DeviceProvisioningView extends TbContextStatelessWidget {
             listener: (context, state) {
               if (state is DeviceProvisioningClaimingErrorState) {
                 if (state.message != null) {
-                  tbContext.showErrorNotification(
-                    state.message!,
-                  );
+                  context.showErrorNotification(state.message!);
                 }
               }
             },

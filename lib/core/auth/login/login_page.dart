@@ -17,6 +17,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 import 'login_page_background.dart';
@@ -595,7 +596,7 @@ class _LoginPageState extends TbPageState<LoginPage>
         );
       } else {
         _isLoginNotifier.value = false;
-        showErrorNotification(result.error!);
+        if (mounted) context.showErrorNotification(result.error!);
       }
     } catch (e) {
       log.error('Auth Error:', e);

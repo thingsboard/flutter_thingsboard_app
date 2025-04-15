@@ -14,6 +14,8 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/local_database_service.dart';
+import 'package:thingsboard_app/utils/services/toast_notification/i_toast_notification_service.dart';
+import 'package:thingsboard_app/utils/services/toast_notification/tost_notification_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
 
@@ -29,9 +31,7 @@ Future<void> setUpRootDependencies() async {
     ..registerLazySingleton(
       () => TbLogger(),
     )
-    ..registerLazySingleton<TbStorage>(
-      () => secureStorage,
-    )
+    ..registerLazySingleton<TbStorage>(() => secureStorage)
     ..registerLazySingleton<ILocalDatabaseService>(
       () => LocalDatabaseService(
         storage: getIt(),
@@ -68,5 +68,8 @@ Future<void> setUpRootDependencies() async {
     )
     ..registerSingleton(
       ThingsboardAppRouter(),
+    )
+    ..registerFactory<IToastNotificationService>(
+      () => ToastNotificationService(),
     );
 }

@@ -9,6 +9,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 const entityTypeTranslations = <EntityType, String>{
@@ -312,7 +313,7 @@ abstract class BaseEntitiesState<T, P>
     if (mounted) {
       _dataLoading = true;
       try {
-        hideNotification();
+        context.hideNotifications();
         final pageData = await widget.fetchEntities(pageKey);
         final isLastPage = !pageData.hasNext;
         if (refresh) {

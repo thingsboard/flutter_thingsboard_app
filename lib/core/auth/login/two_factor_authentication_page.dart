@@ -10,6 +10,7 @@ import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 typedef ProviderDescFunction = String Function(
@@ -500,10 +501,16 @@ class _TwoFactorAuthenticationPageState
               _disableSendButton.value = false;
             });
           } else {
-            showErrorNotification(e.message ?? 'Code verification failed!');
+            if (context.mounted) {
+              context.showErrorNotification(
+                e.message ?? 'Code verification failed!',
+              );
+            }
           }
         } else {
-          showErrorNotification('Code verification failed!');
+          if (context.mounted) {
+            context.showErrorNotification('Code verification failed!');
+          }
         }
       }
     }

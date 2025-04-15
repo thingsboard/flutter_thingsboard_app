@@ -6,6 +6,7 @@ import 'package:thingsboard_app/modules/layout_pages/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class MainPage extends TbPageWidget {
@@ -87,7 +88,7 @@ class _MainPageState extends TbPageState<MainPage>
 
   void _setIndex(int index) {
     if (_tabController.index != index) {
-      hideNotification();
+      context.hideNotifications();
       _tabController.index = index;
       _currentIndexNotifier.value = index;
       tbContext.bottomNavigationTabChangedStream.add(index);
