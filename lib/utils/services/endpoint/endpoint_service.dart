@@ -38,7 +38,7 @@ class EndpointService implements IEndpointService {
 
   @override
   Future<String> getEndpoint() async {
-    _cachedEndpoint ??= databaseService.getSelectedEndpoint();
+    _cachedEndpoint ??= await databaseService.getSelectedEndpoint();
 
     return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
   }
@@ -55,7 +55,7 @@ class EndpointService implements IEndpointService {
   }
 
   @override
-  Region? getSelectedRegion() {
+  Future<Region?> getSelectedRegion() async {
     return databaseService.getSelectedRegion();
   }
 

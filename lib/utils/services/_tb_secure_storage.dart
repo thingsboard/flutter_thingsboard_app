@@ -6,7 +6,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 TbStorage createAppStorage() => TbSecureStorage();
 
-class TbSecureStorage implements TbStorage {
+class TbSecureStorage<E> implements TbStorage {
   late Box encryptedBox;
 
   Future<void> init() async {
@@ -36,7 +36,7 @@ class TbSecureStorage implements TbStorage {
   }
 
   @override
-  dynamic getItem(dynamic key, {dynamic defaultValue}) {
+  Future<E>? getItem(dynamic key, {dynamic defaultValue}) async {
     return encryptedBox.get(key);
   }
 
@@ -46,7 +46,7 @@ class TbSecureStorage implements TbStorage {
   }
 
   @override
-  bool containsKey(dynamic key) {
+  Future<bool> containsKey(dynamic key) async {
     return encryptedBox.containsKey(key);
   }
 }

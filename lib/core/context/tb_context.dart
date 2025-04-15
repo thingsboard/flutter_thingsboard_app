@@ -328,7 +328,7 @@ class TbContext implements PopEntry {
       }
     } finally {
       try {
-        final link = getIt<ILocalDatabaseService>().getInitialAppLink();
+        final link = await getIt<ILocalDatabaseService>().getInitialAppLink();
         navigateByAppLink(link);
       } catch (e) {
         log.error('TbContext:getInitialUri() exception $e');

@@ -14,13 +14,14 @@ class LocalDatabaseService implements ILocalDatabaseService {
   final TbLogger logger;
 
   @override
-  String? getSelectedEndpoint() {
-    return storage.getItem(DatabaseKeys.thingsBoardApiEndpointKey);
+  Future<String?> getSelectedEndpoint() async {
+    return await storage.getItem(DatabaseKeys.thingsBoardApiEndpointKey)
+        as String?;
   }
 
   @override
-  Region? getSelectedRegion() {
-    return storage.getItem(DatabaseKeys.selectedRegion);
+  Future<Region?> getSelectedRegion() async {
+    return await storage.getItem(DatabaseKeys.selectedRegion) as Region?;
   }
 
   @override
@@ -34,8 +35,8 @@ class LocalDatabaseService implements ILocalDatabaseService {
   }
 
   @override
-  String? getInitialAppLink() {
-    return storage.getItem(DatabaseKeys.initialAppLink);
+  Future<String?> getInitialAppLink() async {
+    return await storage.getItem(DatabaseKeys.initialAppLink) as String?;
   }
 
   @override
