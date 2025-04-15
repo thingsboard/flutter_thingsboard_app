@@ -17,7 +17,7 @@ abstract interface class IEndpointService {
 
   Future<void> setRegion(Region region);
 
-  Region? getSelectedRegion();
+  Future<Region?> getSelectedRegion();
 
   ValueListenable<String?> get listenEndpointChanges;
 }
