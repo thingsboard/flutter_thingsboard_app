@@ -18,12 +18,6 @@ default_platform(:android)
 platform :android do
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "test")
-  end
-
-
-  desc "Runs all the tests"
-  lane :test do
     Dir.chdir("..")
     Dir.chdir("..")
     sh("fvm flutter test -r expanded --coverage")
@@ -31,10 +25,12 @@ platform :android do
 
   desc "Build "
   lane :build do |options|
-    sh("fvm", "flutter", "pub", "get")
+    Dir.chdir("..")
     # Building with Flutter
-    sh("fvm", "flutter", "build", "apk", "--build-number", options[:build_number],
-    "--build-name=" + options[:build_name], "--no-pub", "--no-tree-shake-icons")
+    sh("fvm", "flutter", "build", "apk",
+    "--build-name=" + options[:version],
+    "--build-number", options[:build_number],
+    "--no-tree-shake-icons")
   end
 
   desc "Build QA env"
