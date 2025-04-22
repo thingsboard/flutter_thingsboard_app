@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/auth/login/select_region_screen.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/features/authentication/presentation/select_region_screen.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
+import 'package:thingsboard_app/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ThingsboardInitRegionApp extends TbPageWidget {
@@ -29,7 +29,7 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitRegionApp> {
         }
 
         if (snapshot.hasError || snapshot.data == null) {
-          return SelectRegionScreen(tbContext);
+          return const SelectRegionScreen();
         }
 
         initTbContext();

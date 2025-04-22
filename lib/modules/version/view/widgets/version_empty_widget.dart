@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
+import 'package:thingsboard_app/features/authentication/presentation/widgets/login_page_background.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

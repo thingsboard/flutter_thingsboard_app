@@ -8,8 +8,8 @@ import 'package:thingsboard_app/modules/notification/repository/notification_rep
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
+import 'package:thingsboard_app/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -33,7 +33,6 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         leading: BackButtonWidget(
           onPressed: () {
             final navigator = Navigator.of(tbContext.currentState!.context);

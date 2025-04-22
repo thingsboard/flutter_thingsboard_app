@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/view/switch_endpoint_noauth_view.dart';
+import 'package:thingsboard_app/core/routes/router.dart';
 
 class NoAuthRoutes extends TbRoutes {
   NoAuthRoutes(super.tbContext);

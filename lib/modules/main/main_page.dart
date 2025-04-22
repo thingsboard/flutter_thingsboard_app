@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/features/layouts/bloc/layouts_bloc.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/layout_pages/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/main/tb_navigation_bar_widget.dart';
-import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/services/legacy/i_legacy_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
+import 'package:thingsboard_app/services/notification_service.dart';
 import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class MainPage extends TbPageWidget {
-  MainPage(super.tbContext, {super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
 }
 
-class _MainPageState extends TbPageState<MainPage>
+class _MainPageState extends State<MainPage>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final _currentIndexNotifier = ValueNotifier(0);
   late TabController _tabController;
@@ -24,12 +24,9 @@ class _MainPageState extends TbPageState<MainPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LayoutPagesBloc>(
-      create: (_) => LayoutPagesBloc(
-        layoutService: getIt<ILayoutService>(),
-        tbContext: tbContext,
-      )..add(BottomBarFetchEvent(context)),
-      child: BlocBuilder<LayoutPagesBloc, LayoutPagesState>(
+    return BlocProvider<LayoutsBloc>(
+      create: (_) => LayoutsBloc.create()..add(BottomBarFetchEvent(context)),
+      child: BlocBuilder<LayoutsBloc, LayoutsState>(
         builder: (context, state) {
           switch (state) {
             case BottomBarDataState():
@@ -48,7 +45,7 @@ class _MainPageState extends TbPageState<MainPage>
                 builder: (context, orientation) {
                   if (this.orientation != orientation) {
                     this.orientation = orientation;
-                    context.read<LayoutPagesBloc>().add(
+                    context.read<LayoutsBloc>().add(
                           BottomBarOrientationChangedEvent(
                             orientation,
                             MediaQuery.of(context).size,
@@ -91,7 +88,10 @@ class _MainPageState extends TbPageState<MainPage>
       context.hideNotifications();
       _tabController.index = index;
       _currentIndexNotifier.value = index;
-      tbContext.bottomNavigationTabChangedStream.add(index);
+      getIt<ILegacyService>()
+          .tbContext
+          .bottomNavigationTabChangedStream
+          .add(index);
     }
   }
 
@@ -100,7 +100,12 @@ class _MainPageState extends TbPageState<MainPage>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       orientation = MediaQuery.of(context).orientation;
-      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
+      final tbContext = getIt<ILegacyService>().tbContext;
+      NotificationService(
+        tbContext.tbClient,
+        getIt<ILoggerService>(),
+        tbContext,
+      ).updateNotificationsCount();
     });
 
     super.initState();
@@ -109,7 +114,12 @@ class _MainPageState extends TbPageState<MainPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      NotificationService(tbClient, log, tbContext).updateNotificationsCount();
+      final tbContext = getIt<ILegacyService>().tbContext;
+      NotificationService(
+        tbContext.tbClient,
+        getIt<ILoggerService>(),
+        tbContext,
+      ).updateNotificationsCount();
     }
   }
 

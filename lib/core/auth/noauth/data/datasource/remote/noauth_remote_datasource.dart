@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/datasource/remote/i_noauth_remote_datasource.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
@@ -14,7 +14,7 @@ class NoAuthRemoteDatasource implements INoAuthRemoteDatasource {
   });
 
   final ThingsboardClient thingsboardClient;
-  final TbLogger tbLogger;
+  final ILoggerService tbLogger;
   final TbContext tbContext;
 
   @override

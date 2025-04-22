@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/routes/router.dart';
 import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
 import 'package:thingsboard_app/modules/version/view/update_required_page.dart';
 

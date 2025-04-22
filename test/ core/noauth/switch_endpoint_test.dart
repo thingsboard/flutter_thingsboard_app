@@ -5,11 +5,12 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
+import 'package:thingsboard_app/services/logger/tb_logger_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 
 import '../../mocks.dart';
 
@@ -53,7 +54,7 @@ void main() {
       (_) => Future.value(true),
     );
 
-    getIt.registerLazySingleton(() => TbLogger());
+    getIt.registerLazySingleton<ILoggerService>(() => TbLoggerService());
     getIt.registerLazySingleton<IFirebaseService>(() => firebaseService);
     getIt.registerLazySingleton<IEndpointService>(() => endpointService);
 

@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/routes/router.dart';
 import 'package:thingsboard_app/modules/asset/assets_page.dart';
 
 import 'asset_details_page.dart';

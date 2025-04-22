@@ -35,7 +35,6 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         title: Text(S.of(context).updateRequired),
         leading: null,
         canGoBack: false,

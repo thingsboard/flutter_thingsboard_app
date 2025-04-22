@@ -32,12 +32,10 @@ class _AssetsPageState extends TbContextState<AssetsPage> {
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        tbContext,
         title: Text(assetsList.title),
         actions: [
           IconButton(

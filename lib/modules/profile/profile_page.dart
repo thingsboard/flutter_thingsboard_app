@@ -6,22 +6,20 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/profile/change_password_page.dart';
+import 'package:thingsboard_app/services/user/i_user_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
-import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/ui/tost_notifications_extension.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ProfilePage extends TbPageWidget {
-  final bool _fullscreen;
-
   ProfilePage(
     TbContext tbContext, {
     bool fullscreen = false,
     super.key,
   })  : _fullscreen = fullscreen,
         super(tbContext);
+  final bool _fullscreen;
 
   @override
   State<StatefulWidget> createState() => _ProfilePageState();
@@ -45,7 +43,6 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TbAppBar(
-        tbContext,
         title: const Text('Profile'),
         actions: [
           IconButton(
@@ -173,11 +170,9 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         try {
           _currentUser =
               await tbClient.getUserService().saveUser(_currentUser!);
-          getIt<ICommunicationService>().fire(
-            UserInfoChangedEvent(
-              user: _currentUser,
-              authUser: tbClient.getAuthUser(),
-            ),
+          getIt<IUserService>().setUser(
+            _currentUser!,
+            authUser: tbClient.getAuthUser()!,
           );
           _setUser();
           await Future.delayed(const Duration(milliseconds: 300));

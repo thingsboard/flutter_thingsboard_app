@@ -185,5 +185,10 @@
   "claimingDevice": "Claiming device",
   "claimingDeviceDone": "Device claiming done",
   "claimingMessageSuccess": "Device has been\nsuccessfully claimed",
-  "openAppSettingsToGrantPermissionMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\"."
+  "openAppSettingsToGrantPermissionMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\".",
+  "fatalErrorTitle": "Fatal error",
+  "fatalErrorMessage": "Fatal application error occurred: {message}",
+  "unknownError": "Unknown error",
+  "scanQrCode": "Scan QR code",
+  "loginWith": "Login with"
 }

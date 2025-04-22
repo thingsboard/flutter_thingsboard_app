@@ -33,7 +33,6 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TbAppBar(
-        tbContext,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

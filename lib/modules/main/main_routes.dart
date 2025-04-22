@@ -1,18 +1,15 @@
 import 'package:fluro/fluro.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/routes/i_tb_routes.dart';
 import 'package:thingsboard_app/modules/main/main_page.dart';
 
-class MainRoutes extends TbRoutes {
-  MainRoutes(TbContext tbContext) : super(tbContext);
-
+class MainRoutes implements ITbRoutes {
   @override
-  void doRegisterRoutes(router) {
+  void registerRoutes(FluroRouter router) {
     router.define(
       '/main',
       handler: Handler(
         handlerFunc: (context, params) {
-          return MainPage(tbContext);
+          return const MainPage();
         },
       ),
     );

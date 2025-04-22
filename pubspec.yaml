@@ -59,7 +59,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
-  event_bus: ^2.0.0
+  event_bus_plus: ^0.6.2
   google_fonts: ^6.2.1
   expandable: ^5.0.1
   focused_menu: ^1.0.5
@@ -73,6 +73,7 @@ dependencies:
     git:
       url: git@github.com:ybeshkarov/plugin_wifi_connect.git
   toastification: ^2.3.0
+  freezed_annotation: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -80,9 +81,10 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   mocktail: ^1.0.3
   bloc_test: ^9.1.7
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
   hive_generator: ^2.0.1
-  build_runner: ^2.4.9
+  build_runner: ^2.4.15
+  freezed:  ^2.3.2
 
 dependency_overrides:
   logger: ^2.5.0

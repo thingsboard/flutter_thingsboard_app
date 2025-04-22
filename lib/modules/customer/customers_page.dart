@@ -28,12 +28,10 @@ class _CustomersPageState extends TbContextState<CustomersPage> {
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        tbContext,
         title: Text(customersList.title),
         actions: [
           IconButton(

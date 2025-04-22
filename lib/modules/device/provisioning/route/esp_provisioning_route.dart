@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/core/routes/router.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/view/eps_ble_provisioning_view.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/view/esp_softap_view.dart';
 

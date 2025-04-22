@@ -48,7 +48,6 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch: (searchText) =>
             _deviceQueryController.onSearchText(searchText),
       );
@@ -91,7 +90,6 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
       );
 
       appBar = TbAppBar(
-        tbContext,
         title: title,
         actions: [
           IconButton(

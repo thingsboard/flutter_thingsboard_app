@@ -29,13 +29,11 @@ class _AuditLogsPageState extends TbContextState<AuditLogsPage> {
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch: (searchText) =>
             _timePageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        tbContext,
         title: Text(auditLogsList.title),
         actions: [
           IconButton(

@@ -32,7 +32,6 @@ class _VersionSingleState extends TbContextState<VersionSingleWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         title: Text(S.of(context).updateRequired),
         leading: null,
         canGoBack: false,

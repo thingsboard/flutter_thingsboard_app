@@ -31,7 +31,6 @@ class _DevicesMainPageState extends TbContextState<DevicesMainPage>
 
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         title: Text(deviceProfilesList.title),
       ),
       body: deviceProfilesList,

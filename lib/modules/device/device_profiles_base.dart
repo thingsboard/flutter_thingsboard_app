@@ -8,9 +8,9 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/services/device_profile_cache.dart';
+import 'package:thingsboard_app/services/entity_query_api.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
-import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
@@ -322,7 +322,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     BoxFit imageFit;
     double padding;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, tbClient, entity.image!);
+      image = Utils.imageFromTbImage(context, entity.image!);
       imageFit = BoxFit.contain;
       padding = 8;
     } else {

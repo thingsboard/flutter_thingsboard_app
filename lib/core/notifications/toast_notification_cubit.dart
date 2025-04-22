@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/utils/services/toast_notification/i_toast_notification_service.dart';
+import 'package:thingsboard_app/services/toast_notification/i_toast_notification_service.dart';
 
 class ToastNotificationCubit extends Cubit<void> {
   ToastNotificationCubit(this.toastNotificationService) : super(null);

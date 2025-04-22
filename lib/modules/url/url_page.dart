@@ -31,7 +31,6 @@ class _UrlPageState extends TbContextState<UrlPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         title: ValueListenableBuilder(
           valueListenable: titleNotifier,
           builder: (context, title, _) {

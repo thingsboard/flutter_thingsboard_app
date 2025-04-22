@@ -3,13 +3,12 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
-import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
-import 'package:thingsboard_app/utils/services/provisioning/eps_ble/i_wifi_provisioning_service.dart';
+import 'package:thingsboard_app/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
+import 'package:thingsboard_app/services/provisioning/eps_ble/i_wifi_provisioning_service.dart';
 
 class EspBleProvisioningBloc
     extends Bloc<EspBleProvisioningEvent, EspBleProvisioningState> {
@@ -34,14 +33,14 @@ class EspBleProvisioningBloc
     return EspBleProvisioningBloc(
       bleProvisioningService: getIt<IBleProvisioningService>(),
       communicationService: getIt<ICommunicationService>(),
-      logger: getIt<TbLogger>(),
+      logger: getIt<ILoggerService>(),
       androidSdkVersion: androidSdkVersion,
     );
   }
 
   final IBleProvisioningService bleProvisioningService;
   final ICommunicationService communicationService;
-  final TbLogger logger;
+  final ILoggerService logger;
   final int? androidSdkVersion;
   late final StreamSubscription subscription;
 

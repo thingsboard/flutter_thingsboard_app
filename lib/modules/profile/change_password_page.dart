@@ -29,7 +29,6 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TbAppBar(
-        tbContext,
         title: Text(S.of(context).changePassword),
       ),
       body: Stack(

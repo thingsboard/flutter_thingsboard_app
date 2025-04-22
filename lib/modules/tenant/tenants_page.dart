@@ -29,12 +29,10 @@ class _TenantsPageState extends TbPageState<TenantsPage> {
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        tbContext,
         title: Text(tenantsList.title),
         actions: [
           IconButton(

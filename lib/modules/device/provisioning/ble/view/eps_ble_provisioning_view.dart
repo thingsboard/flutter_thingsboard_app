@@ -58,7 +58,6 @@ class _EspBleProvisioningViewState
               }
 
               return TbAppBar(
-                tbContext,
                 title: Text(
                   () {
                     switch (state) {

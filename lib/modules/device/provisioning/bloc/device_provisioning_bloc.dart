@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plugin_wifi_connect/plugin_wifi_connect.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
+import 'package:thingsboard_app/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
-import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 
 class DeviceProvisioningBloc
     extends Bloc<DeviceProvisioningEvent, DeviceProvisioningState> {
@@ -64,13 +63,13 @@ class DeviceProvisioningBloc
         mustReconnectToWifiBeforeClaiming: mustReconnectToWifiBeforeClaiming,
         ssid: ssid,
         wifiPassword: wifiPassword,
-        logger: getIt<TbLogger>(),
+        logger: getIt<ILoggerService>(),
       );
 
   final ICommunicationService communicationService;
   late final StreamSubscription subscription;
   final ThingsboardClient tbClient;
-  final TbLogger logger;
+  final ILoggerService logger;
 
   /// Claiming data
   final String deviceName;

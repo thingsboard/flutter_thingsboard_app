@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/services/tb_client/i_tb_client_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
 abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
@@ -68,7 +69,6 @@ abstract class Utils {
 
   static Widget imageFromTbImage(
     BuildContext context,
-    ThingsboardClient tbClient,
     String? imageUrl, {
     Color? color,
     double? width,
@@ -88,7 +88,7 @@ abstract class Utils {
     } else {
       imageUrl = _removeTbImagePrefix(imageUrl);
       if (_isImageResourceUrl(imageUrl)) {
-        var jwtToken = tbClient.getJwtToken();
+        var jwtToken = getIt<ITbClientService>().getJwtToken();
         if (jwtToken == null) {
           return _onErrorImage(
             context,

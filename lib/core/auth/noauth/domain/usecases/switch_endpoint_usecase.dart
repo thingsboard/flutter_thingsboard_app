@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
 
 final class SwitchEndpointParams {
@@ -32,7 +32,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
 
   final INoAuthRepository repository;
 
-  final TbLogger logger;
+  final ILoggerService logger;
   late final StreamController<String> _progressSteamCtrl;
 
   Stream<String> get stream => _progressSteamCtrl.stream;

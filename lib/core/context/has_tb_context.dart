@@ -27,9 +27,7 @@ mixin HasTbContext {
 
   TbContext get tbContext => _tbContext;
 
-  TbLogger get log => _tbContext.log;
-
-  bool get isPhysicalDevice => _tbContext.isPhysicalDevice();
+  ILoggerService get log => _tbContext.log;
 
   WidgetActionHandler get widgetActionHandler => _tbContext.widgetActionHandler;
 

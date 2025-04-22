@@ -23,7 +23,6 @@ class _DevicesPageState extends TbPageState<DevicesPage> {
     );
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
         title: Text(deviceProfilesList.title),
       ),
       body: deviceProfilesList,

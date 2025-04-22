@@ -4,14 +4,13 @@ import 'dart:io';
 import 'package:esp_provisioning_softap/esp_provisioning_softap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plugin_wifi_connect/plugin_wifi_connect.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart'
     show DeviceProvisioningStatus;
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
-import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
-import 'package:thingsboard_app/utils/services/provisioning/soft_ap/i_soft_ap_service.dart';
+import 'package:thingsboard_app/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
+import 'package:thingsboard_app/services/provisioning/soft_ap/i_soft_ap_service.dart';
 
 class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   EspSoftApBloc({
@@ -35,8 +34,6 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
       }
     });
 
-    // PluginWifiConnect.connect(deviceName);
-
     if (Platform.isIOS) {
       add(const EspSoftApAutoConnectToDeviceWifi());
     }
@@ -47,9 +44,9 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
     required String pop,
   }) {
     return EspSoftApBloc(
-      softApService: getIt<ISoftApService>(),
-      logger: getIt<TbLogger>(),
-      communicationService: getIt<ICommunicationService>(),
+      softApService: getIt(),
+      logger: getIt(),
+      communicationService: getIt(),
       deviceName: deviceName,
       pop: pop,
     );
@@ -57,7 +54,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
 
   final ISoftApService softApService;
   late Provisioning provisioning;
-  final TbLogger logger;
+  final ILoggerService logger;
   final ICommunicationService communicationService;
   final String deviceName;
   final String pop;
@@ -216,9 +213,6 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
               DeviceProvisioningStatus.fail,
             ),
           );
-        } finally {
-          // await provisioning.dispose();
-          // await Future.delayed(const Duration(seconds: 5));
         }
 
         break;

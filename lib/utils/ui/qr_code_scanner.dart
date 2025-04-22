@@ -3,17 +3,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/utils/ui/build_context_extension.dart';
 
-class QrCodeScannerPage extends TbContextWidget {
-  QrCodeScannerPage(TbContext tbContext, {super.key}) : super(tbContext);
+class QrCodeScannerPage extends StatefulWidget {
+  const QrCodeScannerPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _QrCodeScannerPageState();
 }
 
-class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
+class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
   Timer? simulatedQrTimer;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -114,7 +113,7 @@ class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
+      onQRViewCreated: (ctrl) => _onQRViewCreated(ctrl, context: context),
       overlay: QrScannerOverlayShape(
         borderColor: Colors.red,
         borderRadius: 10,
@@ -125,18 +124,17 @@ class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  void _onQRViewCreated(
+    QRViewController controller, {
+    required BuildContext context,
+  }) {
     setState(() {
       this.controller = controller;
     });
-    if (isPhysicalDevice) {
-      controller.scannedDataStream.take(1).listen((scanData) {
-        pop(scanData);
-      });
-    } else {
-      simulatedQrTimer = Timer(const Duration(seconds: 3), () {
-        pop(Barcode('test code', BarcodeFormat.qrcode, null));
-      });
-    }
+    controller.scannedDataStream.take(1).listen((scanData) {
+      if (context.mounted) {
+        context.pop(scanData);
+      }
+    });
   }
 }

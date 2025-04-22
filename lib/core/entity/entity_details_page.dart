@@ -15,7 +15,6 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
   final String _defaultTitle;
   final String _entityId;
   final String? _subTitle;
-  final bool _showLoadingIndicator;
   final bool _hideAppBar;
   final double? _appBarElevation;
 
@@ -31,7 +30,6 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
   })  : _defaultTitle = defaultTitle,
         _entityId = entityId,
         _subTitle = subTitle,
-        _showLoadingIndicator = showLoadingIndicator,
         _hideAppBar = hideAppBar,
         _appBarElevation = appBarElevation,
         super(tbContext);
@@ -77,8 +75,6 @@ class _EntityDetailsPageState<T extends BaseData>
       appBar: widget._hideAppBar
           ? null
           : TbAppBar(
-              tbContext,
-              showLoadingIndicator: widget._showLoadingIndicator,
               elevation: widget._appBarElevation,
               title: ValueListenableBuilder<String>(
                 valueListenable: titleValue,

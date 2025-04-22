@@ -23,6 +23,9 @@ linter:
   rules:
      require_trailing_commas: true
      prefer_single_quotes: true
+     cancel_subscriptions: true
+     prefer_const_constructors_in_immutables: true
+     sort_constructors_first: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

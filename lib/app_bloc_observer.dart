@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/services/logger/i_logger_service.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver(this.logger);
 
-  final TbLogger logger;
+  final ILoggerService logger;
 
   @override
   void onCreate(BlocBase bloc) {

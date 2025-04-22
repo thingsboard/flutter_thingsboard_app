@@ -53,7 +53,6 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
               }
 
               return TbAppBar(
-                tbContext,
                 title: Text(
                   () {
                     switch (state) {

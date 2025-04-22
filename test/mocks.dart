@@ -1,8 +1,8 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/services/endpoint/endpoint_service.dart';
+import 'package:thingsboard_app/services/firebase/firebase_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/firebase_service.dart';
 
 class MockTbContext extends Mock implements TbContext {}
 
