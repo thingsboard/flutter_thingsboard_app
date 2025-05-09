@@ -1,0 +1,27 @@
+{
+  "project_info": {
+    "project_number": "723748549577",
+    "project_id": "thingsboard-iot-a8a27",
+    "storage_bucket": "thingsboard-iot-a8a27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "mobilesdk_app_id": "1:723748549577:android:802fbecf7c0a95bbd5ae18",
+      "android_client_info": {
+        "package_name": "org.thingsboard.pe.app"
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5qvuon2_ChshOuVHD1bI67ku2EKusP10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

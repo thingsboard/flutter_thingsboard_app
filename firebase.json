@@ -1,0 +1,25 @@
+{
+  "flutter": {
+	"platforms": {
+	  "android": {
+		"default": {
+		  "projectId": "thingsboard-iot-a8a27",
+		  "appId": "1:723748549577:android:eafab6b90ec49c80d5ae18",
+		  "fileOutput": "android/app/google-services.json"
+		}
+	  },
+	  "dart": {
+		"lib/firebase_options.dart": {
+		  "projectId": "thingsboard-iot-a8a27",
+		  "configurations": {
+			"android": "1:723748549577:android:eafab6b90ec49c80d5ae18",
+			"ios": "1:723748549577:ios:2cf382963787f027d5ae18",
+			"web": "1:723748549577:web:e00a904168f6b26dd5ae18"
+		  }
+		}
+	  }
+	}
+  }
+}
+
+
