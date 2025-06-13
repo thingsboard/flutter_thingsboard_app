@@ -390,14 +390,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  esp_smartconfig:
-    dependency: "direct main"
-    description:
-      name: esp_smartconfig
-      sha256: "511ab3fee7caebcf329e4c33f1685f07c607eeedf5879a028ad4eadde7edeafe"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.4"
   event_bus:
     dependency: "direct main"
     description:
@@ -827,7 +819,7 @@ packages:
     source: hosted
     version: "12.0.0"
   geolocator_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: geolocator_android
       sha256: "7aefc530db47d90d0580b552df3242440a10fe60814496a979aa67aa98b1fd47"
@@ -962,6 +954,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  iconsax_flutter:
+    dependency: transitive
+    description:
+      name: iconsax_flutter
+      sha256: d14b4cec8586025ac15276bdd40f6eea308cb85748135965bb6255f14beb2564
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   image:
     dependency: transitive
     description:
@@ -1146,14 +1146,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
-  loggerx:
-    dependency: transitive
-    description:
-      name: loggerx
-      sha256: cad8587f15508f1b8a7ce72244ca6033f480b784289e9b3e9b69cf7f3b4552c9
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   logging:
     dependency: transitive
     description:
@@ -1242,6 +1234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  open_settings_plus:
+    dependency: "direct main"
+    description:
+      name: open_settings_plus
+      sha256: "7576f0922a650dd5d9c128235cb7537e56a99a5f3ac0943a4a07613cc25c4582"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   package_config:
     dependency: transitive
     description:
@@ -1330,6 +1330,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  pausable_timer:
+    dependency: transitive
+    description:
+      name: pausable_timer
+      sha256: "6ef1a95441ec3439de6fb63f39a011b67e693198e7dae14e20675c3c00e86074"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+3"
   permission_handler:
     dependency: "direct main"
     description:
@@ -1402,6 +1410,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  plugin_wifi_connect:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: a2df1b11c699159bd7360470ef77c17bfdd47a85
+      url: "https://github.com/thingsboard/flutter_wifi_connect"
+    source: git
+    version: "1.0.3"
   pointycastle:
     dependency: transitive
     description:
@@ -1643,10 +1660,10 @@ packages:
     dependency: "direct main"
     description:
       name: thingsboard_client
-      sha256: "7dcd341994e3b270438f6a1b660034c7709eff719166d81e20bc05ff6bc0c249"
+      sha256: "0914b59fde780e247cab2df8722c5ab235e1ffece7fc3a3cb86c1d178408becc"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.0"
   timeago:
     dependency: "direct main"
     description:
@@ -1671,6 +1688,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  toastification:
+    dependency: "direct main"
+    description:
+      name: toastification
+      sha256: "4d97fbfa463dfe83691044cba9f37cb185a79bb9205cfecb655fa1f6be126a13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   typed_data:
     dependency: transitive
     description:
@@ -1847,6 +1872,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  wifi_scan:
+    dependency: "direct main"
+    description:
+      name: wifi_scan
+      sha256: "78896ea3db8838769053accd47cab02a62ead6480557e235295320603f84c9c7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1+2"
   win32:
     dependency: transitive
     description:

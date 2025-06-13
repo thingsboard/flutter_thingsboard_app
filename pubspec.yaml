@@ -71,7 +71,7 @@ dependencies:
   open_settings_plus: ^0.4.0
   plugin_wifi_connect:
     git:
-      url: git@github.com:ybeshkarov/plugin_wifi_connect.git
+      url: https://github.com/thingsboard/flutter_wifi_connect
   toastification: ^2.3.0
 
 dev_dependencies:
