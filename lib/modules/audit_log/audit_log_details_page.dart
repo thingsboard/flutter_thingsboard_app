@@ -116,7 +116,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             shape: BoxShape.rectangle,
           ),
           child: SingleChildScrollView(
-            child: Text(
+            child: SelectableText(
               content,
               style: const TextStyle(
                 color: Color(0xFF282828),
