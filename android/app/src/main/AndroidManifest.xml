@@ -105,7 +105,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="org.thingsboard.app.auth" />
+                <data android:scheme="${authScheme}" />
             </intent-filter>
         </activity>
 

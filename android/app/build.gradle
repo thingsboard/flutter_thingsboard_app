@@ -11,7 +11,18 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
+def getDartDefineValue = { key ->
+    def dartDefines = [:]
+    if (project.hasProperty('dart-defines')) {
+        dartDefines = project.property('dart-defines')
+            .split(',')
+            .collectEntries { entry ->
+                def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+                [(pair.first()): pair.last()]
+            }
+    }
+    return dartDefines[key]
+}
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -21,7 +32,7 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
+def customScheme = getDartDefineValue('thingsboardOAuth2CallbackUrlScheme') ?: 'org.thingsboard.app.auth'
 android {
     compileSdkVersion 34
 
@@ -31,11 +42,14 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "org.thingsboard.app"
+        applicationId getDartDefineValue('androidApplicationId')  
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+    authScheme: customScheme
+]
     }
 
     buildTypes {
