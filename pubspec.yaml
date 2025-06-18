@@ -73,6 +73,7 @@ dependencies:
     git:
       url: https://github.com/thingsboard/flutter_wifi_connect
   toastification: ^2.3.0
+  file_picker: ^9.0.0
 
 dev_dependencies:
   flutter_test:

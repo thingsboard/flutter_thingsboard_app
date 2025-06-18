@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -38,7 +39,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
 
   late final DashboardController dashboardController;
   late WebUri _initialUrl;
-
+final _exportModule =  TbDashboardExportModule();
   final settings = InAppWebViewSettings(
     isInspectable: kDebugMode || EnvironmentVariables.verbose,
     useShouldOverrideUrlLoading: true,
@@ -62,111 +63,10 @@ class _DashboardState extends TbContextState<DashboardWidget> {
     return Stack(
       children: [
         InAppWebView(
+            onDownloadStartRequest: _exportModule.onDownloadStartRequest,
           initialUrlRequest: URLRequest(url: _initialUrl),
           initialSettings: settings,
-          onWebViewCreated: (webViewController) {
-            log.debug('onWebViewCreated');
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileReadyHandler',
-              callback: (_) async {
-                log.debug('Invoked tbMobileReadyHandler');
-
-                dashboardController.setWebViewController(webViewController);
-                widget.controllerCallback(
-                  dashboardController,
-                  dashboardLoading,
-                );
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileDashboardLoadedHandler',
-              callback: (args) async {
-                bool hasRightLayout = args[0];
-                bool rightLayoutOpened = args[1];
-                log.debug(
-                  'Invoked tbMobileDashboardLoadedHandler: '
-                  'hasRightLayout: $hasRightLayout, '
-                  'rightLayoutOpened: $rightLayoutOpened',
-                );
-                dashboardController.onHasRightLayout(hasRightLayout);
-                dashboardController.onRightLayoutOpened(rightLayoutOpened);
-                dashboardLoading.value = false;
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileDashboardLayoutHandler',
-              callback: (args) async {
-                bool rightLayoutOpened = args[0];
-                log.debug(
-                  'Invoked tbMobileDashboardLayoutHandler: '
-                  'rightLayoutOpened: $rightLayoutOpened',
-                );
-                dashboardController.onRightLayoutOpened(rightLayoutOpened);
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileDashboardStateNameHandler',
-              callback: (args) async {
-                log.debug(
-                  'Invoked tbMobileDashboardStateNameHandler: $args',
-                );
-                if (args.isNotEmpty && args[0] is String) {
-                  if (widget.titleCallback != null) {
-                    widget.titleCallback!(args[0]);
-                  }
-                }
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileNavigationHandler',
-              callback: (args) async {
-                log.debug(
-                  'Invoked tbMobileNavigationHandler: $args',
-                );
-                if (args.isNotEmpty) {
-                  late String path;
-
-                  if (args.first.contains('.')) {
-                    path =
-                        '/${args.first.split('.').first}/${args.first.split('.').last}';
-                  } else {
-                    path = '/${args.first}';
-                  }
-
-                  Map<String, dynamic>? params;
-                  if (args.length > 1) {
-                    params = args[1];
-                  }
-
-                  log.debug('path: $path');
-                  log.debug('params: $params');
-                  try {
-                    await dashboardController.tryLocalNavigation(
-                      path,
-                      home: widget.home,
-                    );
-                  } on UnimplementedError catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        _buildWarnSnackBar(e.message!),
-                      );
-                    }
-                  }
-                }
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileHandler',
-              callback: (args) async {
-                log.debug('Invoked tbMobileHandler: $args');
-                return await widget.tbContext.widgetActionHandler
-                    .handleWidgetMobileAction(
-                  args,
-                  webViewController,
-                );
-              },
-            );
-          },
+          onWebViewCreated: _onWebViewCreated,
           shouldOverrideUrlLoading: (controller, navigationAction) async {
             final uri = navigationAction.request.url!;
             final uriString = uri.toString();
@@ -290,6 +190,141 @@ class _DashboardState extends TbContextState<DashboardWidget> {
     dashboardLoading.dispose();
     dashboardController.dispose();
     super.dispose();
+  }
+
+  Future<void> _onWebViewCreated(
+    InAppWebViewController webViewController,
+  ) async {
+    log.debug('onWebViewCreated');
+    _exportModule.injectFileDownloadHandler(webViewController);
+    _injectTbMobileReadyHandler(webViewController);
+    _injectTbMobileDashboardLoadedHandler(webViewController);
+    _injectTbMobileDashboardLayoutHandler(webViewController);
+    _injectTbMobileDashboardStateNameHandler(webViewController);
+    _injectTbMobileNavigationHandler(webViewController);
+    _injectTbMobileHandler(webViewController);
+  }
+
+  void _injectTbMobileHandler(InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileHandler',
+      callback: (args) async {
+        log.debug('Invoked tbMobileHandler: $args');
+        return await widget.tbContext.widgetActionHandler
+            .handleWidgetMobileAction(
+          args,
+          webViewController,
+        );
+      },
+    );
+  }
+
+  void _injectTbMobileNavigationHandler(
+      InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileNavigationHandler',
+      callback: (args) async {
+        log.debug(
+          'Invoked tbMobileNavigationHandler: $args',
+        );
+        if (args.isNotEmpty) {
+          late String path;
+
+          if (args.first.contains('.')) {
+            path =
+                '/${args.first.split('.').first}/${args.first.split('.').last}';
+          } else {
+            path = '/${args.first}';
+          }
+
+          Map<String, dynamic>? params;
+          if (args.length > 1) {
+            params = args[1];
+          }
+
+          log.debug('path: $path');
+          log.debug('params: $params');
+          try {
+            await dashboardController.tryLocalNavigation(
+              path,
+              home: widget.home,
+            );
+          } on UnimplementedError catch (e) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                _buildWarnSnackBar(e.message!),
+              );
+            }
+          }
+        }
+      },
+    );
+  }
+
+  void _injectTbMobileDashboardStateNameHandler(
+      InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileDashboardStateNameHandler',
+      callback: (args) async {
+        log.debug(
+          'Invoked tbMobileDashboardStateNameHandler: $args',
+        );
+        if (args.isNotEmpty && args[0] is String) {
+          if (widget.titleCallback != null) {
+            widget.titleCallback!(args[0]);
+          }
+        }
+      },
+    );
+  }
+
+  void _injectTbMobileDashboardLayoutHandler(
+      InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileDashboardLayoutHandler',
+      callback: (args) async {
+        bool rightLayoutOpened = args[0];
+        log.debug(
+          'Invoked tbMobileDashboardLayoutHandler: '
+          'rightLayoutOpened: $rightLayoutOpened',
+        );
+        dashboardController.onRightLayoutOpened(rightLayoutOpened);
+      },
+    );
+  }
+
+  void _injectTbMobileDashboardLoadedHandler(
+      InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileDashboardLoadedHandler',
+      callback: (args) async {
+        bool hasRightLayout = args[0];
+        bool rightLayoutOpened = args[1];
+        log.debug(
+          'Invoked tbMobileDashboardLoadedHandler: '
+          'hasRightLayout: $hasRightLayout, '
+          'rightLayoutOpened: $rightLayoutOpened',
+        );
+        dashboardController.onHasRightLayout(hasRightLayout);
+        dashboardController.onRightLayoutOpened(rightLayoutOpened);
+        dashboardLoading.value = false;
+      },
+    );
+  }
+
+  void _injectTbMobileReadyHandler(InAppWebViewController webViewController) {
+    webViewController.addJavaScriptHandler(
+      handlerName: 'tbMobileReadyHandler',
+      callback: (_) async {
+        log.debug('Invoked tbMobileReadyHandler');
+
+        dashboardController.setWebViewController(webViewController);
+        widget.controllerCallback(
+          dashboardController,
+          dashboardLoading,
+        );
+      },
+    );
   }
 
   SnackBar _buildWarnSnackBar(String message) {
