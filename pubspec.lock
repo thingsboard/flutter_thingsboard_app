@@ -2089,7 +2089,7 @@ packages:
     source: hosted
     version: "14.2.5"
   wakelock_plus:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: wakelock_plus
       sha256: a474e314c3e8fb5adef1f9ae2d247e57467ad557fa7483a2b895bc1b421c5678
