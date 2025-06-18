@@ -286,110 +286,118 @@ class _LoginPageState extends TbPageState<LoginPage>
                                         ],
                                       ),
                                     ),
-                                    FormBuilder(
-                                      key: _loginFormKey,
-                                      autovalidateMode:
-                                          AutovalidateMode.disabled,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          FormBuilderTextField(
-                                            name: 'username',
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            validator:
-                                                FormBuilderValidators.compose(
-                                              [
-                                                FormBuilderValidators.required(
-                                                  errorText: S
-                                                      .of(context)
-                                                      .emailRequireText,
-                                                ),
-                                                FormBuilderValidators.email(
-                                                  errorText: S
-                                                      .of(context)
-                                                      .emailInvalidText,
-                                                ),
+                                    AutofillGroup(
+                                      child: FormBuilder(
+                                        key: _loginFormKey,
+                                        autovalidateMode:
+                                            AutovalidateMode.disabled,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            FormBuilderTextField(
+                                              autofillHints: const [
+                                                AutofillHints.email,
                                               ],
-                                            ),
-                                            decoration: InputDecoration(
-                                              border:
-                                                  const OutlineInputBorder(),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.black
-                                                      .withOpacity(.12),
-                                                ),
-                                              ),
-                                              labelText: S.of(context).email,
-                                              labelStyle: TbTextStyles.bodyLarge
-                                                  .copyWith(
-                                                color: Colors.black
-                                                    .withOpacity(.54),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 24),
-                                          ValueListenableBuilder(
-                                            valueListenable:
-                                                _showPasswordNotifier,
-                                            builder: (
-                                              BuildContext context,
-                                              bool showPassword,
-                                              child,
-                                            ) {
-                                              return FormBuilderTextField(
-                                                name: 'password',
-                                                obscureText: !showPassword,
-                                                validator: FormBuilderValidators
-                                                    .compose(
-                                                  [
-                                                    FormBuilderValidators
-                                                        .required(
-                                                      errorText: S
-                                                          .of(context)
-                                                          .passwordRequireText,
-                                                    ),
-                                                  ],
-                                                ),
-                                                decoration: InputDecoration(
-                                                  suffixIcon: IconButton(
-                                                    icon: Icon(
-                                                      showPassword
-                                                          ? Icons.visibility
-                                                          : Icons
-                                                              .visibility_off,
-                                                    ),
-                                                    onPressed: () {
-                                                      _showPasswordNotifier
-                                                              .value =
-                                                          !_showPasswordNotifier
-                                                              .value;
-                                                    },
+                                              name: 'username',
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              validator:
+                                                  FormBuilderValidators.compose(
+                                                [
+                                                  FormBuilderValidators.required(
+                                                    errorText: S
+                                                        .of(context)
+                                                        .emailRequireText,
                                                   ),
-                                                  border:
-                                                      const OutlineInputBorder(),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color: Colors.black
-                                                          .withOpacity(.12),
-                                                    ),
+                                                  FormBuilderValidators.email(
+                                                    errorText: S
+                                                        .of(context)
+                                                        .emailInvalidText,
                                                   ),
-                                                  labelText:
-                                                      S.of(context).password,
-                                                  labelStyle: TbTextStyles
-                                                      .bodyLarge
-                                                      .copyWith(
+                                                ],
+                                              ),
+                                              decoration: InputDecoration(
+                                                border:
+                                                    const OutlineInputBorder(),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
                                                     color: Colors.black
-                                                        .withOpacity(.54),
+                                                        .withOpacity(.12),
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                                labelText: S.of(context).email,
+                                                labelStyle: TbTextStyles.bodyLarge
+                                                    .copyWith(
+                                                  color: Colors.black
+                                                      .withOpacity(.54),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                            ValueListenableBuilder(
+                                              valueListenable:
+                                                  _showPasswordNotifier,
+                                              builder: (
+                                                BuildContext context,
+                                                bool showPassword,
+                                                child,
+                                              ) {
+                                                return FormBuilderTextField(
+                                                   autofillHints: const [
+                                                    AutofillHints.password,
+                                                  ],
+                                                  name: 'password',
+                                                  obscureText: !showPassword,
+                                                  validator: FormBuilderValidators
+                                                      .compose(
+                                                    [
+                                                      FormBuilderValidators
+                                                          .required(
+                                                        errorText: S
+                                                            .of(context)
+                                                            .passwordRequireText,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(
+                                                        showPassword
+                                                            ? Icons.visibility
+                                                            : Icons
+                                                                .visibility_off,
+                                                      ),
+                                                      onPressed: () {
+                                                        _showPasswordNotifier
+                                                                .value =
+                                                            !_showPasswordNotifier
+                                                                .value;
+                                                      },
+                                                    ),
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black
+                                                            .withOpacity(.12),
+                                                      ),
+                                                    ),
+                                                    labelText:
+                                                        S.of(context).password,
+                                                    labelStyle: TbTextStyles
+                                                        .bodyLarge
+                                                        .copyWith(
+                                                      color: Colors.black
+                                                          .withOpacity(.54),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 10),
