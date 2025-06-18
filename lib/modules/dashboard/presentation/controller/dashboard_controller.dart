@@ -122,6 +122,10 @@ class DashboardController {
     canGoBack.dispose();
     hasRightLayout.dispose();
     rightLayoutOpened.dispose();
-    controller?.dispose();
+    try {
+      controller?.dispose();
+    } catch (e) {
+      tbContext.log.error('Error during dispose: $e');
+    }
   }
 }
