@@ -20,12 +20,13 @@ class NotificationIcon extends StatelessWidget {
       if (hexColor.length == 6) {
         hexColor = 'FF$hexColor';
       }
-
       if (hexColor.length == 8) {
-        final value = int.tryParse('0x$hexColor');
-        if (value != null) {
-          return Color(value);
-        }
+        final alpha = hexColor.substring(6, 8);
+        hexColor = '$alpha${hexColor.substring(0, 6)}';
+      }
+      final value = int.tryParse(hexColor, radix: 16);
+      if (value != null) {
+        return Color(value);
       }
     }
 
