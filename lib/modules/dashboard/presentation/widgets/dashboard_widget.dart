@@ -10,6 +10,7 @@ import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -210,7 +211,7 @@ final _exportModule =  TbDashboardExportModule();
       handlerName: 'tbMobileHandler',
       callback: (args) async {
         log.debug('Invoked tbMobileHandler: $args');
-        return await widget.tbContext.widgetActionHandler
+        return await getIt<WidgetActionHandler>()
             .handleWidgetMobileAction(
           args,
           webViewController,

@@ -3,6 +3,7 @@ import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_p
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_query_ctrl.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/usecases/fetch_dashboards_usecase.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 
 abstract class DashboardsDi {
   static void init(
@@ -15,7 +16,9 @@ abstract class DashboardsDi {
         locator.registerLazySingleton(
           () => DashboardsQueryCtrl(),
         );
-
+        locator.registerFactory(
+          () => WidgetActionHandler(),
+        );
         locator.registerFactory(
           () => FetchDashboardsUseCase(tbClient),
         );
