@@ -63,17 +63,15 @@ class TbContext implements PopEntry {
 
   late ThingsboardClient tbClient;
 
-  final FluroRouter router;
-  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+ final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
   bool get isAuthenticated => _isAuthenticated.value;
 
   TbContextState? currentState;
-
-  TbContext(this.router);
-  final ThingsboardAppRouter thingsboardAppRouter = getIt();
+  late final ThingsboardAppRouter thingsboardAppRouter = getIt();
   TbLogger get log => _log;
   final bottomNavigationTabChangedStream = StreamController<int>.broadcast();
 

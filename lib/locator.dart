@@ -1,6 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/thingsboard_client.dart' hide UserService;
@@ -28,15 +29,19 @@ final getIt = GetIt.instance;
 Future<void> setUpRootDependencies() async {
   final secureStorage = createAppStorage() as TbSecureStorage;
   await secureStorage.init();
-
+  final deviceInfoService = DeviceInfoService();
+  await deviceInfoService.init();
   getIt
-  ..registerLazySingleton<IOverlayService>(() => OverlayService() )
-    ..registerSingleton(
-      ThingsboardAppRouter(overlayService: getIt()),
-    )
     ..registerLazySingleton(
       () => TbLogger(),
     )
+    ..registerLazySingleton<IOverlayService>(() => OverlayService())
+    ..registerLazySingleton<IDeviceInfoService>(() => deviceInfoService)
+     ..registerLazySingleton(() => TbContext())
+    ..registerSingleton(
+      ThingsboardAppRouter(overlayService: getIt(), tbContext: getIt()),
+    )
+   
     ..registerLazySingleton<TbStorage>(
       () => secureStorage,
     )
@@ -68,12 +73,6 @@ Future<void> setUpRootDependencies() async {
     ..registerLazySingleton<ILayoutService>(
       () => LayoutService(getIt()),
     )
-    ..registerLazySingletonAsync<IDeviceInfoService>(() async{
-      final deviceInfoService = DeviceInfoService();
-      await deviceInfoService.init();
-      return deviceInfoService;
-    } )
-    
     ..registerFactory(
       () => const UserDetailsUseCase(),
     );

@@ -130,7 +130,7 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
           }
 
           // Find the route by its path
-          final match = tbContext.router.match(path);
+          final match = tbContext.thingsboardAppRouter.router.match(path);
           if (match != null && match.route.handler != null) {
             // Execute the handler's function to retrieve the widget
             return match.route.handler?.handlerFunc(null, match.parameters);

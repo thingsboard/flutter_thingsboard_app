@@ -30,9 +30,9 @@ import 'package:thingsboard_app/utils/ui_utils_routes.dart';
 class ThingsboardAppRouter {
   final router = FluroRouter();
   final IOverlayService overlayService;
-  late final _tbContext = TbContext(router);
-  final TbLogger log= getIt<TbLogger>();
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final TbLogger log = getIt<TbLogger>();
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  final TbContext _tbContext;
   Future<dynamic> navigateTo(
     String path, {
     bool replace = false,
@@ -57,24 +57,25 @@ class ThingsboardAppRouter {
       return;
     }
 
-      return router.navigateTo(
-        navigatorKey.currentContext!,
-        path,
-        transition: transition,
-        transitionDuration: transitionDuration,
-        replace: replace,
-        clearStack: clearStack,
-        routeSettings: routeSettings,
-      );
-    
+    return router.navigateTo(
+      navigatorKey.currentContext!,
+      path,
+      transition: transition,
+      transitionDuration: transitionDuration,
+      replace: replace,
+      clearStack: clearStack,
+      routeSettings: routeSettings,
+    );
   }
-void pop<T>([T? result, BuildContext? context]) async {
-    var targetContext = context ?? navigatorKey.currentContext;
+
+  void pop<T>([T? result, BuildContext? context]) async {
+    var targetContext = context ?? _navigatorKey.currentContext;
     if (targetContext != null) {
       router.pop<T>(targetContext, result);
     }
   }
-Future<void> navigateToDashboard(
+
+  Future<void> navigateToDashboard(
     String dashboardId, {
     String? dashboardTitle,
     String? state,
@@ -82,7 +83,7 @@ Future<void> navigateToDashboard(
     bool animate = true,
   }) async {
     return router.navigateTo(
-      navigatorKey.currentContext!,
+      _navigatorKey.currentContext!,
       '/dashboard',
       routeSettings: RouteSettings(
         arguments: DashboardArgumentsEntity(
@@ -110,7 +111,9 @@ Future<void> navigateToDashboard(
       );
     }
   }
-  ThingsboardAppRouter({required this.overlayService}) {
+
+  ThingsboardAppRouter({required this.overlayService, required TbContext tbContext})
+      : _tbContext = tbContext {
     router.notFoundHandler = notFoundHandler;
     _initRoutes();
   }
@@ -121,26 +124,26 @@ Future<void> navigateToDashboard(
     },
   );
   void _initRoutes() {
-    InitRoutes(_tbContext).registerRoutes();
-    AuthRoutes(_tbContext).registerRoutes();
-    UiUtilsRoutes(_tbContext).registerRoutes();
-    MainRoutes(_tbContext).registerRoutes();
-    HomeRoutes(_tbContext).registerRoutes();
-    ProfileRoutes(_tbContext).registerRoutes();
-    AssetRoutes(_tbContext).registerRoutes();
-    DeviceRoutes(_tbContext).registerRoutes();
-    AlarmRoutes(_tbContext).registerRoutes();
-    DashboardRoutes(_tbContext).registerRoutes();
-    AuditLogsRoutes(_tbContext).registerRoutes();
-    CustomerRoutes(_tbContext).registerRoutes();
-    TenantRoutes(_tbContext).registerRoutes();
-    NotificationRoutes(_tbContext).registerRoutes();
-    UrlPageRoutes(_tbContext).registerRoutes();
-    NoAuthRoutes(_tbContext).registerRoutes();
-    MoreRoutes(_tbContext).registerRoutes();
-    VersionRoutes(_tbContext).registerRoutes();
-    EspProvisioningRoute(tbContext).registerRoutes();
+    InitRoutes(_tbContext).doRegisterRoutes(router);
+    AuthRoutes(_tbContext).doRegisterRoutes(router);
+    UiUtilsRoutes(_tbContext).doRegisterRoutes(router);
+    MainRoutes(_tbContext).doRegisterRoutes(router);
+    HomeRoutes(_tbContext).doRegisterRoutes(router);
+    ProfileRoutes(_tbContext).doRegisterRoutes(router);
+    AssetRoutes(_tbContext).doRegisterRoutes(router);
+    DeviceRoutes(_tbContext).doRegisterRoutes(router);
+    AlarmRoutes(_tbContext).doRegisterRoutes(router);
+    DashboardRoutes(_tbContext).doRegisterRoutes(router);
+    AuditLogsRoutes(_tbContext).doRegisterRoutes(router);
+    CustomerRoutes(_tbContext).doRegisterRoutes(router);
+    TenantRoutes(_tbContext).doRegisterRoutes(router);
+    NotificationRoutes(_tbContext).doRegisterRoutes(router);
+    UrlPageRoutes(_tbContext).doRegisterRoutes(router);
+    NoAuthRoutes(_tbContext).doRegisterRoutes(router);
+    MoreRoutes(_tbContext).doRegisterRoutes(router);
+    VersionRoutes(_tbContext).doRegisterRoutes(router);
+    EspProvisioningRoute(_tbContext).doRegisterRoutes(router);
   }
-
   TbContext get tbContext => _tbContext;
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 }
