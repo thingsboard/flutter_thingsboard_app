@@ -10,7 +10,7 @@ class NoAuthRoutes extends TbRoutes {
   late final noAuthQrHandler = Handler(
     handlerFunc: (context, params) {
       return SwitchEndpointNoAuthView(
-        tbContext: tbContext,
+        tbContext,
         arguments: context?.settings?.arguments as Map<String, dynamic>?,
       );
     },

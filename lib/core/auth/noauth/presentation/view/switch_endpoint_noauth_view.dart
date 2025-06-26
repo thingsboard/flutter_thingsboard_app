@@ -10,8 +10,8 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends TbPageWidget {
-  SwitchEndpointNoAuthView({
-    required TbContext tbContext,
+  SwitchEndpointNoAuthView(
+    TbContext tbContext, {
     required this.arguments,
     super.key,
   }) : super(tbContext);
@@ -46,13 +46,14 @@ class _SwitchEndpointNoAuthViewState
               if (state is NoAuthErrorState) {
                 Future.delayed(const Duration(seconds: 5), () {
                   if (context.mounted) {
-                    getIt<ThingsboardAppRouter>().pop(null,  context);
+                    getIt<ThingsboardAppRouter>().pop(null, context);
                   }
                 });
               } else if (state is NoAuthDoneState) {
                 GetIt.instance<NoAuthBloc>().close();
                 if (tbClient.isPreVerificationToken()) {
-                  getIt<ThingsboardAppRouter>().navigateTo('/login/mfa', replace: true, clearStack: true);
+                  getIt<ThingsboardAppRouter>().navigateTo('/login/mfa',
+                      replace: true, clearStack: true);
                 } else {
                   tbContext.updateRouteState();
                 }
