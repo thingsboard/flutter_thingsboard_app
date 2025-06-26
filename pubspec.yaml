@@ -87,6 +87,7 @@ dev_dependencies:
   hive_generator: ^2.0.1
   build_runner: ^2.4.9
   custom_lint: ^0.7.0
+  lint: 2.6.2
 
 dependency_overrides:
   logger: ^2.5.0
