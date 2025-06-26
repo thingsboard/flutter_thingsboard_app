@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';

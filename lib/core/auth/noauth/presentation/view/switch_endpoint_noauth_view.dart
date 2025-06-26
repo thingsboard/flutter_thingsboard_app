@@ -53,7 +53,7 @@ class _SwitchEndpointNoAuthViewState
                 GetIt.instance<NoAuthBloc>().close();
                 if (tbClient.isPreVerificationToken()) {
                   getIt<ThingsboardAppRouter>().navigateTo('/login/mfa',
-                      replace: true, clearStack: true);
+                      replace: true, clearStack: true,);
                 } else {
                   tbContext.updateRouteState();
                 }

@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
