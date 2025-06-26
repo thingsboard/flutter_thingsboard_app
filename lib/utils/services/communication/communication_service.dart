@@ -1,5 +1,5 @@
 import 'package:event_bus/event_bus.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
+import 'package:thingsboard_app/utils/services/communication/communication_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 
 class CommunicationService implements ICommunicationService {

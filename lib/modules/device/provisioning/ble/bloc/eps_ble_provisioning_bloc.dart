@@ -7,7 +7,8 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
+import 'package:thingsboard_app/utils/services/communication/communication_event.dart';
+import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/provisioning/eps_ble/i_wifi_provisioning_service.dart';
 

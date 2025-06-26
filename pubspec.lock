@@ -430,6 +430,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  esp_smartconfig:
+    dependency: "direct main"
+    description:
+      name: esp_smartconfig
+      sha256: "511ab3fee7caebcf329e4c33f1685f07c607eeedf5879a028ad4eadde7edeafe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   event_bus:
     dependency: "direct main"
     description:
@@ -1290,6 +1298,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
+  loggerx:
+    dependency: transitive
+    description:
+      name: loggerx
+      sha256: cad8587f15508f1b8a7ce72244ca6033f480b784289e9b3e9b69cf7f3b4552c9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   logging:
     dependency: transitive
     description:

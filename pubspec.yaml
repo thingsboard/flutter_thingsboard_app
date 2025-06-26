@@ -64,7 +64,7 @@ dependencies:
   expandable: ^5.0.1
   focused_menu: ^1.0.5
   flutter_esp_ble_prov: ^0.1.7
-  #  esp_smartconfig: ^2.0.4
+  esp_smartconfig: ^2.0.4
   esp_provisioning_softap: ^1.0.3
   permission_handler: ^11.3.1
   wifi_scan: ^0.4.1+1

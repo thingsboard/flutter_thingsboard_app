@@ -23,7 +23,7 @@ class WidgetActionHandler {
     ScanQrAction(),
     MakePhoneCallAction(),
     GetLocationAction(),
-    TakeScreenshotAction()
+    TakeScreenshotAction(),
   ];
   Future<Map<String, dynamic>> handleWidgetMobileAction(
     List<dynamic> args,

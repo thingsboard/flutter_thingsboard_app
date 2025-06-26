@@ -9,7 +9,8 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart'
     show DeviceProvisioningStatus;
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events.dart';
+import 'package:thingsboard_app/utils/services/communication/communication_event.dart';
+import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/provisioning/soft_ap/i_soft_ap_service.dart';
 
