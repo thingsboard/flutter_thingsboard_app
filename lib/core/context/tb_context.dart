@@ -1,20 +1,15 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
-import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
-import 'package:thingsboard_app/core/auth/oauth2/tb_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/version/route/version_route.dart';
 import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -26,7 +21,6 @@ import 'package:thingsboard_app/utils/services/local_database/i_local_database_s
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
-import 'package:toastification/toastification.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 part 'has_tb_context.dart';
@@ -427,7 +421,7 @@ class TbContext implements PopEntry {
         content: Text(message),
         actions: [
           TextButton(
-              onPressed: () => thingsboardAppRouter.pop(null, context), child: Text(ok)),
+              onPressed: () => thingsboardAppRouter.pop(null, context), child: Text(ok),),
         ],
       ),
     );

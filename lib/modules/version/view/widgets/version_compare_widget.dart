@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';

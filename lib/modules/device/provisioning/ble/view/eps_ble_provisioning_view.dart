@@ -13,7 +13,6 @@ import 'package:thingsboard_app/modules/device/provisioning/view/device_provisio
 import 'package:thingsboard_app/modules/device/provisioning/view/device_provisioning_view.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/exit_confirmation_dialog.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';

@@ -1,5 +1,4 @@
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/communication/communication_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_logged_in_event.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';

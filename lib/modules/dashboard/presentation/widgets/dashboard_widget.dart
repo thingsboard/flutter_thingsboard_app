@@ -221,7 +221,7 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileNavigationHandler(
-      InAppWebViewController webViewController) {
+      InAppWebViewController webViewController,) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileNavigationHandler',
       callback: (args) async {
@@ -263,7 +263,7 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardStateNameHandler(
-      InAppWebViewController webViewController) {
+      InAppWebViewController webViewController,) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardStateNameHandler',
       callback: (args) async {
@@ -280,7 +280,7 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardLayoutHandler(
-      InAppWebViewController webViewController) {
+      InAppWebViewController webViewController,) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLayoutHandler',
       callback: (args) async {
@@ -295,7 +295,7 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardLoadedHandler(
-      InAppWebViewController webViewController) {
+      InAppWebViewController webViewController,) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLoadedHandler',
       callback: (args) async {

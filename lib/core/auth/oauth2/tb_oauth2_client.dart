@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/hmac_base64_algorithm.dart';
@@ -30,7 +27,7 @@ class TbOAuth2Client implements IOAuth2Client {
 @override
   Future<TbOAuth2AuthenticateResult> authenticate(String oauth2Url) async {
     final appSecret = await _appSecretProvider.getAppSecret(
-     _deviceInfoService.getPlatformType()
+     _deviceInfoService.getPlatformType(),
     );
     final pkgName =  _deviceInfoService.getApplicationId();
     final jwt = JWT(

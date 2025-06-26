@@ -20,7 +20,6 @@ class ResetPasswordRequestPage extends TbPageWidget {
 class _ResetPasswordRequestPageState
     extends TbPageState<ResetPasswordRequestPage> {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
-final IOverlayService overlayService = getIt();
   final _resetPasswordFormKey = GlobalKey<FormBuilderState>();
 
   @override

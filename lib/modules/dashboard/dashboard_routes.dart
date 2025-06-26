@@ -1,5 +1,4 @@
 import 'package:fluro/fluro.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/tb_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
 import 'package:toastification/toastification.dart';

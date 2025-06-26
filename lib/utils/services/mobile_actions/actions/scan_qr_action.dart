@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
-import 'package:get_it/get_it.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -14,7 +13,7 @@ class ScanQrAction extends MobileAction {
   late final TbContext tbContext = getIt<ThingsboardAppRouter>().tbContext;
   @override
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
-      List args, InAppWebViewController controller) {
+      List args, InAppWebViewController controller,) {
     return _scanQrCode();
   }
 

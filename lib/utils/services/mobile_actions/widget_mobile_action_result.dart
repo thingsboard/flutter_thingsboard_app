@@ -1,5 +1,4 @@
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 
 class WidgetMobileActionResult<T extends MobileActionResult> {
   T? result;

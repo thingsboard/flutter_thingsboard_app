@@ -14,7 +14,7 @@ abstract final class LoginDi {
             () => TbOAuth2Client(
                 tbLogger: locator(),
                 deviceInfoService: locator(),
-                appSecretProvider: AppSecretProvider.local()),
+                appSecretProvider: AppSecretProvider.local(),),
           );
         },);
   }

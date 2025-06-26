@@ -19,7 +19,7 @@ class AlarmControlFiltersButton extends StatelessWidget {
         TextButton(
           onPressed: onResetTap,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(
+            padding: WidgetStateProperty.all(
               const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
@@ -38,7 +38,7 @@ class AlarmControlFiltersButton extends StatelessWidget {
         TextButton(
           onPressed: onCancelTap,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(
+            padding: WidgetStateProperty.all(
               const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
@@ -57,13 +57,13 @@ class AlarmControlFiltersButton extends StatelessWidget {
         FilledButton(
           onPressed: onUpdateTap,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 // Change your radius here
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            padding: MaterialStateProperty.all(
+            padding: WidgetStateProperty.all(
               const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,

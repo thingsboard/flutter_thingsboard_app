@@ -3,7 +3,6 @@ import 'package:thingsboard_app/utils/services/mobile_actions/results/image_resu
 import 'package:thingsboard_app/utils/services/mobile_actions/results/launch_result.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/results/location_result.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/results/qr_code_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 abstract  class MobileActionResult {
   MobileActionResult();
 

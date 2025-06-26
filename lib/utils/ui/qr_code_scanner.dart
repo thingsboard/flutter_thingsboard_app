@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 
@@ -124,7 +122,7 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
         } else {
           // Permission denied, you can handle it here if needed
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Camera permission denied')),
+            const SnackBar(content: Text('Camera permission denied')),
           );
         }
       },

@@ -23,7 +23,7 @@ class TbDashboardExportModule {
   }
 
   Future<void> _downloadToDevice(String filename, String base64,
-      [String? mimeType]) async {
+      [String? mimeType,]) async {
     final Uint8List data = await compute(base64Decode, base64);
 
     String finalFileName = 'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now()) }';
@@ -71,7 +71,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     String? outputFile = await FilePicker.platform.saveFile(
         dialogTitle: 'Please select an output file:',
         fileName: filename,
-        bytes: bytes);
+        bytes: bytes,);
 
     if (outputFile == null) {
       // User canceled the picker
