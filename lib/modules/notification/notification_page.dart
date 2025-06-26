@@ -11,7 +11,7 @@ import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_bu
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -29,7 +29,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   late final NotificationPaginationRepository paginationRepository;
   final notificationQueryCtrl = NotificationQueryCtrl();
   late final NotificationRepository notificationRepository;
-  final overlayService = getIt<OverlayService>();
+  final overlayService = getIt<IOverlayService>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
