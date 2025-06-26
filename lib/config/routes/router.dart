@@ -112,7 +112,7 @@ class ThingsboardAppRouter {
     }
   }
 
-  ThingsboardAppRouter({required this.overlayService, required TbContext tbContext})
+  ThingsboardAppRouter({required this.overlayService, required TbContext tbContext,})
       : _tbContext = tbContext {
     router.notFoundHandler = notFoundHandler;
     _initRoutes();
