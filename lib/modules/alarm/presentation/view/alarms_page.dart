@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -96,7 +97,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                     IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () {
-                        navigateTo('/alarms?search=true');
+                        getIt<ThingsboardAppRouter>().navigateTo('/alarms?search=true');
                       },
                     ),
                   ],

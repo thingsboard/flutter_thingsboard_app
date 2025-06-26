@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/customer/customers_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -39,7 +41,7 @@ class _CustomersPageState extends TbContextState<CustomersPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              navigateTo('/customers?search=true');
+              getIt<ThingsboardAppRouter>().navigateTo('/customers?search=true');
             },
           ),
         ],

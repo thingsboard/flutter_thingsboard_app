@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DashboardsAppbar extends StatelessWidget {
@@ -45,7 +47,8 @@ class DashboardsAppbar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                tbContext.navigateTo('/tenants?search=true');
+                getIt<ThingsboardAppRouter>()
+                    .navigateTo('/tenants?search=true');
               },
             ),
         ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
@@ -22,7 +24,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
 
   @override
   void onEntityTap(AssetInfo asset) {
-    navigateTo('/asset/${asset.id!.id}');
+    getIt<ThingsboardAppRouter>().navigateTo('/asset/${asset.id!.id}');
   }
 
   @override

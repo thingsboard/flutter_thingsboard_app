@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'tenants_list.dart';
@@ -40,7 +42,7 @@ class _TenantsPageState extends TbPageState<TenantsPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              navigateTo('/tenants?search=true');
+              getIt<ThingsboardAppRouter>().navigateTo('/tenants?search=true');
             },
           ),
         ],

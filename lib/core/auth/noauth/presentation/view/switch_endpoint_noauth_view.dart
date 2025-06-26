@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loading_widget.dart';
@@ -44,14 +45,14 @@ class _SwitchEndpointNoAuthViewState
             listener: (context, state) {
               if (state is NoAuthErrorState) {
                 Future.delayed(const Duration(seconds: 5), () {
-                  if (mounted) {
-                    widget.tbContext.pop();
+                  if (context.mounted) {
+                    getIt<ThingsboardAppRouter>().pop(null,  context);
                   }
                 });
               } else if (state is NoAuthDoneState) {
                 GetIt.instance<NoAuthBloc>().close();
                 if (tbClient.isPreVerificationToken()) {
-                  navigateTo('/login/mfa', replace: true, clearStack: true);
+                  getIt<ThingsboardAppRouter>().navigateTo('/login/mfa', replace: true, clearStack: true);
                 } else {
                   tbContext.updateRouteState();
                 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
@@ -67,7 +68,7 @@ class _FullscreenDashboardPageState
               actions: [
                 IconButton(
                   icon: const Icon(Icons.settings),
-                  onPressed: () => navigateTo('/profile?fullscreen=true'),
+                  onPressed: () => getIt<ThingsboardAppRouter>().navigateTo('/profile?fullscreen=true'),
                 ),
               ],
               canGoBack: canGoBack,

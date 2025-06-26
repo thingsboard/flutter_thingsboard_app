@@ -1,0 +1,1 @@
+enum NotificationType { info, warn, success, error }

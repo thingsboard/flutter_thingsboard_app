@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 import 'assets_list.dart';
@@ -43,7 +45,7 @@ class _AssetsPageState extends TbContextState<AssetsPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              navigateTo('/assets?search=true');
+              getIt<ThingsboardAppRouter>().navigateTo('/assets?search=true');
             },
           ),
         ],

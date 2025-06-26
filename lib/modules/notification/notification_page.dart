@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
@@ -10,6 +11,7 @@ import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_bu
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -27,7 +29,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   late final NotificationPaginationRepository paginationRepository;
   final notificationQueryCtrl = NotificationQueryCtrl();
   late final NotificationRepository notificationRepository;
-
+  final overlayService = getIt<OverlayService>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +37,11 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
         tbContext,
         leading: BackButtonWidget(
           onPressed: () {
-            final navigator = Navigator.of(tbContext.currentState!.context);
+            final navigator = Navigator.of(context);
             if (navigator.canPop()) {
-              tbContext.pop();
+              navigator.pop();
             } else {
-              tbContext.navigateTo(
+              getIt<ThingsboardAppRouter>().navigateTo(
                 '/main',
                 replace: true,
                 transition: TransitionType.fadeIn,
@@ -168,12 +170,12 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (authority == Authority.TENANT_ADMIN ||
             authority == Authority.CUSTOMER_USER) {
-          showWarnNotification(
+          overlayService.showWarnNotification(
             'Push notifications are not configured. '
             'Please contact your system administrator.',
           );
         } else if (authority == Authority.SYS_ADMIN) {
-          showWarnNotification(
+          overlayService.showWarnNotification(
             'Firebase is not configured.'
             ' Please refer to the official Firebase documentation for'
             ' guidance on how to do so.',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 abstract class RefreshableWidget extends Widget {
   const RefreshableWidget({super.key});
@@ -58,7 +60,7 @@ abstract class TbPageWidget extends TbContextWidget {
 abstract class TbPageState<W extends TbPageWidget> extends TbContextState<W>
     with RouteAware {
   TbPageState({bool handleUserLoaded = false}) : super(handleLoading: true);
-
+  final IOverlayService overlayService = getIt();
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -78,7 +80,7 @@ abstract class TbPageState<W extends TbPageWidget> extends TbContextState<W>
 
   @override
   void didPopNext() {
-    hideNotification();
+  overlayService.hideNotification();
     setupCurrentState(this);
   }
 }

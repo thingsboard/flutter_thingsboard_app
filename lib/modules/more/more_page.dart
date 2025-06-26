@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -57,7 +58,7 @@ class _MorePageState extends TbContextState<MorePage> {
                         size: 18,
                       ),
                       onPressed: () async {
-                        await navigateTo('/profile');
+                        await getIt<ThingsboardAppRouter>().navigateTo('/profile');
                         setState(() {});
                       },
                     ),
@@ -141,7 +142,7 @@ class _MorePageState extends TbContextState<MorePage> {
         itemBuilder: (_, index) => MoreMenuItemWidget(
           items[index],
           onTap: () {
-            navigateTo(items[index].path);
+            getIt<ThingsboardAppRouter>().navigateTo(items[index].path);
           },
         ),
         separatorBuilder: (_, __) => const SizedBox(height: 16),

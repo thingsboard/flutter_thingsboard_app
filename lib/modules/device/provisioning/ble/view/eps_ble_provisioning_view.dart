@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/di/esp_ble_di.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/view/ble_devices_empty_view.dart';
@@ -11,6 +12,8 @@ import 'package:thingsboard_app/modules/device/provisioning/ble/view/esp_wifi_ne
 import 'package:thingsboard_app/modules/device/provisioning/view/device_provisioning_done.dart';
 import 'package:thingsboard_app/modules/device/provisioning/view/device_provisioning_view.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/exit_confirmation_dialog.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
@@ -37,12 +40,12 @@ class EspBleProvisioningView extends TbContextWidget {
 class _EspBleProvisioningViewState
     extends TbContextState<EspBleProvisioningView> {
   final diKey = UniqueKey().toString();
-
+  final IDeviceInfoService deviceInfoService = getIt();
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EspBleProvisioningBloc>(
       create: (_) =>
-          EspBleProvisioningBloc.create(tbContext.androidInfo?.version.sdkInt)
+          EspBleProvisioningBloc.create(deviceInfoService.getAndroidDeviceInfo()?.version.sdkInt)
             ..add(
               EspBleScanNetworksEvent(
                 deviceName: widget.name,

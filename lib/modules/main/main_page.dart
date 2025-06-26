@@ -87,7 +87,7 @@ class _MainPageState extends TbPageState<MainPage>
 
   void _setIndex(int index) {
     if (_tabController.index != index) {
-      hideNotification();
+     overlayService.hideNotification();
       _tabController.index = index;
       _currentIndexNotifier.value = index;
       tbContext.bottomNavigationTabChangedStream.add(index);

@@ -13,15 +13,16 @@ import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_acti
 class ScanQrAction extends MobileAction {
   late final TbContext tbContext = getIt<ThingsboardAppRouter>().tbContext;
   @override
-  Future<WidgetMobileActionResult<MobileActionResult>> execute(List args, InAppWebViewController controller) {
-   return _scanQrCode();
+  Future<WidgetMobileActionResult<MobileActionResult>> execute(
+      List args, InAppWebViewController controller) {
+    return _scanQrCode();
   }
 
   @override
   WidgetMobileActionType get type => WidgetMobileActionType.scanQrCode;
-    Future<WidgetMobileActionResult> _scanQrCode() async {
+  Future<WidgetMobileActionResult> _scanQrCode() async {
     try {
-      Barcode? barcode = await tbContext.navigateTo(
+      Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );
@@ -39,5 +40,4 @@ class ScanQrAction extends MobileAction {
       return handleError(e);
     }
   }
-
 }

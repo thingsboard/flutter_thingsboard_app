@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/auth/login/region.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -37,7 +38,7 @@ class SelectRegionScreen extends TbContextStatelessWidget {
                         onPressed: () {
                           getIt<IEndpointService>()
                               .setRegion(Region.northAmerica);
-                          navigateTo('/');
+                          getIt<ThingsboardAppRouter>().navigateTo('/');
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
@@ -55,7 +56,7 @@ class SelectRegionScreen extends TbContextStatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           getIt<IEndpointService>().setRegion(Region.europe);
-                          navigateTo('/');
+                          getIt<ThingsboardAppRouter>().navigateTo('/');
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(

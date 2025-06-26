@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:thingsboard_app/core/auth/login/region.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 
 /// This service provides information about the current active endpoint.
 /// Since we have a feature that allows for changing endpoints, there is some

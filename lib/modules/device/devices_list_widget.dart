@@ -1,6 +1,8 @@
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
@@ -14,7 +16,7 @@ class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery>
 
   @override
   void onViewAll() {
-    navigateTo('/devices');
+    getIt<ThingsboardAppRouter>().navigateTo('/devices');
   }
 
   @override

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_app/core/auth/login/region.dart';
-import 'package:thingsboard_app/core/auth/login/region_widget.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/region_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -43,7 +44,7 @@ class ChooseRegionScreen extends TbContextStatelessWidget {
                 selected: nASelected,
                 onTap: () {
                   getIt<IEndpointService>().setRegion(Region.northAmerica);
-                  navigateTo('/', replace: true);
+                getIt<ThingsboardAppRouter>().navigateTo('/', replace: true);
                 },
               ),
               Padding(
@@ -54,7 +55,7 @@ class ChooseRegionScreen extends TbContextStatelessWidget {
                   selected: europeSelected,
                   onTap: () {
                     getIt<IEndpointService>().setRegion(Region.europe);
-                    navigateTo('/', replace: true);
+                    getIt<ThingsboardAppRouter>().navigateTo('/', replace: true);
                   },
                 ),
               ),

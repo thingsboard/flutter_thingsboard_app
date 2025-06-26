@@ -6,7 +6,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -253,7 +255,7 @@ abstract class BaseEntitiesState<T, P>
   bool _dataLoading = false;
   bool _scheduleRefresh = false;
   bool _reloadData = false;
-
+ final IOverlayService overlayService = getIt();
   BaseEntitiesState();
 
   @override
@@ -312,7 +314,7 @@ abstract class BaseEntitiesState<T, P>
     if (mounted) {
       _dataLoading = true;
       try {
-        hideNotification();
+       overlayService.hideNotification();
         final pageData = await widget.fetchEntities(pageKey);
         final isLastPage = !pageData.hasNext;
         if (refresh) {

@@ -1,4 +1,4 @@
-import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
@@ -55,7 +55,7 @@ class GetLocationAction extends MobileAction {
 
   @override
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
-      List args, InAppWebViewController controller) {
+      List args, InAppWebViewController controller,) {
     return _getLocation();
   }
 

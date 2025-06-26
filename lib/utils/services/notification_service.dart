@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -275,7 +276,8 @@ class NotificationService {
           );
 
           if (dashboardId != null) {
-            tbContext.navigateToDashboard(dashboardId, state: state);
+            getIt<ThingsboardAppRouter>()
+                .navigateToDashboard(dashboardId, state: state);
           }
 
           break;
@@ -283,12 +285,13 @@ class NotificationService {
           final link = data['link'] ?? data['onClick.link'];
           if (link != null) {
             if (Uri.parse(link).isAbsolute) {
-              tbContext.navigateTo('/url/${Uri.encodeComponent(link)}');
+              getIt<ThingsboardAppRouter>()
+                  .navigateTo('/url/${Uri.encodeComponent(link)}');
             } else if (link == '/notifications' &&
                 !isOnNotificationsScreenAlready) {
-              tbContext.navigateTo(link);
+              getIt<ThingsboardAppRouter>().navigateTo(link);
             } else {
-              tbContext.navigateTo(link);
+              getIt<ThingsboardAppRouter>().navigateTo(link);
             }
           }
 
@@ -296,7 +299,7 @@ class NotificationService {
       }
     } else {
       if (!isOnNotificationsScreenAlready) {
-        tbContext.navigateTo('/notifications');
+        getIt<ThingsboardAppRouter>().navigateTo('/notifications');
       }
     }
   }

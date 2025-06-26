@@ -3,17 +3,23 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 
-class QrCodeScannerPage extends TbContextWidget {
-  QrCodeScannerPage(TbContext tbContext, {super.key}) : super(tbContext);
-
+class QrCodeScannerPage extends StatefulWidget {
+ const QrCodeScannerPage({required this.isProvisioning, super.key});
+  final bool isProvisioning;
   @override
   State<StatefulWidget> createState() => _QrCodeScannerPageState();
 }
 
-class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
+class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
+  final router = getIt<ThingsboardAppRouter>().router;
+  final IDeviceInfoService deviceInfoService =
+      getIt<IDeviceInfoService>();
   Timer? simulatedQrTimer;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -113,8 +119,17 @@ class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
+        onPermissionSet: (p0, p1) {
+        if (p1 == true) {
+        } else {
+          // Permission denied, you can handle it here if needed
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Camera permission denied')),
+          );
+        }
+      },
       key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
+      onQRViewCreated: (ctrl) => _onQRViewCreated(ctrl, context),
       overlay: QrScannerOverlayShape(
         borderColor: Colors.red,
         borderRadius: 10,
@@ -125,18 +140,21 @@ class _QrCodeScannerPageState extends TbContextState<QrCodeScannerPage> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+   void _onQRViewCreated(QRViewController controller, BuildContext context) {
     setState(() {
       this.controller = controller;
     });
-    if (isPhysicalDevice) {
+    if (deviceInfoService.isPhysicalDevice()) {
       controller.scannedDataStream.take(1).listen((scanData) {
-        pop(scanData);
+        if(context.mounted) {
+   router.pop(context,scanData);
+        }
       });
     } else {
       simulatedQrTimer = Timer(const Duration(seconds: 3), () {
-        pop(Barcode('test code', BarcodeFormat.qrcode, null));
+      router.pop(context,Barcode('test code', BarcodeFormat.qrcode, null));
       });
     }
   }
+
 }

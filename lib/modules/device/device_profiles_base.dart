@@ -4,10 +4,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
@@ -29,7 +31,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   void onEntityTap(DeviceProfileInfo deviceProfile) {
-    navigateTo(
+    getIt<ThingsboardAppRouter>().navigateTo(
       '/deviceList?deviceType=${Uri.encodeComponent(deviceProfile.name)}',
     );
   }
@@ -207,7 +209,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                           ),
                         ),
                         onTap: () {
-                          navigateTo('/deviceList?active=true');
+                          getIt<ThingsboardAppRouter>().navigateTo('/deviceList?active=true');
                         },
                       ),
                     ),
@@ -257,7 +259,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                           ),
                         ),
                         onTap: () {
-                          navigateTo('/deviceList?active=false');
+                          getIt<ThingsboardAppRouter>().navigateTo('/deviceList?active=false');
                         },
                       ),
                     ),
@@ -269,7 +271,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
         ),
       ),
       onTap: () {
-        navigateTo('/deviceList');
+        getIt<ThingsboardAppRouter>().navigateTo('/deviceList');
       },
     );
   }
@@ -409,7 +411,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
               },
             ),
             onTap: () {
-              navigateTo(
+              getIt<ThingsboardAppRouter>().navigateTo(
                 '/deviceList?active=true&deviceType=${Uri.encodeComponent(entity.name)}',
               );
             },
@@ -446,7 +448,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
               },
             ),
             onTap: () {
-              navigateTo(
+              getIt<ThingsboardAppRouter>().navigateTo(
                 '/deviceList?active=false&deviceType=${Uri.encodeComponent(entity.name)}',
               );
             },

@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/constants/database_keys.dart';
-import 'package:thingsboard_app/core/auth/login/region.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';

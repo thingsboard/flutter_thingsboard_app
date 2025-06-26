@@ -7,6 +7,8 @@ import 'package:thingsboard_app/thingsboard_client.dart' hide UserService;
 import 'package:thingsboard_app/utils/services/_tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/services/communication/communication_service.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/device_info_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -14,6 +16,8 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/local_database_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
 
@@ -26,8 +30,9 @@ Future<void> setUpRootDependencies() async {
   await secureStorage.init();
 
   getIt
+  ..registerLazySingleton<IOverlayService>(() => OverlayService() )
     ..registerSingleton(
-      ThingsboardAppRouter(),
+      ThingsboardAppRouter(overlayService: getIt()),
     )
     ..registerLazySingleton(
       () => TbLogger(),
@@ -63,6 +68,12 @@ Future<void> setUpRootDependencies() async {
     ..registerLazySingleton<ILayoutService>(
       () => LayoutService(getIt()),
     )
+    ..registerLazySingletonAsync<IDeviceInfoService>(() async{
+      final deviceInfoService = DeviceInfoService();
+      await deviceInfoService.init();
+      return deviceInfoService;
+    } )
+    
     ..registerFactory(
       () => const UserDetailsUseCase(),
     );

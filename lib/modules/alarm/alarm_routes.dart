@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/config/routes/tb_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarm_details_page.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_page.dart';

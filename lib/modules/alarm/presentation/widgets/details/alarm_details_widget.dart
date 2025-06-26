@@ -4,7 +4,9 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:intl/intl.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -120,14 +122,15 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                       width: double.infinity,
                       child: TextButton(
                         onPressed: () {
-                          widget.tbContext.navigateToDashboard(
-                            widget.alamDashboardId!,
-                            dashboardTitle: widget.alarmInfo.originatorName,
-                            state: Utils.createDashboardEntityState(
-                              widget.alarmInfo.originator,
-                              entityName: widget.alarmInfo.originatorName,
-                            ),
-                          );
+                          getIt<ThingsboardAppRouter>()
+                              .navigateToDashboard(
+                                widget.alamDashboardId!,
+                                dashboardTitle: widget.alarmInfo.originatorName,
+                                state: Utils.createDashboardEntityState(
+                                  widget.alarmInfo.originator,
+                                  entityName: widget.alarmInfo.originatorName,
+                                ),
+                              );
                         },
                         style: TextButton.styleFrom(
                           backgroundColor:

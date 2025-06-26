@@ -8,7 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
-import 'package:thingsboard_app/core/auth/login/region.dart';
+import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_app.dart';

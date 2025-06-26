@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 
 typedef DashboardTitleCallback = void Function(String title);
 
@@ -103,14 +105,14 @@ class DashboardController {
         if ((firstPart == 'dashboard' || firstPart == 'dashboards') &&
             parts.length > 1) {
           final dashboardId = parts[1];
-          await tbContext.navigateToDashboard(dashboardId);
+          await getIt<ThingsboardAppRouter>().navigateToDashboard(dashboardId);
         } else if (firstPart != 'dashboard') {
           var targetPath = '/$firstPart';
           if (firstPart == 'devices' && home == true) {
             targetPath = '/devicesPage';
           }
 
-          await tbContext.navigateTo(targetPath);
+          await getIt<ThingsboardAppRouter>().navigateTo(targetPath);
         }
       } else {
         throw UnimplementedError('The path $path is currently not supported.');

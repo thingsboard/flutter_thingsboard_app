@@ -173,14 +173,12 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           _setUser();
           await Future.delayed(const Duration(milliseconds: 300));
           _isLoadingNotifier.value = false;
-          showSuccessNotification(
+          if(mounted) {
+            overlayService.showSuccessNotification(
             S.of(context).profileSuccessNotification,
             duration: const Duration(milliseconds: 1500),
           );
-          showSuccessNotification(
-            S.of(context).profileSuccessNotification,
-            duration: const Duration(milliseconds: 1500),
-          );
+          }
         } catch (_) {
           _isLoadingNotifier.value = false;
         }
@@ -191,8 +189,8 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
   _changePassword() async {
     var res = await tbContext
         .showFullScreenDialog<bool>(ChangePasswordPage(tbContext));
-    if (res == true) {
-      showSuccessNotification(
+    if (res == true && mounted ) {
+  overlayService.showSuccessNotification(
         S.of(context).passwordSuccessNotification,
         duration: const Duration(milliseconds: 1500),
       );

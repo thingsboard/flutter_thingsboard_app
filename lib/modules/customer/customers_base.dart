@@ -1,4 +1,6 @@
+import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 mixin CustomersBase on EntitiesBase<Customer, PageLink> {
@@ -15,6 +17,6 @@ mixin CustomersBase on EntitiesBase<Customer, PageLink> {
 
   @override
   void onEntityTap(Customer customer) {
-    navigateTo('/customer/${customer.id!.id}');
+    getIt<ThingsboardAppRouter>().navigateTo('/customer/${customer.id!.id}');
   }
 }
