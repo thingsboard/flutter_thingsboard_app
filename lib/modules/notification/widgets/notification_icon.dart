@@ -9,7 +9,7 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconData = _toIcon(notification.additionalConfig?['icon'] ?? {});
+    final iconData = _toIcon(notification.additionalConfig?['icon'] as Map<String,dynamic>? ?? {});
 
     return iconData;
   }
@@ -34,20 +34,21 @@ class NotificationIcon extends StatelessWidget {
   }
 
   Widget _toIcon(Map<String, dynamic> data) {
-    final imageData = data['icon'];
+  
 
-    if (imageData != null) {
-      if (imageData!.contains('mdi')) {
+    if ( data['icon'] != null) {
+        final String imageData = data['icon'].toString();
+      if (imageData.contains('mdi')) {
         return Icon(
           MdiIcons.fromString(imageData.split('mdi:').last),
-          color: _toColor(data['color']),
+          color: _toColor(data['color']?.toString()),
         );
       }
 
       return Icon(
         materialIconsMap[imageData],
         color: _toColor(
-          data['color'],
+          data['color']?.toString(),
         ),
       );
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
@@ -9,17 +8,17 @@ import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DevicesListPage extends TbContextWidget {
-  final String? deviceType;
-  final bool? active;
-  final bool searchMode;
 
   DevicesListPage(
-    TbContext tbContext, {
+    super.tbContext, {
     this.deviceType,
     this.active,
     this.searchMode = false,
     super.key,
-  }) : super(tbContext);
+  });
+  final String? deviceType;
+  final bool? active;
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _DevicesListPageState();
@@ -41,7 +40,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var devicesList = DevicesList(
+    final devicesList = DevicesList(
       tbContext,
       _deviceQueryController,
       searchMode: widget.searchMode,
@@ -55,7 +54,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
             _deviceQueryController.onSearchText(searchText),
       );
     } else {
-      String titleText = widget.deviceType != null
+      final String titleText = widget.deviceType != null
           ? widget.deviceType!
           : S.of(context).allDevices;
       String? subTitleText;
@@ -64,7 +63,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
             ? S.of(context).active
             : S.of(context).inactive;
       }
-      Column title = Column(
+      final Column title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -99,7 +98,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              List<String> params = [];
+              final List<String> params = [];
               params.add('search=true');
               if (widget.deviceType != null) {
                 params.add('deviceType=${widget.deviceType}');

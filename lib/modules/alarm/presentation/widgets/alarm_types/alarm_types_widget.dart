@@ -75,7 +75,6 @@ class AlarmTypesWidget extends StatelessWidget {
                     vertical: 8,
                   ),
                   child: Wrap(
-                    direction: Axis.horizontal,
                     spacing: 12,
                     runSpacing: 12,
                     crossAxisAlignment: WrapCrossAlignment.center,

@@ -140,7 +140,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
     return items;
   }
 
-  void _ackAlarm(String alarmId, BuildContext context) async {
+  Future<void> _ackAlarm(String alarmId, BuildContext context) async {
     final res = await widget.tbContext.confirm(
       title: S.of(context).alarmAcknowledgeTitle,
       message: S.of(context).alarmAcknowledgeText,
@@ -163,7 +163,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
     }
   }
 
-  void _clearAlarm(String alarmId, BuildContext context) async {
+  Future<void> _clearAlarm(String alarmId, BuildContext context) async {
     final res = await widget.tbContext.confirm(
       title: S.of(context).alarmClearTitle,
       message: S.of(context).alarmClearText,

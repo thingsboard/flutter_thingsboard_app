@@ -5,10 +5,9 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_severity_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_status_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_type_filter.dart';
-import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-
+///TODO: Refactor this
 class AlarmFiltersService implements IAlarmFiltersService {
   AlarmFiltersService({required this.logger})
       : statusFilter = AlarmStatusFilter<FilterDataEntity>(
@@ -49,10 +48,10 @@ class AlarmFiltersService implements IAlarmFiltersService {
   AlarmFiltersEntity _activeFilters = AlarmFiltersEntity.defaultFilters();
 
   final TbLogger logger;
-  late final IAlarmFilter statusFilter;
-  late final IAlarmFilter severityFilter;
-  late final IAlarmFilter typeFilter;
-  late final IAlarmFilter assigneeFilter;
+  late final AlarmStatusFilter<FilterDataEntity> statusFilter;
+  late final AlarmSeverityFilter<FilterDataEntity> severityFilter;
+  late final AlarmTypeFilter<String> typeFilter;
+  late final AlarmAssigneeFilter<String?> assigneeFilter;
 
   @override
   AlarmFiltersEntity getCommittedFilters() {
@@ -119,37 +118,33 @@ class AlarmFiltersService implements IAlarmFiltersService {
   T getSelectedFilter<T>(Filters type) {
     switch (type) {
       case Filters.status:
-        return statusFilter.getSelectedFilterData();
+        return statusFilter.getSelectedFilterData() as T;
 
       case Filters.severity:
-        return severityFilter.getSelectedFilterData();
+        return severityFilter.getSelectedFilterData()  as T;
 
       case Filters.type:
-        return typeFilter.getSelectedFilterData();
+        return typeFilter.getSelectedFilterData()  as T;
 
       case Filters.assignee:
-        return assigneeFilter.getSelectedFilterData();
+        return assigneeFilter.getSelectedFilterData() as T;
     }
   }
 
   @override
-  void setSelectedFilter<T>(Filters type, {required data}) {
+  void setSelectedFilter<T>(Filters type, {required dynamic data}) {
     switch (type) {
       case Filters.status:
         statusFilter.updateSelectedData(data);
-        break;
 
       case Filters.severity:
         severityFilter.updateSelectedData(data);
-        break;
 
       case Filters.type:
         typeFilter.updateSelectedData(data);
-        break;
 
       case Filters.assignee:
         assigneeFilter.updateSelectedData(data);
-        break;
     }
   }
 }

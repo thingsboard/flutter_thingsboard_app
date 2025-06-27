@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ResetPasswordRequestPage extends TbPageWidget {
-  ResetPasswordRequestPage(TbContext tbContext, {super.key}) : super(tbContext);
+  ResetPasswordRequestPage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ResetPasswordRequestPageState();
@@ -95,10 +94,10 @@ class _ResetPasswordRequestPageState
                     valueListenable: _isLoadingNotifier,
                     builder: (BuildContext context, bool loading, child) {
                       if (loading) {
-                        return SizedBox.expand(
-                          child: Container(
-                            color: const Color(0x99FFFFFF),
-                            child: const Center(
+                        return const SizedBox.expand(
+                          child: ColoredBox(
+                            color: Color(0x99FFFFFF),
+                            child: Center(
                               child: TbProgressIndicator(size: 50.0),
                             ),
                           ),
@@ -117,11 +116,11 @@ class _ResetPasswordRequestPageState
     );
   }
 
-  void _requestPasswordReset() async {
+  Future<void> _requestPasswordReset() async {
     FocusScope.of(context).unfocus();
     if (_resetPasswordFormKey.currentState?.saveAndValidate() ?? false) {
-      var formValue = _resetPasswordFormKey.currentState!.value;
-      String email = formValue['email'];
+      final formValue = _resetPasswordFormKey.currentState!.value;
+      final String email = formValue['email'].toString();
       _isLoadingNotifier.value = true;
       try {
         await Future.delayed(const Duration(milliseconds: 300));

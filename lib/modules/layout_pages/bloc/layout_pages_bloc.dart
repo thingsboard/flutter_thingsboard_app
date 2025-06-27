@@ -1,7 +1,9 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:thingsboard_app/config/routes/route_not_found_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_page.dart';
 import 'package:thingsboard_app/modules/asset/assets_page.dart';
@@ -78,7 +80,6 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         );
 
         emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
-        break;
 
       case BottomBarOrientationChangedEvent():
         layoutService.setDeviceScreenSize(
@@ -86,7 +87,6 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
           orientation: event.orientation,
         );
         emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
-        break;
     }
   }
 
@@ -131,9 +131,11 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
 
           // Find the route by its path
           final match = tbContext.thingsboardAppRouter.router.match(path);
-          if (match != null && match.route.handler != null) {
-            // Execute the handler's function to retrieve the widget
-            return match.route.handler?.handlerFunc(null, match.parameters);
+          if (match != null &&
+              match.route.handler != null &&
+              match.route.handler is Handler) {
+            final Handler handler = match.route.handler as Handler;
+            return handler.handlerFunc(null, match.parameters) ?? RouteNotFoundWidget(settings: RouteSettings(name: path));
           }
         }
 

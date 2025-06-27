@@ -1,29 +1,27 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/routes/tb_routes.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 
-import 'tenant_details_page.dart';
-import 'tenants_page.dart';
+import 'package:thingsboard_app/modules/tenant/tenant_details_page.dart';
+import 'package:thingsboard_app/modules/tenant/tenants_page.dart';
 
 class TenantRoutes extends TbRoutes {
-  late var tenantsHandler = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-      var searchMode = params['search']?.first == 'true';
+  TenantRoutes(super.tbContext);
+  late Handler tenantsHandler = Handler(
+    handlerFunc: (BuildContext? context, params) {
+      final searchMode = params['search']?.first == 'true';
       return TenantsPage(tbContext, searchMode: searchMode);
     },
   );
 
-  late var tenantDetailsHandler = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-      return TenantDetailsPage(tbContext, params['id'][0]);
+  late Handler tenantDetailsHandler = Handler(
+    handlerFunc: (BuildContext? context, params) {
+      return TenantDetailsPage(tbContext, params['id']!.first);
     },
   );
 
-  TenantRoutes(TbContext tbContext) : super(tbContext);
-
   @override
-  void doRegisterRoutes(router) {
+  void doRegisterRoutes(FluroRouter router) {
     router.define('/tenants', handler: tenantsHandler);
     router.define('/tenant/:id', handler: tenantDetailsHandler);
   }

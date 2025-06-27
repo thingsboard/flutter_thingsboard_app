@@ -29,22 +29,18 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmsState> {
         emit(const AlarmsFiltersNotActivatedState());
         queryController.onFiltersUpdated(AlarmFiltersEntity.defaultFilters());
 
-        break;
 
       case AlarmFiltersUpdateEvent():
         queryController.onFiltersUpdated(event.filtersEntity);
         isFiltersActive = true;
 
         emit(const AlarmsFilterActivatedState());
-        break;
 
       case AlarmSearchTextChanged():
         queryController.onSearchText(event.searchText);
-        break;
 
       case AlarmsRefreshPageEvent():
         paginationRepository.refresh();
-        break;
     }
   }
 }

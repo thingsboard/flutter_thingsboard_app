@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -51,14 +50,13 @@ class TbContext implements PopEntry {
   }
 
   @override
-  void onPopInvokedWithResult(bool didPop, result) {
+  void onPopInvokedWithResult(bool didPop, dynamic result) {
     onPopInvokedImpl(didPop, result);
   }
 
   late ThingsboardClient tbClient;
 
-
- final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   Listenable get isAuthenticatedListenable => _isAuthenticated;
 
@@ -83,7 +81,6 @@ class TbContext implements PopEntry {
       onLoadStarted: onLoadStarted,
       onLoadFinished: onLoadFinished,
       computeFunc: <Q, R>(callback, message) => compute(callback, message),
-      debugMode: EnvironmentVariables.apiCalls || EnvironmentVariables.verbose,
     );
 
     try {
@@ -114,13 +111,12 @@ class TbContext implements PopEntry {
       onLoadStarted: onLoadStarted,
       onLoadFinished: onLoadFinished,
       computeFunc: <Q, R>(callback, message) => compute(callback, message),
-      debugMode: EnvironmentVariables.apiCalls || EnvironmentVariables.verbose,
     );
 
     await tbClient.init();
   }
 
-  Future<void> onFatalError(e) async {
+  Future<void> onFatalError(dynamic e) async {
     var message = e is ThingsboardError
         ? (e.message ?? 'Unknown error.')
         : 'Unknown error.';
@@ -139,7 +135,7 @@ class TbContext implements PopEntry {
     _isLoadingNotifier.value = true;
   }
 
-  void onLoadFinished() async {
+  Future<void> onLoadFinished() async {
     log.debug('TbContext: On load finished.');
     _isLoadingNotifier.value = false;
   }
@@ -199,7 +195,7 @@ class TbContext implements PopEntry {
       if (versionInfo != null && versionInfo?.minVersion != null) {
         if (_deviceInfoService.getAppVersion().versionInt() <
             (versionInfo!.minVersion?.versionInt() ?? 0)) {
-         thingsboardAppRouter.navigateTo(
+          thingsboardAppRouter.navigateTo(
             VersionRoutes.updateRequiredRoutePath,
             clearStack: true,
             replace: true,
@@ -234,10 +230,10 @@ class TbContext implements PopEntry {
         final res = await confirm(
           title: 'Connection error',
           message: 'Failed to connect to server',
-          cancel: 'Cancel',
           ok: 'Retry',
         );
         if (res == true) {
+          _overlayService.hideNotification();
           onUserLoaded();
         } else {
           thingsboardAppRouter.navigateTo(
@@ -276,8 +272,6 @@ class TbContext implements PopEntry {
     }
   }
 
-  
-
   Future<void> logout({
     RequestConfig? requestConfig,
     bool notifyUser = true,
@@ -312,10 +306,11 @@ class TbContext implements PopEntry {
       if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
         final defaultDashboardId = _defaultDashboardId();
         if (defaultDashboardId != null) {
-          bool fullscreen = _userForceFullscreen();
+          final bool fullscreen = _userForceFullscreen();
           if (!fullscreen) {
-            await thingsboardAppRouter.navigateToDashboard(defaultDashboardId, animate: false);
-           thingsboardAppRouter.navigateTo(
+            await thingsboardAppRouter.navigateToDashboard(defaultDashboardId,
+                animate: false);
+            thingsboardAppRouter.navigateTo(
               '/main',
               replace: true,
               closeDashboard: false,
@@ -353,7 +348,7 @@ class TbContext implements PopEntry {
 
   String? _defaultDashboardId() {
     if (userDetails != null && userDetails!.additionalInfo != null) {
-      return userDetails!.additionalInfo!['defaultDashboardId'];
+      return userDetails!.additionalInfo!['defaultDashboardId'].toString();
     }
     return null;
   }
@@ -373,12 +368,8 @@ class TbContext implements PopEntry {
     } else if (UniversalPlatform.isIOS) {
       userAgent += ' (${_deviceInfoService.getDeviceModel()})';
     }
-    userAgent +=
-        ' AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36';
-    return userAgent;
+    return '$userAgent AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36';
   }
-
-  
 
   Future<T?> showFullScreenDialog<T>(Widget dialog, {BuildContext? context}) {
     return Navigator.of(context ?? currentState!.context).push<T>(
@@ -391,7 +382,7 @@ class TbContext implements PopEntry {
     );
   }
 
-  void onPopInvokedImpl<T>(bool didPop, [T? result]) async {
+  Future<void> onPopInvokedImpl<T>(bool didPop, [T? result]) async {
     if (didPop) {
       return;
     }
@@ -399,6 +390,7 @@ class TbContext implements PopEntry {
     if (await currentState?.willPop() == true) {
       if (currentState?.context != null &&
           currentState?.context.mounted == true) {
+        // ignore: use_build_context_synchronously
         final navigator = Navigator.of(currentState!.context);
         if (navigator.canPop()) {
           navigator.pop(result);
@@ -421,7 +413,9 @@ class TbContext implements PopEntry {
         content: Text(message),
         actions: [
           TextButton(
-              onPressed: () => thingsboardAppRouter.pop(null, context), child: Text(ok),),
+            onPressed: () => thingsboardAppRouter.pop(null, context),
+            child: Text(ok),
+          ),
         ],
       ),
     );
@@ -443,7 +437,9 @@ class TbContext implements PopEntry {
             onPressed: () => getIt<ThingsboardAppRouter>().pop(false, context),
             child: Text(cancel),
           ),
-          TextButton(onPressed: () => getIt<ThingsboardAppRouter>().pop(true, context), child: Text(ok)),
+          TextButton(
+              onPressed: () => getIt<ThingsboardAppRouter>().pop(true, context),
+              child: Text(ok)),
         ],
       ),
     );

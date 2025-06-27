@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -8,10 +7,9 @@ import 'package:thingsboard_app/modules/customer/customers_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class CustomersPage extends TbContextWidget {
-  final bool searchMode;
 
-  CustomersPage(TbContext tbContext, {this.searchMode = false, super.key})
-      : super(tbContext);
+  CustomersPage(super.tbContext, {this.searchMode = false, super.key});
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _CustomersPageState();
@@ -22,7 +20,7 @@ class _CustomersPageState extends TbContextState<CustomersPage> {
 
   @override
   Widget build(BuildContext context) {
-    var customersList = CustomersList(
+    final customersList = CustomersList(
       tbContext,
       _pageLinkController,
       searchMode: widget.searchMode,

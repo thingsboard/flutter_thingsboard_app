@@ -38,7 +38,7 @@ class WidgetActionHandler {
     InAppWebViewController controller,
   ) async {
     if (args.isNotEmpty && args[0] is String) {
-      var actionType = WidgetMobileActionType.fromString(args[0]);
+      final actionType = WidgetMobileActionType.fromString(args[0].toString());
       final actionToCall = actions.firstWhere(
         (action) => action.type == actionType,
         orElse: () => UnknownAction(),

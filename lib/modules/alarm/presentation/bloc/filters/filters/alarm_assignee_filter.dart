@@ -19,12 +19,12 @@ class AlarmAssigneeFilter<T> implements IAlarmFilter {
   }
 
   @override
-  void updateSelectedData(data) {
+  void updateSelectedData(dynamic data) {
     logger.debug(
       'AlarmAssigneeFilter::updateSelectedData($data)',
     );
 
-    selectedUsed = data;
+    selectedUsed = data as T;
   }
 
   @override

@@ -16,21 +16,21 @@ class LoginPageBackground extends StatelessWidget {
 }
 
 class _LoginPageBackgroundPainter extends CustomPainter {
-  final Color color;
 
   const _LoginPageBackgroundPainter({required this.color});
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = color.withAlpha(14);
     paint.style = PaintingStyle.fill;
-    var topPath = Path();
+    final topPath = Path();
     topPath.moveTo(0, 0);
     topPath.lineTo(size.width / 2, 0);
     topPath.lineTo(0, size.height / 10);
     topPath.close();
     canvas.drawPath(topPath, paint);
-    var bottomPath = Path();
+    final bottomPath = Path();
     bottomPath.moveTo(0, size.height * 0.98);
     bottomPath.lineTo(size.width, size.height * 0.78);
     bottomPath.lineTo(size.width, size.height);

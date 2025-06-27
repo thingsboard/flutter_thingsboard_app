@@ -28,7 +28,7 @@ class BleDevicesView extends StatelessWidget {
             devices,
             icon: Icons.bluetooth_outlined,
             onTap: (device) async {
-              final pop = await tbContext.showFullScreenDialog(
+              final String? pop = await tbContext.showFullScreenDialog(
                 PasswordDialog(
                   helpMessage: S.of(context).popTitle(device),
                   textFieldLabel: 'PIN',

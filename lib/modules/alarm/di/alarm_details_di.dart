@@ -19,9 +19,9 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/details/post_alarm
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract final class AlarmDetailsDi {
-  static const _scopeName = 'AlarmDetailsDi';
 
   AlarmDetailsDi._();
+  static const _scopeName = 'AlarmDetailsDi';
 
   static void init(
     ThingsboardClient thingsboardClient, {

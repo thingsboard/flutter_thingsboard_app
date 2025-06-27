@@ -22,14 +22,14 @@ class AlarmStatusFilter<T> implements IAlarmFilter {
   }
 
   @override
-  void updateSelectedData(data) {
+  void updateSelectedData(dynamic data) {
     logger.debug(
       'AlarmStatusFilter::updateSelectedData($data)',
     );
 
     alarmStatusSelected
       ..clear()
-      ..addAll(data);
+      ..addAll(data as Set<T>);
   }
 
   @override

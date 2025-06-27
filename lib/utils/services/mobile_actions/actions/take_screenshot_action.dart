@@ -17,9 +17,9 @@ class TakeScreenshotAction  extends MobileAction {
     InAppWebViewController controller,
   ) async {
     try {
-      List<int>? imageBytes = await controller.takeScreenshot();
+      final List<int>? imageBytes = await controller.takeScreenshot();
       if (imageBytes != null) {
-        String imageUrl =
+        final String imageUrl =
             UriData.fromBytes(imageBytes, mimeType: 'image/png').toString();
         return WidgetMobileActionResult.successResult(
           MobileActionResult.image(imageUrl),

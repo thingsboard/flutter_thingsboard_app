@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 
-import 'entity_list_card.dart';
+import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 
 mixin EntitiesListStateBase on StatefulWidget {
   @override
@@ -15,8 +15,8 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
 
   @override
   Widget pagedViewBuilder(BuildContext context) {
-    var heading = widget.buildHeading(context);
-    List<Widget> slivers = [];
+    final heading = widget.buildHeading(context);
+    final List<Widget> slivers = [];
     if (heading != null) {
       slivers.add(
         SliverPadding(

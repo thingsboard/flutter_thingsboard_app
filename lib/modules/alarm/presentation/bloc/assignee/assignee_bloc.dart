@@ -41,35 +41,29 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
           }
         }
 
-        break;
       case AssigneeSearchEvent():
         queryCtrl.onSearchText(event.searchText);
-        break;
 
       case AssigneeResetEvent():
         filtersService.setSelectedFilter(Filters.assignee, data: null);
         emit(const AssigneeEmptyState());
         queryCtrl.onSearchText(null);
 
-        break;
       case AssigneeRefreshEvent():
         paginationRepository.refresh();
 
-        break;
 
       case AssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);
 
-        break;
       case AssigneeResetUnCommittedChanges():
-        final assignee = filtersService.getSelectedFilter(Filters.assignee);
+        final String? assignee = filtersService.getSelectedFilter(Filters.assignee);
         if (assignee != null) {
           add(AssigneeSelectedEvent(userId: assignee));
         } else {
           emit(const AssigneeEmptyState());
         }
 
-        break;
     }
   }
 }

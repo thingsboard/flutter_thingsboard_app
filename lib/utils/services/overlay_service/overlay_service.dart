@@ -22,19 +22,15 @@ class OverlayService implements IOverlayService {
       case NotificationType.info:
         backgroundColor = const Color(0xFF323232);
         toastificationType = ToastificationType.info;
-        break;
       case NotificationType.warn:
         backgroundColor = const Color(0xFFdc6d1b);
         toastificationType = ToastificationType.warning;
-        break;
       case NotificationType.success:
         backgroundColor = const Color(0xFF008000);
         toastificationType = ToastificationType.success;
-        break;
       case NotificationType.error:
         backgroundColor = const Color(0xFF800000);
         toastificationType = ToastificationType.error;
-        break;
     }
 
     toastification.show(
@@ -54,7 +50,6 @@ class OverlayService implements IOverlayService {
           color: Color(0x07000000),
           blurRadius: 16,
           offset: Offset(0, 16),
-          spreadRadius: 0,
         ),
       ],
     );

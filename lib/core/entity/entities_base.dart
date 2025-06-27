@@ -49,9 +49,9 @@ typedef EntityCardWidgetBuilder<T> = Widget Function(
 );
 
 class EntityCardSettings {
-  bool dropShadow;
 
   EntityCardSettings({this.dropShadow = true});
+  bool dropShadow;
 }
 
 mixin EntitiesBase<T, P> on HasTbContext {
@@ -93,12 +93,10 @@ mixin EntitiesBase<T, P> on HasTbContext {
 mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
   @override
   Widget buildEntityListCard(BuildContext context, T contact) {
-    var address = Utils.contactToShortAddress(contact);
+    final address = Utils.contactToShortAddress(contact);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
             fit: FlexFit.tight,
@@ -173,9 +171,9 @@ abstract class PageKeyController<P> extends ValueNotifier<PageKeyValue<P>> {
 }
 
 class PageKeyValue<P> {
-  final P pageKey;
 
   PageKeyValue(this.pageKey);
+  final P pageKey;
 }
 
 class PageLinkController extends PageKeyController<PageLink> {
@@ -195,7 +193,7 @@ class PageLinkController extends PageKeyController<PageLink> {
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
 
-  onSearchText(String searchText) {
+ void  onSearchText(String searchText) {
     value.pageKey.page = 0;
     value.pageKey.textSearch = searchText;
     notifyListeners();
@@ -216,7 +214,7 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();
 
-  onSearchText(String searchText) {
+ void  onSearchText(String searchText) {
     value.pageKey.page = 0;
     value.pageKey.textSearch = searchText;
     notifyListeners();
@@ -225,15 +223,15 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
 
 abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
     with EntitiesBase<T, P> {
-  final bool searchMode;
-  final PageKeyController<P> pageKeyController;
 
   BaseEntitiesWidget(
-    TbContext tbContext,
+    super.tbContext,
     this.pageKeyController, {
     super.key,
     this.searchMode = false,
-  }) : super(tbContext);
+  });
+  final bool searchMode;
+  final PageKeyController<P> pageKeyController;
 
   @override
   Widget? buildHeading(BuildContext context) => searchMode
@@ -250,13 +248,13 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
 
 abstract class BaseEntitiesState<T, P>
     extends TbContextState<BaseEntitiesWidget<T, P>> {
+  BaseEntitiesState();
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;
   bool _dataLoading = false;
   bool _scheduleRefresh = false;
   bool _reloadData = false;
  final IOverlayService overlayService = getIt();
-  BaseEntitiesState();
 
   @override
   void initState() {
@@ -318,7 +316,7 @@ abstract class BaseEntitiesState<T, P>
         final pageData = await widget.fetchEntities(pageKey);
         final isLastPage = !pageData.hasNext;
         if (refresh) {
-          var state = pagingController.value;
+          final state = pagingController.value;
           if (state.itemList != null) {
             state.itemList!.clear();
           }

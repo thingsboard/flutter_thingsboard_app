@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
@@ -7,13 +6,13 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class SingleDashboardView extends TbContextWidget {
   SingleDashboardView(
-    TbContext tbContext, {
+    super.tbContext, {
     required this.id,
     this.title,
     this.state,
     this.hideToolbar,
     super.key,
-  }) : super(tbContext);
+  });
 
   final String id;
   final String? title;
@@ -57,7 +56,6 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
             }
           },
         ),
-        showLoadingIndicator: false,
         elevation: 1,
         shadowColor: Colors.transparent,
         title: ValueListenableBuilder<String>(

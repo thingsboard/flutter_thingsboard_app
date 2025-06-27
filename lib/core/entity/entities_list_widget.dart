@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-
-import 'entity_list_card.dart';
 
 class EntitiesListWidgetController {
   final states = <_EntitiesListWidgetState>[];
@@ -36,10 +34,10 @@ class EntitiesListWidgetController {
 abstract class EntitiesListPageLinkWidget<T>
     extends EntitiesListWidget<T, PageLink> {
   EntitiesListPageLinkWidget(
-    TbContext tbContext, {
-    EntitiesListWidgetController? controller,
+    super.tbContext, {
+    super.controller,
     super.key,
-  }) : super(tbContext, controller: controller);
+  });
 
   @override
   PageKeyController<PageLink> createPageKeyController() =>
@@ -48,14 +46,13 @@ abstract class EntitiesListPageLinkWidget<T>
 
 abstract class EntitiesListWidget<T, P> extends TbContextWidget
     with EntitiesBase<T, P> {
-  final EntitiesListWidgetController? _controller;
 
   EntitiesListWidget(
-    TbContext tbContext, {
+    super.tbContext, {
     super.key,
     EntitiesListWidgetController? controller,
-  })  : _controller = controller,
-        super(tbContext);
+  })  : _controller = controller;
+  final EntitiesListWidgetController? _controller;
 
   @override
   State<StatefulWidget> createState() => _EntitiesListWidgetState();
@@ -91,7 +88,7 @@ class _EntitiesListWidgetState<T, P>
 
   Future<void> _refresh() {
     _entitiesStreamController.add(null);
-    var entitiesFuture = widget.fetchEntities(_pageKeyController.value.pageKey);
+    final entitiesFuture = widget.fetchEntities(_pageKeyController.value.pageKey);
     entitiesFuture.then((value) => _entitiesStreamController.add(value));
     return entitiesFuture;
   }
@@ -135,7 +132,7 @@ class _EntitiesListWidgetState<T, P>
                       builder: (context, snapshot) {
                         var title = widget.title;
                         if (snapshot.hasData) {
-                          var data = snapshot.data;
+                          final data = snapshot.data;
                           title += ' (${data!.totalElements})';
                         }
                         return Text(
@@ -200,8 +197,6 @@ class _EntitiesListWidgetState<T, P>
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color(0xFFDEDEDE),
-          style: BorderStyle.solid,
-          width: 1,
         ),
         borderRadius: BorderRadius.circular(4),
       ),

@@ -24,7 +24,9 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
 
   @override
   void onEntityTap(AssetInfo asset) {
-    getIt<ThingsboardAppRouter>().navigateTo('/asset/${asset.id!.id}');
+    if(asset.id?.id != null) {
+      getIt<ThingsboardAppRouter>().navigateTo('/asset/${asset.id!.id}');
+    }
   }
 
   @override
@@ -44,14 +46,12 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
 
   Widget _buildCard(context, AssetInfo asset) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
         Flexible(
           fit: FlexFit.tight,
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(width: 16),
                 Flexible(
@@ -60,7 +60,6 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
@@ -122,14 +121,12 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
-          fit: FlexFit.loose,
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
-                  fit: FlexFit.loose,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

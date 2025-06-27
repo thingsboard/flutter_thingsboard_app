@@ -91,7 +91,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
           ),
         );
 
-        break;
       case PostAlarmCommentEvent():
         try {
           await postAlarmCommentsUseCase(
@@ -110,7 +109,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
           logger.debug(e);
         }
 
-        break;
 
       case UpdateAlarmCommentEvent():
         add(const AlarmActivityFetchEvent());
@@ -127,7 +125,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
           logger.debug(e);
         }
 
-        break;
       case AlarmEditCommentEvent():
         emit(
           AlarmCommentEditState(
@@ -137,7 +134,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
           ),
         );
 
-        break;
       case DeleteAlarmCommentEvent():
         await deleteAlarmCommentUseCase(
           DeleteCommentParams(
@@ -147,11 +143,9 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
         );
         paginationRepository.pagingController.refresh();
 
-        break;
       case CancelAlarmCommentEditing():
         add(const AlarmActivityFetchEvent());
 
-        break;
       case AlarmActivityRefreshEvent():
         if (comments?.isEmpty == true) {
           comments = null;
@@ -160,7 +154,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
         paginationRepository.pagingController.refresh();
         add(const AlarmActivityFetchEvent());
 
-        break;
     }
   }
 

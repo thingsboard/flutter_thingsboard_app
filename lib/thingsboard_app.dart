@@ -8,7 +8,7 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:toastification/toastification.dart';
 
 class ThingsboardApp extends StatefulWidget {
-  const ThingsboardApp({Key? key}) : super(key: key);
+  const ThingsboardApp({super.key});
 
   @override
   State<StatefulWidget> createState() => _ThingsBoardAppState();

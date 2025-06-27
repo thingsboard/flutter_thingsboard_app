@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_base.dart';
@@ -10,10 +9,9 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AuditLogDetailsPage extends TbContextWidget {
-  final AuditLog auditLog;
 
-  AuditLogDetailsPage(TbContext tbContext, this.auditLog, {super.key})
-      : super(tbContext);
+  AuditLogDetailsPage(super.tbContext, this.auditLog, {super.key});
+  final AuditLog auditLog;
 
   @override
   State<StatefulWidget> createState() => _AuditLogDetailsPageState();
@@ -66,7 +64,6 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
           children: [
             Text(S.of(context).entityType, style: labelTextStyle),
             Text(
@@ -81,7 +78,6 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             ),
             const SizedBox(height: 16),
             Flexible(
-              fit: FlexFit.loose,
               child: buildBorderedText(
                 S.of(context).actionData,
                 encoder.convert(widget.auditLog.actionData),
@@ -91,7 +87,6 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
               const SizedBox(height: 16),
             if (widget.auditLog.actionStatus == ActionStatus.FAILURE)
               Flexible(
-                fit: FlexFit.loose,
                 child: buildBorderedText(
                   S.of(context).failureDetails,
                   widget.auditLog.actionFailureDetails!,
@@ -111,9 +106,8 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
           padding: const EdgeInsets.fromLTRB(16, 18, 48, 18),
           margin: const EdgeInsets.only(top: 6),
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFFDEDEDE), width: 1),
+            border: Border.all(color: const Color(0xFFDEDEDE)),
             borderRadius: BorderRadius.circular(4),
-            shape: BoxShape.rectangle,
           ),
           child: SingleChildScrollView(
             child: SelectableText(

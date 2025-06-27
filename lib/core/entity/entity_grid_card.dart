@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'entities_base.dart';
+import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 class EntityGridCard<T> extends StatelessWidget {
-  final T _entity;
-  final EntityTapFunction<T>? _onEntityTap;
-  final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
-  final EntityCardSettings _settings;
 
   const EntityGridCard(
     T entity, {
-    Key? key,
+    super.key,
     EntityTapFunction<T>? onEntityTap,
     required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
     required EntityCardSettings settings,
   })  : _entity = entity,
         _onEntityTap = onEntityTap,
         _entityCardWidgetBuilder = entityCardWidgetBuilder,
-        _settings = settings,
-        super(key: key);
+        _settings = settings;
+  final T _entity;
+  final EntityTapFunction<T>? _onEntityTap;
+  final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
+  final EntityCardSettings _settings;
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ const Color _tbDarkPrimaryColor = Color(0xFF9fa8da);
 const int _tbTextColorValue = 0xFF282828;
 const Color _tbTextColor = Color(_tbTextColorValue);
 
-var tbTypography = Typography.material2018();
+Typography tbTypography = Typography.material2018();
 
 const tbMatIndigo = MaterialColor(
   _tbPrimaryColorValue,

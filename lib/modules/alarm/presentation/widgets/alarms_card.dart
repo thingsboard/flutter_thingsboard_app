@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
@@ -9,10 +8,9 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class AlarmCard extends TbContextWidget {
-  final AlarmInfo alarm;
 
-  AlarmCard(TbContext tbContext, {super.key, required this.alarm})
-      : super(tbContext);
+  AlarmCard(super.tbContext, {super.key, required this.alarm});
+  final AlarmInfo alarm;
 
   @override
   State<StatefulWidget> createState() => _AlarmCardState();
@@ -54,7 +52,6 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Flexible(
@@ -100,7 +97,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                       widget.alarm.severity]!,
                                   style: TbTextStyles.labelMedium.copyWith(
                                     color: alarmSeverityColors[
-                                        widget.alarm.severity]!,
+                                        widget.alarm.severity],
                                   ),
                                 ),
                               ],
@@ -119,7 +116,6 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
                         fit: FlexFit.tight,

@@ -63,15 +63,12 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           AlarmAssigneeUpdatedEvent(event.userId),
         );
 
-        break;
       case AlarmAssigneeSearchEvent():
         queryCtrl.onSearchText(event.searchText);
 
-        break;
       case AlarmAssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);
 
-        break;
       case AlarmAssigneeUnassignedEvent():
         emit(const AlarmAssigneeEmptyState());
 
@@ -80,11 +77,9 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           const AlarmAssigneeUpdatedEvent(null),
         );
 
-        break;
       case AlarmAssigneeRefreshEvent():
         paginationRepository.refresh();
 
-        break;
       case AlarmFetchAssigneeEvent():
         final alarmInfo = await fetchAlarmUseCase(id);
         if (alarmInfo?.assignee != null) {
@@ -103,7 +98,6 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           emit(AlarmAssigneeSelectedState(assignee));
         }
 
-        break;
     }
   }
 }

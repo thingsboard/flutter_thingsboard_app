@@ -42,11 +42,11 @@ abstract class EntityQueryApi {
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
-    EntityCountQuery deviceCountQuery =
+    final EntityCountQuery deviceCountQuery =
         EntityCountQuery(entityFilter: deviceFilter);
     if (active != null) {
       deviceCountQuery.keyFilters = [
-        active ? activeDeviceKeyFilter : inactiveDeviceKeyFilter,
+        if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter,
       ];
     }
     return tbClient
@@ -69,7 +69,7 @@ abstract class EntityQueryApi {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
     if (active != null) {
-      keyFilters = [active ? activeDeviceKeyFilter : inactiveDeviceKeyFilter];
+      keyFilters = [if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter];
     }
     return EntityDataQuery(
       entityFilter: deviceFilter,

@@ -82,7 +82,7 @@ class _UrlPageState extends TbContextState<UrlPage> {
           ? const Center(child: Text('Not implemented!'))
           : InAppWebView(
               initialUrlRequest: URLRequest(
-                url: WebUri(widget.url.toString()),
+                url: WebUri(widget.url),
               ),
               onWebViewCreated: (ctrl) => webViewController = ctrl,
               onPermissionRequest: (controller, request) async {

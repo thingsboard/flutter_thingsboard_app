@@ -9,7 +9,7 @@ abstract class MobileAction {
 WidgetMobileActionType get type;
   Future<WidgetMobileActionResult> execute(  List<dynamic> args,
     InAppWebViewController controller,);
-     WidgetMobileActionResult handleError(e) {
+     WidgetMobileActionResult handleError(Object e) {
     String error;
     if (e is PlatformException) {
       error = e.message ?? e.code;

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ChangePasswordPage extends TbContextWidget {
-  ChangePasswordPage(TbContext tbContext, {super.key}) : super(tbContext);
+  ChangePasswordPage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ChangePasswordPageState();
@@ -174,10 +173,10 @@ final IOverlayService overlayService = getIt();
             valueListenable: _isLoadingNotifier,
             builder: (BuildContext context, bool loading, child) {
               if (loading) {
-                return SizedBox.expand(
-                  child: Container(
-                    color: const Color(0x99FFFFFF),
-                    child: const Center(child: TbProgressIndicator(size: 50.0)),
+                return const SizedBox.expand(
+                  child: ColoredBox(
+                    color: Color(0x99FFFFFF),
+                    child: Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 );
               } else {
@@ -193,10 +192,10 @@ final IOverlayService overlayService = getIt();
   Future<void> _changePassword() async {
     FocusScope.of(context).unfocus();
     if (_changePasswordFormKey.currentState?.saveAndValidate() ?? false) {
-      var formValue = _changePasswordFormKey.currentState!.value;
-      String currentPassword = formValue['currentPassword'];
-      String newPassword = formValue['newPassword'];
-      String newPassword2 = formValue['newPassword2'];
+      final formValue = _changePasswordFormKey.currentState!.value;
+      final String currentPassword = formValue['currentPassword'].toString();
+      final String newPassword = formValue['newPassword'].toString();
+      final String newPassword2 = formValue['newPassword2'].toString();
       if (newPassword != newPassword2) {
         overlayService.showErrorNotification(S.of(context).passwordErrorNotification);
       } else {

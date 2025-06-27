@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -17,7 +16,7 @@ import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class MorePage extends TbContextWidget {
-  MorePage(TbContext tbContext, {super.key}) : super(tbContext);
+  MorePage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _MorePageState();
@@ -153,20 +152,17 @@ class _MorePageState extends TbContextState<MorePage> {
   }
 
   String _getAuthorityName(BuildContext context) {
-    var user = tbContext.userDetails;
+    final user = tbContext.userDetails;
     var name = '';
     if (user != null) {
-      var authority = user.authority;
+      final authority = user.authority;
       switch (authority) {
         case Authority.SYS_ADMIN:
           name = S.of(context).systemAdministrator;
-          break;
         case Authority.TENANT_ADMIN:
           name = S.of(context).tenantAdministrator;
-          break;
         case Authority.CUSTOMER_USER:
           name = S.of(context).customer;
-          break;
         default:
           break;
       }

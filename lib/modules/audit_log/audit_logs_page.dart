@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -8,10 +7,9 @@ import 'package:thingsboard_app/modules/audit_log/audit_logs_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AuditLogsPage extends TbContextWidget {
-  final bool searchMode;
 
-  AuditLogsPage(TbContext tbContext, {this.searchMode = false, super.key})
-      : super(tbContext);
+  AuditLogsPage(super.tbContext, {this.searchMode = false, super.key});
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _AuditLogsPageState();
@@ -23,7 +21,7 @@ class _AuditLogsPageState extends TbContextState<AuditLogsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var auditLogsList = AuditLogsList(
+    final auditLogsList = AuditLogsList(
       tbContext,
       _timePageLinkController,
       searchMode: widget.searchMode,

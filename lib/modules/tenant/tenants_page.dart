@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/tenant/tenants_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-import 'tenants_list.dart';
-
 class TenantsPage extends TbPageWidget {
-  final bool searchMode;
 
-  TenantsPage(TbContext tbContext, {this.searchMode = false, super.key})
-      : super(tbContext);
+  TenantsPage(super.tbContext, {this.searchMode = false, super.key});
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _TenantsPageState();
@@ -23,7 +20,7 @@ class _TenantsPageState extends TbPageState<TenantsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var tenantsList = TenantsList(
+    final tenantsList = TenantsList(
       tbContext,
       _pageLinkController,
       searchMode: widget.searchMode,

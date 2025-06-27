@@ -13,6 +13,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class NotificationService {
+  NotificationService(this._tbClient, this._log, this._tbContext);
   static FirebaseMessaging _messaging = FirebaseMessaging.instance;
   late NotificationDetails _notificationDetails;
   final TbLogger _log;
@@ -27,8 +28,6 @@ class NotificationService {
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  NotificationService(this._tbClient, this._log, this._tbContext);
 
   Future<void> init() async {
     _log.debug('NotificationService::init()');
@@ -88,8 +87,7 @@ class NotificationService {
 
   Future<String?> getToken() async {
     try {
-      _fcmToken = await _messaging.getToken();
-      return _fcmToken;
+    return  _fcmToken = await _messaging.getToken();
     } catch (_) {
       return null;
     }
@@ -137,7 +135,8 @@ class NotificationService {
       onDidReceiveNotificationResponse: (response) {
         if (response.notificationResponseType ==
             NotificationResponseType.selectedNotification) {
-          final data = json.decode(response.payload ?? '');
+          final data =
+              json.decode(response.payload ?? '') as Map<String, dynamic>;
           handleClickOnNotification(data, _tbContext);
         }
       },
@@ -163,13 +162,7 @@ class NotificationService {
   Future<NotificationSettings> _requestPermission() async {
     _messaging = FirebaseMessaging.instance;
     final result = await _messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
       provisional: true,
-      sound: true,
     );
 
     if (result.authorizationStatus == AuthorizationStatus.denied) {
@@ -193,11 +186,12 @@ class NotificationService {
     _log.debug('FCM token: $fcmToken');
 
     if (fcmToken != null) {
-      MobileSessionInfo? mobileInfo =
+      final MobileSessionInfo? mobileInfo =
           await _tbClient.getUserService().getMobileSession(fcmToken);
       if (mobileInfo != null) {
-        int timeAfterCreatedToken = DateTime.now().millisecondsSinceEpoch -
-            mobileInfo.fcmTokenTimestamp;
+        final int timeAfterCreatedToken =
+            DateTime.now().millisecondsSinceEpoch -
+                mobileInfo.fcmTokenTimestamp;
         if (timeAfterCreatedToken > const Duration(days: 30).inMilliseconds) {
           fcmToken = await _resetToken(fcmToken);
           if (fcmToken != null) {
@@ -217,7 +211,7 @@ class NotificationService {
         );
   }
 
-  void showNotification(RemoteMessage message) async {
+  Future<void> showNotification(RemoteMessage message) async {
     final notification = message.notification;
 
     if (notification != null) {
@@ -255,8 +249,11 @@ class NotificationService {
     if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
       switch (data['linkType'] ?? data['onClick.linkType']) {
         case 'DASHBOARD':
-          final dashboardId =
-              data['dashboardId'] ?? data['onClick.dashboardId'];
+          String? dashboardId;
+          if ((data['dashboardId'] ?? data['onClick.dashboardId']) != null) {
+            dashboardId =
+                (data['dashboardId'] ?? data['onClick.dashboardId']).toString();
+          }
           EntityId? entityId;
           if ((data['stateEntityId'] ?? data['onClick.stateEntityId']) !=
                   null &&
@@ -264,15 +261,18 @@ class NotificationService {
                   null) {
             entityId = EntityId.fromTypeAndUuid(
               entityTypeFromString(
-                data['stateEntityType'] ?? data['onClick.stateEntityType'],
+                (data['stateEntityType'] ?? data['onClick.stateEntityType'])
+                    .toString(),
               ),
-              data['stateEntityId'] ?? data['onClick.stateEntityId'],
+              (data['stateEntityId'] ?? data['onClick.stateEntityId'])
+                  .toString(),
             );
           }
 
           final state = Utils.createDashboardEntityState(
             entityId,
-            stateId: data['dashboardState'] ?? data['onClick.dashboardState'],
+            stateId: (data['dashboardState'] ?? data['onClick.dashboardState'])
+                .toString(),
           );
 
           if (dashboardId != null) {
@@ -280,10 +280,10 @@ class NotificationService {
                 .navigateToDashboard(dashboardId, state: state);
           }
 
-          break;
         case 'LINK':
-          final link = data['link'] ?? data['onClick.link'];
-          if (link != null) {
+          final rawLink = data['link'] ?? data['onClick.link'];
+          if (rawLink != null) {
+           final  link = (data['link'] ?? data['onClick.link']).toString();
             if (Uri.parse(link).isAbsolute) {
               getIt<ThingsboardAppRouter>()
                   .navigateTo('/url/${Uri.encodeComponent(link)}');
@@ -294,8 +294,6 @@ class NotificationService {
               getIt<ThingsboardAppRouter>().navigateTo(link);
             }
           }
-
-          break;
       }
     } else {
       if (!isOnNotificationsScreenAlready) {

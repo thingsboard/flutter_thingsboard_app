@@ -21,7 +21,7 @@ class ScanQrAction extends MobileAction {
   WidgetMobileActionType get type => WidgetMobileActionType.scanQrCode;
   Future<WidgetMobileActionResult> _scanQrCode() async {
     try {
-      Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
+      final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );

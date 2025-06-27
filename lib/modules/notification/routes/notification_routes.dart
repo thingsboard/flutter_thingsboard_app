@@ -1,10 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:thingsboard_app/config/routes/tb_routes.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/notification/notification_page.dart';
 
 class NotificationRoutes extends TbRoutes {
-  NotificationRoutes(TbContext tbContext) : super(tbContext);
+  NotificationRoutes(super.tbContext);
 
   static const notificationRoutePath = '/notifications';
 
@@ -15,7 +14,7 @@ class NotificationRoutes extends TbRoutes {
   );
 
   @override
-  void doRegisterRoutes(router) {
+  void doRegisterRoutes(FluroRouter router) {
     router.define(notificationRoutePath, handler: notificationHandler);
   }
 }

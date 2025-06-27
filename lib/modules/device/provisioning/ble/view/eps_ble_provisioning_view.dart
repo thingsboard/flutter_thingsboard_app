@@ -99,10 +99,10 @@ class _EspBleProvisioningViewState
                 child: () {
                   switch (state) {
                     case EspBleLoadingState():
-                      return SizedBox.expand(
-                        child: Container(
-                          color: const Color(0x99FFFFFF),
-                          child: const Center(
+                      return const SizedBox.expand(
+                        child: ColoredBox(
+                          color: Color(0x99FFFFFF),
+                          child: Center(
                             child: TbProgressIndicator(size: 50.0),
                           ),
                         ),

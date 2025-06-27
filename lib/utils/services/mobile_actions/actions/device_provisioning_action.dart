@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -23,14 +24,14 @@ class DeviceProvisioningAction extends MobileAction {
 
   Future<WidgetMobileActionResult> _provisioningDevice() async {
     try {
-      final barcode = await getIt<ThingsboardAppRouter>().navigateTo(
+      final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );
       if (barcode != null && barcode.code != null) {
-        final decodedJson = jsonDecode(barcode.code!);
-        final transport = decodedJson?['transport'];
-        if (transport != null) {
+        final decodedJson = jsonDecode(barcode.code!) as Map<String,dynamic>?;
+        final transport = decodedJson?['transport'].toString();
+        if (transport != null && decodedJson != null) {
           final arguments = {
             'deviceName': decodedJson['tbDeviceName'] ?? decodedJson['name'],
             'deviceSecretKey': decodedJson['tbSecretKey'] ?? decodedJson['pop'],
@@ -47,7 +48,6 @@ class DeviceProvisioningAction extends MobileAction {
                 routeSettings: RouteSettings(arguments: arguments),
               );
 
-              break;
 
             case 'softap':
               provisioningResult =
@@ -56,19 +56,18 @@ class DeviceProvisioningAction extends MobileAction {
                 routeSettings: RouteSettings(arguments: arguments),
               );
 
-              break;
           }
 
           if (provisioningResult == true) {
             return WidgetMobileActionResult.successResult(
-              MobileActionResult.provisioning(arguments['deviceName']),
+              MobileActionResult.provisioning(arguments['deviceName'].toString()),
             );
           } else {
             return WidgetMobileActionResult.emptyResult();
           }
         } else {
           return WidgetMobileActionResult.errorResult(
-            'Provisioning method wasn\'t specified.',
+            "Provisioning method wasn't specified.",
           );
         }
       }

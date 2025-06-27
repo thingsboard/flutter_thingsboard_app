@@ -34,7 +34,7 @@ class NotificationWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         NotificationService.handleClickOnNotification(
-          notification.additionalConfig?['onClick'] ?? {},
+          notification.additionalConfig?['onClick'] as Map<String,dynamic>? ?? {},
           tbContext,
           isOnNotificationsScreenAlready: true,
         );
@@ -141,7 +141,7 @@ class NotificationWidget extends StatelessWidget {
                         child: Text(
                           alarmSeverityTranslations[severity] ?? '',
                           style: TextStyle(
-                            color: alarmSeverityColors[AlarmSeverity.CRITICAL]!,
+                            color: alarmSeverityColors[AlarmSeverity.CRITICAL],
                             fontWeight: FontWeight.w600,
                           ),
                         ),

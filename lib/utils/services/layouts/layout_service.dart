@@ -3,7 +3,7 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
 import 'package:thingsboard_app/thingsboard_client.dart'
-    show PageLayout, Pages, Authority;
+    show Authority, PageLayout, Pages;
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {

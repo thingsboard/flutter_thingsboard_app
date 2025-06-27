@@ -9,14 +9,15 @@ import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/bloc/bloc.dart';
 import 'package:thingsboard_app/core/auth/login/di/login_di.dart';
+import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
 import 'package:thingsboard_app/core/auth/login/select_region/choose_region_screen.dart';
 import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/core/auth/oauth2/i_oauth2_client.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -26,10 +27,8 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-import 'login_page_background.dart';
-
 class LoginPage extends TbPageWidget {
-  LoginPage(TbContext tbContext, {super.key}) : super(tbContext);
+  LoginPage(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -103,10 +102,10 @@ class _LoginPageState extends TbPageState<LoginPage>
               builder: (context, state) {
                 switch (state) {
                   case AuthLoadingState():
-                    return SizedBox.expand(
-                      child: Container(
-                        color: const Color(0x99FFFFFF),
-                        child: const Center(
+                    return const SizedBox.expand(
+                      child: ColoredBox(
+                        color: Color(0x99FFFFFF),
+                        child: Center(
                           child: TbProgressIndicator(size: 50.0),
                         ),
                       ),
@@ -219,32 +218,9 @@ class _LoginPageState extends TbPageState<LoginPage>
                                             children: [
                                               OutlinedButton(
                                                 style: _oauth2IconButtonStyle,
-                                                onPressed: () async {
-                                                  FocusScope.of(context)
-                                                      .unfocus();
-                                                  try {
-                                                    final barcode = await getIt<
-                                                            ThingsboardAppRouter>()
-                                                        .navigateTo(
-                                                      '/qrCodeScan',
-                                                      transition: TransitionType
-                                                          .nativeModal,
-                                                    );
-
-                                                    if (barcode != null &&
-                                                        barcode.code != null) {
-                                                      getIt<ThingsboardAppRouter>()
-                                                          .navigateByAppLink(
-                                                        barcode.code,
-                                                      );
-                                                    } else {}
-                                                  } catch (e) {
-                                                    log.error(
-                                                      'Login with qr code error',
-                                                      e,
-                                                    );
-                                                  }
-                                                },
+                                                onPressed: () async =>
+                                                    await _onLoginWithBarcode(
+                                                        context),
                                                 child: Row(
                                                   children: [
                                                     SvgPicture.asset(
@@ -469,7 +445,7 @@ class _LoginPageState extends TbPageState<LoginPage>
               valueListenable: _isLoginNotifier,
               builder: (BuildContext context, bool loading, child) {
                 if (loading) {
-                  var data = MediaQuery.of(context);
+                  final data = MediaQuery.of(context);
                   var bottomPadding = data.padding.top;
                   bottomPadding += kToolbarHeight;
                   return SizedBox.expand(
@@ -498,6 +474,27 @@ class _LoginPageState extends TbPageState<LoginPage>
         ),
       ),
     );
+  }
+
+  Future<void> _onLoginWithBarcode(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+    try {
+      final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
+        '/qrCodeScan',
+        transition: TransitionType.nativeModal,
+      );
+
+      if (barcode != null && barcode.code != null) {
+        getIt<ThingsboardAppRouter>().navigateByAppLink(
+          barcode.code,
+        );
+      }
+    } catch (e) {
+      log.error(
+        'Login with qr code error',
+        e,
+      );
+    }
   }
 
   Widget _buildOAuth2Buttons(List<OAuth2ClientInfo> clients) {
@@ -530,32 +527,13 @@ class _LoginPageState extends TbPageState<LoginPage>
                   ),
                 )
                 .values
-                .toList(),
+                ,
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton(
                 style: _oauth2IconButtonStyle,
-                onPressed: () async {
-                  FocusScope.of(context).unfocus();
-                  try {
-                    final barcode =
-                        await getIt<ThingsboardAppRouter>().navigateTo(
-                      '/qrCodeScan',
-                      transition: TransitionType.nativeModal,
-                    );
-
-                    if (barcode != null && barcode.code != null) {
-                      getIt<ThingsboardAppRouter>().navigateByAppLink(
-                        barcode.code,
-                      );
-                    } else {}
-                  } catch (e) {
-                    log.error(
-                      'Login with qr code error',
-                      e,
-                    );
-                  }
-                },
+                onPressed: () async => _onLoginWithBarcode(context)
+                ,
                 child: SvgPicture.asset(
                   ThingsboardImage.oauth2Logos['qr-code']!,
                   height: 24,
@@ -585,7 +563,7 @@ class _LoginPageState extends TbPageState<LoginPage>
         if (strIcon.startsWith('mdi:')) {
           strIcon = strIcon.substring(4);
         }
-        var iconData = MdiIcons.fromString(strIcon);
+        final iconData = MdiIcons.fromString(strIcon);
         if (iconData != null) {
           icon =
               Icon(iconData, size: 24, color: Theme.of(context).primaryColor);
@@ -614,7 +592,7 @@ class _LoginPageState extends TbPageState<LoginPage>
     }
   }
 
-  void _oauth2ButtonPressed(OAuth2ClientInfo client) async {
+  Future<void> _oauth2ButtonPressed(OAuth2ClientInfo client) async {
     FocusScope.of(context).unfocus();
     _isLoginNotifier.value = true;
     try {
@@ -635,12 +613,12 @@ class _LoginPageState extends TbPageState<LoginPage>
     }
   }
 
-  void _login() async {
+  Future<void> _login() async {
     FocusScope.of(context).unfocus();
     if (_loginFormKey.currentState?.saveAndValidate() ?? false) {
-      var formValue = _loginFormKey.currentState!.value;
-      String username = formValue['username'];
-      String password = formValue['password'];
+      final formValue = _loginFormKey.currentState!.value;
+      final String username = formValue['username'].toString();
+      final String password = formValue['password'].toString();
       _isLoginNotifier.value = true;
       try {
         await tbClient.login(LoginRequest(username, password));
@@ -654,7 +632,7 @@ class _LoginPageState extends TbPageState<LoginPage>
     }
   }
 
-  void _forgotPassword() async {
+  Future<void> _forgotPassword() async {
     getIt<ThingsboardAppRouter>().navigateTo('/login/resetPasswordRequest');
   }
 }

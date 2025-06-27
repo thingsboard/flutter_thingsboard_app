@@ -34,8 +34,6 @@ class _VersionSingleState extends TbContextState<VersionSingleWidget>
       appBar: TbAppBar(
         tbContext,
         title: Text(S.of(context).updateRequired),
-        leading: null,
-        canGoBack: false,
       ),
       body: SafeArea(
         child: Padding(

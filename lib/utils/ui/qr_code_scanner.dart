@@ -110,7 +110,7 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+    final scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
@@ -129,7 +129,6 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
       key: qrKey,
       onQRViewCreated: (ctrl) => _onQRViewCreated(ctrl, context),
       overlay: QrScannerOverlayShape(
-        borderColor: Colors.red,
         borderRadius: 10,
         borderLength: 30,
         borderWidth: 10,

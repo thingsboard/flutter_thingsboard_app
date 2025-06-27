@@ -40,17 +40,13 @@ class _DashboardState extends TbContextState<DashboardWidget> {
 
   late final DashboardController dashboardController;
   late WebUri _initialUrl;
-final _exportModule =  TbDashboardExportModule();
+  final _exportModule = TbDashboardExportModule();
   final settings = InAppWebViewSettings(
     isInspectable: kDebugMode || EnvironmentVariables.verbose,
     useShouldOverrideUrlLoading: true,
     mediaPlaybackRequiresUserGesture: false,
-    javaScriptEnabled: true,
-    cacheEnabled: true,
     supportZoom: false,
     clearCache: true,
-    useHybridComposition: true,
-    thirdPartyCookiesEnabled: true,
     allowsInlineMediaPlayback: true,
     allowsBackForwardNavigationGestures: false,
   );
@@ -64,7 +60,7 @@ final _exportModule =  TbDashboardExportModule();
     return Stack(
       children: [
         InAppWebView(
-            onDownloadStartRequest: _exportModule.onDownloadStartRequest,
+          onDownloadStartRequest: _exportModule.onDownloadStartRequest,
           initialUrlRequest: URLRequest(url: _initialUrl),
           initialSettings: settings,
           onWebViewCreated: _onWebViewCreated,
@@ -89,10 +85,10 @@ final _exportModule =  TbDashboardExportModule();
                       target,
                       home: widget.home,
                     );
-                  } on UnimplementedError catch (e) {
+                  } catch (e) {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        _buildWarnSnackBar(e.message!),
+                        _buildWarnSnackBar(e),
                       );
                     }
                   }
@@ -211,8 +207,7 @@ final _exportModule =  TbDashboardExportModule();
       handlerName: 'tbMobileHandler',
       callback: (args) async {
         log.debug('Invoked tbMobileHandler: $args');
-        return await getIt<WidgetActionHandler>()
-            .handleWidgetMobileAction(
+        return await getIt<WidgetActionHandler>().handleWidgetMobileAction(
           args,
           webViewController,
         );
@@ -221,7 +216,8 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileNavigationHandler(
-      InAppWebViewController webViewController,) {
+    InAppWebViewController webViewController,
+  ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileNavigationHandler',
       callback: (args) async {
@@ -230,17 +226,16 @@ final _exportModule =  TbDashboardExportModule();
         );
         if (args.isNotEmpty) {
           late String path;
-
-          if (args.first.contains('.')) {
-            path =
-                '/${args.first.split('.').first}/${args.first.split('.').last}';
+          final pathArg = args.first.toString();
+          if (args.first.toString().contains('.')) {
+            path = '/${pathArg.split('.').first}/${pathArg.split('.').last}';
           } else {
             path = '/${args.first}';
           }
 
           Map<String, dynamic>? params;
           if (args.length > 1) {
-            params = args[1];
+            params = args[1] as Map<String, dynamic>?;
           }
 
           log.debug('path: $path');
@@ -250,10 +245,10 @@ final _exportModule =  TbDashboardExportModule();
               path,
               home: widget.home,
             );
-          } on UnimplementedError catch (e) {
+          } catch (e) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                _buildWarnSnackBar(e.message!),
+                _buildWarnSnackBar(e),
               );
             }
           }
@@ -263,7 +258,8 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardStateNameHandler(
-      InAppWebViewController webViewController,) {
+    InAppWebViewController webViewController,
+  ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardStateNameHandler',
       callback: (args) async {
@@ -272,7 +268,7 @@ final _exportModule =  TbDashboardExportModule();
         );
         if (args.isNotEmpty && args[0] is String) {
           if (widget.titleCallback != null) {
-            widget.titleCallback!(args[0]);
+            widget.titleCallback?.call(args[0].toString());
           }
         }
       },
@@ -280,11 +276,15 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardLayoutHandler(
-      InAppWebViewController webViewController,) {
+    InAppWebViewController webViewController,
+  ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLayoutHandler',
       callback: (args) async {
-        bool rightLayoutOpened = args[0];
+        if (args.isEmpty) {
+          return;
+        }
+        final bool rightLayoutOpened = bool.parse(args[0].toString());
         log.debug(
           'Invoked tbMobileDashboardLayoutHandler: '
           'rightLayoutOpened: $rightLayoutOpened',
@@ -295,12 +295,16 @@ final _exportModule =  TbDashboardExportModule();
   }
 
   void _injectTbMobileDashboardLoadedHandler(
-      InAppWebViewController webViewController,) {
+    InAppWebViewController webViewController,
+  ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLoadedHandler',
       callback: (args) async {
-        bool hasRightLayout = args[0];
-        bool rightLayoutOpened = args[1];
+        if (args.length < 2) {
+          return;
+        }
+        final bool hasRightLayout = bool.parse(args[0].toString());
+        final bool rightLayoutOpened = bool.parse(args[1].toString());
         log.debug(
           'Invoked tbMobileDashboardLoadedHandler: '
           'hasRightLayout: $hasRightLayout, '
@@ -328,12 +332,17 @@ final _exportModule =  TbDashboardExportModule();
     );
   }
 
-  SnackBar _buildWarnSnackBar(String message) {
+  SnackBar _buildWarnSnackBar(Object error) {
+    String errorMessage = 'Unexpected error';
+    if (error is UnimplementedError) {
+      errorMessage = error.message ?? '';
+    }
+
     return SnackBar(
       duration: const Duration(seconds: 10),
       backgroundColor: const Color(0xFFdc6d1b),
       content: Text(
-        message,
+        errorMessage,
         style: const TextStyle(color: Colors.white),
       ),
       action: SnackBarAction(

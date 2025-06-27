@@ -47,7 +47,7 @@ class DashboardsGridWidget extends StatelessWidget {
                   title: dashboard.title,
                 );
               },
-              settings: EntityCardSettings(dropShadow: true),
+              settings: EntityCardSettings(),
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const FirstPageProgressBuilder(),

@@ -1,5 +1,4 @@
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -9,10 +8,10 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery>
     with DevicesBase {
   DevicesListWidget(
-    TbContext tbContext, {
+    super.tbContext, {
     super.key,
-    EntitiesListWidgetController? controller,
-  }) : super(tbContext, controller: controller);
+    super.controller,
+  });
 
   @override
   void onViewAll() {

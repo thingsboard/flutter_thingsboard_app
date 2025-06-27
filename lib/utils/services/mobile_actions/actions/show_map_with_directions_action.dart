@@ -5,5 +5,5 @@ class ShowMapWithDirectionsAction  extends ShowMapLocationAction {
     @override
   WidgetMobileActionType get type => WidgetMobileActionType.mapDirection;
   @override
-  Future<String>  getUrl(args) => getMapUrl(args, true);
+  Future<String>  getUrl(List args) => getMapUrl(args, true);
 }

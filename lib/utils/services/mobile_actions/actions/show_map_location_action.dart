@@ -5,7 +5,7 @@ class ShowMapLocationAction extends UrlAction {
   @override
   WidgetMobileActionType get type => WidgetMobileActionType.mapLocation;
   @override
-  Future<String>  getUrl(args) => getMapUrl(args, false);
+  Future<String>  getUrl(List args) => getMapUrl(args, false);
  Future<String> getMapUrl(
     List<dynamic> args,
     bool directionElseLocation,
@@ -14,16 +14,15 @@ class ShowMapLocationAction extends UrlAction {
       num? lat;
       num? lon;
       if (args.length > 2 && args[1] is num && args[2] is num) {
-        lat = args[1];
-        lon = args[2];
+        lat = num.parse(args[1].toString());
+        lon = num.parse(args[2].toString());
       } else {
         return '';
       }
       var url = 'https://www.google.com/maps/';
-      url += directionElseLocation
+      return url += directionElseLocation
           ? 'dir/?api=1&destination=$lat,$lon'
           : 'search/?api=1&query=$lat,$lon';
-      return url;
     } catch (e) {
       return '';
     }

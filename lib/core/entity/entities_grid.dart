@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import 'entities_base.dart';
-import 'entity_grid_card.dart';
+import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
 
 mixin EntitiesGridStateBase on StatefulWidget {
   @override

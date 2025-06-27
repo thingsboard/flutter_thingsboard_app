@@ -1,10 +1,6 @@
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
 
 class WidgetMobileActionResult<T extends MobileActionResult> {
-  T? result;
-  bool hasResult = false;
-  String? error;
-  bool hasError = false;
 
   WidgetMobileActionResult.errorResult(this.error)
       : hasError = true,
@@ -17,9 +13,13 @@ class WidgetMobileActionResult<T extends MobileActionResult> {
   WidgetMobileActionResult.emptyResult()
       : hasError = false,
         hasResult = false;
+  T? result;
+  bool hasResult = false;
+  String? error;
+  bool hasError = false;
 
   Map<String, dynamic> toJson() {
-    var json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['hasError'] = hasError;
     json['hasResult'] = hasResult;
     json['error'] = error;

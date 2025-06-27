@@ -2,7 +2,8 @@ part of 'tb_context.dart';
 
 mixin HasTbContext {
   late final TbContext _tbContext;
-
+///TODO: refactor 
+  // ignore: use_setters_to_change_properties
   void setTbContext(TbContext tbContext) {
     _tbContext = tbContext;
   }
@@ -54,7 +55,7 @@ mixin HasTbContext {
 
   void subscribeRouteObserver(TbPageState pageState) {
     _tbContext.routeObserver
-        .subscribe(pageState, ModalRoute.of(pageState.context) as PageRoute);
+        .subscribe(pageState, ModalRoute.of(pageState.context)! as PageRoute);
   }
 
   void unsubscribeRouteObserver(TbPageState pageState) {

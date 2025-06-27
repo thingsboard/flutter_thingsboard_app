@@ -49,11 +49,11 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
         builder: (context, state) {
           switch (state) {
             case AlarmDetailsLoadingState():
-              return Scaffold(
+              return const Scaffold(
                 body: SizedBox.expand(
-                  child: Container(
-                    color: const Color(0x99FFFFFF),
-                    child: const Center(
+                  child: ColoredBox(
+                    color: Color(0x99FFFFFF),
+                    child: Center(
                       child: TbProgressIndicator(size: 50.0),
                     ),
                   ),
@@ -87,7 +87,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
                                   alamDashboardId:
-                                      state.alarmInfo.details?['dashboardId'],
+                                      state.alarmInfo.details?['dashboardId'].toString(),
                                   tbContext: tbContext,
                                 ),
                                 Padding(

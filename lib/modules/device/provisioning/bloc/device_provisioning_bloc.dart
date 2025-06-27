@@ -29,19 +29,14 @@ class DeviceProvisioningBloc
       switch (event.status) {
         case DeviceProvisioningStatus.idle:
           add(const ProvisioningIdleEvent());
-          break;
         case DeviceProvisioningStatus.wifi:
           add(const SendWifiCredentialsEvent());
-          break;
         case DeviceProvisioningStatus.confirmation:
           add(const ConfirmConnectionEvent());
-          break;
         case DeviceProvisioningStatus.success:
           add(const SuccessfullyProvisionedEvent());
-          break;
         case DeviceProvisioningStatus.fail:
           add(const ErrorDuringProvisioningEvent());
-          break;
         default:
           break;
       }
@@ -86,11 +81,9 @@ class DeviceProvisioningBloc
     switch (event) {
       case SendWifiCredentialsEvent():
         emit(const DeviceProvisioningSendWifiCreds());
-        break;
 
       case ConfirmConnectionEvent():
         emit(const DeviceProvisioningConfirmConnection());
-        break;
 
       case SuccessfullyProvisionedEvent():
         emit(const DeviceProvisioningSuccessState());
@@ -153,20 +146,16 @@ class DeviceProvisioningBloc
 
           emit(DeviceProvisioningClaimingErrorState(message));
         }
-        break;
 
       case ErrorDuringProvisioningEvent():
         emit(const DeviceProvisioningErrorState());
-        break;
 
       case ProvisioningIdleEvent():
         emit(const DeviceProvisioningIdleState());
-        break;
 
       case ProceedWithClaimingEvent():
         mustReconnectToWifiBeforeClaiming = false;
         add(const SuccessfullyProvisionedEvent());
-        break;
     }
   }
 

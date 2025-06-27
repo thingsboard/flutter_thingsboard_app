@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
@@ -17,11 +18,11 @@ final class SwitchEndpointParams {
     required this.onError,
   });
 
-  final Map<String, dynamic> data;
+  final SwitchEndpointArgs data;
   final VoidCallback onDone;
   final Function(String?) onError;
 
-  dynamic operator [](String key) => data[key];
+ // dynamic operator [](String key) => data[key];
 }
 
 class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
@@ -39,9 +40,9 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
 
   @override
   Future<void> call(SwitchEndpointParams params) async {
-    final uri = params['uri']!;
-    final host = params['host'] ?? uri.origin;
-    final key = params['secret']!;
+    final uri = params.data.uri;
+    final host = params.data.host ?? uri.origin;
+    final key = params.data.secret;
     final currentEndpoint = await getIt<IEndpointService>().getEndpoint();
     final isTheSameHost =
         Uri.parse(host).host.compareTo(Uri.parse(currentEndpoint).host) == 0;

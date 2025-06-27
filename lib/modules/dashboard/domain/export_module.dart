@@ -53,7 +53,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     final csvTypes = [
       'text/csv',
       'attachament/csv',
-      'attachment/csv'
+      'attachment/csv',
       'application/csv',
     ];
     if (csvTypes.contains(mimeType.toLowerCase())) {
@@ -67,8 +67,8 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     
   }
 
-  void _saveWithFilePicker(String filename, Uint8List bytes) async {
-    String? outputFile = await FilePicker.platform.saveFile(
+  Future<void> _saveWithFilePicker(String filename, Uint8List bytes) async {
+    final String? outputFile = await FilePicker.platform.saveFile(
         dialogTitle: 'Please select an output file:',
         fileName: filename,
         bytes: bytes,);

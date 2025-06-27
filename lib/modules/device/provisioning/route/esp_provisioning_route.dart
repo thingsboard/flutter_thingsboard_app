@@ -11,26 +11,26 @@ class EspProvisioningRoute extends TbRoutes {
 
   late final wifiRouteHandler = Handler(
     handlerFunc: (context, params) {
-      final args = context?.settings?.arguments as Map<String, dynamic>;
+      final args = context!.settings!.arguments! as Map<String, dynamic>;
       return EspBleProvisioningView(
         tbContext,
-        tbDeviceName: args['deviceName'] ?? '',
-        tbDeviceSecretKey: args['deviceSecretKey'] ?? '',
-        name: args['name'],
-        poofOfPossession: args['pop'],
+        tbDeviceName: args['deviceName'] as String? ?? '',
+        tbDeviceSecretKey: args['deviceSecretKey'] as String? ?? '',
+        name: args['name'] as String,
+        poofOfPossession: args['pop'] as String,
       );
     },
   );
 
   late final softApHandler = Handler(
     handlerFunc: (context, params) {
-      final args = context?.settings?.arguments as Map<String, dynamic>;
+      final args = context!.settings!.arguments! as Map<String, dynamic>;
       return EspSoftApView(
         tbContext,
-        tbDeviceName: args['deviceName'] ?? '',
-        tbDeviceSecretKey: args['deviceSecretKey'] ?? '',
-        name: args['name'],
-        proofOfPossession: args['pop'],
+        tbDeviceName: args['deviceName'] as String? ?? '',
+        tbDeviceSecretKey: args['deviceSecretKey'] as String? ?? '',
+        name: args['name'] as String,
+        proofOfPossession: args['pop'] as String,
       );
     },
   );

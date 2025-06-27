@@ -124,7 +124,6 @@ class EspBleProvisioningBloc
           emit(EspEstablishSessionError(event.deviceName));
         }
 
-        break;
 
       case EspBleProvisionDeviceEvent():
         emit(
@@ -187,10 +186,8 @@ class EspBleProvisioningBloc
           break;
         }
 
-        break;
       case EspBleProvisioningDoneEvent():
         emit(const EspBleProvisioningDoneState());
-        break;
     }
   }
 

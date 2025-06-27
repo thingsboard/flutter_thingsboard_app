@@ -4,11 +4,11 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 class HMACBase64Algorithm extends JWTAlgorithm {
+
+  const HMACBase64Algorithm(this._name);
   static const hs512 = HMACBase64Algorithm('HS512');
 
   final String _name;
-
-  const HMACBase64Algorithm(this._name);
 
   @override
   String get name => _name;

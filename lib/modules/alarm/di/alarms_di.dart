@@ -18,7 +18,7 @@ class AlarmsDi {
   AlarmsDi._();
 
   static void init(
-    final String scopeName, {
+    String scopeName, {
     required ThingsboardClient tbClient,
     required String typesScopeName,
     required String assigneeScopeName,
@@ -75,7 +75,7 @@ class AlarmsDi {
   }
 
   static void dispose(
-    final String scopeName, {
+     String scopeName, {
     required String typesScopeName,
     required String assigneeScopeName,
   }) {

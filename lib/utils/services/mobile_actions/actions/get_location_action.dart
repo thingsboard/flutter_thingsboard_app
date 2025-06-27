@@ -42,7 +42,7 @@ class GetLocationAction extends MobileAction {
           'Location permissions are permanently denied, we cannot request permissions.',
         );
       }
-      var position = await Geolocator.getCurrentPosition(
+      final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
       return WidgetMobileActionResult.successResult(

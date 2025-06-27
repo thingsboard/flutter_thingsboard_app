@@ -25,7 +25,6 @@ class TryAgainButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black.withOpacity(.12),
-            width: 1,
           ),
           borderRadius: BorderRadius.circular(4),
         ),

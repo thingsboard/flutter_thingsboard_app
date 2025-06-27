@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entity_details_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
-  AssetDetailsPage(TbContext tbContext, String assetId, {super.key})
+  AssetDetailsPage(super.tbContext, String assetId, {super.key})
       : super(
-          tbContext,
           entityId: assetId,
           defaultTitle: 'Asset',
           subTitle: 'Asset details',
@@ -25,7 +23,6 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
         children: [
           Text(S.of(context).assetName, style: labelTextStyle),
           Text(entity.name, style: valueTextStyle),

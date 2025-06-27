@@ -24,10 +24,9 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
   ) async {
     switch (event) {
       case AlarmTypesSelectedEvent():
-        final types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
         types.add(event.type);
         filtersService.setSelectedFilter(Filters.type, data: types);
-
         emit(
           AlarmTypeSelectedState(
             selectedTypes: types,
@@ -35,10 +34,9 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
                 (paginationRepository.pagingController.itemList?.length ?? 0),
           ),
         );
-        break;
 
       case AlarmTypesRemoveSelectedEvent():
-        final types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
         types.remove(event.type);
         filtersService.setSelectedFilter(Filters.type, data: types);
 
@@ -54,17 +52,14 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
           emit(const AlarmTypesSelectionEmptyState());
         }
 
-        break;
       case AlarmTypesResetEvent():
         emit(const AlarmTypesSelectionEmptyState());
 
-        break;
       case AlarmTypesRefreshEvent():
         paginationRepository.refresh();
 
-        break;
       case AlarmTypesResetUnCommittedChanges():
-        final types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
 
         if (types.isNotEmpty) {
           emit(
@@ -78,7 +73,6 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
           emit(const AlarmTypesSelectionEmptyState());
         }
 
-        break;
     }
   }
 }

@@ -27,7 +27,7 @@ abstract  class MobileActionResult {
   }
 
   Map<String, dynamic> toJson() {
-    var json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     return json;
   }
 }

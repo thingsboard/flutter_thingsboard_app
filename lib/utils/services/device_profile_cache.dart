@@ -10,7 +10,7 @@ abstract class DeviceProfileCache {
   ) async {
     var deviceProfile = _cache[name];
     if (deviceProfile == null) {
-      var device = await tbClient.getDeviceService().getDevice(deviceId);
+      final device = await tbClient.getDeviceService().getDevice(deviceId);
       deviceProfile = await tbClient
           .getDeviceProfileService()
           .getDeviceProfileInfo(device!.deviceProfileId!.id!);

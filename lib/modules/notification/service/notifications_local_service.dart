@@ -16,7 +16,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> increaseNotificationBadgeCount() async {
     final counter = await storage.getItem(notificationCounterKey);
-    final updatedCounter = int.parse(counter ?? '0') + 1;
+    final updatedCounter = (int.tryParse(counter.toString()) ?? 0) + 1;
     await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
     FlutterNewBadger.setBadge(updatedCounter);
@@ -26,7 +26,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> decreaseNotificationBadgeCount() async {
     final counter = await storage.getItem(notificationCounterKey);
-    final updatedCounter = int.parse(counter ?? '0') - 1;
+    final updatedCounter = (int.tryParse(counter.toString()) ?? 0)- 1;
     if (updatedCounter <= 0) {
       FlutterNewBadger.removeBadge();
       notificationsNumberStream.add(0);
@@ -40,7 +40,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> triggerNotificationCountStream() async {
     final counter = await storage.getItem(notificationCounterKey);
-    notificationsNumberStream.add(int.parse(counter ?? '0'));
+    notificationsNumberStream.add(int.tryParse(counter.toString()) ?? 0);
   }
 
   @override

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'entities_base.dart';
+import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 class EntityListCard<T> extends StatelessWidget {
-  final bool _listWidgetCard;
-  final T _entity;
-  final EntityTapFunction<T>? _onEntityTap;
-  final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
 
   const EntityListCard(
     T entity, {
@@ -18,6 +14,10 @@ class EntityListCard<T> extends StatelessWidget {
         _onEntityTap = onEntityTap,
         _entityCardWidgetBuilder = entityCardWidgetBuilder,
         _listWidgetCard = listWidgetCard;
+  final bool _listWidgetCard;
+  final T _entity;
+  final EntityTapFunction<T>? _onEntityTap;
+  final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,6 @@ class EntityListCard<T> extends StatelessWidget {
             ? BoxDecoration(
                 border: Border.all(
                   color: const Color(0xFFDEDEDE),
-                  style: BorderStyle.solid,
-                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4),
               )

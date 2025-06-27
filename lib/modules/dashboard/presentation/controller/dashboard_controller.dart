@@ -36,25 +36,26 @@ class DashboardController {
   }) async {
     final windowMessage = <String, dynamic>{
       'type': 'openDashboardMessage',
-      'data': <String, dynamic>{'dashboardId': dashboardId},
+     
     };
+    final data =  <String, dynamic>{'dashboardId': dashboardId};
     if (state != null) {
-      windowMessage['data']['state'] = state;
+     data['state'] = state;
     }
     if (home) {
-      windowMessage['data']['embedded'] = true;
+      data['embedded'] = true;
     }
     if (hideToolbar == true) {
-      windowMessage['data']['hideToolbar'] = true;
+     data['hideToolbar'] = true;
     }
-
+windowMessage['data'] = data;
     await controller?.postWebMessage(
       message: WebMessage(data: jsonEncode(windowMessage)),
       targetOrigin: WebUri('*'),
     );
   }
 
-  void onHistoryUpdated(Future<bool> canGoBackFuture) async {
+  Future<void> onHistoryUpdated(Future<bool> canGoBackFuture) async {
     canGoBack.value = await canGoBackFuture;
   }
 

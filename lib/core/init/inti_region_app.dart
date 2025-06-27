@@ -36,10 +36,10 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitRegionApp> {
           return SelectRegionScreen(tbContext);
         }
         if (ThingsboardAppConstants.ignoreRegionSelection) {
-          getIt<IEndpointService>().setRegion(Region.custom);
           getIt<IEndpointService>().setEndpoint(
             ThingsboardAppConstants.thingsBoardApiEndpoint,
           );
+           getIt<IEndpointService>().setRegion(Region.custom);
         }
 
         initTbContext();

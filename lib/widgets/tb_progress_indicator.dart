@@ -5,21 +5,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 
 class TbProgressIndicator extends ProgressIndicator {
-  final double size;
 
   const TbProgressIndicator({
-    Key? key,
+    super.key,
     this.size = 36.0,
-    Animation<Color?>? valueColor,
-    String? semanticsLabel,
-    String? semanticsValue,
+    super.valueColor,
+    super.semanticsLabel,
+    super.semanticsValue,
   }) : super(
-          key: key,
           value: null,
-          valueColor: valueColor,
-          semanticsLabel: semanticsLabel,
-          semanticsValue: semanticsValue,
         );
+  final double size;
 
   @override
   State<StatefulWidget> createState() => _TbProgressIndicatorState();
@@ -39,7 +35,6 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
-      upperBound: 1,
       animationBehavior: AnimationBehavior.preserve,
     );
     _rotation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);

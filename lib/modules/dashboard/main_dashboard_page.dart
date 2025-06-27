@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
@@ -10,10 +9,10 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class MainDashboardPage extends TbContextWidget {
   MainDashboardPage(
-    TbContext tbContext, {
+    super.tbContext, {
     required this.controller,
     super.key,
-  }) : super(tbContext);
+  });
 
   final DashboardPageController controller;
 
@@ -54,7 +53,6 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
             }
           },
         ),
-        showLoadingIndicator: false,
         elevation: 1,
         shadowColor: Colors.transparent,
         title: ValueListenableBuilder<String>(

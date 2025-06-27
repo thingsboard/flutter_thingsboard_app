@@ -2,10 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:stream_transform/stream_transform.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 
 class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
+
+  TbAppBar(
+    super.tbContext, {
+    super.key,
+    this.leading,
+    this.title,
+    this.actions,
+    this.elevation = 8,
+    this.shadowColor,
+    this.showLoadingIndicator = false,
+    this.canGoBack = false,
+  })  : preferredSize =
+            Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0));
   final Widget? leading;
   final Widget? title;
   final List<Widget>? actions;
@@ -17,20 +29,6 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  TbAppBar(
-    TbContext tbContext, {
-    super.key,
-    this.leading,
-    this.title,
-    this.actions,
-    this.elevation = 8,
-    this.shadowColor,
-    this.showLoadingIndicator = false,
-    this.canGoBack = false,
-  })  : preferredSize =
-            Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
-        super(tbContext);
-
   @override
   State<StatefulWidget> createState() => _TbAppBarState();
 }
@@ -38,7 +36,7 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
 class _TbAppBarState extends TbContextState<TbAppBar> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = <Widget>[];
+    final List<Widget> children = <Widget>[];
     children.add(buildDefaultBar());
     if (widget.showLoadingIndicator) {
       children.add(
@@ -74,6 +72,18 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
 }
 
 class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
+
+  TbAppSearchBar(
+    super.tbContext, {
+    super.key,
+    this.elevation = 8,
+    this.shadowColor,
+    this.showLoadingIndicator = false,
+    this.searchHint,
+    this.onSearch,
+    this.leading,
+  })  : preferredSize =
+            Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0));
   final double? elevation;
   final Color? shadowColor;
   final bool showLoadingIndicator;
@@ -83,19 +93,6 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
 
   @override
   final Size preferredSize;
-
-  TbAppSearchBar(
-    TbContext tbContext, {
-    super.key,
-    this.elevation = 8,
-    this.shadowColor,
-    this.showLoadingIndicator = false,
-    this.searchHint,
-    this.onSearch,
-    this.leading,
-  })  : preferredSize =
-            Size.fromHeight(kToolbarHeight + (showLoadingIndicator ? 4 : 0)),
-        super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _TbAppSearchBarState();
@@ -126,7 +123,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = <Widget>[];
+    final List<Widget> children = <Widget>[];
     children.add(buildSearchBar());
     if (widget.showLoadingIndicator) {
       children.add(

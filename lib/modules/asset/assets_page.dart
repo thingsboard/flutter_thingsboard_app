@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/asset/assets_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-import 'assets_list.dart';
-
 class AssetsPage extends TbContextWidget {
-  final bool searchMode;
 
   AssetsPage(
-    TbContext tbContext, {
+    super.tbContext, {
     this.searchMode = false,
     super.key,
-  }) : super(tbContext);
+  });
+  final bool searchMode;
 
   @override
   State<StatefulWidget> createState() => _AssetsPageState();

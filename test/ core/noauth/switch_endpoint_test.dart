@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
+import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -104,12 +107,8 @@ void main() {
           );
         },
         act: (bloc) => bloc.add(
-          const SwitchToAnotherEndpointEvent(
-            parameters: {
-              'host': 'host',
-              'secret': 'key',
-              'uri': 'uri',
-            },
+           SwitchToAnotherEndpointEvent(
+            parameters:   SwitchEndpointArgs(secret: 'key', host: 'host', uri: Uri.parse('uri'), ttl: '')
           ),
         ),
         expect: () => [
@@ -157,7 +156,7 @@ void main() {
             ),
           ).thenAnswer(
             (invocation) {
-              final onError =
+              final  onError =
                   invocation.namedArguments[const Symbol('onAuthError')];
               onError(
                 ThingsboardError(message: 'TBClient re-init error message'),
@@ -173,12 +172,9 @@ void main() {
           );
         },
         act: (bloc) => bloc.add(
-          const SwitchToAnotherEndpointEvent(
-            parameters: {
-              'host': 'https://host.com',
-              'secret': 'key',
-              'uri': 'uri',
-            },
+           SwitchToAnotherEndpointEvent(
+            parameters:  SwitchEndpointArgs(secret: 'key', host: 'https://host.com', uri: Uri.parse('uri'), ttl: '')
+            
           ),
         ),
         expect: () => [
@@ -249,12 +245,10 @@ void main() {
           );
         },
         act: (bloc) => bloc.add(
-          const SwitchToAnotherEndpointEvent(
-            parameters: {
-              'host': 'https://host.com',
-              'secret': 'key',
-              'uri': 'uri',
-            },
+           SwitchToAnotherEndpointEvent(
+
+            parameters: SwitchEndpointArgs(secret: 'key', uri: Uri(), host: 'https://host.com', ttl: '') 
+           
           ),
         ),
         expect: () => [

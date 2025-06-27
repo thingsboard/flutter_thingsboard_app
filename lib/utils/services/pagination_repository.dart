@@ -43,7 +43,7 @@ abstract base class PaginationRepository<T, B> {
 
       final isLastPage = !pageData.hasNext;
       if (refresh) {
-        var state = pagingController.value;
+        final state = pagingController.value;
         if (state.itemList != null) {
           state.itemList!.clear();
         }

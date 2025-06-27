@@ -12,6 +12,7 @@ import 'package:thingsboard_app/utils/services/device_info/device_info_service.d
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/firebase/firebase_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/layout_service.dart';
@@ -21,8 +22,6 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
-
-import 'utils/services/firebase/firebase_service.dart';
 
 final getIt = GetIt.instance;
 

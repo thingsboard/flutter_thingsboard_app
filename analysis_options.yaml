@@ -6,12 +6,15 @@ analyzer:
     - '**.freezed.dart'
     - '**.g.dart'
     - "**/*.gform.dart"
+  errors: 
+    invalid_annotation_target: ignore
 linter:
   rules:
     # Util classes are awesome!
     avoid_classes_with_only_static_members: false
     eol_at_end_of_file: false
     require_trailing_commas: false
+    use_setters_to_change_properties: false
     sort_pub_dependencies: false
     # Make constructors the first thing in every class
     sort_constructors_first: true

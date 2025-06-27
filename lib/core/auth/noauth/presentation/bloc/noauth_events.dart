@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 
 sealed class NoAuthEvent extends Equatable {
   const NoAuthEvent();
@@ -10,7 +11,7 @@ sealed class NoAuthEvent extends Equatable {
 final class SwitchToAnotherEndpointEvent extends NoAuthEvent {
   const SwitchToAnotherEndpointEvent({required this.parameters});
 
-  final Map<String, dynamic>? parameters;
+  final SwitchEndpointArgs? parameters;
 
   @override
   List<Object?> get props => [parameters];

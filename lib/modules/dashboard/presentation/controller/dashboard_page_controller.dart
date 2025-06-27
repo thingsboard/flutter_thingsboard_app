@@ -37,10 +37,10 @@ class DashboardPageController {
       );
     });
 
-    return pageCtrl.open(1, animate: true);
+    return pageCtrl.open(1);
   }
 
   Future<bool> closeDashboard() async {
-    return pageCtrl.close(1, animate: true);
+    return pageCtrl.close(1);
   }
 }

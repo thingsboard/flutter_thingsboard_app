@@ -1,10 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:thingsboard_app/config/routes/tb_routes.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/modules/url/url_page.dart';
 
 class UrlPageRoutes extends TbRoutes {
-  UrlPageRoutes(TbContext tbContext) : super(tbContext);
+  UrlPageRoutes(super.tbContext);
 
   static const urlPageRoutes = '/url/:link';
 
@@ -18,7 +17,7 @@ class UrlPageRoutes extends TbRoutes {
   );
 
   @override
-  void doRegisterRoutes(router) {
+  void doRegisterRoutes(FluroRouter router) {
     router.define(urlPageRoutes, handler: urlPageHandler);
   }
 }

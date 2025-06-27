@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ThingsboardInitApp extends TbPageWidget {
-  ThingsboardInitApp(TbContext tbContext, {Key? key})
-      : super(tbContext, key: key);
+  ThingsboardInitApp(super.tbContext, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ThingsboardInitAppState();

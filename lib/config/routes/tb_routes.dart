@@ -4,9 +4,9 @@ import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 
 abstract class TbRoutes {
-  final TbContext _tbContext;
 
   TbRoutes(this._tbContext);
+  final TbContext _tbContext;
 
   void registerRoutes() {
     doRegisterRoutes(getIt<ThingsboardAppRouter>().router);

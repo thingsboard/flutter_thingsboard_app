@@ -10,12 +10,6 @@ class AlarmFiltersEntity extends Equatable {
     this.selfAssignee,
   });
 
-  final List<String>? typeList;
-  final List<AlarmSearchStatus>? statusList;
-  final List<AlarmSeverity>? severityList;
-  final UserId? assigneeId;
-  final bool? selfAssignee;
-
   factory AlarmFiltersEntity.defaultFilters() {
     return const AlarmFiltersEntity();
   }
@@ -33,6 +27,12 @@ class AlarmFiltersEntity extends Equatable {
       assigneeId: userId != null ? UserId(userId) : null,
     );
   }
+
+  final List<String>? typeList;
+  final List<AlarmSearchStatus>? statusList;
+  final List<AlarmSeverity>? severityList;
+  final UserId? assigneeId;
+  final bool? selfAssignee;
 
   @override
   String toString() {

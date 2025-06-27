@@ -36,7 +36,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
           segments.length,
           (index) => Expanded(
             child: InkWell(
-              onTap: () => onSelectionChanged(segments[index].value),
+              onTap: () => onSelectionChanged(segments[index].value as T),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),

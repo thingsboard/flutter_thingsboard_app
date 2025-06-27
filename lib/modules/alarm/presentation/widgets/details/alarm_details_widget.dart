@@ -44,7 +44,6 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black.withOpacity(.12),
-              width: 1,
             ),
             borderRadius: BorderRadius.circular(6),
           ),

@@ -9,10 +9,6 @@ class AssigneeEntity extends Equatable {
     required this.displayName,
   });
 
-  final UserInfo userInfo;
-  final String shortName;
-  final String displayName;
-
   factory AssigneeEntity.fromUserInfo(
     UserInfo info, {
     required UserDetailsUseCase detailsUseCase,
@@ -31,6 +27,10 @@ class AssigneeEntity extends Equatable {
       shortName: details.shortName,
     );
   }
+
+  final UserInfo userInfo;
+  final String shortName;
+  final String displayName;
 
   @override
   List<Object?> get props => [userInfo, shortName, displayName];

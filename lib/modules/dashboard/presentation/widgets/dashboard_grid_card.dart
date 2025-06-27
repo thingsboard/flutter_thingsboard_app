@@ -2,16 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class DashboardGridCard extends TbContextWidget {
-  final DashboardInfo dashboard;
 
-  DashboardGridCard(TbContext tbContext, {super.key, required this.dashboard})
-      : super(tbContext);
+  DashboardGridCard(super.tbContext, {super.key, required this.dashboard});
+  final DashboardInfo dashboard;
 
   @override
   State<StatefulWidget> createState() => _DashboardGridCardState();
@@ -27,11 +25,11 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
 
   @override
   Widget build(BuildContext context) {
-    var hasImage = widget.dashboard.image != null;
+    final hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
       image =
-          Utils.imageFromTbImage(context, tbClient, widget.dashboard.image!);
+          Utils.imageFromTbImage(context, tbClient, widget.dashboard.image);
     } else {
       image = SvgPicture.asset(
         ThingsboardImage.dashboardPlaceholder,
@@ -70,7 +68,6 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
                   widget.dashboard.title,
                   textAlign: TextAlign.center,
                   maxLines: 1,
-                  minFontSize: 12,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,

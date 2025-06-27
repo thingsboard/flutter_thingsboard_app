@@ -56,7 +56,6 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
           emit(const AlarmDetailsErrorState(''));
         }
 
-        break;
 
       case ClearAlarmEvent():
         emit(const AlarmDetailsLoadingState());
@@ -66,7 +65,6 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
 
-        break;
 
       case AcknowledgeAlarmEvent():
         emit(const AlarmDetailsLoadingState());
@@ -76,7 +74,6 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
 
-        break;
     }
   }
 }
