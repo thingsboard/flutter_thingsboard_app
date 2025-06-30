@@ -6,6 +6,9 @@ import 'package:thingsboard_app/locator.dart';
 abstract final class LoginDi {
   static const scopeName = 'LoginDi';
   static void init() {
+    if (getIt.hasScope(scopeName)) {
+      return;
+    }
     getIt.pushNewScope(
         scopeName: scopeName,
         init: (locator) {
