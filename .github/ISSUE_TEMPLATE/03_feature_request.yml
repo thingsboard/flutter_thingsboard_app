@@ -1,0 +1,85 @@
+name: Feature request
+description: Suggest a new idea for ThingsBoard app.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for using ThingsBoard app!
+
+        If you are looking for support, please check out our documentation:
+
+          - https://thingsboard.io/docs/mobile/
+          - https://thingsboard.io/docs/
+
+        If you have an idea for a new feature that would improve the ThingsBoard app,
+        please fill out the template below.
+  - type: markdown
+    attributes:
+      value: |
+        Before filling the form fields, please consider the following:
+        - Ensure that you have searched the [existing issues](https://github.com/thingsboard/flutter_thingsboard_app/issues)
+        - Read the [mobile app documentation](https://thingsboard.io/docs/mobile/)
+  - type: input
+    attributes:
+      label: ThingsBoard Platform Version
+      description: What version of ThingsBoard platform are you using?
+      placeholder: "e.g., 3.6.0, 3.7.0, 3.8.0"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: ThingsBoard Platform Type
+      description: What type of ThingsBoard platform are you using?
+      options:
+        - Self-hosted ThingsBoard
+        - ThingsBoard Demo cloud
+        - ThingsBoard CE cloud
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Use case
+      description: |
+        Please tell us the problem you are running into that led to you wanting
+        a new feature.
+
+        Is your feature request related to a problem? Please give a clear and
+        concise description of what the problem is.
+
+        Describe the alternative solutions you've considered. Is there a workaround
+        you're currently using? Are there similar features in other IoT apps
+        that solve this problem?
+      placeholder: |
+        Example: "I'm always frustrated when I need to monitor multiple devices 
+        from different locations, but the current app doesn't allow me to group 
+        devices by location on the dashboard. I have to scroll through a long 
+        list to find the devices I need to check."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposal
+      description: |
+        Briefly but precisely describe what you would like the ThingsBoard app to be able to do.
+
+        Consider attaching something showing what you are imagining:
+         * mockups or wireframes
+         * screenshots from other apps
+         * videos demonstrating the desired behavior
+         * code samples if it's a technical feature
+
+        Please also consider:
+        - How would this feature integrate with existing ThingsBoard platform capabilities?
+        - Would this feature be useful for other ThingsBoard users in similar IoT scenarios?
+        - How would this feature work on both mobile platforms (iOS and Android)?
+      placeholder: |
+        Example: "Add a 'Device Groups' feature that allows users to:
+        1. Create custom groups (e.g., 'Office Floor 1', 'Warehouse Sensors')
+        2. Assign devices to multiple groups
+        3. View a group-based dashboard with aggregated data
+        4. Receive group-level notifications
+        
+        This could be implemented as a new tab in the main navigation, 
+        similar to how the current 'Devices' tab works."
+    validations:
+      required: true

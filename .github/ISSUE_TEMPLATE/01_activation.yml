@@ -1,0 +1,117 @@
+name: App installation, setup, or connection issues
+description: You have run into problems while installing the ThingsBoard app, setting it up, connecting to your ThingsBoard platform, or the app is crashing during initial setup.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for using ThingsBoard app!
+
+        If you are looking for support, please check out our documentation
+        or consider asking a question on our community forum:
+
+          - https://thingsboard.io/docs/mobile/
+          - https://thingsboard.io/docs/
+
+        If you have found a bug or if our documentation doesn't have an answer
+        to what you're looking for, then fill out the template below.
+  - type: markdown
+    attributes:
+      value: |
+        Before filling the form fields, please consider the following:
+        - Ensure that you have searched the [existing issues](https://github.com/thingsboard/flutter_thingsboard_app/issues)
+        - Read the [mobile app documentation](https://thingsboard.io/docs/mobile/)
+  - type: input
+    attributes:
+      label: ThingsBoard Platform Version
+      description: What version of ThingsBoard platform are you connecting to?
+      placeholder: "e.g., 3.6.0, 3.7.0, 3.8.0"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: ThingsBoard Platform Type
+      description: What type of ThingsBoard platform are you using?
+      options:
+        - Self-hosted ThingsBoard
+        - ThingsBoard Demo cloud
+        - ThingsBoard CE cloud
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: App Release Version
+      description: What version of the ThingsBoard app are you using?
+      placeholder: "e.g., 1.6.0 "
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Please tell us exactly how to reproduce the problem you are running into.
+      placeholder: |
+        1. Download and install the app from App Store/Google Play
+        2. Open the app and try to connect to ThingsBoard server at [URL]
+        3. Enter credentials [username/email]
+        4. App crashes or shows error message: [error details]
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual results
+      description: Please tell us what is actually happening
+      placeholder: |
+        Describe the error message, crash, or unexpected behavior you're experiencing.
+        Include any error codes or specific messages shown in the app.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Problematic Files (Optional)
+      description: |
+        If you were able to debug the issue and identify specific files in the app code
+        where the problem occurs, please list them here. This is optional but very helpful.
+      placeholder: |
+        e.g., lib/core/auth/login/login_page.dart
+        e.g., lib/utils/services/endpoint/endpoint_service.dart
+  - type: textarea
+    attributes:
+      label: App Logs
+      description: |
+        Include any relevant logs from the app.
+
+        If the logs are too large to be uploaded to Github, you may upload
+        them as a `txt` file or use online tools like https://pastebin.com to
+        share it.
+
+        Note: Please do not upload screenshots of text. Instead, use code blocks
+        or the above mentioned ways to upload logs.
+      value: |
+        <details open>
+        <summary>App Logs</summary>
+
+        ```console
+
+        <!-- Paste your app logs here -->
+
+        ```
+
+        </details>
+  - type: textarea
+    attributes:
+      label: Flutter Doctor output
+      description: |
+        Please provide the full output of running `flutter doctor -v`
+        This helps us understand your development environment setup.
+      value: |
+        <details open>
+        <summary>Doctor output</summary>
+
+        ```console
+
+        <!-- Paste your flutter doctor -v output here -->
+
+        ```
+
+        </details>
+    validations:
+      required: true
