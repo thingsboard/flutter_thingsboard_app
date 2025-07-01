@@ -12,7 +12,6 @@ abstract final class LoginDi {
     getIt.pushNewScope(
         scopeName: scopeName,
         init: (locator) {
-          // Datasource
           locator.registerFactory<IOAuth2Client>(
             () => TbOAuth2Client(
                 tbLogger: locator(),

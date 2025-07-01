@@ -4,6 +4,7 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
+import 'package:thingsboard_app/modules/notification/di/notifcations_di.dart';
 import 'package:thingsboard_app/modules/notification/repository/notification_pagination_repository.dart';
 import 'package:thingsboard_app/modules/notification/repository/notification_repository.dart';
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
@@ -158,7 +159,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
       tbClient: widget.tbContext.tbClient,
       notificationQueryPageCtrl: notificationQueryCtrl,
     )..init();
-
+    NotifcationsDi.init();
     notificationRepository = NotificationRepository(
       notificationQueryCtrl: notificationQueryCtrl,
       thingsboardClient: widget.tbContext.tbClient,
@@ -191,6 +192,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   void dispose() {
     paginationRepository.dispose();
     notificationQueryCtrl.dispose();
+    NotifcationsDi.dispose();
     super.dispose();
   }
 

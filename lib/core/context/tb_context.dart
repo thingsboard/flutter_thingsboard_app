@@ -348,7 +348,7 @@ class TbContext implements PopEntry {
 
   String? _defaultDashboardId() {
     if (userDetails != null && userDetails!.additionalInfo != null) {
-      return userDetails!.additionalInfo!['defaultDashboardId'].toString();
+      return userDetails!.additionalInfo!['defaultDashboardId']?.toString();
     }
     return null;
   }

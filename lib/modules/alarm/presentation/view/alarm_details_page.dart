@@ -87,7 +87,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
                                   alamDashboardId:
-                                      state.alarmInfo.details?['dashboardId'].toString(),
+                                      state.alarmInfo.details?['dashboardId']?.toString(),
                                   tbContext: tbContext,
                                 ),
                                 Padding(

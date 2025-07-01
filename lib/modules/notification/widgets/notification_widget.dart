@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_params.dart';
+import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {
@@ -33,11 +35,8 @@ class NotificationWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        NotificationService.handleClickOnNotification(
-          notification.additionalConfig?['onClick'] as Map<String,dynamic>? ?? {},
-          tbContext,
-          isOnNotificationsScreenAlready: true,
-        );
+        getIt<HandleNotificationTapUsecase>().call(HandleNotificationTapParams(
+            notification: notification, tbContext: tbContext));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
