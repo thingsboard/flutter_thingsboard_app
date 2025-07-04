@@ -12,9 +12,11 @@ class DashboardsAppbar extends StatelessWidget {
     required this.body,
     this.dashboardState = false,
     super.key,
+    this.leading,
   });
 
   final TbContext tbContext;
+  final Widget? leading;
   final Widget body;
   final bool dashboardState;
 
@@ -22,12 +24,14 @@ class DashboardsAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
+       canGoBack: leading != null,
         tbContext,
-        leading: Navigator.of(context).canPop()
-            ? BackButton(
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            : null,
+        leading: leading ??
+            (Navigator.of(context).canPop()
+                ? BackButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                : null),
         elevation: dashboardState ? 0 : 8,
         title: Center(
           child: SizedBox(
@@ -50,6 +54,10 @@ class DashboardsAppbar extends StatelessWidget {
                 getIt<ThingsboardAppRouter>()
                     .navigateTo('/tenants?search=true');
               },
+            ),
+          if (leading != null)
+            const SizedBox(
+              width: 56,
             ),
         ],
       ),
