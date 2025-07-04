@@ -9,7 +9,6 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
 class HomeDashboardPage extends TbContextWidget {
-
   HomeDashboardPage(super.tbContext, this.dashboard, {super.key});
   final HomeDashboardInfo dashboard;
 
@@ -36,63 +35,62 @@ class _HomeDashboardState extends TbContextState<HomeDashboardPage> {
   DashboardController? _dashboardController;
   ValueNotifier<bool> canGoback = ValueNotifier<bool>(false);
   late final home =
-      '${getIt<IEndpointService>().getCachedEndpoint()}/dashboards/${widget.dashboard.dashboardId!}?hideToolbar=${widget.dashboard.hideDashboardToolbar}';
-  
+      '${getIt<IEndpointService>().getCachedEndpoint()}/dashboards/${widget.dashboard.dashboardId!}${widget.dashboard.hideDashboardToolbar ? '?hideToolbar=true' : ''}';
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      builder: (context, value, child) =>  DashboardsAppbar(
-           leading: value
-                ? BackButton(
-                    onPressed: () async {
-                      if (_dashboardController?.rightLayoutOpened.value ==
-                          true) {
-                        await _dashboardController?.toggleRightLayout();
-                        return;
-                      }
+      builder: (context, value, child) => DashboardsAppbar(
+        leading: value
+            ? BackButton(
+                onPressed: () async {
+                  if (_dashboardController?.rightLayoutOpened.value == true) {
+                    await _dashboardController?.toggleRightLayout();
+                    return;
+                  }
 
-                      final controller = _dashboardController?.controller;
-                      if (await controller?.canGoBack() == true) {
-                        await controller?.goBack();
-                      }
-                    },
-                  )
-                : null,
+                  final controller = _dashboardController?.controller;
+                  if (await controller?.canGoBack() == true) {
+                    await controller?.goBack();
+                  }
+                },
+              )
+            : null,
         tbContext: tbContext,
         dashboardState: true,
         body: DashboardWidget(
           tbContext,
-           onUrlChanged: () async {
-                final url = await _dashboardController?.controller?.getUrl();
-                if (url.toString() == home) {
-                  canGoback.value = false;
-                  return;
-                }
-                final newVal =
-                    await _dashboardController?.controller?.canGoBack() ??
-                        false;
-                canGoback.value = newVal;
-              },
-              controllerCallback: (controller, loadingCtrl) async {
-                _dashboardController = controller;
+          onUrlChanged: () async {
+            final url = await _dashboardController?.controller?.getUrl();
+            if (url.toString() == home) {
+              canGoback.value = false;
+              return;
+            }
+            final newVal =
+                await _dashboardController?.controller?.canGoBack() ?? false;
+            canGoback.value = newVal;
+          },
+          controllerCallback: (controller, loadingCtrl) async {
+            _dashboardController = controller;
 
-                if (_loaded) {
-                  final canGoBack =
-                      await _dashboardController?.controller?.canGoBack();
-                  canGoback.value = canGoBack ?? false;
-                  return;
-                }
-                await controller.openDashboard(
-                  widget.dashboard.dashboardId!.id!,
-                  hideToolbar: widget.dashboard.hideDashboardToolbar,
-                );
+            if (_loaded) {
+              final canGoBack =
+                  await _dashboardController?.controller?.canGoBack();
+              canGoback.value = canGoBack ?? false;
+              return;
+            }
+            await controller.openDashboard(
+              widget.dashboard.dashboardId!.id!,
+              hideToolbar: widget.dashboard.hideDashboardToolbar,
+            );
 
-                setState(() {
-                  _loaded = true;
-                });
-              },
+            setState(() {
+              _loaded = true;
+            });
+          },
         ),
-      ), valueListenable: canGoback,
+      ),
+      valueListenable: canGoback,
     );
   }
 }

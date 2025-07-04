@@ -70,7 +70,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
             final uri = navigationAction.request.url!;
             final uriString = uri.toString();
             final endpoint = await getIt<IEndpointService>().getEndpoint();
-
+            widget.onUrlChanged?.call();
             log.debug('shouldOverrideUrlLoading $uriString');
             if (Platform.isAndroid ||
                 Platform.isIOS &&
