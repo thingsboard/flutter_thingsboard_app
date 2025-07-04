@@ -36,6 +36,8 @@ body:
         - Ios
         - Android
         - Both
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: ThingsBoard Platform Type
