@@ -75,13 +75,13 @@ class AlarmsDi {
   }
 
   static void dispose(
-     String scopeName, {
+    String scopeName, {
     required String typesScopeName,
     required String assigneeScopeName,
   }) {
     AlarmTypesDi.dispose(typesScopeName);
     AssigneeDi.dispose(assigneeScopeName);
-    getIt<PaginationRepository<AlarmQuery, AlarmInfo>>().dispose();
+    getIt<PaginationRepository<AlarmQueryV2, AlarmInfo>>().dispose();
     getIt<AlarmBloc>().close();
     getIt.dropScope(scopeName);
   }
