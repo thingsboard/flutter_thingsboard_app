@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -121,15 +121,14 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                       width: double.infinity,
                       child: TextButton(
                         onPressed: () {
-                          getIt<ThingsboardAppRouter>()
-                              .navigateToDashboard(
-                                widget.alamDashboardId!,
-                                dashboardTitle: widget.alarmInfo.originatorName,
-                                state: Utils.createDashboardEntityState(
-                                  widget.alarmInfo.originator,
-                                  entityName: widget.alarmInfo.originatorName,
-                                ),
-                              );
+                          getIt<ThingsboardAppRouter>().navigateToDashboard(
+                            widget.alamDashboardId!,
+                            dashboardTitle: widget.alarmInfo.originatorName,
+                            state: Utils.createDashboardEntityState(
+                              widget.alarmInfo.originator,
+                              entityName: widget.alarmInfo.originatorName,
+                            ),
+                          );
                         },
                         style: TextButton.styleFrom(
                           backgroundColor:

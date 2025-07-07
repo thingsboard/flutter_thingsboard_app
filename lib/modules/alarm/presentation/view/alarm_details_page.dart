@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/alarm/di/alarm_details_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/alarm_assignee_bloc.dart';
@@ -86,8 +86,9 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                               children: [
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
-                                  alamDashboardId:
-                                      state.alarmInfo.details?['dashboardId']?.toString(),
+                                  alamDashboardId: state
+                                      .alarmInfo.details?['dashboardId']
+                                      ?.toString(),
                                   tbContext: tbContext,
                                 ),
                                 Padding(

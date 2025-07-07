@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -18,7 +18,7 @@ class ChangePasswordPage extends TbContextWidget {
 
 class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
-final IOverlayService overlayService = getIt();
+  final IOverlayService overlayService = getIt();
   final _showCurrentPasswordNotifier = ValueNotifier<bool>(false);
   final _showNewPasswordNotifier = ValueNotifier<bool>(false);
   final _showNewPassword2Notifier = ValueNotifier<bool>(false);
@@ -76,7 +76,7 @@ final IOverlayService overlayService = getIt();
                                 },
                               ),
                               border: const OutlineInputBorder(),
-                              labelText: S.of(context).currentPasswordStar,
+                              labelText: "${S.of(context).currentPassword} *",
                             ),
                           );
                         },
@@ -110,7 +110,7 @@ final IOverlayService overlayService = getIt();
                                 },
                               ),
                               border: const OutlineInputBorder(),
-                              labelText: S.of(context).newPasswordStar,
+                              labelText: '${S.of(context).newPassword} *',
                             ),
                           );
                         },
@@ -145,7 +145,7 @@ final IOverlayService overlayService = getIt();
                                 },
                               ),
                               border: const OutlineInputBorder(),
-                              labelText: S.of(context).newPassword2Star,
+                              labelText: '${S.of(context).newPassword2} *',
                             ),
                           );
                         },
@@ -197,13 +197,14 @@ final IOverlayService overlayService = getIt();
       final String newPassword = formValue['newPassword'].toString();
       final String newPassword2 = formValue['newPassword2'].toString();
       if (newPassword != newPassword2) {
-        overlayService.showErrorNotification(S.of(context).passwordErrorNotification);
+        overlayService
+            .showErrorNotification(S.of(context).passwordErrorNotification);
       } else {
         _isLoadingNotifier.value = true;
         try {
           await Future.delayed(const Duration(milliseconds: 300));
           await tbClient.changePassword(currentPassword, newPassword);
-          if(mounted) {
+          if (mounted) {
             getIt<ThingsboardAppRouter>().pop(true, context);
           }
         } catch (e) {

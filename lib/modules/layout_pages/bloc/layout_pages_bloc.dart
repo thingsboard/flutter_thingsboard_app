@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/config/routes/route_not_found_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -135,7 +135,8 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
               match.route.handler != null &&
               match.route.handler is Handler) {
             final Handler handler = match.route.handler as Handler;
-            return handler.handlerFunc(null, match.parameters) ?? RouteNotFoundWidget(settings: RouteSettings(name: path));
+            return handler.handlerFunc(null, match.parameters) ??
+                RouteNotFoundWidget(settings: RouteSettings(name: path));
           }
         }
 

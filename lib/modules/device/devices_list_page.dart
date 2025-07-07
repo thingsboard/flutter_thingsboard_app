@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -8,7 +8,6 @@ import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DevicesListPage extends TbContextWidget {
-
   DevicesListPage(
     super.tbContext, {
     this.deviceType,
@@ -106,7 +105,8 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
               if (widget.active != null) {
                 params.add('active=${widget.active}');
               }
-              getIt<ThingsboardAppRouter>().navigateTo('/deviceList?${params.join('&')}');
+              getIt<ThingsboardAppRouter>()
+                  .navigateTo('/deviceList?${params.join('&')}');
             },
           ),
         ],

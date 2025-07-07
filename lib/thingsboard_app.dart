@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_theme.dart';
@@ -36,7 +36,7 @@ class _ThingsBoardAppState extends State<ThingsboardApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: S.supportedLocales,
+        supportedLocales: S.delegate.supportedLocales,
         onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
         themeMode: ThemeMode.light,
         theme: tbTheme,

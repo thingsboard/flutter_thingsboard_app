@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/bloc/bloc.dart';
@@ -43,14 +43,14 @@ class _EspBleProvisioningViewState
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EspBleProvisioningBloc>(
-      create: (_) =>
-          EspBleProvisioningBloc.create(deviceInfoService.getAndroidDeviceInfo()?.version.sdkInt)
-            ..add(
-              EspBleScanNetworksEvent(
-                deviceName: widget.name,
-                pop: widget.poofOfPossession,
-              ),
-            ),
+      create: (_) => EspBleProvisioningBloc.create(
+          deviceInfoService.getAndroidDeviceInfo()?.version.sdkInt)
+        ..add(
+          EspBleScanNetworksEvent(
+            deviceName: widget.name,
+            pop: widget.poofOfPossession,
+          ),
+        ),
       child: BlocBuilder<EspBleProvisioningBloc, EspBleProvisioningState>(
         builder: (context, state) {
           return Scaffold(

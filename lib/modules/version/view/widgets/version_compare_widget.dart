@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -62,15 +62,15 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
               ),
               Expanded(
                 child: HtmlWidget(
-                   releaseNotes,
-                    onTapUrl: (link) async {
-                        launchUrlString(
-                          link,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      return true;
-                    },
-                  ),
+                  releaseNotes,
+                  onTapUrl: (link) async {
+                    launchUrlString(
+                      link,
+                      mode: LaunchMode.externalApplication,
+                    );
+                    return true;
+                  },
+                ),
               ),
               Align(
                 alignment: Alignment.centerRight,

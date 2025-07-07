@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
@@ -49,7 +49,7 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
       );
     } else {
       if (tbClient.isTenantAdmin()) {
-      overlayService.showWarnNotification(
+        overlayService.showWarnNotification(
           'Mobile dashboard should be configured in device profile!',
         );
       }
@@ -105,7 +105,7 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
   @override
   EntityDataQuery nextPageKey(EntityDataQuery pageKey) => pageKey.next();
 
- void  onSearchText(String searchText) {
+  void onSearchText(String searchText) {
     value.pageKey.pageLink.page = 0;
     value.pageKey.pageLink.textSearch = searchText;
     notifyListeners();
@@ -113,7 +113,6 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
 }
 
 class DeviceCard extends TbContextWidget {
-
   DeviceCard(
     super.tbContext, {
     super.key,

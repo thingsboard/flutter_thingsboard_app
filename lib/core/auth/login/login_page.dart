@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -526,14 +526,12 @@ class _LoginPageState extends TbPageState<LoginPage>
                     ),
                   ),
                 )
-                .values
-                ,
+                .values,
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton(
                 style: _oauth2IconButtonStyle,
-                onPressed: () async => _onLoginWithBarcode(context)
-                ,
+                onPressed: () async => _onLoginWithBarcode(context),
                 child: SvgPicture.asset(
                   ThingsboardImage.oauth2Logos['qr-code']!,
                   height: 24,

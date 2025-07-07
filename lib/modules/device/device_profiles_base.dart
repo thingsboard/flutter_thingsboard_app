@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -68,7 +68,6 @@ class RefreshDeviceCounts {
 }
 
 class AllDevicesCard extends TbContextWidget {
-
   AllDevicesCard(super.tbContext, this.refreshDeviceCounts, {super.key});
   final RefreshDeviceCounts refreshDeviceCounts;
 
@@ -205,7 +204,8 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                           ),
                         ),
                         onTap: () {
-                          getIt<ThingsboardAppRouter>().navigateTo('/deviceList?active=true');
+                          getIt<ThingsboardAppRouter>()
+                              .navigateTo('/deviceList?active=true');
                         },
                       ),
                     ),
@@ -255,7 +255,8 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                           ),
                         ),
                         onTap: () {
-                          getIt<ThingsboardAppRouter>().navigateTo('/deviceList?active=false');
+                          getIt<ThingsboardAppRouter>()
+                              .navigateTo('/deviceList?active=false');
                         },
                       ),
                     ),
@@ -274,7 +275,6 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
 }
 
 class DeviceProfileCard extends TbContextWidget {
-
   DeviceProfileCard(super.tbContext, this.deviceProfile, {super.key});
   final DeviceProfileInfo deviceProfile;
 
@@ -454,7 +454,8 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
 }
 
 Widget _buildDeviceCount(BuildContext context, bool active, int count) {
-  final Color color = active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
+  final Color color =
+      active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
   return Padding(
     padding: const EdgeInsets.all(12),
     child: Row(
@@ -501,7 +502,6 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
 }
 
 class StrikeThroughPainter extends CustomPainter {
-
   StrikeThroughPainter({required this.color, this.offset = 0});
   final Color color;
   final double offset;

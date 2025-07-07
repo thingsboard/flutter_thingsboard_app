@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_details/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_status_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';

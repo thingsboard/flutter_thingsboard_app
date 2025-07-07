@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/profile/change_password_page.dart';
@@ -9,12 +9,11 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class ProfilePage extends TbPageWidget {
-
   ProfilePage(
     super.tbContext, {
     bool fullscreen = false,
     super.key,
-  })  : _fullscreen = fullscreen;
+  }) : _fullscreen = fullscreen;
   final bool _fullscreen;
 
   @override
@@ -82,7 +81,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
                         ]),
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: S.of(context).emailStar,
+                          labelText: '${S.of(context).email} *',
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -171,11 +170,11 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           _setUser();
           await Future.delayed(const Duration(milliseconds: 300));
           _isLoadingNotifier.value = false;
-          if(mounted) {
+          if (mounted) {
             overlayService.showSuccessNotification(
-            S.of(context).profileSuccessNotification,
-            duration: const Duration(milliseconds: 1500),
-          );
+              S.of(context).profileSuccessNotification,
+              duration: const Duration(milliseconds: 1500),
+            );
           }
         } catch (_) {
           _isLoadingNotifier.value = false;
@@ -184,11 +183,11 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
     }
   }
 
- Future<void> _changePassword() async {
+  Future<void> _changePassword() async {
     final res = await tbContext
         .showFullScreenDialog<bool>(ChangePasswordPage(tbContext));
-    if (res == true && mounted ) {
-  overlayService.showSuccessNotification(
+    if (res == true && mounted) {
+      overlayService.showSuccessNotification(
         S.of(context).passwordSuccessNotification,
         duration: const Duration(milliseconds: 1500),
       );

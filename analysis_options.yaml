@@ -6,6 +6,7 @@ analyzer:
     - '**.freezed.dart'
     - '**.g.dart'
     - "**/*.gform.dart"
+    - "**/messages_*.dart"
   errors: 
     invalid_annotation_target: ignore
 linter:
