@@ -33,6 +33,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 def customScheme = getDartDefineValue('thingsboardOAuth2CallbackUrlScheme') ?: 'org.thingsboard.app.auth'
+def customLabel = getDartDefineValue('androidAppName') ?: 'Thingsboard app'
 android {
     compileSdkVersion 34
 
@@ -48,7 +49,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
-    authScheme: customScheme
+    authScheme: customScheme,
+    appLabel: customLabel
 ]
     }
 

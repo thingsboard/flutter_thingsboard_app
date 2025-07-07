@@ -1,1 +1,2 @@
-IOS_BUNDLE_ID=org.thingsboard.app
+IOSAPPLICATIONID=org.thingsboard.app
+IOSAPPNAME=ThingsBoard App

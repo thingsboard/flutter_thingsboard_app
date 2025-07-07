@@ -46,7 +46,7 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/launcher_icon"
-        android:label="ThingsBoard App"
+        android:label="${appLabel}"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true">
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.

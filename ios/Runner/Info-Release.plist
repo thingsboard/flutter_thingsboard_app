@@ -10,8 +10,10 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>$(IOSAPPNAME)</string>
 	<key>CFBundleName</key>
-	<string>ThingsBoard App</string>
+	<string>$(IOSAPPNAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -41,7 +43,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Scan QrCode or take photos using your camera.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-    <string>To provision device through mobile app.</string>
+	<string>To provision device through mobile app.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Get location to place the device on a map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
