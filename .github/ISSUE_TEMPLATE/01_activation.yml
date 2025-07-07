@@ -29,6 +29,16 @@ body:
       required: true
   - type: dropdown
     attributes:
+      label: Affected platforms
+      description: In which platforms issue appears?
+      options:
+        - Ios
+        - Android
+        - Both
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
       label: ThingsBoard Platform Type
       description: What type of ThingsBoard platform are you using?
       options:
