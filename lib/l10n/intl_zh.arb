@@ -66,16 +66,13 @@
   "changePassword": "修改密码",
   "currentPassword": "当前密码",
   "currentPasswordRequireText": "输入当前密码",
-  "currentPasswordStar": "当前密码 *",
+
   "newPassword": "新密码",
   "newPasswordRequireText": "输入新密码",
-  "newPasswordStar": "新密码 *",
-  "newPassword2": "新密码2",
   "newPassword2RequireText": "再次输入新密码",
-  "newPassword2Star": "再次输入新密码 *",
+  "newPassword2": "確認新密碼",
   "passwordErrorNotification": "输入的密码必须相同",
 
-  "emailStar": "Email *",
   "firstName": "名",
   "firstNameUpper": "名",
   "lastName": "姓",
