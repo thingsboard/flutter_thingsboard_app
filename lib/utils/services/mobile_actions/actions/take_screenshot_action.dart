@@ -12,7 +12,7 @@ class TakeScreenshotAction  extends MobileAction {
 
   @override
 
-  WidgetMobileActionType get type => throw UnimplementedError();
+  WidgetMobileActionType get type => WidgetMobileActionType.takeScreenshot;
    Future<WidgetMobileActionResult> _takeScreenshot(
     InAppWebViewController controller,
   ) async {
