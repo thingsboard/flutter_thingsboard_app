@@ -68,6 +68,15 @@ android {
     dependencies {
         implementation 'androidx.browser:browser:1.0.0'
     }
+    android.applicationVariants.all { variant ->
+    variant.outputs.all { output ->
+        def builtType = variant.buildType.name
+        def versionName = variant.versionName
+        def versionCode = variant.versionCode
+
+        outputFileName = "${customLabel}-${builtType}-${versionName}+${versionCode}.apk"
+    }
+}
 }
 
 flutter {
