@@ -10,4 +10,5 @@ abstract interface class IDeviceInfoService {
   PlatformVersion getAppVersion();
   AndroidDeviceInfo? getAndroidDeviceInfo();
   IosDeviceInfo? getIosDeviceInfo();
+  String getBuildVersion();
 }

@@ -10,10 +10,12 @@ class DeviceInfoService implements IDeviceInfoService {
   late final String packageName;
   late final PlatformVersion version;
   late final PlatformType platform;
+  late final String buildVersion;
   Future<void> init() async {
     if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
       final packageInfo = await PackageInfo.fromPlatform();
       packageName = packageInfo.packageName;
+      buildVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
       version = PlatformVersion.fromString(packageInfo.version);
     } else {
       packageName = 'web.app';
@@ -77,14 +79,19 @@ class DeviceInfoService implements IDeviceInfoService {
   PlatformVersion getAppVersion() {
     return version;
   }
-  
+
   @override
   AndroidDeviceInfo? getAndroidDeviceInfo() {
- return androidInfo;
+    return androidInfo;
   }
-  
+
   @override
   IosDeviceInfo? getIosDeviceInfo() {
     return iosInfo;
+  }
+
+  @override
+  String getBuildVersion() {
+    return buildVersion;
   }
 }
