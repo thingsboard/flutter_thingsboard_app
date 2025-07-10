@@ -8,7 +8,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 
 class QrCodeScannerPage extends StatefulWidget {
- const QrCodeScannerPage({required this.isProvisioning, super.key});
+  const QrCodeScannerPage({required this.isProvisioning, super.key});
   final bool isProvisioning;
   @override
   State<StatefulWidget> createState() => _QrCodeScannerPageState();
@@ -16,8 +16,7 @@ class QrCodeScannerPage extends StatefulWidget {
 
 class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
   final router = getIt<ThingsboardAppRouter>().router;
-  final IDeviceInfoService deviceInfoService =
-      getIt<IDeviceInfoService>();
+  final IDeviceInfoService deviceInfoService = getIt<IDeviceInfoService>();
   Timer? simulatedQrTimer;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -71,7 +70,7 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
                     future: controller?.getFlashStatus(),
                     builder: (context, snapshot) {
                       return Icon(
-                        snapshot.data == false
+                        (snapshot.data == false || snapshot.data == null)
                             ? Icons.flash_on
                             : Icons.flash_off,
                       );
@@ -117,7 +116,7 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
-        onPermissionSet: (p0, p1) {
+      onPermissionSet: (p0, p1) {
         if (p1 == true) {
         } else {
           // Permission denied, you can handle it here if needed
@@ -137,21 +136,20 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
     );
   }
 
-   void _onQRViewCreated(QRViewController controller, BuildContext context) {
+  void _onQRViewCreated(QRViewController controller, BuildContext context) {
     setState(() {
       this.controller = controller;
     });
     if (deviceInfoService.isPhysicalDevice()) {
       controller.scannedDataStream.take(1).listen((scanData) {
-        if(context.mounted) {
-   router.pop(context,scanData);
+        if (context.mounted) {
+          router.pop(context, scanData);
         }
       });
     } else {
       simulatedQrTimer = Timer(const Duration(seconds: 3), () {
-      router.pop(context,Barcode('test code', BarcodeFormat.qrcode, null));
+        router.pop(context, Barcode('test code', BarcodeFormat.qrcode, null));
       });
     }
   }
-
 }
