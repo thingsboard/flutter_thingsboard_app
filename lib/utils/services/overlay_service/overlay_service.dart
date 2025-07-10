@@ -15,6 +15,7 @@ class OverlayService implements IOverlayService {
     NotificationType type, {
     Duration? duration,
   }) {
+      hideNotification();
     duration ??= const Duration(days: 1);
     Color backgroundColor;
     ToastificationType toastificationType;
