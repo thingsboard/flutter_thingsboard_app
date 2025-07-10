@@ -6,7 +6,7 @@ abstract class ThingsboardImage {
   static const thingsboardCenter = 'assets/images/thingsboard_center.svg';
   static const dashboardPlaceholder = 'assets/images/dashboard-placeholder.svg';
   static const deviceProfilePlaceholder =
-      'assets/images/device-profile-placeholder.svg';
+      'assets/images/device-placeholder.svg';
   static const noDataImage = 'assets/images/no-data.svg';
   static const thingsboardBigLogo = 'assets/images/thingsboard_big_logo.svg';
   static const deviceProvisioning = 'assets/images/provisioning.svg';

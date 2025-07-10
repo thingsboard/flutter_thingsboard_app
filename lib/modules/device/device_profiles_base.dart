@@ -316,42 +316,24 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     final entity = widget.deviceProfile;
     final hasImage = entity.image != null;
     Widget image;
-    BoxFit imageFit;
-    double padding;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, tbClient, entity.image);
-      imageFit = BoxFit.contain;
-      padding = 8;
+      image = Utils.imageFromTbImage(context, tbClient, entity.image, width: 64, height: 64);
     } else {
       image = SvgPicture.asset(
+        width: 64,
+        height: 64,
         ThingsboardImage.deviceProfilePlaceholder,
-        colorFilter: ColorFilter.mode(
-          Theme.of(context).primaryColor,
-          BlendMode.overlay,
-        ),
         semanticsLabel: 'Device profile',
       );
-      imageFit = BoxFit.cover;
-      padding = 0;
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Column(
         children: [
           Expanded(
-            child: Stack(
-              children: [
-                SizedBox.expand(
-                  child: Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: FittedBox(
-                      clipBehavior: Clip.hardEdge,
-                      fit: imageFit,
-                      child: image,
-                    ),
-                  ),
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: image,
             ),
           ),
           SizedBox(
