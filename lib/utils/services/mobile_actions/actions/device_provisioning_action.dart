@@ -9,6 +9,7 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/route/esp_provisioning_route.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_result.dart';
@@ -18,18 +19,25 @@ class DeviceProvisioningAction extends MobileAction {
   late final TbContext tbContext = GetIt.I<ThingsboardAppRouter>().tbContext;
   @override
   Future<WidgetMobileActionResult> execute(
-      List<dynamic> args, InAppWebViewController controller,) {
+    List<dynamic> args,
+    InAppWebViewController controller,
+  ) {
     return _provisioningDevice();
   }
 
   Future<WidgetMobileActionResult> _provisioningDevice() async {
     try {
+      if (tbContext.userDetails?.authority != Authority.CUSTOMER_USER) {
+        return WidgetMobileActionResult.errorResult(
+            "Provisioning is only abaliable for customer roles.",
+          );
+      }
       final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );
       if (barcode != null && barcode.code != null) {
-        final decodedJson = jsonDecode(barcode.code!) as Map<String,dynamic>?;
+        final decodedJson = jsonDecode(barcode.code!) as Map<String, dynamic>?;
         final transport = decodedJson?['transport'].toString();
         if (transport != null && decodedJson != null) {
           final arguments = {
@@ -48,19 +56,18 @@ class DeviceProvisioningAction extends MobileAction {
                 routeSettings: RouteSettings(arguments: arguments),
               );
 
-
             case 'softap':
               provisioningResult =
                   await getIt<ThingsboardAppRouter>().navigateTo(
                 EspProvisioningRoute.softApRoute,
                 routeSettings: RouteSettings(arguments: arguments),
               );
-
           }
 
           if (provisioningResult == true) {
             return WidgetMobileActionResult.successResult(
-              MobileActionResult.provisioning(arguments['deviceName'].toString()),
+              MobileActionResult.provisioning(
+                  arguments['deviceName'].toString()),
             );
           } else {
             return WidgetMobileActionResult.emptyResult();
