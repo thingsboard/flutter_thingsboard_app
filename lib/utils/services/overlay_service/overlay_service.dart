@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
+import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
 import 'package:toastification/toastification.dart';
 
 class OverlayService implements IOverlayService {
@@ -10,12 +13,12 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-   void showNotification(
+  void showNotification(
     String message,
     NotificationType type, {
     Duration? duration,
   }) {
-      hideNotification();
+    hideNotification();
     duration ??= const Duration(days: 1);
     Color backgroundColor;
     ToastificationType toastificationType;
@@ -55,7 +58,7 @@ class OverlayService implements IOverlayService {
       ],
     );
   }
-  
+
   @override
   void showErrorNotification(String message, {Duration? duration}) {
     return showNotification(
@@ -64,7 +67,8 @@ class OverlayService implements IOverlayService {
       duration: duration,
     );
   }
-    @override
+
+  @override
   void showInfoNotification(String message, {Duration? duration}) {
     showNotification(message, NotificationType.info, duration: duration);
   }
@@ -74,9 +78,61 @@ class OverlayService implements IOverlayService {
     showNotification(message, NotificationType.warn, duration: duration);
   }
 
+
+@override
+  Future<bool?> showConfirmDialog({
+    required String title,
+    required String message,
+    String cancel = 'Cancel',
+    String ok = 'Ok',
+     BuildContext? context
+  }) {
+      final router = getIt<ThingsboardAppRouter>();
+    return showDialog<bool>(
+      context:  context ?? router.navigatorKey.currentContext!,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => router.pop(false, context),
+            child: Text(cancel),
+          ),
+          TextButton(
+              onPressed: () => router.pop(true, context),
+              child: Text(ok)),
+        ],
+      ),
+    );
+  }
+
   @override
   void showSuccessNotification(String message, {Duration? duration}) {
     showNotification(message, NotificationType.success, duration: duration);
   }
-  
+
+  @override
+  Future<bool?> showAlertDialog(
+      {required String title,
+      required String message,
+      String ok = 'Ok',
+      BuildContext? context
+      }) {
+    final router = getIt<ThingsboardAppRouter>();
+    return showDialog<bool>(
+      context:
+          context ?? router.navigatorKey.currentContext!,
+      builder: (context) => 
+       TbAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => router.pop(null, context),
+            child: Text(ok),
+          ),
+        ],
+      ),
+    );
+  }
 }

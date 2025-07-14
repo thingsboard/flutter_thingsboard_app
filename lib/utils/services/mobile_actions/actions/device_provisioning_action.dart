@@ -4,7 +4,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -36,8 +37,8 @@ class DeviceProvisioningAction extends MobileAction {
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );
-      if (barcode != null && barcode.code != null) {
-        final decodedJson = jsonDecode(barcode.code!) as Map<String, dynamic>?;
+      if (barcode != null && barcode.rawValue != null) {
+        final decodedJson = jsonDecode(barcode.rawValue!) as Map<String, dynamic>?;
         final transport = decodedJson?['transport'].toString();
         if (transport != null && decodedJson != null) {
           final arguments = {

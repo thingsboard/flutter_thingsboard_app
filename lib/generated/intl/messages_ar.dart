@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alarmClearTitle": MessageLookupByLibrary.simpleMessage("مسح التنبيه"),
     "alarms": MessageLookupByLibrary.simpleMessage("التنبيهات"),
     "allDevices": MessageLookupByLibrary.simpleMessage("جميع الأجهزة"),
+    "allowAccess": MessageLookupByLibrary.simpleMessage("Allow access"),
     "appTitle": MessageLookupByLibrary.simpleMessage("ThingsBoard"),
     "assetName": MessageLookupByLibrary.simpleMessage("اسم الأصل"),
     "assets": MessageLookupByLibrary.simpleMessage("الأصول"),
@@ -123,6 +124,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "كلمة المرور الجديدة مطلوبة.",
     ),
     "notImplemented": MessageLookupByLibrary.simpleMessage("لم يتم التنفيذ!"),
+    "openSettingsAndGrantAccessToCameraToContinue":
+        MessageLookupByLibrary.simpleMessage(
+          "Open settings and grant access to camera to continue",
+        ),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "passwordErrorNotification": MessageLookupByLibrary.simpleMessage(
       "كلمات المرور المدخلة يجب أن تكون متطابقة!",
@@ -156,6 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
     "resendCodeWait": m1,
+    "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "selectWayToVerify": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة للتحقق",
     ),
@@ -169,6 +175,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "مسؤول المستأجر",
     ),
     "title": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "toggleCamera": MessageLookupByLibrary.simpleMessage("Toggle camera"),
+    "toggleFlash": MessageLookupByLibrary.simpleMessage("Toggle flash"),
     "toptAuthPlaceholder": MessageLookupByLibrary.simpleMessage("الرمز"),
     "totpAuthDescription": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال الرمز الأمني من تطبيق المصادقة الخاص بك.",
@@ -176,6 +184,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
     "tryAnotherWay": MessageLookupByLibrary.simpleMessage("حاول بطريقة أخرى"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
+    "unableToUseCamera": MessageLookupByLibrary.simpleMessage(
+      "Unable to use camera",
+    ),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "verificationCodeIncorrect": MessageLookupByLibrary.simpleMessage(
       "الرمز غير صحيح",

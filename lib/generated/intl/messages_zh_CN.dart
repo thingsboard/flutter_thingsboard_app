@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alarmClearTitle": MessageLookupByLibrary.simpleMessage("清除告警"),
     "alarms": MessageLookupByLibrary.simpleMessage("告警"),
     "allDevices": MessageLookupByLibrary.simpleMessage("所有设备"),
+    "allowAccess": MessageLookupByLibrary.simpleMessage("Allow access"),
     "appTitle": MessageLookupByLibrary.simpleMessage("Thingsboard"),
     "assetName": MessageLookupByLibrary.simpleMessage("资产名"),
     "assignedToCustomer": MessageLookupByLibrary.simpleMessage("分配给客户"),
@@ -73,6 +74,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "newPasswordRequireText": MessageLookupByLibrary.simpleMessage("输入新密码"),
     "no": MessageLookupByLibrary.simpleMessage("否"),
     "notImplemented": MessageLookupByLibrary.simpleMessage("未实现!"),
+    "openSettingsAndGrantAccessToCameraToContinue":
+        MessageLookupByLibrary.simpleMessage(
+          "Open settings and grant access to camera to continue",
+        ),
     "or": MessageLookupByLibrary.simpleMessage("或"),
     "password": MessageLookupByLibrary.simpleMessage("密码"),
     "passwordErrorNotification": MessageLookupByLibrary.simpleMessage(
@@ -95,12 +100,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "配置更新成功",
     ),
     "requestPasswordReset": MessageLookupByLibrary.simpleMessage("要求重置密码"),
+    "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "stateOrProvince": MessageLookupByLibrary.simpleMessage("州 / 省"),
     "systemAdministrator": MessageLookupByLibrary.simpleMessage("系统管理员"),
     "tenantAdministrator": MessageLookupByLibrary.simpleMessage("租户管理员"),
     "title": MessageLookupByLibrary.simpleMessage("标题"),
+    "toggleCamera": MessageLookupByLibrary.simpleMessage("Toggle camera"),
+    "toggleFlash": MessageLookupByLibrary.simpleMessage("Toggle flash"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("再试一次"),
     "type": MessageLookupByLibrary.simpleMessage("类型"),
+    "unableToUseCamera": MessageLookupByLibrary.simpleMessage(
+      "Unable to use camera",
+    ),
     "username": MessageLookupByLibrary.simpleMessage("用户名"),
     "yes": MessageLookupByLibrary.simpleMessage("是"),
   };

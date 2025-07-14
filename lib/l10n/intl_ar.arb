@@ -1,17 +1,14 @@
 {
   "appTitle": "ThingsBoard",
-
   "home": "الرئيسية",
   "alarms": "التنبيهات",
   "devices": "الأجهزة",
   "more": "المزيد",
-
   "customers": "العملاء",
   "assets": "الأصول",
   "auditLogs": "سجلات التدقيق",
   "logout": "تسجيل خروج",
   "login": "تسجيل دخول",
-
   "logoDefaultValue": "شعار ثينغز بورد",
   "loginNotification": "تسجيل الدخول إلى حسابك",
   "email": "البريد الإلكتروني",
@@ -25,11 +22,9 @@
   "passwordResetText": "أدخل البريد الإلكتروني المرتبط بحسابك وسنرسل بريدًا إلكترونيًا يحتوي على رابط لإعادة تعيين كلمة المرور",
   "requestPasswordReset": "طلب إعادة تعيين كلمة المرور",
   "passwordResetLinkSuccessfullySentNotification": "تم إرسال رابط إعادة تعيين كلمة المرور بنجاح!",
-
   "OR": "أو",
   "No": "لا",
   "Yes": "نعم",
-
   "title": "العنوان",
   "country": "البلد",
   "city": "المدينة",
@@ -38,31 +33,24 @@
   "address": "العنوان",
   "address2": "العنوان 2",
   "phone": "الهاتف",
-
   "alarmClearTitle": "مسح التنبيه",
   "alarmClearText": "هل أنت متأكد أنك تريد مسح التنبيه؟",
-
   "alarmAcknowledgeTitle": "إقرار التنبيه",
   "alarmAcknowledgeText": "هل أنت متأكد أنك تريد الإقرار بالتنبيه؟",
-
   "assetName": "اسم الأصل",
   "type": "النوع",
   "label": "التسمية",
   "assignedToCustomer": "معين للعميل",
-
   "auditLogDetails": "تفاصيل سجل التدقيق",
   "entityType": "نوع الكيان",
   "actionData": "بيانات الإجراء",
   "failureDetails": "تفاصيل الفشل",
-
   "allDevices": "جميع الأجهزة",
   "active": "نشط",
   "inactive": "غير نشط",
-
   "systemAdministrator": "مسؤول النظام",
   "tenantAdministrator": "مسؤول المستأجر",
   "customer": "العميل",
-
   "changePassword": "تغيير كلمة المرور",
   "currentPasswordRequireText": "كلمة المرور الحالية مطلوبة.",
   "currentPassword": "كلمة المرور الحالية",
@@ -77,12 +65,9 @@
   "lastNameUpper": "الاسم الأخير",
   "profileSuccessNotification": "تم تحديث الملف الشخصي بنجاح",
   "passwordSuccessNotification": "تم تغيير كلمة المرور بنجاح",
-
   "notImplemented": "لم يتم التنفيذ!",
-
   "listIsEmptyText": "القائمة فارغة حالياً.",
   "tryAgain": "حاول مرة أخرى",
-
   "verifyYourIdentity": "تحقق من هويتك",
   "continueText": "استمرار",
   "resendCode": "إعادة إرسال الرمز",
@@ -103,5 +88,11 @@
   "mfaProviderTopt": "تطبيق المصادقة",
   "mfaProviderSms": "SMS",
   "mfaProviderEmail": "البريد الإلكتروني",
-  "mfaProviderBackupCode": "الرمز الاحتياطي"
+  "mfaProviderBackupCode": "الرمز الاحتياطي",
+  "scanACode": "Scan a code",
+  "allowAccess": "Allow access",
+  "toggleCamera": "Toggle camera",
+  "toggleFlash": "Toggle flash",
+  "unableToUseCamera": "Unable to use camera",
+  "openSettingsAndGrantAccessToCameraToContinue": "Open settings and grant access to camera to continue"
 }

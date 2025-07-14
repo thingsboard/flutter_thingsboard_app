@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/config/routes/tb_routes.dart';
-import 'package:thingsboard_app/utils/ui/qr_code_scanner.dart';
+import 'package:thingsboard_app/utils/ui/qr_code_scanner/qr_code_scanner.dart';
 
 class UiUtilsRoutes extends TbRoutes {
   UiUtilsRoutes(super.tbContext);

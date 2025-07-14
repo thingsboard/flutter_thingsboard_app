@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -25,10 +26,10 @@ class ScanQrAction extends MobileAction {
         '/qrCodeScan',
         transition: TransitionType.nativeModal,
       );
-      if (barcode != null && barcode.code != null) {
+      if (barcode != null && barcode.rawValue != null) {
         return WidgetMobileActionResult.successResult(
           MobileActionResult.qrCode(
-            barcode.code!,
+            barcode.rawValue!,
             barcode.format.toString(),
           ),
         );

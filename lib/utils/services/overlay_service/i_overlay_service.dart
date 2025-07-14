@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
 
 abstract interface class IOverlayService {
@@ -11,6 +12,17 @@ abstract interface class IOverlayService {
     String message, {
     Duration? duration,
   });
+  Future<bool?> showAlertDialog(
+      {required String title,
+      required String message,
+      String ok = 'Ok',
+      BuildContext? context});
+  Future<bool?> showConfirmDialog(
+      {required String title,
+      required String message,
+      String cancel = 'Cancel',
+      String ok = 'Ok',
+      BuildContext? context});
   void showInfoNotification(String message, {Duration? duration});
   void showWarnNotification(String message, {Duration? duration});
   void showSuccessNotification(String message, {Duration? duration});

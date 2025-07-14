@@ -40,18 +40,7 @@ mixin HasTbContext {
 
 
 
-  Future<bool?> confirm({
-    required String title,
-    required String message,
-    String cancel = 'Cancel',
-    String ok = 'Ok',
-  }) =>
-      _tbContext.confirm(
-        title: title,
-        message: message,
-        cancel: cancel,
-        ok: ok,
-      );
+ 
 
   void subscribeRouteObserver(TbPageState pageState) {
     _tbContext.routeObserver

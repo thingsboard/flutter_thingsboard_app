@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 class NotificationSlidableWidget extends StatefulWidget {
   const NotificationSlidableWidget({
@@ -141,7 +143,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
   }
 
   Future<void> _ackAlarm(String alarmId, BuildContext context) async {
-    final res = await widget.tbContext.confirm(
+    final res = await getIt<IOverlayService>().showConfirmDialog(
       title: S.of(context).alarmAcknowledgeTitle,
       message: S.of(context).alarmAcknowledgeText,
       cancel: S.of(context).no,
@@ -164,7 +166,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
   }
 
   Future<void> _clearAlarm(String alarmId, BuildContext context) async {
-    final res = await widget.tbContext.confirm(
+    final res = await getIt<IOverlayService>().showConfirmDialog(
       title: S.of(context).alarmClearTitle,
       message: S.of(context).alarmClearText,
       cancel: S.of(context).no,

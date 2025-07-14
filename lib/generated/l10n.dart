@@ -1504,6 +1504,61 @@ class S {
       args: [permissions],
     );
   }
+
+  /// `Scan a code`
+  String get scanACode {
+    return Intl.message('Scan a code', name: 'scanACode', desc: '', args: []);
+  }
+
+  /// `Allow access`
+  String get allowAccess {
+    return Intl.message(
+      'Allow access',
+      name: 'allowAccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toggle camera`
+  String get toggleCamera {
+    return Intl.message(
+      'Toggle camera',
+      name: 'toggleCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toggle flash`
+  String get toggleFlash {
+    return Intl.message(
+      'Toggle flash',
+      name: 'toggleFlash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to use camera`
+  String get unableToUseCamera {
+    return Intl.message(
+      'Unable to use camera',
+      name: 'unableToUseCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open settings and grant access to camera to continue`
+  String get openSettingsAndGrantAccessToCameraToContinue {
+    return Intl.message(
+      'Open settings and grant access to camera to continue',
+      name: 'openSettingsAndGrantAccessToCameraToContinue',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

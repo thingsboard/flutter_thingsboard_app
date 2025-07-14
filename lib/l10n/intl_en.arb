@@ -179,5 +179,11 @@
   "claimingDevice": "Claiming device",
   "claimingDeviceDone": "Device claiming done",
   "claimingMessageSuccess": "Device has been\nsuccessfully claimed",
-  "openAppSettingsToGrantPermissionMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\"."
+  "openAppSettingsToGrantPermissionMessage": "You don't have enough permissions for \"{permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\".",
+  "scanACode": "Scan a code",
+  "allowAccess": "Allow access",
+  "toggleCamera": "Toggle camera",
+  "toggleFlash": "Toggle flash",
+  "unableToUseCamera": "Unable to use camera",
+  "openSettingsAndGrantAccessToCameraToContinue": "Open settings and grant access to camera to continue"
 }

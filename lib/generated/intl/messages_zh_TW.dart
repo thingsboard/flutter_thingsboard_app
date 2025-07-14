@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alarmClearTitle": MessageLookupByLibrary.simpleMessage("清除警報"),
     "alarms": MessageLookupByLibrary.simpleMessage("警報"),
     "allDevices": MessageLookupByLibrary.simpleMessage("所有設備"),
+    "allowAccess": MessageLookupByLibrary.simpleMessage("Allow access"),
     "appTitle": MessageLookupByLibrary.simpleMessage("Thingsboard"),
     "assetName": MessageLookupByLibrary.simpleMessage("資產名稱"),
     "assets": MessageLookupByLibrary.simpleMessage("資產"),
@@ -72,6 +73,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "newPasswordRequireText": MessageLookupByLibrary.simpleMessage("輸入新密碼"),
     "no": MessageLookupByLibrary.simpleMessage("否"),
     "notImplemented": MessageLookupByLibrary.simpleMessage("未實現!"),
+    "openSettingsAndGrantAccessToCameraToContinue":
+        MessageLookupByLibrary.simpleMessage(
+          "Open settings and grant access to camera to continue",
+        ),
     "or": MessageLookupByLibrary.simpleMessage("或"),
     "password": MessageLookupByLibrary.simpleMessage("密碼"),
     "passwordErrorNotification": MessageLookupByLibrary.simpleMessage(
@@ -94,12 +99,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "配置更新成功",
     ),
     "requestPasswordReset": MessageLookupByLibrary.simpleMessage("要求重設密碼"),
+    "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "stateOrProvince": MessageLookupByLibrary.simpleMessage("州 / 省"),
     "systemAdministrator": MessageLookupByLibrary.simpleMessage("系統管理員"),
     "tenantAdministrator": MessageLookupByLibrary.simpleMessage("租戶管理員"),
     "title": MessageLookupByLibrary.simpleMessage("標題"),
+    "toggleCamera": MessageLookupByLibrary.simpleMessage("Toggle camera"),
+    "toggleFlash": MessageLookupByLibrary.simpleMessage("Toggle flash"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("再試一次"),
     "type": MessageLookupByLibrary.simpleMessage("類型"),
+    "unableToUseCamera": MessageLookupByLibrary.simpleMessage(
+      "Unable to use camera",
+    ),
     "username": MessageLookupByLibrary.simpleMessage("使用者名稱"),
     "yes": MessageLookupByLibrary.simpleMessage("是"),
   };
