@@ -3,10 +3,10 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.7.0+1
+version: 1.7.0+4
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
@@ -48,7 +48,6 @@ dependencies:
   flutter_local_notifications: ^17.1.2
   flutter_new_badger: ^1.0.1
   timeago: ^3.6.1
-  flutter_slidable: ^3.0.1
   flutter_bloc: ^8.1.5
   get_it: ^7.6.7
   equatable: ^2.0.5
@@ -64,7 +63,6 @@ dependencies:
   focused_menu: ^1.0.5
   flutter_esp_ble_prov: ^0.1.7
   esp_smartconfig: ^2.0.4
-  esp_provisioning_softap: ^1.0.3
   permission_handler: ^11.3.1
   wifi_scan: ^0.4.1+1
   open_settings_plus: ^0.4.0
@@ -76,9 +74,13 @@ dependencies:
   file_picker: ^9.0.0
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
-  mobile_scanner: ^6.0.10
+  mobile_scanner: ^7.0.1
   flutter_hooks: ^0.21.2
-
+  esp_provisioning_softap:
+    git:
+      url: https://github.com/thingsboard/esp_provisioning_softap
+  flutter_slidable: ^4.0.0
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:

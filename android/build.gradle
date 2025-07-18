@@ -18,6 +18,9 @@ subprojects {
             project.android {
                 compileSdkVersion 34
                 buildToolsVersion "34.0.0"
+                if (namespace == null) {
+                        namespace project.group
+                    }
             }
         }
     }

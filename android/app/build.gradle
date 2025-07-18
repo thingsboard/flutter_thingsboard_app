@@ -34,9 +34,12 @@ if (flutterVersionName == null) {
 }
 def customScheme = getDartDefineValue('thingsboardOAuth2CallbackUrlScheme') ?: 'org.thingsboard.app.auth'
 def customLabel = getDartDefineValue('androidAppName') ?: 'Thingsboard app'
+def webHost = getDartDefineValue('webHost') ?: 'thingsboard.cloud'
+def webPathPrefix = getDartDefineValue('webPathPrefix') ?: '/api/noauth/qr'
+def hostScheme = getDartDefineValue('hostScheme') ?: 'https'
 android {
-    compileSdkVersion 34
-
+namespace "org.thingsboard.app"
+    compileSdkVersion 35
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -50,10 +53,20 @@ android {
         versionName flutterVersionName
         manifestPlaceholders = [
     authScheme: customScheme,
-    appLabel: customLabel
+    appLabel: customLabel,
+    webHost: webHost,
+    webPathPrefix: webPathPrefix,
+    hostScheme: hostScheme
 ]
     }
-
+compileOptions {
+        coreLibraryDesugaringEnabled true 
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -67,6 +80,9 @@ android {
 
     dependencies {
         implementation 'androidx.browser:browser:1.0.0'
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+        implementation 'androidx.window:window:1.0.0'
+        implementation 'androidx.window:window-java:1.0.0'
     }
     android.applicationVariants.all { variant ->
     variant.outputs.all { output ->

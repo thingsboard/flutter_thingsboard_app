@@ -1,0 +1,2 @@
+/Users/glibgarkovenko/Desktop/mobile tb/public/flutter_thingsboard_app/android/app/.cxx/Debug/1xg4s3t2/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/glibgarkovenko/Desktop/mobile tb/public/flutter_thingsboard_app/android/app/.cxx/Debug/1xg4s3t2/armeabi-v7a/CMakeFiles/rebuild_cache.dir

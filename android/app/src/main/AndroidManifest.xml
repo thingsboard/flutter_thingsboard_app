@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.thingsboard.app">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -85,14 +84,12 @@
             <!-- App Links -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
-                    android:host="demo.thingsboard.io"
-                    android:pathPrefix="/api/noauth/qr"
-                    android:scheme="https" />
+                    android:host="${webHost}"
+                    android:pathPrefix="${webPathPrefix}"
+                    android:scheme="${hostScheme}" />
             </intent-filter>
         </activity>
 
