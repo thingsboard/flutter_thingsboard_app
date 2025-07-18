@@ -87,9 +87,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="${webHost}"
+                    android:host="${appLinksUrlHost}"
                     android:pathPrefix="${webPathPrefix}"
-                    android:scheme="${hostScheme}" />
+                    android:scheme="${appLinksUrlScheme}" />
             </intent-filter>
         </activity>
 

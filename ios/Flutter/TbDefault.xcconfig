@@ -1,2 +1,5 @@
 IOSAPPLICATIONID=org.thingsboard.app
 IOSAPPNAME=ThingsBoard App
+REDIRECTURLHOST=app.thingsboard.org
+REDIRECTURLSCHEME=tbscheme
+APPLINKSURLHOST=demo.thingsboard.io

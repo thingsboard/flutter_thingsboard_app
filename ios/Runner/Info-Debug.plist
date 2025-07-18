@@ -45,6 +45,8 @@
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Our app uses bluetooth to provision devices</string>
+	<key>NSMicrophoneUsageDescription</key>
+		<string>Record video with sound.</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_dartobservatory._tcp</string>

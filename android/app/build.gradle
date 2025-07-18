@@ -34,9 +34,9 @@ if (flutterVersionName == null) {
 }
 def customScheme = getDartDefineValue('thingsboardOAuth2CallbackUrlScheme') ?: 'org.thingsboard.app.auth'
 def customLabel = getDartDefineValue('androidAppName') ?: 'Thingsboard app'
-def webHost = getDartDefineValue('webHost') ?: 'thingsboard.cloud'
+def appLinksUrlHost = getDartDefineValue('appLinksUrlHost') ?: 'demo.thingsboard.io'
 def webPathPrefix = getDartDefineValue('webPathPrefix') ?: '/api/noauth/qr'
-def hostScheme = getDartDefineValue('hostScheme') ?: 'https'
+def appLinksUrlScheme = getDartDefineValue('appLinksUrlScheme') ?: 'https'
 android {
 namespace "org.thingsboard.app"
     compileSdkVersion 35
@@ -54,9 +54,9 @@ namespace "org.thingsboard.app"
         manifestPlaceholders = [
     authScheme: customScheme,
     appLabel: customLabel,
-    webHost: webHost,
+    appLinksUrlHost: appLinksUrlHost,
     webPathPrefix: webPathPrefix,
-    hostScheme: hostScheme
+    appLinksUrlScheme: appLinksUrlScheme
 ]
     }
 compileOptions {
