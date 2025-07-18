@@ -8,9 +8,11 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart'
     show DeviceProvisioningStatus;
+import 'package:thingsboard_app/modules/device/provisioning/models/wifi_network.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+
 import 'package:thingsboard_app/utils/services/provisioning/soft_ap/i_soft_ap_service.dart';
 
 class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
@@ -38,7 +40,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
     // PluginWifiConnect.connect(deviceName);
 
     if (Platform.isIOS) {
-      add(const EspSoftApAutoConnectToDeviceWifi());
+     add(const EspSoftApAutoConnectToDeviceWifi());
     }
   }
 
@@ -62,9 +64,8 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   final String deviceName;
   final String pop;
   late final StreamSubscription subscription;
-
   int connectionRetries = 5;
-  List<Map<String, dynamic>>? wiFis;
+  List<WifiNetwork> wiFis = [];
 
   Future<void> _onEvent(
     EspSoftApEvent event,
@@ -72,70 +73,39 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
   ) async {
     switch (event) {
       case EspSoftApConnectToDeviceEvent():
-        emit(const EspSoftAppLoadingState());
-
-        try {
-          provisioning = await softApService
-              .startProvisioning(
-                hostname: '192.168.4.1:80',
-                pop: pop,
-              )
-              .timeout(
-                const Duration(seconds: 20),
-                onTimeout: () => throw Exception(
-                  'SoftAp startProvisioning timeout reached.',
-                ),
-              );
-        } catch (e) {
-          logger.error('SoftAp Error connecting to device $e');
-          if (!isClosed) {
-            if (connectionRetries >= 0) {
-              logger.info(
-                'SoftAP is attempting to reconnect because iOS prompted the user '
-                'to grant Local Network permission, which cannot be triggered '
-                'in advance by the developer.',
-              );
-
-              --connectionRetries;
-              logger.debug('Connection retries left $connectionRetries');
-              await Future.delayed(const Duration(seconds: 15));
-              add(const EspSoftApConnectToDeviceEvent());
-              break;
-            } else {
-              emit(const EspSoftApConnectionErrorState());
-            }
-
-            connectionRetries = 5;
-            break;
-          } else {
-            break;
-          }
-        }
-
-        try {
-          final wifiList =
-              await softApService.startScanWiFi(provisioning).timeout(
-                    const Duration(seconds: 20),
-                    onTimeout: () => throw Exception(
-                      'SoftAp startScanWiFi timeout reached',
-                    ),
-                  );
-
-          if (wifiList?.isNotEmpty == true) {
-            wiFis = wifiList;
-            emit(EspSoftApWiFiListState(wifiList!));
-          } else {
-            throw Exception('Wi-Fi networks are empty');
-          }
-        } catch (e) {
-          logger.error('Error scan WiFi network $e');
-          emit(const EspSoftApWifiNetworksNotFoundState());
-          break;
-        }
-
+        await _onEspSoftApConnectToDeviceEvent(emit);
 
       case EspSoftApStartProvisioningEvent():
-        emit(
+       _onEspSoftApStartProvisioningEvent(emit, event);
+
+      case EspSoftApAutoConnectToDeviceWifi():
+        bool? connectionResult;
+        try {
+          connectionResult = await PluginWifiConnect.connect(deviceName);
+        } catch (_) {
+          emit(const EspManuallyConnectToDeviceNetworkState());
+        } finally {
+          if (connectionResult == true) {
+            await Future.delayed(const Duration(seconds: 5));
+            add(const EspSoftApConnectToDeviceEvent());
+          } else {
+            emit(const EspManuallyConnectToDeviceNetworkState());
+          }
+        }
+
+
+      case EspSoftApManuallyConnectToDeviceWifi():
+        emit(const EspManuallyConnectToDeviceNetworkState());
+
+      case EspSoftApProvisioningDoneEvent():
+        emit(const EspSoftApProvisioningDoneState());
+
+      case EspSoftApRescanWifiEvent():
+        emit(EspSoftApWiFiListState(wiFis));
+    }
+  }
+Future<void> _onEspSoftApStartProvisioningEvent(Emitter<EspSoftApState> emit, EspSoftApStartProvisioningEvent event) async {
+ emit(
           EspSoftApProvisioningInProgressState(
             ssid: event.ssid,
             password: event.password,
@@ -215,36 +185,71 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
               DeviceProvisioningStatus.fail,
             ),
           );
-        } finally {
-          // await provisioning.dispose();
-          // await Future.delayed(const Duration(seconds: 5));
+        } 
+
+}
+  Future<void> _onEspSoftApConnectToDeviceEvent(Emitter<EspSoftApState> emit) async {
+     emit(const EspSoftAppLoadingState());
+    
+    try {
+      provisioning = await softApService
+          .startProvisioning(
+            hostname: '192.168.4.1:80',
+            pop: pop,
+          )
+          .timeout(
+            const Duration(seconds: 20),
+            onTimeout: () => throw Exception(
+              'SoftAp startProvisioning timeout reached.',
+            ),
+          );
+    } catch (e) {
+      logger.error('SoftAp Error connecting to device $e');
+      if (!isClosed) {
+        if (connectionRetries >= 0) {
+          logger.info(
+            'SoftAP is attempting to reconnect because iOS prompted the user '
+            'to grant Local Network permission, which cannot be triggered '
+            'in advance by the developer.',
+          );
+    
+          --connectionRetries;
+          logger.debug('Connection retries left $connectionRetries');
+          await Future.delayed(const Duration(seconds: 15));
+          add(const EspSoftApConnectToDeviceEvent());
+          return;
+        } else {
+          emit(const EspSoftApConnectionErrorState());
         }
+    
+        connectionRetries = 5;
+        return;
+      }
+    }
+    
+    await scanWifi(emit);
+  }
 
-
-      case EspSoftApAutoConnectToDeviceWifi():
-        bool? connectionResult;
-        try {
-          connectionResult = await PluginWifiConnect.connect(deviceName);
-        } catch (_) {
-          emit(const EspManuallyConnectToDeviceNetworkState());
-        } finally {
-          if (connectionResult == true) {
-            await Future.delayed(const Duration(seconds: 5));
-            add(const EspSoftApConnectToDeviceEvent());
-          } else {
-            emit(const EspManuallyConnectToDeviceNetworkState());
-          }
-        }
-
-
-      case EspSoftApManuallyConnectToDeviceWifi():
-        emit(const EspManuallyConnectToDeviceNetworkState());
-
-      case EspSoftApProvisioningDoneEvent():
-        emit(const EspSoftApProvisioningDoneState());
-
-      case EspSoftApRescanWifiEvent():
-        emit(EspSoftApWiFiListState(wiFis!));
+  Future<void> scanWifi(Emitter<EspSoftApState> emit) async {
+    try {
+      final wifiList =
+          await softApService.startScanWiFi(provisioning).timeout(
+                const Duration(seconds: 20),
+                onTimeout: () => throw Exception(
+                  'SoftAp startScanWiFi timeout reached',
+                ),
+              );
+    
+      if (wifiList != null && wifiList.isNotEmpty) {
+    
+        wiFis = wifiList.map((e) => WifiNetwork.fromJson(e)).toList();
+        emit(EspSoftApWiFiListState(wiFis));
+      } else {
+        throw Exception('Wi-Fi networks are empty');
+      }
+    } catch (e) {
+      logger.error('Error scan WiFi network $e');
+      emit(const EspSoftApWifiNetworksNotFoundState());
     }
   }
 

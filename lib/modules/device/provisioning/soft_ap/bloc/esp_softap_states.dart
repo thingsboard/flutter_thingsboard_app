@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/modules/device/provisioning/models/wifi_network.dart';
 
 sealed class EspSoftApState extends Equatable {
   const EspSoftApState();
@@ -26,7 +27,7 @@ final class EspManuallyConnectToDeviceNetworkState extends EspSoftApState {
 final class EspSoftApWiFiListState extends EspSoftApState {
   const EspSoftApWiFiListState(this.wifiList);
 
-  final List<Map<String, dynamic>> wifiList;
+  final List<WifiNetwork> wifiList;
 
   @override
   List<Object?> get props => [wifiList];
