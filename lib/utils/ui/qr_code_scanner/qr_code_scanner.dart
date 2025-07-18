@@ -1,25 +1,18 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:open_settings_plus/open_settings_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/app_typography.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
-import 'package:thingsboard_app/utils/ui/qr_code_scanner/scan_area_clipper.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_error_widget.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_overlay_widget.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 
 Size getCameraSize(Size mediaQuerySize) {
   final scanArea = (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
@@ -94,7 +87,7 @@ class QrCodeScannerPage extends HookWidget {
             overlayBuilder: (context, constraints) {
               return ScannerOverlayWidget(cameraSize: cameraSize);
             },
-            errorBuilder: (p0, p1, p2) => const ScannerErrorWidget(),
+            errorBuilder: (p0, p1,) => const ScannerErrorWidget(),
             controller: controller,
             onDetect: (barcodes) {
               if (barcodes.barcodes.isNotEmpty) {
@@ -114,15 +107,15 @@ class QrCodeScannerPage extends HookWidget {
                   icon: const Icon(Icons.close)),
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
-              iconTheme: const IconThemeData(color: AppColors.iconSecondary),
+              iconTheme: const IconThemeData(color: AppColors.textWhite),
               elevation: 0,
               title: Text(S.of(context).scanACode,
                   style: AppTypography.titleXs
-                      .copyWith(color: AppColors.textPrimary)),
+                      .copyWith(color: AppColors.textWhite)),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
-                    color: AppColors.textTertiary,
+         
                     isTorchActive.value ? Icons.flash_off : Icons.flash_on,
                   ),
                   onPressed: () async {
@@ -133,7 +126,7 @@ class QrCodeScannerPage extends HookWidget {
                 ),
                 IconButton(
                   icon: Icon(
-                    color: AppColors.textTertiary,
+                    
                     isBackCameraActive.value
                         ? Icons.camera_front
                         : Icons.camera_rear,

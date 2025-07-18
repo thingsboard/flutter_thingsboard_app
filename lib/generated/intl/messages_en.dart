@@ -20,36 +20,38 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m3(appTitle) =>
+  static String m4(appTitle) =>
       "Congratulations!\nYour ${appTitle} account has been activated.\nNow you can login to your ${appTitle} space.";
 
-  static String m4(deviceName) =>
+  static String m5(deviceName) =>
       "Cannot establish session with device ${deviceName}. Please try again";
 
   static String m0(contact) =>
       "A security code has been sent to your email address at ${contact}.";
 
-  static String m5(permissions) =>
+  static String m6(permissions) =>
       "You don\'t have enough permissions for \"${permissions}\" to proceed. Please open app settings, grant permissions and trap \"Try Again\".";
 
-  static String m6(permissions) =>
+  static String m7(permissions) =>
       "You don\'t have enough permissions for \"${permissions}\" to proceed. Please grant the required permissions and tap \"Try Again\".";
 
-  static String m7(deviceName) =>
+  static String m8(deviceName) =>
       "Enter PIN of ${deviceName} to confirm proof of possession";
 
   static String m1(time) =>
       "Resend code in ${Intl.plural(time, one: '1 second', other: '${time} seconds')}";
 
-  static String m2(contact) =>
+  static String m2(name) => "Route not defined: ${name}";
+
+  static String m3(contact) =>
       "A security code has been sent to your phone at ${contact}.";
 
-  static String m8(version) => "Update to ${version}";
+  static String m9(version) => "Update to ${version}";
 
-  static String m9(deviceName) =>
+  static String m10(deviceName) =>
       "To continue setup of your device ${deviceName}, please provide your Network\'s credentials.";
 
-  static String m10(network) => "Enter password for ${network}";
+  static String m11(network) => "Enter password for ${network}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -63,7 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "accountActivated": MessageLookupByLibrary.simpleMessage(
       "Account successfully activated!",
     ),
-    "accountActivatedText": m3,
+    "accountActivatedText": m4,
     "acknowledge": MessageLookupByLibrary.simpleMessage("Acknowledge"),
     "actionData": MessageLookupByLibrary.simpleMessage("Action data"),
     "activatingAccount": MessageLookupByLibrary.simpleMessage(
@@ -119,7 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "To provision your new device, please make sure that your phone’s Bluetooth is turned on and within range of your new device",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "cannotEstablishSession": m4,
+    "cannotEstablishSession": m5,
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "chooseRegion": MessageLookupByLibrary.simpleMessage("Choose region"),
     "city": MessageLookupByLibrary.simpleMessage("City"),
@@ -253,9 +255,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "northAmericaRegionShort": MessageLookupByLibrary.simpleMessage(
       "N. Virginia",
     ),
+    "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
     "notImplemented": MessageLookupByLibrary.simpleMessage("Not implemented!"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
-    "openAppSettingsToGrantPermissionMessage": m5,
+    "openAppSettingsToGrantPermissionMessage": m6,
     "openSettingsAndGrantAccessToCameraToContinue":
         MessageLookupByLibrary.simpleMessage(
           "Open settings and grant access to camera to continue",
@@ -283,9 +286,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordSuccessNotification": MessageLookupByLibrary.simpleMessage(
       "Password successfully changed",
     ),
-    "permissionsNotEnoughMessage": m6,
+    "permissionsNotEnoughMessage": m7,
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
-    "popTitle": m7,
+    "popTitle": m8,
     "postalCode": MessageLookupByLibrary.simpleMessage("Zip / Postal Code"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profileSuccessNotification": MessageLookupByLibrary.simpleMessage(
@@ -307,6 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "returnToDashboard": MessageLookupByLibrary.simpleMessage(
       "Return to dashboard",
     ),
+    "routeNotDefined": m2,
     "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
     "selectRegion": MessageLookupByLibrary.simpleMessage("Select region"),
@@ -320,7 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "severity": MessageLookupByLibrary.simpleMessage("Severity"),
     "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
-    "smsAuthDescription": m2,
+    "smsAuthDescription": m3,
     "smsAuthPlaceholder": MessageLookupByLibrary.simpleMessage("SMS code"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "Something Went Wrong",
@@ -356,7 +360,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unassigned": MessageLookupByLibrary.simpleMessage("Unassigned"),
     "updateRequired": MessageLookupByLibrary.simpleMessage("Update required"),
-    "updateTo": m8,
+    "updateTo": m9,
     "username": MessageLookupByLibrary.simpleMessage("username"),
     "users": MessageLookupByLibrary.simpleMessage("Users"),
     "verificationCodeIncorrect": MessageLookupByLibrary.simpleMessage(
@@ -372,9 +376,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Verify your identity",
     ),
     "viewDashboard": MessageLookupByLibrary.simpleMessage("View Dashboard"),
-    "wifiHelpMessage": m9,
+    "wifiHelpMessage": m10,
     "wifiPassword": MessageLookupByLibrary.simpleMessage("Wi-Fi password"),
-    "wifiPasswordMessage": m10,
+    "wifiPasswordMessage": m11,
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
   };
 }

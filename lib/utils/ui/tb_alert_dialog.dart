@@ -20,8 +20,8 @@ class TbAlertDialog extends StatelessWidget {
       titleTextStyle: TbTextStyles.titleXs.copyWith(
         color: const Color(0xff1D1B20),
       ),
-      titlePadding: EdgeInsets.all(24),
-      contentPadding: EdgeInsets.only(bottom: 24, left: 24, right: 24),
+      titlePadding: const EdgeInsets.all(24),
+      contentPadding: const EdgeInsets.only(bottom: 24, left: 24, right: 24),
       content: content,
       contentTextStyle: TbTextStyles.bodyMedium.copyWith(
         color: const Color(0xff49454F),

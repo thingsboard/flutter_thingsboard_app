@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
+import 'package:thingsboard_app/generated/intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -1557,6 +1557,21 @@ class S {
       name: 'openSettingsAndGrantAccessToCameraToContinue',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Not Found`
+  String get notFound {
+    return Intl.message('Not Found', name: 'notFound', desc: '', args: []);
+  }
+
+  /// `Route not defined: {name}`
+  String routeNotDefined(Object name) {
+    return Intl.message(
+      'Route not defined: $name',
+      name: 'routeNotDefined',
+      desc: '',
+      args: [name],
     );
   }
 }

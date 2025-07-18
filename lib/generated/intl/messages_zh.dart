@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
+  static String m2(name) => "Route not defined: ${name}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "actionData": MessageLookupByLibrary.simpleMessage("动作数据"),
@@ -73,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "newPassword2RequireText": MessageLookupByLibrary.simpleMessage("再次输入新密码"),
     "newPasswordRequireText": MessageLookupByLibrary.simpleMessage("输入新密码"),
     "no": MessageLookupByLibrary.simpleMessage("否"),
+    "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
     "notImplemented": MessageLookupByLibrary.simpleMessage("未实现!"),
     "openSettingsAndGrantAccessToCameraToContinue":
         MessageLookupByLibrary.simpleMessage(
@@ -100,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "配置更新成功",
     ),
     "requestPasswordReset": MessageLookupByLibrary.simpleMessage("要求重置密码"),
+    "routeNotDefined": m2,
     "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "stateOrProvince": MessageLookupByLibrary.simpleMessage("州 / 省"),
     "systemAdministrator": MessageLookupByLibrary.simpleMessage("系统管理员"),

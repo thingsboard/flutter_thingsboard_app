@@ -312,10 +312,16 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
   static bool _isValidUrl(String url) {
     return Uri.tryParse(url) != null;
   }
-static double degreesToRadians(double degrees) {
-  return degrees * (pi / 180);
-}
+  static double degreesToRadians(double degrees) {
+    return degrees * (pi / 180);
+  }
   static bool _isBase64DataImageUrl(String url) {
     return url.startsWith(_imageBase64UrlPrefix);
+  }
+
+  static bool isConnectionError(dynamic e) {
+    return e is ThingsboardError &&
+        e.errorCode == ThingsBoardErrorCode.general &&
+        e.message == 'Unable to connect';
   }
 }

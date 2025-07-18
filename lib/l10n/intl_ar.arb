@@ -94,5 +94,7 @@
   "toggleCamera": "Toggle camera",
   "toggleFlash": "Toggle flash",
   "unableToUseCamera": "Unable to use camera",
-  "openSettingsAndGrantAccessToCameraToContinue": "Open settings and grant access to camera to continue"
+  "openSettingsAndGrantAccessToCameraToContinue": "Open settings and grant access to camera to continue",
+  "notFound": "Not Found",
+  "routeNotDefined": "Route not defined: {name}"
 }

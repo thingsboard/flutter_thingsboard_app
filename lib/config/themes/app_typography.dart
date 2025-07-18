@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/config/themes/app_colors.dart';
 
 class AppTypography {
   AppTypography._();

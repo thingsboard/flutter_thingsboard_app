@@ -26,7 +26,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(time) =>
       "إعادة إرسال الرمز في ${Intl.plural(time, one: 'ثانية واحدة', other: '${time} ثواني')}";
 
-  static String m2(contact) =>
+  static String m2(name) => "Route not defined: ${name}";
+
+  static String m3(contact) =>
       "تم إرسال رمز أمني إلى هاتفك على الرقم ${contact}.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -123,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "newPasswordRequireText": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور الجديدة مطلوبة.",
     ),
+    "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
     "notImplemented": MessageLookupByLibrary.simpleMessage("لم يتم التنفيذ!"),
     "openSettingsAndGrantAccessToCameraToContinue":
         MessageLookupByLibrary.simpleMessage(
@@ -161,11 +164,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
     "resendCodeWait": m1,
+    "routeNotDefined": m2,
     "scanACode": MessageLookupByLibrary.simpleMessage("Scan a code"),
     "selectWayToVerify": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة للتحقق",
     ),
-    "smsAuthDescription": m2,
+    "smsAuthDescription": m3,
     "smsAuthPlaceholder": MessageLookupByLibrary.simpleMessage("رمز SMS"),
     "stateOrProvince": MessageLookupByLibrary.simpleMessage(
       "الولاية / المقاطعة",
