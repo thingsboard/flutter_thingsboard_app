@@ -5,6 +5,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
@@ -218,7 +219,7 @@ class TbContext implements PopEntry {
       if (_handleRootState) {
         await updateRouteState();
       }
-
+      FlutterNativeSplash.remove();
       if (isAuthenticated) {
         if (getIt<IFirebaseService>().apps.isNotEmpty) {
           await NotificationService(tbClient, log, this).init();

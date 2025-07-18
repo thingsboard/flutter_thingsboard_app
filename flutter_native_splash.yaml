@@ -1,0 +1,12 @@
+flutter_native_splash:
+  color: "##ffffff"
+  image: assets/images/thingsboard.png
+  android_12:
+    image: assets/images/splash.png
+    color: "#ffffff"
+    icon_background_color: "#ffffff"
+  android: true
+  ios: true
+  info_plist_files:
+   - 'ios/Runner/Info-Debug.plist'
+   - 'ios/Runner/Info-Release.plist'

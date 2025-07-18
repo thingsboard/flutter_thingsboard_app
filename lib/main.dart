@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
@@ -17,7 +18,8 @@ import 'package:thingsboard_app/utils/services/local_database/i_local_database_s
 import 'package:universal_platform/universal_platform.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+ final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Hive.initFlutter();
   Hive.registerAdapter(RegionAdapter());
   await setUpRootDependencies();
