@@ -28,7 +28,7 @@ class SelectRegionScreen extends TbContextStatelessWidget {
                     Text(
                       S.of(context).selectRegion,
                       style: TbTextStyles.titleMedium.copyWith(
-                        color: Colors.black.withOpacity(.76),
+                        color: Colors.black.withValues(alpha: .76),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -36,8 +36,9 @@ class SelectRegionScreen extends TbContextStatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          getIt<IEndpointService>()
-                              .setRegion(Region.northAmerica);
+                          getIt<IEndpointService>().setRegion(
+                            Region.northAmerica,
+                          );
                           getIt<ThingsboardAppRouter>().navigateTo('/');
                         },
                         style: ElevatedButton.styleFrom(

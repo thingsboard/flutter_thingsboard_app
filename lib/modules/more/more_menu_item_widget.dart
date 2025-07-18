@@ -17,10 +17,12 @@ class MoreMenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: color?.withOpacity(.06) ??
-          Theme.of(context).primaryColor.withOpacity(.06),
-      highlightColor: color?.withOpacity(.06) ??
-          Theme.of(context).primaryColor.withOpacity(.06),
+      splashColor:
+          color?.withValues(alpha: .06) ??
+          Theme.of(context).primaryColor.withValues(alpha: .06),
+      highlightColor:
+          color?.withValues(alpha: .06) ??
+          Theme.of(context).primaryColor.withValues(alpha: .06),
       borderRadius: BorderRadius.circular(4),
       onTap: onTap,
       child: Padding(
@@ -29,7 +31,7 @@ class MoreMenuItemWidget extends StatelessWidget {
           children: [
             Icon(
               menuItem.icon,
-              color: color ?? Colors.black.withOpacity(.76),
+              color: color ?? Colors.black.withValues(alpha: .76),
               size: 18,
             ),
             Visibility(
@@ -41,7 +43,7 @@ class MoreMenuItemWidget extends StatelessWidget {
               child: Text(
                 menuItem.title,
                 style: TbTextStyles.bodyMedium.copyWith(
-                  color: color ?? Colors.black.withOpacity(.76),
+                  color: color ?? Colors.black.withValues(alpha: .76),
                 ),
               ),
             ),

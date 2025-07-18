@@ -10,19 +10,16 @@ class HelpTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(.04),
+        color: Theme.of(context).primaryColor.withValues(alpha: .04),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         message,
         textAlign: TextAlign.center,
         style: TbTextStyles.bodyMedium.copyWith(
-          color: Colors.black.withOpacity(0.54),
+          color: Colors.black.withValues(alpha: 0.54),
         ),
       ),
     );

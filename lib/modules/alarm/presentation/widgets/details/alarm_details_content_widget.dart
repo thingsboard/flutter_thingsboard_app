@@ -26,7 +26,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
             Text(
               title,
               style: TbTextStyles.bodyLarge.copyWith(
-                color: Colors.black.withOpacity(.38),
+                color: Colors.black.withValues(alpha: .38),
               ),
             ),
             SizedBox(
@@ -34,9 +34,10 @@ class AlarmDetailsContentWidget extends StatelessWidget {
               child: Text(
                 details,
                 textAlign: TextAlign.end,
-                style: detailsStyle ??
+                style:
+                    detailsStyle ??
                     TbTextStyles.bodyLarge.copyWith(
-                      color: Colors.black.withOpacity(.76),
+                      color: Colors.black.withValues(alpha: .76),
                     ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -49,7 +50,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Divider(
-              color: Colors.black.withOpacity(.05),
+              color: Colors.black.withValues(alpha: .05),
               thickness: 1,
               height: 0,
             ),

@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class ScanListWidget extends StatelessWidget {
-  const ScanListWidget(
-    this.items, {
-    required this.icon,
-    this.onTap,
-    super.key,
-  });
+  const ScanListWidget(this.items, {required this.icon, this.onTap, super.key});
 
   final List<String> items;
   final IconData icon;
@@ -29,7 +24,7 @@ class ScanListWidget extends StatelessWidget {
                   child: Text(
                     items[index],
                     style: TbTextStyles.bodyLarge.copyWith(
-                      color: Colors.black.withOpacity(.76),
+                      color: Colors.black.withValues(alpha: .76),
                     ),
                   ),
                 ),
@@ -39,8 +34,9 @@ class ScanListWidget extends StatelessWidget {
         );
       },
       itemCount: items.length,
-      separatorBuilder: (_, __) =>
-          const Divider(height: 1, thickness: .05, color: Colors.black),
+      separatorBuilder:
+          (_, __) =>
+              const Divider(height: 1, thickness: .05, color: Colors.black),
     );
   }
 }

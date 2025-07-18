@@ -32,39 +32,37 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).primaryColor.withOpacity(.32),
+            color: Theme.of(context).primaryColor.withValues(alpha: .32),
           ),
         ),
         hintStyle: TbTextStyles.bodyLarge.copyWith(
-          color: Colors.black.withOpacity(.38),
+          color: Colors.black.withValues(alpha: .38),
         ),
         hintText: S.of(context).addCommentMessage,
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: const Icon(
-                Icons.close,
-                size: 24,
-                color: Color(0xffD12730),
-              ),
+              icon: const Icon(Icons.close, size: 24, color: Color(0xffD12730)),
               onPressed: () {
-                context
-                    .read<AlarmActivityBloc>()
-                    .add(const CancelAlarmCommentEditing());
+                context.read<AlarmActivityBloc>().add(
+                  const CancelAlarmCommentEditing(),
+                );
               },
             ),
             IconButton(
               icon: Icon(
                 Icons.check,
                 size: 24,
-                color: textController.text.isNotEmpty
-                    ? const Color(0xff00695C)
-                    : Theme.of(context).disabledColor,
+                color:
+                    textController.text.isNotEmpty
+                        ? const Color(0xff00695C)
+                        : Theme.of(context).disabledColor,
               ),
-              onPressed: textController.text.isNotEmpty
-                  ? () => _submitComment(context)
-                  : null,
+              onPressed:
+                  textController.text.isNotEmpty
+                      ? () => _submitComment(context)
+                      : null,
             ),
           ],
         ),
@@ -87,12 +85,12 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
   void _submitComment(BuildContext context) {
     if (textController.text.isNotEmpty) {
       context.read<AlarmActivityBloc>().add(
-            UpdateAlarmCommentEvent(
-              widget.commentId,
-              alarmId: widget.alarmId,
-              comment: textController.text,
-            ),
-          );
+        UpdateAlarmCommentEvent(
+          widget.commentId,
+          alarmId: widget.alarmId,
+          comment: textController.text,
+        ),
+      );
       textController.clear();
     }
 

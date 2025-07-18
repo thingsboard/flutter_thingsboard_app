@@ -29,7 +29,7 @@ class ExitConfirmationDialog extends StatelessWidget {
           child: Text(
             S.of(context).yes.toUpperCase(),
             style: TbTextStyles.labelLarge.copyWith(
-              color: Colors.black.withOpacity(.87),
+              color: Colors.black.withValues(alpha: .87),
             ),
           ),
         ),

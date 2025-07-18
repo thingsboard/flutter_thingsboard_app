@@ -31,7 +31,7 @@ class BleDevicesEmptyView extends StatelessWidget {
           message,
           textAlign: TextAlign.center,
           style: TbTextStyles.bodyMedium.copyWith(
-            color: Colors.black.withOpacity(.54),
+            color: Colors.black.withValues(alpha: .54),
           ),
         ),
         const Spacer(),
@@ -48,9 +48,7 @@ class BleDevicesEmptyView extends StatelessWidget {
               ),
               child: Text(
                 'Open app settings',
-                style: TbTextStyles.labelMedium.copyWith(
-                  color: Colors.white,
-                ),
+                style: TbTextStyles.labelMedium.copyWith(color: Colors.white),
               ),
               onPressed: () => openAppSettings(),
             ),

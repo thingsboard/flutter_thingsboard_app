@@ -25,9 +25,7 @@ class ConnectionStateRow extends StatelessWidget {
               child: SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
+                child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
           if (!inProgress)
@@ -41,7 +39,7 @@ class ConnectionStateRow extends StatelessWidget {
               child: Text(
                 text,
                 style: TbTextStyles.bodyLarge.copyWith(
-                  color: Colors.black.withOpacity(.76),
+                  color: Colors.black.withValues(alpha: .76),
                 ),
               ),
             ),

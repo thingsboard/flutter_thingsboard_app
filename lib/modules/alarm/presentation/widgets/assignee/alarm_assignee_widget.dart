@@ -28,23 +28,22 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder: (context) => AnimatedSize(
-              curve: Curves.easeInOut,
-              duration: const Duration(milliseconds: 500),
-              child: AssigneeListWidget(
-                tbContext: tbContext,
-                onChanged: onChanged,
-              ),
-            ),
+            builder:
+                (context) => AnimatedSize(
+                  curve: Curves.easeInOut,
+                  duration: const Duration(milliseconds: 500),
+                  child: AssigneeListWidget(
+                    tbContext: tbContext,
+                    onChanged: onChanged,
+                  ),
+                ),
           );
           getIt<AssigneeBloc>().add(const AssigneeResetSearchTextEvent());
         },
         child: Container(
           constraints: const BoxConstraints(minHeight: 38),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black.withOpacity(0.12),
-            ),
+            border: Border.all(color: Colors.black.withValues(alpha: 0.12)),
             borderRadius: BorderRadius.circular(4),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -56,7 +55,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.account_circle,
-                        color: Colors.black.withOpacity(0.38),
+                        color: Colors.black.withValues(alpha: 0.38),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -64,7 +63,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.38),
+                          color: Colors.black.withValues(alpha: 0.38),
                         ),
                       ),
                     ],
@@ -74,12 +73,13 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                     id: state.assignee.userInfo.id.id ?? '',
                     avatar: UserInfoAvatarWidget(
                       shortName: state.assignee.shortName,
-                      color: HSLColor.fromAHSL(
-                        1,
-                        state.assignee.displayName.hashCode % 360,
-                        40 / 100,
-                        60 / 100,
-                      ).toColor(),
+                      color:
+                          HSLColor.fromAHSL(
+                            1,
+                            state.assignee.displayName.hashCode % 360,
+                            40 / 100,
+                            60 / 100,
+                          ).toColor(),
                     ),
                     name: state.assignee.displayName,
                   );
@@ -87,7 +87,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                   return UserInfoWidget(
                     avatar: Icon(
                       Icons.account_circle,
-                      color: Colors.black.withOpacity(0.38),
+                      color: Colors.black.withValues(alpha: 0.38),
                     ),
                     name: 'Assigned to me',
                     id: '',

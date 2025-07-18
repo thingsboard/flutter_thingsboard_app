@@ -50,18 +50,16 @@ class _MorePageState extends TbContextState<MorePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: Divider(
-                        color: Colors.black.withOpacity(.05),
+                        color: Colors.black.withValues(alpha: .05),
                         thickness: 1,
                         height: 0,
                       ),
                     ),
-                    Flexible(
-                      child: buildMoreMenuItems(context),
-                    ),
+                    Flexible(child: buildMoreMenuItems(context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: Divider(
-                        color: Colors.black.withOpacity(.05),
+                        color: Colors.black.withValues(alpha: .05),
                         thickness: 1,
                         height: 0,
                       ),
@@ -84,7 +82,7 @@ class _MorePageState extends TbContextState<MorePage> {
                 ),
               ),
               versionInfo(),
-              appVersionInfo()
+              appVersionInfo(),
             ],
           ),
         ),
@@ -94,28 +92,30 @@ class _MorePageState extends TbContextState<MorePage> {
 
   Widget buildMoreMenuItems(BuildContext context) {
     final items = getIt<ILayoutService>().getMorePageItems(tbContext, context);
-    final widgets = items
-        .map(
-          (e) => MoreMenuItemWidget(
-            e,
-            onTap: () {
-              getIt<ThingsboardAppRouter>().navigateTo(e.path);
-            },
-          ),
-        )
-        .toList();
+    final widgets =
+        items
+            .map(
+              (e) => MoreMenuItemWidget(
+                e,
+                onTap: () {
+                  getIt<ThingsboardAppRouter>().navigateTo(e.path);
+                },
+              ),
+            )
+            .toList();
     return SingleChildScrollView(
-      child: Column(
-        children: widgets.separateWith(16),
-      ),
+      child: Column(children: widgets.separateWith(16)),
     );
   }
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NotificationService(tbClient, widget.log, tbContext)
-          .updateNotificationsCount();
+      NotificationService(
+        tbClient,
+        widget.log,
+        tbContext,
+      ).updateNotificationsCount();
     });
 
     super.initState();

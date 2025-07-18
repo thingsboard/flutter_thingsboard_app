@@ -56,25 +56,28 @@ class _FilterToggleBlockWidgetState extends State<FilterToggleBlockWidget> {
             },
             label: Text(
               widget.labelAtIndex(index),
-              style: !selected.contains(widget.items[index])
-                  ? TextStyle(
-                      color: Colors.black.withOpacity(0.38),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13,
-                    )
-                  : const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                    ),
+              style:
+                  !selected.contains(widget.items[index])
+                      ? TextStyle(
+                        color: Colors.black.withValues(alpha: 0.38),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13,
+                      )
+                      : const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
             ),
-            icon: !selected.contains(widget.items[index])
-                ? const SizedBox.shrink()
-                : const Icon(Icons.check),
+            icon:
+                !selected.contains(widget.items[index])
+                    ? const SizedBox.shrink()
+                    : const Icon(Icons.check),
             style: FilledButton.styleFrom(
-              backgroundColor: !selected.contains(widget.items[index])
-                  ? Colors.black.withOpacity(0.06)
-                  : null,
+              backgroundColor:
+                  !selected.contains(widget.items[index])
+                      ? Colors.black.withValues(alpha: 0.06)
+                      : null,
             ),
           ),
         ),

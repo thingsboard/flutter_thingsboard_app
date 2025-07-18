@@ -26,15 +26,13 @@ class DeviceProvisioningDone extends StatelessWidget {
               S.of(context).claimingMessageSuccess,
               textAlign: TextAlign.center,
               style: TbTextStyles.titleSmallSb.copyWith(
-                color: Colors.black.withOpacity(.54),
+                color: Colors.black.withValues(alpha: .54),
               ),
             ),
           ),
         ),
         const Spacer(),
-        ReturnToDashboardButton(
-          onTap: () => Navigator.of(context).pop(true),
-        ),
+        ReturnToDashboardButton(onTap: () => Navigator.of(context).pop(true)),
       ],
     );
   }

@@ -86,14 +86,15 @@ class _LoginPageState extends TbPageState<LoginPage>
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthBloc>(
-      create: (_) =>
-          AuthBloc(tbClient: tbClient, deviceService: _deviceInfoService)
-            ..add(
-              AuthFetchEvent(
-                packageName: _deviceInfoService.getApplicationId(),
-                platformType: _deviceInfoService.getPlatformType(),
-              ),
-            ),
+      create:
+          (_) =>
+              AuthBloc(tbClient: tbClient, deviceService: _deviceInfoService)
+                ..add(
+                  AuthFetchEvent(
+                    packageName: _deviceInfoService.getApplicationId(),
+                    platformType: _deviceInfoService.getPlatformType(),
+                  ),
+                ),
       child: Scaffold(
         body: Stack(
           children: [
@@ -105,9 +106,7 @@ class _LoginPageState extends TbPageState<LoginPage>
                     return const SizedBox.expand(
                       child: ColoredBox(
                         color: Color(0x99FFFFFF),
-                        child: Center(
-                          child: TbProgressIndicator(size: 50.0),
-                        ),
+                        child: Center(child: TbProgressIndicator(size: 50.0)),
                       ),
                     );
                   case AuthDataState():
@@ -147,11 +146,12 @@ class _LoginPageState extends TbPageState<LoginPage>
                                               tbContext.showFullScreenDialog(
                                                 ChooseRegionScreen(
                                                   tbContext,
-                                                  nASelected: selectedRegion ==
+                                                  nASelected:
+                                                      selectedRegion ==
                                                       Region.northAmerica,
                                                   europeSelected:
                                                       selectedRegion ==
-                                                          Region.europe,
+                                                      Region.europe,
                                                 ),
                                               );
                                             },
@@ -165,8 +165,9 @@ class _LoginPageState extends TbPageState<LoginPage>
                                                 ),
                                                 const SizedBox(width: 6),
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 4),
+                                                  padding: EdgeInsets.only(
+                                                    top: 4,
+                                                  ),
                                                   child: Icon(
                                                     Icons
                                                         .arrow_forward_ios_rounded,
@@ -184,7 +185,9 @@ class _LoginPageState extends TbPageState<LoginPage>
                                       child: Text(
                                         S.of(context).loginNotification,
                                         style: TbTextStyles.titleLarge.copyWith(
-                                          color: Colors.black.withOpacity(.87),
+                                          color: Colors.black.withValues(
+                                            alpha: .87,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -206,9 +209,11 @@ class _LoginPageState extends TbPageState<LoginPage>
                                                 'Login with',
                                                 style: TbTextStyles.bodyMedium
                                                     .copyWith(
-                                                  color: Colors.black
-                                                      .withOpacity(.54),
-                                                ),
+                                                      color: Colors.black
+                                                          .withValues(
+                                                            alpha: .54,
+                                                          ),
+                                                    ),
                                               ),
                                             ),
                                           ),
@@ -218,15 +223,16 @@ class _LoginPageState extends TbPageState<LoginPage>
                                             children: [
                                               OutlinedButton(
                                                 style: _oauth2IconButtonStyle,
-                                                onPressed: () async =>
-                                                    await _onLoginWithBarcode(
-                                                        context),
+                                                onPressed:
+                                                    () async =>
+                                                        await _onLoginWithBarcode(
+                                                          context,
+                                                        ),
                                                 child: Row(
                                                   children: [
                                                     SvgPicture.asset(
                                                       ThingsboardImage
-                                                              .oauth2Logos[
-                                                          'qr-code-logo']!,
+                                                          .oauth2Logos['qr-code-logo']!,
                                                       height: 24,
                                                     ),
                                                     const SizedBox(width: 8),
@@ -255,8 +261,9 @@ class _LoginPageState extends TbPageState<LoginPage>
                                         children: [
                                           Flexible(
                                             child: Divider(
-                                              color:
-                                                  Colors.black.withOpacity(.12),
+                                              color: Colors.black.withValues(
+                                                alpha: .12,
+                                              ),
                                             ),
                                           ),
                                           Padding(
@@ -267,15 +274,16 @@ class _LoginPageState extends TbPageState<LoginPage>
                                               S.of(context).or,
                                               style: TbTextStyles.bodyMedium
                                                   .copyWith(
-                                                color: Colors.black
-                                                    .withOpacity(.54),
-                                              ),
+                                                    color: Colors.black
+                                                        .withValues(alpha: .54),
+                                                  ),
                                             ),
                                           ),
                                           Flexible(
                                             child: Divider(
-                                              color:
-                                                  Colors.black.withOpacity(.12),
+                                              color: Colors.black.withValues(
+                                                alpha: .12,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -298,38 +306,41 @@ class _LoginPageState extends TbPageState<LoginPage>
                                               keyboardType:
                                                   TextInputType.emailAddress,
                                               validator:
-                                                  FormBuilderValidators.compose(
-                                                [
-                                                  FormBuilderValidators
-                                                      .required(
-                                                    errorText: S
-                                                        .of(context)
-                                                        .emailRequireText,
-                                                  ),
-                                                  FormBuilderValidators.email(
-                                                    errorText: S
-                                                        .of(context)
-                                                        .emailInvalidText,
-                                                  ),
-                                                ],
-                                              ),
+                                                  FormBuilderValidators.compose([
+                                                    FormBuilderValidators.required(
+                                                      errorText:
+                                                          S
+                                                              .of(context)
+                                                              .emailRequireText,
+                                                    ),
+                                                    FormBuilderValidators.email(
+                                                      errorText:
+                                                          S
+                                                              .of(context)
+                                                              .emailInvalidText,
+                                                    ),
+                                                  ]),
                                               decoration: InputDecoration(
                                                 border:
                                                     const OutlineInputBorder(),
                                                 enabledBorder:
                                                     OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black
-                                                        .withOpacity(.12),
-                                                  ),
-                                                ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black
+                                                            .withValues(
+                                                              alpha: .12,
+                                                            ),
+                                                      ),
+                                                    ),
                                                 labelText: S.of(context).email,
                                                 labelStyle: TbTextStyles
                                                     .bodyLarge
                                                     .copyWith(
-                                                  color: Colors.black
-                                                      .withOpacity(.54),
-                                                ),
+                                                      color: Colors.black
+                                                          .withValues(
+                                                            alpha: .54,
+                                                          ),
+                                                    ),
                                               ),
                                             ),
                                             const SizedBox(height: 24),
@@ -347,18 +358,14 @@ class _LoginPageState extends TbPageState<LoginPage>
                                                   ],
                                                   name: 'password',
                                                   obscureText: !showPassword,
-                                                  validator:
-                                                      FormBuilderValidators
-                                                          .compose(
-                                                    [
-                                                      FormBuilderValidators
-                                                          .required(
-                                                        errorText: S
-                                                            .of(context)
-                                                            .passwordRequireText,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                  validator: FormBuilderValidators.compose([
+                                                    FormBuilderValidators.required(
+                                                      errorText:
+                                                          S
+                                                              .of(context)
+                                                              .passwordRequireText,
+                                                    ),
+                                                  ]),
                                                   decoration: InputDecoration(
                                                     suffixIcon: IconButton(
                                                       icon: Icon(
@@ -378,19 +385,26 @@ class _LoginPageState extends TbPageState<LoginPage>
                                                         const OutlineInputBorder(),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: Colors.black
-                                                            .withOpacity(.12),
-                                                      ),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Colors
+                                                                    .black
+                                                                    .withValues(
+                                                                      alpha:
+                                                                          .12,
+                                                                    ),
+                                                              ),
+                                                        ),
                                                     labelText:
                                                         S.of(context).password,
                                                     labelStyle: TbTextStyles
                                                         .bodyLarge
                                                         .copyWith(
-                                                      color: Colors.black
-                                                          .withOpacity(.54),
-                                                    ),
+                                                          color: Colors.black
+                                                              .withValues(
+                                                                alpha: .54,
+                                                              ),
+                                                        ),
                                                   ),
                                                 );
                                               },
@@ -454,7 +468,7 @@ class _LoginPageState extends TbPageState<LoginPage>
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200.withOpacity(0.2),
+                            color: Colors.grey.shade200.withValues(alpha: 0.2),
                           ),
                           child: Container(
                             padding: EdgeInsets.only(bottom: bottomPadding),
@@ -485,15 +499,10 @@ class _LoginPageState extends TbPageState<LoginPage>
       );
 
       if (barcode != null && barcode.rawValue != null) {
-        getIt<ThingsboardAppRouter>().navigateByAppLink(
-          barcode.rawValue,
-        );
+        getIt<ThingsboardAppRouter>().navigateByAppLink(barcode.rawValue);
       }
     } catch (e) {
-      log.error(
-        'Login with qr code error',
-        e,
-      );
+      log.error('Login with qr code error', e);
     }
   }
 
@@ -507,7 +516,7 @@ class _LoginPageState extends TbPageState<LoginPage>
             child: Text(
               'Login with',
               style: TbTextStyles.bodyMedium.copyWith(
-                color: Colors.black.withOpacity(.54),
+                color: Colors.black.withValues(alpha: .54),
               ),
             ),
           ),
@@ -544,11 +553,7 @@ class _LoginPageState extends TbPageState<LoginPage>
     );
   }
 
-  Widget _buildOAuth2Button(
-    OAuth2ClientInfo client,
-    bool expand,
-    bool isLast,
-  ) {
+  Widget _buildOAuth2Button(OAuth2ClientInfo client, bool expand, bool isLast) {
     Widget? icon;
     if (client.icon != null) {
       if (ThingsboardImage.oauth2Logos.containsKey(client.icon)) {
@@ -563,8 +568,11 @@ class _LoginPageState extends TbPageState<LoginPage>
         }
         final iconData = MdiIcons.fromString(strIcon);
         if (iconData != null) {
-          icon =
-              Icon(iconData, size: 24, color: Theme.of(context).primaryColor);
+          icon = Icon(
+            iconData,
+            size: 24,
+            color: Theme.of(context).primaryColor,
+          );
         }
       }
     }

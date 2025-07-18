@@ -25,21 +25,19 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).primaryColor.withOpacity(.32),
+            color: Theme.of(context).primaryColor.withValues(alpha: .32),
           ),
         ),
         hintStyle: TbTextStyles.bodyLarge.copyWith(
-          color: Colors.black.withOpacity(.38),
+          color: Colors.black.withValues(alpha: .38),
         ),
         hintText: S.of(context).addCommentMessage,
         suffixIcon: IconButton(
-          icon: const Icon(
-            Icons.send_rounded,
-            size: 24,
-          ),
-          onPressed: textController.text.isNotEmpty
-              ? () => _submitComment(context)
-              : null,
+          icon: const Icon(Icons.send_rounded, size: 24),
+          onPressed:
+              textController.text.isNotEmpty
+                  ? () => _submitComment(context)
+                  : null,
         ),
         suffixIconConstraints: const BoxConstraints(maxWidth: 34),
       ),
@@ -60,11 +58,8 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
   void _submitComment(BuildContext context) {
     if (textController.text.isNotEmpty) {
       context.read<AlarmActivityBloc>().add(
-            PostAlarmCommentEvent(
-              widget.alarmId,
-              comment: textController.text,
-            ),
-          );
+        PostAlarmCommentEvent(widget.alarmId, comment: textController.text),
+      );
       textController.clear();
     }
 

@@ -20,13 +20,13 @@ class SystemActivityWidget extends StatelessWidget {
         Text(
           timeago.format(DateTime.now().subtract(diff)),
           style: TbTextStyles.labelMedium.copyWith(
-            color: Colors.black.withOpacity(.38),
+            color: Colors.black.withValues(alpha: .38),
           ),
         ),
         Text(
           activity.comment.text,
           style: TbTextStyles.bodyLarge.copyWith(
-            color: Colors.black.withOpacity(.54),
+            color: Colors.black.withValues(alpha: .54),
           ),
         ),
       ],

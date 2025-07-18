@@ -28,7 +28,7 @@ class ChooseRegionScreen extends TbContextStatelessWidget {
         title: Text(
           S.of(context).chooseRegion,
           style: TbTextStyles.titleXs.copyWith(
-            color: Colors.black.withOpacity(.87),
+            color: Colors.black.withValues(alpha: .87),
           ),
         ),
       ),
@@ -55,8 +55,10 @@ class ChooseRegionScreen extends TbContextStatelessWidget {
                   selected: europeSelected,
                   onTap: () {
                     getIt<IEndpointService>().setRegion(Region.europe);
-                    getIt<ThingsboardAppRouter>()
-                        .navigateTo('/', replace: true);
+                    getIt<ThingsboardAppRouter>().navigateTo(
+                      '/',
+                      replace: true,
+                    );
                   },
                 ),
               ),

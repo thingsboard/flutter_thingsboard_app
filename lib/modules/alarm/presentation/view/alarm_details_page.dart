@@ -17,11 +17,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class AlarmDetailsPage extends TbContextWidget {
-  AlarmDetailsPage(
-    super.tbContext, {
-    required this.id,
-    super.key,
-  });
+  AlarmDetailsPage(super.tbContext, {required this.id, super.key});
 
   final String id;
 
@@ -35,14 +31,16 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmDetailsBloc>(
-          create: (_) => AlarmDetailsBloc.create()
-            ..add(AlarmDetailsFetchEvent(id: widget.id)),
+          create:
+              (_) =>
+                  AlarmDetailsBloc.create()
+                    ..add(AlarmDetailsFetchEvent(id: widget.id)),
         ),
         BlocProvider<AlarmAssigneeBloc>(
-          create: (_) => AlarmAssigneeBloc.create(id: widget.id)
-            ..add(
-              const AlarmFetchAssigneeEvent(),
-            ),
+          create:
+              (_) =>
+                  AlarmAssigneeBloc.create(id: widget.id)
+                    ..add(const AlarmFetchAssigneeEvent()),
         ),
       ],
       child: BlocBuilder<AlarmDetailsBloc, AlarmDetailsState>(
@@ -53,9 +51,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                 body: SizedBox.expand(
                   child: ColoredBox(
                     color: Color(0x99FFFFFF),
-                    child: Center(
-                      child: TbProgressIndicator(size: 50.0),
-                    ),
+                    child: Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 ),
               );
@@ -67,7 +63,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                   title: Text(
                     state.alarmInfo.type,
                     style: TbTextStyles.titleXs.copyWith(
-                      color: Colors.black.withOpacity(.87),
+                      color: Colors.black.withValues(alpha: .87),
                     ),
                   ),
                 ),
@@ -86,9 +82,9 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                               children: [
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
-                                  alamDashboardId: state
-                                      .alarmInfo.details?['dashboardId']
-                                      ?.toString(),
+                                  alamDashboardId:
+                                      state.alarmInfo.details?['dashboardId']
+                                          ?.toString(),
                                   tbContext: tbContext,
                                 ),
                                 Padding(
@@ -121,7 +117,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                   title: Text(
                     S.of(context).failedToLoadAlarmDetails,
                     style: TbTextStyles.titleXs.copyWith(
-                      color: Colors.black.withOpacity(.87),
+                      color: Colors.black.withValues(alpha: .87),
                     ),
                   ),
                 ),
@@ -140,10 +136,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
 
   @override
   void initState() {
-    AlarmDetailsDi.init(
-      widget.tbClient,
-      id: AlarmId(widget.id),
-    );
+    AlarmDetailsDi.init(widget.tbClient, id: AlarmId(widget.id));
     super.initState();
   }
 

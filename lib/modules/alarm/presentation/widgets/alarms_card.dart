@@ -8,7 +8,6 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class AlarmCard extends TbContextWidget {
-
   AlarmCard(super.tbContext, {super.key, required this.alarm});
   final AlarmInfo alarm;
 
@@ -71,7 +70,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                     ),
                                   ),
                                   style: TbTextStyles.bodyMedium.copyWith(
-                                    color: Colors.black.withOpacity(.54),
+                                    color: Colors.black.withValues(alpha: .54),
                                   ),
                                 ),
                               ],
@@ -87,17 +86,22 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                         ? widget.alarm.originatorName!
                                         : '',
                                     style: TbTextStyles.bodyMedium.copyWith(
-                                      color: Colors.black.withOpacity(.54),
+                                      color: Colors.black.withValues(
+                                        alpha: .54,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  alarmSeverityTranslations[
-                                      widget.alarm.severity]!,
+                                  alarmSeverityTranslations[widget
+                                      .alarm
+                                      .severity]!,
                                   style: TbTextStyles.labelMedium.copyWith(
-                                    color: alarmSeverityColors[
-                                        widget.alarm.severity],
+                                    color:
+                                        alarmSeverityColors[widget
+                                            .alarm
+                                            .severity],
                                   ),
                                 ),
                               ],
@@ -111,7 +115,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                 Divider(
                   height: 24,
                   thickness: 1,
-                  color: Colors.black.withOpacity(.05),
+                  color: Colors.black.withValues(alpha: .05),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -122,14 +126,15 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                         child: Text(
                           alarmStatusTranslations[widget.alarm.status]!,
                           style: TbTextStyles.bodyMedium.copyWith(
-                            color: Colors.black.withOpacity(.76),
+                            color: Colors.black.withValues(alpha: .76),
                           ),
                         ),
                       ),
                       CircleAvatar(
                         radius: 16,
-                        backgroundColor:
-                            Theme.of(context).primaryColor.withOpacity(.06),
+                        backgroundColor: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: .06),
                         child: IconButton(
                           icon: Icon(
                             Icons.more_vert,
@@ -137,9 +142,10 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                             color: Theme.of(context).primaryColor,
                           ),
                           padding: const EdgeInsets.all(7.0),
-                          onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
-                            '/alarmDetails/${widget.alarm.id?.id}',
-                          ),
+                          onPressed:
+                              () => getIt<ThingsboardAppRouter>().navigateTo(
+                                '/alarmDetails/${widget.alarm.id?.id}',
+                              ),
                         ),
                       ),
                     ],

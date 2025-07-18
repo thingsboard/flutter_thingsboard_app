@@ -28,15 +28,16 @@ class RegionWidget extends StatelessWidget {
               Text(
                 title,
                 style: TbTextStyles.labelMedium.copyWith(
-                  color: selected
-                      ? Theme.of(context).primaryColor
-                      : Colors.black.withOpacity(.76),
+                  color:
+                      selected
+                          ? Theme.of(context).primaryColor
+                          : Colors.black.withValues(alpha: .76),
                 ),
               ),
               Text(
                 subTitle,
                 style: TbTextStyles.labelSmall.copyWith(
-                  color: Colors.black.withOpacity(.38),
+                  color: Colors.black.withValues(alpha: .38),
                 ),
               ),
             ],

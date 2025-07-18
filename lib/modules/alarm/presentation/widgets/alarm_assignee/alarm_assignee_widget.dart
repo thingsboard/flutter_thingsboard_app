@@ -14,10 +14,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeWidget extends StatelessWidget {
-  const AlarmAssigneeWidget({
-    required this.tbContext,
-    super.key,
-  });
+  const AlarmAssigneeWidget({required this.tbContext, super.key});
 
   final TbContext tbContext;
 
@@ -30,28 +27,27 @@ class AlarmAssigneeWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder: (_) => BlocProvider.value(
-              value: context.read<AlarmAssigneeBloc>(),
-              child: AnimatedSize(
-                curve: Curves.easeInOut,
-                duration: const Duration(milliseconds: 500),
-                child: AlarmAssigneeListWidget(tbContext: tbContext),
-              ),
-            ),
+            builder:
+                (_) => BlocProvider.value(
+                  value: context.read<AlarmAssigneeBloc>(),
+                  child: AnimatedSize(
+                    curve: Curves.easeInOut,
+                    duration: const Duration(milliseconds: 500),
+                    child: AlarmAssigneeListWidget(tbContext: tbContext),
+                  ),
+                ),
           );
 
           if (context.mounted) {
             context.read<AlarmAssigneeBloc>().add(
-                  const AlarmAssigneeResetSearchTextEvent(),
-                );
+              const AlarmAssigneeResetSearchTextEvent(),
+            );
           }
         },
         child: Container(
           constraints: const BoxConstraints(minHeight: 38),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black.withOpacity(0.12),
-            ),
+            border: Border.all(color: Colors.black.withValues(alpha: 0.12)),
             borderRadius: BorderRadius.circular(4),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -63,7 +59,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.account_circle,
-                        color: Colors.black.withOpacity(0.38),
+                        color: Colors.black.withValues(alpha: 0.38),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -71,7 +67,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.38),
+                          color: Colors.black.withValues(alpha: 0.38),
                         ),
                       ),
                       const Spacer(),
@@ -79,7 +75,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                         angle: -pi / 2,
                         child: Icon(
                           Icons.arrow_left_outlined,
-                          color: Colors.black.withOpacity(.38),
+                          color: Colors.black.withValues(alpha: .38),
                         ),
                       ),
                     ],
@@ -104,7 +100,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                         angle: -pi / 2,
                         child: Icon(
                           Icons.arrow_left_outlined,
-                          color: Colors.black.withOpacity(.38),
+                          color: Colors.black.withValues(alpha: .38),
                         ),
                       ),
                     ],

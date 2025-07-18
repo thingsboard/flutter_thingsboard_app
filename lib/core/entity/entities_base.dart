@@ -43,10 +43,8 @@ const entityTypeTranslations = <EntityType, String>{
 };
 
 typedef EntityTapFunction<T> = Function(T entity);
-typedef EntityCardWidgetBuilder<T> = Widget Function(
-  BuildContext context,
-  T entity,
-);
+typedef EntityCardWidgetBuilder<T> =
+    Widget Function(BuildContext context, T entity);
 
 class EntityCardSettings {
   EntityCardSettings({this.dropShadow = true});
@@ -111,7 +109,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TbTextStyles.labelLarge.copyWith(
-                          color: Colors.black.withOpacity(.87),
+                          color: Colors.black.withValues(alpha: .87),
                         ),
                       ),
                     ),
@@ -123,7 +121,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                         ),
                       ),
                       style: TbTextStyles.bodyMedium.copyWith(
-                        color: Colors.black.withOpacity(.54),
+                        color: Colors.black.withValues(alpha: .54),
                       ),
                     ),
                   ],
@@ -176,17 +174,14 @@ class PageKeyValue<P> {
 
 class PageLinkController extends PageKeyController<PageLink> {
   PageLinkController({int pageSize = 20, String? searchText})
-      : super(
-          PageLink(
-            pageSize,
-            0,
-            searchText,
-            SortOrder(
-              'createdTime',
-              Direction.DESC,
-            ),
-          ),
-        );
+    : super(
+        PageLink(
+          pageSize,
+          0,
+          searchText,
+          SortOrder('createdTime', Direction.DESC),
+        ),
+      );
 
   @override
   PageLink nextPageKey(PageLink pageKey) => pageKey.nextPageLink();
@@ -200,14 +195,14 @@ class PageLinkController extends PageKeyController<PageLink> {
 
 class TimePageLinkController extends PageKeyController<TimePageLink> {
   TimePageLinkController({int pageSize = 20, String? searchText})
-      : super(
-          TimePageLink(
-            pageSize,
-            0,
-            searchText,
-            SortOrder('createdTime', Direction.DESC),
-          ),
-        );
+    : super(
+        TimePageLink(
+          pageSize,
+          0,
+          searchText,
+          SortOrder('createdTime', Direction.DESC),
+        ),
+      );
 
   @override
   TimePageLink nextPageKey(TimePageLink pageKey) => pageKey.nextPageLink();
@@ -231,16 +226,17 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
   final PageKeyController<P> pageKeyController;
 
   @override
-  Widget? buildHeading(BuildContext context) => searchMode
-      ? const Text(
-          'Search results',
-          style: TextStyle(
-            color: Color(0xFFAFAFAF),
-            fontSize: 16,
-            height: 24 / 16,
-          ),
-        )
-      : null;
+  Widget? buildHeading(BuildContext context) =>
+      searchMode
+          ? const Text(
+            'Search results',
+            style: TextStyle(
+              color: Color(0xFFAFAFAF),
+              fontSize: 16,
+              height: 24 / 16,
+            ),
+          )
+          : null;
 }
 
 abstract class BaseEntitiesState<T, P>
@@ -256,8 +252,9 @@ abstract class BaseEntitiesState<T, P>
   @override
   void initState() {
     super.initState();
-    pagingController =
-        PagingController(firstPageKey: widget.pageKeyController.value.pageKey);
+    pagingController = PagingController(
+      firstPageKey: widget.pageKeyController.value.pageKey,
+    );
     widget.pageKeyController.addListener(_didChangePageKeyValue);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -363,9 +360,7 @@ abstract class BaseEntitiesState<T, P>
           right: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RefreshProgressIndicator(),
-            ],
+            children: [RefreshProgressIndicator()],
           ),
         ),
       ],
@@ -374,13 +369,8 @@ abstract class BaseEntitiesState<T, P>
 
   Widget newPageProgressIndicatorBuilder(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(
-        top: 16,
-        bottom: 16,
-      ),
-      child: Center(
-        child: RefreshProgressIndicator(),
-      ),
+      padding: EdgeInsets.only(top: 16, bottom: 16),
+      child: Center(child: RefreshProgressIndicator()),
     );
   }
 

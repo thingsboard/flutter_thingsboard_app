@@ -17,7 +17,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
     fontWeight: FontWeight.w500,
   );
   final unselectedTextStyle = TextStyle(
-    color: Colors.black.withOpacity(0.38),
+    color: Colors.black.withValues(alpha: 0.38),
     fontWeight: FontWeight.w400,
   );
 
@@ -26,7 +26,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: Colors.black.withOpacity(0.06),
+        color: Colors.black.withValues(alpha: 0.06),
       ),
       height: 32,
       padding: const EdgeInsets.all(2),
@@ -40,16 +40,18 @@ class FilterSegmentedButton<T> extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color: segments[index].value == selected
-                      ? Theme.of(context).primaryColor
-                      : null,
+                  color:
+                      segments[index].value == selected
+                          ? Theme.of(context).primaryColor
+                          : null,
                 ),
                 child: Center(
                   child: Text(
                     segments[index].label,
-                    style: segments[index].value == selected
-                        ? selectedTextStyle
-                        : unselectedTextStyle,
+                    style:
+                        segments[index].value == selected
+                            ? selectedTextStyle
+                            : unselectedTextStyle,
                   ),
                 ),
               ),
@@ -62,10 +64,7 @@ class FilterSegmentedButton<T> extends StatelessWidget {
 }
 
 final class FilterSegments<T> {
-  const FilterSegments({
-    required this.label,
-    required this.value,
-  });
+  const FilterSegments({required this.label, required this.value});
 
   final String label;
   final T value;

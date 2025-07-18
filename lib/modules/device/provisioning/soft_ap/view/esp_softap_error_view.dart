@@ -20,11 +20,7 @@ class EspSoftApConnectionErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SvgPicture.asset(
-          assetPath,
-          width: 140,
-          height: 140,
-        ),
+        SvgPicture.asset(assetPath, width: 140, height: 140),
         const SizedBox(height: 16),
         Expanded(
           child: Center(
@@ -32,7 +28,7 @@ class EspSoftApConnectionErrorView extends StatelessWidget {
               message,
               textAlign: TextAlign.center,
               style: TbTextStyles.bodyMedium.copyWith(
-                color: Colors.black.withOpacity(.54),
+                color: Colors.black.withValues(alpha: .54),
               ),
             ),
           ),
@@ -42,16 +38,11 @@ class EspSoftApConnectionErrorView extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             ),
             child: Text(
               'Open app settings',
-              style: TbTextStyles.labelMedium.copyWith(
-                color: Colors.white,
-              ),
+              style: TbTextStyles.labelMedium.copyWith(color: Colors.white),
             ),
             onPressed: () => openAppSettings(),
           ),

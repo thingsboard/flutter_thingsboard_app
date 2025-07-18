@@ -11,7 +11,7 @@ class EndpointNameWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: Theme.of(context).primaryColor.withOpacity(.06),
+        color: Theme.of(context).primaryColor.withValues(alpha: .06),
       ),
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Center(

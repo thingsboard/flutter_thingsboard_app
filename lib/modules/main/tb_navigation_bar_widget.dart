@@ -111,7 +111,7 @@ class BottomNavbarItems extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            splashColor: Theme.of(context).primaryColor.withOpacity(.10),
+            splashColor: Theme.of(context).primaryColor.withValues(alpha: .10),
             onTap: () => onTap(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -119,9 +119,10 @@ class BottomNavbarItems extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: isSelected
-                        ? bottomTheme.selectedItemColor!
-                        : Colors.transparent,
+                    color:
+                        isSelected
+                            ? bottomTheme.selectedItemColor!
+                            : Colors.transparent,
                     width: isSelected ? lineIndicatorWidth : 0,
                   ),
                 ),
@@ -137,9 +138,10 @@ class BottomNavbarItems extends StatelessWidget {
                         Icon(
                           icon,
                           size: 26,
-                          color: isSelected
-                              ? bottomTheme.selectedItemColor
-                              : bottomTheme.unselectedItemColor,
+                          color:
+                              isSelected
+                                  ? bottomTheme.selectedItemColor
+                                  : bottomTheme.unselectedItemColor,
                         ),
                         ConstrainedBox(
                           constraints: const BoxConstraints(

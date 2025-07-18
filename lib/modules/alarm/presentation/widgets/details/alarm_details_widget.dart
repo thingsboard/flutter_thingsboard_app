@@ -42,9 +42,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
       child: ScrollOnExpand(
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black.withOpacity(.12),
-            ),
+            border: Border.all(color: Colors.black.withValues(alpha: .12)),
             borderRadius: BorderRadius.circular(6),
           ),
           child: ExpandablePanel(
@@ -57,18 +55,19 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   Text(
                     S.of(context).details,
                     style: TbTextStyles.labelLarge.copyWith(
-                      color: Colors.black.withOpacity(.76),
+                      color: Colors.black.withValues(alpha: .76),
                     ),
                   ),
                   RotationTransition(
-                    turns: Tween(begin: .0, end: .5).animate(
-                      animationController,
-                    ),
+                    turns: Tween(
+                      begin: .0,
+                      end: .5,
+                    ).animate(animationController),
                     child: Transform.rotate(
                       angle: pi / 2,
                       child: Icon(
                         Icons.arrow_left_outlined,
-                        color: Colors.black.withOpacity(.38),
+                        color: Colors.black.withValues(alpha: .38),
                       ),
                     ),
                   ),
@@ -93,7 +92,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                     title: S.of(context).severity,
                     details:
                         alarmSeverityTranslations[widget.alarmInfo.severity] ??
-                            '',
+                        '',
                     detailsStyle: TbTextStyles.labelLarge.copyWith(
                       color: alarmSeverityColors[widget.alarmInfo.severity],
                     ),
@@ -131,8 +130,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                           );
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).primaryColor.withOpacity(.1),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).primaryColor.withValues(alpha: .1),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(

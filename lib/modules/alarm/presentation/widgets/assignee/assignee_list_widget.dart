@@ -25,9 +25,11 @@ class AssigneeListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7 +
+        maxHeight:
+            MediaQuery.of(context).size.height * 0.7 +
             MediaQuery.of(context).viewInsets.bottom,
-        minHeight: MediaQuery.of(context).size.height * 0.3 +
+        minHeight:
+            MediaQuery.of(context).size.height * 0.3 +
             MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SafeArea(
@@ -66,7 +68,7 @@ class AssigneeListWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black.withOpacity(0.12),
+                    color: Colors.black.withValues(alpha: 0.12),
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -79,13 +81,17 @@ class AssigneeListWidget extends StatelessWidget {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: Colors.black.withOpacity(0.38),
+                            color: Colors.black.withValues(alpha: 0.38),
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                           ),
                           hintText: 'Search users',
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                          contentPadding: const EdgeInsets.fromLTRB(
+                            16,
+                            12,
+                            16,
+                            12,
+                          ),
                           isDense: true,
                         ),
                         onChanged: (text) {
@@ -97,7 +103,7 @@ class AssigneeListWidget extends StatelessWidget {
                     ),
                     Icon(
                       Icons.search,
-                      color: Colors.black.withOpacity(0.54),
+                      color: Colors.black.withValues(alpha: 0.54),
                       size: 24,
                     ),
                     const SizedBox(width: 16),
@@ -106,11 +112,14 @@ class AssigneeListWidget extends StatelessWidget {
               ),
               Flexible(
                 child: PagedListView<PageLink, AssigneeEntity>.separated(
-                  pagingController: getIt<AssigneeBloc>()
-                      .paginationRepository
-                      .pagingController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  pagingController:
+                      getIt<AssigneeBloc>()
+                          .paginationRepository
+                          .pagingController,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   shrinkWrap: true,
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, item, index) {
@@ -127,14 +136,15 @@ class AssigneeListWidget extends StatelessWidget {
                       return Column(
                         children: [
                           Visibility(
-                            visible: index == 0 &&
+                            visible:
+                                index == 0 &&
                                 state is! AssigneeSelfAssignmentState,
                             child: Column(
                               children: [
                                 UserInfoWidget(
                                   avatar: Icon(
                                     Icons.account_circle,
-                                    color: Colors.black.withOpacity(0.38),
+                                    color: Colors.black.withValues(alpha: 0.38),
                                     size: 32,
                                   ),
                                   name: 'Assigned to me',
@@ -159,12 +169,13 @@ class AssigneeListWidget extends StatelessWidget {
                               UserInfoWidget(
                                 avatar: UserInfoAvatarWidget(
                                   shortName: item.shortName,
-                                  color: HSLColor.fromAHSL(
-                                    1,
-                                    item.displayName.hashCode % 360,
-                                    40 / 100,
-                                    60 / 100,
-                                  ).toColor(),
+                                  color:
+                                      HSLColor.fromAHSL(
+                                        1,
+                                        item.displayName.hashCode % 360,
+                                        40 / 100,
+                                        60 / 100,
+                                      ).toColor(),
                                 ),
                                 name: item.displayName,
                                 email: item.userInfo.email,
@@ -197,10 +208,11 @@ class AssigneeListWidget extends StatelessWidget {
 
                     if (state is AssigneeSelectedState) {
                       final selectedId = state.assignee.userInfo.id.id;
-                      final userId = getIt<AssigneeBloc>()
-                          .paginationRepository
-                          .pagingController
-                          .itemList?[index];
+                      final userId =
+                          getIt<AssigneeBloc>()
+                              .paginationRepository
+                              .pagingController
+                              .itemList?[index];
                       if (selectedId == userId?.userInfo.id.id) {
                         return const SizedBox.shrink();
                       }

@@ -40,10 +40,11 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EspSoftApBloc>(
-      create: (_) => EspSoftApBloc.create(
-        deviceName: widget.name,
-        pop: widget.proofOfPossession,
-      ),
+      create:
+          (_) => EspSoftApBloc.create(
+            deviceName: widget.name,
+            pop: widget.proofOfPossession,
+          ),
       child: BlocBuilder<EspSoftApBloc, EspSoftApState>(
         builder: (context, state) {
           return Scaffold(
@@ -74,14 +75,15 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     }
                   }(),
                   style: TbTextStyles.titleXs.copyWith(
-                    color: Colors.black.withOpacity(.87),
+                    color: Colors.black.withValues(alpha: .87),
                   ),
                 ),
                 leading: BackButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (_) => const ExitConfirmationDialog(),
-                  ),
+                  onPressed:
+                      () => showDialog(
+                        context: context,
+                        builder: (_) => const ExitConfirmationDialog(),
+                      ),
                 ),
               );
             }(),
@@ -97,9 +99,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                       return const SizedBox.expand(
                         child: ColoredBox(
                           color: Color(0x99FFFFFF),
-                          child: Center(
-                            child: TbProgressIndicator(size: 50),
-                          ),
+                          child: Center(child: TbProgressIndicator(size: 50)),
                         ),
                       );
 
@@ -112,10 +112,11 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     case EspSoftApWiFiListState():
                       return WifiList(
                         tbContext,
-                        wifi: state.wifiList
-                            .map((e) => e['ssid'])
-                            .toList()
-                            .cast<String>(),
+                        wifi:
+                            state.wifiList
+                                .map((e) => e['ssid'])
+                                .toList()
+                                .cast<String>(),
                       );
 
                     case EspSoftApProvisioningInProgressState():
@@ -126,16 +127,18 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                         ssid: state.ssid,
                         wifiPassword: state.password,
                         mustReconnectToWifiBeforeClaiming: true,
-                        onProvisioningTryAgain: () => context
-                            .read<EspSoftApBloc>()
-                            .add(const EspSoftApConnectToDeviceEvent()),
+                        onProvisioningTryAgain:
+                            () => context.read<EspSoftApBloc>().add(
+                              const EspSoftApConnectToDeviceEvent(),
+                            ),
                       );
 
                     case EspSoftApConnectionErrorState():
                       return EspSoftApConnectionErrorView(
-                        onTryAgain: () => context
-                            .read<EspSoftApBloc>()
-                            .add(const EspSoftApConnectToDeviceEvent()),
+                        onTryAgain:
+                            () => context.read<EspSoftApBloc>().add(
+                              const EspSoftApConnectToDeviceEvent(),
+                            ),
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message:
                             'Connection to the ${widget.name} Wi-Fi network failed.\n'
@@ -147,7 +150,8 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                       return EspSoftApConnectionErrorView(
                         onTryAgain: () {},
                         assetPath: ThingsboardImage.mobileConnectionError,
-                        message: 'Unable connect to Wi-Fi because networks '
+                        message:
+                            'Unable connect to Wi-Fi because networks '
                             "wasn't found by device ${widget.name}",
                       );
 

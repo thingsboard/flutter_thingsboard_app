@@ -34,46 +34,39 @@ class ManuallyConnectToWifi extends StatelessWidget {
           'Please follow the next steps to connect your phone to device',
           textAlign: TextAlign.center,
           style: TbTextStyles.bodyMedium.copyWith(
-            color: Colors.black.withOpacity(.54),
+            color: Colors.black.withValues(alpha: .54),
           ),
         ),
         const SizedBox(height: 16),
         const DottedPointWidget('Open Wi-Fi settings'),
         const SizedBox(height: 16),
-        DottedPointWidget(
-          'Connect to Wi-Fi similar to $wifiName',
-        ),
+        DottedPointWidget('Connect to Wi-Fi similar to $wifiName'),
         const SizedBox(height: 16),
-        const DottedPointWidget(
-          'Return to the app and tap Ready button',
-        ),
+        const DottedPointWidget('Return to the app and tap Ready button'),
         const Spacer(),
         TryAgainButton(
           label: 'Open Wi-Fi settings',
-          onTryAgain: () => Platform.isAndroid
-              ? const OpenSettingsPlusAndroid().wifi()
-              : const OpenSettingsPlusIOS().wifi(),
+          onTryAgain:
+              () =>
+                  Platform.isAndroid
+                      ? const OpenSettingsPlusAndroid().wifi()
+                      : const OpenSettingsPlusIOS().wifi(),
         ),
         const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             ),
             child: Text(
               'Ready',
-              style: TbTextStyles.labelMedium.copyWith(
-                color: Colors.white,
-              ),
+              style: TbTextStyles.labelMedium.copyWith(color: Colors.white),
             ),
             onPressed: () {
-              context
-                  .read<EspSoftApBloc>()
-                  .add(const EspSoftApConnectToDeviceEvent());
+              context.read<EspSoftApBloc>().add(
+                const EspSoftApConnectToDeviceEvent(),
+              );
             },
           ),
         ),

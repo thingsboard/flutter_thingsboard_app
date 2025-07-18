@@ -28,7 +28,7 @@ class CannotEstablishSessionView extends StatelessWidget {
           deviceName,
           textAlign: TextAlign.center,
           style: TbTextStyles.bodyMedium.copyWith(
-            color: Colors.black.withOpacity(.54),
+            color: Colors.black.withValues(alpha: .54),
           ),
         ),
         const Spacer(),

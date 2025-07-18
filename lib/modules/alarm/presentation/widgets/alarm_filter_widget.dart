@@ -21,9 +21,7 @@ class AlarmFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black.withOpacity(0.12),
-        ),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.12)),
         borderRadius: BorderRadius.circular(6),
       ),
       width: double.infinity,
@@ -38,15 +36,12 @@ class AlarmFilterWidget extends StatelessWidget {
                 Text(
                   filterTitle,
                   style: TbTextStyles.labelLarge.copyWith(
-                    color: Colors.black.withOpacity(0.76),
+                    color: Colors.black.withValues(alpha: 0.76),
                   ),
                 ),
                 Visibility(
                   visible: action != null,
-                  child: InkWell(
-                    onTap: onActionTap,
-                    child: action,
-                  ),
+                  child: InkWell(onTap: onActionTap, child: action),
                 ),
               ],
             ),

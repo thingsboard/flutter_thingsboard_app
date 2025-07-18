@@ -33,7 +33,7 @@ class ProfileWidget extends StatelessWidget {
               child: IconButton(
                 icon: Icon(
                   Icons.settings,
-                  color: Colors.black.withOpacity(.54),
+                  color: Colors.black.withValues(alpha: .54),
                   size: 18,
                 ),
                 onPressed: () async {
@@ -51,7 +51,7 @@ class ProfileWidget extends StatelessWidget {
               child: Text(
                 userDetails.displayName,
                 style: TbTextStyles.labelLarge.copyWith(
-                  color: Colors.black.withOpacity(.76),
+                  color: Colors.black.withValues(alpha: .76),
                 ),
               ),
             ),
@@ -66,7 +66,7 @@ class ProfileWidget extends StatelessWidget {
         Text(
           _getAuthorityName(context, user),
           style: TbTextStyles.labelSmall.copyWith(
-            color: Colors.black.withOpacity(.38),
+            color: Colors.black.withValues(alpha: .38),
           ),
         ),
       ],

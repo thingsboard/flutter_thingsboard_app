@@ -18,10 +18,7 @@ import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class AlarmAssigneeListWidget extends StatefulWidget {
-  const AlarmAssigneeListWidget({
-    required this.tbContext,
-    super.key,
-  });
+  const AlarmAssigneeListWidget({required this.tbContext, super.key});
 
   final TbContext tbContext;
 
@@ -46,16 +43,13 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: const Color(0xffC7C7CC).withOpacity(.5),
+                color: const Color(0xffC7C7CC).withValues(alpha: .5),
               ),
               width: 36,
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -87,38 +81,39 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     ),
                   ),
                   hintStyle: TbTextStyles.bodyLarge.copyWith(
-                    color: Colors.black.withOpacity(.38),
+                    color: Colors.black.withValues(alpha: .38),
                   ),
                   hintText: 'Search user',
                   contentPadding: const EdgeInsets.fromLTRB(8, 12, 16, 12),
                   isDense: true,
                   prefixIcon: Icon(
                     Icons.search,
-                    color: Colors.black.withOpacity(0.54),
+                    color: Colors.black.withValues(alpha: 0.54),
                     size: 24,
                   ),
-                  suffixIcon: textEditingController.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: () {
-                            context.read<AlarmAssigneeBloc>().add(
-                                  const AlarmAssigneeResetSearchTextEvent(),
-                                );
-                            setState(() {
-                              textEditingController.clear();
-                            });
-                          },
-                          icon: Icon(
-                            Icons.close_rounded,
-                            color: Colors.black.withOpacity(.54),
-                            size: 24,
-                          ),
-                        )
-                      : null,
+                  suffixIcon:
+                      textEditingController.text.isNotEmpty
+                          ? IconButton(
+                            onPressed: () {
+                              context.read<AlarmAssigneeBloc>().add(
+                                const AlarmAssigneeResetSearchTextEvent(),
+                              );
+                              setState(() {
+                                textEditingController.clear();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: Colors.black.withValues(alpha: .54),
+                              size: 24,
+                            ),
+                          )
+                          : null,
                 ),
                 onChanged: (text) {
                   context.read<AlarmAssigneeBloc>().add(
-                        AlarmAssigneeSearchEvent(searchText: text),
-                      );
+                    AlarmAssigneeSearchEvent(searchText: text),
+                  );
                   setState(() {});
                 },
               ),
@@ -127,8 +122,10 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
               child: PagedListView<UsersAssignQuery, AssigneeEntity>.separated(
                 pagingController:
                     getIt<AlarmAssigneePaginationRepository>().pagingController,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 shrinkWrap: true,
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {
@@ -152,19 +149,20 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                               UserInfoWidget(
                                 avatar: Icon(
                                   Icons.account_circle,
-                                  color: Colors.black.withOpacity(0.38),
+                                  color: Colors.black.withValues(alpha: 0.38),
                                   size: 32,
                                 ),
                                 name: S.of(context).unassigned,
                                 onUserTap: (id) {
                                   Navigator.of(context).pop();
                                   context.read<AlarmAssigneeBloc>().add(
-                                        const AlarmAssigneeUnassignedEvent(),
-                                      );
+                                    const AlarmAssigneeUnassignedEvent(),
+                                  );
                                 },
-                                id: widget.tbContext.tbClient
-                                    .getAuthUser()!
-                                    .userId!,
+                                id:
+                                    widget.tbContext.tbClient
+                                        .getAuthUser()!
+                                        .userId!,
                               ),
                               const SizedBox(height: 16),
                             ],
@@ -174,12 +172,13 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                             UserInfoWidget(
                               avatar: UserInfoAvatarWidget(
                                 shortName: item.shortName,
-                                color: HSLColor.fromAHSL(
-                                  1,
-                                  item.displayName.hashCode % 360,
-                                  40 / 100,
-                                  60 / 100,
-                                ).toColor(),
+                                color:
+                                    HSLColor.fromAHSL(
+                                      1,
+                                      item.displayName.hashCode % 360,
+                                      40 / 100,
+                                      60 / 100,
+                                    ).toColor(),
                               ),
                               name: item.displayName,
                               email: item.userInfo.email,
@@ -188,8 +187,8 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                               onUserTap: (id) {
                                 Navigator.of(context).pop();
                                 context.read<AlarmAssigneeBloc>().add(
-                                      AlarmAssigneeSelectedEvent(id),
-                                    );
+                                  AlarmAssigneeSelectedEvent(id),
+                                );
                               },
                               id: item.userInfo.id.id!,
                             ),
@@ -212,14 +211,14 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                         Text(
                           S.of(context).noResultsFound,
                           style: TbTextStyles.titleXs.copyWith(
-                            color: Colors.black.withOpacity(.87),
+                            color: Colors.black.withValues(alpha: .87),
                           ),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           S.of(context).tryRefiningYourQuery,
                           style: TbTextStyles.bodyLarge.copyWith(
-                            color: Colors.black.withOpacity(.54),
+                            color: Colors.black.withValues(alpha: .54),
                           ),
                         ),
                       ],
@@ -227,9 +226,10 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                   },
                   firstPageErrorIndicatorBuilder: (_) {
                     return TbErrorWidget(
-                      onRefresh: () => context
-                          .read<AlarmAssigneeBloc>()
-                          .add(const AlarmAssigneeRefreshEvent()),
+                      onRefresh:
+                          () => context.read<AlarmAssigneeBloc>().add(
+                            const AlarmAssigneeRefreshEvent(),
+                          ),
                     );
                   },
                 ),
