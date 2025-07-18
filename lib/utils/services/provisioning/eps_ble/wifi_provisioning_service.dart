@@ -13,7 +13,7 @@ class BleProvisioningService implements IBleProvisioningService {
     required String proofOfPossession,
     required String ssid,
     required String passphrase,
-  }) async {
+  })  {
     return espBleProv.provisionWifi(
       deviceName,
       proofOfPossession,
@@ -23,7 +23,7 @@ class BleProvisioningService implements IBleProvisioningService {
   }
 
   @override
-  Future<List<String>> scanBleDevices(String prefix) async {
+  Future<List<String>> scanBleDevices(String prefix)  {
     return espBleProv.scanBleDevices(prefix);
   }
 
@@ -31,7 +31,7 @@ class BleProvisioningService implements IBleProvisioningService {
   Future<List<String>> scanWifiNetworks({
     required String deviceName,
     required String proofOfPossession,
-  }) async {
+  })  {
     return espBleProv.scanWifiNetworks(deviceName, proofOfPossession);
   }
 

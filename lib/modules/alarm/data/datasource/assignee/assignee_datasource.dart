@@ -7,7 +7,7 @@ class AssigneeDatasource implements IAssigneeDatasource {
   final ThingsboardClient tbClient;
 
   @override
-  Future<PageData<UserInfo>> fetchAssignee(PageLink pageKey) async {
+  Future<PageData<UserInfo>> fetchAssignee(PageLink pageKey)  {
     return tbClient.getUserService().getUsersInfo(pageKey);
   }
 }

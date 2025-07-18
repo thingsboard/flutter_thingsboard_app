@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -98,7 +98,7 @@ class TypesListWidget extends StatelessWidget {
                     );
                   },
                 ),
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (_, _) =>
                     const Divider(thickness: 1, height: 32),
               ),
             ),

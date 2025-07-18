@@ -12,7 +12,7 @@ final class AlarmTypesPaginationRepository
   final Future<PageData<AlarmType>> Function(PageLink) onFetchPageData;
 
   @override
-  Future<PageData<AlarmType>> fetchPageData(PageLink pageKey) async {
+  Future<PageData<AlarmType>> fetchPageData(PageLink pageKey)  {
     return onFetchPageData(pageKey);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/config/routes/route_not_found_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_page.dart';
 import 'package:thingsboard_app/modules/asset/assets_page.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_page.dart';

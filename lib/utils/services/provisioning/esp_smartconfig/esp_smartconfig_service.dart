@@ -18,7 +18,7 @@ class EspSmartConfigService implements IEspSmartConfigService {
   }
 
   @override
-  Future<void> start(ProvisioningRequest request) async {
+  Future<void> start(ProvisioningRequest request)  {
     return provisioner.start(request);
   }
 

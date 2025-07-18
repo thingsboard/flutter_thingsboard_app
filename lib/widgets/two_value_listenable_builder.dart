@@ -19,10 +19,10 @@ class TwoValueListenableBuilder<A, B> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<A>(
       valueListenable: firstValueListenable,
-      builder: (_, a, __) {
+      builder: (_, a, _) {
         return ValueListenableBuilder<B>(
           valueListenable: secondValueListenable,
-          builder: (context, b, __) {
+          builder: (context, b, _) {
             return builder(context, a, b, child);
           },
         );

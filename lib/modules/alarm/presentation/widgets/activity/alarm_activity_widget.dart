@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
@@ -82,7 +82,7 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                           getIt<AlarmActivityPaginationRepository>()
                               .pagingController,
                       builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (_, activity, __) {
+                        itemBuilder: (_, activity, _) {
                           return ActivityBuilderWidget(
                             activity,
                             userId: widget.tbContext.userDetails!.id!,

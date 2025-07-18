@@ -9,7 +9,7 @@ class FetchAlarmTypesUseCase
   final IAlarmTypesRepository repository;
 
   @override
-  Future<PageData<AlarmType>> call(PageLink params) async {
+  Future<PageData<AlarmType>> call(PageLink params)  {
     return repository.fetchAlarmTypes(params);
   }
 }

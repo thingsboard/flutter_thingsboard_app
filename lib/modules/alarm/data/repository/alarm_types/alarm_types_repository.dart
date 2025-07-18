@@ -8,7 +8,7 @@ class AlarmTypesRepository implements IAlarmTypesRepository {
   final IAlarmTypesDatasource datasource;
 
   @override
-  Future<PageData<AlarmType>> fetchAlarmTypes(PageLink pageKey) async {
+  Future<PageData<AlarmType>> fetchAlarmTypes(PageLink pageKey)  {
     return datasource.fetchAlarmTypes(pageKey);
   }
 }

@@ -55,7 +55,7 @@ class EndpointService implements IEndpointService {
   }
 
   @override
-  Future<Region?> getSelectedRegion() async {
+  Future<Region?> getSelectedRegion()  {
     return databaseService.getSelectedRegion();
   }
 

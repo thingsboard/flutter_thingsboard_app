@@ -9,17 +9,17 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   @override
   Future<PageData<AlarmCommentInfo>> fetchAlarmComments(
     AlarmCommentsQuery query,
-  ) async {
+  )  {
     return thingsboardClient.getAlarmService().getAlarmComments(query);
   }
 
   @override
-  Future<AlarmInfo> acknowledgeAlarm(AlarmId id) async {
+  Future<AlarmInfo> acknowledgeAlarm(AlarmId id)  {
     return thingsboardClient.getAlarmService().ackAlarm(id.id!);
   }
 
   @override
-  Future<AlarmInfo> clearAlarm(AlarmId id) async {
+  Future<AlarmInfo> clearAlarm(AlarmId id)  {
     return thingsboardClient.getAlarmService().clearAlarm(id.id!);
   }
 
@@ -27,7 +27,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   Future<AlarmCommentInfo> postComment(
     AlarmId alarmId, {
     required String comment,
-  }) async {
+  })  {
     return thingsboardClient
         .getAlarmService()
         .postAlarmComment(comment, alarmId: alarmId);

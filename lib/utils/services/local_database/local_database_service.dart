@@ -25,12 +25,12 @@ class LocalDatabaseService implements ILocalDatabaseService {
   }
 
   @override
-  Future<void> saveSelectedRegion(Region region) async {
+  Future<void> saveSelectedRegion(Region region)  {
     return storage.setItem(DatabaseKeys.selectedRegion, region);
   }
 
   @override
-  Future<void> setSelectedEndpoint(String endpoint) async {
+  Future<void> setSelectedEndpoint(String endpoint)  {
     return storage.setItem(DatabaseKeys.thingsBoardApiEndpointKey, endpoint);
   }
 
@@ -40,12 +40,12 @@ class LocalDatabaseService implements ILocalDatabaseService {
   }
 
   @override
-  Future<void> setInitialAppLink(String appLink) async {
+  Future<void> setInitialAppLink(String appLink)  {
     return storage.setItem(DatabaseKeys.initialAppLink, appLink);
   }
 
   @override
-  Future<void> deleteInitialAppLink() async {
+  Future<void> deleteInitialAppLink()  {
     return storage.deleteItem(DatabaseKeys.initialAppLink);
   }
 }

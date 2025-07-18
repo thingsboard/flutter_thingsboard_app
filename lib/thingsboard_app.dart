@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_theme.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:toastification/toastification.dart';

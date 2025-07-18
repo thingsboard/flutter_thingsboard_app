@@ -15,7 +15,7 @@ class AlarmDetailsRepository implements IAlarmDetailsRepository {
   }
 
   @override
-  Future<AlarmInfo> acknowledgeAlarm(AlarmId id) async {
+  Future<AlarmInfo> acknowledgeAlarm(AlarmId id)  {
     return datasource.acknowledgeAlarm(id);
   }
 

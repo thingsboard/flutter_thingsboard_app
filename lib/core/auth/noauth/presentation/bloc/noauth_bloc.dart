@@ -22,7 +22,7 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
 
   void _switchEndpointEventHandler() {
     on<SwitchToAnotherEndpointEvent>(
-      (event, emit) async {
+      (event, emit)  {
         if (isClosed) {
           return;
         }
@@ -57,7 +57,7 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
 
   void _switchEndpointUpdatesHandler() {
     on<SwitchEndpointProgressUpdateEvent>(
-      (event, emit) async {
+      (event, emit)  {
         emit(NoAuthWipState(currentStateMessage: event.progressMessage));
       },
     );
@@ -65,7 +65,7 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
 
   void _switchEndpointDoneEvent() {
     on<SwitchEndpointDoneEvent>(
-      (event, emit) async {
+      (event, emit)  {
         emit(const NoAuthDoneState());
       },
     );
@@ -73,7 +73,7 @@ class NoAuthBloc extends Bloc<NoAuthEvent, NoAuthState> {
 
   void _switchEndpointErrorEvent() {
     on<SwitchEndpointErrorEvent>(
-      (event, emit) async {
+      (event, emit)  {
         emit(NoAuthErrorState(message: event.message));
       },
     );

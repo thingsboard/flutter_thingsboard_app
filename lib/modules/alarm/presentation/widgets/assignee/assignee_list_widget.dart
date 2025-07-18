@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';

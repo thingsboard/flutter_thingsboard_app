@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -63,7 +63,7 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
               Expanded(
                 child: HtmlWidget(
                   releaseNotes,
-                  onTapUrl: (link) async {
+                  onTapUrl: (link)  {
                     launchUrlString(
                       link,
                       mode: LaunchMode.externalApplication,

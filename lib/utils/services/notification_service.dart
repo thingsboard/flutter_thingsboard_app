@@ -42,7 +42,7 @@ class NotificationService {
 
     _onMessageOpenedAppSubscription =
         FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) async {
+      (message)  {
         NotificationService.handleClickOnNotification(
           message.data,
           _tbContext,
@@ -93,7 +93,7 @@ class NotificationService {
     }
   }
 
-  Future<RemoteMessage?> initialMessage() async {
+  Future<RemoteMessage?> initialMessage()  {
     return _messaging.getInitialMessage();
   }
 

@@ -72,7 +72,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async => _refresh(),
+        onRefresh: ()  => _refresh(),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(

@@ -8,7 +8,7 @@ class AssigneeRepository implements IAssigneeRepository {
   final IAssigneeDatasource datasource;
 
   @override
-  Future<PageData<UserInfo>> fetchAssignee(PageLink pageKey) async {
+  Future<PageData<UserInfo>> fetchAssignee(PageLink pageKey)  {
     return datasource.fetchAssignee(pageKey);
   }
 }

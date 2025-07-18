@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/bloc/bloc.dart';
@@ -19,6 +18,7 @@ import 'package:thingsboard_app/core/auth/login/select_region/choose_region_scre
 import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/core/auth/oauth2/i_oauth2_client.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
@@ -540,7 +540,7 @@ class _LoginPageState extends TbPageState<LoginPage>
             Expanded(
               child: OutlinedButton(
                 style: _oauth2IconButtonStyle,
-                onPressed: () async => _onLoginWithBarcode(context),
+                onPressed: ()  => _onLoginWithBarcode(context),
                 child: SvgPicture.asset(
                   ThingsboardImage.oauth2Logos['qr-code']!,
                   height: 24,

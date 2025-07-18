@@ -38,7 +38,7 @@ class _UrlPageState extends TbContextState<UrlPage> {
                 Text(title, style: TbTextStyles.labelLarge),
                 ValueListenableBuilder(
                   valueListenable: subTitleUrlNotifier,
-                  builder: (context, url, __) {
+                  builder: (context, url, _) {
                     return Text(
                       url,
                       style: TbTextStyles.labelSmall.copyWith(
@@ -87,7 +87,7 @@ class _UrlPageState extends TbContextState<UrlPage> {
                 onTitleChanged: (_, title) {
                   titleNotifier.value = title ?? 'Url';
                 },
-                onUpdateVisitedHistory: (ctrl, url, __) async {
+                onUpdateVisitedHistory: (ctrl, url, _) async {
                   subTitleUrlNotifier.value = url?.host ?? widget.url;
                   canGoBack = await ctrl.canGoBack();
                   setState(() {});

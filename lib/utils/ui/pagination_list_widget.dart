@@ -34,7 +34,7 @@ class PaginationListWidget<T, B> extends StatelessWidget {
             pagingController: pagingController,
             builderDelegate: builderDelegate,
             separatorBuilder:
-                separatorWidgetBuilder ?? (_, __) => const SizedBox(height: 16),
+                separatorWidgetBuilder ?? (_, _) => const SizedBox(height: 16),
           ),
         ),
       ],

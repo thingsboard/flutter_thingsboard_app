@@ -7,7 +7,7 @@ abstract class UiUtils {
     required WidgetBuilder builder,
     Color barrierColor = Colors.black54,
     Widget? topControl,
-  }) async {
+  })  {
     return showBarModalBottomSheet(
       context: context,
       builder: builder,

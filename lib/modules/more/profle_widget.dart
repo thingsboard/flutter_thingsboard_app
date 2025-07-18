@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';

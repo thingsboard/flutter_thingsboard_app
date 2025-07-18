@@ -19,6 +19,7 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 
 import 'package:universal_platform/universal_platform.dart';
 
@@ -167,7 +168,7 @@ class TbContext implements PopEntry {
             );
           } catch (e) {
             log.error('TbContext::onUserLoaded error $e');
-            if (!_isConnectionError(e)) {
+            if (!Utils.isConnectionError(e)) {
               logout();
             } else {
               rethrow;
@@ -226,7 +227,7 @@ class TbContext implements PopEntry {
     } catch (e, s) {
       log.error('TbContext.onUserLoaded: $e', e, s);
 
-      if (_isConnectionError(e)) {
+      if (Utils.isConnectionError(e)) {
         final res = await _overlayService.showAlertDialog(
           title: 'Connection error',
           message: 'Failed to connect to server',
@@ -292,11 +293,6 @@ class TbContext implements PopEntry {
     _appLinkStreamSubscription = null;
   }
 
-  bool _isConnectionError(e) {
-    return e is ThingsboardError &&
-        e.errorCode == ThingsBoardErrorCode.general &&
-        e.message == 'Unable to connect';
-  }
 
   Future<void> updateRouteState() async {
     log.debug(

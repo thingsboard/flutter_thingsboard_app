@@ -9,7 +9,7 @@ final class DeleteAlarmCommentUseCase
   final IAlarmDetailsRepository repository;
 
   @override
-  Future<void> call(DeleteCommentParams params) async {
+  Future<void> call(DeleteCommentParams params)  {
     return repository.deleteComment(
       params.alarmId,
       commentId: params.commentId,

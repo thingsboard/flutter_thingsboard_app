@@ -44,7 +44,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
     return Text(asset.name);
   }
 
-  Widget _buildCard(context, AssetInfo asset) {
+  Widget _buildCard(BuildContext context, AssetInfo asset) {
     return Row(
       children: [
         Flexible(

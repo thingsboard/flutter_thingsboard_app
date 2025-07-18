@@ -77,7 +77,7 @@ class _FullscreenDashboardPageState
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder: (context, _, __) => DashboardWidget(
+        builder: (context, _, _) => DashboardWidget(
           tbContext,
           titleCallback: (title) {
             dashboardTitleValue.value = title;

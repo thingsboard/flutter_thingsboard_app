@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/alarm_assignee_pagiation_repository.dart';
@@ -233,7 +233,7 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     );
                   },
                 ),
-                separatorBuilder: (_, __) {
+                separatorBuilder: (_, _) {
                   return const SizedBox(height: 16);
                 },
               ),

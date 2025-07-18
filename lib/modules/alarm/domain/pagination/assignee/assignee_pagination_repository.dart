@@ -13,7 +13,7 @@ final class AssigneePaginationRepository
   final Future<PageData<AssigneeEntity>> Function(PageLink) onFetchPageData;
 
   @override
-  Future<PageData<AssigneeEntity>> fetchPageData(PageLink pageKey) async {
+  Future<PageData<AssigneeEntity>> fetchPageData(PageLink pageKey)  {
     return onFetchPageData(pageKey);
   }
 }

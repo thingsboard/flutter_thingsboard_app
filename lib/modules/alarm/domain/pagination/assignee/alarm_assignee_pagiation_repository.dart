@@ -16,7 +16,7 @@ final class AlarmAssigneePaginationRepository
   @override
   Future<PageData<AssigneeEntity>> fetchPageData(
     UsersAssignQuery pageKey,
-  ) async {
+  )  {
     return onFetchPageData(pageKey);
   }
 }

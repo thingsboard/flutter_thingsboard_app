@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/return_to_dashboard_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
