@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_filter_widget.dart';
@@ -22,7 +23,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlarmFilterWidget(
-      filterTitle: 'Assignee',
+      filterTitle: S.of(context).assignee,
       child: InkWell(
         onTap: () async {
           await UiUtils.showModalBottomSheet(
@@ -59,7 +60,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'All',
+                        S.of(context).all,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

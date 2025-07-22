@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_settings_plus/open_settings_plus.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/view/states/manually_reconnect_to_wifi.dart';
@@ -78,7 +79,7 @@ final IOverlayService overlayService = getIt();
             listener: (context, state) {
               if (state is DeviceProvisioningClaimingErrorState) {
                 if (state.message != null) {
-                  overlayService.showErrorNotification(
+                  overlayService.showErrorNotification( (_) => 
                     state.message!,
                   );
                 }
@@ -125,7 +126,7 @@ final IOverlayService overlayService = getIt();
                 return Column(
                   children: [
                     TryAgainButton(
-                      label: 'Open Wi-Fi settings',
+                      label: S.of(context).openWifiSettings,
                       onTryAgain: () => Platform.isAndroid
                           ? const OpenSettingsPlusAndroid().wifi()
                           : const OpenSettingsPlusIOS().wifi(),
@@ -141,7 +142,7 @@ final IOverlayService overlayService = getIt();
                           ),
                         ),
                         child: Text(
-                          'Ready',
+                          S.of(context).ready,
                           style: TbTextStyles.labelMedium.copyWith(
                             color: Colors.white,
                           ),

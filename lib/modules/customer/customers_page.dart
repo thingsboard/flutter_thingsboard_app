@@ -39,6 +39,7 @@ class _CustomersPageState extends TbContextState<CustomersPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
+              // translate-me-ignore-next-line
               getIt<ThingsboardAppRouter>().navigateTo('/customers?search=true');
             },
           ),

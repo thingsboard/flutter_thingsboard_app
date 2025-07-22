@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_assignee_filter.dart';
@@ -24,19 +26,19 @@ class AlarmFiltersService implements IAlarmFiltersService {
           logger: logger,
         );
 
-  static const _alarmStatus = <FilterDataEntity>[
-    FilterDataEntity(label: 'Active', data: AlarmSearchStatus.ACTIVE),
-    FilterDataEntity(label: 'Cleared', data: AlarmSearchStatus.CLEARED),
-    FilterDataEntity(label: 'Acknowledged', data: AlarmSearchStatus.ACK),
-    FilterDataEntity(label: 'Unacknowledged', data: AlarmSearchStatus.UNACK),
+  static  final _alarmStatus = <FilterDataEntity>[
+    FilterDataEntity( data: AlarmSearchStatus.ACTIVE, getLocalizedLabel: (BuildContext context) => S.of(context).active),
+    FilterDataEntity( data: AlarmSearchStatus.CLEARED , getLocalizedLabel: (BuildContext context) => S.of(context).cleared),
+    FilterDataEntity( data: AlarmSearchStatus.ACK, getLocalizedLabel: (BuildContext context) => S.of(context).acknowledged),
+    FilterDataEntity( data: AlarmSearchStatus.UNACK, getLocalizedLabel: (BuildContext context) => S.of(context).unacknowledged),
   ];
 
-  static const _alarmSeverity = <FilterDataEntity>[
-    FilterDataEntity(label: 'Critical', data: AlarmSeverity.CRITICAL),
-    FilterDataEntity(label: 'Major', data: AlarmSeverity.MAJOR),
-    FilterDataEntity(label: 'Minor', data: AlarmSeverity.MINOR),
-    FilterDataEntity(label: 'Warning', data: AlarmSeverity.WARNING),
-    FilterDataEntity(label: 'Indeterminate', data: AlarmSeverity.INDETERMINATE),
+  static final _alarmSeverity = <FilterDataEntity>[
+    FilterDataEntity( data: AlarmSeverity.CRITICAL, getLocalizedLabel: (BuildContext context) => S.of(context).critical),
+    FilterDataEntity( data: AlarmSeverity.MAJOR, getLocalizedLabel: (BuildContext context) => S.of(context).major),
+    FilterDataEntity( data: AlarmSeverity.MINOR, getLocalizedLabel: (BuildContext context) => S.of(context).minor),
+    FilterDataEntity( data: AlarmSeverity.WARNING, getLocalizedLabel: (BuildContext context) => S.of(context).warning),
+    FilterDataEntity( data: AlarmSeverity.INDETERMINATE, getLocalizedLabel: (BuildContext context) => S.of(context).indeterminate),
   ];
 
   @override

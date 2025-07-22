@@ -3,7 +3,7 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
-import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:toastification/toastification.dart';
 
 class OverlayService implements IOverlayService {
@@ -12,9 +12,9 @@ class OverlayService implements IOverlayService {
     toastification.dismissAll();
   }
 
-  @override
+  
   void showNotification(
-    String message,
+    TranslationBuilder message,
     NotificationType type, {
     Duration? duration,
   }) {
@@ -36,7 +36,9 @@ class OverlayService implements IOverlayService {
         backgroundColor = const Color(0xFF800000);
         toastificationType = ToastificationType.error;
     }
-
+  final router = getIt<ThingsboardAppRouter>();
+      final context = router.navigatorKey.currentContext!;
+      final messageData = message(context);
     toastification.show(
       type: toastificationType,
       style: ToastificationStyle.fillColored,
@@ -44,7 +46,7 @@ class OverlayService implements IOverlayService {
       backgroundColor: Colors.white,
       alignment: Alignment.bottomCenter,
       autoCloseDuration: duration,
-      title: Text(message, maxLines: 10, overflow: TextOverflow.ellipsis),
+      title: Text(messageData, maxLines: 10, overflow: TextOverflow.ellipsis),
       closeOnClick: false,
       dragToClose: true,
       showProgressBar: false,
@@ -60,7 +62,7 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showErrorNotification(String message, {Duration? duration}) {
+  void showErrorNotification(TranslationBuilder message, {Duration? duration}) {
     return showNotification(
       message,
       NotificationType.error,
@@ -69,70 +71,59 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showInfoNotification(String message, {Duration? duration}) {
+  void showInfoNotification(TranslationBuilder message, {Duration? duration}) {
     showNotification(message, NotificationType.info, duration: duration);
   }
 
   @override
-  void showWarnNotification(String message, {Duration? duration}) {
+  void showWarnNotification(TranslationBuilder message, {Duration? duration}) {
     showNotification(message, NotificationType.warn, duration: duration);
   }
-
-
-@override
-  Future<bool?> showConfirmDialog({
-    required String title,
-    required String message,
-    String cancel = 'Cancel',
-    String ok = 'Ok',
-     BuildContext? context
-  }) {
-      final router = getIt<ThingsboardAppRouter>();
-    return showDialog<bool>(
-      context:  context ?? router.navigatorKey.currentContext!,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => router.pop(false, context),
-            child: Text(cancel),
-          ),
-          TextButton(
-              onPressed: () => router.pop(true, context),
-              child: Text(ok)),
-        ],
-      ),
-    );
-  }
-
   @override
-  void showSuccessNotification(String message, {Duration? duration}) {
+  void showSuccessNotification(TranslationBuilder message, {Duration? duration}) {
     showNotification(message, NotificationType.success, duration: duration);
   }
 
-  @override
-  Future<bool?> showAlertDialog(
-      {required String title,
-      required String message,
-      String ok = 'Ok',
-      BuildContext? context
+@override
+  Future<bool?> showConfirmDialog({
+     required TranslatedDialogBuilder content
+  }) {
+    
+    return showTbDialog(content: content);
+  }
+
+ 
+  Future<bool?> showTbDialog(
+      { required TranslatedDialogBuilder content
       }) {
-    final router = getIt<ThingsboardAppRouter>();
+  final router = getIt<ThingsboardAppRouter>();
+      final context = router.navigatorKey.currentContext!;
+      final data = content(context);
     return showDialog<bool>(
-      context:
-          context ?? router.navigatorKey.currentContext!,
-      builder: (context) => 
-       TbAlertDialog(
-        title: Text(title),
-        content: Text(message),
+      context:   context,
+      builder: (context) => AlertDialog(
+        title: Text(data.title),
+        content: Text(data.message),
         actions: [
+          if(data.cancel != null)
           TextButton(
-            onPressed: () => router.pop(null, context),
-            child: Text(ok),
+            onPressed: () => router.pop(false, context),
+            child: Text(data.cancel!),
           ),
+          TextButton(
+              onPressed: () => router.pop(true, context),
+              child: Text(data.ok)),
         ],
       ),
     );
+      }
+
+
+  @override
+  Future<bool?> showAlertDialog(
+      { required TranslatedDialogBuilder content
+      }) async  {
+    await showTbDialog(content: content);
+    return null;
   }
 }

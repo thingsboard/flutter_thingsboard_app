@@ -52,6 +52,7 @@ class DashboardsAppbar extends StatelessWidget {
               icon: const Icon(Icons.search),
               onPressed: () {
                 getIt<ThingsboardAppRouter>()
+                    // translate-me-ignore-next-line
                     .navigateTo('/tenants?search=true');
               },
             ),

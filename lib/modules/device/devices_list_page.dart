@@ -49,18 +49,20 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
         tbContext,
-        onSearch: (searchText) =>
-            _deviceQueryController.onSearchText(searchText),
+        onSearch:
+            (searchText) => _deviceQueryController.onSearchText(searchText),
       );
     } else {
-      final String titleText = widget.deviceType != null
-          ? widget.deviceType!
-          : S.of(context).allDevices;
+      final String titleText =
+          widget.deviceType != null
+              ? widget.deviceType!
+              : S.of(context).allDevices;
       String? subTitleText;
       if (widget.active != null) {
-        subTitleText = widget.active == true
-            ? S.of(context).active
-            : S.of(context).inactive;
+        subTitleText =
+            widget.active == true
+                ? S.of(context).active
+                : S.of(context).inactive;
       }
       final Column title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,10 +79,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
             Text(
               subTitleText,
               style: TextStyle(
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .titleLarge!
-                    .color!
+                color: Theme.of(context).primaryTextTheme.titleLarge!.color!
                     .withAlpha((0.38 * 255).ceil()),
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
@@ -98,15 +97,19 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
             icon: const Icon(Icons.search),
             onPressed: () {
               final List<String> params = [];
+              // translate-me-ignore-next-line
               params.add('search=true');
               if (widget.deviceType != null) {
+                // translate-me-ignore-next-line
                 params.add('deviceType=${widget.deviceType}');
               }
               if (widget.active != null) {
+                // translate-me-ignore-next-line
                 params.add('active=${widget.active}');
               }
               getIt<ThingsboardAppRouter>()
-                  .navigateTo('/deviceList?${params.join('&')}');
+              // translate-me-ignore-next-line
+              .navigateTo('/deviceList?${params.join('&')}');
             },
           ),
         ],

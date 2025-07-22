@@ -10,6 +10,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
@@ -82,7 +83,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
                     details:
-                        alarmStatusTranslations[widget.alarmInfo.status] ?? '',
+                        widget.alarmInfo.status?.getTranslatedAlarmStatus(context) ?? '',
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
@@ -91,10 +92,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   AlarmDetailsContentWidget(
                     title: S.of(context).severity,
                     details:
-                        alarmSeverityTranslations[widget.alarmInfo.severity] ??
-                        '',
+                       widget.alarmInfo.severity.getTranslatedAlarmSeverity(context),
                     detailsStyle: TbTextStyles.labelLarge.copyWith(
-                      color: alarmSeverityColors[widget.alarmInfo.severity],
+                      color: widget.alarmInfo.severity.toColor(),
                     ),
                   ),
                   AlarmDetailsContentWidget(

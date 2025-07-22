@@ -83,7 +83,7 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                   hintStyle: TbTextStyles.bodyLarge.copyWith(
                     color: Colors.black.withValues(alpha: .38),
                   ),
-                  hintText: 'Search user',
+                  hintText: S.of(context).searchUsers(1),
                   contentPadding: const EdgeInsets.fromLTRB(8, 12, 16, 12),
                   isDense: true,
                   prefixIcon: Icon(

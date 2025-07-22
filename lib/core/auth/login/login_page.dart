@@ -159,7 +159,7 @@ class _LoginPageState extends TbPageState<LoginPage>
                                               children: [
                                                 Text(
                                                   selectedRegion
-                                                          ?.regionToString() ??
+                                                          ?.regionToString(context) ??
                                                       '',
                                                   style: TbTextStyles.bodyLarge,
                                                 ),
@@ -206,7 +206,8 @@ class _LoginPageState extends TbPageState<LoginPage>
                                             ),
                                             child: Center(
                                               child: Text(
-                                                'Login with',
+                                              
+                                                S.of(context).loginWith,
                                                 style: TbTextStyles.bodyMedium
                                                     .copyWith(
                                                       color: Colors.black
@@ -232,13 +233,14 @@ class _LoginPageState extends TbPageState<LoginPage>
                                                   children: [
                                                     SvgPicture.asset(
                                                       ThingsboardImage
+                                                          // translate-me-ignore-next-line
                                                           .oauth2Logos['qr-code-logo']!,
                                                       height: 24,
                                                     ),
                                                     const SizedBox(width: 8),
-                                                    const Text(
-                                                      'Scan QR code',
-                                                      style: TextStyle(
+                                                     Text(
+                                                      S.of(context).scanQrCode,
+                                                      style: const TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -514,7 +516,7 @@ class _LoginPageState extends TbPageState<LoginPage>
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Center(
             child: Text(
-              'Login with',
+             S.of(context).loginWith,
               style: TbTextStyles.bodyMedium.copyWith(
                 color: Colors.black.withValues(alpha: .54),
               ),
@@ -542,6 +544,7 @@ class _LoginPageState extends TbPageState<LoginPage>
                 style: _oauth2IconButtonStyle,
                 onPressed: ()  => _onLoginWithBarcode(context),
                 child: SvgPicture.asset(
+                  // translate-me-ignore-next-line
                   ThingsboardImage.oauth2Logos['qr-code']!,
                   height: 24,
                 ),
@@ -611,7 +614,7 @@ class _LoginPageState extends TbPageState<LoginPage>
         );
       } else {
         _isLoginNotifier.value = false;
-        _overlayService.showErrorNotification(result.error!);
+        _overlayService.showErrorNotification((_) => result.error!);
       }
     } catch (e) {
       log.error('Auth Error:', e);

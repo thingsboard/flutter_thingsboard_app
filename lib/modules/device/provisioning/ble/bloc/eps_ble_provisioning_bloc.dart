@@ -7,6 +7,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
+import 'package:thingsboard_app/modules/device/provisioning/models/provisioning_permission_type.dart';
 import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/provisioning/eps_ble/i_wifi_provisioning_service.dart';
@@ -57,9 +58,9 @@ class EspBleProvisioningBloc
           final status = await Permission.bluetooth.request();
           if (status == PermissionStatus.permanentlyDenied) {
             emit(
-              const EspBlePermissionsMissing(
+               const EspBlePermissionsMissing(
                 openAppSettings: true,
-                permissions: 'Bluetooth',
+                permissions: ProvisioningPermissionsType.bluetooth,
               ),
             );
             return;
@@ -70,7 +71,7 @@ class EspBleProvisioningBloc
             emit(
               const EspBlePermissionsMissing(
                 openAppSettings: true,
-                permissions: 'Nearby devices',
+                permissions: ProvisioningPermissionsType.nearbyDevices,
               ),
             );
             return;
@@ -78,7 +79,7 @@ class EspBleProvisioningBloc
             emit(
               const EspBlePermissionsMissing(
                 openAppSettings: false,
-                permissions: 'Nearby devices',
+                permissions: ProvisioningPermissionsType.nearbyDevices,
               ),
             );
             return;
@@ -90,7 +91,7 @@ class EspBleProvisioningBloc
             emit(
               EspBlePermissionsMissing(
                 openAppSettings: status == PermissionStatus.permanentlyDenied,
-                permissions: 'Location',
+                permissions: ProvisioningPermissionsType.location,
               ),
             );
             return;

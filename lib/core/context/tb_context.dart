@@ -9,6 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/version/route/version_route.dart';
 import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
@@ -119,17 +120,29 @@ class TbContext implements PopEntry {
   }
 
   Future<void> onFatalError(dynamic e) async {
-    var message = e is ThingsboardError
-        ? (e.message ?? 'Unknown error.')
-        : 'Unknown error.';
-    message = 'Fatal application error occurred:\n$message.';
-    await _overlayService.showAlertDialog(title: 'Fatal error', message: message, ok: 'Close');
+    String getMessage(dynamic e, BuildContext context) {
+      final message =
+          e is ThingsboardError
+              ? (e.message ?? S.of(context).unknownError)
+              : S.of(context).unknownError;
+
+      return '${S.of(context).fatalApplicationErrorOccurred}\n$message.';
+    }
+
+    await _overlayService.showAlertDialog(
+      content:
+          (context) => DialogContent(
+            title: S.of(context).fatalError,
+            message: getMessage(e, context),
+            ok: S.of(context).cancel,
+          ),
+    );
     logout();
   }
 
   void onError(ThingsboardError tbError) {
     log.error('onError', tbError, tbError.getStackTrace());
-    _overlayService.showErrorNotification(tbError.message!);
+    _overlayService.showErrorNotification((_) =>  tbError.message!);
   }
 
   void onLoadStarted() {
@@ -152,13 +165,14 @@ class TbContext implements PopEntry {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
-            final mobileInfo =
-                await tbClient.getMobileService().getUserMobileInfo(
-                      MobileInfoQuery(
-                        platformType: _deviceInfoService.getPlatformType(),
-                        packageName: _deviceInfoService.getApplicationId(),
-                      ),
-                    );
+            final mobileInfo = await tbClient
+                .getMobileService()
+                .getUserMobileInfo(
+                  MobileInfoQuery(
+                    platformType: _deviceInfoService.getPlatformType(),
+                    packageName: _deviceInfoService.getApplicationId(),
+                  ),
+                );
             userDetails = mobileInfo?.user;
             homeDashboard = mobileInfo?.homeDashboardInfo;
             versionInfo = mobileInfo?.versionInfo;
@@ -179,9 +193,10 @@ class TbContext implements PopEntry {
       } else {
         if (tbClient.isPreVerificationToken()) {
           log.debug('authUser: ${tbClient.getAuthUser()}');
-          twoFactorAuthProviders = await tbClient
-              .getTwoFactorAuthService()
-              .getAvailableLoginTwoFaProviders();
+          twoFactorAuthProviders =
+              await tbClient
+                  .getTwoFactorAuthService()
+                  .getAvailableLoginTwoFaProviders();
         } else {
           twoFactorAuthProviders = null;
         }
@@ -230,10 +245,7 @@ class TbContext implements PopEntry {
 
       if (Utils.isConnectionError(e)) {
         final res = await _overlayService.showAlertDialog(
-          title: 'Connection error',
-          message: 'Failed to connect to server',
-          ok: 'Retry',
-        );
+          content: (context) => DialogContent(title: S.of(context).connectionError, message: S.of(context).failedToConnectToServer, ok: S.of(context).retry,),);
         if (res == true) {
           _overlayService.hideNotification();
           onUserLoaded();
@@ -285,15 +297,11 @@ class TbContext implements PopEntry {
       await NotificationService(tbClient, log, this).logout();
     }
 
-    await tbClient.logout(
-      requestConfig: requestConfig,
-      notifyUser: notifyUser,
-    );
+    await tbClient.logout(requestConfig: requestConfig, notifyUser: notifyUser);
 
     _appLinkStreamSubscription?.cancel();
     _appLinkStreamSubscription = null;
   }
-
 
   Future<void> updateRouteState() async {
     log.debug(
@@ -305,8 +313,10 @@ class TbContext implements PopEntry {
         if (defaultDashboardId != null) {
           final bool fullscreen = _userForceFullscreen();
           if (!fullscreen) {
-            await thingsboardAppRouter.navigateToDashboard(defaultDashboardId,
-                animate: false);
+            await thingsboardAppRouter.navigateToDashboard(
+              defaultDashboardId,
+              animate: false,
+            );
             thingsboardAppRouter.navigateTo(
               '/main',
               replace: true,
@@ -397,6 +407,4 @@ class TbContext implements PopEntry {
       }
     }
   }
-
- 
 }

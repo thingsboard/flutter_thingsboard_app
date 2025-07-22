@@ -49,8 +49,8 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
       );
     } else {
       if (tbClient.isTenantAdmin()) {
-        overlayService.showWarnNotification(
-          'Mobile dashboard should be configured in device profile!',
+        overlayService.showWarnNotification( (context) => 
+          S.of(context).mobileDashboardShouldBeConfiguredInDeviceProfile,
         );
       }
     }

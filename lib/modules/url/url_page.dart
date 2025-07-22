@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -74,7 +75,7 @@ class _UrlPageState extends TbContextState<UrlPage> {
       ),
       body:
           UniversalPlatform.isWeb
-              ? const Center(child: Text('Not implemented!'))
+              ?  Center(child: Text(S.of(context).notImplemented))
               : InAppWebView(
                 initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                 onWebViewCreated: (ctrl) => webViewController = ctrl,
@@ -85,7 +86,7 @@ class _UrlPageState extends TbContextState<UrlPage> {
                   );
                 },
                 onTitleChanged: (_, title) {
-                  titleNotifier.value = title ?? 'Url';
+                  titleNotifier.value = title ?? S.of(context).url ;
                 },
                 onUpdateVisitedHistory: (ctrl, url, _) async {
                   subTitleUrlNotifier.value = url?.host ?? widget.url;

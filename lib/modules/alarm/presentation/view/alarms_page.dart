@@ -51,7 +51,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                 appBar: TbAppBar(
                   tbContext,
                   title: Text(
-                    S.of(context).alarms,
+                    S.of(context).alarms(2),
                     style: TbTextStyles.titleXs,
                   ),
                   actions: [
@@ -96,6 +96,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                       icon: const Icon(Icons.search),
                       onPressed: () {
                         getIt<ThingsboardAppRouter>()
+                            // translate-me-ignore-next-line
                             .navigateTo('/alarms?search=true');
                       },
                     ),

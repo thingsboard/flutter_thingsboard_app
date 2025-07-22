@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
@@ -56,7 +57,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isWeb) {
-      return const Center(child: Text('Not implemented!'));
+      return  Center(child: Text(S.of(context).notImplemented));
     }
 
     return Stack(
@@ -71,6 +72,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
             final uriString = uri.toString();
             final endpoint = await getIt<IEndpointService>().getEndpoint();
             widget.onUrlChanged?.call();
+            // translate-me-ignore-next-line
             log.debug('shouldOverrideUrlLoading $uriString');
             if (Platform.isAndroid ||
                 Platform.isIOS &&
@@ -78,6 +80,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
                         NavigationType.LINK_ACTIVATED) {
               if (uriString.startsWith(endpoint)) {
                 var target = uriString.substring(endpoint.length);
+                // translate-me-ignore-next-line
                 if (!target.startsWith('?accessToken')) {
                   if (target.startsWith('/')) {
                     target = target.substring(1);
@@ -107,20 +110,24 @@ class _DashboardState extends TbContextState<DashboardWidget> {
                 : NavigationActionPolicy.CANCEL;
           },
           onUpdateVisitedHistory: (controller, url, androidIsReload)  {
+            // translate-me-ignore-next-line
             log.debug('onUpdateVisitedHistory: $url');
             dashboardController.onHistoryUpdated(controller.canGoBack());
             widget.onUrlChanged?.call();
           },
           onConsoleMessage: (controller, consoleMessage) {
             log.debug(
+              // translate-me-ignore-next-line
               '[JavaScript console] ${consoleMessage.messageLevel}: '
               '${consoleMessage.message}',
             );
           },
           onLoadStart: (controller, url)  {
+            // translate-me-ignore-next-line
             log.debug('onLoadStart: $url');
           },
           onLoadStop: (controller, url)  {
+            // translate-me-ignore-next-line
             log.debug('onLoadStop: $url');
             if (webViewLoading) {
               webViewLoading = false;
@@ -128,6 +135,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
           },
           onReceivedHttpError: (ctrl, req, errResponse) {
             log.debug(
+              // translate-me-ignore-next-line
               'onReceivedHttpError request: $req, response: $errResponse',
             );
 
@@ -138,6 +146,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
           },
           onPermissionRequest: (controller, request) async {
             log.debug(
+              // translate-me-ignore-next-line
               'onPermissionRequest resources: ${request.resources}',
             );
 
@@ -349,7 +358,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
         style: const TextStyle(color: Colors.white),
       ),
       action: SnackBarAction(
-        label: 'Close',
+        label: S.of(context).close,
         textColor: Colors.white,
         onPressed: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

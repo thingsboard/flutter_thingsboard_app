@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
@@ -120,8 +121,8 @@ class _EntityDetailsPageState<T extends BaseData>
             if (entity != null) {
               return widget.buildEntityDetails(context, entity);
             } else {
-              return const Center(
-                child: Text('Requested entity does not exists.'),
+              return  Center(
+                child: Text(S.of(context).requestedEntityDoesNotExists),
               );
             }
           } else {
@@ -157,10 +158,10 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Title', style: labelTextStyle),
+          Text(S.of(context).title, style: labelTextStyle),
           Text(entity.getName(), style: valueTextStyle),
           const SizedBox(height: 16),
-          Text('Country', style: labelTextStyle),
+          Text(S.of(context).country, style: labelTextStyle),
           Text(entity.country ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Row(
@@ -170,7 +171,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('City', style: labelTextStyle),
+                    Text(S.of(context).city, style: labelTextStyle),
                     Text(entity.city ?? '', style: valueTextStyle),
                   ],
                 ),
@@ -180,7 +181,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('State / Province', style: labelTextStyle),
+                    Text(S.of(context).stateOrProvince, style: labelTextStyle),
                     Text(entity.state ?? '', style: valueTextStyle),
                   ],
                 ),
@@ -188,19 +189,19 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
             ],
           ),
           const SizedBox(height: 16),
-          Text('Zip / Postal Code', style: labelTextStyle),
+          Text(S.of(context).postalCode, style: labelTextStyle),
           Text(entity.zip ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
-          Text('Address', style: labelTextStyle),
+          Text(S.of(context).address, style: labelTextStyle),
           Text(entity.address ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
-          Text('Address 2', style: labelTextStyle),
+          Text(S.of(context).address2, style: labelTextStyle),
           Text(entity.address2 ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
-          Text('Phone', style: labelTextStyle),
+          Text(S.of(context).phone, style: labelTextStyle),
           Text(entity.phone ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
-          Text('Email', style: labelTextStyle),
+          Text(S.of(context).email, style: labelTextStyle),
           Text(entity.email ?? '', style: valueTextStyle),
         ],
       ),

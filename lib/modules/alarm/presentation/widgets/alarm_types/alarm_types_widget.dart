@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_filter_widget.dart';
@@ -20,7 +21,7 @@ class AlarmTypesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlarmFilterWidget(
-      filterTitle: 'Alarm type list',
+      filterTitle: S.of(context).alarmTypeList,
       child: Container(
         constraints: const BoxConstraints(minHeight: 38),
         decoration: BoxDecoration(
@@ -56,7 +57,7 @@ class AlarmTypesWidget extends StatelessWidget {
                           vertical: 8,
                         ),
                         child: Text(
-                          'Any type',
+                          S.of(context).anyType,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -139,7 +140,7 @@ class AlarmTypesWidget extends StatelessWidget {
                             );
                           },
                           child: Text(
-                            '+ Alarm type',
+                            S.of(context).plusAlarmType,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black.withValues(alpha: 0.38),

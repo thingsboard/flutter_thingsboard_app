@@ -9,7 +9,9 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconData = _toIcon(notification.additionalConfig?['icon'] as Map<String,dynamic>? ?? {});
+    final iconData = _toIcon(
+      notification.additionalConfig?['icon'] as Map<String, dynamic>? ?? {},
+    );
 
     return iconData;
   }
@@ -34,12 +36,11 @@ class NotificationIcon extends StatelessWidget {
   }
 
   Widget _toIcon(Map<String, dynamic> data) {
-  
-
-    if ( data['icon'] != null) {
-        final String imageData = data['icon'].toString();
+    if (data['icon'] != null) {
+      final String imageData = data['icon'].toString();
       if (imageData.contains('mdi')) {
         return Icon(
+          // translate-me-ignore-next-line
           MdiIcons.fromString(imageData.split('mdi:').last),
           color: _toColor(data['color']?.toString()),
         );
@@ -47,9 +48,7 @@ class NotificationIcon extends StatelessWidget {
 
       return Icon(
         materialIconsMap[imageData],
-        color: _toColor(
-          data['color']?.toString(),
-        ),
+        color: _toColor(data['color']?.toString()),
       );
     }
 
@@ -170,8 +169,10 @@ const materialIconsMap = {
   'air': IconData(0xe064, fontFamily: 'MaterialIcons'),
   'airline_seat_flat': IconData(0xe065, fontFamily: 'MaterialIcons'),
   'airline_seat_flat_angled': IconData(0xe066, fontFamily: 'MaterialIcons'),
-  'airline_seat_individual_suite':
-      IconData(0xe067, fontFamily: 'MaterialIcons'),
+  'airline_seat_individual_suite': IconData(
+    0xe067,
+    fontFamily: 'MaterialIcons',
+  ),
   'airline_seat_legroom_extra': IconData(0xe068, fontFamily: 'MaterialIcons'),
   'airline_seat_legroom_normal': IconData(0xe069, fontFamily: 'MaterialIcons'),
   'airline_seat_legroom_reduced': IconData(0xe06a, fontFamily: 'MaterialIcons'),
@@ -222,12 +223,21 @@ const materialIconsMap = {
   'architecture': IconData(0xe090, fontFamily: 'MaterialIcons'),
   'archive': IconData(0xe091, fontFamily: 'MaterialIcons'),
   'area_chart': IconData(0xf04c0, fontFamily: 'MaterialIcons'),
-  'arrow_back':
-      IconData(0xe092, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'arrow_back_ios':
-      IconData(0xe093, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'arrow_back_ios_new':
-      IconData(0xe094, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'arrow_back': IconData(
+    0xe092,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'arrow_back_ios': IconData(
+    0xe093,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'arrow_back_ios_new': IconData(
+    0xe094,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'arrow_circle_down': IconData(0xe095, fontFamily: 'MaterialIcons'),
   'arrow_circle_left': IconData(0xf04c1, fontFamily: 'MaterialIcons'),
   'arrow_circle_right': IconData(0xf04c2, fontFamily: 'MaterialIcons'),
@@ -236,29 +246,50 @@ const materialIconsMap = {
   'arrow_drop_down': IconData(0xe098, fontFamily: 'MaterialIcons'),
   'arrow_drop_down_circle': IconData(0xe099, fontFamily: 'MaterialIcons'),
   'arrow_drop_up': IconData(0xe09a, fontFamily: 'MaterialIcons'),
-  'arrow_forward':
-      IconData(0xe09b, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'arrow_forward_ios':
-      IconData(0xe09c, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'arrow_left':
-      IconData(0xe09d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'arrow_forward': IconData(
+    0xe09b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'arrow_forward_ios': IconData(
+    0xe09c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'arrow_left': IconData(
+    0xe09d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'arrow_outward': IconData(0xf0852, fontFamily: 'MaterialIcons'),
-  'arrow_right':
-      IconData(0xe09e, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'arrow_right_alt':
-      IconData(0xe09f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'arrow_right': IconData(
+    0xe09e,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'arrow_right_alt': IconData(
+    0xe09f,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'arrow_upward': IconData(0xe0a0, fontFamily: 'MaterialIcons'),
   'art_track': IconData(0xe0a1, fontFamily: 'MaterialIcons'),
   'article': IconData(0xe0a2, fontFamily: 'MaterialIcons'),
   'aspect_ratio': IconData(0xe0a3, fontFamily: 'MaterialIcons'),
   'assessment': IconData(0xe0a4, fontFamily: 'MaterialIcons'),
-  'assignment':
-      IconData(0xe0a5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'assignment': IconData(
+    0xe0a5,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'assignment_add': IconData(0xf0853, fontFamily: 'MaterialIcons'),
   'assignment_ind': IconData(0xe0a6, fontFamily: 'MaterialIcons'),
   'assignment_late': IconData(0xe0a7, fontFamily: 'MaterialIcons'),
-  'assignment_return':
-      IconData(0xe0a8, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'assignment_return': IconData(
+    0xe0a8,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'assignment_returned': IconData(0xe0a9, fontFamily: 'MaterialIcons'),
   'assignment_turned_in': IconData(0xe0aa, fontFamily: 'MaterialIcons'),
   'assist_walker': IconData(0xf0854, fontFamily: 'MaterialIcons'),
@@ -292,8 +323,11 @@ const materialIconsMap = {
   'baby_changing_station': IconData(0xe0c3, fontFamily: 'MaterialIcons'),
   'back_hand': IconData(0xf04c5, fontFamily: 'MaterialIcons'),
   'backpack': IconData(0xe0c4, fontFamily: 'MaterialIcons'),
-  'backspace':
-      IconData(0xe0c5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'backspace': IconData(
+    0xe0c5,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'backup': IconData(0xe0c6, fontFamily: 'MaterialIcons'),
   'backup_table': IconData(0xe0c7, fontFamily: 'MaterialIcons'),
   'badge': IconData(0xe0c8, fontFamily: 'MaterialIcons'),
@@ -318,8 +352,11 @@ const materialIconsMap = {
   'battery_full': IconData(0xe0d2, fontFamily: 'MaterialIcons'),
   'battery_saver': IconData(0xe0d3, fontFamily: 'MaterialIcons'),
   'battery_std': IconData(0xe0d4, fontFamily: 'MaterialIcons'),
-  'battery_unknown':
-      IconData(0xe0d5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'battery_unknown': IconData(
+    0xe0d5,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'beach_access': IconData(0xe0d6, fontFamily: 'MaterialIcons'),
   'bed': IconData(0xe0d7, fontFamily: 'MaterialIcons'),
   'bedroom_baby': IconData(0xe0d8, fontFamily: 'MaterialIcons'),
@@ -413,18 +450,36 @@ const materialIconsMap = {
   'calendar_view_week': IconData(0xe125, fontFamily: 'MaterialIcons'),
   'call': IconData(0xe126, fontFamily: 'MaterialIcons'),
   'call_end': IconData(0xe127, fontFamily: 'MaterialIcons'),
-  'call_made':
-      IconData(0xe128, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'call_merge':
-      IconData(0xe129, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'call_missed':
-      IconData(0xe12a, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'call_missed_outgoing':
-      IconData(0xe12b, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'call_received':
-      IconData(0xe12c, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'call_split':
-      IconData(0xe12d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'call_made': IconData(
+    0xe128,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'call_merge': IconData(
+    0xe129,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'call_missed': IconData(
+    0xe12a,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'call_missed_outgoing': IconData(
+    0xe12b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'call_received': IconData(
+    0xe12c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'call_split': IconData(
+    0xe12d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'call_to_action': IconData(0xe12e, fontFamily: 'MaterialIcons'),
   'camera': IconData(0xe12f, fontFamily: 'MaterialIcons'),
   'camera_alt': IconData(0xe130, fontFamily: 'MaterialIcons'),
@@ -477,14 +532,23 @@ const materialIconsMap = {
   'checklist': IconData(0xe15b, fontFamily: 'MaterialIcons'),
   'checklist_rtl': IconData(0xe15c, fontFamily: 'MaterialIcons'),
   'checkroom': IconData(0xe15d, fontFamily: 'MaterialIcons'),
-  'chevron_left':
-      IconData(0xe15e, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'chevron_right':
-      IconData(0xe15f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'chevron_left': IconData(
+    0xe15e,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'chevron_right': IconData(
+    0xe15f,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'child_care': IconData(0xe160, fontFamily: 'MaterialIcons'),
   'child_friendly': IconData(0xe161, fontFamily: 'MaterialIcons'),
-  'chrome_reader_mode':
-      IconData(0xe162, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'chrome_reader_mode': IconData(
+    0xe162,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'church': IconData(0xf04cd, fontFamily: 'MaterialIcons'),
   'circle': IconData(0xe163, fontFamily: 'MaterialIcons'),
   'circle_notifications': IconData(0xe164, fontFamily: 'MaterialIcons'),
@@ -633,8 +697,11 @@ const materialIconsMap = {
   'developer_mode': IconData(0xe1c7, fontFamily: 'MaterialIcons'),
   'device_hub': IconData(0xe1c8, fontFamily: 'MaterialIcons'),
   'device_thermostat': IconData(0xe1c9, fontFamily: 'MaterialIcons'),
-  'device_unknown':
-      IconData(0xe1ca, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'device_unknown': IconData(
+    0xe1ca,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'devices': IconData(0xe1cb, fontFamily: 'MaterialIcons'),
   'devices_fold': IconData(0xf079b, fontFamily: 'MaterialIcons'),
   'devices_other': IconData(0xe1cc, fontFamily: 'MaterialIcons'),
@@ -684,8 +751,10 @@ const materialIconsMap = {
   'do_not_disturb_alt': IconData(0xe1eb, fontFamily: 'MaterialIcons'),
   'do_not_disturb_off': IconData(0xe1ec, fontFamily: 'MaterialIcons'),
   'do_not_disturb_on': IconData(0xe1ed, fontFamily: 'MaterialIcons'),
-  'do_not_disturb_on_total_silence':
-      IconData(0xe1ee, fontFamily: 'MaterialIcons'),
+  'do_not_disturb_on_total_silence': IconData(
+    0xe1ee,
+    fontFamily: 'MaterialIcons',
+  ),
   'do_not_step': IconData(0xe1ef, fontFamily: 'MaterialIcons'),
   'do_not_touch': IconData(0xe1f0, fontFamily: 'MaterialIcons'),
   'dock': IconData(0xe1f1, fontFamily: 'MaterialIcons'),
@@ -722,8 +791,11 @@ const materialIconsMap = {
   'dry': IconData(0xe20d, fontFamily: 'MaterialIcons'),
   'dry_cleaning': IconData(0xe20e, fontFamily: 'MaterialIcons'),
   'duo': IconData(0xe20f, fontFamily: 'MaterialIcons'),
-  'dvr':
-      IconData(0xe210, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'dvr': IconData(
+    0xe210,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'dynamic_feed': IconData(0xe211, fontFamily: 'MaterialIcons'),
   'dynamic_form': IconData(0xe212, fontFamily: 'MaterialIcons'),
   'e_mobiledata': IconData(0xe213, fontFamily: 'MaterialIcons'),
@@ -786,8 +858,11 @@ const materialIconsMap = {
   'event': IconData(0xe23e, fontFamily: 'MaterialIcons'),
   'event_available': IconData(0xe23f, fontFamily: 'MaterialIcons'),
   'event_busy': IconData(0xe240, fontFamily: 'MaterialIcons'),
-  'event_note':
-      IconData(0xe241, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'event_note': IconData(
+    0xe241,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'event_repeat': IconData(0xf04fb, fontFamily: 'MaterialIcons'),
   'event_seat': IconData(0xe242, fontFamily: 'MaterialIcons'),
   'exit_to_app': IconData(0xe243, fontFamily: 'MaterialIcons'),
@@ -827,10 +902,16 @@ const materialIconsMap = {
   'favorite_border': IconData(0xe25c, fontFamily: 'MaterialIcons'),
   'favorite_outline': IconData(0xe25c, fontFamily: 'MaterialIcons'),
   'fax': IconData(0xf04fe, fontFamily: 'MaterialIcons'),
-  'featured_play_list':
-      IconData(0xe25d, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'featured_video':
-      IconData(0xe25e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'featured_play_list': IconData(
+    0xe25d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'featured_video': IconData(
+    0xe25e,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'feed': IconData(0xe25f, fontFamily: 'MaterialIcons'),
   'feedback': IconData(0xe260, fontFamily: 'MaterialIcons'),
   'female': IconData(0xe261, fontFamily: 'MaterialIcons'),
@@ -881,8 +962,11 @@ const materialIconsMap = {
   'fire_hydrant_alt': IconData(0xf07a1, fontFamily: 'MaterialIcons'),
   'fire_truck': IconData(0xf07a2, fontFamily: 'MaterialIcons'),
   'fireplace': IconData(0xe28a, fontFamily: 'MaterialIcons'),
-  'first_page':
-      IconData(0xe28b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'first_page': IconData(
+    0xe28b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'fit_screen': IconData(0xe28c, fontFamily: 'MaterialIcons'),
   'fitbit': IconData(0xf0502, fontFamily: 'MaterialIcons'),
   'fitness_center': IconData(0xe28d, fontFamily: 'MaterialIcons'),
@@ -898,10 +982,16 @@ const materialIconsMap = {
   'flatware': IconData(0xe296, fontFamily: 'MaterialIcons'),
   'flight': IconData(0xe297, fontFamily: 'MaterialIcons'),
   'flight_class': IconData(0xf0504, fontFamily: 'MaterialIcons'),
-  'flight_land':
-      IconData(0xe298, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'flight_takeoff':
-      IconData(0xe299, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'flight_land': IconData(
+    0xe298,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'flight_takeoff': IconData(
+    0xe299,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'flip': IconData(0xe29a, fontFamily: 'MaterialIcons'),
   'flip_camera_android': IconData(0xe29b, fontFamily: 'MaterialIcons'),
   'flip_camera_ios': IconData(0xe29c, fontFamily: 'MaterialIcons'),
@@ -939,14 +1029,23 @@ const materialIconsMap = {
   'format_color_fill': IconData(0xe2b1, fontFamily: 'MaterialIcons'),
   'format_color_reset': IconData(0xe2b2, fontFamily: 'MaterialIcons'),
   'format_color_text': IconData(0xe2b3, fontFamily: 'MaterialIcons'),
-  'format_indent_decrease':
-      IconData(0xe2b4, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'format_indent_increase':
-      IconData(0xe2b5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'format_indent_decrease': IconData(
+    0xe2b4,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'format_indent_increase': IconData(
+    0xe2b5,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'format_italic': IconData(0xe2b6, fontFamily: 'MaterialIcons'),
   'format_line_spacing': IconData(0xe2b7, fontFamily: 'MaterialIcons'),
-  'format_list_bulleted':
-      IconData(0xe2b8, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'format_list_bulleted': IconData(
+    0xe2b8,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'format_list_bulleted_add': IconData(0xf0867, fontFamily: 'MaterialIcons'),
   'format_list_numbered': IconData(0xe2b9, fontFamily: 'MaterialIcons'),
   'format_list_numbered_rtl': IconData(0xe2ba, fontFamily: 'MaterialIcons'),
@@ -962,8 +1061,11 @@ const materialIconsMap = {
   'format_underlined': IconData(0xe2c2, fontFamily: 'MaterialIcons'),
   'fort': IconData(0xf050e, fontFamily: 'MaterialIcons'),
   'forum': IconData(0xe2c3, fontFamily: 'MaterialIcons'),
-  'forward':
-      IconData(0xe2c4, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'forward': IconData(
+    0xe2c4,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'forward_10': IconData(0xe2c5, fontFamily: 'MaterialIcons'),
   'forward_30': IconData(0xe2c6, fontFamily: 'MaterialIcons'),
   'forward_5': IconData(0xe2c7, fontFamily: 'MaterialIcons'),
@@ -975,8 +1077,11 @@ const materialIconsMap = {
   'front_loader': IconData(0xf0868, fontFamily: 'MaterialIcons'),
   'fullscreen': IconData(0xe2cb, fontFamily: 'MaterialIcons'),
   'fullscreen_exit': IconData(0xe2cc, fontFamily: 'MaterialIcons'),
-  'functions':
-      IconData(0xe2cd, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'functions': IconData(
+    0xe2cd,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'g_mobiledata': IconData(0xe2ce, fontFamily: 'MaterialIcons'),
   'g_translate': IconData(0xe2cf, fontFamily: 'MaterialIcons'),
   'gamepad': IconData(0xe2d0, fontFamily: 'MaterialIcons'),
@@ -1047,11 +1152,17 @@ const materialIconsMap = {
   'heart_broken': IconData(0xf0516, fontFamily: 'MaterialIcons'),
   'heat_pump': IconData(0xf07a5, fontFamily: 'MaterialIcons'),
   'height': IconData(0xe308, fontFamily: 'MaterialIcons'),
-  'help':
-      IconData(0xe309, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'help': IconData(
+    0xe309,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'help_center': IconData(0xe30a, fontFamily: 'MaterialIcons'),
-  'help_outline':
-      IconData(0xe30b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'help_outline': IconData(
+    0xe30b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'hevc': IconData(0xe30c, fontFamily: 'MaterialIcons'),
   'hexagon': IconData(0xf0517, fontFamily: 'MaterialIcons'),
   'hide_image': IconData(0xe30d, fontFamily: 'MaterialIcons'),
@@ -1111,8 +1222,11 @@ const materialIconsMap = {
   'indeterminate_check_box': IconData(0xe33b, fontFamily: 'MaterialIcons'),
   'info': IconData(0xe33c, fontFamily: 'MaterialIcons'),
   'info_outline': IconData(0xe33d, fontFamily: 'MaterialIcons'),
-  'input':
-      IconData(0xe33e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'input': IconData(
+    0xe33e,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'insert_chart': IconData(0xe33f, fontFamily: 'MaterialIcons'),
   'insert_comment': IconData(0xe341, fontFamily: 'MaterialIcons'),
   'insert_drive_file': IconData(0xe342, fontFamily: 'MaterialIcons'),
@@ -1150,8 +1264,11 @@ const materialIconsMap = {
   'keyboard_arrow_left': IconData(0xe354, fontFamily: 'MaterialIcons'),
   'keyboard_arrow_right': IconData(0xe355, fontFamily: 'MaterialIcons'),
   'keyboard_arrow_up': IconData(0xe356, fontFamily: 'MaterialIcons'),
-  'keyboard_backspace':
-      IconData(0xe357, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'keyboard_backspace': IconData(
+    0xe357,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'keyboard_capslock': IconData(0xe358, fontFamily: 'MaterialIcons'),
   'keyboard_command_key': IconData(0xf052d, fontFamily: 'MaterialIcons'),
   'keyboard_control': IconData(0xe402, fontFamily: 'MaterialIcons'),
@@ -1163,21 +1280,36 @@ const materialIconsMap = {
   'keyboard_hide': IconData(0xe359, fontFamily: 'MaterialIcons'),
   'keyboard_option_key': IconData(0xf0533, fontFamily: 'MaterialIcons'),
   'keyboard_return': IconData(0xe35a, fontFamily: 'MaterialIcons'),
-  'keyboard_tab':
-      IconData(0xe35b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'keyboard_tab': IconData(
+    0xe35b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'keyboard_voice': IconData(0xe35c, fontFamily: 'MaterialIcons'),
   'king_bed': IconData(0xe35d, fontFamily: 'MaterialIcons'),
   'kitchen': IconData(0xe35e, fontFamily: 'MaterialIcons'),
   'kitesurfing': IconData(0xe35f, fontFamily: 'MaterialIcons'),
-  'label':
-      IconData(0xe360, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'label_important':
-      IconData(0xe361, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'label': IconData(
+    0xe360,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'label_important': IconData(
+    0xe361,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'label_important_outline': IconData(0xe362, fontFamily: 'MaterialIcons'),
-  'label_off':
-      IconData(0xe363, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'label_outline':
-      IconData(0xe364, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'label_off': IconData(
+    0xe363,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'label_outline': IconData(
+    0xe364,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'lan': IconData(0xf0534, fontFamily: 'MaterialIcons'),
   'landscape': IconData(0xe365, fontFamily: 'MaterialIcons'),
   'landslide': IconData(0xf07a6, fontFamily: 'MaterialIcons'),
@@ -1186,10 +1318,16 @@ const materialIconsMap = {
   'laptop_chromebook': IconData(0xe368, fontFamily: 'MaterialIcons'),
   'laptop_mac': IconData(0xe369, fontFamily: 'MaterialIcons'),
   'laptop_windows': IconData(0xe36a, fontFamily: 'MaterialIcons'),
-  'last_page':
-      IconData(0xe36b, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'launch':
-      IconData(0xe36c, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'last_page': IconData(
+    0xe36b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'launch': IconData(
+    0xe36c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'layers': IconData(0xe36d, fontFamily: 'MaterialIcons'),
   'layers_clear': IconData(0xe36e, fontFamily: 'MaterialIcons'),
   'leaderboard': IconData(0xe36f, fontFamily: 'MaterialIcons'),
@@ -1216,12 +1354,21 @@ const materialIconsMap = {
   'link_off': IconData(0xe381, fontFamily: 'MaterialIcons'),
   'linked_camera': IconData(0xe382, fontFamily: 'MaterialIcons'),
   'liquor': IconData(0xe383, fontFamily: 'MaterialIcons'),
-  'list':
-      IconData(0xe384, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'list_alt':
-      IconData(0xe385, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'live_help':
-      IconData(0xe386, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'list': IconData(
+    0xe384,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'list_alt': IconData(
+    0xe385,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'live_help': IconData(
+    0xe386,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'live_tv': IconData(0xe387, fontFamily: 'MaterialIcons'),
   'living': IconData(0xe388, fontFamily: 'MaterialIcons'),
   'local_activity': IconData(0xe389, fontFamily: 'MaterialIcons'),
@@ -1347,8 +1494,11 @@ const materialIconsMap = {
   'mms': IconData(0xe3eb, fontFamily: 'MaterialIcons'),
   'mobile_friendly': IconData(0xe3ec, fontFamily: 'MaterialIcons'),
   'mobile_off': IconData(0xe3ed, fontFamily: 'MaterialIcons'),
-  'mobile_screen_share':
-      IconData(0xe3ee, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'mobile_screen_share': IconData(
+    0xe3ee,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'mobiledata_off': IconData(0xe3ef, fontFamily: 'MaterialIcons'),
   'mode': IconData(0xe3f0, fontFamily: 'MaterialIcons'),
   'mode_comment': IconData(0xe3f1, fontFamily: 'MaterialIcons'),
@@ -1391,8 +1541,11 @@ const materialIconsMap = {
   'movie_filter': IconData(0xe40f, fontFamily: 'MaterialIcons'),
   'moving': IconData(0xe410, fontFamily: 'MaterialIcons'),
   'mp': IconData(0xe411, fontFamily: 'MaterialIcons'),
-  'multiline_chart':
-      IconData(0xe412, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'multiline_chart': IconData(
+    0xe412,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'multiple_stop': IconData(0xe413, fontFamily: 'MaterialIcons'),
   'multitrack_audio': IconData(0xe2e3, fontFamily: 'MaterialIcons'),
   'museum': IconData(0xe414, fontFamily: 'MaterialIcons'),
@@ -1406,10 +1559,16 @@ const materialIconsMap = {
   'nat': IconData(0xe419, fontFamily: 'MaterialIcons'),
   'nature': IconData(0xe41a, fontFamily: 'MaterialIcons'),
   'nature_people': IconData(0xe41b, fontFamily: 'MaterialIcons'),
-  'navigate_before':
-      IconData(0xe41c, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'navigate_next':
-      IconData(0xe41d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'navigate_before': IconData(
+    0xe41c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'navigate_next': IconData(
+    0xe41d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'navigation': IconData(0xe41e, fontFamily: 'MaterialIcons'),
   'near_me': IconData(0xe41f, fontFamily: 'MaterialIcons'),
   'near_me_disabled': IconData(0xe420, fontFamily: 'MaterialIcons'),
@@ -1428,8 +1587,11 @@ const materialIconsMap = {
   'new_releases': IconData(0xe428, fontFamily: 'MaterialIcons'),
   'newspaper': IconData(0xf0541, fontFamily: 'MaterialIcons'),
   'next_plan': IconData(0xe429, fontFamily: 'MaterialIcons'),
-  'next_week':
-      IconData(0xe42a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'next_week': IconData(
+    0xe42a,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'nfc': IconData(0xe42b, fontFamily: 'MaterialIcons'),
   'night_shelter': IconData(0xe42c, fontFamily: 'MaterialIcons'),
   'nightlife': IconData(0xe42d, fontFamily: 'MaterialIcons'),
@@ -1463,11 +1625,17 @@ const materialIconsMap = {
   'not_interested': IconData(0xe446, fontFamily: 'MaterialIcons'),
   'not_listed_location': IconData(0xe447, fontFamily: 'MaterialIcons'),
   'not_started': IconData(0xe448, fontFamily: 'MaterialIcons'),
-  'note':
-      IconData(0xe449, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'note': IconData(
+    0xe449,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'note_add': IconData(0xe44a, fontFamily: 'MaterialIcons'),
-  'note_alt':
-      IconData(0xe44b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'note_alt': IconData(
+    0xe44b,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'notes': IconData(0xe44c, fontFamily: 'MaterialIcons'),
   'notification_add': IconData(0xe44d, fontFamily: 'MaterialIcons'),
   'notification_important': IconData(0xe44e, fontFamily: 'MaterialIcons'),
@@ -1490,8 +1658,11 @@ const materialIconsMap = {
   'opacity': IconData(0xe459, fontFamily: 'MaterialIcons'),
   'open_in_browser': IconData(0xe45a, fontFamily: 'MaterialIcons'),
   'open_in_full': IconData(0xe45b, fontFamily: 'MaterialIcons'),
-  'open_in_new':
-      IconData(0xe45c, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'open_in_new': IconData(
+    0xe45c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'open_in_new_off': IconData(0xe45d, fontFamily: 'MaterialIcons'),
   'open_with': IconData(0xe45e, fontFamily: 'MaterialIcons'),
   'other_houses': IconData(0xe45f, fontFamily: 'MaterialIcons'),
@@ -1627,8 +1798,11 @@ const materialIconsMap = {
   'play_disabled': IconData(0xe4cf, fontFamily: 'MaterialIcons'),
   'play_for_work': IconData(0xe4d0, fontFamily: 'MaterialIcons'),
   'play_lesson': IconData(0xe4d1, fontFamily: 'MaterialIcons'),
-  'playlist_add':
-      IconData(0xe4d2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'playlist_add': IconData(
+    0xe4d2,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'playlist_add_check': IconData(0xe4d3, fontFamily: 'MaterialIcons'),
   'playlist_add_check_circle': IconData(0xf054f, fontFamily: 'MaterialIcons'),
   'playlist_add_circle': IconData(0xf0550, fontFamily: 'MaterialIcons'),
@@ -1680,8 +1854,11 @@ const materialIconsMap = {
   'question_answer': IconData(0xe4fa, fontFamily: 'MaterialIcons'),
   'question_mark': IconData(0xf0555, fontFamily: 'MaterialIcons'),
   'queue': IconData(0xe4fb, fontFamily: 'MaterialIcons'),
-  'queue_music':
-      IconData(0xe4fc, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'queue_music': IconData(
+    0xe4fc,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'queue_play_next': IconData(0xe4fd, fontFamily: 'MaterialIcons'),
   'quick_contacts_dialer': IconData(0xe18c, fontFamily: 'MaterialIcons'),
   'quick_contacts_mail': IconData(0xe18a, fontFamily: 'MaterialIcons'),
@@ -1714,8 +1891,11 @@ const materialIconsMap = {
   'recycling': IconData(0xf055a, fontFamily: 'MaterialIcons'),
   'reddit': IconData(0xf055b, fontFamily: 'MaterialIcons'),
   'redeem': IconData(0xe511, fontFamily: 'MaterialIcons'),
-  'redo':
-      IconData(0xe512, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'redo': IconData(
+    0xe512,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'reduce_capacity': IconData(0xe513, fontFamily: 'MaterialIcons'),
   'refresh': IconData(0xe514, fontFamily: 'MaterialIcons'),
   'remember_me': IconData(0xe515, fontFamily: 'MaterialIcons'),
@@ -1739,10 +1919,16 @@ const materialIconsMap = {
   'replay_30': IconData(0xe525, fontFamily: 'MaterialIcons'),
   'replay_5': IconData(0xe526, fontFamily: 'MaterialIcons'),
   'replay_circle_filled': IconData(0xe527, fontFamily: 'MaterialIcons'),
-  'reply':
-      IconData(0xe528, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'reply_all':
-      IconData(0xe529, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'reply': IconData(
+    0xe528,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'reply_all': IconData(
+    0xe529,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'report': IconData(0xe52a, fontFamily: 'MaterialIcons'),
   'report_gmailerrorred': IconData(0xe52b, fontFamily: 'MaterialIcons'),
   'report_off': IconData(0xe52c, fontFamily: 'MaterialIcons'),
@@ -1810,8 +1996,11 @@ const materialIconsMap = {
   'screen_rotation': IconData(0xe55f, fontFamily: 'MaterialIcons'),
   'screen_rotation_alt': IconData(0xf07bf, fontFamily: 'MaterialIcons'),
   'screen_search_desktop': IconData(0xe560, fontFamily: 'MaterialIcons'),
-  'screen_share':
-      IconData(0xe561, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'screen_share': IconData(
+    0xe561,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'screenshot': IconData(0xe562, fontFamily: 'MaterialIcons'),
   'screenshot_monitor': IconData(0xf07c0, fontFamily: 'MaterialIcons'),
   'scuba_diving': IconData(0xf06c2, fontFamily: 'MaterialIcons'),
@@ -1829,8 +2018,11 @@ const materialIconsMap = {
   'select_all': IconData(0xe56e, fontFamily: 'MaterialIcons'),
   'self_improvement': IconData(0xe56f, fontFamily: 'MaterialIcons'),
   'sell': IconData(0xe570, fontFamily: 'MaterialIcons'),
-  'send':
-      IconData(0xe571, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'send': IconData(
+    0xe571,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'send_and_archive': IconData(0xe572, fontFamily: 'MaterialIcons'),
   'send_time_extension': IconData(0xf0565, fontFamily: 'MaterialIcons'),
   'send_to_mobile': IconData(0xe573, fontFamily: 'MaterialIcons'),
@@ -1883,11 +2075,17 @@ const materialIconsMap = {
   'shopping_basket': IconData(0xe59b, fontFamily: 'MaterialIcons'),
   'shopping_cart': IconData(0xe59c, fontFamily: 'MaterialIcons'),
   'shopping_cart_checkout': IconData(0xf0568, fontFamily: 'MaterialIcons'),
-  'short_text':
-      IconData(0xe59d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'short_text': IconData(
+    0xe59d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'shortcut': IconData(0xe59e, fontFamily: 'MaterialIcons'),
-  'show_chart':
-      IconData(0xe59f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'show_chart': IconData(
+    0xe59f,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'shower': IconData(0xe5a0, fontFamily: 'MaterialIcons'),
   'shuffle': IconData(0xe5a1, fontFamily: 'MaterialIcons'),
   'shuffle_on': IconData(0xe5a2, fontFamily: 'MaterialIcons'),
@@ -1899,10 +2097,14 @@ const materialIconsMap = {
   'signal_cellular_alt': IconData(0xe5a7, fontFamily: 'MaterialIcons'),
   'signal_cellular_alt_1_bar': IconData(0xf07c4, fontFamily: 'MaterialIcons'),
   'signal_cellular_alt_2_bar': IconData(0xf07c5, fontFamily: 'MaterialIcons'),
-  'signal_cellular_connected_no_internet_0_bar':
-      IconData(0xe5a8, fontFamily: 'MaterialIcons'),
-  'signal_cellular_connected_no_internet_4_bar':
-      IconData(0xe5a9, fontFamily: 'MaterialIcons'),
+  'signal_cellular_connected_no_internet_0_bar': IconData(
+    0xe5a8,
+    fontFamily: 'MaterialIcons',
+  ),
+  'signal_cellular_connected_no_internet_4_bar': IconData(
+    0xe5a9,
+    fontFamily: 'MaterialIcons',
+  ),
   'signal_cellular_no_sim': IconData(0xe5aa, fontFamily: 'MaterialIcons'),
   'signal_cellular_nodata': IconData(0xe5ab, fontFamily: 'MaterialIcons'),
   'signal_cellular_null': IconData(0xe5ac, fontFamily: 'MaterialIcons'),
@@ -1911,12 +2113,16 @@ const materialIconsMap = {
   'signal_wifi_4_bar': IconData(0xe5af, fontFamily: 'MaterialIcons'),
   'signal_wifi_4_bar_lock': IconData(0xe5b0, fontFamily: 'MaterialIcons'),
   'signal_wifi_bad': IconData(0xe5b1, fontFamily: 'MaterialIcons'),
-  'signal_wifi_connected_no_internet_4':
-      IconData(0xe5b2, fontFamily: 'MaterialIcons'),
+  'signal_wifi_connected_no_internet_4': IconData(
+    0xe5b2,
+    fontFamily: 'MaterialIcons',
+  ),
   'signal_wifi_off': IconData(0xe5b3, fontFamily: 'MaterialIcons'),
   'signal_wifi_statusbar_4_bar': IconData(0xe5b4, fontFamily: 'MaterialIcons'),
-  'signal_wifi_statusbar_connected_no_internet_4':
-      IconData(0xe5b5, fontFamily: 'MaterialIcons'),
+  'signal_wifi_statusbar_connected_no_internet_4': IconData(
+    0xe5b5,
+    fontFamily: 'MaterialIcons',
+  ),
   'signal_wifi_statusbar_null': IconData(0xe5b6, fontFamily: 'MaterialIcons'),
   'signpost': IconData(0xf0569, fontFamily: 'MaterialIcons'),
   'sim_card': IconData(0xe5b7, fontFamily: 'MaterialIcons'),
@@ -1949,8 +2155,11 @@ const materialIconsMap = {
   'soap': IconData(0xe5d0, fontFamily: 'MaterialIcons'),
   'social_distance': IconData(0xe5d1, fontFamily: 'MaterialIcons'),
   'solar_power': IconData(0xf07c6, fontFamily: 'MaterialIcons'),
-  'sort':
-      IconData(0xe5d2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'sort': IconData(
+    0xe5d2,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'sort_by_alpha': IconData(0xe5d3, fontFamily: 'MaterialIcons'),
   'sos': IconData(0xf07c7, fontFamily: 'MaterialIcons'),
   'soup_kitchen': IconData(0xf056c, fontFamily: 'MaterialIcons'),
@@ -2004,8 +2213,11 @@ const materialIconsMap = {
   'star': IconData(0xe5f9, fontFamily: 'MaterialIcons'),
   'star_border': IconData(0xe5fa, fontFamily: 'MaterialIcons'),
   'star_border_purple500': IconData(0xe5fb, fontFamily: 'MaterialIcons'),
-  'star_half':
-      IconData(0xe5fc, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'star_half': IconData(
+    0xe5fc,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'star_outline': IconData(0xe5fd, fontFamily: 'MaterialIcons'),
   'star_purple500': IconData(0xe5fe, fontFamily: 'MaterialIcons'),
   'star_rate': IconData(0xe5ff, fontFamily: 'MaterialIcons'),
@@ -2033,8 +2245,11 @@ const materialIconsMap = {
   'style': IconData(0xe613, fontFamily: 'MaterialIcons'),
   'subdirectory_arrow_left': IconData(0xe614, fontFamily: 'MaterialIcons'),
   'subdirectory_arrow_right': IconData(0xe615, fontFamily: 'MaterialIcons'),
-  'subject':
-      IconData(0xe616, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'subject': IconData(
+    0xe616,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'subscript': IconData(0xe617, fontFamily: 'MaterialIcons'),
   'subscriptions': IconData(0xe618, fontFamily: 'MaterialIcons'),
   'subtitles': IconData(0xe619, fontFamily: 'MaterialIcons'),
@@ -2080,8 +2295,10 @@ const materialIconsMap = {
   'sync_problem': IconData(0xe632, fontFamily: 'MaterialIcons'),
   'system_security_update': IconData(0xe633, fontFamily: 'MaterialIcons'),
   'system_security_update_good': IconData(0xe634, fontFamily: 'MaterialIcons'),
-  'system_security_update_warning':
-      IconData(0xe635, fontFamily: 'MaterialIcons'),
+  'system_security_update_warning': IconData(
+    0xe635,
+    fontFamily: 'MaterialIcons',
+  ),
   'system_update': IconData(0xe636, fontFamily: 'MaterialIcons'),
   'system_update_alt': IconData(0xe637, fontFamily: 'MaterialIcons'),
   'system_update_tv': IconData(0xe637, fontFamily: 'MaterialIcons'),
@@ -2146,8 +2363,11 @@ const materialIconsMap = {
   'tips_and_updates': IconData(0xf058d, fontFamily: 'MaterialIcons'),
   'tire_repair': IconData(0xf06c4, fontFamily: 'MaterialIcons'),
   'title': IconData(0xe668, fontFamily: 'MaterialIcons'),
-  'toc':
-      IconData(0xe669, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'toc': IconData(
+    0xe669,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'today': IconData(0xe66a, fontFamily: 'MaterialIcons'),
   'toggle_off': IconData(0xe66b, fontFamily: 'MaterialIcons'),
   'toggle_on': IconData(0xe66c, fontFamily: 'MaterialIcons'),
@@ -2170,13 +2390,22 @@ const materialIconsMap = {
   'transit_enterexit': IconData(0xe67a, fontFamily: 'MaterialIcons'),
   'translate': IconData(0xe67b, fontFamily: 'MaterialIcons'),
   'travel_explore': IconData(0xe67c, fontFamily: 'MaterialIcons'),
-  'trending_down':
-      IconData(0xe67d, fontFamily: 'MaterialIcons', matchTextDirection: true),
-  'trending_flat':
-      IconData(0xe67e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'trending_down': IconData(
+    0xe67d,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
+  'trending_flat': IconData(
+    0xe67e,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'trending_neutral': IconData(0xe67e, fontFamily: 'MaterialIcons'),
-  'trending_up':
-      IconData(0xe67f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'trending_up': IconData(
+    0xe67f,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'trip_origin': IconData(0xe680, fontFamily: 'MaterialIcons'),
   'trolley': IconData(0xf0878, fontFamily: 'MaterialIcons'),
   'troubleshoot': IconData(0xf07ce, fontFamily: 'MaterialIcons'),
@@ -2199,8 +2428,11 @@ const materialIconsMap = {
   'u_turn_right': IconData(0xf0596, fontFamily: 'MaterialIcons'),
   'umbrella': IconData(0xe68a, fontFamily: 'MaterialIcons'),
   'unarchive': IconData(0xe68b, fontFamily: 'MaterialIcons'),
-  'undo':
-      IconData(0xe68c, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'undo': IconData(
+    0xe68c,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'unfold_less': IconData(0xe68d, fontFamily: 'MaterialIcons'),
   'unfold_less_double': IconData(0xf0879, fontFamily: 'MaterialIcons'),
   'unfold_more': IconData(0xe68e, fontFamily: 'MaterialIcons'),
@@ -2256,11 +2488,17 @@ const materialIconsMap = {
   'view_headline': IconData(0xe6b3, fontFamily: 'MaterialIcons'),
   'view_in_ar': IconData(0xe6b4, fontFamily: 'MaterialIcons'),
   'view_kanban': IconData(0xf059c, fontFamily: 'MaterialIcons'),
-  'view_list':
-      IconData(0xe6b5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'view_list': IconData(
+    0xe6b5,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'view_module': IconData(0xe6b6, fontFamily: 'MaterialIcons'),
-  'view_quilt':
-      IconData(0xe6b7, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'view_quilt': IconData(
+    0xe6b7,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'view_sidebar': IconData(0xe6b8, fontFamily: 'MaterialIcons'),
   'view_stream': IconData(0xe6b9, fontFamily: 'MaterialIcons'),
   'view_timeline': IconData(0xf059d, fontFamily: 'MaterialIcons'),
@@ -2354,8 +2592,7 @@ const materialIconsMap = {
   'workspaces': IconData(0xe6f5, fontFamily: 'MaterialIcons'),
   'workspaces_filled': IconData(0xe6f6, fontFamily: 'MaterialIcons'),
   'workspaces_outline': IconData(0xe6f7, fontFamily: 'MaterialIcons'),
-  'wrap_text':
-      IconData(0xe6f8, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'wrap_text': IconData(0xe6f8, fontFamily: 'MaterialIcons', matchTextDirection: true),
   'wrong_location': IconData(0xe6f9, fontFamily: 'MaterialIcons'),
   'wysiwyg': IconData(0xe6fa, fontFamily: 'MaterialIcons'),
   'yard': IconData(0xe6fb, fontFamily: 'MaterialIcons'),

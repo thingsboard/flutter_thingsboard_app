@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
 import 'package:thingsboard_app/modules/notification/di/notifcations_di.dart';
@@ -54,11 +55,11 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
             }
           },
         ),
-        title: const Text('Notifications'),
+        title:  Text(S.of(context).notifications(2)),
         actions: [
           TextButton(
             child: Text(
-              'Mark all as read',
+              S.of(context).markAllAsRead,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             onPressed: () async {
@@ -99,13 +100,13 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
                         );
                       });
                     },
-                    segments: const [
+                    segments:  [
                       FilterSegments(
-                        label: 'Unread',
+                        label: S.of(context).unread,
                         value: NotificationsFilter.unread,
                       ),
                       FilterSegments(
-                        label: 'All',
+                        label: S.of(context).all,
                         value: NotificationsFilter.all,
                       ),
                     ],
@@ -165,14 +166,13 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
         if (authority == Authority.TENANT_ADMIN ||
             authority == Authority.CUSTOMER_USER) {
           overlayService.showWarnNotification(
-            'Push notifications are not configured. '
-            'Please contact your system administrator.',
+          (context) => 
+            S.of(context).pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator,
           );
         } else if (authority == Authority.SYS_ADMIN) {
           overlayService.showWarnNotification(
-            'Firebase is not configured.'
-            ' Please refer to the official Firebase documentation for'
-            ' guidance on how to do so.',
+(context) => 
+            S.of(context).firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase
           );
         }
       });

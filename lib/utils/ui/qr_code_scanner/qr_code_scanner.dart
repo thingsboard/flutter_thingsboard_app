@@ -163,11 +163,10 @@ class QrCodeScannerPage extends HookWidget {
                         } else if (res == PermissionStatus.permanentlyDenied &&
                             context.mounted) {
                           getIt<IOverlayService>().showAlertDialog(
-                              title: S.of(context).unableToUseCamera,
-                              message: S
+                            content: (_) => DialogContent(title: S.of(context).unableToUseCamera, message: S
                                   .of(context)
-                                  .openSettingsAndGrantAccessToCameraToContinue,
-                              ok: S.of(context).cancel);
+                                  .openSettingsAndGrantAccessToCameraToContinue, ok: S.of(context).cancel),
+                              );
                         }
                         hasPermission.value = false;
                       },

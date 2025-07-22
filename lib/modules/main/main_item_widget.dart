@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 
 class MainItemWidget extends TbContextWidget {
   MainItemWidget(
@@ -23,9 +24,9 @@ class _MainItemWidgetState extends TbContextState<MainItemWidget>
     super.build(context);
     return widget.child ??
         Scaffold(
-          appBar: AppBar(title: const Text('Not Found')),
+          appBar: AppBar(title:  Text(S.of(context).notFound)),
           body: Center(
-            child: Text('Route not defined: ${widget.path}'),
+            child: Text(S.of(context).routeNotDefined(widget.path)),
           ),
         );
   }

@@ -85,7 +85,7 @@ class AssigneeListWidget extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                           ),
-                          hintText: 'Search users',
+                          hintText: S.of(context).searchUsers(2),
                           contentPadding: const EdgeInsets.fromLTRB(
                             16,
                             12,

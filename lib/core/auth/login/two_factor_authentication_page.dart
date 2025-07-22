@@ -36,6 +36,7 @@ final twoFactorAuthProvidersLoginData =
     nameFunction: (context) => S.of(context).mfaProviderTopt,
     descFunction: (context, contact) => S.of(context).totpAuthDescription,
     placeholderFunction: (context) => S.of(context).toptAuthPlaceholder,
+    // translate-me-ignore-next-line
     icon: 'cellphone-key',
   ),
   TwoFaProviderType.SMS: TwoFactorAuthProviderLoginData(
@@ -50,12 +51,14 @@ final twoFactorAuthProvidersLoginData =
     descFunction: (context, contact) =>
         S.of(context).emailAuthDescription(contact ?? ''),
     placeholderFunction: (context) => S.of(context).emailAuthPlaceholder,
+    // translate-me-ignore-next-line
     icon: 'email-outline',
   ),
   TwoFaProviderType.BACKUP_CODE: TwoFactorAuthProviderLoginData(
     nameFunction: (context) => S.of(context).mfaProviderBackupCode,
     descFunction: (context, contact) => S.of(context).backupCodeAuthDescription,
     placeholderFunction: (context) => S.of(context).backupCodeAuthPlaceholder,
+    // translate-me-ignore-next-line
     icon: 'lock-outline',
   ),
 };
@@ -496,11 +499,11 @@ class _TwoFactorAuthenticationPageState
               _disableSendButton.value = false;
             });
           } else {
-            overlayService.showErrorNotification(
-                e.message ?? 'Code verification failed!');
+            overlayService.showErrorNotification( (_) => 
+                e.message ?? S.of(context).codeVerificationFailed);
           }
         } else {
-          overlayService.showErrorNotification('Code verification failed!');
+          overlayService.showErrorNotification((_) =>  S.of(context).codeVerificationFailed);
         }
       }
     }

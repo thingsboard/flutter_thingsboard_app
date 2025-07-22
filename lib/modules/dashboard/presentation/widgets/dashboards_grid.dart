@@ -55,7 +55,7 @@ class DashboardsGridWidget extends StatelessWidget {
                 const NewPageProgressBuilder(),
             noItemsFoundIndicatorBuilder: (context) =>
                 FirstPageExceptionIndicator(
-              title: 'No dashboards found',
+              title: S.of(context).noDashboardsFound,
               message: S.of(context).listIsEmptyText,
               onTryAgain: () {
                 getIt<DashboardsPaginationRepository>()

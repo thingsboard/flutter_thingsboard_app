@@ -14,7 +14,7 @@ class FilterToggleBlockWidget<T> extends StatefulWidget {
 
   final String label;
   final List<T> items;
-  final ValueChanged<List<dynamic>> onSelectedChanged;
+  final ValueChanged<List<T>> onSelectedChanged;
   final String Function(int) labelAtIndex;
   final Set<T> selected;
   final bool multiselect;

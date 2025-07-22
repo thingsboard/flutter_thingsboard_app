@@ -9,6 +9,7 @@ class UnknownAction extends MobileAction {
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
       List args, InAppWebViewController controller,) async{
     return WidgetMobileActionResult.errorResult(
+      // translate-me-ignore-next-line
       'Unknown actionType: ${args[0]}',
     );
     

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
@@ -47,7 +48,7 @@ class BleDevicesEmptyView extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Open app settings',
+                S.of(context).openAppSettings,
                 style: TbTextStyles.labelMedium.copyWith(color: Colors.white),
               ),
               onPressed: () => openAppSettings(),

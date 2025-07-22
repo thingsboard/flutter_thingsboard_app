@@ -13,34 +13,8 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
-const entityTypeTranslations = <EntityType, String>{
-  EntityType.TENANT: 'Tenant',
-  EntityType.TENANT_PROFILE: 'Tenant profile',
-  EntityType.CUSTOMER: 'Customer',
-  EntityType.USER: 'User',
-  EntityType.DASHBOARD: 'Dashboard',
-  EntityType.ASSET: 'Asset',
-  EntityType.DEVICE: 'Device',
-  EntityType.DEVICE_PROFILE: 'Device profile',
-  EntityType.ASSET_PROFILE: 'Asset profile',
-  EntityType.ALARM: 'Alarm',
-  EntityType.RULE_CHAIN: 'Rule chain',
-  EntityType.RULE_NODE: 'Rule node',
-  EntityType.EDGE: 'Edge',
-  EntityType.ENTITY_VIEW: 'Entity view',
-  EntityType.WIDGETS_BUNDLE: 'Widgets bundle',
-  EntityType.WIDGET_TYPE: 'Widget type',
-  EntityType.API_USAGE_STATE: 'Api Usage State',
-  EntityType.TB_RESOURCE: 'Resource',
-  EntityType.OTA_PACKAGE: 'OTA package',
-  EntityType.RPC: 'RPC',
-  EntityType.QUEUE: 'Queue',
-  EntityType.NOTIFICATION_TARGET: 'Notification target',
-  EntityType.NOTIFICATION_TEMPLATE: 'Notification template',
-  EntityType.NOTIFICATION_REQUEST: 'Notification request',
-  EntityType.NOTIFICATION: 'Notification',
-  EntityType.NOTIFICATION_RULE: 'Notification rule',
-};
+
+
 
 typedef EntityTapFunction<T> = Function(T entity);
 typedef EntityCardWidgetBuilder<T> =
@@ -228,9 +202,9 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
   @override
   Widget? buildHeading(BuildContext context) =>
       searchMode
-          ? const Text(
-            'Search results',
-            style: TextStyle(
+          ? Text(
+            S.of(context).searchResults,
+            style: const TextStyle(
               color: Color(0xFFAFAFAF),
               fontSize: 16,
               height: 24 / 16,

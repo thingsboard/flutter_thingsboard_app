@@ -144,9 +144,11 @@ class NotificationService {
 
     const androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'general',
+      // translate-me-ignore-next-line
       'General notifications',
       importance: Importance.max,
       priority: Priority.high,
+      // translate-me-ignore-next-line
       channelDescription: 'This channel is used for general notifications',
       showWhen: false,
     );

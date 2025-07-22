@@ -7,6 +7,7 @@ import 'package:thingsboard_app/modules/notification/usecase/handle_notification
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {
@@ -49,7 +50,7 @@ class NotificationWidget extends StatelessWidget {
               notification.info?.alarmSeverity != null
                   ? Border.all(
                     color:
-                        alarmSeverityColors[notification.info?.alarmSeverity]!,
+                       notification.info?.alarmSeverity?.toColor() ?? Colors.transparent,
                   )
                   : null,
           borderRadius: BorderRadius.circular(5),
@@ -131,16 +132,16 @@ class NotificationWidget extends StatelessWidget {
                       visible: severity != null,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmSeverityColors[severity]?.withValues(
+                          color: severity?.toColor().withValues(
                             alpha: 0.1,
                           ),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          alarmSeverityTranslations[severity] ?? '',
+                         severity?.getTranslatedAlarmSeverity(context) ?? '',
                           style: TextStyle(
-                            color: alarmSeverityColors[AlarmSeverity.CRITICAL],
+                            color: AlarmSeverity.CRITICAL.toColor(),
                             fontWeight: FontWeight.w600,
                           ),
                         ),

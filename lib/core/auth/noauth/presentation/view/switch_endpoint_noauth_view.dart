@@ -7,6 +7,7 @@ import 'package:thingsboard_app/core/auth/noauth/di/noauth_di.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loading_widget.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 
 class SwitchEndpointNoAuthView extends TbPageWidget {
@@ -117,7 +118,7 @@ class _SwitchEndpointNoAuthViewState
                           const SizedBox(height: 10),
                           Text(
                             state.message ??
-                                'Something went wrong ... Rollback',
+                                S.of(context).somethingWentWrongRollback,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme

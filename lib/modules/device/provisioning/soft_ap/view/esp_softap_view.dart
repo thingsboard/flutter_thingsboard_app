@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/di/esp_softap_di.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/view/esp_softap_error_view.dart';
@@ -59,17 +60,17 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                   () {
                     switch (state) {
                       case EspSoftAppLoadingState():
-                        return 'Connecting to device';
+                        return S.of(context).connectingToDevice;
                       case EspManuallyConnectToDeviceNetworkState():
-                        return 'Connect to device';
+                        return S.of(context).connectToDevice;
                       case EspSoftApWiFiListState():
-                        return 'Select Wi-Fi network';
+                        return S.of(context).selectWifiNetwork;
                       case EspSoftApProvisioningInProgressState():
-                        return 'Device provisioning';
+                        return S.of(context).deviceProvisioning;
                       case EspSoftApConnectionErrorState():
-                        return 'Unable connect to device';
+                        return S.of(context).unableConnectToDevice;
                       case EspSoftApWifiNetworksNotFoundState():
-                        return 'Device not able to find Wi-Fi nearby';
+                        return S.of(context).deviceNotAbleToFindWifiNearby;
                       default:
                         return '';
                     }
@@ -141,9 +142,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                             ),
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message:
-                            'Connection to the ${widget.name} Wi-Fi network failed.\n'
-                            'Please ensure that your phone is connected to the device Wi-Fi network '
-                            'and that Local Network access is enabled for this app in your device settings.',
+                            S.of(context).connectionToTheWifiNetworkFailednpleaseEnsureThatYour(widget.name),
                       );
 
                     case EspSoftApWifiNetworksNotFoundState():
@@ -151,8 +150,7 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                         onTryAgain: () {},
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message:
-                            'Unable connect to Wi-Fi because networks '
-                            "wasn't found by device ${widget.name}",
+                            S.of(context).unableConnectToWifiBecauseNetworksWasntFoundByDevice(widget.name),
                       );
 
                     case EspSoftApProvisioningDoneState():

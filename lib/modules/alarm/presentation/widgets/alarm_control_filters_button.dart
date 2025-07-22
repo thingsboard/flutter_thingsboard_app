@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 
 class AlarmControlFiltersButton extends StatelessWidget {
   const AlarmControlFiltersButton({
@@ -26,9 +27,9 @@ class AlarmControlFiltersButton extends StatelessWidget {
               ),
             ),
           ),
-          child: const Text(
-            'Reset',
-            style: TextStyle(
+          child:  Text(
+            S.of(context).reset,
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),
@@ -45,9 +46,9 @@ class AlarmControlFiltersButton extends StatelessWidget {
               ),
             ),
           ),
-          child: const Text(
-            'Cancel',
-            style: TextStyle(
+          child:  Text(
+            S.of(context).cancel,
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),
@@ -70,9 +71,9 @@ class AlarmControlFiltersButton extends StatelessWidget {
               ),
             ),
           ),
-          child: const Text(
-            'Update',
-            style: TextStyle(
+          child:  Text(
+            S.of(context).update,
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),

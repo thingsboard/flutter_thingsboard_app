@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 
 abstract interface class IOverlayService {
   void hideNotification();
-  void showNotification(
-    String message,
-    NotificationType type, {
+
+  Future<bool?> showAlertDialog({
+      required TranslatedDialogBuilder content
+  });
+  Future<bool?> showConfirmDialog({
+    required TranslatedDialogBuilder content
+  });
+    void showErrorNotification(
+    TranslationBuilder tranlatedMessage, {
     Duration? duration,
   });
-  void showErrorNotification(
-    String message, {
+  void showInfoNotification(TranslationBuilder message, {Duration? duration});
+  void showWarnNotification(TranslationBuilder message, {Duration? duration});
+  void showSuccessNotification(
+    TranslationBuilder message, {
     Duration? duration,
   });
-  Future<bool?> showAlertDialog(
-      {required String title,
-      required String message,
-      String ok = 'Ok',
-      BuildContext? context});
-  Future<bool?> showConfirmDialog(
-      {required String title,
-      required String message,
-      String cancel = 'Cancel',
-      String ok = 'Ok',
-      BuildContext? context});
-  void showInfoNotification(String message, {Duration? duration});
-  void showWarnNotification(String message, {Duration? duration});
-  void showSuccessNotification(String message, {Duration? duration});
+}
+
+
+class DialogContent {
+  DialogContent({
+    required this.title,
+    required this.message,
+    required this.ok,
+     this.cancel,
+  });
+  final String title;
+  final String message;
+  final String ok;
+  final String? cancel;
 }

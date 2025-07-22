@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:jovial_svg/jovial_svg.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -23,7 +24,7 @@ abstract class Utils {
 static  Future<bool> onWebViewLinkPressed(String link) async {
     final LaunchResult result = await UrlAction.tryLaunch(link);
     if (!result.launched) {
-      getIt<IOverlayService>().showErrorNotification("Can't launch url: $link");
+      getIt<IOverlayService>().showErrorNotification((context) => S.of(context).cantLaunchUrlLink(link));
     }
     return true;
   }

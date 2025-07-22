@@ -43,6 +43,7 @@ class _AssetsPageState extends TbContextState<AssetsPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
+              // translate-me-ignore-next-line
               getIt<ThingsboardAppRouter>().navigateTo('/assets?search=true');
             },
           ),

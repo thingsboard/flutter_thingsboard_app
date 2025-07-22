@@ -66,15 +66,15 @@ class _EspBleProvisioningViewState
                   () {
                     switch (state) {
                       case EspBleLoadingState():
-                        return 'Connecting to device';
+                        return S.of(context).connectingToDevice;
                       case EspBleNetworksState():
-                        return 'Select Wi-Fi network';
+                        return S.of(context).selectWifiNetwork;
                       case EspBleProvisioningInProgressState():
-                        return 'Device provisioning';
+                        return S.of(context).deviceProvisioning;
                       case EspBlePermissionsMissing():
-                        return 'Permissions';
+                        return S.of(context).permissions;
                       case EspEstablishSessionError():
-                        return 'Something went wrong';
+                        return S.of(context).somethingWentWrong;
                       default:
                         return '';
                     }

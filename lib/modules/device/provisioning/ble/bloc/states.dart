@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/modules/device/provisioning/models/provisioning_permission_type.dart';
 
 sealed class EspBleProvisioningState extends Equatable {
   const EspBleProvisioningState();
@@ -18,7 +19,7 @@ final class EspBlePermissionsMissing extends EspBleProvisioningState {
   });
 
   final bool openAppSettings;
-  final String permissions;
+  final ProvisioningPermissionsType permissions;
 
   @override
   List<Object?> get props => [openAppSettings, permissions];

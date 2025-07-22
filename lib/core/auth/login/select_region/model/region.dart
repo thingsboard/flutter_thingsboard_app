@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:thingsboard_app/constants/hive_type_adapter_ids.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 
 part 'region.g.dart';
 
@@ -10,16 +12,17 @@ enum Region {
   @HiveField(1)
   europe,
   @HiveField(2)
-  custom
+  custom,
 }
 
 extension RegionToString on Region {
-  String regionToString() {
+  String regionToString(BuildContext context) {
     switch (this) {
       case Region.northAmerica:
-        return 'North America';
+        return S.of(context).northAmerica;
+   
       case Region.europe:
-        return 'Europe';
+        return S.of(context).europe;
       case Region.custom:
         return 'Regions';
     }

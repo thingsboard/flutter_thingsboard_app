@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:thingsboard_app/generated/intl/messages_all.dart';
+import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -65,14 +64,16 @@ class S {
     return Intl.message('Home', name: 'home', desc: '', args: []);
   }
 
-  /// `Alarms`
-  String get alarms {
-    return Intl.message('Alarms', name: 'alarms', desc: '', args: []);
-  }
-
-  /// `Devices`
-  String get devices {
-    return Intl.message('Devices', name: 'devices', desc: '', args: []);
+  /// `{count, plural, =1{Device} other{Devices}}`
+  String devices(int count) {
+    return Intl.plural(
+      count,
+      one: 'Device',
+      other: 'Devices',
+      name: 'devices',
+      desc: '',
+      args: [count],
+    );
   }
 
   /// `More`
@@ -1290,24 +1291,21 @@ class S {
     );
   }
 
-  /// `Notifications`
-  String get notifications {
-    return Intl.message(
-      'Notifications',
-      name: 'notifications',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Device list`
   String get deviceList {
     return Intl.message('Device list', name: 'deviceList', desc: '', args: []);
   }
 
-  /// `Dashboards`
-  String get dashboards {
-    return Intl.message('Dashboards', name: 'dashboards', desc: '', args: []);
+  /// `{count, plural, =1{Dashboard} other{Dashboards}}`
+  String dashboards(int count) {
+    return Intl.plural(
+      count,
+      one: 'Dashboard',
+      other: 'Dashboards',
+      name: 'dashboards',
+      desc: '',
+      args: [count],
+    );
   }
 
   /// `Update required`
@@ -1572,6 +1570,1084 @@ class S {
       name: 'routeNotDefined',
       desc: '',
       args: [name],
+    );
+  }
+
+  /// `Login with`
+  String get loginWith {
+    return Intl.message('Login with', name: 'loginWith', desc: '', args: []);
+  }
+
+  /// `Scan QR code`
+  String get scanQrCode {
+    return Intl.message('Scan QR code', name: 'scanQrCode', desc: '', args: []);
+  }
+
+  /// `An empty request data received.`
+  String get anEmptyRequestDataReceived {
+    return Intl.message(
+      'An empty request data received.',
+      name: 'anEmptyRequestDataReceived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong ... Rollback`
+  String get somethingWentWrongRollback {
+    return Intl.message(
+      'Something went wrong ... Rollback',
+      name: 'somethingWentWrongRollback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search results`
+  String get searchResults {
+    return Intl.message(
+      'Search results',
+      name: 'searchResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View all`
+  String get viewAll {
+    return Intl.message('View all', name: 'viewAll', desc: '', args: []);
+  }
+
+  /// `Requested entity does not exists.`
+  String get requestedEntityDoesNotExists {
+    return Intl.message(
+      'Requested entity does not exists.',
+      name: 'requestedEntityDoesNotExists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No alarms found`
+  String get noAlarmsFound {
+    return Intl.message(
+      'No alarms found',
+      name: 'noAlarmsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filters`
+  String get filters {
+    return Intl.message('Filters', name: 'filters', desc: '', args: []);
+  }
+
+  /// `Alarm status list`
+  String get alarmStatusList {
+    return Intl.message(
+      'Alarm status list',
+      name: 'alarmStatusList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm severity list`
+  String get alarmSeverityList {
+    return Intl.message(
+      'Alarm severity list',
+      name: 'alarmSeverityList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cleared`
+  String get cleared {
+    return Intl.message('Cleared', name: 'cleared', desc: '', args: []);
+  }
+
+  /// `Acknowledged`
+  String get acknowledged {
+    return Intl.message(
+      'Acknowledged',
+      name: 'acknowledged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unacknowledged`
+  String get unacknowledged {
+    return Intl.message(
+      'Unacknowledged',
+      name: 'unacknowledged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Critical`
+  String get critical {
+    return Intl.message('Critical', name: 'critical', desc: '', args: []);
+  }
+
+  /// `Major`
+  String get major {
+    return Intl.message('Major', name: 'major', desc: '', args: []);
+  }
+
+  /// `Minor`
+  String get minor {
+    return Intl.message('Minor', name: 'minor', desc: '', args: []);
+  }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message('Warning', name: 'warning', desc: '', args: []);
+  }
+
+  /// `Indeterminate`
+  String get indeterminate {
+    return Intl.message(
+      'Indeterminate',
+      name: 'indeterminate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =1{Search user} other{Search users}}`
+  String searchUsers(int count) {
+    return Intl.plural(
+      count,
+      one: 'Search user',
+      other: 'Search users',
+      name: 'searchUsers',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Reset`
+  String get reset {
+    return Intl.message('Reset', name: 'reset', desc: '', args: []);
+  }
+
+  /// `Update`
+  String get update {
+    return Intl.message('Update', name: 'update', desc: '', args: []);
+  }
+
+  /// `Alarm type list`
+  String get alarmTypeList {
+    return Intl.message(
+      'Alarm type list',
+      name: 'alarmTypeList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Any type`
+  String get anyType {
+    return Intl.message('Any type', name: 'anyType', desc: '', args: []);
+  }
+
+  /// `+ Alarm type`
+  String get plusAlarmType {
+    return Intl.message(
+      '+ Alarm type',
+      name: 'plusAlarmType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message('All', name: 'all', desc: '', args: []);
+  }
+
+  /// `Unread`
+  String get unread {
+    return Intl.message('Unread', name: 'unread', desc: '', args: []);
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message('Close', name: 'close', desc: '', args: []);
+  }
+
+  /// `Code verification failed!`
+  String get codeVerificationFailed {
+    return Intl.message(
+      'Code verification failed!',
+      name: 'codeVerificationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fatal error`
+  String get fatalError {
+    return Intl.message('Fatal error', name: 'fatalError', desc: '', args: []);
+  }
+
+  /// `Unknown error.`
+  String get unknownError {
+    return Intl.message(
+      'Unknown error.',
+      name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fatal application error occurred:`
+  String get fatalApplicationErrorOccurred {
+    return Intl.message(
+      'Fatal application error occurred:',
+      name: 'fatalApplicationErrorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection error`
+  String get connectionError {
+    return Intl.message(
+      'Connection error',
+      name: 'connectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to connect to server`
+  String get failedToConnectToServer {
+    return Intl.message(
+      'Failed to connect to server',
+      name: 'failedToConnectToServer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retry {
+    return Intl.message('Retry', name: 'retry', desc: '', args: []);
+  }
+
+  /// `Mobile dashboard should be configured in device profile!`
+  String get mobileDashboardShouldBeConfiguredInDeviceProfile {
+    return Intl.message(
+      'Mobile dashboard should be configured in device profile!',
+      name: 'mobileDashboardShouldBeConfiguredInDeviceProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Wi-Fi settings`
+  String get openWifiSettings {
+    return Intl.message(
+      'Open Wi-Fi settings',
+      name: 'openWifiSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect to the Wi-Fi you usually use`
+  String get connectToTheWifiYouUsuallyUse {
+    return Intl.message(
+      'Connect to the Wi-Fi you usually use',
+      name: 'connectToTheWifiYouUsuallyUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Return to the app and tap Ready button`
+  String get returnToTheAppAndTapReadyButton {
+    return Intl.message(
+      'Return to the app and tap Ready button',
+      name: 'returnToTheAppAndTapReadyButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please follow the next steps to reconnect\nyour phone to your regular Wi-Fi`
+  String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour {
+    return Intl.message(
+      'Please follow the next steps to reconnect\nyour phone to your regular Wi-Fi',
+      name: 'pleaseFollowTheNextStepsToReconnectnyourPhoneToYour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Push notifications are not configured.\nPlease contact your system administrator.`
+  String
+  get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator {
+    return Intl.message(
+      'Push notifications are not configured.\nPlease contact your system administrator.',
+      name:
+          'pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Firebase is not configured.\n Please refer to the official Firebase documentation for\n guidance on how to do so.`
+  String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase {
+    return Intl.message(
+      'Firebase is not configured.\n Please refer to the official Firebase documentation for\n guidance on how to do so.',
+      name: 'firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark all as read`
+  String get markAllAsRead {
+    return Intl.message(
+      'Mark all as read',
+      name: 'markAllAsRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
+  }
+
+  /// `Can't launch url: {link}`
+  String cantLaunchUrlLink(String link) {
+    return Intl.message(
+      'Can\'t launch url: $link',
+      name: 'cantLaunchUrlLink',
+      desc: '',
+      args: [link],
+    );
+  }
+
+  /// `No dashboards found`
+  String get noDashboardsFound {
+    return Intl.message(
+      'No dashboards found',
+      name: 'noDashboardsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open app settings`
+  String get openAppSettings {
+    return Intl.message(
+      'Open app settings',
+      name: 'openAppSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connecting to device`
+  String get connectingToDevice {
+    return Intl.message(
+      'Connecting to device',
+      name: 'connectingToDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect to device`
+  String get connectToDevice {
+    return Intl.message(
+      'Connect to device',
+      name: 'connectToDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Wi-Fi network`
+  String get selectWifiNetwork {
+    return Intl.message(
+      'Select Wi-Fi network',
+      name: 'selectWifiNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device provisioning`
+  String get deviceProvisioning {
+    return Intl.message(
+      'Device provisioning',
+      name: 'deviceProvisioning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permissions`
+  String get permissions {
+    return Intl.message('Permissions', name: 'permissions', desc: '', args: []);
+  }
+
+  /// `Unable connect to device`
+  String get unableConnectToDevice {
+    return Intl.message(
+      'Unable connect to device',
+      name: 'unableConnectToDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device not able to find Wi-Fi nearby`
+  String get deviceNotAbleToFindWifiNearby {
+    return Intl.message(
+      'Device not able to find Wi-Fi nearby',
+      name: 'deviceNotAbleToFindWifiNearby',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection to the {name} Wi-Fi network failed.\nPlease ensure that your phone is connected to the device Wi-Fi network and that Local Network access is enabled for this app in your device settings.`
+  String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
+    return Intl.message(
+      'Connection to the $name Wi-Fi network failed.\nPlease ensure that your phone is connected to the device Wi-Fi network and that Local Network access is enabled for this app in your device settings.',
+      name: 'connectionToTheWifiNetworkFailednpleaseEnsureThatYour',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Unable connect to Wi-Fi because networks wasn't found by device {name}`
+  String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
+    return Intl.message(
+      'Unable connect to Wi-Fi because networks wasn\'t found by device $name',
+      name: 'unableConnectToWifiBecauseNetworksWasntFoundByDevice',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Please follow the next steps to connect your phone to device`
+  String get pleaseFollowTheNextStepsToConnectYourPhoneTo {
+    return Intl.message(
+      'Please follow the next steps to connect your phone to device',
+      name: 'pleaseFollowTheNextStepsToConnectYourPhoneTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect to Wi-Fi similar to {wifiName}`
+  String connectToWifiSimilarToWifiname(Object wifiName) {
+    return Intl.message(
+      'Connect to Wi-Fi similar to $wifiName',
+      name: 'connectToWifiSimilarToWifiname',
+      desc: '',
+      args: [wifiName],
+    );
+  }
+
+  /// `Ready`
+  String get ready {
+    return Intl.message('Ready', name: 'ready', desc: '', args: []);
+  }
+
+  /// `Exit device provisioning`
+  String get exitDeviceProvisioning {
+    return Intl.message(
+      'Exit device provisioning',
+      name: 'exitDeviceProvisioning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No notifications found`
+  String get noNotificationsFound {
+    return Intl.message(
+      'No notifications found',
+      name: 'noNotificationsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark as read`
+  String get markAsRead {
+    return Intl.message('Mark as read', name: 'markAsRead', desc: '', args: []);
+  }
+
+  /// `Url`
+  String get url {
+    return Intl.message('Url', name: 'url', desc: '', args: []);
+  }
+
+  /// `Please scan QR code on your device`
+  String get pleaseScanQrCodeOnYourDevice {
+    return Intl.message(
+      'Please scan QR code on your device',
+      name: 'pleaseScanQrCodeOnYourDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message('Search', name: 'search', desc: '', args: []);
+  }
+
+  /// `Tenant`
+  String get tenant {
+    return Intl.message('Tenant', name: 'tenant', desc: '', args: []);
+  }
+
+  /// `Tenant profile`
+  String get tenantProfile {
+    return Intl.message(
+      'Tenant profile',
+      name: 'tenantProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User`
+  String get user {
+    return Intl.message('User', name: 'user', desc: '', args: []);
+  }
+
+  /// `Asset`
+  String get asset {
+    return Intl.message('Asset', name: 'asset', desc: '', args: []);
+  }
+
+  /// `Device profile`
+  String get deviceProfile {
+    return Intl.message(
+      'Device profile',
+      name: 'deviceProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Asset profile`
+  String get assetProfile {
+    return Intl.message(
+      'Asset profile',
+      name: 'assetProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =1{Alarm} other{Alarms}}`
+  String alarms(int count) {
+    return Intl.plural(
+      count,
+      one: 'Alarm',
+      other: 'Alarms',
+      name: 'alarms',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Rule chain`
+  String get ruleChain {
+    return Intl.message('Rule chain', name: 'ruleChain', desc: '', args: []);
+  }
+
+  /// `Rule node`
+  String get ruleNode {
+    return Intl.message('Rule node', name: 'ruleNode', desc: '', args: []);
+  }
+
+  /// `Edge`
+  String get edge {
+    return Intl.message('Edge', name: 'edge', desc: '', args: []);
+  }
+
+  /// `Entity view`
+  String get entityView {
+    return Intl.message('Entity view', name: 'entityView', desc: '', args: []);
+  }
+
+  /// `Widgets bundle`
+  String get widgetsBundle {
+    return Intl.message(
+      'Widgets bundle',
+      name: 'widgetsBundle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Widget type`
+  String get widgetType {
+    return Intl.message('Widget type', name: 'widgetType', desc: '', args: []);
+  }
+
+  /// `API Usage State`
+  String get apiUsageState {
+    return Intl.message(
+      'API Usage State',
+      name: 'apiUsageState',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resource`
+  String get tbResource {
+    return Intl.message('Resource', name: 'tbResource', desc: '', args: []);
+  }
+
+  /// `OTA package`
+  String get otaPackage {
+    return Intl.message('OTA package', name: 'otaPackage', desc: '', args: []);
+  }
+
+  /// `RPC`
+  String get rpc {
+    return Intl.message('RPC', name: 'rpc', desc: '', args: []);
+  }
+
+  /// `Queue`
+  String get queue {
+    return Intl.message('Queue', name: 'queue', desc: '', args: []);
+  }
+
+  /// `Notification target`
+  String get notificationTarget {
+    return Intl.message(
+      'Notification target',
+      name: 'notificationTarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notification template`
+  String get notificationTemplate {
+    return Intl.message(
+      'Notification template',
+      name: 'notificationTemplate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notification request`
+  String get notificationRequest {
+    return Intl.message(
+      'Notification request',
+      name: 'notificationRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =1{Notification} other{Notifications}}`
+  String notifications(int count) {
+    return Intl.plural(
+      count,
+      one: 'Notification',
+      other: 'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Notification rule`
+  String get notificationRule {
+    return Intl.message(
+      'Notification rule',
+      name: 'notificationRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get actionStatusSuccess {
+    return Intl.message(
+      'Success',
+      name: 'actionStatusSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failure`
+  String get actionStatusFailure {
+    return Intl.message(
+      'Failure',
+      name: 'actionStatusFailure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added`
+  String get actionTypeAdded {
+    return Intl.message('Added', name: 'actionTypeAdded', desc: '', args: []);
+  }
+
+  /// `Deleted`
+  String get actionTypeDeleted {
+    return Intl.message(
+      'Deleted',
+      name: 'actionTypeDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated`
+  String get actionTypeUpdated {
+    return Intl.message(
+      'Updated',
+      name: 'actionTypeUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attributes Updated`
+  String get actionTypeAttributesUpdated {
+    return Intl.message(
+      'Attributes Updated',
+      name: 'actionTypeAttributesUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attributes Deleted`
+  String get actionTypeAttributesDeleted {
+    return Intl.message(
+      'Attributes Deleted',
+      name: 'actionTypeAttributesDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RPC Call`
+  String get actionTypeRpcCall {
+    return Intl.message(
+      'RPC Call',
+      name: 'actionTypeRpcCall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Credentials Updated`
+  String get actionTypeCredentialsUpdated {
+    return Intl.message(
+      'Credentials Updated',
+      name: 'actionTypeCredentialsUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assigned to Customer`
+  String get actionTypeAssignedToCustomer {
+    return Intl.message(
+      'Assigned to Customer',
+      name: 'actionTypeAssignedToCustomer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unassigned from Customer`
+  String get actionTypeUnassignedFromCustomer {
+    return Intl.message(
+      'Unassigned from Customer',
+      name: 'actionTypeUnassignedFromCustomer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activated`
+  String get actionTypeActivated {
+    return Intl.message(
+      'Activated',
+      name: 'actionTypeActivated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suspended`
+  String get actionTypeSuspended {
+    return Intl.message(
+      'Suspended',
+      name: 'actionTypeSuspended',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Credentials read`
+  String get actionTypeCredentialsRead {
+    return Intl.message(
+      'Credentials read',
+      name: 'actionTypeCredentialsRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attributes read`
+  String get actionTypeAttributesRead {
+    return Intl.message(
+      'Attributes read',
+      name: 'actionTypeAttributesRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Relation updated`
+  String get actionTypeRelationAddOrUpdate {
+    return Intl.message(
+      'Relation updated',
+      name: 'actionTypeRelationAddOrUpdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Relation deleted`
+  String get actionTypeRelationDeleted {
+    return Intl.message(
+      'Relation deleted',
+      name: 'actionTypeRelationDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All relation deleted`
+  String get actionTypeRelationsDeleted {
+    return Intl.message(
+      'All relation deleted',
+      name: 'actionTypeRelationsDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Acknowledged`
+  String get actionTypeAlarmAck {
+    return Intl.message(
+      'Acknowledged',
+      name: 'actionTypeAlarmAck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cleared`
+  String get actionTypeAlarmClear {
+    return Intl.message(
+      'Cleared',
+      name: 'actionTypeAlarmClear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm Deleted`
+  String get actionTypeAlarmDelete {
+    return Intl.message(
+      'Alarm Deleted',
+      name: 'actionTypeAlarmDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm Assigned`
+  String get actionTypeAlarmAssigned {
+    return Intl.message(
+      'Alarm Assigned',
+      name: 'actionTypeAlarmAssigned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm Unassigned`
+  String get actionTypeAlarmUnassigned {
+    return Intl.message(
+      'Alarm Unassigned',
+      name: 'actionTypeAlarmUnassigned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get actionTypeLogin {
+    return Intl.message('Login', name: 'actionTypeLogin', desc: '', args: []);
+  }
+
+  /// `Logout`
+  String get actionTypeLogout {
+    return Intl.message('Logout', name: 'actionTypeLogout', desc: '', args: []);
+  }
+
+  /// `Lockout`
+  String get actionTypeLockout {
+    return Intl.message(
+      'Lockout',
+      name: 'actionTypeLockout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assigned from Tenant`
+  String get actionTypeAssignedFromTenant {
+    return Intl.message(
+      'Assigned from Tenant',
+      name: 'actionTypeAssignedFromTenant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assigned to Tenant`
+  String get actionTypeAssignedToTenant {
+    return Intl.message(
+      'Assigned to Tenant',
+      name: 'actionTypeAssignedToTenant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device provisioned`
+  String get actionTypeProvisionSuccess {
+    return Intl.message(
+      'Device provisioned',
+      name: 'actionTypeProvisionSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device provisioning was failed`
+  String get actionTypeProvisionFailure {
+    return Intl.message(
+      'Device provisioning was failed',
+      name: 'actionTypeProvisionFailure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Telemetry updated`
+  String get actionTypeTimeseriesUpdated {
+    return Intl.message(
+      'Telemetry updated',
+      name: 'actionTypeTimeseriesUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Telemetry deleted`
+  String get actionTypeTimeseriesDeleted {
+    return Intl.message(
+      'Telemetry deleted',
+      name: 'actionTypeTimeseriesDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assigned to Edge`
+  String get actionTypeAssignedToEdge {
+    return Intl.message(
+      'Assigned to Edge',
+      name: 'actionTypeAssignedToEdge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unassigned from Edge`
+  String get actionTypeUnassignedFromEdge {
+    return Intl.message(
+      'Unassigned from Edge',
+      name: 'actionTypeUnassignedFromEdge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added Comment`
+  String get actionTypeAddedComment {
+    return Intl.message(
+      'Added Comment',
+      name: 'actionTypeAddedComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated Comment`
+  String get actionTypeUpdatedComment {
+    return Intl.message(
+      'Updated Comment',
+      name: 'actionTypeUpdatedComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted Comment`
+  String get actionTypeDeletedComment {
+    return Intl.message(
+      'Deleted Comment',
+      name: 'actionTypeDeletedComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SMS Sent`
+  String get actionTypeSmsSent {
+    return Intl.message(
+      'SMS Sent',
+      name: 'actionTypeSmsSent',
+      desc: '',
+      args: [],
     );
   }
 }

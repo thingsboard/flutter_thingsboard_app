@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class EntitiesListWidgetController {
@@ -154,7 +155,7 @@ class _EntitiesListWidgetState<T, P>
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),
-                      child: const Text('View all'),
+                      child:  Text(S.of(context).viewAll),
                     ),
                   ],
                 ),

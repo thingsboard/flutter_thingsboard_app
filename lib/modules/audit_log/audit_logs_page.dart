@@ -41,6 +41,7 @@ class _AuditLogsPageState extends TbContextState<AuditLogsPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
+              // translate-me-ignore-next-line
               getIt<ThingsboardAppRouter>().navigateTo('/auditLogs?search=true');
             },
           ),

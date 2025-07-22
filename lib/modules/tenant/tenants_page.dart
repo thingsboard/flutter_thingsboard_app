@@ -39,6 +39,7 @@ class _TenantsPageState extends TbPageState<TenantsPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
+              // translate-me-ignore-next-line
               getIt<ThingsboardAppRouter>().navigateTo('/tenants?search=true');
             },
           ),

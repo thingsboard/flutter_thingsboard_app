@@ -153,9 +153,9 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
       case Pages.home:
         return S.of(context).home;
       case Pages.alarms:
-        return S.of(context).alarms;
+        return S.of(context).alarms(2);
       case Pages.devices:
-        return S.of(context).devices;
+        return S.of(context).devices(2);
       case Pages.customers:
         return S.of(context).customers;
       case Pages.assets:
@@ -163,11 +163,11 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
       case Pages.audit_logs:
         return S.of(context).auditLogs;
       case Pages.notifications:
-        return S.of(context).notifications;
+        return S.of(context).notifications(2);
       case Pages.device_list:
         return S.of(context).deviceList;
       case Pages.dashboards:
-        return S.of(context).dashboards;
+        return S.of(context).dashboards(2);
       case Pages.undefined:
       case null:
         return pageLayout.label ?? '-';
@@ -241,6 +241,7 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   IconData getIconFromString(String? icon) {
     if (icon != null) {
       if (icon.contains('mdi')) {
+        // translate-me-ignore-next-line
         return MdiIcons.fromString(icon.split('mdi:').last) ??
             Icons.error_outline;
       }

@@ -198,7 +198,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       final String newPassword2 = formValue['newPassword2'].toString();
       if (newPassword != newPassword2) {
         overlayService
-            .showErrorNotification(S.of(context).passwordErrorNotification);
+            .showErrorNotification((_) => S.of(context).passwordErrorNotification);
       } else {
         _isLoadingNotifier.value = true;
         try {

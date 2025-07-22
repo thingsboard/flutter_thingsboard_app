@@ -39,7 +39,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
       backgroundColor: Colors.white,
       appBar: TbAppBar(
         tbContext,
-        title: const Text('Profile'),
+        title:  Text(S.of(context).profile),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -172,7 +172,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
           _isLoadingNotifier.value = false;
           if (mounted) {
             overlayService.showSuccessNotification(
-              S.of(context).profileSuccessNotification,
+            (_) =>  S.of(context).profileSuccessNotification,
               duration: const Duration(milliseconds: 1500),
             );
           }
@@ -188,7 +188,7 @@ class _ProfilePageState extends TbPageState<ProfilePage> {
         .showFullScreenDialog<bool>(ChangePasswordPage(tbContext));
     if (res == true && mounted) {
       overlayService.showSuccessNotification(
-        S.of(context).passwordSuccessNotification,
+      (_) =>   S.of(context).passwordSuccessNotification,
         duration: const Duration(milliseconds: 1500),
       );
     }

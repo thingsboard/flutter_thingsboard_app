@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
@@ -53,7 +54,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
       child: Scaffold(
         appBar: TbAppBar(
           tbContext,
-          title: const Text('Filters'),
+          title:  Text(S.of(context).filters),
           leading: BackButton(
             onPressed: () {
               _onBackButtonClick();
@@ -82,7 +83,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                             key: ValueKey(
                               filtersService.getSelectedFilter(Filters.status),
                             ),
-                            label: 'Alarm status list',
+                            label: S.of(context).alarmStatusList,
                             items: filtersService.statuses,
                             selected: filtersService
                                 .getSelectedFilter(Filters.status),
@@ -97,7 +98,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                               });
                             },
                             labelAtIndex: (index) =>
-                                filtersService.statuses[index].label,
+                                filtersService.statuses[index].getLocalizedLabel(context),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
@@ -106,14 +107,14 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                                 filtersService
                                     .getSelectedFilter(Filters.severity),
                               ),
-                              label: 'Alarm severity list',
+                              label: S.of(context).alarmSeverityList,
                               items: filtersService.severities,
                               selected: filtersService
                                   .getSelectedFilter(Filters.severity),
                               onSelectedChanged: (values) {
                                 filtersService.setSelectedFilter(
                                   Filters.severity,
-                                  data: values.cast<FilterDataEntity>(),
+                                  data: values,
                                 );
 
                                 setState(() {
@@ -121,7 +122,7 @@ class _AlarmsFilterPageState extends TbContextState<AlarmsFilterPage> {
                                 });
                               },
                               labelAtIndex: (index) =>
-                                  filtersService.severities[index].label,
+                                  filtersService.severities[index].getLocalizedLabel(context),
                             ),
                           ),
                           AlarmTypesWidget(
