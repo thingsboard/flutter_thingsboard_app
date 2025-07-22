@@ -353,5 +353,6 @@
   "actionTypeAddedComment": "Added Comment",
   "actionTypeUpdatedComment": "Updated Comment",
   "actionTypeDeletedComment": "Deleted Comment",
-  "actionTypeSmsSent": "SMS Sent"
+  "actionTypeSmsSent": "SMS Sent",
+  "isRequiredText": "is required."
 }

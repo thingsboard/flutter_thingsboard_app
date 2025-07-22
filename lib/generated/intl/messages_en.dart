@@ -381,6 +381,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidPasswordLengthMessage": MessageLookupByLibrary.simpleMessage(
       "Your password must be at least 6 characters long",
     ),
+    "isRequiredText": MessageLookupByLibrary.simpleMessage("is required."),
     "label": MessageLookupByLibrary.simpleMessage("Label"),
     "lastName": MessageLookupByLibrary.simpleMessage("Last name"),
     "lastNameRequireText": MessageLookupByLibrary.simpleMessage(

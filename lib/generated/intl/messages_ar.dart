@@ -383,6 +383,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidPasswordLengthMessage": MessageLookupByLibrary.simpleMessage(
       "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
     ),
+    "isRequiredText": MessageLookupByLibrary.simpleMessage("is required."),
     "label": MessageLookupByLibrary.simpleMessage("التسمية"),
     "lastName": MessageLookupByLibrary.simpleMessage("الاسم الأخير"),
     "lastNameRequireText": MessageLookupByLibrary.simpleMessage(

@@ -336,6 +336,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidPasswordLengthMessage": MessageLookupByLibrary.simpleMessage(
       "密码长度至少为6个字符",
     ),
+    "isRequiredText": MessageLookupByLibrary.simpleMessage("is required."),
     "label": MessageLookupByLibrary.simpleMessage("标签"),
     "lastName": MessageLookupByLibrary.simpleMessage("姓"),
     "lastNameRequireText": MessageLookupByLibrary.simpleMessage("姓是必填项"),
