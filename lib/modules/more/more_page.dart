@@ -12,7 +12,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:thingsboard_app/utils/ui/widget_list_separator.dart';
+
 
 class MorePage extends TbContextWidget {
   MorePage(super.tbContext, {super.key});
@@ -104,7 +104,7 @@ class _MorePageState extends TbContextState<MorePage> {
             )
             .toList();
     return SingleChildScrollView(
-      child: Column(children: widgets.separateWith(16)),
+      child: Column(spacing: 16 ,children: widgets),
     );
   }
 

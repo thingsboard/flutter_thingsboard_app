@@ -7,12 +7,12 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/config/themes/app_typography.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_error_widget.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_overlay_widget.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 Size getCameraSize(Size mediaQuerySize) {
   final scanArea = (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
@@ -110,7 +110,7 @@ class QrCodeScannerPage extends HookWidget {
               iconTheme: const IconThemeData(color: AppColors.textWhite),
               elevation: 0,
               title: Text(S.of(context).scanACode,
-                  style: AppTypography.titleXs
+                  style: TbTextStyles.titleXs
                       .copyWith(color: AppColors.textWhite)),
               actions: <Widget>[
                 IconButton(
@@ -177,7 +177,7 @@ class QrCodeScannerPage extends HookWidget {
                       ),
                       child: Text(
                         S.of(context).allowAccess,
-                        style: AppTypography.labelLarge.copyWith(height: 1),
+                        style: TbTextStyles.labelLarge.copyWith(height: 1),
                       )),
                 ),
               ),

@@ -3,7 +3,7 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.7.0+4
+version: 1.7.0+5
 
 environment:
   sdk: ^3.7.0
@@ -81,6 +81,7 @@ dependencies:
       url: https://github.com/thingsboard/esp_provisioning_softap
   flutter_slidable: ^4.0.0
   flutter_native_splash: ^2.4.4
+  super_tooltip: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +95,7 @@ dev_dependencies:
   lint: 2.8.0
   json_serializable: ^6.9.5
   freezed: ^3.1.0
+  flutter_gen: ^5.11.0
 dependency_overrides:
   logger: ^2.5.0
   http: ^1.3.0
@@ -104,10 +106,21 @@ flutter:
   assets:
     - assets/images/
 
-flutter_icons:
+flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/thingsboard.png"
+  image_path: "assets/branding/logo.png"
 flutter_intl:
   enabled: true
+flutter_gen:
+  output: lib/generated 
+  integrations:
+    image: true
+    flutter_svg: true
+    rive: true
+    lottie: true
+
+  colors:
+    inputs:
+      - assets/color/colors.xml

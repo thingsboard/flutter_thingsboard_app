@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/config/themes/app_typography.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scan_area_clipper.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class ScannerOverlayWidget extends StatelessWidget {
@@ -62,7 +62,7 @@ class ScannerOverlayWidget extends StatelessWidget {
           child: Text(
             S.of(context).pleaseScanQrCodeOnYourDevice,
             style:
-                AppTypography.bodyLarge.copyWith(color: AppColors.textWhite),
+                TbTextStyles.bodyLarge.copyWith(color: AppColors.textWhite),
           ),
         )),
       ],

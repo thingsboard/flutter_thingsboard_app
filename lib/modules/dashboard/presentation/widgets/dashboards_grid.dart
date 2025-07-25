@@ -29,40 +29,42 @@ class DashboardsGridWidget extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         getIt<DashboardsPaginationRepository>().refresh();
+       await  dashboardPageCtrl.dashboardController.future.then(
+          (v) async => await v.controller?.reload(),
+        );
       },
       child: SafeArea(
         child: PaginationGridWidget<PageLink, DashboardInfo>(
           pagingController:
               getIt<DashboardsPaginationRepository>().pagingController,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, item, index) => EntityGridCard(
-              item,
-              entityCardWidgetBuilder: (_, dashboard) => DashboardGridCard(
-                tbContext,
-                dashboard: dashboard,
-              ),
-              onEntityTap: (dashboard) {
-                dashboardPageCtrl.openDashboard(
-                  dashboard.id!.id!,
-                  title: dashboard.title,
-                );
-              },
-              settings: EntityCardSettings(),
-            ),
-            firstPageProgressIndicatorBuilder: (_) =>
-                const FirstPageProgressBuilder(),
-            newPageProgressIndicatorBuilder: (_) =>
-                const NewPageProgressBuilder(),
-            noItemsFoundIndicatorBuilder: (context) =>
-                FirstPageExceptionIndicator(
-              title: S.of(context).noDashboardsFound,
-              message: S.of(context).listIsEmptyText,
-              onTryAgain: () {
-                getIt<DashboardsPaginationRepository>()
-                    .pagingController
-                    .refresh();
-              },
-            ),
+            itemBuilder:
+                (context, item, index) => EntityGridCard(
+                  item,
+                  entityCardWidgetBuilder:
+                      (_, dashboard) =>
+                          DashboardGridCard(tbContext, dashboard: dashboard),
+                  onEntityTap: (dashboard) {
+                    dashboardPageCtrl.openDashboard(
+                      dashboard.id!.id!,
+                      title: dashboard.title,
+                    );
+                  },
+                  settings: EntityCardSettings(),
+                ),
+            firstPageProgressIndicatorBuilder:
+                (_) => const FirstPageProgressBuilder(),
+            newPageProgressIndicatorBuilder:
+                (_) => const NewPageProgressBuilder(),
+            noItemsFoundIndicatorBuilder:
+                (context) => FirstPageExceptionIndicator(
+                  title: S.of(context).noDashboardsFound,
+                  message: S.of(context).listIsEmptyText,
+                  onTryAgain: () {
+                    getIt<DashboardsPaginationRepository>().pagingController
+                        .refresh();
+                  },
+                ),
           ),
         ),
       ),

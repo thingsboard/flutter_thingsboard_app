@@ -7,4 +7,5 @@ class AppColors {
   static const iconSecondary = Color(0xC2000000);
   static const textWhite = Color(0xFFFFFFFF);
   static const textTertiary = Color(0x8A000000);
+  static const black = Color(0xFF000000);
 }

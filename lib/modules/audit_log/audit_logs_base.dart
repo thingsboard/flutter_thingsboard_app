@@ -88,14 +88,15 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                           children: [
                             const SizedBox(height: 12),
                             Row(
+                              spacing: 8,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Flexible(
-                                  fit: FlexFit.tight,
-                                  child: AutoSizeText(
+                                Expanded(
+                                 
+                                  child: Text(
                                     widget.auditLog.entityName ?? '',
                                     maxLines: 2,
-                                    minFontSize: 8,
+                                   // minFontSize: 8,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Color(0xFF282828),

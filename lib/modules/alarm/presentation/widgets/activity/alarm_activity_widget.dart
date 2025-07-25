@@ -14,9 +14,9 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/activity/alar
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_filter_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/ui/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
+import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmActivityWidget extends StatefulWidget {

@@ -8,10 +8,10 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_card.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/ui/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
+import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_list_widget.dart';
 
 class AlarmsList extends StatelessWidget {
   const AlarmsList({required this.tbContext, super.key});
