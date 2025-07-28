@@ -12,7 +12,7 @@ class DevicesPage extends TbPageWidget {
 }
 
 class _DevicesPageState extends TbPageState<DevicesPage> {
-  final PageLinkController _pageLinkController = PageLinkController();
+  final PageLinkController _pageLinkController = PageLinkController(pageSize: 10);
 
   @override
   Widget build(BuildContext context) {

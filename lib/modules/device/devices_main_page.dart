@@ -13,7 +13,7 @@ class DevicesMainPage extends TbContextWidget {
 
 class _DevicesMainPageState extends TbContextState<DevicesMainPage>
     with AutomaticKeepAliveClientMixin<DevicesMainPage> {
-  final PageLinkController _pageLinkController = PageLinkController();
+  final PageLinkController _pageLinkController = PageLinkController(pageSize: 10);
 
   @override
   bool get wantKeepAlive {

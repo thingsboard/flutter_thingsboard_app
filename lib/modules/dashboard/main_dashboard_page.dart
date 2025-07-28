@@ -5,6 +5,7 @@ import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashbo
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class MainDashboardPage extends TbContextWidget {
@@ -58,7 +59,7 @@ class _MainDashboardPageState extends TbContextState<MainDashboardPage>
             ),
             elevation: 1,
             shadowColor: Colors.transparent,
-            title: Text(title),
+            title: Text(title, style: TbTextStyles.titleXs,),
             actions: [
               ValueListenableBuilder<bool>(
                 valueListenable: hasRightLayout,
