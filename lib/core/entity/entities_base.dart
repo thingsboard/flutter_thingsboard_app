@@ -13,9 +13,6 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
-
-
-
 typedef EntityTapFunction<T> = Function(T entity);
 typedef EntityCardWidgetBuilder<T> =
     Widget Function(BuildContext context, T entity);
@@ -32,7 +29,7 @@ mixin EntitiesBase<T, P> on HasTbContext {
 
   String get noItemsFoundText;
 
-  Future<PageData<T>> fetchEntities(P pageKey);
+  Future<PageData<T>> fetchEntities(P pageKey, {bool refresh = false});
 
   Future<void> onRefresh() => Future.value();
 
@@ -281,7 +278,7 @@ abstract class BaseEntitiesState<T, P>
       _dataLoading = true;
       try {
         overlayService.hideNotification();
-        final pageData = await widget.fetchEntities(pageKey);
+        final pageData = await widget.fetchEntities(pageKey, refresh: refresh);
         final isLastPage = !pageData.hasNext;
         if (refresh) {
           final state = pagingController.value;

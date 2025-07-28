@@ -11,7 +11,7 @@ mixin TenantsBase on EntitiesBase<Tenant, PageLink> {
   String get noItemsFoundText => 'No tenants found';
 
   @override
-  Future<PageData<Tenant>> fetchEntities(PageLink pageLink) {
+  Future<PageData<Tenant>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
     return tbClient.getTenantService().getTenants(pageLink);
   }
 

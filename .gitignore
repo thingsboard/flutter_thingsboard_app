@@ -44,6 +44,6 @@ app_constants.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
+/android/app/.cxx
 # FVM Version Cache
 .fvm/

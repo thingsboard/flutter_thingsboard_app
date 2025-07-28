@@ -11,7 +11,7 @@ mixin CustomersBase on EntitiesBase<Customer, PageLink> {
   String get noItemsFoundText => 'No customers found';
 
   @override
-  Future<PageData<Customer>> fetchEntities(PageLink pageLink) {
+  Future<PageData<Customer>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
     return tbClient.getCustomerService().getCustomers(pageLink);
   }
 

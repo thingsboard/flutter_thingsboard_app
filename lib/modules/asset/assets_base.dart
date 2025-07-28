@@ -12,7 +12,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
   String get noItemsFoundText => 'No assets found';
 
   @override
-  Future<PageData<AssetInfo>> fetchEntities(PageLink pageLink) {
+  Future<PageData<AssetInfo>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
     if (tbClient.isTenantAdmin()) {
       return tbClient.getAssetService().getTenantAssetInfos(pageLink);
     } else {

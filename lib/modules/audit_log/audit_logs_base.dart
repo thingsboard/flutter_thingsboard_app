@@ -14,7 +14,7 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   String get noItemsFoundText => 'No audit logs found';
 
   @override
-  Future<PageData<AuditLog>> fetchEntities(TimePageLink pageLink) {
+  Future<PageData<AuditLog>> fetchEntities(TimePageLink pageLink, {bool refresh = false}) {
     return tbClient.getAuditLogService().getAuditLogs(pageLink);
   }
 

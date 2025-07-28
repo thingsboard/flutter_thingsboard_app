@@ -14,7 +14,7 @@ class LayoutService implements ILayoutService {
   late Size deviceScreenSize;
   late List<TbMainNavigationItem> bottomBarItems;
   late TbMainNavigationItem more;
-  late List<PageLayout> pagesLayout;
+   List<PageLayout> pagesLayout = [];
 
   @override
   List<TbMainNavigationItem> getBottomBarItems() {

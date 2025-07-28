@@ -11,6 +11,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';
+import 'package:thingsboard_app/utils/services/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
@@ -24,8 +25,8 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   String get noItemsFoundText => 'No devices found';
 
   @override
-  Future<PageData<DeviceProfileInfo>> fetchEntities(PageLink pageLink) {
-    return DeviceProfileCache.getDeviceProfileInfos(tbClient, pageLink);
+  Future<PageData<DeviceProfileInfo>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
+    return DeviceProfileCache.getDeviceProfileInfos(tbClient, pageLink, invalidateCache: refresh);
   }
 
   @override
@@ -105,12 +106,18 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
   Future<void> _countDevices() {
     _activeDevicesCount.add(null);
     _inactiveDevicesCount.add(null);
-    final Future<int> activeDevicesCount =
-        EntityQueryApi.countDevices(tbClient, active: true);
-    final Future<int> inactiveDevicesCount =
-        EntityQueryApi.countDevices(tbClient, active: false);
-    final Future<List<int>> countsFuture =
-        Future.wait([activeDevicesCount, inactiveDevicesCount]);
+    final Future<int> activeDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      active: true,
+    );
+    final Future<int> inactiveDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      active: false,
+    );
+    final Future<List<int>> countsFuture = Future.wait([
+      activeDevicesCount,
+      inactiveDevicesCount,
+    ]);
     countsFuture.then((counts) {
       if (mounted) {
         _activeDevicesCount.add(counts[0]);
@@ -136,9 +143,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
         ),
         child: Card(
           margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           elevation: 0,
           child: Column(
             children: [
@@ -205,8 +210,8 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         ),
                         onTap: () {
                           getIt<ThingsboardAppRouter>()
-                              // translate-me-ignore-next-line
-                              .navigateTo('/deviceList?active=true');
+                          // translate-me-ignore-next-line
+                          .navigateTo('/deviceList?active=true');
                         },
                       ),
                     ),
@@ -257,8 +262,8 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         ),
                         onTap: () {
                           getIt<ThingsboardAppRouter>()
-                              // translate-me-ignore-next-line
-                              .navigateTo('/deviceList?active=false');
+                          // translate-me-ignore-next-line
+                          .navigateTo('/deviceList?active=false');
                         },
                       ),
                     ),
@@ -285,8 +290,7 @@ class DeviceProfileCard extends TbContextWidget {
 }
 
 class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
-  late Future<int> activeDevicesCount;
-  late Future<int> inactiveDevicesCount;
+  late Future<CachedDeviceProfileInfo> countedProfile;
 
   @override
   void initState() {
@@ -301,15 +305,9 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
   }
 
   void _countDevices() {
-    activeDevicesCount = EntityQueryApi.countDevices(
+    countedProfile = DeviceProfileCache.getDevicesCount(
       tbClient,
-      deviceType: widget.deviceProfile.name,
-      active: true,
-    );
-    inactiveDevicesCount = EntityQueryApi.countDevices(
-      tbClient,
-      deviceType: widget.deviceProfile.name,
-      active: false,
+      widget.deviceProfile.name,
     );
   }
 
@@ -319,7 +317,13 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     final hasImage = entity.image != null;
     Widget image;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, tbClient, entity.image, width: 64, height: 64);
+      image = Utils.imageFromTbImage(
+        context,
+        tbClient,
+        entity.image,
+        width: 64,
+        height: 64,
+      );
     } else {
       image = SvgPicture.asset(
         width: 64,
@@ -333,10 +337,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
       child: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: image,
-            ),
+            child: Padding(padding: const EdgeInsets.all(16), child: image),
           ),
           SizedBox(
             height: 44,
@@ -360,13 +361,13 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
           const Divider(height: 1),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            child: FutureBuilder<int>(
-              future: activeDevicesCount,
+            child: FutureBuilder<CachedDeviceProfileInfo>(
+              future: countedProfile,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   final deviceCount = snapshot.data!;
-                  return _buildDeviceCount(context, true, deviceCount);
+                  return _buildDeviceCount(context, true, deviceCount.activeCount!);
                 } else {
                   return SizedBox(
                     height: 40,
@@ -398,13 +399,13 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
           const Divider(height: 1),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            child: FutureBuilder<int>(
-              future: inactiveDevicesCount,
+            child: FutureBuilder<CachedDeviceProfileInfo>(
+              future: countedProfile,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   final deviceCount = snapshot.data!;
-                  return _buildDeviceCount(context, false, deviceCount);
+                  return _buildDeviceCount(context, false, deviceCount.inactiveCount!);
                 } else {
                   return SizedBox(
                     height: 40,

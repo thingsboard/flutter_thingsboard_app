@@ -11,6 +11,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';
+import 'package:thingsboard_app/utils/services/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -24,7 +25,7 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   String get noItemsFoundText => 'No devices found';
 
   @override
-  Future<PageData<EntityData>> fetchEntities(EntityDataQuery dataQuery) {
+  Future<PageData<EntityData>> fetchEntities(EntityDataQuery dataQuery, {bool refresh = false}) {
     return tbClient.getEntityQueryService().findEntityDataByQuery(dataQuery);
   }
 
@@ -35,8 +36,8 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
       device.field('type')!,
       device.entityId.id!,
     );
-    if (profile.defaultDashboardId != null) {
-      final dashboardId = profile.defaultDashboardId!.id!;
+    if (profile.info.defaultDashboardId != null) {
+      final dashboardId = profile.info.defaultDashboardId!.id!;
       final state = Utils.createDashboardEntityState(
         device.entityId,
         entityName: device.field('name'),
@@ -131,7 +132,7 @@ class DeviceCard extends TbContextWidget {
 class _DeviceCardState extends TbContextState<DeviceCard> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 
-  late Future<DeviceProfileInfo> deviceProfileFuture;
+  late Future<CachedDeviceProfileInfo> deviceProfileFuture;
 
   @override
   void initState() {
@@ -190,18 +191,18 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
             ),
           ),
         ),
-        FutureBuilder<DeviceProfileInfo>(
+        FutureBuilder<CachedDeviceProfileInfo>(
           future: deviceProfileFuture,
           builder: (context, snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               final profile = snapshot.data!;
-              final bool hasDashboard = profile.defaultDashboardId != null;
+              final bool hasDashboard = profile.info.defaultDashboardId != null;
               Widget image;
               BoxFit imageFit;
-              if (profile.image != null) {
+              if (profile.info.image != null) {
                 image =
-                    Utils.imageFromTbImage(context, tbClient, profile.image);
+                    Utils.imageFromTbImage(context, tbClient, profile.info.image);
                 imageFit = BoxFit.contain;
               } else {
                 image = SvgPicture.asset(
@@ -375,7 +376,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
               // color: Color(0xFFEEEEEE),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
             ),
-            child: FutureBuilder<DeviceProfileInfo>(
+            child: FutureBuilder<CachedDeviceProfileInfo>(
               future: deviceProfileFuture,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
@@ -383,11 +384,11 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                   final profile = snapshot.data!;
                   Widget image;
                   BoxFit imageFit;
-                  if (profile.image != null) {
+                  if (profile.info.image != null) {
                     image = Utils.imageFromTbImage(
                       context,
                       tbClient,
-                      profile.image,
+                      profile.info.image,
                     );
                     imageFit = BoxFit.contain;
                   } else {
