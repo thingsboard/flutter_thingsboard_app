@@ -4,8 +4,8 @@ part 'switch_endpoint_args.freezed.dart';
 part 'switch_endpoint_args.g.dart';
 
 @freezed
-class SwitchEndpointArgs with _$SwitchEndpointArgs {
-  factory SwitchEndpointArgs(
+abstract class SwitchEndpointArgs with _$SwitchEndpointArgs {
+  const factory SwitchEndpointArgs(
       {required String secret,
       String? host,
        String? ttl,

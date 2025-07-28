@@ -8,8 +8,8 @@ part 'wifi_network.freezed.dart';
 part 'wifi_network.g.dart';
 
 @freezed
- class WifiNetwork with _$WifiNetwork {
-   factory WifiNetwork({
+ abstract  class WifiNetwork with _$WifiNetwork {
+const    factory WifiNetwork({
     required String ssid,
     required int rssi,
     required int channel,
