@@ -77,13 +77,6 @@ class _LoginPageState extends TbPageState<LoginPage>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _isLoginNotifier.value = false;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthBloc>(
       create:
