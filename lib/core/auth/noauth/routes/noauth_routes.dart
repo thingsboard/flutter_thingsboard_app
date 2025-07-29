@@ -11,11 +11,15 @@ class NoAuthRoutes extends TbRoutes {
   late final noAuthQrHandler = Handler(
     handlerFunc: (context, params) {
       final rawArgs = context?.settings?.arguments as Map<String, dynamic>?;
-     final args =  rawArgs == null ? null:  SwitchEndpointArgs.fromJson(rawArgs);
-
+            if((rawArgs != null && rawArgs['secret'] == null) || rawArgs == null) {
+return SwitchEndpointNoAuthView(
+        tbContext,
+        arguments: null,
+      );
+      }
       return SwitchEndpointNoAuthView(
         tbContext,
-        arguments: args,
+        arguments: SwitchEndpointArgs.fromJson(rawArgs),
       );
     },
   );

@@ -52,12 +52,12 @@ class _SwitchEndpointNoAuthViewState
                 });
               } else if (state is NoAuthDoneState) {
                 GetIt.instance<NoAuthBloc>().close();
-                if (tbClient.isPreVerificationToken()) {
-                  getIt<ThingsboardAppRouter>().navigateTo('/login/mfa',
-                      replace: true, clearStack: true,);
-                } else {
-                  tbContext.updateRouteState();
-                }
+                // if (tbClient.isPreVerificationToken()) {
+                //   getIt<ThingsboardAppRouter>().navigateTo('/login/mfa',
+                //       replace: true, clearStack: true,);
+                // } else {
+                //   tbContext.updateRouteState();
+                // }
               }
             },
             buildWhen: (_, state) => state is! NoAuthDoneState,

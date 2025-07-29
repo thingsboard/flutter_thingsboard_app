@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
 import 'package:thingsboard_app/core/auth/login/select_region/select_region_screen.dart';
@@ -33,6 +34,7 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitRegionApp> {
 
          if ((snapshot.hasError || snapshot.data == null) &&
             !ThingsboardAppConstants.ignoreRegionSelection) {
+                FlutterNativeSplash.remove();
           return SelectRegionScreen(tbContext);
         }
         if (ThingsboardAppConstants.ignoreRegionSelection) {
@@ -44,13 +46,17 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitRegionApp> {
 
         initTbContext();
 
-        return Scaffold(
-          body: Container(
-            alignment: Alignment.center,
-            color: Colors.white,
-            child: const TbProgressIndicator(size: 50.0),
-          ),
-        );
+        return FutureBuilder(
+            future: initTbContext(),
+            builder: (context, snapshot) {
+              return Scaffold(
+                body: Container(
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: !snapshot.hasData ? const SizedBox() :  TbProgressIndicator(size: 50.0),
+                ),
+              );
+            });
       },
     );
   }

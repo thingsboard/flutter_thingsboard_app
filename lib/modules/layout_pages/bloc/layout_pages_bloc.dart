@@ -27,10 +27,8 @@ import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
-  LayoutPagesBloc({
-    required this.layoutService,
-    required this.tbContext,
-  }) : super(const BottomBarLoadingState()) {
+  LayoutPagesBloc({required this.layoutService, required this.tbContext})
+    : super(const BottomBarLoadingState()) {
     on(_onEvent);
   }
 
@@ -43,44 +41,7 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
   ) async {
     switch (event) {
       case BottomBarFetchEvent():
-        final items = layoutService.getCachedPageLayouts();
-
-        layoutService.setBottomBarItems(
-          items
-              .map(
-                (e) => TbMainNavigationItem(
-                  page: MainItemWidget(
-                    tbContext,
-                    path: e.path ?? '',
-                    child: getWidget(e),
-                  ),
-                  title: getLabel(e, event.context),
-                  icon: getIcon(e),
-                  path: getPath(e),
-                  showAdditionalIcon: e.id == Pages.notifications,
-                  additionalIconSmall: e.id == Pages.notifications
-                      ? notificationSmallNumberWidget()
-                      : null,
-                  additionalIconLarge: e.id == Pages.notifications
-                      ? notificationLargeNumberWidget()
-                      : null,
-                ),
-              )
-              .toList(),
-          more: TbMainNavigationItem(
-            page: MainItemWidget(
-              tbContext,
-              path: '/more',
-              child: MorePage(tbContext),
-            ),
-            title: S.of(event.context).more,
-            icon: Icons.menu_outlined,
-            path: '/more',
-          ),
-        );
-
-        emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
-
+        await onBottomBarFetchEvent(event, emit);
       case BottomBarOrientationChangedEvent():
         layoutService.setDeviceScreenSize(
           event.screenSize,
@@ -88,6 +49,50 @@ class LayoutPagesBloc extends Bloc<LayoutPagesEvent, LayoutPagesState> {
         );
         emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
     }
+  }
+
+  Future<void> onBottomBarFetchEvent(
+    BottomBarFetchEvent event,
+    Emitter emit,
+  ) async {
+    final items = layoutService.getCachedPageLayouts();
+    layoutService.setBottomBarItems(
+      items
+          .map(
+            (e) => TbMainNavigationItem(
+              page: MainItemWidget(
+                tbContext,
+                path: e.path ?? '',
+                child: getWidget(e),
+              ),
+              title: getLabel(e, event.context),
+              icon: getIcon(e),
+              path: getPath(e),
+              showAdditionalIcon: e.id == Pages.notifications,
+              additionalIconSmall:
+                  e.id == Pages.notifications
+                      ? notificationSmallNumberWidget()
+                      : null,
+              additionalIconLarge:
+                  e.id == Pages.notifications
+                      ? notificationLargeNumberWidget()
+                      : null,
+            ),
+          )
+          .toList(),
+      more: TbMainNavigationItem(
+        page: MainItemWidget(
+          tbContext,
+          path: '/more',
+          child: MorePage(tbContext),
+        ),
+        title: S.of(event.context).more,
+        icon: Icons.menu_outlined,
+        path: '/more',
+      ),
+    );
+
+    emit(BottomBarDataState(items: layoutService.getBottomBarItems()));
   }
 
   Widget getWidget(PageLayout pageLayout) {

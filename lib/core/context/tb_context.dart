@@ -101,7 +101,7 @@ class TbContext implements PopEntry {
   }) async {
     log.debug('TbContext:reinit()');
 
-    _handleRootState = false;
+    _handleRootState = true;
 
     tbClient = ThingsboardClient(
       endpoint,
@@ -142,7 +142,7 @@ class TbContext implements PopEntry {
 
   void onError(ThingsboardError tbError) {
     log.error('onError', tbError, tbError.getStackTrace());
-    _overlayService.showErrorNotification((_) =>  tbError.message!);
+    _overlayService.showErrorNotification((_) => tbError.message!);
   }
 
   void onLoadStarted() {
@@ -245,7 +245,13 @@ class TbContext implements PopEntry {
 
       if (Utils.isConnectionError(e)) {
         final res = await _overlayService.showAlertDialog(
-          content: (context) => DialogContent(title: S.of(context).connectionError, message: S.of(context).failedToConnectToServer, ok: S.of(context).retry,),);
+          content:
+              (context) => DialogContent(
+                title: S.of(context).connectionError,
+                message: S.of(context).failedToConnectToServer,
+                ok: S.of(context).retry,
+              ),
+        );
         if (res == true) {
           _overlayService.hideNotification();
           onUserLoaded();
@@ -276,7 +282,10 @@ class TbContext implements PopEntry {
       }
 
       _appLinkStreamSubscription ??= appLinks.uriLinkStream.listen(
-        (link) {
+        (Uri? link) {
+          if (link == null) {
+            return;
+          }
           thingsboardAppRouter.navigateByAppLink(link.toString());
         },
         onError: (err) {
@@ -303,54 +312,54 @@ class TbContext implements PopEntry {
     _appLinkStreamSubscription = null;
   }
 
-  Future<void> updateRouteState() async {
+ Future<void> updateRouteState() async {
     log.debug(
       'TbContext:updateRouteState() ${currentState != null && currentState!.mounted}',
     );
-    if (currentState != null && currentState!.mounted) {
-      if (tbClient.isAuthenticated() && !tbClient.isPreVerificationToken()) {
-        final defaultDashboardId = _defaultDashboardId();
-        if (defaultDashboardId != null) {
-          final bool fullscreen = _userForceFullscreen();
-          if (!fullscreen) {
-            await thingsboardAppRouter.navigateToDashboard(
-              defaultDashboardId,
-              animate: false,
-            );
-            thingsboardAppRouter.navigateTo(
-              '/main',
-              replace: true,
-              closeDashboard: false,
-              clearStack: true,
-              transition: TransitionType.none,
-            );
-          } else {
-            thingsboardAppRouter.navigateTo(
-              '/fullscreenDashboard/$defaultDashboardId',
-              replace: true,
-              clearStack: true,
-              transition: TransitionType.fadeIn,
-            );
-          }
-        } else {
-          thingsboardAppRouter.navigateTo(
-            '/main',
-            replace: true,
-            clearStack: true,
-            transition: TransitionType.fadeIn,
-            transitionDuration: const Duration(milliseconds: 750),
-          );
-        }
-      } else {
-        thingsboardAppRouter.navigateTo(
-          '/login',
-          replace: true,
-          clearStack: true,
-          transition: TransitionType.fadeIn,
-          transitionDuration: const Duration(milliseconds: 750),
-        );
-      }
+    
+    if (!tbClient.isAuthenticated() || tbClient.isPreVerificationToken()) {
+      thingsboardAppRouter.navigateTo(
+        '/login',
+        replace: true,
+        clearStack: true,
+        transition: TransitionType.fadeIn,
+        transitionDuration: const Duration(milliseconds: 750),
+      );
+      return;
     }
+
+    final defaultDashboardId = _defaultDashboardId();
+    if (defaultDashboardId == null) {
+      thingsboardAppRouter.navigateTo(
+        '/main',
+        replace: true,
+        clearStack: true,
+        transition: TransitionType.fadeIn,
+        transitionDuration: const Duration(milliseconds: 750),
+      );
+      return;
+    }
+    final bool fullscreen = _userForceFullscreen();
+    if (fullscreen) {
+      thingsboardAppRouter.navigateTo(
+        '/fullscreenDashboard/$defaultDashboardId',
+        replace: true,
+        clearStack: true,
+        transition: TransitionType.fadeIn,
+      );
+      return;
+    }
+    await thingsboardAppRouter.navigateToDashboard(
+      defaultDashboardId,
+      animate: false,
+    );
+    thingsboardAppRouter.navigateTo(
+      '/main',
+      replace: true,
+      closeDashboard: false,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
   }
 
   String? _defaultDashboardId() {
