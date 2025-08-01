@@ -102,7 +102,7 @@ class QrCodeScannerPage extends HookWidget {
             child: AppBar(
               leading: IconButton(
                   onPressed: () {
-                    getIt<ThingsboardAppRouter>().pop(context);
+                    getIt<ThingsboardAppRouter>().pop(null,context);
                   },
                   icon: const Icon(Icons.close)),
               backgroundColor: Colors.transparent,
