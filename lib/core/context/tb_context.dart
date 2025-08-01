@@ -154,7 +154,17 @@ class TbContext implements PopEntry {
     log.debug('TbContext: On load finished.');
     _isLoadingNotifier.value = false;
   }
-
+Future<bool> checkDasboardAccess(String id) async {
+    try {
+      final dashboard = await tbClient.getDashboardService().getDashboard(id);
+      if (dashboard == null) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
   Future<void> onUserLoaded({VoidCallback? onDone}) async {
     try {
       log.debug(
@@ -177,6 +187,14 @@ class TbContext implements PopEntry {
             homeDashboard = mobileInfo?.homeDashboardInfo;
             versionInfo = mobileInfo?.versionInfo;
             storeInfo = mobileInfo?.storeInfo;
+            if (_defaultDashboardId() != null) {
+              final hasAccess = await checkDasboardAccess(
+                _defaultDashboardId()!,
+              );
+              if (!hasAccess) {
+                userDetails?.additionalInfo?['defaultDashboardId'] = null;
+              }
+            }
             getIt<ILayoutService>().cachePageLayouts(
               mobileInfo?.pages,
               authority: tbClient.getAuthUser()!.authority,
@@ -230,11 +248,11 @@ class TbContext implements PopEntry {
       if (isAuthenticated) {
         onDone?.call();
       }
-
+  FlutterNativeSplash.remove();
       if (_handleRootState) {
         await updateRouteState();
       }
-      FlutterNativeSplash.remove();
+
       if (isAuthenticated) {
         if (getIt<IFirebaseService>().apps.isNotEmpty) {
           await NotificationService(tbClient, log, this).init();
@@ -292,6 +310,7 @@ class TbContext implements PopEntry {
           log.error('linkStream.listen $err');
         },
       );
+        FlutterNativeSplash.remove();
     }
   }
 
