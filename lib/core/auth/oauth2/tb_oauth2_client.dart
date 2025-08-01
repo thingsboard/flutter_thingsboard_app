@@ -55,7 +55,7 @@ class TbOAuth2Client implements IOAuth2Client {
       url: url.toString(),
       callbackUrlScheme:
           ThingsboardAppConstants.thingsboardOAuth2CallbackUrlScheme,
-      saveHistory: false,
+      saveHistory: true,
     );
     final resultUri = Uri.parse(result);
     _logger
