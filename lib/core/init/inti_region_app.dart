@@ -43,17 +43,15 @@ class _ThingsboardInitAppState extends TbPageState<ThingsboardInitRegionApp> {
           );
            getIt<IEndpointService>().setRegion(Region.custom);
         }
-
-        initTbContext();
-
+ final future = initTbContext();
         return FutureBuilder(
-            future: initTbContext(),
+            future: future,
             builder: (context, snapshot) {
               return Scaffold(
                 body: Container(
                   alignment: Alignment.center,
                   color: Colors.white,
-                  child: !snapshot.hasData ? const SizedBox() :  TbProgressIndicator(size: 50.0),
+                  child: !snapshot.hasData ? const SizedBox() :  const TbProgressIndicator(size: 50.0),
                 ),
               );
             });

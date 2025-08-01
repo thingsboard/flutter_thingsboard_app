@@ -6,6 +6,6 @@ abstract interface class IFirebaseService {
   Future<FirebaseApp?> initializeApp({String name, FirebaseOptions? options});
 
   Future<void> removeApp({String name});
-
+  Future<void> clearApps();
   List<String> get apps;
 }

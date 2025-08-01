@@ -41,7 +41,18 @@ class FirebaseService implements IFirebaseService {
 
     return null;
   }
-
+@override
+  Future<void> clearApps() async {
+    try {
+      for (final app in Firebase.apps) {
+        await app.delete();
+      }
+    } catch (e) {
+      logger.error('FirebaseService:clearApps $e');
+    } finally {
+      _apps.clear();
+    }
+  }
   @override
   Future<void> removeApp({String name = defaultFirebaseAppName}) async {
     try {

@@ -3,7 +3,7 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.7.0+6
+version: 1.7.0+7
 
 environment:
   sdk: ^3.7.0

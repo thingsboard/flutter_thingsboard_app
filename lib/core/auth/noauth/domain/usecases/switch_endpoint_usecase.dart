@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/auth/noauth/domain/repository/i_noauth_repository.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
@@ -21,15 +23,11 @@ final class SwitchEndpointParams {
   final SwitchEndpointArgs data;
   final VoidCallback onDone;
   final Function(String?) onError;
-
- // dynamic operator [](String key) => data[key];
 }
 
 class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
-  SwitchEndpointUseCase({
-    required this.repository,
-    required this.logger,
-  }) : _progressSteamCtrl = StreamController.broadcast();
+  SwitchEndpointUseCase({required this.repository, required this.logger})
+    : _progressSteamCtrl = StreamController.broadcast();
 
   final INoAuthRepository repository;
 
@@ -41,7 +39,7 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
   @override
   Future<void> call(SwitchEndpointParams params) async {
     final uri = params.data.uri;
-    final host = params.data.host ?? uri.origin;
+    final host =  params.data.host ?? uri.origin;
     final key = params.data.secret;
     final currentEndpoint = await getIt<IEndpointService>().getEndpoint();
     final isTheSameHost =
@@ -78,15 +76,17 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
 
       if (!isTheSameHost) {
         logger.debug('SwitchEndpointUseCase:deleteFB App');
-        getIt<IFirebaseService>()
-          ..removeApp()
-          ..removeApp(name: currentEndpoint);
+        if (Firebase.apps.isNotEmpty) {
+          getIt<IFirebaseService>()
+            ..removeApp()
+            ..removeApp(name: currentEndpoint);
+        }
 
         // If we revert to the original host configured in the app_constants
-        if (!await getIt<IEndpointService>().isCustomEndpoint()) {
-          await getIt<IFirebaseService>().initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          );
+        final t = await getIt<IEndpointService>().isCustomEndpoint();
+        logger.debug(t);
+        if (!t) {
+          await _initDefaultFbApp();
         }
       }
 
@@ -100,12 +100,48 @@ class SwitchEndpointUseCase extends UseCase<void, SwitchEndpointParams> {
           params.onError(error.message);
         },
       );
-    } on ThingsboardError catch (e) {
-      logger.error('SwitchEndpointUseCase:ThingsboardError $e', e);
-      params.onError(e.message ?? e.toString());
     } catch (e) {
+      await reset(params);
+      if (e is ThingsboardError) {
+        logger.error('SwitchEndpointUseCase:ThingsboardError $e', e);
+        params.onError(e.message ?? e.toString());
+        return;
+      }
       logger.error('SwitchEndpointUseCase:catch $e', e);
       params.onError(e.toString());
+    }
+  }
+
+  Future<void> _initDefaultFbApp() async {
+       try {
+        await getIt<IFirebaseService>().initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    } catch (e) {
+      //Ignore this error if fcm is not configured
+      if (e is! UnsupportedError) {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> reset(SwitchEndpointParams params) async {
+    try {
+      await getIt<IEndpointService>().setEndpoint(
+        ThingsboardAppConstants.thingsBoardApiEndpoint,
+      );
+      await getIt<IFirebaseService>().clearApps();
+       await _initDefaultFbApp();
+      await repository.reInit(
+        endpoint: ThingsboardAppConstants.thingsBoardApiEndpoint,
+        onDone: params.onDone,
+        onError: (error) {
+          logger.error('SwitchEndpointUseCase:onError $error');
+          params.onError(error.message);
+        },
+      );
+    } catch (e) {
+      logger.error('SwitchEndpointUseCaseReset:onError $e');
     }
   }
 
