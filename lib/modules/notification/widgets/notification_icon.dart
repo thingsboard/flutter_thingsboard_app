@@ -21,8 +21,7 @@ class NotificationIcon extends StatelessWidget {
       var hexColor = data.replaceAll('#', '');
       if (hexColor.length == 6) {
         hexColor = 'FF$hexColor';
-      }
-      if (hexColor.length == 8) {
+      } else if (hexColor.length == 8) {
         final alpha = hexColor.substring(6, 8);
         hexColor = '$alpha${hexColor.substring(0, 6)}';
       }
