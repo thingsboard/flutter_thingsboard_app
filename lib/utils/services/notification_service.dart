@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -60,15 +61,15 @@ class NotificationService {
 
       _onTokenRefreshSubscription =
           FirebaseMessaging.instance.onTokenRefresh.listen((token) {
-        if (_fcmToken != null) {
-          _tbClient.getUserService().removeMobileSession(_fcmToken!).then((_) {
-            _fcmToken = token;
             if (_fcmToken != null) {
-              _saveToken(_fcmToken!);
+          _tbClient.getUserService().removeMobileSession(_fcmToken!).then((_) {
+                _fcmToken = token;
+                if (_fcmToken != null) {
+                  _saveToken(_fcmToken!);
+                }
+              });
             }
           });
-        }
-      });
 
       await _initFlutterLocalNotificationsPlugin();
       await _configFirebaseMessaging();
@@ -121,7 +122,7 @@ class NotificationService {
 
   Future<void> _initFlutterLocalNotificationsPlugin() async {
     const initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/thingsboard');
+        AndroidInitializationSettings('@drawable/ic_launcher_foreground');
 
     const initializationSettingsIOS = DarwinInitializationSettings();
 
@@ -142,7 +143,8 @@ class NotificationService {
       },
     );
 
-    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      color: appPrimaryColor,
       'general',
       // translate-me-ignore-next-line
       'General notifications',
@@ -155,7 +157,7 @@ class NotificationService {
 
     const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
-    _notificationDetails = const NotificationDetails(
+    _notificationDetails = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
@@ -193,7 +195,7 @@ class NotificationService {
       if (mobileInfo != null) {
         final int timeAfterCreatedToken =
             DateTime.now().millisecondsSinceEpoch -
-                mobileInfo.fcmTokenTimestamp;
+            mobileInfo.fcmTokenTimestamp;
         if (timeAfterCreatedToken > const Duration(days: 30).inMilliseconds) {
           fcmToken = await _resetToken(fcmToken);
           if (fcmToken != null) {
@@ -208,9 +210,9 @@ class NotificationService {
 
   Future<void> _saveToken(String token) async {
     await _tbClient.getUserService().saveMobileSession(
-          token,
-          MobileSessionInfo(DateTime.now().millisecondsSinceEpoch),
-        );
+      token,
+      MobileSessionInfo(DateTime.now().millisecondsSinceEpoch),
+    );
   }
 
   Future<void> showNotification(RemoteMessage message) async {
@@ -274,7 +276,7 @@ class NotificationService {
           final state = Utils.createDashboardEntityState(
             entityId,
             stateId: (data['dashboardState'] ?? data['onClick.dashboardState'])
-                .toString(),
+                    .toString(),
           );
 
           if (dashboardId != null) {
@@ -307,9 +309,9 @@ class NotificationService {
   Future<int> _getNotificationsCountRemote() async {
     try {
       return _tbClient.getNotificationService().getUnreadNotificationsCount(
-            'MOBILE_APP',
-            requestConfig: RequestConfig(ignoreErrors: true),
-          );
+        'MOBILE_APP',
+        requestConfig: RequestConfig(ignoreErrors: true),
+      );
     } catch (_) {
       return 0;
     }
