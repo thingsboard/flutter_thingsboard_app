@@ -113,7 +113,6 @@ class ThingsboardAppRouter {
     if (link != null) {
       final uri = Uri.parse(link);
       await getIt<ILocalDatabaseService>().deleteInitialAppLink();
-
       log.debug('TbContext: navigate by appLink $uri');
       navigateTo(
         uri.path,

@@ -292,18 +292,9 @@ Future<bool> checkDasboardAccess(String id) async {
         );
       }
     } finally {
-      try {
-        final link = await getIt<ILocalDatabaseService>().getInitialAppLink();
-        thingsboardAppRouter.navigateByAppLink(link);
-      } catch (e) {
-        log.error('TbContext:getInitialUri() exception $e');
-      }
-
       _appLinkStreamSubscription ??= appLinks.uriLinkStream.listen(
-        (Uri? link) {
-          if (link == null) {
-            return;
-          }
+        (link) {
+        
           thingsboardAppRouter.navigateByAppLink(link.toString());
         },
         onError: (err) {
