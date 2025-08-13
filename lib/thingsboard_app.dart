@@ -42,15 +42,7 @@ class _ThingsBoardAppState extends State<ThingsboardApp> {
         theme: tbTheme,
         darkTheme: tbDarkTheme,
         navigatorKey: getIt<ThingsboardAppRouter>().navigatorKey,
-       onGenerateRoute: (settings) {
-                final uri = Uri.tryParse(settings.name ?? '');
-                if (uri != null && uri.host != '') {
-                  return getIt<ThingsboardAppRouter>().router
-                      .matchRoute(context, '/')
-                      .route;
-                }
-                return getIt<ThingsboardAppRouter>().router.generator(settings);
-              },
+       onGenerateRoute: getIt<ThingsboardAppRouter>().router.generator,
         navigatorObservers: [
           getIt<ThingsboardAppRouter>().tbContext.routeObserver,
         ],
