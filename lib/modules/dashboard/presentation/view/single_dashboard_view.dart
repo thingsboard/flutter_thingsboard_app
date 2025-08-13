@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/modules/dashboard/di/dashboards_di.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -28,7 +29,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
   final dashboardTitleValue = ValueNotifier<String>('Dashboard');
   final hasRightLayout = ValueNotifier(false);
   bool canGoBack = false;
-
+  late final String diKey;
   late final Animation<double> rightLayoutMenuAnimation;
   late final AnimationController rightLayoutMenuController;
 
@@ -127,6 +128,8 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
   @override
   void initState() {
     super.initState();
+     diKey = UniqueKey().toString();
+     DashboardsDi.init(diKey, tbClient: tbClient);
     rightLayoutMenuController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -144,6 +147,7 @@ class _SingleDashboardViewState extends TbContextState<SingleDashboardView>
 
   @override
   void dispose() {
+     DashboardsDi.dispose(diKey);
     rightLayoutMenuController.dispose();
     _dashboardController?.canGoBack.dispose();
     super.dispose();
