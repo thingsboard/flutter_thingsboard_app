@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -41,25 +41,27 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
     return Slidable(
       key: ValueKey(widget.notification.id!.id),
-      startActionPane: widget.notification.status == PushNotificationStatus.READ
-          ? null
-          : ActionPane(
-              extentRatio: 0.3,
-              motion: const ScrollMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (context) => widget.onReadNotification(
-                    widget.notification.id!.id!,
+      startActionPane:
+          widget.notification.status == PushNotificationStatus.READ
+              ? null
+              : ActionPane(
+                extentRatio: 0.3,
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed:
+                        (context) => widget.onReadNotification(
+                          widget.notification.id!.id!,
+                        ),
+                    backgroundColor: const Color(0xFF198038),
+                    foregroundColor: Colors.white,
+                    icon: Icons.check_circle_outline,
+                    label: 'Mark as read',
+                    borderRadius: BorderRadius.circular(8),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                   ),
-                  backgroundColor: const Color(0xFF198038),
-                  foregroundColor: Colors.white,
-                  icon: Icons.check_circle_outline,
-                  label: 'Mark as read',
-                  borderRadius: BorderRadius.circular(8),
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                ),
-              ],
-            ),
+                ],
+              ),
       endActionPane: ActionPane(
         extentRatio: _endExtentRatio(widget.notification),
         motion: const ScrollMotion(),
@@ -76,12 +78,13 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Delete',
-            borderRadius: _buildAlarmRelatedButtons(widget.notification).isEmpty
-                ? BorderRadius.circular(8)
-                : const BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+            borderRadius:
+                _buildAlarmRelatedButtons(widget.notification).isEmpty
+                    ? BorderRadius.circular(8)
+                    : const BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
           ),
         ],
       ),
@@ -98,8 +101,10 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
       final id = notification.info?.alarmId;
 
       if (id != null) {
-        if ([AlarmStatus.CLEARED_UNACK, AlarmStatus.ACTIVE_UNACK]
-            .contains(status)) {
+        if ([
+          AlarmStatus.CLEARED_UNACK,
+          AlarmStatus.ACTIVE_UNACK,
+        ].contains(status)) {
           items.add(
             SlidableAction(
               onPressed: (context) => _ackAlarm(id, context),
@@ -116,8 +121,10 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
           );
         }
 
-        if ([AlarmStatus.ACTIVE_UNACK, AlarmStatus.ACTIVE_ACK]
-            .contains(status)) {
+        if ([
+          AlarmStatus.ACTIVE_UNACK,
+          AlarmStatus.ACTIVE_ACK,
+        ].contains(status)) {
           items.add(
             SlidableAction(
               onPressed: (context) => _clearAlarm(id, context),
@@ -125,12 +132,13 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
               foregroundColor: Colors.white,
               icon: Icons.clear,
               label: 'Clear',
-              borderRadius: items.isEmpty
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                    )
-                  : BorderRadius.zero,
+              borderRadius:
+                  items.isEmpty
+                      ? const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                      )
+                      : BorderRadius.zero,
             ),
           );
         }

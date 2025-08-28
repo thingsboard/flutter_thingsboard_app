@@ -71,7 +71,7 @@ dependencies:
   open_settings_plus: ^0.4.0
   plugin_wifi_connect:
     git:
-      url: git@github.com:ybeshkarov/plugin_wifi_connect.git
+      url: https://github.com/thingsboard/flutter_wifi_connect.git
   toastification: ^2.3.0
   freezed_annotation: ^2.2.0
 
@@ -94,7 +94,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-  generate: true
 
 flutter_icons:
   android: "launcher_icon"

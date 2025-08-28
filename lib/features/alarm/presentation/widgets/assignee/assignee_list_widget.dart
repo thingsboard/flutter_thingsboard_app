@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/features/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/assignee/assignee_bloc.dart';
@@ -14,10 +14,7 @@ import 'package:thingsboard_app/utils/string_utils.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class AssigneeListWidget extends StatelessWidget {
-  const AssigneeListWidget({
-    required this.onChanged,
-    super.key,
-  });
+  const AssigneeListWidget({required this.onChanged, super.key});
 
   final VoidCallback onChanged;
 
@@ -25,9 +22,11 @@ class AssigneeListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7 +
+        maxHeight:
+            MediaQuery.of(context).size.height * 0.7 +
             MediaQuery.of(context).viewInsets.bottom,
-        minHeight: MediaQuery.of(context).size.height * 0.3 +
+        minHeight:
+            MediaQuery.of(context).size.height * 0.3 +
             MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SafeArea(
@@ -65,9 +64,7 @@ class AssigneeListWidget extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black.withOpacity(0.12),
-                  ),
+                  border: Border.all(color: Colors.black.withOpacity(0.12)),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 margin: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
@@ -84,8 +81,12 @@ class AssigneeListWidget extends StatelessWidget {
                             fontSize: 14,
                           ),
                           hintText: 'Search users',
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                          contentPadding: const EdgeInsets.fromLTRB(
+                            16,
+                            12,
+                            16,
+                            12,
+                          ),
                           isDense: true,
                         ),
                         onChanged: (text) {
@@ -106,11 +107,14 @@ class AssigneeListWidget extends StatelessWidget {
               ),
               Flexible(
                 child: PagedListView<PageLink, AssigneeEntity>.separated(
-                  pagingController: getIt<AssigneeBloc>()
-                      .paginationRepository
-                      .pagingController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  pagingController:
+                      getIt<AssigneeBloc>()
+                          .paginationRepository
+                          .pagingController,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   shrinkWrap: true,
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, item, index) {
@@ -127,7 +131,8 @@ class AssigneeListWidget extends StatelessWidget {
                       return Column(
                         children: [
                           Visibility(
-                            visible: index == 0 &&
+                            visible:
+                                index == 0 &&
                                 state is! AssigneeSelfAssignmentState,
                             child: Column(
                               children: [
@@ -149,9 +154,10 @@ class AssigneeListWidget extends StatelessWidget {
 
                                     onChanged();
                                   },
-                                  id: getIt<ITbClientService>()
-                                      .getAuthUser()!
-                                      .userId!,
+                                  id:
+                                      getIt<ITbClientService>()
+                                          .getAuthUser()!
+                                          .userId!,
                                 ),
                                 const Divider(thickness: 1, height: 32),
                               ],
@@ -161,12 +167,13 @@ class AssigneeListWidget extends StatelessWidget {
                               UserInfoWidget(
                                 avatar: UserInfoAvatarWidget(
                                   shortName: item.shortName,
-                                  color: HSLColor.fromAHSL(
-                                    1,
-                                    item.displayName.hashCode % 360,
-                                    40 / 100,
-                                    60 / 100,
-                                  ).toColor(),
+                                  color:
+                                      HSLColor.fromAHSL(
+                                        1,
+                                        item.displayName.hashCode % 360,
+                                        40 / 100,
+                                        60 / 100,
+                                      ).toColor(),
                                 ),
                                 name: item.displayName,
                                 email: item.userInfo.email,
@@ -199,10 +206,11 @@ class AssigneeListWidget extends StatelessWidget {
 
                     if (state is AssigneeSelectedState) {
                       final selectedId = state.assignee.userInfo.id.id;
-                      final userId = getIt<AssigneeBloc>()
-                          .paginationRepository
-                          .pagingController
-                          .itemList?[index];
+                      final userId =
+                          getIt<AssigneeBloc>()
+                              .paginationRepository
+                              .pagingController
+                              .itemList?[index];
                       if (selectedId == userId?.userInfo.id.id) {
                         return const SizedBox.shrink();
                       }

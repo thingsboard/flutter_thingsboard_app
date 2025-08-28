@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -13,18 +13,24 @@ class AuditLogDetailsPage extends TbContextWidget {
   final AuditLog auditLog;
 
   AuditLogDetailsPage(TbContext tbContext, this.auditLog, {super.key})
-      : super(tbContext);
+    : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _AuditLogDetailsPageState();
 }
 
 class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
-  final labelTextStyle =
-      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
+  final labelTextStyle = const TextStyle(
+    color: Color(0xFF757575),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
-  final valueTextStyle =
-      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
+  final valueTextStyle = const TextStyle(
+    color: Color(0xFF282828),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
   final encoder = const JsonEncoder.withIndent('  ');
 
@@ -48,10 +54,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             Text(
               S.of(context).auditLogDetails,
               style: TextStyle(
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .titleLarge!
-                    .color!
+                color: Theme.of(context).primaryTextTheme.titleLarge!.color!
                     .withAlpha((0.38 * 255).ceil()),
                 fontSize: 12,
                 fontWeight: FontWeight.normal,

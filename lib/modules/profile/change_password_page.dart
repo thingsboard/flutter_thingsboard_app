@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
@@ -28,9 +28,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TbAppBar(
-        title: Text(S.of(context).changePassword),
-      ),
+      appBar: TbAppBar(title: Text(S.of(context).changePassword)),
       body: Stack(
         children: [
           SizedBox.expand(

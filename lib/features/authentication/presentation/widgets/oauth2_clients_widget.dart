@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart' show TransitionType;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     show MdiIcons;
@@ -25,54 +25,51 @@ class Oauth2ClientsWidget extends StatelessWidget {
     if (oauth2Clients.isNotEmpty) {
       return Row(
         children: [
-          ...List.generate(
-            oauth2Clients.length,
-            (index) {
-              Widget? icon;
-              final isLast = index == oauth2Clients.length - 1;
-              final client = oauth2Clients[index];
+          ...List.generate(oauth2Clients.length, (index) {
+            Widget? icon;
+            final isLast = index == oauth2Clients.length - 1;
+            final client = oauth2Clients[index];
 
-              if (client.icon != null) {
-                if (ThingsboardImage.oauth2Logos.containsKey(client.icon)) {
-                  icon = SvgPicture.asset(
-                    ThingsboardImage.oauth2Logos[client.icon]!,
-                    height: 24,
+            if (client.icon != null) {
+              if (ThingsboardImage.oauth2Logos.containsKey(client.icon)) {
+                icon = SvgPicture.asset(
+                  ThingsboardImage.oauth2Logos[client.icon]!,
+                  height: 24,
+                );
+              } else {
+                String strIcon = client.icon!;
+                if (strIcon.startsWith('mdi:')) {
+                  strIcon = strIcon.substring(4);
+                }
+                var iconData = MdiIcons.fromString(strIcon);
+                if (iconData != null) {
+                  icon = Icon(
+                    iconData,
+                    size: 24,
+                    color: Theme.of(context).primaryColor,
                   );
-                } else {
-                  String strIcon = client.icon!;
-                  if (strIcon.startsWith('mdi:')) {
-                    strIcon = strIcon.substring(4);
-                  }
-                  var iconData = MdiIcons.fromString(strIcon);
-                  if (iconData != null) {
-                    icon = Icon(
-                      iconData,
-                      size: 24,
-                      color: Theme.of(context).primaryColor,
-                    );
-                  }
                 }
               }
+            }
 
-              icon ??= Icon(
-                Icons.login,
-                size: 24,
-                color: Theme.of(context).primaryColor,
-              );
-              final button = OutlinedButton(
-                style: _oauth2IconButtonStyle,
-                onPressed: () => onPressed(client),
-                child: icon,
-              );
+            icon ??= Icon(
+              Icons.login,
+              size: 24,
+              color: Theme.of(context).primaryColor,
+            );
+            final button = OutlinedButton(
+              style: _oauth2IconButtonStyle,
+              onPressed: () => onPressed(client),
+              child: icon,
+            );
 
-              return Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(right: isLast ? 0 : 8),
-                  child: button,
-                ),
-              );
-            },
-          ),
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: isLast ? 0 : 8),
+                child: button,
+              ),
+            );
+          }),
           const SizedBox(width: 8),
           Expanded(
             child: OutlinedButton(

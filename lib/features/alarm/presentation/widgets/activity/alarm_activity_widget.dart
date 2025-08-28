@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/features/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
@@ -19,11 +19,7 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_bu
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmActivityWidget extends StatefulWidget {
-  const AlarmActivityWidget(
-    this.alarmId, {
-    required this.userId,
-    super.key,
-  });
+  const AlarmActivityWidget(this.alarmId, {required this.userId, super.key});
 
   final UserId userId;
   final AlarmId alarmId;
@@ -38,8 +34,10 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AlarmActivityBloc>(
-      create: (_) => AlarmActivityBloc.create(id: widget.alarmId)
-        ..add(const AlarmActivityFetchEvent()),
+      create:
+          (_) =>
+              AlarmActivityBloc.create(id: widget.alarmId)
+                ..add(const AlarmActivityFetchEvent()),
       child: AlarmFilterWidget(
         filterTitle: S.of(context).activity,
         action: GestureDetector(
@@ -49,8 +47,7 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
             color: Colors.black.withValues(alpha: .54),
           ),
           onTap: () {
-            getIt<AlarmActivityPaginationRepository>()
-                .pagingController
+            getIt<AlarmActivityPaginationRepository>().pagingController
                 .refresh();
           },
         ),
@@ -68,16 +65,16 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(.03),
                       border: Border(
-                        top: BorderSide(
-                          color: Colors.black.withOpacity(.12),
-                        ),
+                        top: BorderSide(color: Colors.black.withOpacity(.12)),
                         bottom: BorderSide(
                           color: Colors.black.withOpacity(.12),
                         ),
                       ),
                     ),
-                    child: PaginationListWidget<AlarmCommentsQuery,
-                        AlarmCommentInfo>(
+                    child: PaginationListWidget<
+                      AlarmCommentsQuery,
+                      AlarmCommentInfo
+                    >(
                       pagingController:
                           getIt<AlarmActivityPaginationRepository>()
                               .pagingController,
@@ -88,12 +85,12 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                             userId: widget.userId,
                           );
                         },
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            const FirstPageProgressBuilder(),
-                        newPageProgressIndicatorBuilder: (_) =>
-                            const NewPageProgressBuilder(),
-                        noItemsFoundIndicatorBuilder: (_) =>
-                            const SizedBox.shrink(),
+                        firstPageProgressIndicatorBuilder:
+                            (_) => const FirstPageProgressBuilder(),
+                        newPageProgressIndicatorBuilder:
+                            (_) => const NewPageProgressBuilder(),
+                        noItemsFoundIndicatorBuilder:
+                            (_) => const SizedBox.shrink(),
                       ),
                     ),
                   );

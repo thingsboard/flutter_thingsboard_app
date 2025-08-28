@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/features/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/features/alarm/domain/pagination/assignee/alarm_assignee_pagiation_repository.dart';
@@ -46,10 +46,7 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -91,28 +88,29 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     color: Colors.black.withOpacity(0.54),
                     size: 24,
                   ),
-                  suffixIcon: textEditingController.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: () {
-                            context.read<AlarmAssigneeBloc>().add(
-                                  const AlarmAssigneeResetSearchTextEvent(),
-                                );
-                            setState(() {
-                              textEditingController.clear();
-                            });
-                          },
-                          icon: Icon(
-                            Icons.close_rounded,
-                            color: Colors.black.withOpacity(.54),
-                            size: 24,
-                          ),
-                        )
-                      : null,
+                  suffixIcon:
+                      textEditingController.text.isNotEmpty
+                          ? IconButton(
+                            onPressed: () {
+                              context.read<AlarmAssigneeBloc>().add(
+                                const AlarmAssigneeResetSearchTextEvent(),
+                              );
+                              setState(() {
+                                textEditingController.clear();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: Colors.black.withOpacity(.54),
+                              size: 24,
+                            ),
+                          )
+                          : null,
                 ),
                 onChanged: (text) {
                   context.read<AlarmAssigneeBloc>().add(
-                        AlarmAssigneeSearchEvent(searchText: text),
-                      );
+                    AlarmAssigneeSearchEvent(searchText: text),
+                  );
                   setState(() {});
                 },
               ),
@@ -121,8 +119,10 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
               child: PagedListView<UsersAssignQuery, AssigneeEntity>.separated(
                 pagingController:
                     getIt<AlarmAssigneePaginationRepository>().pagingController,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 shrinkWrap: true,
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {
@@ -153,11 +153,12 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                                 onUserTap: (id) {
                                   Navigator.of(context).pop();
                                   context.read<AlarmAssigneeBloc>().add(
-                                        const AlarmAssigneeUnassignedEvent(),
-                                      );
+                                    const AlarmAssigneeUnassignedEvent(),
+                                  );
                                 },
-                                id: (state as AlarmAssigneeSelectedState)
-                                    .userId,
+                                id:
+                                    (state as AlarmAssigneeSelectedState)
+                                        .userId,
                               ),
                               const SizedBox(height: 16),
                             ],
@@ -167,12 +168,13 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                             UserInfoWidget(
                               avatar: UserInfoAvatarWidget(
                                 shortName: item.shortName,
-                                color: HSLColor.fromAHSL(
-                                  1,
-                                  item.displayName.hashCode % 360,
-                                  40 / 100,
-                                  60 / 100,
-                                ).toColor(),
+                                color:
+                                    HSLColor.fromAHSL(
+                                      1,
+                                      item.displayName.hashCode % 360,
+                                      40 / 100,
+                                      60 / 100,
+                                    ).toColor(),
                               ),
                               name: item.displayName,
                               email: item.userInfo.email,
@@ -181,8 +183,8 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                               onUserTap: (id) {
                                 Navigator.of(context).pop();
                                 context.read<AlarmAssigneeBloc>().add(
-                                      AlarmAssigneeSelectedEvent(id),
-                                    );
+                                  AlarmAssigneeSelectedEvent(id),
+                                );
                               },
                               id: item.userInfo.id.id!,
                             ),
@@ -220,9 +222,10 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                   },
                   firstPageErrorIndicatorBuilder: (_) {
                     return TbErrorWidget(
-                      onRefresh: () => context
-                          .read<AlarmAssigneeBloc>()
-                          .add(const AlarmAssigneeRefreshEvent()),
+                      onRefresh:
+                          () => context.read<AlarmAssigneeBloc>().add(
+                            const AlarmAssigneeRefreshEvent(),
+                          ),
                     );
                   },
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
@@ -14,10 +14,7 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_bu
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_grid_widget.dart';
 
 class DashboardsGridWidget extends StatelessWidget {
-  const DashboardsGridWidget({
-    required this.dashboardPageCtrl,
-    super.key,
-  });
+  const DashboardsGridWidget({required this.dashboardPageCtrl, super.key});
 
   final DashboardPageController dashboardPageCtrl;
 
@@ -32,33 +29,32 @@ class DashboardsGridWidget extends StatelessWidget {
           pagingController:
               getIt<DashboardsPaginationRepository>().pagingController,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, item, index) => EntityGridCard(
-              item,
-              entityCardWidgetBuilder: (_, dashboard) => DashboardGridCard(
-                dashboard: dashboard,
-              ),
-              onEntityTap: (dashboard) {
-                dashboardPageCtrl.openDashboard(
-                  dashboard.id!.id!,
-                  title: dashboard.title,
-                );
-              },
-              settings: EntityCardSettings(dropShadow: true),
-            ),
-            firstPageProgressIndicatorBuilder: (_) =>
-                const FirstPageProgressBuilder(),
-            newPageProgressIndicatorBuilder: (_) =>
-                const NewPageProgressBuilder(),
-            noItemsFoundIndicatorBuilder: (context) =>
-                FirstPageExceptionIndicator(
-              title: 'No dashboards found',
-              message: S.of(context).listIsEmptyText,
-              onTryAgain: () {
-                getIt<DashboardsPaginationRepository>()
-                    .pagingController
-                    .refresh();
-              },
-            ),
+            itemBuilder:
+                (context, item, index) => EntityGridCard(
+                  item,
+                  entityCardWidgetBuilder:
+                      (_, dashboard) => DashboardGridCard(dashboard: dashboard),
+                  onEntityTap: (dashboard) {
+                    dashboardPageCtrl.openDashboard(
+                      dashboard.id!.id!,
+                      title: dashboard.title,
+                    );
+                  },
+                  settings: EntityCardSettings(dropShadow: true),
+                ),
+            firstPageProgressIndicatorBuilder:
+                (_) => const FirstPageProgressBuilder(),
+            newPageProgressIndicatorBuilder:
+                (_) => const NewPageProgressBuilder(),
+            noItemsFoundIndicatorBuilder:
+                (context) => FirstPageExceptionIndicator(
+                  title: 'No dashboards found',
+                  message: S.of(context).listIsEmptyText,
+                  onTryAgain: () {
+                    getIt<DashboardsPaginationRepository>().pagingController
+                        .refresh();
+                  },
+                ),
           ),
         ),
       ),

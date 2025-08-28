@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/authentication/presentation/widgets/login_page_background.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -44,9 +44,7 @@ class VersionEmptyWidget extends StatelessWidget {
                             mode: LaunchMode.externalApplication,
                           );
                         },
-                        child: Text(
-                          S.of(context).updateTo(latestVersion),
-                        ),
+                        child: Text(S.of(context).updateTo(latestVersion)),
                       ),
                     ),
                   ),

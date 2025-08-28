@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
@@ -48,18 +48,20 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        onSearch: (searchText) =>
-            _deviceQueryController.onSearchText(searchText),
+        onSearch:
+            (searchText) => _deviceQueryController.onSearchText(searchText),
       );
     } else {
-      String titleText = widget.deviceType != null
-          ? widget.deviceType!
-          : S.of(context).allDevices;
+      String titleText =
+          widget.deviceType != null
+              ? widget.deviceType!
+              : S.of(context).allDevices;
       String? subTitleText;
       if (widget.active != null) {
-        subTitleText = widget.active == true
-            ? S.of(context).active
-            : S.of(context).inactive;
+        subTitleText =
+            widget.active == true
+                ? S.of(context).active
+                : S.of(context).inactive;
       }
       Column title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,10 +78,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
             Text(
               subTitleText,
               style: TextStyle(
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .titleLarge!
-                    .color!
+                color: Theme.of(context).primaryTextTheme.titleLarge!.color!
                     .withAlpha((0.38 * 255).ceil()),
                 fontSize: 12,
                 fontWeight: FontWeight.normal,

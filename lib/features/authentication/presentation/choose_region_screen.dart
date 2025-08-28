@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/authentication/entities/region.dart';
 import 'package:thingsboard_app/features/authentication/presentation/widgets/region_widget.dart';
 import 'package:thingsboard_app/locator.dart';

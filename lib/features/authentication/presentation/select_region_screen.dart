@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/features/authentication/entities/region.dart';
@@ -35,8 +35,9 @@ class SelectRegionScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          getIt<IEndpointService>()
-                              .setRegion(Region.northAmerica);
+                          getIt<IEndpointService>().setRegion(
+                            Region.northAmerica,
+                          );
                           context.navigateTo('/');
                         },
                         style: ElevatedButton.styleFrom(

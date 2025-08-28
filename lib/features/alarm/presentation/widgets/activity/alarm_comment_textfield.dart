@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/activity/alarm_activity_events.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -33,13 +33,11 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
         ),
         hintText: S.of(context).addCommentMessage,
         suffixIcon: IconButton(
-          icon: const Icon(
-            Icons.send_rounded,
-            size: 24,
-          ),
-          onPressed: textController.text.isNotEmpty
-              ? () => _submitComment(context)
-              : null,
+          icon: const Icon(Icons.send_rounded, size: 24),
+          onPressed:
+              textController.text.isNotEmpty
+                  ? () => _submitComment(context)
+                  : null,
         ),
         suffixIconConstraints: const BoxConstraints(maxWidth: 34),
       ),
@@ -60,11 +58,8 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
   void _submitComment(BuildContext context) {
     if (textController.text.isNotEmpty) {
       context.read<AlarmActivityBloc>().add(
-            PostAlarmCommentEvent(
-              widget.alarmId,
-              comment: textController.text,
-            ),
-          );
+        PostAlarmCommentEvent(widget.alarmId, comment: textController.text),
+      );
       textController.clear();
     }
 

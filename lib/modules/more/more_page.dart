@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
 import 'package:thingsboard_app/core/bloc/core_bloc.dart'
     show CoreBloc, CoreEventLogout;
@@ -27,11 +27,8 @@ class MorePage extends TbContextWidget {
 }
 
 class _MorePageState extends TbContextState<MorePage> {
-  late final ({
-    String? firstName,
-    String? lastName,
-    String? email
-  }) userPersonalInfo;
+  late final ({String? firstName, String? lastName, String? email})
+  userPersonalInfo;
 
   // I know it's bad
   late final IUserService userService;
@@ -111,9 +108,7 @@ class _MorePageState extends TbContextState<MorePage> {
                   height: 0,
                 ),
               ),
-              Flexible(
-                child: buildMoreMenuItems(context),
-              ),
+              Flexible(child: buildMoreMenuItems(context)),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Divider(
@@ -149,12 +144,13 @@ class _MorePageState extends TbContextState<MorePage> {
         maxHeight: MediaQuery.of(context).size.height / 2,
       ),
       child: ListView.separated(
-        itemBuilder: (_, index) => MoreMenuItemWidget(
-          items[index],
-          onTap: () {
-            navigateTo(items[index].path);
-          },
-        ),
+        itemBuilder:
+            (_, index) => MoreMenuItemWidget(
+              items[index],
+              onTap: () {
+                navigateTo(items[index].path);
+              },
+            ),
         separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemCount: items.length,
         shrinkWrap: true,
@@ -182,8 +178,11 @@ class _MorePageState extends TbContextState<MorePage> {
     userService = getIt();
     userPersonalInfo = userService.getUserDetails();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NotificationService(tbClient, widget.log, tbContext)
-          .updateNotificationsCount();
+      NotificationService(
+        tbClient,
+        widget.log,
+        tbContext,
+      ).updateNotificationsCount();
     });
 
     super.initState();

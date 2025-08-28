@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart' show FluroRouter, TransitionType;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/dashboard/domain/entites/dashboard_arguments.dart'
     show DashboardArgumentsEntity;
 
@@ -12,16 +12,17 @@ extension BuildContextExtension on BuildContext {
   }) {
     return showDialog<bool>(
       context: this,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(this).pop(),
-            child: Text(ok),
+      builder:
+          (context) => AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(this).pop(),
+                child: Text(ok),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -33,20 +34,21 @@ extension BuildContextExtension on BuildContext {
   }) {
     return showDialog<bool>(
       context: this,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(this).pop(false),
-            child: Text(cancel ?? S.of(this).cancel),
+      builder:
+          (context) => AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(this).pop(false),
+                child: Text(cancel ?? S.of(this).cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(this).pop(true),
+                child: Text(ok),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.of(this).pop(true),
-            child: Text(ok),
-          ),
-        ],
-      ),
     );
   }
 

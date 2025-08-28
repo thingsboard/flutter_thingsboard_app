@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -70,7 +70,7 @@ class AllDevicesCard extends TbContextWidget {
   final RefreshDeviceCounts refreshDeviceCounts;
 
   AllDevicesCard(TbContext tbContext, this.refreshDeviceCounts, {super.key})
-      : super(tbContext);
+    : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _AllDevicesCardState();
@@ -106,12 +106,18 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
   Future<void> _countDevices() {
     _activeDevicesCount.add(null);
     _inactiveDevicesCount.add(null);
-    Future<int> activeDevicesCount =
-        EntityQueryApi.countDevices(tbClient, active: true);
-    Future<int> inactiveDevicesCount =
-        EntityQueryApi.countDevices(tbClient, active: false);
-    Future<List<int>> countsFuture =
-        Future.wait([activeDevicesCount, inactiveDevicesCount]);
+    Future<int> activeDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      active: true,
+    );
+    Future<int> inactiveDevicesCount = EntityQueryApi.countDevices(
+      tbClient,
+      active: false,
+    );
+    Future<List<int>> countsFuture = Future.wait([
+      activeDevicesCount,
+      inactiveDevicesCount,
+    ]);
     countsFuture.then((counts) {
       if (mounted) {
         _activeDevicesCount.add(counts[0]);
@@ -137,9 +143,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
         ),
         child: Card(
           margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           elevation: 0,
           child: Column(
             children: [
@@ -279,7 +283,7 @@ class DeviceProfileCard extends TbContextWidget {
   final DeviceProfileInfo deviceProfile;
 
   DeviceProfileCard(TbContext tbContext, this.deviceProfile, {super.key})
-      : super(tbContext);
+    : super(tbContext);
 
   @override
   State<StatefulWidget> createState() => _DeviceProfileCardState();

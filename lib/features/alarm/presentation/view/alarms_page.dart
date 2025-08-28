@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:thingsboard_app/features/alarm/alarms_list.dart';
 import 'package:thingsboard_app/features/alarm/di/alarms_di.dart';
@@ -99,9 +99,7 @@ class _AlarmsPageState extends State<AlarmsPage>
               );
 
             case 1:
-              return AlarmsFilterPage(
-                pageController: _preloadPageCtrl,
-              );
+              return AlarmsFilterPage(pageController: _preloadPageCtrl);
           }
 
           return const SizedBox.shrink();

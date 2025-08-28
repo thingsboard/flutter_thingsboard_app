@@ -2,7 +2,7 @@ import 'dart:math' show pi;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_assignee/alarm_assignee_bloc.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_assignee/alarm_assignee_event.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_assignee/alarm_assignee_state.dart';
@@ -24,28 +24,27 @@ class AlarmAssigneeWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder: (_) => BlocProvider.value(
-              value: context.read<AlarmAssigneeBloc>(),
-              child: const AnimatedSize(
-                curve: Curves.easeInOut,
-                duration: Duration(milliseconds: 500),
-                child: AlarmAssigneeListWidget(),
-              ),
-            ),
+            builder:
+                (_) => BlocProvider.value(
+                  value: context.read<AlarmAssigneeBloc>(),
+                  child: const AnimatedSize(
+                    curve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 500),
+                    child: AlarmAssigneeListWidget(),
+                  ),
+                ),
           );
 
           if (context.mounted) {
             context.read<AlarmAssigneeBloc>().add(
-                  const AlarmAssigneeResetSearchTextEvent(),
-                );
+              const AlarmAssigneeResetSearchTextEvent(),
+            );
           }
         },
         child: Container(
           constraints: const BoxConstraints(minHeight: 38),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black.withValues(alpha: 0.12),
-            ),
+            border: Border.all(color: Colors.black.withValues(alpha: 0.12)),
             borderRadius: BorderRadius.circular(4),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

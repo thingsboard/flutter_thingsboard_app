@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -42,12 +42,7 @@ class _VersionSingleState extends TbContextState<VersionSingleWidget>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TabBar(
-                controller: tabCtrl,
-                tabs: [
-                  Tab(text: widget.version),
-                ],
-              ),
+              TabBar(controller: tabCtrl, tabs: [Tab(text: widget.version)]),
               Expanded(
                 child: SingleChildScrollView(
                   child: Html(
@@ -74,9 +69,7 @@ class _VersionSingleState extends TbContextState<VersionSingleWidget>
                         mode: LaunchMode.externalApplication,
                       );
                     },
-                    child: Text(
-                      S.of(context).updateTo(widget.latestVersion),
-                    ),
+                    child: Text(S.of(context).updateTo(widget.latestVersion)),
                   ),
                 ),
               ),

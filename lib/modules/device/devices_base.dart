@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -94,13 +94,13 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
     String? deviceType,
     bool? active,
   }) : super(
-          EntityQueryApi.createDefaultDeviceQuery(
-            pageSize: pageSize,
-            searchText: searchText,
-            deviceType: deviceType,
-            active: active,
-          ),
-        );
+         EntityQueryApi.createDefaultDeviceQuery(
+           pageSize: pageSize,
+           searchText: searchText,
+           deviceType: deviceType,
+           active: active,
+         ),
+       );
 
   @override
   EntityDataQuery nextPageKey(EntityDataQuery pageKey) => pageKey.next();
@@ -180,9 +180,10 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
             child: Container(
               width: 4,
               decoration: BoxDecoration(
-                color: widget.device.attribute('active') == 'true'
-                    ? const Color(0xFF008A00)
-                    : const Color(0xFFAFAFAF),
+                color:
+                    widget.device.attribute('active') == 'true'
+                        ? const Color(0xFF008A00)
+                        : const Color(0xFFAFAFAF),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
@@ -272,9 +273,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                           child: Text(
                                             widget.device.field('name')!,
                                             style: const TextStyle(
-                                              color: Color(
-                                                0xFF282828,
-                                              ),
+                                              color: Color(0xFF282828),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                               height: 20 / 14,
@@ -314,19 +313,18 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                         ),
                                       ),
                                       Text(
-                                        widget.device.attribute(
-                                                  'active',
-                                                ) ==
+                                        widget.device.attribute('active') ==
                                                 'true'
                                             ? S.of(context).active
                                             : S.of(context).inactive,
                                         style: TextStyle(
-                                          color: widget.device.attribute(
-                                                    'active',
-                                                  ) ==
-                                                  'true'
-                                              ? const Color(0xFF008A00)
-                                              : const Color(0xFFAFAFAF),
+                                          color:
+                                              widget.device.attribute(
+                                                        'active',
+                                                      ) ==
+                                                      'true'
+                                                  ? const Color(0xFF008A00)
+                                                  : const Color(0xFFAFAFAF),
                                           fontSize: 12,
                                           height: 16 / 12,
                                           fontWeight: FontWeight.normal,
@@ -358,9 +356,9 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                 child: Center(
                   child: RefreshProgressIndicator(
                     valueColor: AlwaysStoppedAnimation(
-                      Theme.of(tbContext.currentState!.context)
-                          .colorScheme
-                          .primary,
+                      Theme.of(
+                        tbContext.currentState!.context,
+                      ).colorScheme.primary,
                     ),
                   ),
                 ),
@@ -407,15 +405,13 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                     imageFit = BoxFit.cover;
                   }
                   return ClipRRect(
-                    borderRadius:
-                        const BorderRadius.horizontal(left: Radius.circular(4)),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(4),
+                    ),
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: FittedBox(
-                            fit: imageFit,
-                            child: image,
-                          ),
+                          child: FittedBox(fit: imageFit, child: image),
                         ),
                       ],
                     ),
@@ -424,9 +420,9 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                   return Center(
                     child: RefreshProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(
-                        Theme.of(tbContext.currentState!.context)
-                            .colorScheme
-                            .primary,
+                        Theme.of(
+                          tbContext.currentState!.context,
+                        ).colorScheme.primary,
                       ),
                     ),
                   );

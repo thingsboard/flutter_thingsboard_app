@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_types/alarm_types_bloc.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_types/alarm_types_event.dart';
@@ -51,12 +51,15 @@ class TypesListWidget extends StatelessWidget {
             ),
             Flexible(
               child: PagedListView<PageLink, AlarmType>.separated(
-                pagingController: getIt<AlarmTypesBloc>()
-                    .paginationRepository
-                    .pagingController,
+                pagingController:
+                    getIt<AlarmTypesBloc>()
+                        .paginationRepository
+                        .pagingController,
                 shrinkWrap: true,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {
                     return GestureDetector(
@@ -73,10 +76,7 @@ class TypesListWidget extends StatelessWidget {
                           Flexible(
                             child: Text(
                               item.type,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                height: 1.5,
-                              ),
+                              style: const TextStyle(fontSize: 16, height: 1.5),
                             ),
                           ),
                         ],
@@ -93,8 +93,8 @@ class TypesListWidget extends StatelessWidget {
                     );
                   },
                 ),
-                separatorBuilder: (_, __) =>
-                    const Divider(thickness: 1, height: 32),
+                separatorBuilder:
+                    (_, __) => const Divider(thickness: 1, height: 32),
               ),
             ),
           ],

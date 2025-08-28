@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class TbErrorWidget extends StatelessWidget {
-  const TbErrorWidget({
-    this.onRefresh,
-    this.title,
-    this.message,
-    super.key,
-  });
+  const TbErrorWidget({this.onRefresh, this.title, this.message, super.key});
 
   final VoidCallback? onRefresh;
   final String? title;
@@ -21,11 +16,7 @@ class TbErrorWidget extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 72),
-        SvgPicture.asset(
-          ThingsboardImage.noDataImage,
-          width: 94,
-          height: 76,
-        ),
+        SvgPicture.asset(ThingsboardImage.noDataImage, width: 94, height: 76),
         const SizedBox(height: 12),
         Text(
           title ?? S.of(context).failedToLoadTheList,

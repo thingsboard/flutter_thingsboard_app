@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/features/alarm/presentation/view/alarms_page.dart';
@@ -30,23 +30,17 @@ part 'layouts_events.dart';
 part 'layouts_states.dart';
 
 class LayoutsBloc extends Bloc<LayoutsEvent, LayoutsState> {
-  LayoutsBloc({
-    required this.mobileService,
-  }) : super(const BottomBarLoadingState()) {
+  LayoutsBloc({required this.mobileService})
+    : super(const BottomBarLoadingState()) {
     on(_onEvent);
   }
 
-  factory LayoutsBloc.create() => LayoutsBloc(
-        mobileService: getIt(),
-      );
+  factory LayoutsBloc.create() => LayoutsBloc(mobileService: getIt());
 
   final IMobileService mobileService;
   final tbContext = getIt<ILegacyService>().tbContext;
 
-  Future<void> _onEvent(
-    LayoutsEvent event,
-    Emitter<LayoutsState> emit,
-  ) async {
+  Future<void> _onEvent(LayoutsEvent event, Emitter<LayoutsState> emit) async {
     switch (event) {
       case BottomBarFetchEvent():
         final items = mobileService.getCachedPageLayouts();
@@ -64,12 +58,14 @@ class LayoutsBloc extends Bloc<LayoutsEvent, LayoutsState> {
                   icon: getIcon(e),
                   path: getPath(e),
                   showAdditionalIcon: e.id == Pages.notifications,
-                  additionalIconSmall: e.id == Pages.notifications
-                      ? notificationSmallNumberWidget()
-                      : null,
-                  additionalIconLarge: e.id == Pages.notifications
-                      ? notificationLargeNumberWidget()
-                      : null,
+                  additionalIconSmall:
+                      e.id == Pages.notifications
+                          ? notificationSmallNumberWidget()
+                          : null,
+                  additionalIconLarge:
+                      e.id == Pages.notifications
+                          ? notificationLargeNumberWidget()
+                          : null,
                 ),
               )
               .toList(),

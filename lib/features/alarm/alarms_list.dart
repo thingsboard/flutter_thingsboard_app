@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/bloc.dart';
@@ -17,9 +17,8 @@ class AlarmsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => getIt<AlarmBloc>().add(
-        const AlarmsRefreshPageEvent(),
-      ),
+      onRefresh:
+          () async => getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
       child: PaginationListWidget<AlarmQueryV2, AlarmInfo>(
         pagingController:
             getIt<AlarmBloc>().paginationRepository.pagingController,
@@ -32,18 +31,18 @@ class AlarmsList extends StatelessWidget {
               },
             );
           },
-          firstPageProgressIndicatorBuilder: (_) =>
-              const FirstPageProgressBuilder(),
-          newPageProgressIndicatorBuilder: (_) =>
-              const NewPageProgressBuilder(),
-          noItemsFoundIndicatorBuilder: (context) =>
-              FirstPageExceptionIndicator(
-            title: 'No alarms found',
-            message: S.of(context).listIsEmptyText,
-            onTryAgain: () => getIt<AlarmBloc>().add(
-              const AlarmsRefreshPageEvent(),
-            ),
-          ),
+          firstPageProgressIndicatorBuilder:
+              (_) => const FirstPageProgressBuilder(),
+          newPageProgressIndicatorBuilder:
+              (_) => const NewPageProgressBuilder(),
+          noItemsFoundIndicatorBuilder:
+              (context) => FirstPageExceptionIndicator(
+                title: 'No alarms found',
+                message: S.of(context).listIsEmptyText,
+                onTryAgain:
+                    () =>
+                        getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
+              ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/features/alarm/alarms_base.dart';
 import 'package:thingsboard_app/features/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
@@ -38,10 +38,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
       child: ScrollOnExpand(
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black.withOpacity(.12),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.black.withOpacity(.12), width: 1),
             borderRadius: BorderRadius.circular(6),
           ),
           child: ExpandablePanel(
@@ -58,9 +55,10 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                     ),
                   ),
                   RotationTransition(
-                    turns: Tween(begin: .0, end: .5).animate(
-                      animationController,
-                    ),
+                    turns: Tween(
+                      begin: .0,
+                      end: .5,
+                    ).animate(animationController),
                     child: Transform.rotate(
                       angle: pi / 2,
                       child: Icon(
@@ -90,7 +88,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                     title: S.of(context).severity,
                     details:
                         alarmSeverityTranslations[widget.alarmInfo.severity] ??
-                            '',
+                        '',
                     detailsStyle: TbTextStyles.labelLarge.copyWith(
                       color: alarmSeverityColors[widget.alarmInfo.severity],
                     ),
@@ -128,8 +126,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                           );
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).primaryColor.withOpacity(.1),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).primaryColor.withOpacity(.1),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(

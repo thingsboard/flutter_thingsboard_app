@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/features/authentication/presentation/widgets/login_page_background.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -24,9 +24,7 @@ class ResetPasswordRequestPage extends StatelessWidget {
           SizedBox.expand(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: TbAppBar(
-                title: Text(S.of(context).passwordReset),
-              ),
+              appBar: TbAppBar(title: Text(S.of(context).passwordReset)),
               body: Stack(
                 children: [
                   SizedBox.expand(
@@ -52,16 +50,14 @@ class ResetPasswordRequestPage extends StatelessWidget {
                             FormBuilderTextField(
                               name: 'email',
                               autofocus: true,
-                              validator: FormBuilderValidators.compose(
-                                [
-                                  FormBuilderValidators.required(
-                                    errorText: S.of(context).emailRequireText,
-                                  ),
-                                  FormBuilderValidators.email(
-                                    errorText: S.of(context).emailInvalidText,
-                                  ),
-                                ],
-                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  errorText: S.of(context).emailRequireText,
+                                ),
+                                FormBuilderValidators.email(
+                                  errorText: S.of(context).emailInvalidText,
+                                ),
+                              ]),
                               decoration: InputDecoration(
                                 border: const OutlineInputBorder(),
                                 labelText: '${S.of(context).email} *',
@@ -70,15 +66,14 @@ class ResetPasswordRequestPage extends StatelessWidget {
                             const Spacer(),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                               ),
                               onPressed: () {
                                 _requestPasswordReset(context);
                               },
-                              child: Text(
-                                S.of(context).requestPasswordReset,
-                              ),
+                              child: Text(S.of(context).requestPasswordReset),
                             ),
                           ],
                         ),

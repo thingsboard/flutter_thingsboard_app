@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -99,11 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                                             onPressed: () {
                                               context.showFullScreenDialog(
                                                 ChooseRegionScreen(
-                                                  nASelected: selectedRegion ==
+                                                  nASelected:
+                                                      selectedRegion ==
                                                       Region.northAmerica,
                                                   europeSelected:
                                                       selectedRegion ==
-                                                          Region.europe,
+                                                      Region.europe,
                                                 ),
                                               );
                                             },
@@ -117,8 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                                 const SizedBox(width: 6),
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 4),
+                                                  padding: EdgeInsets.only(
+                                                    top: 4,
+                                                  ),
                                                   child: Icon(
                                                     Icons
                                                         .arrow_forward_ios_rounded,
@@ -152,19 +154,21 @@ class _LoginPageState extends State<LoginPage> {
                                               S.of(context).loginWith,
                                               style: TbTextStyles.bodyMedium
                                                   .copyWith(
-                                                color: Colors.black
-                                                    .withValues(alpha: .54),
-                                              ),
+                                                    color: Colors.black
+                                                        .withValues(alpha: .54),
+                                                  ),
                                             ),
                                           ),
                                         ),
                                         Oauth2ClientsWidget(
                                           state.oAuthClients,
-                                          onPressed: (client) => context
-                                              .read<LoginBloc>()
-                                              .add(
-                                                LoginWithOauth2Event(client),
-                                              ),
+                                          onPressed:
+                                              (client) =>
+                                                  context.read<LoginBloc>().add(
+                                                    LoginWithOauth2Event(
+                                                      client,
+                                                    ),
+                                                  ),
                                         ),
                                       ],
                                     ),
@@ -177,8 +181,9 @@ class _LoginPageState extends State<LoginPage> {
                                         children: [
                                           Flexible(
                                             child: Divider(
-                                              color: Colors.black
-                                                  .withValues(alpha: .12),
+                                              color: Colors.black.withValues(
+                                                alpha: .12,
+                                              ),
                                             ),
                                           ),
                                           Padding(
@@ -189,15 +194,16 @@ class _LoginPageState extends State<LoginPage> {
                                               S.of(context).or,
                                               style: TbTextStyles.bodyMedium
                                                   .copyWith(
-                                                color: Colors.black
-                                                    .withValues(alpha: .54),
-                                              ),
+                                                    color: Colors.black
+                                                        .withValues(alpha: .54),
+                                                  ),
                                             ),
                                           ),
                                           Flexible(
                                             child: Divider(
-                                              color: Colors.black
-                                                  .withValues(alpha: .12),
+                                              color: Colors.black.withValues(
+                                                alpha: .12,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -216,20 +222,20 @@ class _LoginPageState extends State<LoginPage> {
                                             keyboardType:
                                                 TextInputType.emailAddress,
                                             validator:
-                                                FormBuilderValidators.compose(
-                                              [
-                                                FormBuilderValidators.required(
-                                                  errorText: S
-                                                      .of(context)
-                                                      .emailRequireText,
-                                                ),
-                                                FormBuilderValidators.email(
-                                                  errorText: S
-                                                      .of(context)
-                                                      .emailInvalidText,
-                                                ),
-                                              ],
-                                            ),
+                                                FormBuilderValidators.compose([
+                                                  FormBuilderValidators.required(
+                                                    errorText:
+                                                        S
+                                                            .of(context)
+                                                            .emailRequireText,
+                                                  ),
+                                                  FormBuilderValidators.email(
+                                                    errorText:
+                                                        S
+                                                            .of(context)
+                                                            .emailInvalidText,
+                                                  ),
+                                                ]),
                                             decoration: InputDecoration(
                                               border:
                                                   const OutlineInputBorder(),
@@ -242,9 +248,9 @@ class _LoginPageState extends State<LoginPage> {
                                               labelText: S.of(context).email,
                                               labelStyle: TbTextStyles.bodyLarge
                                                   .copyWith(
-                                                color: Colors.black
-                                                    .withValues(alpha: .54),
-                                              ),
+                                                    color: Colors.black
+                                                        .withValues(alpha: .54),
+                                                  ),
                                             ),
                                           ),
                                           const SizedBox(height: 24),
@@ -252,15 +258,14 @@ class _LoginPageState extends State<LoginPage> {
                                             name: 'password',
                                             obscureText: !_showPassword,
                                             validator:
-                                                FormBuilderValidators.compose(
-                                              [
-                                                FormBuilderValidators.required(
-                                                  errorText: S
-                                                      .of(context)
-                                                      .passwordRequireText,
-                                                ),
-                                              ],
-                                            ),
+                                                FormBuilderValidators.compose([
+                                                  FormBuilderValidators.required(
+                                                    errorText:
+                                                        S
+                                                            .of(context)
+                                                            .passwordRequireText,
+                                                  ),
+                                                ]),
                                             decoration: InputDecoration(
                                               suffixIcon: IconButton(
                                                 icon: Icon(
@@ -286,11 +291,11 @@ class _LoginPageState extends State<LoginPage> {
                                               labelText: S.of(context).password,
                                               labelStyle: TbTextStyles.bodyLarge
                                                   .copyWith(
-                                                color: Colors.black
-                                                    .withValues(alpha: .54),
-                                              ),
+                                                    color: Colors.black
+                                                        .withValues(alpha: .54),
+                                                  ),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -299,9 +304,10 @@ class _LoginPageState extends State<LoginPage> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         TextButton(
-                                          onPressed: () => context.navigateTo(
-                                            '/login/resetPasswordRequest',
-                                          ),
+                                          onPressed:
+                                              () => context.navigateTo(
+                                                '/login/resetPasswordRequest',
+                                              ),
                                           child: Text(
                                             S.of(context).passwordForgotText,
                                             style: TbTextStyles.bodyMedium,
@@ -328,11 +334,11 @@ class _LoginPageState extends State<LoginPage> {
                                           final password =
                                               formValue['password'];
                                           context.read<LoginBloc>().add(
-                                                Login(
-                                                  username: username,
-                                                  password: password,
-                                                ),
-                                              );
+                                            Login(
+                                              username: username,
+                                              password: password,
+                                            ),
+                                          );
                                         }
                                       },
                                       child: Text(
@@ -350,25 +356,28 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   },
-                  loginWip: (_) => SizedBox.expand(
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200.withValues(alpha: 0.2),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).padding.top,
+                  loginWip:
+                      (_) => SizedBox.expand(
+                        child: ClipRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200.withValues(
+                                  alpha: 0.2,
+                                ),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  bottom: MediaQuery.of(context).padding.top,
+                                ),
+                                alignment: Alignment.center,
+                                child: const TbProgressIndicator(size: 50.0),
+                              ),
                             ),
-                            alignment: Alignment.center,
-                            child: const TbProgressIndicator(size: 50.0),
                           ),
                         ),
                       ),
-                    ),
-                  ),
                 );
               },
             ),

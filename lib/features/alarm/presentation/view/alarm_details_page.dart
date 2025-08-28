@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/features/alarm/di/alarm_details_di.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_assignee/alarm_assignee_bloc.dart';
 import 'package:thingsboard_app/features/alarm/presentation/bloc/alarm_assignee/alarm_assignee_event.dart';
@@ -18,10 +18,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class AlarmDetailsPage extends StatefulWidget {
-  const AlarmDetailsPage({
-    required this.id,
-    super.key,
-  });
+  const AlarmDetailsPage({required this.id, super.key});
 
   final String id;
 
@@ -35,14 +32,16 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmDetailsBloc>(
-          create: (_) => AlarmDetailsBloc.create()
-            ..add(AlarmDetailsFetchEvent(id: widget.id)),
+          create:
+              (_) =>
+                  AlarmDetailsBloc.create()
+                    ..add(AlarmDetailsFetchEvent(id: widget.id)),
         ),
         BlocProvider<AlarmAssigneeBloc>(
-          create: (_) => AlarmAssigneeBloc.create(id: widget.id)
-            ..add(
-              const AlarmFetchAssigneeEvent(),
-            ),
+          create:
+              (_) =>
+                  AlarmAssigneeBloc.create(id: widget.id)
+                    ..add(const AlarmFetchAssigneeEvent()),
         ),
       ],
       child: BlocBuilder<AlarmDetailsBloc, AlarmDetailsState>(
@@ -53,9 +52,7 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
                 body: SizedBox.expand(
                   child: Container(
                     color: const Color(0x99FFFFFF),
-                    child: const Center(
-                      child: TbProgressIndicator(size: 50.0),
-                    ),
+                    child: const Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 ),
               );
@@ -89,9 +86,7 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
                                       state.alarmInfo.details?['dashboardId'],
                                 ),
                                 const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 12),
                                   child: AlarmAssigneeWidget(),
                                 ),
                                 AlarmActivityWidget(
