@@ -1,0 +1,12 @@
+{
+  "thingsboardApiEndpoint": "https://ce.tbqa.cloud",
+  "appLinksUrlHost": "ce.tbqa.cloud",
+  "appLinksUrlScheme": "https",
+  "androidApplicationId": "org.thingsboard.app.ce",
+  "androidApplicationName": "app",
+  "thingsboardOAuth2CallbackUrlScheme": "org.thingsboard.app.ce.auth",
+  "thingsboardAndroidAppSecret": "NjN5dEV5WjFUMWlUenFCNFJfallCMVk0OWJydEJZcWhUWlJnRzFUdXFwNjVhQW5ZS0NCS1FtZzZ2SHlGVUoyVQ==",
+  "iosApplicationId": "org.thingsboard.ce",
+  "iosApplicationName": "app",
+  "thingsboardIosAppSecret": "RFpOQ1VIRnU5asFBYkdOQVEzakhuZnNTeTNvQW9IbFJuVEVSZ2lPMkxlRHdKNVpPZDVtRWxRVkNVOW00U1drVA=="
+}

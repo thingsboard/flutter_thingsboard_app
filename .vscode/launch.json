@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+{
+            "name": "flutter_thingsboard_app local ",
+            "request": "launch",
+            "type": "dart",
+             "toolArgs": ["--dart-define-from-file", "app_constants.json"]
+        },
+        {
+            "name": "flutter_thingsboard_app",
+            "request": "launch",
+            "type": "dart",
+             "toolArgs": ["--dart-define-from-file", "../../app_constants_demo.json"]
+        },
+        {
+            "name": "flutter_thingsboard_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "toolArgs": ["--dart-define-from-file", "../../app_constants_demo.json"]
+        },
+        {
+            "name": "flutter_thingsboard_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "toolArgs": ["--dart-define-from-file", "../../app_constants_demo.json"]
+        }
+    ]
+}
