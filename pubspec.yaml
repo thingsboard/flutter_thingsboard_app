@@ -75,6 +75,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   mobile_scanner: ^7.0.1
+  flutter_blue_plus: ^1.32.8
   flutter_hooks: ^0.21.2
   esp_provisioning_softap:
     git:
