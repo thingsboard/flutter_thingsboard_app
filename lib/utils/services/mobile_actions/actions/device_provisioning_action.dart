@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -52,22 +51,6 @@ class DeviceProvisioningAction extends MobileAction {
           bool? provisioningResult;
           switch (transport.toLowerCase()) {
             case 'ble':
-              // Check if Bluetooth is available and enabled
-              if (await FlutterBluePlus.isSupported == false) {
-                return WidgetMobileActionResult.errorResult(
-                  "Bluetooth is not supported on this device.",
-                );
-              }
-              if (await FlutterBluePlus.adapterState.first != BluetoothAdapterState.on) {
-                // Attempt to enable Bluetooth
-                try {
-                  await FlutterBluePlus.turnOn();
-                } catch (e) {
-                  return WidgetMobileActionResult.errorResult(
-                    "Failed to enable Bluetooth. Please enable it manually in settings.",
-                  );
-                }
-              }
               provisioningResult =
                   await getIt<ThingsboardAppRouter>().navigateTo(
                 EspProvisioningRoute.wifiRoute,
