@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
@@ -10,15 +10,11 @@ import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_filter_page.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class AlarmsPage extends TbContextWidget {
-  AlarmsPage(
-    super.tbContext, {
-    this.searchMode = false,
-    super.key,
-  });
+class AlarmsPage extends StatefulWidget {
+  const AlarmsPage({this.searchMode = false, super.key});
 
   final bool searchMode;
 
@@ -26,7 +22,7 @@ class AlarmsPage extends TbContextWidget {
   State<StatefulWidget> createState() => _AlarmsPageState();
 }
 
-class _AlarmsPageState extends TbContextState<AlarmsPage>
+class _AlarmsPageState extends State<AlarmsPage>
     with AutomaticKeepAliveClientMixin<AlarmsPage> {
   final _preloadPageCtrl = PreloadPageController();
   final diScopeKey = UniqueKey();
@@ -49,7 +45,6 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
             case 0:
               return Scaffold(
                 appBar: TbAppBar(
-                  tbContext,
                   title: Text(
                     S.of(context).alarms(2),
                     style: TbTextStyles.titleXs,
@@ -77,9 +72,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                                   height: 8,
                                   width: 8,
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                    ),
+                                    border: Border.all(color: Colors.white),
                                     borderRadius: BorderRadius.circular(16),
                                     color: Theme.of(context).primaryColor,
                                   ),
@@ -96,20 +89,21 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
                       icon: const Icon(Icons.search),
                       onPressed: () {
                         getIt<ThingsboardAppRouter>()
-                            // translate-me-ignore-next-line
-                            .navigateTo('/alarms?search=true');
+                        // translate-me-ignore-next-line
+                        .navigateTo('/alarms?search=true');
                       },
                     ),
                   ],
                 ),
-                body: AlarmsList(tbContext: tbContext),
+                body: const AlarmsList(),
               );
 
             case 1:
-              return AlarmsFilterPage(
-                tbContext,
-                pageController: _preloadPageCtrl,
-              );
+              return 
+              AlarmsFilterPage(
+
+               pageController: _preloadPageCtrl,
+             );
           }
 
           return const SizedBox.shrink();
@@ -124,7 +118,7 @@ class _AlarmsPageState extends TbContextState<AlarmsPage>
   void initState() {
     AlarmsDi.init(
       diScopeKey.toString(),
-      tbClient: widget.tbContext.tbClient,
+      tbClient: getIt<ITbClientService>().client,
       typesScopeName: typesScopeName.toString(),
       assigneeScopeName: assigneeScopeName.toString(),
     );

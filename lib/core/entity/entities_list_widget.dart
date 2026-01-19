@@ -34,11 +34,7 @@ class EntitiesListWidgetController {
 
 abstract class EntitiesListPageLinkWidget<T>
     extends EntitiesListWidget<T, PageLink> {
-  EntitiesListPageLinkWidget(
-    super.tbContext, {
-    super.controller,
-    super.key,
-  });
+  EntitiesListPageLinkWidget(super.tbContext, {super.controller, super.key});
 
   @override
   PageKeyController<PageLink> createPageKeyController() =>
@@ -47,12 +43,11 @@ abstract class EntitiesListPageLinkWidget<T>
 
 abstract class EntitiesListWidget<T, P> extends TbContextWidget
     with EntitiesBase<T, P> {
-
   EntitiesListWidget(
     super.tbContext, {
     super.key,
     EntitiesListWidgetController? controller,
-  })  : _controller = controller;
+  }) : _controller = controller;
   final EntitiesListWidgetController? _controller;
 
   @override
@@ -89,7 +84,9 @@ class _EntitiesListWidgetState<T, P>
 
   Future<void> _refresh() {
     _entitiesStreamController.add(null);
-    final entitiesFuture = widget.fetchEntities(_pageKeyController.value.pageKey);
+    final entitiesFuture = widget.fetchEntities(
+      _pageKeyController.value.pageKey,
+    );
     entitiesFuture.then((value) => _entitiesStreamController.add(value));
     return entitiesFuture;
   }
@@ -115,9 +112,7 @@ class _EntitiesListWidgetState<T, P>
       ),
       child: Card(
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -152,10 +147,8 @@ class _EntitiesListWidgetState<T, P>
                       onPressed: () {
                         widget.onViewAll();
                       },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child:  Text(S.of(context).viewAll),
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      child: Text(S.of(context).viewAll),
                     ),
                   ],
                 ),
@@ -176,9 +169,9 @@ class _EntitiesListWidgetState<T, P>
                       return Center(
                         child: RefreshProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Theme.of(tbContext.currentState!.context)
-                                .colorScheme
-                                .primary,
+                            Theme.of(
+                              tbContext.currentState!.context,
+                            ).colorScheme.primary,
                           ),
                         ),
                       );
@@ -196,18 +189,13 @@ class _EntitiesListWidgetState<T, P>
   Widget _buildNoEntitiesFound() {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFDEDEDE),
-        ),
+        border: Border.all(color: const Color(0xFFDEDEDE)),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Center(
         child: Text(
           widget.noItemsFoundText,
-          style: const TextStyle(
-            color: Color(0xFFAFAFAF),
-            fontSize: 14,
-          ),
+          style: const TextStyle(color: Color(0xFFAFAFAF), fontSize: 14),
         ),
       ),
     );
@@ -220,16 +208,17 @@ class _EntitiesListWidgetState<T, P>
       child: ListView(
         scrollDirection: Axis.horizontal,
         controller: ScrollController(),
-        children: entities
-            .map(
-              (entity) => EntityListCard<T>(
-                entity,
-                entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
-                onEntityTap: widget.onEntityTap,
-                listWidgetCard: true,
-              ),
-            )
-            .toList(),
+        children:
+            entities
+                .map(
+                  (entity) => EntityListCard<T>(
+                    entity,
+                    entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
+                    onEntityTap: widget.onEntityTap,
+                    listWidgetCard: true,
+                  ),
+                )
+                .toList(),
       ),
     );
   }

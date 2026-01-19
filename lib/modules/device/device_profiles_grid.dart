@@ -5,9 +5,5 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 class DeviceProfilesGrid extends BaseEntitiesWidget<DeviceProfileInfo, PageLink>
     with DeviceProfilesBase, EntitiesGridStateBase {
-  DeviceProfilesGrid(
-    super.tbContext,
-    super.pageKeyController, {
-    super.key,
-  });
+  DeviceProfilesGrid(super.pageKeyController, {super.key});
 }

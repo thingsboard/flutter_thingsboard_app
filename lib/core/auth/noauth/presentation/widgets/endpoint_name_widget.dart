@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 
 class EndpointNameWidget extends StatelessWidget {
   const EndpointNameWidget({required this.endpoint, super.key});

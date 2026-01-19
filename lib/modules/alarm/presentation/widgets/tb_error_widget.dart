@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class TbErrorWidget extends StatelessWidget {
   const TbErrorWidget({this.onRefresh, this.title, this.message, super.key});

@@ -19,7 +19,7 @@ String cleanName(String name) {
       shortName += params.lastName?[0] ?? '';
     }
 
-    if (shortName.isEmpty) {
+    if (shortName.isEmpty && params.email.isNotEmpty) {
       shortName = params.email[0];
     }
 

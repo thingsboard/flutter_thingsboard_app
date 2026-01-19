@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/dotted_point_widget.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class ManuallyReconnectToWifi extends StatelessWidget {
   const ManuallyReconnectToWifi({super.key});

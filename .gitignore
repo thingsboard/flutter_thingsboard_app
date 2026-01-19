@@ -47,3 +47,4 @@ app_constants.json
 /android/app/.cxx
 # FVM Version Cache
 .fvm/
+WARP.md

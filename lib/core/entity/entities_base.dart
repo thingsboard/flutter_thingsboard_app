@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/config/themes/app_colors.dart';
+import 'package:thingsboard_app/config/themes/design_tokens.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 typedef EntityTapFunction<T> = Function(T entity);
@@ -22,7 +22,7 @@ class EntityCardSettings {
   bool dropShadow;
 }
 
-mixin EntitiesBase<T, P> on HasTbContext {
+mixin EntitiesBase<T, P> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 
   String get title;
@@ -63,12 +63,17 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
   Widget buildEntityListCard(BuildContext context, T contact) {
     final address = Utils.contactToShortAddress(contact);
     return Container(
+      constraints: const BoxConstraints(minHeight: 56),
+      decoration: BoxDecoration(borderRadius: DesignTokens.borderRadiusSmall),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
+        spacing: 12,
         children: [
+          Icon(Icons.group, color: AppColors.iconDisabled),
           Flexible(
             fit: FlexFit.tight,
             child: Column(
+              spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -97,35 +102,24 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+
                 if (contact.email != null)
                   Text(
                     contact.email!,
-                    style: const TextStyle(
-                      color: Color(0xFFAFAFAF),
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      height: 16 / 12,
+                    style: TbTextStyles.labelSmall.copyWith(
+                      color: AppColors.textTertiary,
                     ),
                   ),
-                if (contact.email == null) const SizedBox(height: 16),
-                if (address != null) const SizedBox(height: 4),
                 if (address != null)
                   Text(
                     address,
-                    style: const TextStyle(
-                      color: Color(0xFFAFAFAF),
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      height: 16 / 12,
+                    style: TbTextStyles.labelSmall.copyWith(
+                      color: AppColors.textTertiary,
                     ),
                   ),
               ],
             ),
           ),
-          const SizedBox(width: 16),
-          const Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
-          const SizedBox(width: 8),
         ],
       ),
     );
@@ -185,10 +179,9 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
   }
 }
 
-abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
+abstract class BaseEntitiesWidget<T, P> extends StatefulWidget
     with EntitiesBase<T, P> {
   BaseEntitiesWidget(
-    super.tbContext,
     this.pageKeyController, {
     super.key,
     this.searchMode = false,
@@ -210,8 +203,7 @@ abstract class BaseEntitiesWidget<T, P> extends TbContextWidget
           : null;
 }
 
-abstract class BaseEntitiesState<T, P>
-    extends TbContextState<BaseEntitiesWidget<T, P>> {
+abstract class BaseEntitiesState<T, P> extends State<BaseEntitiesWidget<T, P>> {
   BaseEntitiesState();
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;

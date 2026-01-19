@@ -9,17 +9,17 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   @override
   Future<PageData<AlarmCommentInfo>> fetchAlarmComments(
     AlarmCommentsQuery query,
-  )  {
+  ) {
     return thingsboardClient.getAlarmService().getAlarmComments(query);
   }
 
   @override
-  Future<AlarmInfo> acknowledgeAlarm(AlarmId id)  {
+  Future<AlarmInfo> acknowledgeAlarm(AlarmId id) {
     return thingsboardClient.getAlarmService().ackAlarm(id.id!);
   }
 
   @override
-  Future<AlarmInfo> clearAlarm(AlarmId id)  {
+  Future<AlarmInfo> clearAlarm(AlarmId id) {
     return thingsboardClient.getAlarmService().clearAlarm(id.id!);
   }
 
@@ -27,18 +27,19 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   Future<AlarmCommentInfo> postComment(
     AlarmId alarmId, {
     required String comment,
-  })  {
-    return thingsboardClient
-        .getAlarmService()
-        .postAlarmComment(comment, alarmId: alarmId);
+  }) {
+    return thingsboardClient.getAlarmService().postAlarmComment(
+      AlarmComment(null, null, alarmId, null, AlarmCommentType.OTHER, comment, null),
+    
+    );
   }
 
   @override
   Future<void> deleteComment(AlarmId id, {required String commentId}) {
     return thingsboardClient.getAlarmService().deleteAlarmComment(
-          commentId,
-          alarmId: id,
-        );
+      commentId,
+      alarmId: id,
+    );
   }
 
   @override
@@ -47,11 +48,9 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     required String id,
     required String comment,
   }) {
-    return thingsboardClient.getAlarmService().updatedAlarmComment(
-          comment,
-          alarmId: alarmId,
-          commentId: id,
-        );
+    return thingsboardClient.getAlarmService().postAlarmComment(
+      AlarmComment(id, null, alarmId, null, AlarmCommentType.OTHER, comment, null)
+    );
   }
 
   @override

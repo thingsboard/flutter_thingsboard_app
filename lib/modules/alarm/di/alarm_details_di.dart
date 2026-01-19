@@ -19,14 +19,10 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/details/post_alarm
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract final class AlarmDetailsDi {
-
   AlarmDetailsDi._();
   static const _scopeName = 'AlarmDetailsDi';
 
-  static void init(
-    ThingsboardClient thingsboardClient, {
-    required AlarmId id,
-  }) {
+  static void init(ThingsboardClient thingsboardClient, {required AlarmId id}) {
     getIt.pushNewScope(
       scopeName: _scopeName,
       init: (locator) {
@@ -38,37 +34,21 @@ abstract final class AlarmDetailsDi {
           () => AlarmDetailsRepository(locator()),
         );
 
-        locator.registerFactory(
-          () => AlarmActivityQueryCtrl(id: id),
-        );
+        locator.registerFactory(() => AlarmActivityQueryCtrl(id: id));
 
-        locator.registerFactory(
-          () => FetchAlarmUseCase(repository: locator()),
-        );
+        locator.registerFactory(() => FetchAlarmUseCase(repository: locator()));
 
-        locator.registerFactory(
-          () => FetchAlarmCommentsUseCase(locator()),
-        );
+        locator.registerFactory(() => FetchAlarmCommentsUseCase(locator()));
 
-        locator.registerFactory(
-          () => AcknowledgeAlarmUseCase(locator()),
-        );
+        locator.registerFactory(() => AcknowledgeAlarmUseCase(locator()));
 
-        locator.registerFactory(
-          () => ClearAlarmUseCase(locator()),
-        );
+        locator.registerFactory(() => ClearAlarmUseCase(locator()));
 
-        locator.registerFactory(
-          () => PostAlarmCommentsUseCase(locator()),
-        );
+        locator.registerFactory(() => PostAlarmCommentsUseCase(locator()));
 
-        locator.registerFactory(
-          () => DeleteAlarmCommentUseCase(locator()),
-        );
+        locator.registerFactory(() => DeleteAlarmCommentUseCase(locator()));
 
-        locator.registerFactory(
-          () => FetchAlarmAssigneeUseCase(locator()),
-        );
+        locator.registerFactory(() => FetchAlarmAssigneeUseCase(locator()));
 
         locator.registerLazySingleton(
           () => AlarmActivityPaginationRepository(
@@ -77,17 +57,11 @@ abstract final class AlarmDetailsDi {
           ),
         );
 
-        locator.registerLazySingleton(
-          () => AlarmAssigneeQueryCtrl(id: id),
-        );
+        locator.registerLazySingleton(() => AlarmAssigneeQueryCtrl(id: id));
 
-        locator.registerFactory(
-          () => AssignAlarmUseCase(locator()),
-        );
+        locator.registerFactory(() => AssignAlarmUseCase(locator()));
 
-        locator.registerFactory(
-          () => UnassignAlarmUseCase(locator()),
-        );
+        locator.registerFactory(() => UnassignAlarmUseCase(locator()));
 
         locator.registerLazySingleton(
           () => AlarmAssigneePaginationRepository(

@@ -5,7 +5,7 @@ import 'package:thingsboard_app/modules/notification/controllers/notification_qu
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NotificationPaginationRepository {
-  NotificationPaginationRepository({
+  NotificationPaginationRepository( {
     required this.notificationQueryPageCtrl,
     required this.tbClient,
   });
@@ -13,13 +13,13 @@ class NotificationPaginationRepository {
   final NotificationQueryCtrl notificationQueryPageCtrl;
   final ThingsboardClient tbClient;
   late final PagingController<PushNotificationQuery, PushNotification>
-      pagingController;
+  pagingController;
 
   void init() {
     pagingController =
         PagingController<PushNotificationQuery, PushNotification>(
-      firstPageKey: notificationQueryPageCtrl.value.pageKey,
-    );
+          firstPageKey: notificationQueryPageCtrl.value.pageKey,
+        );
 
     notificationQueryPageCtrl.addListener(_didChangePageKeyValue);
     pagingController.addPageRequestListener((pageKey) {
@@ -38,8 +38,8 @@ class NotificationPaginationRepository {
   }) async {
     try {
       final pageData = await tbClient.getNotificationService().getNotifications(
-            pageKey,
-          );
+        pageKey,
+      );
 
       final isLastPage = !pageData.hasNext;
       if (refresh) {

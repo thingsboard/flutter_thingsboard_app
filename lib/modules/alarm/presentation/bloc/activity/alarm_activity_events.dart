@@ -13,10 +13,7 @@ final class AlarmActivityFetchEvent extends AlarmActivityEvent {
 }
 
 final class PostAlarmCommentEvent extends AlarmActivityEvent {
-  const PostAlarmCommentEvent(
-    this.alarmId, {
-    required this.comment,
-  });
+  const PostAlarmCommentEvent(this.alarmId, {required this.comment});
 
   final AlarmId alarmId;
   final String comment;

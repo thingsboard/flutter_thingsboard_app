@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/design_tokens.dart';
-import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 Typography tbTypography = Typography.material2018();
 final ThemeData theme = ThemeData(primarySwatch: AppColors.primarySwatch);
@@ -130,8 +131,8 @@ DividerThemeData dividerTheme =
 );
 
 
-CardTheme cardTheme = 
-   CardTheme(
+CardThemeData cardTheme = 
+   CardThemeData(
   color: AppColors.white,
   shadowColor: AppColors.black.withValues(alpha: 0.1),
   elevation: DesignTokens.elevationMedium,
@@ -155,6 +156,7 @@ BottomNavigationBarThemeData bottomNavigationBarTheme =
 
 AppBarTheme appBarTheme =
     AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
   backgroundColor: AppColors.white,
   foregroundColor: AppColors.textPrimary,
   iconTheme: const IconThemeData(color: AppColors.iconSecondary),

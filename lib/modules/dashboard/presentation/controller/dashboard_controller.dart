@@ -3,23 +3,25 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 
 typedef DashboardTitleCallback = void Function(String title);
 
-typedef DashboardControllerCallback = void Function(
-  DashboardController controller,
-  ValueNotifier<bool> loadingCtrl,
-);
+typedef DashboardControllerCallback =
+    void Function(
+      DashboardController controller,
+      ValueNotifier<bool> loadingCtrl,
+    );
 
 class DashboardController {
-  DashboardController(this.tbContext);
+  DashboardController();
 
   final canGoBack = ValueNotifier(false);
   final hasRightLayout = ValueNotifier(false);
   final rightLayoutOpened = ValueNotifier(false);
-  final TbContext tbContext;
+  final TbLogger log = getIt();
 
   InAppWebViewController? controller;
 
@@ -34,21 +36,18 @@ class DashboardController {
     bool fullscreen = false,
     bool home = false,
   }) async {
-    final windowMessage = <String, dynamic>{
-      'type': 'openDashboardMessage',
-     
-    };
-    final data =  <String, dynamic>{'dashboardId': dashboardId};
+    final windowMessage = <String, dynamic>{'type': 'openDashboardMessage'};
+    final data = <String, dynamic>{'dashboardId': dashboardId};
     if (state != null) {
-     data['state'] = state;
+      data['state'] = state;
     }
     if (home) {
       data['embedded'] = true;
     }
     if (hideToolbar == true) {
-     data['hideToolbar'] = true;
+      data['hideToolbar'] = true;
     }
-windowMessage['data'] = data;
+    windowMessage['data'] = data;
     await controller?.postWebMessage(
       message: WebMessage(data: jsonEncode(windowMessage)),
       targetOrigin: WebUri('*'),
@@ -77,13 +76,14 @@ windowMessage['data'] = data;
   }
 
   Future<void> tryLocalNavigation(String? path, {required bool? home}) async {
-    tbContext.log.debug('tryLocalNavigation($path)');
+    log.debug('tryLocalNavigation($path)');
 
     if (path != null && path != '/home') {
-      final parts = path
-          .split('/')
-          .where((e) => e.isNotEmpty && e != 'entities')
-          .toList();
+      final parts =
+          path
+              .split('/')
+              .where((e) => e.isNotEmpty && e != 'entities')
+              .toList();
       if ([
         'profile',
         'devices',
@@ -128,7 +128,7 @@ windowMessage['data'] = data;
     try {
       controller?.dispose();
     } catch (e) {
-      tbContext.log.error('Error during dispose: $e');
+      log.error('Error during dispose: $e');
     }
   }
 }

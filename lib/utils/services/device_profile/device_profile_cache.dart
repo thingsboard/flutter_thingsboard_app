@@ -71,14 +71,13 @@ abstract class DeviceProfileCache {
     }
     for (final deviceProfile in deviceProfileInfos.data) {
       final existing = _cache[deviceProfile.name];
-      if(existing == null) {
-   _cache[deviceProfile.name] = CachedDeviceProfileInfo(
-        activeCount: null,
-        inactiveCount: null,
-        info: deviceProfile,
-      );
+      if (existing == null) {
+        _cache[deviceProfile.name] = CachedDeviceProfileInfo(
+          activeCount: null,
+          inactiveCount: null,
+          info: deviceProfile,
+        );
       }
-   
     }
 
     return deviceProfileInfos;

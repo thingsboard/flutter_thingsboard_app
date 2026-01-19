@@ -2,20 +2,20 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
-class DashboardGridCard extends TbContextWidget {
-
-  DashboardGridCard(super.tbContext, {super.key, required this.dashboard});
+class DashboardGridCard extends StatefulWidget {
+  const DashboardGridCard({super.key, required this.dashboard});
   final DashboardInfo dashboard;
 
   @override
   State<StatefulWidget> createState() => _DashboardGridCardState();
 }
 
-class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
+class _DashboardGridCardState extends State<DashboardGridCard> {
   _DashboardGridCardState() : super();
 
   @override
@@ -28,8 +28,7 @@ class _DashboardGridCardState extends TbContextState<DashboardGridCard> {
     final hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      image =
-          Utils.imageFromTbImage(context, tbClient, widget.dashboard.image);
+      image = Utils.imageFromTbImage(context, getIt<ITbClientService>().client, widget.dashboard.image);
     } else {
       image = SvgPicture.asset(
         ThingsboardImage.dashboardPlaceholder,

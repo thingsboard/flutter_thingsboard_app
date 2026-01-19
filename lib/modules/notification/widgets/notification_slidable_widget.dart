@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -13,7 +12,7 @@ class NotificationSlidableWidget extends StatefulWidget {
     required this.thingsboardClient,
     required this.onClearNotification,
     required this.onReadNotification,
-    required this.tbContext,
+
     super.key,
   });
 
@@ -22,7 +21,6 @@ class NotificationSlidableWidget extends StatefulWidget {
   final ThingsboardClient thingsboardClient;
   final Function(String id, bool read) onClearNotification;
   final ValueChanged<String> onReadNotification;
-  final TbContext tbContext;
 
   @override
   State<StatefulWidget> createState() => _NotificationSlidableWidget();
@@ -79,7 +77,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
             backgroundColor: const Color(0xFFD12730).withValues(alpha: 0.94),
             foregroundColor: Colors.white,
             icon: Icons.delete,
-            label: S.of(context).delete ,
+            label: S.of(context).delete,
             borderRadius:
                 _buildAlarmRelatedButtons(widget.notification).isEmpty
                     ? BorderRadius.circular(8)
@@ -133,7 +131,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
               backgroundColor: const Color(0xFF757575),
               foregroundColor: Colors.white,
               icon: Icons.clear,
-              label: S.of(context).clear ,
+              label: S.of(context).clear,
               borderRadius:
                   items.isEmpty
                       ? const BorderRadius.only(
@@ -152,9 +150,13 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   Future<void> _ackAlarm(String alarmId, BuildContext context) async {
     final res = await getIt<IOverlayService>().showConfirmDialog(
-      content: 
-      (_) => DialogContent(title: S.of(context).alarmAcknowledgeTitle, message: S.of(context).alarmAcknowledgeText, ok: S.of(context).yes, cancel: S.of(context).no)
-     
+      content:
+          (_) => DialogContent(
+            title: S.of(context).alarmAcknowledgeTitle,
+            message: S.of(context).alarmAcknowledgeText,
+            ok: S.of(context).yes,
+            cancel: S.of(context).no,
+          ),
     );
 
     if (res != null && res) {
@@ -174,8 +176,13 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   Future<void> _clearAlarm(String alarmId, BuildContext context) async {
     final res = await getIt<IOverlayService>().showConfirmDialog(
-      content:(_) => DialogContent(title: S.of(context).alarmClearTitle, message: S.of(context).alarmClearText, ok: S.of(context).yes, cancel: S.of(context).no),
-      
+      content:
+          (_) => DialogContent(
+            title: S.of(context).alarmClearTitle,
+            message: S.of(context).alarmClearText,
+            ok: S.of(context).yes,
+            cancel: S.of(context).no,
+          ),
     );
 
     if (res != null && res) {

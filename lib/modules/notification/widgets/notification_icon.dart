@@ -2591,7 +2591,11 @@ const materialIconsMap = {
   'workspaces': IconData(0xe6f5, fontFamily: 'MaterialIcons'),
   'workspaces_filled': IconData(0xe6f6, fontFamily: 'MaterialIcons'),
   'workspaces_outline': IconData(0xe6f7, fontFamily: 'MaterialIcons'),
-  'wrap_text': IconData(0xe6f8, fontFamily: 'MaterialIcons', matchTextDirection: true),
+  'wrap_text': IconData(
+    0xe6f8,
+    fontFamily: 'MaterialIcons',
+    matchTextDirection: true,
+  ),
   'wrong_location': IconData(0xe6f9, fontFamily: 'MaterialIcons'),
   'wysiwyg': IconData(0xe6fa, fontFamily: 'MaterialIcons'),
   'yard': IconData(0xe6fb, fontFamily: 'MaterialIcons'),

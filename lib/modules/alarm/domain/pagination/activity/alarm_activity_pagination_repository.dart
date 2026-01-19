@@ -10,7 +10,7 @@ final class AlarmActivityPaginationRepository
   }) : super(pageKeyController: queryCtrl);
 
   final Future<PageData<AlarmCommentInfo>> Function(AlarmCommentsQuery)
-      onFetchPageData;
+  onFetchPageData;
 
   @override
   Future<PageData<AlarmCommentInfo>> fetchPageData(AlarmCommentsQuery pageKey) {

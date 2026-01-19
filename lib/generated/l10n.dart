@@ -117,10 +117,10 @@ class S {
   }
 
   /// `Login to your account`
-  String get loginNotification {
+  String get loginToYourAccount {
     return Intl.message(
       'Login to your account',
-      name: 'loginNotification',
+      name: 'loginToYourAccount',
       desc: '',
       args: [],
     );
@@ -2656,6 +2656,548 @@ class S {
     return Intl.message(
       'is required.',
       name: 'isRequiredText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No 2FA providers found`
+  String get no2faProvidersFound {
+    return Intl.message(
+      'No 2FA providers found',
+      name: 'no2faProvidersFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please contact your system administrator`
+  String get pleaseContactYourSystemAdministrator {
+    return Intl.message(
+      'Please contact your system administrator',
+      name: 'pleaseContactYourSystemAdministrator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error occured: {e}`
+  String errorOccured(Object e) {
+    return Intl.message(
+      'Error occured: $e',
+      name: 'errorOccured',
+      desc: '',
+      args: [e],
+    );
+  }
+
+  /// `Unsaved changes`
+  String get unsavedChanges {
+    return Intl.message(
+      'Unsaved changes',
+      name: 'unsavedChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have unsaved changes. Are you sure you want to leave this page?`
+  String get youHaveUnsavedChangesAreYouSureYouWantTo {
+    return Intl.message(
+      'You have unsaved changes. Are you sure you want to leave this page?',
+      name: 'youHaveUnsavedChangesAreYouSureYouWantTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure? You are going to delete your {authority} account.`
+  String accountDeletionDialogBody(Object authority) {
+    return Intl.message(
+      'Are you sure? You are going to delete your $authority account.',
+      name: 'accountDeletionDialogBody',
+      desc: '',
+      args: [authority],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `Metric`
+  String get metricUnitSystem {
+    return Intl.message('Metric', name: 'metricUnitSystem', desc: '', args: []);
+  }
+
+  /// `Imperial`
+  String get imperialUnitSystem {
+    return Intl.message(
+      'Imperial',
+      name: 'imperialUnitSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hybrid`
+  String get hybridUnitSystem {
+    return Intl.message('Hybrid', name: 'hybridUnitSystem', desc: '', args: []);
+  }
+
+  /// `Auto`
+  String get autoUnitSystem {
+    return Intl.message('Auto', name: 'autoUnitSystem', desc: '', args: []);
+  }
+
+  /// `Unit system`
+  String get unitSystem {
+    return Intl.message('Unit system', name: 'unitSystem', desc: '', args: []);
+  }
+
+  /// `Select country`
+  String get selectCountry {
+    return Intl.message(
+      'Select country',
+      name: 'selectCountry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hide home dashboard toolbar`
+  String get hideHomeDashboardToolbar {
+    return Intl.message(
+      'Hide home dashboard toolbar',
+      name: 'hideHomeDashboardToolbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone Number in E.164 format, ex. +1201550123`
+  String get phoneNumberHelperText {
+    return Intl.message(
+      'Phone Number in E.164 format, ex. +1201550123',
+      name: 'phoneNumberHelperText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home dashboard`
+  String get homeDashboard {
+    return Intl.message(
+      'Home dashboard',
+      name: 'homeDashboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security`
+  String get security {
+    return Intl.message('Security', name: 'security', desc: '', args: []);
+  }
+
+  /// `Two-factor authentication`
+  String get twofactorAuthentication {
+    return Intl.message(
+      'Two-factor authentication',
+      name: 'twofactorAuthentication',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verification required`
+  String get verificationRequired {
+    return Intl.message(
+      'Verification required',
+      name: 'verificationRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Two-factor authentication is required`
+  String get twofactorAuthenticationIsRequired {
+    return Intl.message(
+      'Two-factor authentication is required',
+      name: 'twofactorAuthenticationIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set up a verification method to continue with your login`
+  String get setUpAVerificationMethodToContinueWithYourLogin {
+    return Intl.message(
+      'Set up a verification method to continue with your login',
+      name: 'setUpAVerificationMethodToContinueWithYourLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set up a verification method`
+  String get setUpAVerificationMethod {
+    return Intl.message(
+      'Set up a verification method',
+      name: 'setUpAVerificationMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The next time you log in, you will need to provide a two-factor authentication code`
+  String get totpSetupSuccessDescription {
+    return Intl.message(
+      'The next time you log in, you will need to provide a two-factor authentication code',
+      name: 'totpSetupSuccessDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The next time you log in, you will be prompted to enter the security code that will be sent to the phone number`
+  String get smsSetupSuccessDescription {
+    return Intl.message(
+      'The next time you log in, you will be prompted to enter the security code that will be sent to the phone number',
+      name: 'smsSetupSuccessDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The next time you log in, you will be prompted to enter the security code that will be sent to your email address`
+  String get emailSetupSuccessDescription {
+    return Intl.message(
+      'The next time you log in, you will be prompted to enter the security code that will be sent to your email address',
+      name: 'emailSetupSuccessDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The next time you log in, you will be able to use backup codes to pass two factor authentification`
+  String get backupCodeSetupSuccessDescription {
+    return Intl.message(
+      'The next time you log in, you will be able to use backup codes to pass two factor authentification',
+      name: 'backupCodeSetupSuccessDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login to app`
+  String get loginToApp {
+    return Intl.message('Login to app', name: 'loginToApp', desc: '', args: []);
+  }
+
+  /// `Go back`
+  String get goBack {
+    return Intl.message('Go back', name: 'goBack', desc: '', args: []);
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message('Done', name: 'done', desc: '', args: []);
+  }
+
+  /// `This will make your account less secure`
+  String get thisWillMakeYourAccountLessSecure {
+    return Intl.message(
+      'This will make your account less secure',
+      name: 'thisWillMakeYourAccountLessSecure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to deactivate {providerName}?`
+  String areYouSureYouWantToDeactivate(Object providerName) {
+    return Intl.message(
+      'Are you sure you want to deactivate $providerName?',
+      name: 'areYouSureYouWantToDeactivate',
+      desc: '',
+      args: [providerName],
+    );
+  }
+
+  /// `Yes, deactivate`
+  String get yesDeactivate {
+    return Intl.message(
+      'Yes, deactivate',
+      name: 'yesDeactivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter an email to use as your authenticator.`
+  String get enterAnEmailToUseAsYourAuthenticator {
+    return Intl.message(
+      'Enter an email to use as your authenticator.',
+      name: 'enterAnEmailToUseAsYourAuthenticator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a phone number to use as your authenticator`
+  String get enterAPhoneNumberToUseAsYourAuthenticator {
+    return Intl.message(
+      'Enter a phone number to use as your authenticator',
+      name: 'enterAPhoneNumberToUseAsYourAuthenticator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send code`
+  String get sendCode {
+    return Intl.message('Send code', name: 'sendCode', desc: '', args: []);
+  }
+
+  /// `Error sending code: {error}`
+  String errorSendingCode(String error) {
+    return Intl.message(
+      'Error sending code: $error',
+      name: 'errorSendingCode',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Copy`
+  String get copy {
+    return Intl.message('Copy', name: 'copy', desc: '', args: []);
+  }
+
+  /// `Copied to clipboard`
+  String get copiedToClipboard {
+    return Intl.message(
+      'Copied to clipboard',
+      name: 'copiedToClipboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter 6-digits key from your app here:`
+  String get enter6digitsKeyFromYourAppHere {
+    return Intl.message(
+      'Enter 6-digits key from your app here:',
+      name: 'enter6digitsKeyFromYourAppHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count}-{count, plural, =1{digit} other{digits}} code`
+  String digitsCode(int count) {
+    return Intl.message(
+      '$count-${Intl.plural(count, one: 'digit', other: 'digits')} code',
+      name: 'digitsCode',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Copy 32-digits key to your authentication app or scan QR-code below`
+  String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode {
+    return Intl.message(
+      'Copy 32-digits key to your authentication app or scan QR-code below',
+      name: 'copy32digitsKeyToYourAuthenticationAppOrScanQrcode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply changes`
+  String get applyChanges {
+    return Intl.message(
+      'Apply changes',
+      name: 'applyChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discard changes`
+  String get discardChanges {
+    return Intl.message(
+      'Discard changes',
+      name: 'discardChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, discard`
+  String get yesDiscard {
+    return Intl.message('Yes, discard', name: 'yesDiscard', desc: '', args: []);
+  }
+
+  /// `This action cannot be undone`
+  String get thisActionCannotBeUndone {
+    return Intl.message(
+      'This action cannot be undone',
+      name: 'thisActionCannotBeUndone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Two-factor authentication protects your account from unauthorized access. All you have to do is enter a security code when you log in.`
+  String
+  get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou {
+    return Intl.message(
+      'Two-factor authentication protects your account from unauthorized access. All you have to do is enter a security code when you log in.',
+      name:
+          'twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can\'t delete user account`
+  String get cantDeleteUserAccount {
+    return Intl.message(
+      'Can\\\'t delete user account',
+      name: 'cantDeleteUserAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calculated field`
+  String get calculatedField {
+    return Intl.message(
+      'Calculated field',
+      name: 'calculatedField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Api key`
+  String get apiKey {
+    return Intl.message('Api key', name: 'apiKey', desc: '', args: []);
+  }
+
+  /// `Ai model`
+  String get aiModel {
+    return Intl.message('Ai model', name: 'aiModel', desc: '', args: []);
+  }
+
+  /// `Admin settings`
+  String get adminSettings {
+    return Intl.message(
+      'Admin settings',
+      name: 'adminSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Job`
+  String get job {
+    return Intl.message('Job', name: 'job', desc: '', args: []);
+  }
+
+  /// `Mobile app bundle`
+  String get mobileAppBundle {
+    return Intl.message(
+      'Mobile app bundle',
+      name: 'mobileAppBundle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mobile app`
+  String get mobileApp {
+    return Intl.message('Mobile app', name: 'mobileApp', desc: '', args: []);
+  }
+
+  /// `Domain`
+  String get domain {
+    return Intl.message('Domain', name: 'domain', desc: '', args: []);
+  }
+
+  /// `Oauth2 client`
+  String get oauth2Client {
+    return Intl.message(
+      'Oauth2 client',
+      name: 'oauth2Client',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Queue stats`
+  String get queueStats {
+    return Intl.message('Queue stats', name: 'queueStats', desc: '', args: []);
+  }
+
+  /// `Phone is required`
+  String get phoneIsRequired {
+    return Intl.message(
+      'Phone is required',
+      name: 'phoneIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone is invalid`
+  String get phoneIsInvalid {
+    return Intl.message(
+      'Phone is invalid',
+      name: 'phoneIsInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add verification method`
+  String get addVerificationMethod {
+    return Intl.message(
+      'Add verification method',
+      name: 'addVerificationMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to exit?`
+  String get areYouSureYouWantToExit {
+    return Intl.message(
+      'Are you sure you want to exit?',
+      name: 'areYouSureYouWantToExit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm to close the app`
+  String get confirmToCloseTheApp {
+    return Intl.message(
+      'Confirm to close the app',
+      name: 'confirmToCloseTheApp',
       desc: '',
       args: [],
     );

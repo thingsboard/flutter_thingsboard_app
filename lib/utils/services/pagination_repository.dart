@@ -3,9 +3,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract base class PaginationRepository<T, B> {
-  PaginationRepository({
-    required this.pageKeyController,
-  }) {
+  PaginationRepository({required this.pageKeyController}) {
     init();
   }
 
@@ -34,10 +32,7 @@ abstract base class PaginationRepository<T, B> {
 
   Future<PageData<B>> fetchPageData(T pageKey);
 
-  Future<void> _fetchPage(
-    T pageKey, {
-    bool refresh = false,
-  }) async {
+  Future<void> _fetchPage(T pageKey, {bool refresh = false}) async {
     try {
       final pageData = await fetchPageData(pageKey);
 

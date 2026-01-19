@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract interface class ILayoutService {

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
+import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class VersionCompareWidget extends TbContextWidget {
-  VersionCompareWidget(
-    super.tbContext, {
+class VersionCompareWidget extends StatefulWidget {
+const   VersionCompareWidget(
+ {
     required this.minVersion,
     required this.minVersionNotes,
     required this.latestVersion,
@@ -27,7 +30,7 @@ class VersionCompareWidget extends TbContextWidget {
   State<StatefulWidget> createState() => _VersionCompareWidgetState();
 }
 
-class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
+class _VersionCompareWidgetState extends State<VersionCompareWidget>
     with SingleTickerProviderStateMixin {
   late final tabCtrl = TabController(length: 2, vsync: this);
   late String releaseNotes = widget.minVersionNotes;
@@ -36,9 +39,13 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
-        title: Text(S.of(context).updateRequired),
-      ),
+        canGoBack: false,
+        title: Text(S.of(context).updateRequired), actions: [ IconButton(
+            onPressed: () {
+              context.push(UiUtilsRoutes.qrCodeScan);
+            },
+            icon: SvgPicture.asset(ThingsboardImage.oauth2Logos['qr-code']!, width: 24, height: 24,),
+          ),],),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -64,7 +71,7 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
               Expanded(
                 child: HtmlWidget(
                   releaseNotes,
-                  onTapUrl: (link) => Utils.onWebViewLinkPressed(link)
+                  onTapUrl: (link) => Utils.onWebViewLinkPressed(link),
                 ),
               ),
               Align(
@@ -78,9 +85,7 @@ class _VersionCompareWidgetState extends TbContextState<VersionCompareWidget>
                         mode: LaunchMode.externalApplication,
                       );
                     },
-                    child: Text(
-                      S.of(context).updateTo(widget.latestVersion),
-                    ),
+                    child: Text(S.of(context).updateTo(widget.latestVersion)),
                   ),
                 ),
               ),

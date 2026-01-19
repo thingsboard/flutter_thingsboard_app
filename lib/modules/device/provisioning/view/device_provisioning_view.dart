@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_settings_plus/open_settings_plus.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
@@ -14,11 +14,10 @@ import 'package:thingsboard_app/modules/device/provisioning/view/states/provisio
 import 'package:thingsboard_app/modules/device/provisioning/widgets/return_to_dashboard_button.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
-class DeviceProvisioningView extends TbContextStatelessWidget {
-  DeviceProvisioningView(
-    super.tbContext, {
+class DeviceProvisioningView extends StatelessWidget {
+  DeviceProvisioningView({
     required this.onProvisioningTryAgain,
     required this.deviceSecretKey,
     required this.deviceName,
@@ -34,18 +33,20 @@ class DeviceProvisioningView extends TbContextStatelessWidget {
   final bool mustReconnectToWifiBeforeClaiming;
   final String? ssid;
   final String? wifiPassword;
-final IOverlayService overlayService = getIt();
+  final IOverlayService overlayService = getIt();
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DeviceProvisioningBloc>(
-      create: (_) => DeviceProvisioningBloc.create(
-        deviceName: deviceName,
-        deviceSecretKey: deviceSecretKey,
-        tbClient: tbClient,
-        mustReconnectToWifiBeforeClaiming: mustReconnectToWifiBeforeClaiming,
-        ssid: ssid,
-        wifiPassword: wifiPassword,
-      ),
+      create:
+          (_) => DeviceProvisioningBloc.create(
+            deviceName: deviceName,
+            deviceSecretKey: deviceSecretKey,
+            tbClient: getIt<ITbClientService>().client,
+            mustReconnectToWifiBeforeClaiming:
+                mustReconnectToWifiBeforeClaiming,
+            ssid: ssid,
+            wifiPassword: wifiPassword,
+          ),
       child: Column(
         children: [
           Center(
@@ -79,9 +80,7 @@ final IOverlayService overlayService = getIt();
             listener: (context, state) {
               if (state is DeviceProvisioningClaimingErrorState) {
                 if (state.message != null) {
-                  overlayService.showErrorNotification( (_) => 
-                    state.message!,
-                  );
+                  overlayService.showErrorNotification((_) => state.message!);
                 }
               }
             },
@@ -127,9 +126,11 @@ final IOverlayService overlayService = getIt();
                   children: [
                     TryAgainButton(
                       label: S.of(context).openWifiSettings,
-                      onTryAgain: () => Platform.isAndroid
-                          ? const OpenSettingsPlusAndroid().wifi()
-                          : const OpenSettingsPlusIOS().wifi(),
+                      onTryAgain:
+                          () =>
+                              Platform.isAndroid
+                                  ? const OpenSettingsPlusAndroid().wifi()
+                                  : const OpenSettingsPlusIOS().wifi(),
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
@@ -148,9 +149,9 @@ final IOverlayService overlayService = getIt();
                           ),
                         ),
                         onPressed: () {
-                          context
-                              .read<DeviceProvisioningBloc>()
-                              .add(const ProceedWithClaimingEvent());
+                          context.read<DeviceProvisioningBloc>().add(
+                            const ProceedWithClaimingEvent(),
+                          );
                         },
                       ),
                     ),

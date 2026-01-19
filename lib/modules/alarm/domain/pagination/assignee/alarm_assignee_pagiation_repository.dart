@@ -11,12 +11,10 @@ final class AlarmAssigneePaginationRepository
   }) : super(pageKeyController: assigneeQueryCtrl);
 
   final Future<PageData<AssigneeEntity>> Function(UsersAssignQuery)
-      onFetchPageData;
+  onFetchPageData;
 
   @override
-  Future<PageData<AssigneeEntity>> fetchPageData(
-    UsersAssignQuery pageKey,
-  )  {
+  Future<PageData<AssigneeEntity>> fetchPageData(UsersAssignQuery pageKey) {
     return onFetchPageData(pageKey);
   }
 }

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_settings_plus/core/open_settings_plus.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/dotted_point_widget.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/try_again_button.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 class ManuallyConnectToWifi extends StatelessWidget {
   const ManuallyConnectToWifi({

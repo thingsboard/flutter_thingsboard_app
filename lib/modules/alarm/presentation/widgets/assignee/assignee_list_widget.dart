@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
@@ -8,17 +7,13 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.da
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/string_utils.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class AssigneeListWidget extends StatelessWidget {
-  const AssigneeListWidget({
-    required this.tbContext,
-    required this.onChanged,
-    super.key,
-  });
+  const AssigneeListWidget({required this.onChanged, super.key});
 
-  final TbContext tbContext;
   final VoidCallback onChanged;
 
   @override
@@ -159,7 +154,10 @@ class AssigneeListWidget extends StatelessWidget {
 
                                     onChanged();
                                   },
-                                  id: tbContext.tbClient.getAuthUser()!.userId!,
+                                  id:
+                                      getIt<ITbClientService>().client
+                                          .getAuthUser()!
+                                          .userId!,
                                 ),
                                 const Divider(thickness: 1, height: 32),
                               ],

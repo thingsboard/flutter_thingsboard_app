@@ -4,17 +4,17 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AlarmQueryController extends PageKeyController<AlarmQueryV2> {
   AlarmQueryController({int pageSize = 20, String? searchText})
-      : super(
-          AlarmQueryV2(
-            TimePageLink(
-              pageSize,
-              0,
-              searchText,
-              SortOrder('createdTime', Direction.DESC),
-            ),
-            statusList: [AlarmSearchStatus.ACTIVE],
+    : super(
+        AlarmQueryV2(
+          TimePageLink(
+            pageSize,
+            0,
+            searchText,
+            SortOrder('createdTime', Direction.DESC),
           ),
-        );
+          statusList: [AlarmSearchStatus.ACTIVE],
+        ),
+      );
 
   @override
   AlarmQueryV2 nextPageKey(AlarmQueryV2 pageKey) {

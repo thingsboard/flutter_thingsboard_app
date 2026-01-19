@@ -6,26 +6,16 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 
 abstract class DashboardsDi {
-  static void init(
-    String key, {
-    required ThingsboardClient tbClient,
-  }) {
+  static void init(String key, {required ThingsboardClient tbClient}) {
     getIt.pushNewScope(
       scopeName: key,
       init: (locator) {
-        locator.registerLazySingleton(
-          () => DashboardsQueryCtrl(),
-        );
-        locator.registerFactory(
-          () => WidgetActionHandler(),
-        );
-        locator.registerFactory(
-          () => FetchDashboardsUseCase(tbClient),
-        );
-
+        locator.registerLazySingleton(() => DashboardsQueryCtrl());
+        locator.registerFactory(() => WidgetActionHandler());
+        locator.registerFactory(() => FetchDashboardsUseCase(tbClient));
         locator.registerLazySingleton(
           () => DashboardsPaginationRepository(
-            queryController: locator(),
+            queryController: locator<DashboardsQueryCtrl>(),
             onFetchData: locator<FetchDashboardsUseCase>(),
           ),
         );

@@ -5,10 +5,5 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 class TenantsList extends BaseEntitiesWidget<Tenant, PageLink>
     with TenantsBase, ContactBasedBase, EntitiesListStateBase {
-  TenantsList(
-    super.tbContext,
-    super.pageKeyController, {
-  super.searchMode,
-    super.key,
-  });
+  TenantsList(super.pageKeyController, {super.searchMode, super.key});
 }

@@ -1,55 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/modules/main/main_navigation_item.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/config/themes/app_colors.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
 
 class MoreMenuItemWidget extends StatelessWidget {
   const MoreMenuItemWidget(
     this.menuItem, {
     required this.onTap,
     this.color,
+    this.showTrailing = true,
     super.key,
   });
 
   final TbMainNavigationItem menuItem;
   final VoidCallback onTap;
   final Color? color;
+  final bool showTrailing;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor:
-          color?.withValues(alpha: .06) ??
-          Theme.of(context).primaryColor.withValues(alpha: .06),
-      highlightColor:
-          color?.withValues(alpha: .06) ??
-          Theme.of(context).primaryColor.withValues(alpha: .06),
-      borderRadius: BorderRadius.circular(4),
+    return ListTile(
+    
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            Icon(
-              menuItem.icon,
-              color: color ?? Colors.black.withValues(alpha: .76),
-              size: 18,
-            ),
-            Visibility(
-              visible: menuItem.showAdditionalIcon,
-              child: menuItem.additionalIconSmall ?? const SizedBox.shrink(),
-            ),
-            SizedBox(width: menuItem.showAdditionalIcon ? 12 : 20),
-            Flexible(
-              child: Text(
-                menuItem.title,
-                style: TbTextStyles.bodyMedium.copyWith(
-                  color: color ?? Colors.black.withValues(alpha: .76),
-                ),
-              ),
-            ),
-          ],
+   
+      
+      horizontalTitleGap: 0,
+      leading:  Icon(menuItem.icon, color: color ?? AppColors.iconSecondary, size: 24,),
+      title: Text(
+        menuItem.title,
+        style: TbTextStyles.bodyMedium.copyWith(
+          color: color ?? AppColors.textSecondary,
         ),
       ),
+      trailing: showTrailing ?  Icon(Icons.chevron_right, color: color ?? AppColors.iconDisabled,) : null,
     );
+
+
   }
 }

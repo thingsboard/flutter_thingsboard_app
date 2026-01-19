@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 
 extension BoldSubString on Text {
   Text boldSubString(
@@ -9,6 +9,9 @@ extension BoldSubString on Text {
     TextStyle? highlightedTextStyle,
     TextStyle? regularTextStyle,
   }) {
+    if (target.isEmpty) {
+      return Text(data!, style: regularTextStyle);
+    }
     final textSpans = <TextSpan>[];
     final escapedTarget = RegExp.escape(target);
     final pattern = RegExp(escapedTarget, caseSensitive: false);
@@ -21,7 +24,8 @@ extension BoldSubString on Text {
         textSpans.add(
           TextSpan(
             text: beforeMatch,
-            style: regularTextStyle ??
+            style:
+                regularTextStyle ??
                 TbTextStyles.bodyLarge.copyWith(color: regularColor),
           ),
         );
@@ -31,7 +35,8 @@ extension BoldSubString on Text {
       textSpans.add(
         TextSpan(
           text: matchedText,
-          style: highlightedTextStyle ??
+          style:
+              highlightedTextStyle ??
               TbTextStyles.labelLarge.copyWith(color: highlightedColor),
         ),
       );
@@ -44,7 +49,8 @@ extension BoldSubString on Text {
       textSpans.add(
         TextSpan(
           text: remainingText,
-          style: regularTextStyle ??
+          style:
+              regularTextStyle ??
               TbTextStyles.bodyLarge.copyWith(color: regularColor),
         ),
       );

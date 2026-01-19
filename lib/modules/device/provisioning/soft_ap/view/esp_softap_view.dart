@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/di/esp_softap_di.dart';
@@ -12,13 +12,12 @@ import 'package:thingsboard_app/modules/device/provisioning/soft_ap/view/widgets
 import 'package:thingsboard_app/modules/device/provisioning/view/device_provisioning_done.dart';
 import 'package:thingsboard_app/modules/device/provisioning/view/device_provisioning_view.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/exit_confirmation_dialog.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class EspSoftApView extends TbContextWidget {
-  EspSoftApView(
-    super.tbContext, {
+class EspSoftApView extends StatefulWidget {
+  const EspSoftApView(
+   {
     required this.tbDeviceName,
     required this.tbDeviceSecretKey,
     required this.name,
@@ -35,7 +34,7 @@ class EspSoftApView extends TbContextWidget {
   State<StatefulWidget> createState() => _EspSoftApViewState();
 }
 
-class _EspSoftApViewState extends TbContextState<EspSoftApView> {
+class _EspSoftApViewState extends State<EspSoftApView> {
   final diKey = UniqueKey().toString();
 
   @override
@@ -55,7 +54,6 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
               }
 
               return TbAppBar(
-                tbContext,
                 title: Text(
                   () {
                     switch (state) {
@@ -79,7 +77,8 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                     color: Colors.black.withValues(alpha: .87),
                   ),
                 ),
-                leading: BackButton(
+                leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
                   onPressed:
                       () => showDialog(
                         context: context,
@@ -112,17 +111,14 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
 
                     case EspSoftApWiFiListState():
                       return WifiList(
-                        tbContext,
+             
                         wifi:
-                            state.wifiList
-                                .map((e) => e.ssid).toSet()
-                                .toList()
-                                ,
+                            state.wifiList.map((e) => e.ssid).toSet().toList(),
                       );
 
                     case EspSoftApProvisioningInProgressState():
                       return DeviceProvisioningView(
-                        tbContext,
+                      
                         deviceName: widget.tbDeviceName,
                         deviceSecretKey: widget.tbDeviceSecretKey,
                         ssid: state.ssid,
@@ -141,16 +137,22 @@ class _EspSoftApViewState extends TbContextState<EspSoftApView> {
                               const EspSoftApConnectToDeviceEvent(),
                             ),
                         assetPath: ThingsboardImage.mobileConnectionError,
-                        message:
-                            S.of(context).connectionToTheWifiNetworkFailednpleaseEnsureThatYour(widget.name),
+                        message: S
+                            .of(context)
+                            .connectionToTheWifiNetworkFailednpleaseEnsureThatYour(
+                              widget.name,
+                            ),
                       );
 
                     case EspSoftApWifiNetworksNotFoundState():
                       return EspSoftApConnectionErrorView(
                         onTryAgain: () {},
                         assetPath: ThingsboardImage.mobileConnectionError,
-                        message:
-                            S.of(context).unableConnectToWifiBecauseNetworksWasntFoundByDevice(widget.name),
+                        message: S
+                            .of(context)
+                            .unableConnectToWifiBecauseNetworksWasntFoundByDevice(
+                              widget.name,
+                            ),
                       );
 
                     case EspSoftApProvisioningDoneState():

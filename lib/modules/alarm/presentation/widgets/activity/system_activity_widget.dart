@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class SystemActivityWidget extends StatelessWidget {
@@ -11,7 +11,7 @@ class SystemActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final diff = DateTime.now().difference(
-      DateTime.fromMillisecondsSinceEpoch(activity.createdTime),
+      DateTime.fromMillisecondsSinceEpoch(activity.createdTime ?? 0),
     );
 
     return Column(
@@ -24,7 +24,7 @@ class SystemActivityWidget extends StatelessWidget {
           ),
         ),
         Text(
-          activity.comment.text,
+          activity.comment.toString(),
           style: TbTextStyles.bodyLarge.copyWith(
             color: Colors.black.withValues(alpha: .54),
           ),

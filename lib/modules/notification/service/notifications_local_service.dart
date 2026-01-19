@@ -26,7 +26,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
   @override
   Future<void> decreaseNotificationBadgeCount() async {
     final counter = await storage.getItem(notificationCounterKey);
-    final updatedCounter = (int.tryParse(counter.toString()) ?? 0)- 1;
+    final updatedCounter = (int.tryParse(counter.toString()) ?? 0) - 1;
     if (updatedCounter <= 0) {
       FlutterNewBadger.removeBadge();
       notificationsNumberStream.add(0);

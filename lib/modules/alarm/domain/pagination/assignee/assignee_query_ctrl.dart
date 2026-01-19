@@ -7,17 +7,13 @@ class AssigneeQueryCtrl extends PageKeyController<PageLink> {
     String? searchText,
     SortOrder? sortOrder,
   }) : super(
-          PageLink(
-            pageSize,
-            0,
-            searchText,
-            sortOrder ??
-                SortOrder(
-                  'email',
-                  Direction.ASC,
-                ),
-          ),
-        );
+         PageLink(
+           pageSize,
+           0,
+           searchText,
+           sortOrder ?? SortOrder('email', Direction.ASC),
+         ),
+       );
 
   @override
   PageLink nextPageKey(PageLink pageKey) {

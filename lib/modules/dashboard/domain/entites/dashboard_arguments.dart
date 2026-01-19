@@ -1,21 +1,18 @@
-import 'package:equatable/equatable.dart';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'dashboard_arguments.freezed.dart';
+part 'dashboard_arguments.g.dart';
 
 /// This class represents the arguments a user can pass to open a dashboard
-class DashboardArgumentsEntity extends Equatable {
-  const DashboardArgumentsEntity(
-    this.id, {
-    this.title,
-    this.state,
-    this.hideToolbar,
-    this.animate = true,
-  });
-
-  final String id;
-  final String? title;
-  final String? state;
-  final bool? hideToolbar;
-  final bool animate;
-
-  @override
-  List<Object?> get props => [id, title, state, hideToolbar, animate];
+@freezed
+abstract class DashboardArgumentsEntity with _$DashboardArgumentsEntity {
+  const factory DashboardArgumentsEntity({
+    required String id,
+    String? title,
+    String? state,
+    bool? hideToolbar,
+   @Default(true) bool animate,
+  }) = _DashboardArgumentsEntity;
+    factory DashboardArgumentsEntity.fromJson(Map<String, dynamic> json) =>
+      _$DashboardArgumentsEntityFromJson(json);
 }

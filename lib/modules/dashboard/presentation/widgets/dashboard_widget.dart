@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
@@ -12,13 +12,14 @@ import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashbo
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class DashboardWidget extends TbContextWidget {
-  DashboardWidget(
-    super.tbContext, {
+class DashboardWidget extends StatefulWidget {
+  const DashboardWidget({
     required this.controllerCallback,
     this.pageController,
     this.onUrlChanged,
@@ -37,10 +38,11 @@ class DashboardWidget extends TbContextWidget {
   State<StatefulWidget> createState() => _DashboardState();
 }
 
-class _DashboardState extends TbContextState<DashboardWidget> {
+class _DashboardState extends State<DashboardWidget> {
   bool webViewLoading = true;
   final dashboardLoading = ValueNotifier<bool>(true);
-
+  final TbLogger log = getIt();
+  final ThingsboardClient client = getIt<ITbClientService>().client;
   late final DashboardController dashboardController;
   late WebUri _initialUrl;
   final _exportModule = TbDashboardExportModule();
@@ -57,7 +59,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isWeb) {
-      return  Center(child: Text(S.of(context).notImplemented));
+      return Center(child: Text(S.of(context).notImplemented));
     }
 
     return Stack(
@@ -92,9 +94,9 @@ class _DashboardState extends TbContextState<DashboardWidget> {
                     );
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        _buildWarnSnackBar(e),
-                      );
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(_buildWarnSnackBar(e));
                     }
                   }
                   return NavigationActionPolicy.CANCEL;
@@ -109,7 +111,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
                 ? NavigationActionPolicy.ALLOW
                 : NavigationActionPolicy.CANCEL;
           },
-          onUpdateVisitedHistory: (controller, url, androidIsReload)  {
+          onUpdateVisitedHistory: (controller, url, androidIsReload) {
             // translate-me-ignore-next-line
             log.debug('onUpdateVisitedHistory: $url');
             dashboardController.onHistoryUpdated(controller.canGoBack());
@@ -122,11 +124,11 @@ class _DashboardState extends TbContextState<DashboardWidget> {
               '${consoleMessage.message}',
             );
           },
-          onLoadStart: (controller, url)  {
+          onLoadStart: (controller, url) {
             // translate-me-ignore-next-line
             log.debug('onLoadStart: $url');
           },
-          onLoadStop: (controller, url)  {
+          onLoadStop: (controller, url) {
             // translate-me-ignore-next-line
             log.debug('onLoadStop: $url');
             if (webViewLoading) {
@@ -187,11 +189,11 @@ class _DashboardState extends TbContextState<DashboardWidget> {
 
     _initialUrl = WebUri(
       '${getIt<IEndpointService>().getCachedEndpoint()}'
-      '?accessToken=${widget.tbContext.tbClient.getJwtToken()!}'
-      '&refreshToken=${widget.tbContext.tbClient.getRefreshToken()!}',
+      '?accessToken=${client.getJwtToken()!}'
+      '&refreshToken=${client.getRefreshToken()!}',
     );
 
-    dashboardController = DashboardController(widget.tbContext);
+    dashboardController = DashboardController();
   }
 
   @override
@@ -233,9 +235,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileNavigationHandler',
       callback: (args) async {
-        log.debug(
-          'Invoked tbMobileNavigationHandler: $args',
-        );
+        log.debug('Invoked tbMobileNavigationHandler: $args');
         if (args.isNotEmpty) {
           late String path;
           final pathArg = args.first.toString();
@@ -259,9 +259,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
             );
           } catch (e) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                _buildWarnSnackBar(e),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(_buildWarnSnackBar(e));
             }
           }
         }
@@ -274,10 +272,8 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardStateNameHandler',
-      callback: (args)  {
-        log.debug(
-          'Invoked tbMobileDashboardStateNameHandler: $args',
-        );
+      callback: (args) {
+        log.debug('Invoked tbMobileDashboardStateNameHandler: $args');
         if (args.isNotEmpty && args[0] is String) {
           if (widget.titleCallback != null) {
             widget.titleCallback?.call(args[0].toString());
@@ -292,7 +288,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLayoutHandler',
-      callback: (args)  {
+      callback: (args) {
         if (args.isEmpty) {
           return;
         }
@@ -311,7 +307,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   ) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileDashboardLoadedHandler',
-      callback: (args)  {
+      callback: (args) {
         if (args.length < 2) {
           return;
         }
@@ -332,14 +328,11 @@ class _DashboardState extends TbContextState<DashboardWidget> {
   void _injectTbMobileReadyHandler(InAppWebViewController webViewController) {
     webViewController.addJavaScriptHandler(
       handlerName: 'tbMobileReadyHandler',
-      callback: (_)  {
+      callback: (_) {
         log.debug('Invoked tbMobileReadyHandler');
 
         dashboardController.setWebViewController(webViewController);
-        widget.controllerCallback(
-          dashboardController,
-          dashboardLoading,
-        );
+        widget.controllerCallback(dashboardController, dashboardLoading);
       },
     );
   }
@@ -353,10 +346,7 @@ class _DashboardState extends TbContextState<DashboardWidget> {
     return SnackBar(
       duration: const Duration(seconds: 10),
       backgroundColor: const Color(0xFFdc6d1b),
-      content: Text(
-        errorMessage,
-        style: const TextStyle(color: Colors.white),
-      ),
+      content: Text(errorMessage, style: const TextStyle(color: Colors.white)),
       action: SnackBarAction(
         label: S.of(context).close,
         textColor: Colors.white,

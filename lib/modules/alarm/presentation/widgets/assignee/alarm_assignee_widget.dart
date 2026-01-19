@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
@@ -12,12 +11,10 @@ import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeFilterWidget extends StatelessWidget {
   const AlarmAssigneeFilterWidget({
-    required this.tbContext,
+
     required this.onChanged,
     super.key,
   });
-
-  final TbContext tbContext;
   final VoidCallback onChanged;
 
   @override
@@ -34,7 +31,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                   curve: Curves.easeInOut,
                   duration: const Duration(milliseconds: 500),
                   child: AssigneeListWidget(
-                    tbContext: tbContext,
+              
                     onChanged: onChanged,
                   ),
                 ),

@@ -4,10 +4,14 @@ import 'package:thingsboard_app/modules/notification/usecase/handle_notification
 abstract final class NotifcationsDi {
   static const _scopeName = 'NotifcationsDi';
   static void init() {
+    if (getIt.hasScope(_scopeName)) {
+      return;
+    }
     getIt.pushNewScope(
       scopeName: _scopeName,
-      init: (getIt) =>
-          getIt.registerFactory(() => HandleNotificationTapUsecase()),
+      init:
+          (getIt) =>
+              getIt.registerFactory(() => HandleNotificationTapUsecase()),
     );
   }
 

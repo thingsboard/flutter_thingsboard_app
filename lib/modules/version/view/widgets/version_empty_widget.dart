@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/auth/login/login_page_background.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class VersionEmptyWidget extends StatelessWidget {

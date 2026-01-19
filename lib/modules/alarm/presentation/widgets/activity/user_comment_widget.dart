@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -10,7 +11,6 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_a
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -35,7 +35,7 @@ class _UserCommentState extends State<UserCommentWidget> {
       ),
     );
     final diff = DateTime.now().difference(
-      DateTime.fromMillisecondsSinceEpoch(widget.activity.createdTime),
+      DateTime.fromMillisecondsSinceEpoch(widget.activity.createdTime ?? 0),
     );
 
     final canEdit = widget.activity.userId?.id == widget.userId.id;
@@ -59,13 +59,15 @@ class _UserCommentState extends State<UserCommentWidget> {
             color: Colors.black.withValues(alpha: .54),
           ),
           onPressed: () {
-            context.read<AlarmActivityBloc>().add(
+            if(widget.activity.id != null) {
+              context.read<AlarmActivityBloc>().add(
               AlarmEditCommentEvent(
-                widget.activity.id,
+                widget.activity.id! ,
                 alarmId: widget.activity.alarmId,
-                comment: widget.activity.comment,
+                comment: widget.activity,
               ),
             );
+            }
           },
         ),
         FocusedMenuItem(
@@ -115,11 +117,11 @@ class _UserCommentState extends State<UserCommentWidget> {
               },
             );
 
-            if (delete == true && context.mounted) {
+            if (delete == true && context.mounted && widget.activity.id != null) {
               context.read<AlarmActivityBloc>().add(
                 DeleteAlarmCommentEvent(
                   alarmId: widget.activity.alarmId,
-                  commentId: widget.activity.id,
+                  commentId: widget.activity.id!,
                 ),
               );
             }
@@ -172,7 +174,7 @@ class _UserCommentState extends State<UserCommentWidget> {
               ],
             ),
             Text(
-              widget.activity.comment.text,
+              widget.activity.comment.toString(),
               style: TbTextStyles.bodyLarge.copyWith(
                 color: Colors.black.withValues(alpha: .54),
               ),

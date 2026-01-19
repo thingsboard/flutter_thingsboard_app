@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/audit_log_routes.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 
 mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
@@ -12,9 +16,12 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
 
   @override
   String get noItemsFoundText => 'No audit logs found';
-
+  final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<PageData<AuditLog>> fetchEntities(TimePageLink pageLink, {bool refresh = false}) {
+  Future<PageData<AuditLog>> fetchEntities(
+    TimePageLink pageLink, {
+    bool refresh = false,
+  }) {
     return tbClient.getAuditLogService().getAuditLogs(pageLink);
   }
 
@@ -27,20 +34,19 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   }
 
   Widget _buildEntityListCard(BuildContext context, AuditLog auditLog) {
-    return AuditLogCard(tbContext, auditLog: auditLog);
+    return AuditLogCard(auditLog: auditLog);
   }
 }
 
-class AuditLogCard extends TbContextWidget {
-
-  AuditLogCard(super.tbContext, {super.key, required this.auditLog});
+class AuditLogCard extends StatefulWidget {
+  const AuditLogCard({super.key, required this.auditLog});
   final AuditLog auditLog;
 
   @override
   State<StatefulWidget> createState() => _AuditLogCardState();
 }
 
-class _AuditLogCardState extends TbContextState<AuditLogCard> {
+class _AuditLogCardState extends State<AuditLogCard> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 
   @override
@@ -58,9 +64,10 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
             child: Container(
               width: 4,
               decoration: BoxDecoration(
-                color: widget.auditLog.actionStatus == ActionStatus.SUCCESS
-                    ? const Color(0xFF008A00)
-                    : const Color(0xFFFF0000),
+                color:
+                    widget.auditLog.actionStatus == ActionStatus.SUCCESS
+                        ? const Color(0xFF008A00)
+                        : const Color(0xFFFF0000),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
@@ -91,11 +98,10 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                 
                                   child: Text(
                                     widget.auditLog.entityName ?? '',
                                     maxLines: 2,
-                                   // minFontSize: 8,
+                                    // minFontSize: 8,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Color(0xFF282828),
@@ -127,7 +133,8 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                 Flexible(
                                   fit: FlexFit.tight,
                                   child: Text(
-                                        widget.auditLog.entityId.entityType.getTranslatedEntityType(context),
+                                    widget.auditLog.entityId.entityType
+                                        .getTranslatedEntityType(context),
                                     style: const TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontWeight: FontWeight.normal,
@@ -137,13 +144,14 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                                   ),
                                 ),
                                 Text(
-                                  
-                                      widget.auditLog.actionStatus.getTranslatedActionStatus(context),
+                                  widget.auditLog.actionStatus
+                                      .getTranslatedActionStatus(context),
                                   style: TextStyle(
-                                    color: widget.auditLog.actionStatus ==
-                                            ActionStatus.SUCCESS
-                                        ? const Color(0xFF008A00)
-                                        : const Color(0xFFFF0000),
+                                    color:
+                                        widget.auditLog.actionStatus ==
+                                                ActionStatus.SUCCESS
+                                            ? const Color(0xFF008A00)
+                                            : const Color(0xFFFF0000),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
                                     height: 16 / 12,
@@ -165,7 +173,9 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                         widget.auditLog.actionType.getTranslatedActionType(context),
+                          widget.auditLog.actionType.getTranslatedActionType(
+                            context,
+                          ),
                           style: const TextStyle(
                             color: Color(0xFF282828),
                             fontWeight: FontWeight.normal,
@@ -197,7 +207,7 @@ class _AuditLogCardState extends TbContextState<AuditLogCard> {
     );
   }
 
- void _auditLogDetails(AuditLog auditLog) {
-    tbContext.showFullScreenDialog(AuditLogDetailsPage(tbContext, auditLog));
+  void _auditLogDetails(AuditLog auditLog) {
+    context.push(AuditLogRoutes.auditLogDetais, extra: auditLog);
   }
 }

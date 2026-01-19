@@ -56,7 +56,7 @@ class DesignTokens {
   static const EdgeInsets paddingMedium = EdgeInsets.all(spacing16);
   static const EdgeInsets paddingLarge = EdgeInsets.all(spacing24);
   static const EdgeInsets paddingXl = EdgeInsets.all(spacing32);
-
+  static const EdgeInsets paddigZero = EdgeInsets.zero;
   // Button padding
   static const EdgeInsets buttonPaddingSmall = EdgeInsets.symmetric(
     horizontal: spacing12,

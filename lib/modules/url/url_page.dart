@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -19,7 +19,7 @@ class UrlPage extends StatefulWidget {
   State<StatefulWidget> createState() => _UrlPageState();
 }
 
-class _UrlPageState extends State<UrlPage> {
+class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   late final titleNotifier = ValueNotifier<String>('Url');
   late final subTitleUrlNotifier = ValueNotifier<String>(widget.url);
   bool canGoBack = false;
@@ -28,6 +28,7 @@ class _UrlPageState extends State<UrlPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: TbAppBar(
         title: ValueListenableBuilder(
@@ -83,6 +84,7 @@ class _UrlPageState extends State<UrlPage> {
               : Stack(
                 children: [
                   InAppWebView(
+                    keepAlive: InAppWebViewKeepAlive(),
                     initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                     onWebViewCreated: (ctrl) {
                       webViewController = ctrl;
@@ -127,4 +129,7 @@ class _UrlPageState extends State<UrlPage> {
     webViewController?.dispose();
     super.dispose();
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

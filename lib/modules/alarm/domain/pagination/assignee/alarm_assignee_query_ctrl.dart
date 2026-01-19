@@ -8,16 +8,16 @@ class AlarmAssigneeQueryCtrl extends PageKeyController<UsersAssignQuery> {
     String? searchText,
     SortOrder? sortOrder,
   }) : super(
-          UsersAssignQuery(
-            pageLink: PageLink(
-              pageSize,
-              0,
-              searchText,
-              sortOrder ?? SortOrder('email', Direction.ASC),
-            ),
-            id: id,
-          ),
-        );
+         UsersAssignQuery(
+           pageLink: PageLink(
+             pageSize,
+             0,
+             searchText,
+             sortOrder ?? SortOrder('email', Direction.ASC),
+           ),
+           id: id,
+         ),
+       );
 
   @override
   UsersAssignQuery nextPageKey(UsersAssignQuery pageKey) {

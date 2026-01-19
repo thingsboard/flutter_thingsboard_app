@@ -29,7 +29,6 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmsState> {
         emit(const AlarmsFiltersNotActivatedState());
         queryController.onFiltersUpdated(AlarmFiltersEntity.defaultFilters());
 
-
       case AlarmFiltersUpdateEvent():
         queryController.onFiltersUpdated(event.filtersEntity);
         isFiltersActive = true;

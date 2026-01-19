@@ -18,7 +18,7 @@ class AlarmsDi {
   AlarmsDi._();
 
   static void init(
-    String scopeName, {
+    String scopeName,  {
     required ThingsboardClient tbClient,
     required String typesScopeName,
     required String assigneeScopeName,
@@ -27,29 +27,22 @@ class AlarmsDi {
       scopeName: scopeName,
       init: (locator) {
         locator.registerFactory<IAlarmsDatasource>(
-          () => AlarmsDatasource(
-            thingsboardClient: tbClient,
-          ),
+          () => AlarmsDatasource(thingsboardClient: tbClient),
         );
 
         locator.registerFactory<IAlarmsRepository>(
-          () => AlarmsRepository(
-            datasource: locator(),
-          ),
+          () => AlarmsRepository(datasource: locator()),
         );
 
-        locator.registerLazySingleton(
-          () => AlarmQueryController(),
-        );
+        locator.registerLazySingleton(() => AlarmQueryController());
 
         locator.registerFactory(
-          () => FetchAlarmsUseCase(
-            repository: locator(),
-          ),
+          () => FetchAlarmsUseCase(repository: locator()),
         );
 
         locator.registerLazySingleton<
-            PaginationRepository<AlarmQueryV2, AlarmInfo>>(
+          PaginationRepository<AlarmQueryV2, AlarmInfo>
+        >(
           () => AlarmsPaginationRepository(
             queryController: locator(),
             onFetchData: locator<FetchAlarmsUseCase>(),

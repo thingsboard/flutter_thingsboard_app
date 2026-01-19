@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -15,13 +14,8 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_bu
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_grid_widget.dart';
 
 class DashboardsGridWidget extends StatelessWidget {
-  const DashboardsGridWidget({
-    required this.tbContext,
-    required this.dashboardPageCtrl,
-    super.key,
-  });
+  const DashboardsGridWidget({required this.dashboardPageCtrl, super.key});
 
-  final TbContext tbContext;
   final DashboardPageController dashboardPageCtrl;
 
   @override
@@ -29,7 +23,7 @@ class DashboardsGridWidget extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         getIt<DashboardsPaginationRepository>().refresh();
-       await  dashboardPageCtrl.dashboardController.future.then(
+        await dashboardPageCtrl.dashboardController.future.then(
           (v) async => await v.controller?.reload(),
         );
       },
@@ -42,8 +36,7 @@ class DashboardsGridWidget extends StatelessWidget {
                 (context, item, index) => EntityGridCard(
                   item,
                   entityCardWidgetBuilder:
-                      (_, dashboard) =>
-                          DashboardGridCard(tbContext, dashboard: dashboard),
+                      (_, dashboard) => DashboardGridCard(dashboard: dashboard),
                   onEntityTap: (dashboard) {
                     dashboardPageCtrl.openDashboard(
                       dashboard.id!.id!,

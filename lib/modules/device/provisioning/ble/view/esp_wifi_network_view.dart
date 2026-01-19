@@ -12,14 +12,14 @@ class EspWifiNetworkView extends StatelessWidget {
     required this.device,
     required this.pop,
     required this.networks,
-    required this.tbContext,
+
     super.key,
   });
 
   final String device;
   final String pop;
   final List<String> networks;
-  final TbContext tbContext;
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +32,13 @@ class EspWifiNetworkView extends StatelessWidget {
             networks,
             icon: Icons.wifi_outlined,
             onTap: (network) async {
-              final String? networkPass = await tbContext.showFullScreenDialog(
+              final String? networkPass = await TbContext.showFullScreenDialog2(
                 PasswordDialog(
                   helpMessage: S.of(context).wifiPasswordMessage(network),
                   textFieldLabel: S.of(context).wifiPassword,
                 ),
-                context: context,
+                context
+
               );
 
               if (networkPass != null && context.mounted) {

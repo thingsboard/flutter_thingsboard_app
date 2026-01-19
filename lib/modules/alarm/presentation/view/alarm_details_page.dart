@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/di/alarm_details_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/alarm_assignee_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/alarm_assignee_event.dart';
@@ -12,12 +13,12 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/tb_error_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class AlarmDetailsPage extends TbContextWidget {
-  AlarmDetailsPage(super.tbContext, {required this.id, super.key});
+class AlarmDetailsPage extends StatefulWidget {
+  const AlarmDetailsPage({required this.id, super.key});
 
   final String id;
 
@@ -25,7 +26,7 @@ class AlarmDetailsPage extends TbContextWidget {
   State<StatefulWidget> createState() => _AlarmDetailsPageState();
 }
 
-class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
+class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -59,7 +60,6 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
             case AlarmDetailsLoadedState():
               return Scaffold(
                 appBar: TbAppBar(
-                  tbContext,
                   title: Text(
                     state.alarmInfo.type,
                     style: TbTextStyles.titleXs.copyWith(
@@ -82,23 +82,14 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
                               children: [
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
-                                  alamDashboardId:
-                                      state.alarmInfo.details?['dashboardId']
-                                          ?.toString(),
-                                  tbContext: tbContext,
+                                 alamDashboardId: (state.alarmInfo.details is Map<String,dynamic>) ? 
+                                      (state.alarmInfo.details as Map<String, dynamic>)['dashboardId']?.toString() : null,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
-                                  child: AlarmAssigneeWidget(
-                                    tbContext: tbContext,
-                                  ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: AlarmAssigneeWidget(),
                                 ),
-                                AlarmActivityWidget(
-                                  state.alarmInfo.id!,
-                                  tbContext: tbContext,
-                                ),
+                                AlarmActivityWidget(state.alarmInfo.id!),
                               ],
                             ),
                           ),
@@ -113,7 +104,6 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
             case AlarmDetailsErrorState():
               return Scaffold(
                 appBar: TbAppBar(
-                  tbContext,
                   title: Text(
                     S.of(context).failedToLoadAlarmDetails,
                     style: TbTextStyles.titleXs.copyWith(
@@ -136,7 +126,7 @@ class _AlarmDetailsPageState extends TbContextState<AlarmDetailsPage> {
 
   @override
   void initState() {
-    AlarmDetailsDi.init(widget.tbClient, id: AlarmId(widget.id));
+    AlarmDetailsDi.init(getIt<ITbClientService>().client, id: AlarmId(widget.id));
     super.initState();
   }
 

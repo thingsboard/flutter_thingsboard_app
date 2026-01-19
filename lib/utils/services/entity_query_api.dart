@@ -37,21 +37,24 @@ abstract class EntityQueryApi {
   }) {
     EntityFilter deviceFilter;
     if (deviceType != null) {
-      deviceFilter =
-          DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
+      deviceFilter = DeviceTypeFilter(
+        deviceTypes: [deviceType],
+        deviceNameFilter: '',
+      );
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
-    final EntityCountQuery deviceCountQuery =
-        EntityCountQuery(entityFilter: deviceFilter);
+    final EntityCountQuery deviceCountQuery = EntityCountQuery(
+      entityFilter: deviceFilter,
+    );
     if (active != null) {
       deviceCountQuery.keyFilters = [
         if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter,
       ];
     }
-    return tbClient
-        .getEntityQueryService()
-        .countEntitiesByQuery(deviceCountQuery);
+    return tbClient.getEntityQueryService().countEntitiesByQuery(
+      deviceCountQuery,
+    );
   }
 
   static EntityDataQuery createDefaultDeviceQuery({
@@ -63,13 +66,18 @@ abstract class EntityQueryApi {
     EntityFilter deviceFilter;
     List<KeyFilter>? keyFilters;
     if (deviceType != null) {
-      deviceFilter =
-          DeviceTypeFilter(deviceType: deviceType, deviceNameFilter: '');
+      deviceFilter = DeviceTypeFilter(
+               deviceTypes: [deviceType],
+        deviceType: deviceType,
+        deviceNameFilter: '',
+      );
     } else {
       deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
     }
     if (active != null) {
-      keyFilters = [if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter];
+      keyFilters = [
+        if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter,
+      ];
     }
     return EntityDataQuery(
       entityFilter: deviceFilter,
@@ -80,10 +88,7 @@ abstract class EntityQueryApi {
         pageSize: pageSize,
         textSearch: searchText,
         sortOrder: EntityDataSortOrder(
-          key: EntityKey(
-            type: EntityKeyType.ENTITY_FIELD,
-            key: 'createdTime',
-          ),
+          key: EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'createdTime'),
           direction: EntityDataSortOrderDirection.DESC,
         ),
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
-import 'package:thingsboard_app/core/auth/login/select_region/model/region.dart';
-import 'package:thingsboard_app/core/auth/login/select_region/select_region_screen.dart';
 import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/core/select_region/model/region.dart';
+import 'package:thingsboard_app/core/select_region/select_region_screen.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';

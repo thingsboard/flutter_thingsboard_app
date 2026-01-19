@@ -1,43 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
 class AlarmsSearchPage extends StatelessWidget {
-  const AlarmsSearchPage({
-    required this.tbContext,
-    super.key,
-  });
-
-  final TbContext tbContext;
+  const AlarmsSearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppSearchBar(
-        tbContext,
-        onSearch: (searchText) => getIt<AlarmBloc>().add(
-          AlarmSearchTextChanged(
-            searchText: searchText,
-          ),
-        ),
-        leading: BackButtonWidget(
+        onSearch:
+            (searchText) => getIt<AlarmBloc>().add(
+              AlarmSearchTextChanged(searchText: searchText),
+            ),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
           onPressed: () {
             getIt<AlarmBloc>().add(
-              const AlarmSearchTextChanged(
-                searchText: null,
-              ),
+              const AlarmSearchTextChanged(searchText: null),
             );
-
-            getIt<ThingsboardAppRouter>().router.pop(context);
+           context.pop();
           },
         ),
       ),
-      body: AlarmsList(tbContext: tbContext),
+      body: const AlarmsList(),
     );
   }
 }

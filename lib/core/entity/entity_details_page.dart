@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
-
-  EntityDetailsPage(
-    super.tbContext, {
+abstract class EntityDetailsPage<T extends BaseData> extends StatefulWidget {
+  const EntityDetailsPage({
     required String defaultTitle,
     required String entityId,
     String? subTitle,
@@ -16,17 +13,23 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
     bool hideAppBar = false,
     double? appBarElevation,
     super.key,
-  })  : _defaultTitle = defaultTitle,
-        _entityId = entityId,
-        _subTitle = subTitle,
-        _showLoadingIndicator = showLoadingIndicator,
-        _hideAppBar = hideAppBar,
-        _appBarElevation = appBarElevation;
-  final labelTextStyle =
-      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
+  }) : _defaultTitle = defaultTitle,
+       _entityId = entityId,
+       _subTitle = subTitle,
+       _showLoadingIndicator = showLoadingIndicator,
+       _hideAppBar = hideAppBar,
+       _appBarElevation = appBarElevation;
+  final labelTextStyle = const TextStyle(
+    color: Color(0xFF757575),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
-  final valueTextStyle =
-      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
+  final valueTextStyle = const TextStyle(
+    color: Color(0xFF282828),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
   final String _defaultTitle;
   final String _entityId;
@@ -48,7 +51,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends TbContextWidget {
 }
 
 class _EntityDetailsPageState<T extends BaseData>
-    extends TbContextState<EntityDetailsPage<T>> {
+    extends State<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
   late ValueNotifier<String> titleValue;
 
@@ -73,46 +76,47 @@ class _EntityDetailsPageState<T extends BaseData>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: widget._hideAppBar
-          ? null
-          : TbAppBar(
-              tbContext,
-              showLoadingIndicator: widget._showLoadingIndicator,
-              elevation: widget._appBarElevation,
-              title: ValueListenableBuilder<String>(
-                valueListenable: titleValue,
-                builder: (context, title, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: widget._subTitle != null
-                            ? Theme.of(context)
-                                .primaryTextTheme
-                                .titleLarge!
-                                .copyWith(fontSize: 16)
-                            : null,
-                      ),
-                      if (widget._subTitle != null)
+      appBar:
+          widget._hideAppBar
+              ? null
+              : TbAppBar(
+                showLoadingIndicator: widget._showLoadingIndicator,
+                elevation: widget._appBarElevation,
+                title: ValueListenableBuilder<String>(
+                  valueListenable: titleValue,
+                  builder: (context, title, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          widget._subTitle!,
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .titleLarge!
-                                .color!
-                                .withAlpha((0.38 * 255).ceil()),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            height: 16 / 12,
-                          ),
+                          title,
+                          style:
+                              widget._subTitle != null
+                                  ? Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleLarge!
+                                      .copyWith(fontSize: 16)
+                                  : null,
                         ),
-                    ],
-                  );
-                },
+                        if (widget._subTitle != null)
+                          Text(
+                            widget._subTitle!,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .titleLarge!
+                                  .color!
+                                  .withAlpha((0.38 * 255).ceil()),
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              height: 16 / 12,
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
       body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
@@ -121,16 +125,12 @@ class _EntityDetailsPageState<T extends BaseData>
             if (entity != null) {
               return widget.buildEntityDetails(context, entity);
             } else {
-              return  Center(
+              return Center(
                 child: Text(S.of(context).requestedEntityDoesNotExists),
               );
             }
           } else {
-            return const Center(
-              child: TbProgressIndicator(
-                size: 50.0,
-              ),
-            );
+            return const Center(child: TbProgressIndicator(size: 50.0));
           }
         },
       ),
@@ -140,8 +140,7 @@ class _EntityDetailsPageState<T extends BaseData>
 
 abstract class ContactBasedDetailsPage<T extends ContactBased>
     extends EntityDetailsPage<T> {
-  ContactBasedDetailsPage(
-    super.tbContext, {
+  const ContactBasedDetailsPage({
     required super.defaultTitle,
     required super.entityId,
     super.subTitle,

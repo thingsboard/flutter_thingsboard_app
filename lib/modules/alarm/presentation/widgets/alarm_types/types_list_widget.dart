@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
@@ -8,13 +7,8 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class TypesListWidget extends StatelessWidget {
-  const TypesListWidget({
-    required this.tbContext,
-    required this.onChanged,
-    super.key,
-  });
+  const TypesListWidget({required this.onChanged, super.key});
 
-  final TbContext tbContext;
   final VoidCallback onChanged;
 
   @override
@@ -56,12 +50,15 @@ class TypesListWidget extends StatelessWidget {
             ),
             Flexible(
               child: PagedListView<PageLink, AlarmType>.separated(
-                pagingController: getIt<AlarmTypesBloc>()
-                    .paginationRepository
-                    .pagingController,
+                pagingController:
+                    getIt<AlarmTypesBloc>()
+                        .paginationRepository
+                        .pagingController,
                 shrinkWrap: true,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {
                     return GestureDetector(
@@ -78,10 +75,7 @@ class TypesListWidget extends StatelessWidget {
                           Flexible(
                             child: Text(
                               item.type,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                height: 1.5,
-                              ),
+                              style: const TextStyle(fontSize: 16, height: 1.5),
                             ),
                           ),
                         ],
@@ -98,8 +92,8 @@ class TypesListWidget extends StatelessWidget {
                     );
                   },
                 ),
-                separatorBuilder: (_, _) =>
-                    const Divider(thickness: 1, height: 32),
+                separatorBuilder:
+                    (_, _) => const Divider(thickness: 1, height: 32),
               ),
             ),
           ],

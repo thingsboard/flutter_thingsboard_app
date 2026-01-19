@@ -24,19 +24,24 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
   ) async {
     switch (event) {
       case AlarmTypesSelectedEvent():
-        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(
+          Filters.type,
+        );
         types.add(event.type);
         filtersService.setSelectedFilter(Filters.type, data: types);
         emit(
           AlarmTypeSelectedState(
             selectedTypes: types,
-            allowToAddMore: types.length <
+            allowToAddMore:
+                types.length <
                 (paginationRepository.pagingController.itemList?.length ?? 0),
           ),
         );
 
       case AlarmTypesRemoveSelectedEvent():
-        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(
+          Filters.type,
+        );
         types.remove(event.type);
         filtersService.setSelectedFilter(Filters.type, data: types);
 
@@ -44,7 +49,8 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
           emit(
             AlarmTypeSelectedState(
               selectedTypes: types,
-              allowToAddMore: types.length <
+              allowToAddMore:
+                  types.length <
                   (paginationRepository.pagingController.itemList?.length ?? 0),
             ),
           );
@@ -59,20 +65,22 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
         paginationRepository.refresh();
 
       case AlarmTypesResetUnCommittedChanges():
-        final Set<String> types = filtersService.getSelectedFilter(Filters.type);
+        final Set<String> types = filtersService.getSelectedFilter(
+          Filters.type,
+        );
 
         if (types.isNotEmpty) {
           emit(
             AlarmTypeSelectedState(
               selectedTypes: types,
-              allowToAddMore: types.length <
+              allowToAddMore:
+                  types.length <
                   (paginationRepository.pagingController.itemList?.length ?? 0),
             ),
           );
         } else {
           emit(const AlarmTypesSelectionEmptyState());
         }
-
     }
   }
 }

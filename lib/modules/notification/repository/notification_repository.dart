@@ -15,7 +15,7 @@ class NotificationRepository implements INotificationQueryRepository {
   final INotificationsLocalService localService;
 
   @override
-  Future<int> deleteNotification(String id)  {
+  Future<int> deleteNotification(String id) {
     return thingsboardClient.getNotificationService().deleteNotification(id);
   }
 
@@ -30,10 +30,10 @@ class NotificationRepository implements INotificationQueryRepository {
   }
 
   @override
-  Future<int> markNotificationAsRead(String id)  {
-    return thingsboardClient
-        .getNotificationService()
-        .markNotificationAsRead(id);
+  Future<int> markNotificationAsRead(String id) {
+    return thingsboardClient.getNotificationService().markNotificationAsRead(
+      id,
+    );
   }
 
   @override

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 final ThemeData darkTheme = ThemeData(
   primarySwatch: AppColors.darkPrimarySwatch,
