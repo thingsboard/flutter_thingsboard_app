@@ -97,7 +97,7 @@ class NotificationService {
       getIt<TbLogger>().debug(
         'NotificationService::logout() removeMobileSession',
       );
-      _tbClient.getUserService().removeMobileSession(_fcmToken!);
+      _tbClient.getUserService().removeMobileSession(_fcmToken!, requestConfig: RequestConfig(ignoreErrors: true));
     }
 
     await _foregroundMessageSubscription?.cancel();

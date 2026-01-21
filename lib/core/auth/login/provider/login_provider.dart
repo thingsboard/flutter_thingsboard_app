@@ -38,16 +38,10 @@ class Login extends _$Login {
   }
 
   Future<void> logout() async {
-    try {
       if (getIt<IFirebaseService>().apps.isNotEmpty && state.isFullyAuthenticated()) {
         await getIt<NotificationService>().logout();
       }
       await _tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
-    } catch (e) {
-      log(e.toString());
-    } finally {
-        await _tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
-    }
   }
 
   Future<void> handleUserLoaded() async {

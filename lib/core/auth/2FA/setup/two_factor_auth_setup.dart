@@ -40,9 +40,10 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
           providers.isLoading ||
           userConfig.isLoading ||
           userConfig.isRefreshing;
-                  if (providers.hasError || userConfig.hasError) {
-          ref.read(loginProvider.notifier).logout();
-        }
+      if (providers.hasError || userConfig.hasError) {
+        ref.read(loginProvider.notifier).logout();
+        context.pushReplacement(LoginRoutes.login);
+      }
       return null;
     }, [providers, userConfig]);
 
@@ -53,6 +54,7 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         isLoading.value = config.isLoading || config.isRefreshing;
         if (config.hasError) {
           ref.read(loginProvider.notifier).logout();
+          context.pushReplacement(LoginRoutes.login);
         }
         return null;
       }, [config]);
