@@ -63,8 +63,13 @@ class Login extends _$Login {
     await _onFullyLoggedIn();
   }
 
-  Future<void> login(String email, String password) async {
-    final res = await _tbClient.login(LoginRequest(email, password));
+  Future<bool> login(String email, String password) async {
+    try {
+      final res = await _tbClient.login(LoginRequest(email, password));
+    } catch (e) {
+      return false;
+    }
+    return true;
   }
 
   Future<void> loadUser() async {
@@ -81,7 +86,7 @@ class Login extends _$Login {
       (l) => l.toString() == lang.toString().split('_')[0],
     );
 
-      await S.load(locale ?? Locale('en'));
+      await S.load(locale ?? const Locale('en'));
     
     state = state.copyWith(
       isUserLoaded: true,
@@ -102,7 +107,7 @@ class Login extends _$Login {
     await _onFullyLoggedIn();
   }
 
-  Future<void> oauthLogin(String url) async {
+  Future<bool> oauthLogin(String url) async {
     try {
       final result = await getIt<IOAuth2Client>().authenticate(url);
       if (result.success) {
@@ -111,11 +116,13 @@ class Login extends _$Login {
           result.refreshToken,
           true,
         );
+        return true;
       } else {
         _overlayService.showErrorNotification((_) => result.error!);
       }
     } catch (e) {
       _overlayService.showErrorNotification((_) => e.toString());
     }
+    return false;
   }
 }

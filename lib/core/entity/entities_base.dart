@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
@@ -55,7 +56,7 @@ mixin EntitiesBase<T, P> {
 
   EntityCardSettings entityGridCardSettings(T entity) => EntityCardSettings();
 
-  void onEntityTap(T entity);
+  void onEntityTap(T entity, WidgetRef ref);
 }
 
 mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
@@ -179,7 +180,7 @@ class TimePageLinkController extends PageKeyController<TimePageLink> {
   }
 }
 
-abstract class BaseEntitiesWidget<T, P> extends StatefulWidget
+abstract class BaseEntitiesWidget<T, P> extends ConsumerStatefulWidget
     with EntitiesBase<T, P> {
   BaseEntitiesWidget(
     this.pageKeyController, {
@@ -203,7 +204,7 @@ abstract class BaseEntitiesWidget<T, P> extends StatefulWidget
           : null;
 }
 
-abstract class BaseEntitiesState<T, P> extends State<BaseEntitiesWidget<T, P>> {
+abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<T, P>> {
   BaseEntitiesState();
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;
@@ -252,7 +253,6 @@ abstract class BaseEntitiesState<T, P> extends State<BaseEntitiesWidget<T, P>> {
     } else {
       _refreshPagingController();
     }
-
     return _refreshCompleter!.future;
   }
 

@@ -18,8 +18,8 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginWidget extends HookConsumerWidget {
   const LoginWidget({super.key});
@@ -37,7 +37,7 @@ class LoginWidget extends HookConsumerWidget {
       }),
     );
     useEffect(() {
-      if (providers is !AsyncLoading) {
+      if (providers is! AsyncLoading) {
         loading.value = false;
       }
       return null;
@@ -148,6 +148,7 @@ class LoginWidget extends HookConsumerWidget {
                                                 context,
                                                 form,
                                                 ref,
+                                                loading
                                               );
                                             },
                                     child: Text(
@@ -183,6 +184,7 @@ Future<void> onLoginPressed(
   BuildContext context,
   FormGroup form,
   WidgetRef ref,
+  ValueNotifier<bool> loading,
 ) async {
   FocusScope.of(context).unfocus();
   form.markAllAsTouched();
@@ -192,7 +194,10 @@ Future<void> onLoginPressed(
   final String username = form.control('email').value.toString();
   final String password = form.control('password').value.toString();
   try {
-    await ref.read(loginProvider.notifier).login(username, password);
+    loading.value = true;
+  final res =   await ref.read(loginProvider.notifier).login(username, password);
+    
+    loading.value = res;
   } catch (e) {
     form.setErrors({"err": {}});
   }
@@ -219,15 +224,14 @@ Future<void> onOauth2ButtonPressed(
   ValueNotifier<bool> loading,
   WidgetRef ref,
 ) async {
-
   FocusScope.of(context).unfocus();
   if (client.name == 'qr') {
     await onLoginWithBarcode(context);
     return;
   }
   loading.value = true;
-  ref.read(loginProvider.notifier).oauthLogin(client.url);
-  loading.value = false;
+final res =  await  ref.read(loginProvider.notifier).oauthLogin(client.url);
+  loading.value = res;
 }
 
 Future<void> onForgotPassword(BuildContext context) async {

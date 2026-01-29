@@ -10,7 +10,7 @@ class OAuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-   style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.bordersLight )),
+   style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.bordersLight,), padding: const EdgeInsets.all(16)),
       onPressed: onTap,
       child: Row(
         spacing: 8,

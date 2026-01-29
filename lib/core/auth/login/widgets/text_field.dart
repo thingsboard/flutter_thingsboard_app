@@ -114,6 +114,7 @@ class TbTextField extends HookWidget {
         ValidationMessage.required:
             (error) => '$label ${S.of(context).isRequiredText}',
         ValidationMessage.email: (error) => S.of(context).emailInvalidText,
+        ValidationMessage.mustMatch: (error) => 'Fields must match',
         ValidationMessage.minLength: (error) {
           final desc = error as Map;
           return '$label is too short, required length is ${desc['requiredLength']}';

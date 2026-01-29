@@ -99,7 +99,6 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         ),
       );
     }
-    if (userConfig.hasValue) {
       return BaseTwoFactorLayout(
         title: S.of(context).twofactorAuthentication,
         isLoading: isLoading.value,
@@ -116,10 +115,8 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
                   avalibleTypes: providers.value!,
                   type: isForce ? TwoFaViewType.force : TwoFaViewType.setup,
                 )
-                : const Center(child: CircularProgressIndicator()),
+                : const SizedBox(),
       );
-    }
-    return const SizedBox();
   }
 
   Widget _buildProviderWidget(

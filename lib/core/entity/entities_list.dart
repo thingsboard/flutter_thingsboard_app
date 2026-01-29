@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 
-mixin EntitiesListStateBase on StatefulWidget {
+mixin EntitiesListStateBase on ConsumerStatefulWidget {
   @override
-  State<StatefulWidget> createState() => _EntitiesListState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _EntitiesListState();
 }
 
 class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
@@ -36,7 +37,7 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
               item,
               key: widget.getKey(item),
               entityCardWidgetBuilder: widget.buildEntityListCard,
-              onEntityTap: widget.onEntityTap,
+              onEntityTap: (i)=> widget.onEntityTap(i, ref),
             ),
             firstPageProgressIndicatorBuilder:
                 firstPageProgressIndicatorBuilder,
@@ -46,7 +47,6 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
         ),
       ),
     );
-
     return CustomScrollView(slivers: slivers);
   }
 }

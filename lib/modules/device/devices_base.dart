@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -33,7 +34,7 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   }
 
   @override
-  Future<void> onEntityTap(EntityData device) async {
+  Future<void> onEntityTap(EntityData device, WidgetRef ref) async {
     final profile = await DeviceProfileCache.getDeviceProfileInfo(
       tbClient,
       device.field('type')!,

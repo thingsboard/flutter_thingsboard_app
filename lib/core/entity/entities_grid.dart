@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
 
-mixin EntitiesGridStateBase on StatefulWidget {
+mixin EntitiesGridStateBase on ConsumerStatefulWidget {
   @override
-  State<StatefulWidget> createState() => _EntitiesGridState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _EntitiesGridState();
 }
 
 class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
@@ -52,7 +53,7 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
                 item,
                 key: widget.getKey(item),
                 entityCardWidgetBuilder: widget.buildEntityGridCard,
-                onEntityTap: widget.onEntityTap,
+                onEntityTap: (i) => widget.onEntityTap(i, ref),
                 settings: widget.entityGridCardSettings(item),
               ),
               firstPageErrorIndicatorBuilder: (context) => Text("first page error"),

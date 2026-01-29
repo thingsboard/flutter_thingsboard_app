@@ -53,53 +53,55 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
 
     return ReactiveForm(
       formGroup: form,
-      child: Column(
-        spacing: 32,
-        children: [
-          StepChip(
-            leading: '1',
-            title: S
-                .of(context)
-                .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 20,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).digitsCode(32),
-                    suffixIcon: TextButton(
-                      child: Text(S.of(context).copy),
-                      onPressed: () => _copySecretToClipboard(context, code),
+      child: SingleChildScrollView(
+        child: Column(
+          spacing: 32,
+          children: [
+            StepChip(
+              leading: '1',
+              title: S
+                  .of(context)
+                  .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 20,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: S.of(context).digitsCode(32),
+                      suffixIcon: TextButton(
+                        child: Text(S.of(context).copy),
+                        onPressed: () => _copySecretToClipboard(context, code),
+                      ),
+                    ),
+                    controller: TextEditingController(text: code),
+                  ),
+                  Center(
+                    child: SvgPicture.string(
+                      Barcode.qrCode(
+                        errorCorrectLevel: BarcodeQRCorrectionLevel.medium,
+                      ).toSvg(config.authUrl, height: 120, width: 120),
                     ),
                   ),
-                  controller: TextEditingController(text: code),
-                ),
-                Center(
-                  child: SvgPicture.string(
-                    Barcode.qrCode(
-                      errorCorrectLevel: BarcodeQRCorrectionLevel.medium,
-                    ).toSvg(config.authUrl, height: 120, width: 120),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          StepChip(
-            leading: '2',
-            title: S.of(context).enter6digitsKeyFromYourAppHere,
-            content: TbTextField(
-              type: TextInputType.number,
-              autoFillHints: const [AutofillHints.oneTimeCode],
-              formControlName: 'verificationCode',
-              label: S.of(context).digitsCode(6),
-              hint: S.of(context).digitsCode(6),
-              onMaxLengthReched: () => _handleCodeSubmit(context, form),
+            StepChip(
+              leading: '2',
+              title: S.of(context).enter6digitsKeyFromYourAppHere,
+              content: TbTextField(
+                type: TextInputType.number,
+                autoFillHints: const [AutofillHints.oneTimeCode],
+                formControlName: 'verificationCode',
+                label: S.of(context).digitsCode(6),
+                hint: S.of(context).digitsCode(6),
+                onMaxLengthReched: () => _handleCodeSubmit(context, form),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

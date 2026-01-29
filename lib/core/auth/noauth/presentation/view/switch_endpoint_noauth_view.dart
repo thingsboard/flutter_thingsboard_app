@@ -15,6 +15,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final noAuth = ref.watch(noauthProviderProvider);
     useEffect(() {
+              ref.invalidate(noauthProviderProvider);
       if (arguments != null) {
         ref
             .read(noauthProviderProvider.notifier)
@@ -31,7 +32,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
         });
       }
       if (next.isDone) {
-        ref.invalidate(noauthProviderProvider);
+
       }
     });
     return Scaffold(

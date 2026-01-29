@@ -1,3 +1,4 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -20,7 +21,7 @@ mixin TenantsBase on EntitiesBase<Tenant, PageLink> {
   }
 
   @override
-  void onEntityTap(Tenant tenant) {
+  void onEntityTap(Tenant tenant, WidgetRef ref) {
     getIt<ThingsboardAppRouter>().navigateTo('/tenants/tenant/${tenant.id!.id}');
   }
 }

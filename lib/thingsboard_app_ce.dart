@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/themes/dark_theme.dart';
-import 'package:thingsboard_app/config/themes/tb_theme.dart';
+import 'package:thingsboard_app/config/themes/tb_ce_theme.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:toastification/toastification.dart';
 
@@ -18,11 +18,11 @@ class ThingsboardApp extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return ToastificationWrapper(
-      child: ColoredBox(
-        color: tbTheme.scaffoldBackgroundColor,
+   child :  ColoredBox(
+        color: tbCeTheme.scaffoldBackgroundColor,
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          color: tbTheme.scaffoldBackgroundColor,
+          color: tbCeTheme.scaffoldBackgroundColor,
           localizationsDelegates: const [
             S.delegate,
             LocaleNamesLocalizationsDelegate(),
@@ -34,11 +34,11 @@ class ThingsboardApp extends HookConsumerWidget {
           supportedLocales: S.delegate.supportedLocales,
           onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
           themeMode: ThemeMode.light,
-          theme: tbTheme,
+          theme: tbCeTheme,
           darkTheme: tbDarkTheme,
           routerConfig: router,
         ),
-      ),
+   )
     );
   }
 }

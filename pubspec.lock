@@ -457,14 +457,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.11"
-  dev:
-    dependency: transitive
-    description:
-      name: dev
-      sha256: e7e806af20d53e293a7878212d2246d3e9fccd2b49d597600f9898ed83501cb4
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -1176,14 +1168,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.5"
-  gestures:
-    dependency: transitive
-    description:
-      name: gestures
-      sha256: "6e75e4ba1ad033a8be9a682974dfe6a2be96ab07b4aa8335ed37bbecb75b7770"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   get_it:
     dependency: "direct main"
     description:

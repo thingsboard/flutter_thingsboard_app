@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -28,7 +29,7 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
   }
 
   @override
-  void onEntityTap(AssetInfo asset) {
+  void onEntityTap(AssetInfo asset, WidgetRef ref) {
     if (asset.id?.id != null) {
       getIt<ThingsboardAppRouter>().navigateTo('/assets/asset/${asset.id!.id}');
     }

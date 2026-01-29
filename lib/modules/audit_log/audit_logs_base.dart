@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/audit_log_routes.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
@@ -26,7 +27,7 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   }
 
   @override
-  void onEntityTap(AuditLog auditLog) {}
+  void onEntityTap(AuditLog auditLog, WidgetRef ref) {}
 
   @override
   Widget buildEntityListCard(BuildContext context, AuditLog auditLog) {

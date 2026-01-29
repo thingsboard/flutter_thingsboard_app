@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -37,7 +38,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   }
 
   @override
-  void onEntityTap(DeviceProfileInfo deviceProfile) {
+  void onEntityTap(DeviceProfileInfo deviceProfile, WidgetRef ref) {
     getIt<ThingsboardAppRouter>().navigateTo(
       '/devices/deviceList?deviceType=${Uri.encodeComponent(deviceProfile.name)}',
     );

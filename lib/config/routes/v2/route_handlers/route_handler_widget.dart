@@ -7,7 +7,6 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:reactive_phone_form_field/reactive_phone_form_field.dart';
 import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handlers.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
@@ -17,7 +16,6 @@ class RouteHanlderWidget extends HookConsumerWidget {
   final Widget child;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(oauthProvider);
     ref.watch(loginProvider);
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {

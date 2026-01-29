@@ -6,34 +6,39 @@ import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 Typography tbTypography = Typography.material2018();
-final ThemeData theme = ThemeData(primarySwatch: AppColors.primarySwatch);
 
-ThemeData get tbTheme =>  ThemeData(
+ThemeData  tbTheme(MaterialColor primarySwatch, Color primaryColor, Color accentColor) {
+  final ThemeData theme = ThemeData(primarySwatch: primarySwatch);
+  return ThemeData(
   useMaterial3: false,
-  primarySwatch: AppColors.primarySwatch,
+  primarySwatch: primarySwatch,
   colorScheme: theme.colorScheme.copyWith(
-    primary: AppColors.primaryBlue,
-    secondary: Colors.deepOrange,
+    primary: primaryColor,
+    secondary: accentColor,
   ),
-  inputDecorationTheme: inputTheme,
-  textSelectionTheme: textSelectionTheme,
+  inputDecorationTheme: inputTheme(primaryColor),
+  textSelectionTheme: textSelectionTheme(primaryColor),
   scaffoldBackgroundColor: AppColors.scaffoldBackground,
   textTheme: tbTypography.black,
   primaryTextTheme: tbTypography.black,
   typography: tbTypography,
   appBarTheme: appBarTheme,
-  bottomNavigationBarTheme: bottomNavigationBarTheme,
+  bottomNavigationBarTheme: bottomNavigationBarTheme(primaryColor),
   cardTheme: cardTheme,
   dividerTheme: dividerTheme,
-  textButtonTheme: textButtonTheme,
-  outlinedButtonTheme: outlinedButtonTheme,
-  filledButtonTheme: filledButtonTheme,
-  elevatedButtonTheme: elevatedButtonTheme,
+  textButtonTheme: textButtonTheme(primaryColor),
+  outlinedButtonTheme: outlinedButtonTheme(primaryColor),
+  filledButtonTheme: filledButtonTheme(primaryColor),
+  elevatedButtonTheme: elevatedButtonTheme(primaryColor),
   iconTheme: iconTheme,
   listTileTheme: listTitleTheme,
   pageTransitionsTheme: pageTransitionsTheme,
-  
+   progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: accentColor, 
+    ),
+    indicatorColor: accentColor
 );
+}
 
 PageTransitionsTheme pageTransitionsTheme = 
    const PageTransitionsTheme(
@@ -62,10 +67,10 @@ IconThemeData iconTheme=
 );
 
 
-ElevatedButtonThemeData elevatedButtonTheme= 
+ElevatedButtonThemeData elevatedButtonTheme(Color primaryColor) => 
    ElevatedButtonThemeData(
   style: ElevatedButton.styleFrom(
-    backgroundColor: AppColors.primaryBlue,
+    backgroundColor: primaryColor,
     foregroundColor: AppColors.white,
     padding: DesignTokens.buttonPaddingMedium,
     textStyle: TbTextStyles.button,
@@ -79,10 +84,10 @@ ElevatedButtonThemeData elevatedButtonTheme=
 );
 
 
-FilledButtonThemeData filledButtonTheme= 
+FilledButtonThemeData filledButtonTheme(Color primaryColor) =>
    FilledButtonThemeData(
   style: FilledButton.styleFrom(
-    backgroundColor: AppColors.primaryBlue,
+    backgroundColor: primaryColor,
     foregroundColor: AppColors.white,
     padding: DesignTokens.buttonPaddingMedium,
     textStyle: TbTextStyles.button,
@@ -94,10 +99,10 @@ FilledButtonThemeData filledButtonTheme=
 );
 
 
-OutlinedButtonThemeData outlinedButtonTheme = 
+OutlinedButtonThemeData outlinedButtonTheme(Color primaryColor) =>
    OutlinedButtonThemeData(
   style: OutlinedButton.styleFrom(
-    foregroundColor: AppColors.primaryBlue,
+    foregroundColor: primaryColor,
     side: const BorderSide(color: AppColors.bordersLight),
     padding: DesignTokens.buttonPaddingMedium,
     textStyle: TbTextStyles.button,
@@ -109,10 +114,10 @@ OutlinedButtonThemeData outlinedButtonTheme =
 );
 
 
-TextButtonThemeData textButtonTheme =
+TextButtonThemeData textButtonTheme(Color primaryColor) =>
    TextButtonThemeData(
   style: TextButton.styleFrom(
-    foregroundColor: AppColors.primaryBlue,
+    foregroundColor: primaryColor,
     padding: DesignTokens.buttonPaddingMedium,
     textStyle: TbTextStyles.button,
     shape: RoundedRectangleBorder(
@@ -143,10 +148,10 @@ CardThemeData cardTheme =
 );
 
 
-BottomNavigationBarThemeData bottomNavigationBarTheme = 
-   const BottomNavigationBarThemeData(
+BottomNavigationBarThemeData bottomNavigationBarTheme(Color primaryColor) =>
+    BottomNavigationBarThemeData(
   backgroundColor: AppColors.white,
-  selectedItemColor: AppColors.primaryBlue,
+  selectedItemColor: primaryColor,
   unselectedItemColor: AppColors.textTertiary,
   showSelectedLabels: true,
   showUnselectedLabels: true,
@@ -168,15 +173,15 @@ AppBarTheme appBarTheme =
 );
 
 
-TextSelectionThemeData textSelectionTheme = 
-   const TextSelectionThemeData(
-  cursorColor: AppColors.primaryBlue,
-  selectionHandleColor: AppColors.primaryBlue,
+TextSelectionThemeData textSelectionTheme(Color primaryColor) =>
+    TextSelectionThemeData(
+  cursorColor: primaryColor,
+  selectionHandleColor: primaryColor,
   selectionColor: AppColors.selectionColor,
 );
 
 
-final InputDecorationTheme inputTheme = 
+ InputDecorationTheme inputTheme(Color primaryColor) =>
    InputDecorationTheme(
   isDense: true,
   floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -188,7 +193,7 @@ final InputDecorationTheme inputTheme =
     Set<WidgetState> states,
   ) {
     final Color color = states.contains(WidgetState.focused)
-        ? AppColors.primaryBlue
+        ? primaryColor
         : AppColors.textTertiary;
     return TbTextStyles.labelSmall.copyWith(color: color);
   }),
@@ -199,7 +204,7 @@ final InputDecorationTheme inputTheme =
     color: AppColors.textError,
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+    borderSide:  BorderSide(color: primaryColor, width: 2),
     borderRadius: BorderRadius.circular(4),
   ),
   enabledBorder: OutlineInputBorder(
