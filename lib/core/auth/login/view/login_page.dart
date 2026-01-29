@@ -15,7 +15,7 @@ class LoginPage extends HookConsumerWidget {
   final String? riderectUrl;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.read(loginProvider);
+    final loginState = ref.watch(loginProvider);
     final isUserLoading = useState(false);
     useEffect(() {
       LoginDi.init();
@@ -41,10 +41,14 @@ class LoginPage extends HookConsumerWidget {
     ValueNotifier<bool> isUserLoading,
   ) {
     final client = getIt<ITbClientService>().client;
-    if (client.getAuthUser() != null && !loginState.isFullyAuthenticated()) {
+    final user = client.getAuthUser();
+
+    if (user != null &&
+        (!user.isMfaConfigurationToken() || !user.isPreVerificationToken())) {
       isUserLoading.value = true;
     }
-    if (isUserLoading.value && client.getAuthUser() == null) {
+    if (user != null &&
+        (user.isMfaConfigurationToken() || user.isPreVerificationToken())) {
       isUserLoading.value = false;
     }
   }
