@@ -77,7 +77,7 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
                       context,
                     ),
                   ),
-                  if (isForce)
+                  if (isForce && (providers.value?.length ?? 0) > 1)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: SizedBox(
