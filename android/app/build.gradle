@@ -42,13 +42,13 @@ def webPathPrefix = getDartDefineValue('webPathPrefix') ?: '/api/noauth/qr'
 def appLinksUrlScheme = getDartDefineValue('appLinksUrlScheme') ?: 'https'
 android {
 namespace "org.thingsboard.app"
+    ndkVersion "29.0.13113456 rc1"
     compileSdkVersion 35
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId getDartDefineValue('androidApplicationId')?: "org.thingsboard.app"
         minSdkVersion 24
         targetSdkVersion 36
