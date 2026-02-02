@@ -362,7 +362,10 @@ class ProfileEditPage extends HookConsumerWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Column(
                       spacing: 8,
                       children: [
@@ -388,9 +391,12 @@ class ProfileEditPage extends HookConsumerWidget {
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.borderError,
                             ),
-                            onPressed: () async {
-                              await onDiscardPressed(context);
-                            },
+                            onPressed:
+                                canPop.value
+                                    ? null
+                                    : () async {
+                                      await onDiscardPressed(context);
+                                    },
                             child: Text(S.of(context).discardChanges),
                           ),
                         ),
@@ -518,7 +524,6 @@ Future<void> _saveProfile(
       (_) => S.of(context).profileSuccessNotification,
       duration: const Duration(milliseconds: 1500),
     );
-   
   } catch (e) {
     isLoading.value = false;
     overlayService.showErrorNotification((_) => S.of(context).errorOccured(e));

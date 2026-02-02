@@ -2,13 +2,16 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/device_profile/model/cached_device_profile.dart';
@@ -47,11 +50,16 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
         entityName: device.field('name'),
         entityLabel: device.field('label'),
       );
-      getIt<ThingsboardAppRouter>().navigateToDashboard(
-        dashboardId,
-        dashboardTitle: device.field('name'),
-        state: state,
-      );
+          globalNavigatorKey.currentContext?.pushReplacement(
+          '/dashboard',
+          extra: DashboardArgumentsEntity(
+            id: dashboardId,
+            title: device.field('name'),
+            state: state,
+            hideToolbar: false,
+            animate: false,
+          ),
+        );
     } else {
       if (tbClient.isTenantAdmin()) {
         overlayService.showWarnNotification(
