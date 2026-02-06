@@ -1,12 +1,13 @@
 import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 enum Filters { status, severity, type, assignee }
 
 abstract interface class IAlarmFiltersService {
-  List<FilterDataEntity> get statuses;
+  Set<FilterDataEntity<AlarmSearchStatus>> get statuses;
 
-  List<FilterDataEntity> get severities;
+  Set<FilterDataEntity<AlarmSeverity>> get severities;
 
   AlarmFiltersEntity getCommittedFilters();
 

@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
@@ -16,19 +13,20 @@ import 'package:thingsboard_app/modules/notification/widgets/notification_list.d
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
-import 'package:thingsboard_app/utils/ui/back_button_widget.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 enum NotificationsFilter { all, unread }
 
-class NotificationPage extends TbContextWidget {
-  NotificationPage(super.tbContext, {super.key});
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _NotificationPageState();
 }
 
-class _NotificationPageState extends TbContextState<NotificationPage> {
+class _NotificationPageState extends State<NotificationPage> {
   NotificationsFilter notificationsFilter = NotificationsFilter.unread;
   late final NotificationPaginationRepository paginationRepository;
   final notificationQueryCtrl = NotificationQueryCtrl();
@@ -39,23 +37,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        tbContext,
-        leading: BackButtonWidget(
-          onPressed: () {
-            final navigator = Navigator.of(context);
-            if (navigator.canPop()) {
-              navigator.pop();
-            } else {
-              getIt<ThingsboardAppRouter>().navigateTo(
-                '/main',
-                replace: true,
-                transition: TransitionType.fadeIn,
-                transitionDuration: const Duration(milliseconds: 750),
-              );
-            }
-          },
-        ),
-        title:  Text(S.of(context).notifications(2)),
+        title: Text(S.of(context).notifications(2)),
         actions: [
           TextButton(
             child: Text(
@@ -73,13 +55,10 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: ()  => _refresh(),
+        onRefresh: () => _refresh(),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 5,
-              vertical: 10,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,7 +79,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
                         );
                       });
                     },
-                    segments:  [
+                    segments: [
                       FilterSegments(
                         label: S.of(context).unread,
                         value: NotificationsFilter.unread,
@@ -115,8 +94,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
                 Expanded(
                   child: NotificationsList(
                     pagingController: paginationRepository.pagingController,
-                    thingsboardClient: tbClient,
-                    tbContext: tbContext,
+                    thingsboardClient: getIt<ITbClientService>().client,
                     onClearNotification: (id, read) async {
                       await notificationRepository.deleteNotification(id);
                       if (!read) {
@@ -150,37 +128,41 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
   @override
   void initState() {
     paginationRepository = NotificationPaginationRepository(
-      tbClient: widget.tbContext.tbClient,
+      tbClient: getIt<ITbClientService>().client,
       notificationQueryPageCtrl: notificationQueryCtrl,
     )..init();
     NotifcationsDi.init();
     notificationRepository = NotificationRepository(
       notificationQueryCtrl: notificationQueryCtrl,
-      thingsboardClient: widget.tbContext.tbClient,
+      thingsboardClient: getIt<ITbClientService>().client,
     );
 
-    final authority = widget.tbClient.getAuthUser()!.authority;
+    final authority = getIt<ITbClientService>().client.getAuthUser()!.authority;
     final pushNotificationsDisabled = getIt<IFirebaseService>().apps.isEmpty;
     if (pushNotificationsDisabled) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (authority == Authority.TENANT_ADMIN ||
             authority == Authority.CUSTOMER_USER) {
           overlayService.showWarnNotification(
-          (context) => 
-            S.of(context).pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator,
+            (context) =>
+                S
+                    .of(context)
+                    .pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator,
           );
         } else if (authority == Authority.SYS_ADMIN) {
           overlayService.showWarnNotification(
-(context) => 
-            S.of(context).firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase
+            (context) =>
+                S
+                    .of(context)
+                    .firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase,
           );
         }
       });
     }
-    listener =
-        NotificationsLocalService.notificationsNumberStream.stream.listen((e) {
-      //  _refresh();
-    });
+    listener = NotificationsLocalService.notificationsNumberStream.stream
+        .listen((e) {
+          //  _refresh();
+        });
     super.initState();
   }
 
@@ -190,6 +172,7 @@ class _NotificationPageState extends TbContextState<NotificationPage> {
     notificationQueryCtrl.dispose();
     NotifcationsDi.dispose();
     listener.cancel();
+    getIt<IOverlayService>().hideNotification();
     super.dispose();
   }
 

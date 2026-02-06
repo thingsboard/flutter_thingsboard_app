@@ -18,7 +18,8 @@ abstract class ThingsboardImage {
   static const connectMobile = 'assets/images/connect_mobile.svg';
   static const mobileConnectionError =
       'assets/images/mobile-connection-error.svg';
-
+static const twoFaSetup = 'assets/images/2FA_setup.svg';
+static const twoFaConfigured = 'assets/images/2FA_configured.svg';
   static final oauth2Logos = <String, String>{
     'google-logo': 'assets/images/google-logo.svg',
     'github-logo': 'assets/images/github-logo.svg',

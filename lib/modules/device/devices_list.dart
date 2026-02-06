@@ -5,9 +5,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 class DevicesList extends BaseEntitiesWidget<EntityData, EntityDataQuery>
     with DevicesBase, EntitiesListStateBase {
-
   DevicesList(
-    super.tbContext,
     super.pageKeyController, {
     super.key,
     super.searchMode,

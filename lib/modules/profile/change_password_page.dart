@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-class ChangePasswordPage extends TbContextWidget {
-  ChangePasswordPage(super.tbContext, {super.key});
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _ChangePasswordPageState();
 }
 
-class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final IOverlayService overlayService = getIt();
   final _showCurrentPasswordNotifier = ValueNotifier<bool>(false);
@@ -29,10 +30,7 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TbAppBar(
-        tbContext,
-        title: Text(S.of(context).changePassword),
-      ),
+      appBar: TbAppBar(title: Text(S.of(context).changePassword)),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -197,15 +195,19 @@ class _ChangePasswordPageState extends TbContextState<ChangePasswordPage> {
       final String newPassword = formValue['newPassword'].toString();
       final String newPassword2 = formValue['newPassword2'].toString();
       if (newPassword != newPassword2) {
-        overlayService
-            .showErrorNotification((_) => S.of(context).passwordErrorNotification);
+        overlayService.showErrorNotification(
+          (_) => S.of(context).passwordErrorNotification,
+        );
       } else {
         _isLoadingNotifier.value = true;
         try {
           await Future.delayed(const Duration(milliseconds: 300));
-          await tbClient.changePassword(currentPassword, newPassword);
+          await getIt<ITbClientService>().client.changePassword(
+            currentPassword,
+            newPassword,
+          );
           if (mounted) {
-            getIt<ThingsboardAppRouter>().pop(true, context);
+           context.pop(true);
           }
         } catch (e) {
           _isLoadingNotifier.value = false;

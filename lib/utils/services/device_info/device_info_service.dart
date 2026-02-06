@@ -66,8 +66,8 @@ class DeviceInfoService implements IDeviceInfoService {
     return UniversalPlatform.isAndroid
         ? androidInfo?.model ?? 'Unknown Android Model'
         : UniversalPlatform.isIOS
-            ? iosInfo?.model ?? 'Unknown iOS Model'
-            : 'Unknown Device Model';
+        ? iosInfo?.model ?? 'Unknown iOS Model'
+        : 'Unknown Device Model';
   }
 
   @override

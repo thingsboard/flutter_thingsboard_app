@@ -7,9 +7,9 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 class EntitiesListWidgetController {
-  final states = <_EntitiesListWidgetState>[];
+  final List<_EntitiesListWidgetState> states = [];
 
   void _registerEntitiesWidgetState(
     _EntitiesListWidgetState entitiesListWidgetState,
@@ -34,29 +34,24 @@ class EntitiesListWidgetController {
 
 abstract class EntitiesListPageLinkWidget<T>
     extends EntitiesListWidget<T, PageLink> {
-  EntitiesListPageLinkWidget(
-    super.tbContext, {
-    super.controller,
-    super.key,
-  });
+  EntitiesListPageLinkWidget( {super.controller, super.key});
 
   @override
   PageKeyController<PageLink> createPageKeyController() =>
       PageLinkController(pageSize: 5);
 }
 
-abstract class EntitiesListWidget<T, P> extends TbContextWidget
+abstract class EntitiesListWidget<T, P> extends ConsumerStatefulWidget
     with EntitiesBase<T, P> {
-
   EntitiesListWidget(
-    super.tbContext, {
+     {
     super.key,
     EntitiesListWidgetController? controller,
-  })  : _controller = controller;
+  }) : _controller = controller;
   final EntitiesListWidgetController? _controller;
 
   @override
-  State<StatefulWidget> createState() => _EntitiesListWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _EntitiesListWidgetState();
 
   PageKeyController<P> createPageKeyController();
 
@@ -64,7 +59,11 @@ abstract class EntitiesListWidget<T, P> extends TbContextWidget
 }
 
 class _EntitiesListWidgetState<T, P>
-    extends TbContextState<EntitiesListWidget<T, P>> {
+    extends ConsumerState<EntitiesListWidget<T, P>> {
+  _EntitiesListWidgetState();
+
+  late final EntitiesListWidgetController? _controller;
+
   late final PageKeyController<P> _pageKeyController;
 
   final StreamController<PageData<T>?> _entitiesStreamController =
@@ -72,16 +71,20 @@ class _EntitiesListWidgetState<T, P>
 
   @override
   void initState() {
+    _controller = widget._controller;
     super.initState();
     _pageKeyController = widget.createPageKeyController();
-    widget._controller?._registerEntitiesWidgetState(this);
-
+    if (_controller != null) {
+      _controller._registerEntitiesWidgetState(this);
+    }
     _refresh();
   }
 
   @override
   void dispose() {
-    widget._controller?._unregisterEntitiesWidgetState(this);
+    if (_controller != null) {
+      _controller._unregisterEntitiesWidgetState(this);
+    }
     _pageKeyController.dispose();
     _entitiesStreamController.close();
     super.dispose();
@@ -89,7 +92,9 @@ class _EntitiesListWidgetState<T, P>
 
   Future<void> _refresh() {
     _entitiesStreamController.add(null);
-    final entitiesFuture = widget.fetchEntities(_pageKeyController.value.pageKey);
+    final entitiesFuture = widget.fetchEntities(
+      _pageKeyController.value.pageKey,
+    );
     entitiesFuture.then((value) => _entitiesStreamController.add(value));
     return entitiesFuture;
   }
@@ -115,9 +120,7 @@ class _EntitiesListWidgetState<T, P>
       ),
       child: Card(
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -152,10 +155,8 @@ class _EntitiesListWidgetState<T, P>
                       onPressed: () {
                         widget.onViewAll();
                       },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child:  Text(S.of(context).viewAll),
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      child: Text(S.of(context).viewAll),
                     ),
                   ],
                 ),
@@ -176,9 +177,9 @@ class _EntitiesListWidgetState<T, P>
                       return Center(
                         child: RefreshProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Theme.of(tbContext.currentState!.context)
-                                .colorScheme
-                                .primary,
+                            Theme.of(
+                              context
+                            ).colorScheme.primary,
                           ),
                         ),
                       );
@@ -196,18 +197,13 @@ class _EntitiesListWidgetState<T, P>
   Widget _buildNoEntitiesFound() {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFDEDEDE),
-        ),
+        border: Border.all(color: const Color(0xFFDEDEDE)),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Center(
         child: Text(
           widget.noItemsFoundText,
-          style: const TextStyle(
-            color: Color(0xFFAFAFAF),
-            fontSize: 14,
-          ),
+          style: const TextStyle(color: Color(0xFFAFAFAF), fontSize: 14),
         ),
       ),
     );
@@ -220,16 +216,17 @@ class _EntitiesListWidgetState<T, P>
       child: ListView(
         scrollDirection: Axis.horizontal,
         controller: ScrollController(),
-        children: entities
-            .map(
-              (entity) => EntityListCard<T>(
-                entity,
-                entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
-                onEntityTap: widget.onEntityTap,
-                listWidgetCard: true,
-              ),
-            )
-            .toList(),
+        children:
+            entities
+                .map(
+                  (entity) => EntityListCard<T>(
+                    entity,
+                    entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
+                    onEntityTap: (i) => widget.onEntityTap(i, ref),
+                    listWidgetCard: true,
+                  ),
+                )
+                .toList(),
       ),
     );
   }

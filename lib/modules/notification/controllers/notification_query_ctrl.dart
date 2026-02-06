@@ -3,17 +3,17 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NotificationQueryCtrl extends PageKeyController<PushNotificationQuery> {
   NotificationQueryCtrl({int pageSize = 20, String? searchText})
-      : super(
-          PushNotificationQuery(
-            TimePageLink(
-              pageSize,
-              0,
-              searchText,
-              SortOrder('createdTime', Direction.DESC),
-            ),
-            unreadOnly: true,
+    : super(
+        PushNotificationQuery(
+          TimePageLink(
+            pageSize,
+            0,
+            searchText,
+            SortOrder('createdTime', Direction.DESC),
           ),
-        );
+          unreadOnly: true,
+        ),
+      );
 
   @override
   PushNotificationQuery nextPageKey(PushNotificationQuery pageKey) {

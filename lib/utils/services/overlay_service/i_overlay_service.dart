@@ -27,7 +27,7 @@ class DialogContent {
   DialogContent({
     required this.title,
     required this.message,
-    required this.ok,
+     this.ok = 'OK',
      this.cancel,
   });
   final String title;

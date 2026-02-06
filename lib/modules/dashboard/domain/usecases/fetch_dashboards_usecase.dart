@@ -9,17 +9,18 @@ class FetchDashboardsUseCase
 
   @override
   Future<PageData<DashboardInfo>> call(PageLink params) {
+   
     if (tbClient.isTenantAdmin()) {
       return tbClient.getDashboardService().getTenantDashboards(
-            params,
-            mobile: true,
-          );
+        params,
+        mobile: true,
+      );
     } else {
       return tbClient.getDashboardService().getCustomerDashboards(
-            tbClient.getAuthUser()!.customerId!,
-            params,
-            mobile: true,
-          );
+        tbClient.getAuthUser()!.customerId!,
+        params,
+        mobile: true,
+      );
     }
   }
 }

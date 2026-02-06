@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
@@ -19,26 +20,17 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_bu
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
-class AlarmActivityWidget extends StatefulWidget {
-  const AlarmActivityWidget(this.alarmId, {required this.tbContext, super.key});
-
-  final TbContext tbContext;
+class AlarmActivityWidget extends HookConsumerWidget {
+  const AlarmActivityWidget(this.alarmId, {super.key});
   final AlarmId alarmId;
-
   @override
-  State<StatefulWidget> createState() => _AlarmActivityWidgetState();
-}
-
-class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
-  double height = 192;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return BlocProvider<AlarmActivityBloc>(
       create:
-          (_) =>
-              AlarmActivityBloc.create(widget.tbContext, id: widget.alarmId)
-                ..add(const AlarmActivityFetchEvent()),
+          (_) => AlarmActivityBloc.create(
+            id: alarmId,
+            user: ref.read(loginProvider).mobileLoginInfo!.user!,
+          )..add(const AlarmActivityFetchEvent()),
       child: AlarmFilterWidget(
         filterTitle: S.of(context).activity,
         action: GestureDetector(
@@ -85,7 +77,12 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                         itemBuilder: (_, activity, _) {
                           return ActivityBuilderWidget(
                             activity,
-                            userId: widget.tbContext.userDetails!.id!,
+                            userId:
+                                ref
+                                    .watch(loginProvider)
+                                    .mobileLoginInfo!
+                                    .user!
+                                    .id!,
                           );
                         },
                         firstPageProgressIndicatorBuilder:
@@ -130,7 +127,7 @@ class _AlarmActivityWidgetState extends State<AlarmActivityWidget> {
                           );
                         }
 
-                        return AlarmCommentTextField(widget.alarmId);
+                        return AlarmCommentTextField(alarmId);
                       },
                     ),
                   ),

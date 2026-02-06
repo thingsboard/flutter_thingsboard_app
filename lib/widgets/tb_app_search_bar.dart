@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:stream_transform/stream_transform.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
-class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
+class TbAppSearchBar extends StatefulWidget implements PreferredSizeWidget {
   TbAppSearchBar(
-    super.tbContext, {
+     {
     super.key,
     this.elevation = 8,
     this.shadowColor,
@@ -31,7 +32,7 @@ class TbAppSearchBar extends TbContextWidget implements PreferredSizeWidget {
   State<StatefulWidget> createState() => _TbAppSearchBarState();
 }
 
-class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
+class _TbAppSearchBarState extends State<TbAppSearchBar> {
   final TextEditingController _filter = TextEditingController();
   final _textUpdates = StreamController<String>();
 
@@ -61,7 +62,7 @@ class _TbAppSearchBarState extends TbContextState<TbAppSearchBar> {
     if (widget.showLoadingIndicator) {
       children.add(
         ValueListenableBuilder(
-          valueListenable: loadingNotifier,
+          valueListenable: getIt<ILoadingService>().isLoading,
           builder: (context, bool loading, child) {
             if (loading) {
               return const LinearProgressIndicator();

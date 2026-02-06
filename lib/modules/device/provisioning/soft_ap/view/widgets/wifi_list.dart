@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device/provisioning/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/enter_password_dialog.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/help_message_widget.dart';
 import 'package:thingsboard_app/modules/device/provisioning/widgets/scan_list_widget.dart';
 
-class WifiList extends TbContextStatelessWidget {
-  WifiList(super.tbContext, {required this.wifi, super.key});
+class WifiList extends StatelessWidget {
+const  WifiList( {required this.wifi, super.key});
 
   final List<String> wifi;
 
@@ -23,12 +23,12 @@ class WifiList extends TbContextStatelessWidget {
             wifi,
             icon: Icons.wifi_outlined,
             onTap: (network) async {
-              final String? networkPass = await tbContext.showFullScreenDialog(
+              final String? networkPass = await TbContext.showFullScreenDialog2(
                 PasswordDialog(
                   helpMessage: S.of(context).wifiPasswordMessage(network),
                   textFieldLabel: S.of(context).wifiPassword,
                 ),
-                context: context,
+                context,
               );
 
               if (networkPass != null && context.mounted) {

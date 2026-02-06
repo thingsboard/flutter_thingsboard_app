@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/devices_base.dart';
@@ -8,9 +8,8 @@ import 'package:thingsboard_app/modules/device/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
-class DevicesListPage extends TbContextWidget {
-  DevicesListPage(
-    super.tbContext, {
+class DevicesListPage extends StatefulWidget {
+  const DevicesListPage({
     this.deviceType,
     this.active,
     this.searchMode = false,
@@ -24,7 +23,7 @@ class DevicesListPage extends TbContextWidget {
   State<StatefulWidget> createState() => _DevicesListPageState();
 }
 
-class _DevicesListPageState extends TbContextState<DevicesListPage>
+class _DevicesListPageState extends State<DevicesListPage>
     with AutomaticKeepAliveClientMixin<DevicesListPage> {
   late final DeviceQueryController _deviceQueryController;
 
@@ -41,7 +40,6 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
   Widget build(BuildContext context) {
     super.build(context);
     final devicesList = DevicesList(
-      tbContext,
       _deviceQueryController,
       searchMode: widget.searchMode,
       displayDeviceImage: widget.deviceType == null,
@@ -49,7 +47,6 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        tbContext,
         onSearch:
             (searchText) => _deviceQueryController.onSearchText(searchText),
       );
@@ -91,7 +88,6 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
       );
 
       appBar = TbAppBar(
-        tbContext,
         title: title,
         actions: [
           IconButton(
@@ -110,7 +106,7 @@ class _DevicesListPageState extends TbContextState<DevicesListPage>
               }
               getIt<ThingsboardAppRouter>()
               // translate-me-ignore-next-line
-              .navigateTo('/deviceList?${params.join('&')}');
+              .navigateTo('/devices/deviceList?${params.join('&')}');
             },
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
 
-class AlarmAssigneeFilter<T> implements IAlarmFilter {
+class AlarmAssigneeFilter<T> implements IAlarmFilter<T?> {
   AlarmAssigneeFilter({required this.logger, T? initiallySelected}) {
     selectedUsed = initiallySelected;
   }
@@ -19,12 +19,12 @@ class AlarmAssigneeFilter<T> implements IAlarmFilter {
   }
 
   @override
-  void updateSelectedData(dynamic data) {
+  void updateSelectedData(T? data) {
     logger.debug(
       'AlarmAssigneeFilter::updateSelectedData($data)',
     );
 
-    selectedUsed = data as T;
+    selectedUsed = data;
   }
 
   @override

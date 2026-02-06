@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -17,7 +16,7 @@ import 'package:thingsboard_app/utils/services/communication/i_communication_ser
 class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   AlarmActivityBloc({
     required this.userDetailsUseCase,
-    required this.tbContext,
+    required this.user,
     required this.paginationRepository,
     required this.postAlarmCommentsUseCase,
     required this.deleteAlarmCommentUseCase,
@@ -29,17 +28,14 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
     subscription = getIt<ICommunicationService>()
         .on<AlarmAssigneeUpdatedEvent>()
         .listen((_) {
-      add(const AlarmActivityRefreshEvent());
-    });
+          add(const AlarmActivityRefreshEvent());
+        });
   }
 
-  factory AlarmActivityBloc.create(
-    TbContext tbContext, {
-    required AlarmId id,
-  }) {
+  factory AlarmActivityBloc.create({required AlarmId id, required User user}) {
     return AlarmActivityBloc(
       userDetailsUseCase: getIt(),
-      tbContext: tbContext,
+      user: user,
       paginationRepository: getIt<AlarmActivityPaginationRepository>(),
       postAlarmCommentsUseCase: getIt(),
       deleteAlarmCommentUseCase: getIt(),
@@ -50,7 +46,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   }
 
   final UserDetailsUseCase userDetailsUseCase;
-  final TbContext tbContext;
   final AlarmActivityPaginationRepository paginationRepository;
   final PostAlarmCommentsUseCase postAlarmCommentsUseCase;
   final DeleteAlarmCommentUseCase deleteAlarmCommentUseCase;
@@ -58,7 +53,7 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   final AlarmId id;
   late final StreamSubscription subscription;
   final TbLogger logger;
-
+  final User user;
   List<AlarmCommentInfo>? comments;
 
   Future<void> _onEvent(
@@ -67,19 +62,16 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   ) async {
     switch (event) {
       case AlarmActivityFetchEvent():
-        comments ??= (await fetchAlarmCommentsUseCase(
-          AlarmCommentsQuery(
-            pageLink: PageLink(1),
-            id: id,
-          ),
-        ))
-            .data;
+        comments ??=
+            (await fetchAlarmCommentsUseCase(
+              AlarmCommentsQuery(pageLink: PageLink(1), id: id),
+            )).data;
 
         final details = userDetailsUseCase(
           UserDetailsParams(
-            firstName: tbContext.userDetails?.firstName,
-            lastName: tbContext.userDetails?.lastName,
-            email: tbContext.userDetails?.email ?? '',
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
           ),
         );
 
@@ -108,7 +100,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
         } catch (e) {
           logger.debug(e);
         }
-
 
       case UpdateAlarmCommentEvent():
         add(const AlarmActivityFetchEvent());
@@ -153,7 +144,6 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
 
         paginationRepository.pagingController.refresh();
         add(const AlarmActivityFetchEvent());
-
     }
   }
 

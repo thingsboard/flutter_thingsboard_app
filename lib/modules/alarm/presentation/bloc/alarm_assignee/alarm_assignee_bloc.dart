@@ -53,10 +53,8 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           AssignAlarmParams(id: id, userId: event.userId),
         );
 
-        final assignee =
-            paginationRepository.pagingController.itemList?.firstWhere(
-          (assignee) => assignee.userInfo.id.id == event.userId,
-        );
+        final assignee = paginationRepository.pagingController.itemList
+            ?.firstWhere((assignee) => assignee.userInfo.id.id == event.userId);
 
         emit(AlarmAssigneeSelectedState(assignee!));
         getIt<ICommunicationService>().fire(
@@ -82,9 +80,9 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
 
       case AlarmFetchAssigneeEvent():
         final alarmInfo = await fetchAlarmUseCase(id);
-        if (alarmInfo?.assignee != null) {
+        if (alarmInfo?.assignee != null && alarmInfo?.assignee?.id != null) {
           final userInfo = UserInfo(
-            alarmInfo!.assignee!.id,
+            alarmInfo!.assignee!.id!,
             email: alarmInfo.assignee!.email,
             firstName: alarmInfo.assignee!.firstName,
             lastName: alarmInfo.assignee!.lastName,
@@ -97,7 +95,6 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
 
           emit(AlarmAssigneeSelectedState(assignee));
         }
-
     }
   }
 }

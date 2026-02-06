@@ -3,21 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_error_widget.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_overlay_widget.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
 Size getCameraSize(Size mediaQuerySize) {
-  final scanArea = (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
-      ? 150.0
-      : 300.0;
+  final scanArea =
+      (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
+          ? 150.0
+          : 300.0;
   return Size(scanArea, scanArea);
 }
 
@@ -38,7 +39,7 @@ class QrCodeScannerPage extends HookWidget {
 
     // Check camera permission initially
     useEffect(() {
-    Future  checkCameraPermission() async {
+      Future checkCameraPermission() async {
         final isGranted = await Permission.camera.isGranted;
         hasPermission.value = isGranted;
       }
@@ -65,7 +66,6 @@ class QrCodeScannerPage extends HookWidget {
             await controller.start();
           }
         },
-
       );
 
       return () {
@@ -80,20 +80,23 @@ class QrCodeScannerPage extends HookWidget {
         children: [
           MobileScanner(
             scanWindow: Rect.fromCenter(
-                center: Offset(size.width / 2, size.height / 2),
-                width: cameraSize.width,
-                height: cameraSize.height),
+              center: Offset(size.width / 2, size.height / 2),
+              width: cameraSize.width,
+              height: cameraSize.height,
+            ),
             fit: BoxFit.fitHeight,
             overlayBuilder: (context, constraints) {
               return ScannerOverlayWidget(cameraSize: cameraSize);
             },
-            errorBuilder: (p0, p1,) => const ScannerErrorWidget(),
+            errorBuilder: (p0, p1) => const ScannerErrorWidget(),
             controller: controller,
             onDetect: (barcodes) {
               if (barcodes.barcodes.isNotEmpty) {
                 if (context.mounted) {
-                  getIt<ThingsboardAppRouter>()
-                      .pop(barcodes.barcodes.first, context);
+             context.pop(
+                    barcodes.barcodes.first,
+                   
+                  );
                 }
               }
             },
@@ -101,21 +104,24 @@ class QrCodeScannerPage extends HookWidget {
           Positioned(
             child: AppBar(
               leading: IconButton(
-                  onPressed: () {
-                    getIt<ThingsboardAppRouter>().pop(null,context);
-                  },
-                  icon: const Icon(Icons.close)),
+                onPressed: () {
+                  context.pop();
+                },
+                icon: const Icon(Icons.close),
+              ),
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
               iconTheme: const IconThemeData(color: AppColors.textWhite),
               elevation: 0,
-              title: Text(S.of(context).scanACode,
-                  style: TbTextStyles.titleXs
-                      .copyWith(color: AppColors.textWhite)),
+              title: Text(
+                S.of(context).scanACode,
+                style: TbTextStyles.titleXs.copyWith(
+                  color: AppColors.textWhite,
+                ),
+              ),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
-         
                     isTorchActive.value ? Icons.flash_off : Icons.flash_on,
                   ),
                   onPressed: () async {
@@ -126,7 +132,6 @@ class QrCodeScannerPage extends HookWidget {
                 ),
                 IconButton(
                   icon: Icon(
-                    
                     isBackCameraActive.value
                         ? Icons.camera_front
                         : Icons.camera_rear,
@@ -146,42 +151,50 @@ class QrCodeScannerPage extends HookWidget {
               left: 0,
               right: 0,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16.0,
+                ),
                 child: IgnorePointer(
                   ignoring: false,
                   child: OutlinedButton(
-                      onPressed: () async {
-                        final res = await Permission.camera.request();
-                        if (res == PermissionStatus.granted) {
-                          hasPermission.value = true;
+                    onPressed: () async {
+                      final res = await Permission.camera.request();
+                      if (res == PermissionStatus.granted) {
+                        hasPermission.value = true;
 
-                          await controller.stop();
-                          await controller.start();
-                          return;
-
-                        } else if (res == PermissionStatus.permanentlyDenied &&
-                            context.mounted) {
-                          getIt<IOverlayService>().showAlertDialog(
-                            content: (_) => DialogContent(title: S.of(context).unableToUseCamera, message: S
-                                  .of(context)
-                                  .openSettingsAndGrantAccessToCameraToContinue, ok: S.of(context).cancel),
-                              );
-                        }
-                        hasPermission.value = false;
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.all(12),
-                        backgroundColor: Colors.white,
-                        elevation: 8,
-                      ),
-                      child: Text(
-                        S.of(context).allowAccess,
-                        style: TbTextStyles.labelLarge.copyWith(height: 1),
-                      )),
+                        await controller.stop();
+                        await controller.start();
+                        return;
+                      } else if (res == PermissionStatus.permanentlyDenied &&
+                          context.mounted) {
+                        getIt<IOverlayService>().showAlertDialog(
+                          content:
+                              (_) => DialogContent(
+                                title: S.of(context).unableToUseCamera,
+                                message:
+                                    S
+                                        .of(context)
+                                        .openSettingsAndGrantAccessToCameraToContinue,
+                                ok: S.of(context).cancel,
+                              ),
+                        );
+                      }
+                      hasPermission.value = false;
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.all(12),
+                      backgroundColor: Colors.white,
+                      elevation: 8,
+                    ),
+                    child: Text(
+                      S.of(context).allowAccess,
+                      style: TbTextStyles.labelLarge.copyWith(height: 1),
+                    ),
+                  ),
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

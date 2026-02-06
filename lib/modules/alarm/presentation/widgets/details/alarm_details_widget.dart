@@ -4,28 +4,26 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class AlarmDetailsWidget extends StatefulWidget {
   AlarmDetailsWidget({
     required this.alarmInfo,
     required this.alamDashboardId,
-    required this.tbContext,
+
     super.key,
   });
 
   final AlarmInfo alarmInfo;
   final startTimeDateFormat = DateFormat.yMd().add_jms();
   final String? alamDashboardId;
-  final TbContext tbContext;
 
   @override
   State<StatefulWidget> createState() => _AlarmDetailsWidgetState();
@@ -83,7 +81,10 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
                     details:
-                        widget.alarmInfo.status?.getTranslatedAlarmStatus(context) ?? '',
+                        widget.alarmInfo.status?.getTranslatedAlarmStatus(
+                          context,
+                        ) ??
+                        '',
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
@@ -91,8 +92,8 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).severity,
-                    details:
-                       widget.alarmInfo.severity.getTranslatedAlarmSeverity(context),
+                    details: widget.alarmInfo.severity
+                        .getTranslatedAlarmSeverity(context),
                     detailsStyle: TbTextStyles.labelLarge.copyWith(
                       color: widget.alarmInfo.severity.toColor(),
                     ),

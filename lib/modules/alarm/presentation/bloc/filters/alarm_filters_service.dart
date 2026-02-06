@@ -9,49 +9,74 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_type_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+
 ///TODO: Refactor this
 class AlarmFiltersService implements IAlarmFiltersService {
   AlarmFiltersService({required this.logger})
-      : statusFilter = AlarmStatusFilter<FilterDataEntity>(
-          logger: logger,
-          initiallySelected: _alarmStatus.first,
-        ),
-        severityFilter = AlarmSeverityFilter<FilterDataEntity>(
-          logger: logger,
-        ),
-        typeFilter = AlarmTypeFilter<String>(
-          logger: logger,
-        ),
-        assigneeFilter = AlarmAssigneeFilter<String?>(
-          logger: logger,
-        );
+    : statusFilter = AlarmStatusFilter<FilterDataEntity<AlarmSearchStatus>>(
+        logger: logger,
+        initiallySelected: _alarmStatus.first,
+      ),
+      severityFilter = AlarmSeverityFilter<FilterDataEntity<AlarmSeverity>>(
+        logger: logger,
+      ),
+      typeFilter = AlarmTypeFilter<String>(logger: logger),
+      assigneeFilter = AlarmAssigneeFilter<String?>(logger: logger);
+  static final _alarmStatus = <FilterDataEntity<AlarmSearchStatus>>{
+    FilterDataEntity(
+      data: AlarmSearchStatus.ACTIVE,
+      getLocalizedLabel: (BuildContext context) => S.of(context).active,
+    ),
+    FilterDataEntity(
+      data: AlarmSearchStatus.CLEARED,
+      getLocalizedLabel: (BuildContext context) => S.of(context).cleared,
+    ),
+    FilterDataEntity(
+      data: AlarmSearchStatus.ACK,
+      getLocalizedLabel: (BuildContext context) => S.of(context).acknowledged,
+    ),
+    FilterDataEntity(
+      data: AlarmSearchStatus.UNACK,
+      getLocalizedLabel: (BuildContext context) => S.of(context).unacknowledged,
+    ),
+  };
 
-  static  final _alarmStatus = <FilterDataEntity>[
-    FilterDataEntity( data: AlarmSearchStatus.ACTIVE, getLocalizedLabel: (BuildContext context) => S.of(context).active),
-    FilterDataEntity( data: AlarmSearchStatus.CLEARED , getLocalizedLabel: (BuildContext context) => S.of(context).cleared),
-    FilterDataEntity( data: AlarmSearchStatus.ACK, getLocalizedLabel: (BuildContext context) => S.of(context).acknowledged),
-    FilterDataEntity( data: AlarmSearchStatus.UNACK, getLocalizedLabel: (BuildContext context) => S.of(context).unacknowledged),
-  ];
-
-  static final _alarmSeverity = <FilterDataEntity>[
-    FilterDataEntity( data: AlarmSeverity.CRITICAL, getLocalizedLabel: (BuildContext context) => S.of(context).critical),
-    FilterDataEntity( data: AlarmSeverity.MAJOR, getLocalizedLabel: (BuildContext context) => S.of(context).major),
-    FilterDataEntity( data: AlarmSeverity.MINOR, getLocalizedLabel: (BuildContext context) => S.of(context).minor),
-    FilterDataEntity( data: AlarmSeverity.WARNING, getLocalizedLabel: (BuildContext context) => S.of(context).warning),
-    FilterDataEntity( data: AlarmSeverity.INDETERMINATE, getLocalizedLabel: (BuildContext context) => S.of(context).indeterminate),
-  ];
+  static final _alarmSeverity = <FilterDataEntity<AlarmSeverity>>{
+    FilterDataEntity(
+      data: AlarmSeverity.CRITICAL,
+      getLocalizedLabel: (BuildContext context) => S.of(context).critical,
+    ),
+    FilterDataEntity(
+      data: AlarmSeverity.MAJOR,
+      getLocalizedLabel: (BuildContext context) => S.of(context).major,
+    ),
+    FilterDataEntity(
+      data: AlarmSeverity.MINOR,
+      getLocalizedLabel: (BuildContext context) => S.of(context).minor,
+    ),
+    FilterDataEntity(
+      data: AlarmSeverity.WARNING,
+      getLocalizedLabel: (BuildContext context) => S.of(context).warning,
+    ),
+    FilterDataEntity(
+      data: AlarmSeverity.INDETERMINATE,
+      getLocalizedLabel: (BuildContext context) => S.of(context).indeterminate,
+    ),
+  };
 
   @override
-  List<FilterDataEntity> get statuses => _alarmStatus;
+  Set<FilterDataEntity<AlarmSearchStatus>> get statuses => _alarmStatus;
 
   @override
-  List<FilterDataEntity> get severities => _alarmSeverity;
+  Set<FilterDataEntity<AlarmSeverity>> get severities => _alarmSeverity;
 
   AlarmFiltersEntity _activeFilters = AlarmFiltersEntity.defaultFilters();
 
   final TbLogger logger;
-  late final AlarmStatusFilter<FilterDataEntity> statusFilter;
-  late final AlarmSeverityFilter<FilterDataEntity> severityFilter;
+  late final AlarmStatusFilter<FilterDataEntity<AlarmSearchStatus>>
+  statusFilter;
+  late final AlarmSeverityFilter<FilterDataEntity<AlarmSeverity>>
+  severityFilter;
   late final AlarmTypeFilter<String> typeFilter;
   late final AlarmAssigneeFilter<String?> assigneeFilter;
 
@@ -81,16 +106,18 @@ class AlarmFiltersService implements IAlarmFiltersService {
 
     final filters = AlarmFiltersEntity.fromUiFilters(
       typeList: typeFilter.getSelectedFilterData().toList(),
-      status: statusFilter
-          .getSelectedFilterData()
-          .map((e) => e.data)
-          .toList()
-          .cast<AlarmSearchStatus>(),
-      severity: severityFilter
-          .getSelectedFilterData()
-          .map((e) => e.data)
-          .toList()
-          .cast<AlarmSeverity>(),
+      status:
+          statusFilter
+              .getSelectedFilterData()
+              .map((e) => e.data)
+              .toList()
+              .cast<AlarmSearchStatus>(),
+      severity:
+          severityFilter
+              .getSelectedFilterData()
+              .map((e) => e.data)
+              .toList()
+              .cast<AlarmSeverity>(),
       userId: assigneeFilter.getSelectedFilterData(),
     );
 
@@ -101,12 +128,14 @@ class AlarmFiltersService implements IAlarmFiltersService {
   void resetUnCommittedChanges() {
     logger.debug('AlarmFiltersService::resetUnCommittedChanges()');
 
-    final committedStatus = _activeFilters.statusList
-        ?.map((e) => statuses.firstWhere((s) => e == s.data))
-        .toSet();
-    final committedSeverity = _activeFilters.severityList
-        ?.map((e) => severities.firstWhere((s) => e == s.data))
-        .toSet();
+    final committedStatus =
+        _activeFilters.statusList
+            ?.map((e) => statuses.firstWhere((s) => e == s.data))
+            .toSet();
+    final committedSeverity =
+        _activeFilters.severityList
+            ?.map((e) => severities.firstWhere((s) => e == s.data))
+            .toSet();
     final committedAssignee = _activeFilters.assigneeId;
     final committedTypes = _activeFilters.typeList;
 
@@ -123,10 +152,10 @@ class AlarmFiltersService implements IAlarmFiltersService {
         return statusFilter.getSelectedFilterData() as T;
 
       case Filters.severity:
-        return severityFilter.getSelectedFilterData()  as T;
+        return severityFilter.getSelectedFilterData() as T;
 
       case Filters.type:
-        return typeFilter.getSelectedFilterData()  as T;
+        return typeFilter.getSelectedFilterData() as T;
 
       case Filters.assignee:
         return assigneeFilter.getSelectedFilterData() as T;
@@ -137,16 +166,20 @@ class AlarmFiltersService implements IAlarmFiltersService {
   void setSelectedFilter<T>(Filters type, {required dynamic data}) {
     switch (type) {
       case Filters.status:
-        statusFilter.updateSelectedData(data);
+        statusFilter.updateSelectedData(
+          data as Set<FilterDataEntity<AlarmSearchStatus>>,
+        );
 
       case Filters.severity:
-        severityFilter.updateSelectedData(data);
+        severityFilter.updateSelectedData(
+          data as Set<FilterDataEntity<AlarmSeverity>>,
+        );
 
       case Filters.type:
-        typeFilter.updateSelectedData(data);
+        typeFilter.updateSelectedData(data as Set<String>);
 
       case Filters.assignee:
-        assigneeFilter.updateSelectedData(data);
+        assigneeFilter.updateSelectedData(data as String?);
     }
   }
 }

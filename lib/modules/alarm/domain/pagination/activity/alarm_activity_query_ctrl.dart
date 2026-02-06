@@ -7,16 +7,16 @@ class AlarmActivityQueryCtrl extends PageKeyController<AlarmCommentsQuery> {
     int pageSize = 20,
     SortOrder? sortOrder,
   }) : super(
-          AlarmCommentsQuery(
-            pageLink: PageLink(
-              pageSize,
-              0,
-              null,
-              sortOrder ?? SortOrder('createdTime', Direction.ASC),
-            ),
-            id: id,
-          ),
-        );
+         AlarmCommentsQuery(
+           pageLink: PageLink(
+             pageSize,
+             0,
+             null,
+             sortOrder ?? SortOrder('createdTime', Direction.ASC),
+           ),
+           id: id,
+         ),
+       );
 
   @override
   AlarmCommentsQuery nextPageKey(AlarmCommentsQuery pageKey) {

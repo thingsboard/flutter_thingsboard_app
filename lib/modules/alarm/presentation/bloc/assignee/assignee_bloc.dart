@@ -28,10 +28,8 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         filtersService.setSelectedFilter(Filters.assignee, data: event.userId);
         queryCtrl.onSearchText(null);
 
-        final assignee =
-            paginationRepository.pagingController.itemList?.firstWhere(
-          (assignee) => assignee.userInfo.id.id == event.userId,
-        );
+        final assignee = paginationRepository.pagingController.itemList
+            ?.firstWhere((assignee) => assignee.userInfo.id.id == event.userId);
 
         if (assignee != null) {
           if (event.selfAssignment) {
@@ -52,18 +50,18 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
       case AssigneeRefreshEvent():
         paginationRepository.refresh();
 
-
       case AssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);
 
       case AssigneeResetUnCommittedChanges():
-        final String? assignee = filtersService.getSelectedFilter(Filters.assignee);
+        final String? assignee = filtersService.getSelectedFilter(
+          Filters.assignee,
+        );
         if (assignee != null) {
           add(AssigneeSelectedEvent(userId: assignee));
         } else {
           emit(const AssigneeEmptyState());
         }
-
     }
   }
 }

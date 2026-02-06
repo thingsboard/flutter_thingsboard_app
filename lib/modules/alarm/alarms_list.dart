@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -14,16 +13,13 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_bu
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_list_widget.dart';
 
 class AlarmsList extends StatelessWidget {
-  const AlarmsList({required this.tbContext, super.key});
-
-  final TbContext tbContext;
+  const AlarmsList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => getIt<AlarmBloc>().add(
-        const AlarmsRefreshPageEvent(),
-      ),
+      onRefresh:
+          () async => getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
       child: PaginationListWidget<AlarmQueryV2, AlarmInfo>(
         pagingController:
             getIt<AlarmBloc>().paginationRepository.pagingController,
@@ -32,25 +28,22 @@ class AlarmsList extends StatelessWidget {
             return EntityListCard(
               alarm,
               entityCardWidgetBuilder: (_, alarm) {
-                return AlarmCard(
-                  tbContext,
-                  alarm: alarm,
-                );
+                return AlarmCard(alarm: alarm);
               },
             );
           },
-          firstPageProgressIndicatorBuilder: (_) =>
-              const FirstPageProgressBuilder(),
-          newPageProgressIndicatorBuilder: (_) =>
-              const NewPageProgressBuilder(),
-          noItemsFoundIndicatorBuilder: (context) =>
-              FirstPageExceptionIndicator(
-            title: S.of(context).noAlarmsFound,
-            message: S.of(context).listIsEmptyText,
-            onTryAgain: () => getIt<AlarmBloc>().add(
-              const AlarmsRefreshPageEvent(),
-            ),
-          ),
+          firstPageProgressIndicatorBuilder:
+              (_) => const FirstPageProgressBuilder(),
+          newPageProgressIndicatorBuilder:
+              (_) => const NewPageProgressBuilder(),
+          noItemsFoundIndicatorBuilder:
+              (context) => FirstPageExceptionIndicator(
+                title: S.of(context).noAlarmsFound,
+                message: S.of(context).listIsEmptyText,
+                onTryAgain:
+                    () =>
+                        getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
+              ),
         ),
       ),
     );

@@ -1,26 +1,31 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class AuditLogDetailsPage extends TbContextWidget {
-  AuditLogDetailsPage(super.tbContext, this.auditLog, {super.key});
+class AuditLogDetailsPage extends StatefulWidget {
+  const AuditLogDetailsPage(this.auditLog, {super.key});
   final AuditLog auditLog;
 
   @override
   State<StatefulWidget> createState() => _AuditLogDetailsPageState();
 }
 
-class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
-  final labelTextStyle =
-      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
+class _AuditLogDetailsPageState extends State<AuditLogDetailsPage> {
+  final labelTextStyle = const TextStyle(
+    color: Color(0xFF757575),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
-  final valueTextStyle =
-      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
+  final valueTextStyle = const TextStyle(
+    color: Color(0xFF282828),
+    fontSize: 14,
+    height: 20 / 14,
+  );
 
   final encoder = const JsonEncoder.withIndent('  ');
 
@@ -29,7 +34,6 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TbAppBar(
-        tbContext,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,10 +49,7 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
             Text(
               S.of(context).auditLogDetails,
               style: TextStyle(
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .titleLarge!
-                    .color!
+                color: Theme.of(context).primaryTextTheme.titleLarge!.color!
                     .withAlpha((0.38 * 255).ceil()),
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
@@ -65,13 +66,15 @@ class _AuditLogDetailsPageState extends TbContextState<AuditLogDetailsPage> {
           children: [
             Text(S.of(context).entityType, style: labelTextStyle),
             Text(
-             widget.auditLog.entityId.entityType.getTranslatedEntityType(context),
+              widget.auditLog.entityId.entityType.getTranslatedEntityType(
+                context,
+              ),
               style: valueTextStyle,
             ),
             const SizedBox(height: 16),
             Text(S.of(context).type, style: labelTextStyle),
             Text(
-            widget.auditLog.actionType.getTranslatedActionType(context),
+              widget.auditLog.actionType.getTranslatedActionType(context),
               style: valueTextStyle,
             ),
             const SizedBox(height: 16),

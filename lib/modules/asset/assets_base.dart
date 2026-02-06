@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
   @override
@@ -10,22 +12,26 @@ mixin AssetsBase on EntitiesBase<AssetInfo, PageLink> {
 
   @override
   String get noItemsFoundText => 'No assets found';
-
+  final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<PageData<AssetInfo>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
+  Future<PageData<AssetInfo>> fetchEntities(
+    PageLink pageLink, {
+    bool refresh = false,
+  }) {
     if (tbClient.isTenantAdmin()) {
       return tbClient.getAssetService().getTenantAssetInfos(pageLink);
     } else {
-      return tbClient
-          .getAssetService()
-          .getCustomerAssetInfos(tbClient.getAuthUser()!.customerId!, pageLink);
+      return tbClient.getAssetService().getCustomerAssetInfos(
+        tbClient.getAuthUser()!.customerId!,
+        pageLink,
+      );
     }
   }
 
   @override
-  void onEntityTap(AssetInfo asset) {
-    if(asset.id?.id != null) {
-      getIt<ThingsboardAppRouter>().navigateTo('/asset/${asset.id!.id}');
+  void onEntityTap(AssetInfo asset, WidgetRef ref) {
+    if (asset.id?.id != null) {
+      getIt<ThingsboardAppRouter>().navigateTo('/assets/asset/${asset.id!.id}');
     }
   }
 

@@ -19,29 +19,22 @@ class AssigneeDi {
       scopeName: scopeName,
       init: (locator) {
         locator.registerFactory<IAssigneeDatasource>(
-          () => AssigneeDatasource(
-            tbClient: tbClient,
-          ),
+          () => AssigneeDatasource(tbClient: tbClient),
         );
 
         locator.registerFactory<IAssigneeRepository>(
-          () => AssigneeRepository(
-            datasource: locator(),
-          ),
+          () => AssigneeRepository(datasource: locator()),
         );
 
-        locator.registerLazySingleton(
-          () => AssigneeQueryCtrl(),
-        );
+        locator.registerLazySingleton(() => AssigneeQueryCtrl());
 
         locator.registerFactory(
-          () => FetchAssigneeUseCase(
-            repository: locator(),
-          ),
+          () => FetchAssigneeUseCase(repository: locator()),
         );
 
         locator.registerLazySingleton<
-            PaginationRepository<PageLink, AssigneeEntity>>(
+          PaginationRepository<PageLink, AssigneeEntity>
+        >(
           () => AssigneePaginationRepository(
             assigneeQueryCtrl: locator(),
             onFetchPageData: locator<FetchAssigneeUseCase>(),

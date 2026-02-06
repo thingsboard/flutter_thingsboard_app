@@ -1,14 +1,16 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
-class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
-  TbAppBar(
-    super.tbContext, {
+class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
+  TbAppBar({
     super.key,
     this.leading,
     this.title,
@@ -16,7 +18,8 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
     this.elevation = 8,
     this.shadowColor,
     this.showLoadingIndicator = false,
-    this.canGoBack = false,
+    this.canGoBack = true,
+    this.backIcon,
   }) : preferredSize = Size.fromHeight(
          kToolbarHeight + (showLoadingIndicator ? 4 : 0),
        );
@@ -27,69 +30,80 @@ class TbAppBar extends TbContextWidget implements PreferredSizeWidget {
   final Color? shadowColor;
   final bool showLoadingIndicator;
   final bool canGoBack;
+  final Widget? backIcon;
 
   @override
   final Size preferredSize;
 
-  @override
-  State<StatefulWidget> createState() => _TbAppBarState();
-}
-
-class _TbAppBarState extends TbContextState<TbAppBar> {
   final _controller = SuperTooltipController();
-  @override
-  Widget build(BuildContext context) {
-    final List<Widget> children = <Widget>[];
-    children.add(buildDefaultBar());
-    if (widget.showLoadingIndicator) {
-      children.add(
-        ValueListenableBuilder(
-          valueListenable: loadingNotifier,
-          builder: (context, bool loading, child) {
-            if (loading) {
-              return const LinearProgressIndicator();
-            } else {
-              return Container(height: 4);
-            }
-          },
-        ),
-      );
-    }
-    return Column(children: children);
-  }
 
-  AppBar buildDefaultBar() {
-    return AppBar(
-      titleTextStyle: TbTextStyles.titleXs.copyWith(
-        color: AppColors.textPrimary,
-      ),
-      leading:
-          widget.canGoBack || Navigator.of(context).canPop()
-              ? widget.leading
-              : null,
-      title: buildTitle(),
-      actions: widget.actions,
-      elevation: widget.elevation ?? 8,
-      shadowColor: widget.shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
-      centerTitle: false,
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final morePages = ref.watch(
+      navigationProvider.select((n) => n.bottomBarPages),
+    );
+    final isMainPage =
+        morePages
+            .where(
+              (e) => GoRouterState.of(context).path?.contains(e.path) ?? false,
+            )
+            .isNotEmpty;
+
+    return Column(
+      children: [
+        AppBar(
+          automaticallyImplyLeading: false,
+          leadingWidth: getLeading(context, isMainPage) is EmptyLeading ? 20 : 40,
+          titleSpacing: 4,
+          leading: getLeading(context, isMainPage),
+          title: buildTitle(context),
+          actions: actions,
+          elevation: elevation ?? 8,
+          shadowColor: shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
+          centerTitle: false,
+        ),
+        if (showLoadingIndicator)
+          ValueListenableBuilder(
+            valueListenable: getIt<ILoadingService>().isLoading,
+            builder: (context, bool loading, child) {
+              if (loading) {
+                return const LinearProgressIndicator();
+              } else {
+                return Container(height: 4);
+              }
+            },
+          ),
+      ],
     );
   }
 
-  Widget? buildTitle() {
-    if (widget.title == null) {
-      return widget.title;
+  Widget? getLeading(BuildContext context, bool isMainPage) {
+    if (leading != null) return leading;
+
+    if (canGoBack && context.canPop() && !isMainPage) {
+      return IconButton(
+        icon: backIcon ?? const Icon(Icons.arrow_back),
+        onPressed: context.pop,
+      );
     }
-    if (widget.title is Text) {
-      return buildTooltip(widget.title! as Text);
+    return const EmptyLeading();
+  }
+
+  Widget? buildTitle(BuildContext context) {
+    if (title == null) {
+      return title;
     }
-    if (widget.title is Column) {
-      final column = widget.title! as Column;
+    if (title is Text) {
+      return buildTooltip(title! as Text, context);
+    }
+    if (title is Column) {
+      final column = title! as Column;
       final newContent = <Widget>[];
       bool isTitleFound = false;
-      for (final e in (widget.title! as Column).children) {
+      for (final e in (title! as Column).children) {
         if (e is Text) {
           if (!isTitleFound) {
-            newContent.add(buildTooltip(e));
+            newContent.add(buildTooltip(e, context));
             isTitleFound = true;
             continue;
           }
@@ -104,10 +118,10 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
         children: newContent,
       );
     }
-    return widget.title;
+    return title;
   }
 
-  Widget buildTooltip(Text text) {
+  Widget buildTooltip(Text text, BuildContext context) {
     final padding = MediaQueryData.fromView(View.of(context)).padding.top;
     return AutoSizeText(
       text.data ?? '',
@@ -159,5 +173,14 @@ class _TbAppBarState extends TbContextState<TbAppBar> {
       ),
       minFontSize: text.style?.fontSize ?? 12,
     );
+  }
+}
+
+class EmptyLeading extends StatelessWidget {
+  const EmptyLeading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox();
   }
 }

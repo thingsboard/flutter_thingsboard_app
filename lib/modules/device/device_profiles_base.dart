@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -13,6 +13,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
@@ -23,16 +24,23 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   String get noItemsFoundText => 'No devices found';
-
+  final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<PageData<DeviceProfileInfo>> fetchEntities(PageLink pageLink, {bool refresh = false}) {
-    return DeviceProfileCache.getDeviceProfileInfos(tbClient, pageLink, invalidateCache: refresh);
+  Future<PageData<DeviceProfileInfo>> fetchEntities(
+    PageLink pageLink, {
+    bool refresh = false,
+  }) {
+    return DeviceProfileCache.getDeviceProfileInfos(
+      tbClient,
+      pageLink,
+      invalidateCache: refresh,
+    );
   }
 
   @override
-  void onEntityTap(DeviceProfileInfo deviceProfile) {
+  void onEntityTap(DeviceProfileInfo deviceProfile, WidgetRef ref) {
     getIt<ThingsboardAppRouter>().navigateTo(
-      '/deviceList?deviceType=${Uri.encodeComponent(deviceProfile.name)}',
+      '/devices/deviceList?deviceType=${Uri.encodeComponent(deviceProfile.name)}',
     );
   }
 
@@ -47,7 +55,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
 
   @override
   Widget? buildHeading(BuildContext context) {
-    return AllDevicesCard(tbContext, refreshDeviceCounts);
+    return AllDevicesCard(refreshDeviceCounts);
   }
 
   @override
@@ -55,7 +63,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
     BuildContext context,
     DeviceProfileInfo deviceProfile,
   ) {
-    return DeviceProfileCard(tbContext, deviceProfile);
+    return DeviceProfileCard(deviceProfile);
   }
 
   @override
@@ -68,20 +76,20 @@ class RefreshDeviceCounts {
   Future<void> Function()? onRefresh;
 }
 
-class AllDevicesCard extends TbContextWidget {
-  AllDevicesCard(super.tbContext, this.refreshDeviceCounts, {super.key});
+class AllDevicesCard extends StatefulWidget {
+  const AllDevicesCard(this.refreshDeviceCounts, {super.key});
   final RefreshDeviceCounts refreshDeviceCounts;
 
   @override
   State<StatefulWidget> createState() => _AllDevicesCardState();
 }
 
-class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
+class _AllDevicesCardState extends State<AllDevicesCard> {
   final StreamController<int?> _activeDevicesCount =
       StreamController.broadcast();
   final StreamController<int?> _inactiveDevicesCount =
       StreamController.broadcast();
-
+  final tbClient = getIt<ITbClientService>().client;
   @override
   void initState() {
     super.initState();
@@ -196,9 +204,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation(
-                                        Theme.of(
-                                          tbContext.currentState!.context,
-                                        ).colorScheme.primary,
+                                        Theme.of(context).colorScheme.primary,
                                       ),
                                       strokeWidth: 2.5,
                                     ),
@@ -211,7 +217,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         onTap: () {
                           getIt<ThingsboardAppRouter>()
                           // translate-me-ignore-next-line
-                          .navigateTo('/deviceList?active=true');
+                          .navigateTo('/devices/deviceList?active=true');
                         },
                       ),
                     ),
@@ -248,9 +254,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation(
-                                        Theme.of(
-                                          tbContext.currentState!.context,
-                                        ).colorScheme.primary,
+                                        Theme.of(context).colorScheme.primary,
                                       ),
                                       strokeWidth: 2.5,
                                     ),
@@ -263,7 +267,7 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
                         onTap: () {
                           getIt<ThingsboardAppRouter>()
                           // translate-me-ignore-next-line
-                          .navigateTo('/deviceList?active=false');
+                          .navigateTo('/devices/deviceList?active=false');
                         },
                       ),
                     ),
@@ -275,21 +279,21 @@ class _AllDevicesCardState extends TbContextState<AllDevicesCard> {
         ),
       ),
       onTap: () {
-        getIt<ThingsboardAppRouter>().navigateTo('/deviceList');
+        getIt<ThingsboardAppRouter>().navigateTo('/devices/deviceList');
       },
     );
   }
 }
 
-class DeviceProfileCard extends TbContextWidget {
-  DeviceProfileCard(super.tbContext, this.deviceProfile, {super.key});
+class DeviceProfileCard extends StatefulWidget {
+  const DeviceProfileCard(this.deviceProfile, {super.key});
   final DeviceProfileInfo deviceProfile;
 
   @override
   State<StatefulWidget> createState() => _DeviceProfileCardState();
 }
 
-class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
+class _DeviceProfileCardState extends State<DeviceProfileCard> {
   late Future<CachedDeviceProfileInfo> countedProfile;
 
   @override
@@ -298,6 +302,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
     _countDevices();
   }
 
+  final tbClient = getIt<ITbClientService>().client;
   @override
   void didUpdateWidget(DeviceProfileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -367,7 +372,11 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   final deviceCount = snapshot.data!;
-                  return _buildDeviceCount(context, true, deviceCount.activeCount!);
+                  return _buildDeviceCount(
+                    context,
+                    true,
+                    deviceCount.activeCount!,
+                  );
                 } else {
                   return SizedBox(
                     height: 40,
@@ -377,9 +386,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                         width: 20,
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Theme.of(
-                              tbContext.currentState!.context,
-                            ).colorScheme.primary,
+                            Theme.of(context).colorScheme.primary,
                           ),
                           strokeWidth: 2.5,
                         ),
@@ -392,7 +399,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
             onTap: () {
               getIt<ThingsboardAppRouter>().navigateTo(
                 // translate-me-ignore-next-line
-                '/deviceList?active=true&deviceType=${Uri.encodeComponent(entity.name)}',
+                '/devices/deviceList?active=true&deviceType=${Uri.encodeComponent(entity.name)}',
               );
             },
           ),
@@ -405,7 +412,11 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   final deviceCount = snapshot.data!;
-                  return _buildDeviceCount(context, false, deviceCount.inactiveCount!);
+                  return _buildDeviceCount(
+                    context,
+                    false,
+                    deviceCount.inactiveCount!,
+                  );
                 } else {
                   return SizedBox(
                     height: 40,
@@ -415,9 +426,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
                         width: 20,
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Theme.of(
-                              tbContext.currentState!.context,
-                            ).colorScheme.primary,
+                            Theme.of(context).colorScheme.primary,
                           ),
                           strokeWidth: 2.5,
                         ),
@@ -430,7 +439,7 @@ class _DeviceProfileCardState extends TbContextState<DeviceProfileCard> {
             onTap: () {
               getIt<ThingsboardAppRouter>().navigateTo(
                 // translate-me-ignore-next-line
-                '/deviceList?active=false&deviceType=${Uri.encodeComponent(entity.name)}',
+                '/devices/deviceList?active=false&deviceType=${Uri.encodeComponent(entity.name)}',
               );
             },
           ),

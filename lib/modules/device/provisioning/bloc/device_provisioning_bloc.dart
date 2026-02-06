@@ -26,21 +26,21 @@ class DeviceProvisioningBloc
     subscription = communicationService
         .on<DeviceProvisioningStatusChangedEvent>()
         .listen((event) {
-      switch (event.status) {
-        case DeviceProvisioningStatus.idle:
-          add(const ProvisioningIdleEvent());
-        case DeviceProvisioningStatus.wifi:
-          add(const SendWifiCredentialsEvent());
-        case DeviceProvisioningStatus.confirmation:
-          add(const ConfirmConnectionEvent());
-        case DeviceProvisioningStatus.success:
-          add(const SuccessfullyProvisionedEvent());
-        case DeviceProvisioningStatus.fail:
-          add(const ErrorDuringProvisioningEvent());
-        default:
-          break;
-      }
-    });
+          switch (event.status) {
+            case DeviceProvisioningStatus.idle:
+              add(const ProvisioningIdleEvent());
+            case DeviceProvisioningStatus.wifi:
+              add(const SendWifiCredentialsEvent());
+            case DeviceProvisioningStatus.confirmation:
+              add(const ConfirmConnectionEvent());
+            case DeviceProvisioningStatus.success:
+              add(const SuccessfullyProvisionedEvent());
+            case DeviceProvisioningStatus.fail:
+              add(const ErrorDuringProvisioningEvent());
+            default:
+              break;
+          }
+        });
   }
 
   factory DeviceProvisioningBloc.create({
@@ -50,17 +50,16 @@ class DeviceProvisioningBloc
     bool mustReconnectToWifiBeforeClaiming = false,
     String? ssid,
     String? wifiPassword,
-  }) =>
-      DeviceProvisioningBloc(
-        communicationService: getIt<ICommunicationService>(),
-        deviceName: deviceName,
-        deviceSecretKey: deviceSecretKey,
-        tbClient: tbClient,
-        mustReconnectToWifiBeforeClaiming: mustReconnectToWifiBeforeClaiming,
-        ssid: ssid,
-        wifiPassword: wifiPassword,
-        logger: getIt<TbLogger>(),
-      );
+  }) => DeviceProvisioningBloc(
+    communicationService: getIt<ICommunicationService>(),
+    deviceName: deviceName,
+    deviceSecretKey: deviceSecretKey,
+    tbClient: tbClient,
+    mustReconnectToWifiBeforeClaiming: mustReconnectToWifiBeforeClaiming,
+    ssid: ssid,
+    wifiPassword: wifiPassword,
+    logger: getIt<TbLogger>(),
+  );
 
   final ICommunicationService communicationService;
   late final StreamSubscription subscription;
@@ -117,8 +116,8 @@ class DeviceProvisioningBloc
               )
               .timeout(
                 const Duration(seconds: 20),
-                onTimeout: () =>
-                    throw Exception('Device claiming timeout reached'),
+                onTimeout:
+                    () => throw Exception('Device claiming timeout reached'),
               );
 
           if (response.response == ClaimResponse.CLAIMED ||
@@ -140,7 +139,8 @@ class DeviceProvisioningBloc
 
           String? message;
           if (e is ThingsboardError) {
-            message = 'Device not found. '
+            message =
+                'Device not found. '
                 'Please contact the device provider.';
           }
 

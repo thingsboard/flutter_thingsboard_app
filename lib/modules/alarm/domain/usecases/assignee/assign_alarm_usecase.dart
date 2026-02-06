@@ -14,10 +14,7 @@ class AssignAlarmUseCase extends UseCase<Future<AlarmInfo>, AssignAlarmParams> {
 }
 
 final class AssignAlarmParams {
-  const AssignAlarmParams({
-    required this.id,
-    required this.userId,
-  });
+  const AssignAlarmParams({required this.id, required this.userId});
 
   final String id;
   final String userId;

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/di/dashboards_di.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class FullscreenDashboardPage extends TbPageWidget {
-
-  FullscreenDashboardPage(
-    super.tbContext,
+class FullscreenDashboardPage extends StatefulWidget {
+  const FullscreenDashboardPage(
     this.fullscreenDashboardId, {
     super.key,
     String? dashboardTitle,
@@ -23,11 +21,10 @@ class FullscreenDashboardPage extends TbPageWidget {
   State<StatefulWidget> createState() => _FullscreenDashboardPageState();
 }
 
-class _FullscreenDashboardPageState
-    extends TbPageState<FullscreenDashboardPage> {
+class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
   late ValueNotifier<String> dashboardTitleValue;
   final showBackValue = ValueNotifier<bool>(false);
-   late final String diKey;
+  late final String diKey;
   DashboardController? _dashboardController;
 
   @override
@@ -39,8 +36,8 @@ class _FullscreenDashboardPageState
           valueListenable: showBackValue,
           builder: (context, canGoBack, widget) {
             return TbAppBar(
-              tbContext,
-              leading: BackButton(
+              leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
                   if (_dashboardController?.rightLayoutOpened.value == true) {
                     await _dashboardController?.toggleRightLayout();
@@ -69,7 +66,10 @@ class _FullscreenDashboardPageState
                 IconButton(
                   icon: const Icon(Icons.settings),
                   // translate-me-ignore-next-line
-                  onPressed: () => getIt<ThingsboardAppRouter>().navigateTo('/profile?fullscreen=true'),
+                  onPressed:
+                      () => getIt<ThingsboardAppRouter>().navigateTo(
+                        '/profile?fullscreen=true',
+                      ),
                 ),
               ],
               canGoBack: canGoBack,
@@ -79,23 +79,23 @@ class _FullscreenDashboardPageState
       ),
       body: ValueListenableBuilder<String?>(
         valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder: (context, _, _) => DashboardWidget(
-          tbContext,
-          titleCallback: (title) {
-            dashboardTitleValue.value = title;
-          },
-          controllerCallback: (controller, _) {
-            _dashboardController = controller;
+        builder:
+            (context, _, _) => DashboardWidget(
+              titleCallback: (title) {
+                dashboardTitleValue.value = title;
+              },
+              controllerCallback: (controller, _) {
+                _dashboardController = controller;
 
-            controller.canGoBack.addListener(() {
-              _onCanGoBack(controller.canGoBack.value);
-            });
-            controller.openDashboard(
-              widget.fullscreenDashboardId,
-              fullscreen: true,
-            );
-          },
-        ),
+                controller.canGoBack.addListener(() {
+                  _onCanGoBack(controller.canGoBack.value);
+                });
+                controller.openDashboard(
+                  widget.fullscreenDashboardId,
+                  fullscreen: true,
+                );
+              },
+            ),
       ),
     );
   }
@@ -104,19 +104,19 @@ class _FullscreenDashboardPageState
   void initState() {
     super.initState();
     diKey = UniqueKey().toString();
-     DashboardsDi.init(diKey, tbClient: tbClient);
+    DashboardsDi.init(diKey, tbClient: getIt<ITbClientService>().client);
     dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
   }
 
   @override
   void dispose() {
-     DashboardsDi.dispose(diKey);
+    DashboardsDi.dispose(diKey);
     dashboardTitleValue.dispose();
     showBackValue.dispose();
     super.dispose();
   }
 
- void _onCanGoBack(bool canGoBack) {
+  void _onCanGoBack(bool canGoBack) {
     showBackValue.value = canGoBack;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
 
-class AlarmTypeFilter<T> implements IAlarmFilter {
+class AlarmTypeFilter<T> implements IAlarmFilter<Set<T>> {
   AlarmTypeFilter({required this.logger, T? initiallySelected}) {
     if (initiallySelected != null) {
       alarmTypeSelected.add(initiallySelected);
@@ -21,14 +21,14 @@ class AlarmTypeFilter<T> implements IAlarmFilter {
   }
 
   @override
-  void updateSelectedData(dynamic data) {
+  void updateSelectedData(Set<T> data) {
     logger.debug(
       'AlarmTypeFilter::updateSelectedData($data)',
     );
 
     alarmTypeSelected
       ..clear()
-      ..addAll(data as Set<T>);
+      ..addAll(data);
   }
 
   @override

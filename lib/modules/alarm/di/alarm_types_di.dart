@@ -18,25 +18,17 @@ class AlarmTypesDi {
       scopeName: scopeName,
       init: (locator) {
         locator.registerFactory<IAlarmTypesDatasource>(
-          () => AlarmTypesDatasource(
-            tbClient: tbClient,
-          ),
+          () => AlarmTypesDatasource(tbClient: tbClient),
         );
 
         locator.registerFactory<IAlarmTypesRepository>(
-          () => AlarmTypesRepository(
-            datasource: locator(),
-          ),
+          () => AlarmTypesRepository(datasource: locator()),
         );
 
-        locator.registerFactory(
-          () => AlarmTypesQueryCtrl(),
-        );
+        locator.registerFactory(() => AlarmTypesQueryCtrl());
 
         locator.registerFactory(
-          () => FetchAlarmTypesUseCase(
-            repository: locator(),
-          ),
+          () => FetchAlarmTypesUseCase(repository: locator()),
         );
 
         locator.registerFactory<PaginationRepository<PageLink, AlarmType>>(

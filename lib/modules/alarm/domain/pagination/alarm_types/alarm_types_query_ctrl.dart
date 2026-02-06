@@ -6,14 +6,7 @@ class AlarmTypesQueryCtrl extends PageKeyController<PageLink> {
     int pageSize = 20,
     String? searchText,
     SortOrder? sortOrder,
-  }) : super(
-          PageLink(
-            pageSize,
-            0,
-            searchText,
-            sortOrder,
-          ),
-        );
+  }) : super(PageLink(pageSize, 0, searchText, sortOrder));
 
   @override
   PageLink nextPageKey(PageLink pageKey) {

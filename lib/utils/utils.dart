@@ -15,19 +15,23 @@ abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
   static const _imageBase64UrlPrefix = 'data:image/';
   static final _imagesUrlRegexp = RegExp('/api/images/(tenant|system)/(.*)');
-  static final _noImageDataUri = UriData.parse(
-    'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-  ).contentAsBytes();
+  static final _noImageDataUri =
+      UriData.parse(
+        'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+      ).contentAsBytes();
 
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
-static  Future<bool> onWebViewLinkPressed(String link) async {
+  static Future<bool> onWebViewLinkPressed(String link) async {
     final LaunchResult result = await UrlAction.tryLaunch(link);
     if (!result.launched) {
-      getIt<IOverlayService>().showErrorNotification((context) => S.of(context).cantLaunchUrlLink(link));
+      getIt<IOverlayService>().showErrorNotification(
+        (context) => S.of(context).cantLaunchUrlLink(link),
+      );
     }
     return true;
   }
+
   static String createDashboardEntityState(
     EntityId? entityId, {
     String? entityName,
@@ -176,15 +180,16 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
       width: width,
       height: height,
       semanticLabel: semanticLabel,
-      errorBuilder: (context, error, stackTrace) => _svgImageFromUrl(
-        context,
-        imageUrl,
-        headers: headers,
-        width: width,
-        height: height,
-        semanticLabel: semanticLabel,
-        onError: onError,
-      ),
+      errorBuilder:
+          (context, error, stackTrace) => _svgImageFromUrl(
+            context,
+            imageUrl,
+            headers: headers,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+            onError: onError,
+          ),
     );
   }
 
@@ -215,14 +220,15 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
         width: width,
         height: height,
         semanticLabel: semanticLabel,
-        errorBuilder: (context, error, stackTrace) => _onErrorImage(
-          context,
-          color: color,
-          width: width,
-          height: height,
-          semanticLabel: semanticLabel,
-          onError: onError,
-        ),
+        errorBuilder:
+            (context, error, stackTrace) => _onErrorImage(
+              context,
+              color: color,
+              width: width,
+              height: height,
+              semanticLabel: semanticLabel,
+              onError: onError,
+            ),
       );
     }
   }
@@ -242,28 +248,22 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
         Uri.parse(imageUrl),
         httpHeaders: headers,
       ),
-      onError: (context) => _onErrorImage(
-        context,
-        color: color,
-        width: width,
-        height: height,
-        semanticLabel: semanticLabel,
-        onError: onError,
-      ),
+      onError:
+          (context) => _onErrorImage(
+            context,
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+            onError: onError,
+          ),
     );
     if (color != null) {
       final colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
-      image = ColorFiltered(
-        colorFilter: colorFilter,
-        child: image,
-      );
+      image = ColorFiltered(colorFilter: colorFilter, child: image);
     }
     if (height != null || width != null) {
-      image = SizedBox(
-        width: width,
-        height: height,
-        child: image,
-      );
+      image = SizedBox(width: width, height: height, child: image);
     }
     return image;
   }
@@ -279,11 +279,11 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
     return onError != null
         ? onError(context)
         : _emptyImage(
-            color: color,
-            width: width,
-            height: height,
-            semanticLabel: semanticLabel,
-          );
+          color: color,
+          width: width,
+          height: height,
+          semanticLabel: semanticLabel,
+        );
   }
 
   static Widget _emptyImage({
@@ -312,9 +312,11 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
   static bool _isValidUrl(String url) {
     return Uri.tryParse(url) != null;
   }
+
   static double degreesToRadians(double degrees) {
     return degrees * (pi / 180);
   }
+
   static bool _isBase64DataImageUrl(String url) {
     return url.startsWith(_imageBase64UrlPrefix);
   }
@@ -323,5 +325,9 @@ static  Future<bool> onWebViewLinkPressed(String link) async {
     return e is ThingsboardError &&
         e.errorCode == ThingsBoardErrorCode.general &&
         e.message == 'Unable to connect';
+  }
+
+  static ColorFilter toColorFilter(Color color) {
+    return ColorFilter.mode(color, BlendMode.srcIn);
   }
 }

@@ -45,7 +45,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
       finalFileName = '$finalFileName.$extension';
     }
 
-    _saveWithFilePicker(finalFileName, data);
+    saveWithFilePicker(finalFileName, data);
   }
 
   // Helper method to get extension from MIME type
@@ -67,7 +67,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     
   }
 
-  Future<void> _saveWithFilePicker(String filename, Uint8List bytes) async {
+ static  Future<void> saveWithFilePicker(String filename, Uint8List bytes) async {
     final String? outputFile = await FilePicker.platform.saveFile(
         dialogTitle: 'Please select an output file:',
         fileName: filename,

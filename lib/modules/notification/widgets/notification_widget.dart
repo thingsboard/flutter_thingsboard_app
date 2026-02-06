@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_params.dart';
@@ -16,7 +15,7 @@ class NotificationWidget extends StatelessWidget {
     required this.thingsboardClient,
     required this.onClearNotification,
     required this.onReadNotification,
-    required this.tbContext,
+
     super.key,
   });
 
@@ -24,7 +23,6 @@ class NotificationWidget extends StatelessWidget {
   final ThingsboardClient thingsboardClient;
   final Function(String id, bool readed) onClearNotification;
   final ValueChanged<String> onReadNotification;
-  final TbContext tbContext;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +35,7 @@ class NotificationWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         getIt<HandleNotificationTapUsecase>().call(
-          HandleNotificationTapParams(
-            notification: notification,
-            tbContext: tbContext,
-          ),
+          HandleNotificationTapParams(notification: notification),
         );
       },
       child: Container(
@@ -50,7 +45,8 @@ class NotificationWidget extends StatelessWidget {
               notification.info?.alarmSeverity != null
                   ? Border.all(
                     color:
-                       notification.info?.alarmSeverity?.toColor() ?? Colors.transparent,
+                        notification.info?.alarmSeverity?.toColor() ??
+                        Colors.transparent,
                   )
                   : null,
           borderRadius: BorderRadius.circular(5),
@@ -132,14 +128,12 @@ class NotificationWidget extends StatelessWidget {
                       visible: severity != null,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: severity?.toColor().withValues(
-                            alpha: 0.1,
-                          ),
+                          color: severity?.toColor().withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                         severity?.getTranslatedAlarmSeverity(context) ?? '',
+                          severity?.getTranslatedAlarmSeverity(context) ?? '',
                           style: TextStyle(
                             color: AlarmSeverity.CRITICAL.toColor(),
                             fontWeight: FontWeight.w600,

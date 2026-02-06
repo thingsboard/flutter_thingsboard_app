@@ -2,7 +2,6 @@ import 'dart:math' show pi;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/alarm_assignee_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/alarm_assignee_event.dart';
@@ -14,9 +13,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeWidget extends StatelessWidget {
-  const AlarmAssigneeWidget({required this.tbContext, super.key});
-
-  final TbContext tbContext;
+  const AlarmAssigneeWidget({  super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +27,10 @@ class AlarmAssigneeWidget extends StatelessWidget {
             builder:
                 (_) => BlocProvider.value(
                   value: context.read<AlarmAssigneeBloc>(),
-                  child: AnimatedSize(
+                  child: const AnimatedSize(
                     curve: Curves.easeInOut,
-                    duration: const Duration(milliseconds: 500),
-                    child: AlarmAssigneeListWidget(tbContext: tbContext),
+                    duration: Duration(milliseconds: 500),
+                    child: AlarmAssigneeListWidget(),
                   ),
                 ),
           );

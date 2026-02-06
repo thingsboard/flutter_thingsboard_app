@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
@@ -10,12 +9,11 @@ import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmTypesWidget extends StatelessWidget {
   const AlarmTypesWidget({
-    required this.tbContext,
+
     required this.onChanged,
     super.key,
   });
 
-  final TbContext tbContext;
   final VoidCallback onChanged;
 
   @override
@@ -43,7 +41,7 @@ class AlarmTypesWidget extends StatelessWidget {
                             curve: Curves.easeInOut,
                             duration: const Duration(milliseconds: 500),
                             child: TypesListWidget(
-                              tbContext: tbContext,
+                           
                               onChanged: onChanged,
                             ),
                           ),
@@ -134,7 +132,7 @@ class AlarmTypesWidget extends StatelessWidget {
                               topControl: const SizedBox.shrink(),
                               builder:
                                   (context) => TypesListWidget(
-                                    tbContext: tbContext,
+                            
                                     onChanged: onChanged,
                                   ),
                             );

@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
-import 'package:thingsboard_app/utils/ui/tb_text_styles.dart';
 
-class AlarmCard extends TbContextWidget {
-  AlarmCard(super.tbContext, {super.key, required this.alarm});
+class AlarmCard extends StatefulWidget {
+  const AlarmCard({super.key, required this.alarm});
   final AlarmInfo alarm;
 
   @override
   State<StatefulWidget> createState() => _AlarmCardState();
 }
 
-class _AlarmCardState extends TbContextState<AlarmCard> {
+class _AlarmCardState extends State<AlarmCard> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
 
   @override
@@ -28,10 +27,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
           bottomLeft: Radius.circular(4),
         ),
         border: Border(
-          left: BorderSide(
-            color: widget.alarm.severity.toColor(),
-            width: 4,
-          ),
+          left: BorderSide(color: widget.alarm.severity.toColor(), width: 4),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -95,12 +91,10 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  widget.alarm.severity.getTranslatedAlarmSeverity(context),
+                                  widget.alarm.severity
+                                      .getTranslatedAlarmSeverity(context),
                                   style: TbTextStyles.labelMedium.copyWith(
-                                    color:
-                                       widget
-                                            .alarm
-                                            .severity.toColor(),
+                                    color: widget.alarm.severity.toColor(),
                                   ),
                                 ),
                               ],
@@ -123,7 +117,10 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          widget.alarm.status?.getTranslatedAlarmStatus(context) ?? '',
+                          widget.alarm.status?.getTranslatedAlarmStatus(
+                                context,
+                              ) ??
+                              '',
                           style: TbTextStyles.bodyMedium.copyWith(
                             color: Colors.black.withValues(alpha: .76),
                           ),
@@ -144,7 +141,7 @@ class _AlarmCardState extends TbContextState<AlarmCard> {
                           onPressed:
                               () => getIt<ThingsboardAppRouter>().navigateTo(
                                 // translate-me-ignore-next-line
-                                '/alarmDetails/${widget.alarm.id?.id}',
+                                '/alarms/alarmDetails/${widget.alarm.id?.id}',
                               ),
                         ),
                       ),
