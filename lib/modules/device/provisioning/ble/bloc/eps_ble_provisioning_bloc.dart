@@ -11,6 +11,7 @@ import 'package:thingsboard_app/modules/device/provisioning/models/provisioning_
 import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/provisioning/eps_ble/i_wifi_provisioning_service.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class EspBleProvisioningBloc
     extends Bloc<EspBleProvisioningEvent, EspBleProvisioningState> {
@@ -94,6 +95,19 @@ class EspBleProvisioningBloc
                 permissions: ProvisioningPermissionsType.location,
               ),
             );
+            return;
+          }
+        }
+
+        // Check if Bluetooth is available and enabled
+        if (await FlutterBluePlus.isSupported == false) {
+          return;
+        }
+        if (await FlutterBluePlus.adapterState.first != BluetoothAdapterState.on) {
+          // Attempt to enable Bluetooth
+          try {
+            await FlutterBluePlus.turnOn();
+          } catch (e) {
             return;
           }
         }
