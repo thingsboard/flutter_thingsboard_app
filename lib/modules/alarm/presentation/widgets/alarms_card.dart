@@ -117,10 +117,9 @@ class _AlarmCardState extends State<AlarmCard> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          widget.alarm.status?.getTranslatedAlarmStatus(
+                          widget.alarm.status.getTranslatedAlarmStatus(
                                 context,
-                              ) ??
-                              '',
+                              ),
                           style: TbTextStyles.bodyMedium.copyWith(
                             color: Colors.black.withValues(alpha: .76),
                           ),

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
-import 'package:thingsboard_app/config/routes/v2/router_2.dart';
+//import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -243,7 +243,7 @@ class NotificationService {
     Map<String, dynamic> data, {
     bool isOnNotificationsScreenAlready = false,
   }) {
-    final context = globalNavigatorKey.currentContext!;
+    //final context = globalNavigatorKey.currentContext!;
     if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
       switch (data['linkType'] ?? data['onClick.linkType']) {
         case 'DASHBOARD':

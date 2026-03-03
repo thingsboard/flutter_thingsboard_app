@@ -1,6 +1,4 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/hmac_base64_algorithm.dart';

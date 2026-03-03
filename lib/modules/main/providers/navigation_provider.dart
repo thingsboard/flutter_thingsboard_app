@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/core/logger/tb_logger.dart';
+//import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/model/navigation_item_data.dart';
 import 'package:thingsboard_app/modules/main/model/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
@@ -22,7 +22,7 @@ const fullScreenProfile = '/profile?fullscreen=true';
 class Navigation extends _$Navigation {
   List<PageLayout> _pagesLayout = [];
   Size _deviceScreenSize = Size.zero;
-  final _logger = TbLogger();
+  //final _logger = TbLogger();
   List<NavigationItemData> _allPages = [];
   late final StreamSubscription<NativeDeviceOrientation>
   _orientationSubscription;

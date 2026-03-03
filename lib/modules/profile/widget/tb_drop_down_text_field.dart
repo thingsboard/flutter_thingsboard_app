@@ -29,7 +29,7 @@ class TbDropDownTextField<T> extends HookWidget {
     final val = control?.value as T?;
     final isRequired =
         control?.validators.contains(Validators.required) ?? false;
-    final mediaQuery = MediaQuery.of(context);
+    //final mediaQuery = MediaQuery.of(context);
     final form = useMemoized(
       () => FormGroup({"value": FormControl(value: selectedItemBuilder(val))}),
     );

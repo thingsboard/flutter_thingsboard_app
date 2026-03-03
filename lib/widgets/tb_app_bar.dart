@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:super_tooltip/super_tooltip.dart';
@@ -35,10 +36,12 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  final _controller = SuperTooltipController();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Use useMemoized so the controller is created once per widget instance
+    // and its lifecycle is properly managed by the hooks framework.
+    final controller = useMemoized(SuperTooltipController.new);
+
     final morePages = ref.watch(
       navigationProvider.select((n) => n.bottomBarPages),
     );
@@ -53,10 +56,11 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
       children: [
         AppBar(
           automaticallyImplyLeading: false,
-          leadingWidth: getLeading(context, isMainPage) is EmptyLeading ? 20 : 40,
+          leadingWidth:
+              getLeading(context, isMainPage) is EmptyLeading ? 20 : 40,
           titleSpacing: 4,
           leading: getLeading(context, isMainPage),
-          title: buildTitle(context),
+          title: buildTitle(context, controller),
           actions: actions,
           elevation: elevation ?? 8,
           shadowColor: shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
@@ -89,12 +93,12 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     return const EmptyLeading();
   }
 
-  Widget? buildTitle(BuildContext context) {
+  Widget? buildTitle(BuildContext context, SuperTooltipController controller) {
     if (title == null) {
       return title;
     }
     if (title is Text) {
-      return buildTooltip(title! as Text, context);
+      return buildTooltip(title! as Text, context, controller);
     }
     if (title is Column) {
       final column = title! as Column;
@@ -103,7 +107,7 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
       for (final e in (title! as Column).children) {
         if (e is Text) {
           if (!isTitleFound) {
-            newContent.add(buildTooltip(e, context));
+            newContent.add(buildTooltip(e, context, controller));
             isTitleFound = true;
             continue;
           }
@@ -121,8 +125,12 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     return title;
   }
 
-  Widget buildTooltip(Text text, BuildContext context) {
-    final padding = MediaQueryData.fromView(View.of(context)).padding.top;
+  Widget buildTooltip(
+    Text text,
+    BuildContext context,
+    SuperTooltipController controller,
+  ) {
+    final padding = MediaQuery.paddingOf(context).top;
     return AutoSizeText(
       text.data ?? '',
       maxLines: 1,
@@ -137,7 +145,6 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
             top: padding,
             borderColor: Colors.transparent,
             popupDirection: TooltipDirection.left,
-
             boxShadows: [
               BoxShadow(
                 color: AppColors.black.withValues(alpha: .15),
@@ -157,11 +164,11 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            controller: _controller,
+            controller: controller,
             barrierColor: Colors.transparent,
             child: InkWell(
               onTap: () {
-                _controller.showTooltip();
+                controller.showTooltip();
               },
               child: const Padding(
                 padding: EdgeInsets.all(4),

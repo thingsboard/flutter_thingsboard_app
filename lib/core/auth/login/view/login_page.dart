@@ -24,6 +24,7 @@ class LoginPage extends HookConsumerWidget {
     }, []);
     useEffect(() {
       handleUserLoading(loginState, isUserLoading);
+      return null;
     }, [loginState]);
     return Scaffold(
       body: Stack(

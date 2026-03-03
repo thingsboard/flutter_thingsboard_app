@@ -8,10 +8,8 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
+
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;

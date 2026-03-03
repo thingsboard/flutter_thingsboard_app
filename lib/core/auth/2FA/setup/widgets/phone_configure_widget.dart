@@ -14,7 +14,6 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_country_picker.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_drop_down_text_field.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {

@@ -66,7 +66,6 @@ class Login extends _$Login {
 
   Future<bool> login(String email, String password) async {
     try {
-      final res = await _tbClient.login(LoginRequest(email, password));
       final user = _tbClient.getAuthUser();
       if (user != null &&
           (user.isMfaConfigurationToken() || user.isMfaConfigurationToken())) {

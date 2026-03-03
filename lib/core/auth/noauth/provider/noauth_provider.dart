@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
-import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 
@@ -46,17 +45,6 @@ class NoauthProvider extends _$NoauthProvider {
 
       final data = await _client.getLoginDataBySecretKey(host: host, key: key);
 
-      final authUserFromJwt = _client.getAuthUserFromJwt(data.token);
-      final currentlyAuthUser = _client.getAuthUser();
-      // if (_client.isAuthenticated()) {
-      //   state = NoAuthState(
-      //     error: null,
-      //     isDone: false,
-      //     message: 'Logging you out ...',
-      //   );
-      //   await ref.read(loginProvider.notifier).logout();
-      //   print('noath logout');
-      // }
 
       if (isTheSameHost) {
         state = NoAuthState(

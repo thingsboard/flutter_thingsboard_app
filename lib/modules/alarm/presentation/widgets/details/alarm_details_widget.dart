@@ -81,10 +81,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
                     details:
-                        widget.alarmInfo.status?.getTranslatedAlarmStatus(
+                        widget.alarmInfo.status.getTranslatedAlarmStatus(
                           context,
-                        ) ??
-                        '',
+                        ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,

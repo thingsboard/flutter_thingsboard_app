@@ -15,9 +15,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_bottom_sheet_builder.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
-import 'package:thingsboard_app/utils/ui/text_extension.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 
 class SelectProviderTypeWidget extends HookConsumerWidget {
