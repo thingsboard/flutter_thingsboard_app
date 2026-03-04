@@ -54,9 +54,11 @@ class LoginWidget extends HookConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: SingleChildScrollView(
-                child: SizedBox(
-                  height:
-                      height - padding.top - padding.bottom - kToolbarHeight,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight:
+                        height - padding.top - padding.bottom - kToolbarHeight,
+                  ),
                   child: Column(
                     spacing: 16,
                     children: [
@@ -125,43 +127,40 @@ class LoginWidget extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: ReactiveFormConsumer(
-                          builder: (context, formGroup, child) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                      ),
-                                    ),
-                                    onPressed:
-                                        formGroup.invalid && formGroup.touched
-                                            ? null
-                                            : () async {
-                                              await onLoginPressed(
-                                                context,
-                                                form,
-                                                ref,
-                                                loading,
-                                              );
-                                            },
-                                    child: Text(
-                                      S.of(context).login,
-                                      style: TbTextStyles.labelMedium,
+                      ReactiveFormConsumer(
+                        builder: (context, formGroup, child) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
                                     ),
                                   ),
+                                  onPressed:
+                                      formGroup.invalid && formGroup.touched
+                                          ? null
+                                          : () async {
+                                            await onLoginPressed(
+                                              context,
+                                              form,
+                                              ref,
+                                              loading,
+                                            );
+                                          },
+                                  child: Text(
+                                    S.of(context).login,
+                                    style: TbTextStyles.labelMedium,
+                                  ),
                                 ),
-                                const LoginFooter(),
-                              ],
-                            );
-                          },
-                        ),
+                              ),
+                              const LoginFooter(),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
