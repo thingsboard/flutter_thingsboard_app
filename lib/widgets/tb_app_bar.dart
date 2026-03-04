@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 
 class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   TbAppBar({
@@ -130,7 +132,7 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     BuildContext context,
     SuperTooltipController controller,
   ) {
-    final padding = MediaQuery.paddingOf(context).top;
+    final padding = viewInsetsSignal.watch(context).top;
     return AutoSizeText(
       text.data ?? '',
       maxLines: 1,

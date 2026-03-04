@@ -8,6 +8,7 @@ import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/themes/dark_theme.dart';
 import 'package:thingsboard_app/config/themes/tb_ce_theme.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 import 'package:toastification/toastification.dart';
 
 class ThingsboardApp extends HookConsumerWidget {
@@ -18,7 +19,7 @@ class ThingsboardApp extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return ToastificationWrapper(
-   child :  ColoredBox(
+      child: ColoredBox(
         color: tbCeTheme.scaffoldBackgroundColor,
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
@@ -37,8 +38,19 @@ class ThingsboardApp extends HookConsumerWidget {
           theme: tbCeTheme,
           darkTheme: tbDarkTheme,
           routerConfig: router,
+          // A Builder is required here because MediaQuery is only available
+          // in a context that is a descendant of MaterialApp. The Builder
+          // provides such a context and feeds the values into the global
+          // signals hub (app_signals.dart) on every build cycle.
+          builder: (context, child) {
+            updateMediaQuerySignals(
+              MediaQuery.sizeOf(context),
+              MediaQuery.viewInsetsOf(context),
+            );
+            return child ?? const SizedBox.shrink();
+          },
         ),
-   )
+      ),
     );
   }
 }

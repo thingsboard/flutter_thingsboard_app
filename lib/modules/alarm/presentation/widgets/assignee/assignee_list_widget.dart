@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
@@ -8,6 +9,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 import 'package:thingsboard_app/utils/string_utils.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
@@ -20,17 +22,13 @@ class AssigneeListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight:
-            MediaQuery.of(context).size.height * 0.7 +
-            MediaQuery.of(context).viewInsets.bottom,
-        minHeight:
-            MediaQuery.of(context).size.height * 0.3 +
-            MediaQuery.of(context).viewInsets.bottom,
+        maxHeight: screenSizeSignal.watch(context).height * 0.7 + viewInsetsSignal.watch(context).bottom,
+        minHeight: screenSizeSignal.watch(context).height * 0.3 + viewInsetsSignal.watch(context).bottom,
       ),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+            bottom: viewInsetsSignal.watch(context).bottom,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

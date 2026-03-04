@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -13,6 +14,7 @@ import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashbo
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -164,8 +166,7 @@ class _DashboardState extends State<DashboardWidget> {
             if (!loading) {
               return const SizedBox.shrink();
             } else {
-              final data = MediaQuery.of(context);
-              var bottomPadding = data.padding.top;
+              var bottomPadding = viewInsetsSignal.watch(context).bottom;
               if (widget.home != true) {
                 bottomPadding += kToolbarHeight;
               }

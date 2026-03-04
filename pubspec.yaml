@@ -12,107 +12,169 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: ^4.1.0
-  intl: ^0.20.0
-  flutter_secure_storage: ^9.0.0
-  flutter_speed_dial: ^7.0.0
-  cupertino_icons: ^1.0.6
-  fluro: ^2.0.5
-  flutter_svg: ^2.0.9
-  jovial_svg: ^1.1.19
-  auto_size_text: ^3.0.0-nullsafety.0
-  infinite_scroll_pagination: ^4.0.0
-  fading_edge_scrollview: ^4.0.0
+
+# State Management & Logic
+  flutter_bloc: ^8.1.5
+  ## riverpod
+  hooks_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  get_it: ^7.6.7
+  flutter_hooks: ^0.21.2
+  equatable: ^2.0.5
   stream_transform: ^2.1.0
-  flutter_inappwebview: ^6.1.5
+  event_bus: ^2.0.0
+
+  signals_flutter: ^6.2.0
+  
+# Navigation & Routing
+  go_router: ^17.0.0
+  fluro: ^2.0.5
   url_launcher: ^6.2.1
-  image_picker: ^1.0.4
-  mime: ^1.0.4
-  logger: ^2.5.0
-  device_info_plus: ^10.1.0
-  geolocator: ^12.0.0
-  geolocator_android: 4.6.1
-  material_design_icons_flutter: ^7.0.7296
-  package_info_plus: ^8.0.0
-  dart_jsonwebtoken: ^2.12.1
-  crypto: ^3.0.3
-  flutter_form_builder: ^10.0.0
-  form_builder_validators: ^11.0.0
-  flutter_html: 3.0.0-beta.2
-  universal_html: ^2.2.4
-  universal_platform: ^1.0.0+1
-  preload_page_view: ^0.2.0
+  app_links: ^6.3.2
+
+# Localization
   flutter_localizations:
     sdk: flutter
+  flutter_localized_locales: ^2.0.5
+
+# System & Cloud Infrastructure
   firebase_core: ^3.1.0
-  firebase_messaging: ^15.0.1
-  flutter_local_notifications: ^17.1.2
-  flutter_new_badger: ^1.0.1
-  timeago: ^3.6.1
-  flutter_bloc: ^8.1.5
-  get_it: ^7.6.7
-  equatable: ^2.0.5
-  app_links: ^6.3.2
-  collection: ^1.18.0
-  html: ^0.15.4
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  modal_bottom_sheet: ^3.0.0
-  event_bus: ^2.0.0
-  google_fonts: ^6.2.1
-  expandable: ^5.0.1
-  focused_menu: ^1.0.5
-  flutter_esp_ble_prov: ^0.1.7
+
+# Connectivity & IoT (ThingsBoard/ESP)
+  ## Core
+  thingsboard_client: ^4.1.0
+  ## Provisioning
   esp_smartconfig: ^2.0.4
-  permission_handler: ^11.3.1
-  wifi_scan: ^0.4.1+1
-  open_settings_plus: ^0.4.0
-  plugin_wifi_connect:
-    git:
-      url: https://github.com/thingsboard/flutter_wifi_connect
-  toastification: ^2.3.0
-  flutter_widget_from_html: ^0.16.0
-  file_picker: ^9.0.0
-  freezed_annotation: ^3.1.0
-  json_annotation: ^4.9.0
-  mobile_scanner: ^7.0.1
-  flutter_hooks: ^0.21.2
+  flutter_esp_ble_prov: ^0.1.7
   esp_provisioning_softap:
     git:
       url: https://github.com/thingsboard/esp_provisioning_softap
-  flutter_slidable: ^4.0.0
-  flutter_native_splash: ^2.4.4
-  super_tooltip: 2.1.0
-  go_router: ^17.0.0
-  hooks_riverpod: ^2.6.1
-  country_picker: ^2.0.27
-  flutter_localized_locales: ^2.0.5
-  native_device_orientation: ^2.0.5
-  reactive_forms: ^18.2.0
-  reactive_phone_form_field: ^5.0.2
+  ## Networking
+  wifi_scan: ^0.4.1+1
+  plugin_wifi_connect:
+    git:
+      url: https://github.com/thingsboard/flutter_wifi_connect
+  flutter_inappwebview: ^6.1.5
+  ## Scanner
+  mobile_scanner: ^7.0.1
   barcode: ^2.2.9
-  riverpod_annotation: ^2.6.1
+
+#  System & Hardware
+  ## Utility
+  universal_platform: ^1.0.0+1
+  ## Permissions
+  permission_handler: ^11.3.1
+  ## Location
+  geolocator: ^12.0.0
+  geolocator_android: 4.6.1
+  ## Device Info
+  device_info_plus: ^10.1.0
+  package_info_plus: ^8.0.0
+  native_device_orientation: ^2.0.5
+  ## Notifications
+  firebase_messaging: ^15.0.1
+  flutter_local_notifications: ^17.1.2
+  flutter_new_badger: ^1.0.1
+  ## Settings
+  open_settings_plus: ^0.4.0
+
+# Storage & Data
+  ## Local DB
+  #hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  ## Security
+  flutter_secure_storage: ^9.0.0
+  ## Files
   path_provider: ^2.1.5
+  mime: ^1.0.4
+
+# Utilities & Code Generation
+  ## Generation
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  ## Security/Auth
+  dart_jsonwebtoken: ^2.12.1
+  crypto: ^3.0.3
+  ## Parsing
+  flutter_html: 3.0.0-beta.2
+  universal_html: ^2.2.4
+  html: ^0.15.4
+  flutter_widget_from_html: ^0.16.0
+  ## Formatters
+  intl: ^0.20.0
+  timeago: ^3.6.1
+  collection: ^1.18.0
+  ## Logging
+  logger: ^2.5.0
+  ## Native Control
+  flutter_native_splash: ^2.4.4
+
+# UI Components & Styling
+  ## Material & Brand
+  cupertino_icons: ^1.0.6
+  material_design_icons_flutter: ^7.0.7296
+  google_fonts: ^6.2.1
+  ## Layout Helpers
+  auto_size_text: ^3.0.0-nullsafety.0
+  fading_edge_scrollview: ^4.0.0
+  expandable: ^5.0.1
+  modal_bottom_sheet: ^3.0.0
+  preload_page_view: ^0.2.0
+  flutter_slidable: ^4.0.0
+  infinite_scroll_pagination: ^4.0.0
+  ## Specialized UI
+  flutter_speed_dial: ^7.0.0
+  focused_menu: ^1.0.5
+  super_tooltip: 2.1.0
+  toastification: ^2.3.0
+  ## SVG/Images
+  flutter_svg: ^2.0.9
+  jovial_svg: ^1.1.19
+
+# Forms & Inputs
+  ## Frameworks
+  flutter_form_builder: ^10.0.0
+  reactive_forms: ^18.2.0
+  ## Validation & Fields
+  form_builder_validators: ^11.0.0
+  reactive_phone_form_field: ^5.0.2
+  country_picker: ^2.0.27
+  ## Pickers
+  image_picker: ^1.0.4
+  file_picker: ^9.0.0
+
 dev_dependencies:
+# Testing & Mocking
   integration_test:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.4
-  mocktail: ^1.0.3
   bloc_test: ^9.1.7
-  flutter_lints: ^2.0.3
+  mocktail: ^1.0.3
+
+# Code Generation
   build_runner: ^2.4.9
+  freezed: ^3.1.0
+  json_serializable: ^6.9.5
+  riverpod_generator: ^2.6.5
+  flutter_gen: ^5.11.0
+
+# Linting & Code Quality
+  flutter_lints: ^2.0.3
   custom_lint: ^0.7.0
   lint: 2.8.0
-  flutter_gen: ^5.11.0
-  riverpod_generator: ^2.6.5
-  json_serializable: ^6.9.5
-  freezed: ^3.1.0
+
+# App Utilities & Branding
+  flutter_launcher_icons: ^0.14.4
+  
 dependency_overrides:
-  logger: ^2.5.0
+# Networking & Utilities
   http: ^1.3.0
   wakelock_plus: ^1.3.2
+
+# Logging & Formatting
+  logger: ^2.5.0
   intl: 0.20.2
 
 flutter:

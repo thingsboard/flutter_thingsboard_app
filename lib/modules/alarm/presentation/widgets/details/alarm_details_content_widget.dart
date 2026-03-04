@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart' show screenSizeSignal;
 
 class AlarmDetailsContentWidget extends StatelessWidget {
   const AlarmDetailsContentWidget({
@@ -30,7 +32,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
+              width: screenSizeSignal.watch(context).width / 2,
               child: Text(
                 details,
                 textAlign: TextAlign.end,

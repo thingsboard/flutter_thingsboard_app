@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class TypesListWidget extends StatelessWidget {
@@ -15,8 +17,8 @@ class TypesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
-        minHeight: MediaQuery.of(context).size.height * 0.3,
+        maxHeight: screenSizeSignal.watch(context).height * 0.7,
+        minHeight: screenSizeSignal.watch(context).height * 0.3,
       ),
       child: SafeArea(
         child: Column(

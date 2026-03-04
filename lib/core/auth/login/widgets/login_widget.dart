@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:signals_flutter/signals_flutter.dart' hide AsyncLoading;
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -19,6 +20,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 
 class LoginWidget extends HookConsumerWidget {
@@ -42,7 +44,8 @@ class LoginWidget extends HookConsumerWidget {
       }
       return null;
     }, [providers]);
-    final mediaQuery = MediaQuery.of(context);
+    final height = screenSizeSignal.watch(context).height;
+    final padding = viewInsetsSignal.watch(context);
     return Stack(
       children: [
         ReactiveForm(
@@ -53,10 +56,7 @@ class LoginWidget extends HookConsumerWidget {
               child: SingleChildScrollView(
                 child: SizedBox(
                   height:
-                      mediaQuery.size.height -
-                      mediaQuery.padding.top -
-                      mediaQuery.padding.bottom -
-                      kToolbarHeight,
+                      height - padding.top - padding.bottom - kToolbarHeight,
                   child: Column(
                     spacing: 16,
                     children: [
@@ -148,7 +148,7 @@ class LoginWidget extends HookConsumerWidget {
                                                 context,
                                                 form,
                                                 ref,
-                                                loading
+                                                loading,
                                               );
                                             },
                                     child: Text(
@@ -195,8 +195,10 @@ Future<void> onLoginPressed(
   final String password = form.control('password').value.toString();
   try {
     loading.value = true;
-  final res =   await ref.read(loginProvider.notifier).login(username, password);
-    
+    final res = await ref
+        .read(loginProvider.notifier)
+        .login(username, password);
+
     loading.value = res;
   } catch (e) {
     form.setErrors({"err": {}});
@@ -230,7 +232,7 @@ Future<void> onOauth2ButtonPressed(
     return;
   }
   loading.value = true;
-final res =  await  ref.read(loginProvider.notifier).oauthLogin(client.url);
+  final res = await ref.read(loginProvider.notifier).oauthLogin(client.url);
   loading.value = res;
 }
 

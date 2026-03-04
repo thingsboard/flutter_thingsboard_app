@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:signals_flutter/signals_flutter.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 
 class PaginationGridWidget<T, B> extends StatelessWidget {
   const PaginationGridWidget({
@@ -54,7 +56,7 @@ class PaginationGridWidget<T, B> extends StatelessWidget {
 
   bool isMobile(BuildContext context) {
     // The equivalent of the "smallestWidth" qualifier on Android.
-    final shortestSide = MediaQuery.of(context).size.shortestSide;
+    final shortestSide = shortestSideSignal.watch(context);
 
     // Determine if we should use mobile layout or not, 600 here is
     // a common breakpoint for a typical 7-inch tablet.

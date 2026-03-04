@@ -29,7 +29,6 @@ class TbDropDownTextField<T> extends HookWidget {
     final val = control?.value as T?;
     final isRequired =
         control?.validators.contains(Validators.required) ?? false;
-    //final mediaQuery = MediaQuery.of(context);
     final form = useMemoized(
       () => FormGroup({"value": FormControl(value: selectedItemBuilder(val))}),
     );
@@ -70,13 +69,9 @@ class TbDropDownTextField<T> extends HookWidget {
                   showDragHandle: false,
                   backgroundColor: Colors.transparent,
                   isScrollControlled: true,
-                  // constraints: BoxConstraints.loose(
-                  //   Size.fromHeight(mediaQuery.size.height - 72),
-                  // ),
                 );
 
                 if (info != null && context.mounted) {
-                  // form.control('value').updateValue(selectedItemBuilder(info));
                   topForm?.control(formControlName).updateValue(info);
                   onSelected?.call(info);
                 }

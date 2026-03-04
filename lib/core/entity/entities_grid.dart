@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:signals_flutter/signals_flutter.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
@@ -44,19 +45,21 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               crossAxisCount:
-                  Orientation.portrait == MediaQuery.of(context).orientation
+                  Orientation.portrait == orientationSignal.watch(context)
                       ? (isMobile(context) ? 2 : 4)
                       : (isMobile(context) ? 4 : 5),
             ),
             builderDelegate: PagedChildBuilderDelegate<T>(
-              itemBuilder: (context, item, index) => EntityGridCard<T>(
-                item,
-                key: widget.getKey(item),
-                entityCardWidgetBuilder: widget.buildEntityGridCard,
-                onEntityTap: (i) => widget.onEntityTap(i, ref),
-                settings: widget.entityGridCardSettings(item),
-              ),
-              firstPageErrorIndicatorBuilder: (context) => Text("first page error"),
+              itemBuilder:
+                  (context, item, index) => EntityGridCard<T>(
+                    item,
+                    key: widget.getKey(item),
+                    entityCardWidgetBuilder: widget.buildEntityGridCard,
+                    onEntityTap: (i) => widget.onEntityTap(i, ref),
+                    settings: widget.entityGridCardSettings(item),
+                  ),
+              firstPageErrorIndicatorBuilder:
+                  (context) => Text("first page error"),
               newPageErrorIndicatorBuilder: (context) => Text("new page error"),
               firstPageProgressIndicatorBuilder:
                   firstPageProgressIndicatorBuilder,
@@ -70,11 +73,6 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
   }
 
   bool isMobile(BuildContext context) {
-    // The equivalent of the "smallestWidth" qualifier on Android.
-    final shortestSide = MediaQuery.of(context).size.shortestSide;
-
-    // Determine if we should use mobile layout or not, 600 here is
-    // a common breakpoint for a typical 7-inch tablet.
-    return shortestSide < 600;
+    return isMobileSignal.watch(context);
   }
 }
