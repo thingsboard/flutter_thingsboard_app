@@ -16,7 +16,6 @@
 /// // One-shot read — does NOT subscribe the widget:
 /// final bottom = viewInsetsSignal.value.bottom;
 /// ```
-library app_signals;
 
 import 'package:flutter/widgets.dart';
 import 'package:signals_flutter/signals_flutter.dart';

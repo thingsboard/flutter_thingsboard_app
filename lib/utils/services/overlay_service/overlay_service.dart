@@ -41,7 +41,10 @@ class OverlayService implements IOverlayService {
         toastificationType = ToastificationType.error;
     }
 
-    final context = globalNavigatorKey.currentContext!;
+    final context = globalNavigatorKey.currentContext;
+    if (context == null) {
+      return;
+    }
     final messageData = message(context);
     toastification.show(
       type: toastificationType,
@@ -66,7 +69,10 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showErrorNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showErrorNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     return showNotification(
       message,
       NotificationType.error,
@@ -75,12 +81,18 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showInfoNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showInfoNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     showNotification(message, NotificationType.info, duration: duration);
   }
 
   @override
-  void showWarnNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showWarnNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     showNotification(message, NotificationType.warn, duration: duration);
   }
 
@@ -98,7 +110,10 @@ class OverlayService implements IOverlayService {
   }
 
   Future<bool?> showTbDialog({required TranslatedDialogBuilder content}) {
-    final context = globalNavigatorKey.currentContext!;
+    final context = globalNavigatorKey.currentContext;
+    if (context == null) {
+      return Future.value(null);
+    }
     final data = content(context);
     return showDialog<bool>(
       context: context,

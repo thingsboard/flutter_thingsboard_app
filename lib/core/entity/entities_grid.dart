@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:thingsboard_app/utils/signals/app_signals.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_grid_card.dart';
+import 'package:thingsboard_app/utils/signals/app_signals.dart';
 
 mixin EntitiesGridStateBase on ConsumerStatefulWidget {
   @override
