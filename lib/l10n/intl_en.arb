@@ -431,5 +431,6 @@
   "phoneIsInvalid": "Phone is invalid",
   "addVerificationMethod": "Add verification method",
   "areYouSureYouWantToExit": "Are you sure you want to exit?",
-  "confirmToCloseTheApp": "Confirm to close the app"
+  "confirmToCloseTheApp": "Confirm to close the app",
+  "imageSavedToGallery": "Image saved to gallery"
 }
