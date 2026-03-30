@@ -69,7 +69,7 @@ class Login extends _$Login {
       final res = await _tbClient.login(LoginRequest(email, password));
       final user = _tbClient.getAuthUser();
       if (user != null &&
-          (user.isMfaConfigurationToken() || user.isMfaConfigurationToken())) {
+          (user.isMfaConfigurationToken() || user.isPreVerificationToken())) {
         return false;
       }
     } catch (e) {
