@@ -417,6 +417,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "failedToLoadTheList": MessageLookupByLibrary.simpleMessage(
       "Failed to load the list",
     ),
+    "failedToSaveImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to save image",
+    ),
     "failureDetails": MessageLookupByLibrary.simpleMessage("Failure details"),
     "fatalApplicationErrorOccurred": MessageLookupByLibrary.simpleMessage(
       "Fatal application error occurred:",
@@ -442,7 +445,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hybridUnitSystem": MessageLookupByLibrary.simpleMessage("Hybrid"),
     "imNotARobot": MessageLookupByLibrary.simpleMessage("I\'m not a robot"),
     "imageSavedToGallery": MessageLookupByLibrary.simpleMessage(
-      "Image saved to gallery",
+      "Saved to ThingsBoard Image gallery",
     ),
     "imperialUnitSystem": MessageLookupByLibrary.simpleMessage("Imperial"),
     "inactive": MessageLookupByLibrary.simpleMessage("Inactive"),

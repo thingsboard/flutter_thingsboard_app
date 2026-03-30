@@ -27,7 +27,6 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   url_launcher: ^6.2.1
   image_picker: ^1.0.4
-  gal: ^2.3.0
   mime: ^1.0.4
   logger: ^2.5.0
   device_info_plus: ^10.1.0

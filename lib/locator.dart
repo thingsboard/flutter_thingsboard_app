@@ -12,8 +12,6 @@ import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/firebase_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
-import 'package:thingsboard_app/utils/services/gallery_service/gallery_service.dart';
-import 'package:thingsboard_app/utils/services/gallery_service/i_gallery_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 import 'package:thingsboard_app/utils/services/layouts/layout_service.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
@@ -26,6 +24,8 @@ import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.d
 import 'package:thingsboard_app/utils/services/storage/_tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/tb_client_service.dart';
+import 'package:thingsboard_app/utils/services/tb_image_gallery_service/i_tb_image_gallery_service.dart';
+import 'package:thingsboard_app/utils/services/tb_image_gallery_service/tb_image_gallery_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
 import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
@@ -51,7 +51,7 @@ Future<void> setUpRootDependencies() async {
       () => EndpointService(databaseService: getIt()),
     )
     ..registerLazySingleton<IOverlayService>(() => OverlayService())
-    ..registerLazySingleton<IGalleryService>(() => GalleryService())
+    ..registerLazySingleton<ITbImageGalleryService>(() => TbImageGalleryService())
       ..registerLazySingleton<ThingsboardAppRouter>(() => ThingsboardAppRouter(overlayService: getIt()))
     ..registerLazySingleton<IDeviceInfoService>(() => deviceInfoService)
     // ..registerLazySingleton(() => TbContext())

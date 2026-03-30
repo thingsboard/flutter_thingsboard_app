@@ -3203,11 +3203,21 @@ class S {
     );
   }
 
-  /// `Image saved to gallery`
+  /// `Saved to ThingsBoard Image gallery`
   String get imageSavedToGallery {
     return Intl.message(
-      'Image saved to gallery',
+      'Saved to ThingsBoard Image gallery',
       name: 'imageSavedToGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to save image`
+  String get failedToSaveImage {
+    return Intl.message(
+      'Failed to save image',
+      name: 'failedToSaveImage',
       desc: '',
       args: [],
     );
