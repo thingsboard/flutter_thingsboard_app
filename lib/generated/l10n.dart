@@ -3203,10 +3203,10 @@ class S {
     );
   }
 
-  /// `Saved to ThingsBoard Image gallery`
+  /// `Saved to platform Image gallery`
   String get imageSavedToGallery {
     return Intl.message(
-      'Saved to ThingsBoard Image gallery',
+      'Saved to platform Image gallery',
       name: 'imageSavedToGallery',
       desc: '',
       args: [],

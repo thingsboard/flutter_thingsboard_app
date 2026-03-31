@@ -445,7 +445,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hybridUnitSystem": MessageLookupByLibrary.simpleMessage("Hybrid"),
     "imNotARobot": MessageLookupByLibrary.simpleMessage("I\'m not a robot"),
     "imageSavedToGallery": MessageLookupByLibrary.simpleMessage(
-      "Saved to ThingsBoard Image gallery",
+      "Saved to platform Image gallery",
     ),
     "imperialUnitSystem": MessageLookupByLibrary.simpleMessage("Imperial"),
     "inactive": MessageLookupByLibrary.simpleMessage("Inactive"),

@@ -432,6 +432,6 @@
   "addVerificationMethod": "Add verification method",
   "areYouSureYouWantToExit": "Are you sure you want to exit?",
   "confirmToCloseTheApp": "Confirm to close the app",
-  "imageSavedToGallery": "Saved to ThingsBoard Image gallery",
+  "imageSavedToGallery": "Saved to platform Image gallery",
   "failedToSaveImage": "Failed to save image"
 }
