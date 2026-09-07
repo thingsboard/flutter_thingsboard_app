@@ -61,15 +61,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m14(error) => "Error sending code: ${error}";
 
-  static String m30(host) =>
+  static String m30(host) => "Failed to connect to ${host}";
+
+  static String m31(host) =>
       "Failed to obtain a login token from ${host}. Please scan a new QR code.";
 
   static String m15(count) =>
       "${Intl.plural(count, one: '1 operation failed', other: '${count} operations failed')}";
 
-  static String m31(host) => "Getting data from your host ${host}";
+  static String m32(host) => "Getting data from your host ${host}";
 
-  static String m32(host) => "Logging you into the host ${host}";
+  static String m33(host) => "Logging you into the host ${host}";
 
   static String m16(count) =>
       "${Intl.plural(count, one: 'Mark 1 notification as read?', other: 'Mark ${count} notifications as read?')}";
@@ -99,7 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m25(contact) =>
       "A security code has been sent to your phone at ${contact}.";
 
-  static String m33(host) => "Switching you to the new host ${host}";
+  static String m34(host) => "Switching you to the new host ${host}";
 
   static String m26(name) =>
       "Unable connect to Wi-Fi because networks wasn\'t found by device ${name}";
@@ -423,6 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exitDeviceProvisioning": MessageLookupByLibrary.simpleMessage(
       "Exit device provisioning",
     ),
+    "failedToConnectToHost": m30,
     "failedToConnectToServer": MessageLookupByLibrary.simpleMessage(
       "Failed to connect to server",
     ),
@@ -432,7 +435,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "failedToLoadTheList": MessageLookupByLibrary.simpleMessage(
       "Failed to load the list",
     ),
-    "failedToObtainLoginTokenFromHost": m30,
+    "failedToObtainLoginTokenFromHost": m31,
     "failedToPerformOperation": m15,
     "failedToSaveImage": MessageLookupByLibrary.simpleMessage(
       "Failed to save image",
@@ -452,7 +455,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "First name is required.",
     ),
     "firstNameUpper": MessageLookupByLibrary.simpleMessage("First Name"),
-    "gettingDataFromHost": m31,
+    "gettingDataFromHost": m32,
     "goBack": MessageLookupByLibrary.simpleMessage("Go back"),
     "hideHomeDashboardToolbar": MessageLookupByLibrary.simpleMessage(
       "Hide home dashboard toolbar",
@@ -489,7 +492,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "listIsEmptyText": MessageLookupByLibrary.simpleMessage(
       "The list is currently empty.",
     ),
-    "loggingYouIntoHost": m32,
+    "loggingYouIntoHost": m33,
     "login": MessageLookupByLibrary.simpleMessage("Log In"),
     "loginToApp": MessageLookupByLibrary.simpleMessage("Login to app"),
     "loginToYourAccount": MessageLookupByLibrary.simpleMessage(
@@ -729,7 +732,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
     "stateOrProvince": MessageLookupByLibrary.simpleMessage("State / Province"),
     "status": MessageLookupByLibrary.simpleMessage("Status"),
-    "switchingToNewHost": m33,
+    "switchingToNewHost": m34,
     "systemAdministrator": MessageLookupByLibrary.simpleMessage(
       "System Administrator",
     ),

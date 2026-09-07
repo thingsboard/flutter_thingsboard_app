@@ -6,7 +6,7 @@ part of 'noauth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$noauthProviderHash() => r'604b0ee01f3c531fedae7729b32210e1ef68988e';
+String _$noauthProviderHash() => r'd5f9ef17bcdc0e7feb97fd77a73746b72772711e';
 
 /// See also [NoauthProvider].
 @ProviderFor(NoauthProvider)

@@ -44,18 +44,25 @@ enum NoAuthFailure {
 }
 
 final class SwitchEndpointFailure implements Exception {
-  const SwitchEndpointFailure(this.failure, {this.serverMessage, this.status});
+  const SwitchEndpointFailure(
+    this.failure, {
+    this.serverMessage,
+    this.status,
+    this.cause,
+  });
 
   final NoAuthFailure failure;
   final String? serverMessage;
 
-  /// HTTP status of the answer, if there was one. Diagnostics only: the
-  /// classification has already happened in `_asFailure`.
+  /// Diagnostics only, reaching the logs through [toString]: the
+  /// classification has already happened in `_asFailure`. [cause] is what
+  /// separates a timeout from a refused connection or a bad certificate.
   final int? status;
+  final DioExceptionType? cause;
 
   @override
   String toString() =>
-      'SwitchEndpointFailure($failure, status: $status, '
+      'SwitchEndpointFailure($failure, status: $status, cause: $cause, '
       'serverMessage: $serverMessage)';
 }
 
@@ -173,7 +180,7 @@ class NoauthProvider extends _$NoauthProvider {
     } on DioException catch (e) {
       // /api/noauth/** is permitAll on the server, so a 401 here can only be
       // the secret being rejected as unknown or expired.
-      throw _asFailure(e, NoAuthFailure.tokenExchangeFailed);
+      throw _asFailure(e, rejectedAs: NoAuthFailure.tokenExchangeFailed);
     }
 
     final data = response.data;
@@ -203,7 +210,7 @@ class NoauthProvider extends _$NoauthProvider {
         options: Options(headers: {'X-Authorization': 'Bearer $token'}),
       );
     } on DioException catch (e) {
-      throw _asFailure(e, NoAuthFailure.sessionInvalid);
+      throw _asFailure(e, rejectedAs: NoAuthFailure.sessionInvalid);
     }
   }
 
@@ -356,19 +363,26 @@ class NoauthProvider extends _$NoauthProvider {
 
   /// No response at all is a transport failure and says nothing about the QR
   /// session. A 401 is the server rejecting the secret or the pair (it maps
-  /// JWT_TOKEN_EXPIRED to 401) and becomes [whenRejected]; any other answer is
+  /// JWT_TOKEN_EXPIRED to 401) and becomes [rejectedAs]; any other answer is
   /// left to the server's own message.
-  SwitchEndpointFailure _asFailure(DioException e, NoAuthFailure whenRejected) {
+  SwitchEndpointFailure _asFailure(
+    DioException e, {
+    required NoAuthFailure rejectedAs,
+  }) {
     final response = e.response;
     if (response == null) {
-      return const SwitchEndpointFailure(NoAuthFailure.connectionFailed);
+      return SwitchEndpointFailure(
+        NoAuthFailure.connectionFailed,
+        cause: e.type,
+      );
     }
 
     final body = response.data;
     return SwitchEndpointFailure(
-      response.statusCode == 401 ? whenRejected : NoAuthFailure.unknown,
+      response.statusCode == 401 ? rejectedAs : NoAuthFailure.unknown,
       serverMessage: body is Map ? body['message'] as String? : null,
       status: response.statusCode,
+      cause: e.type,
     );
   }
 

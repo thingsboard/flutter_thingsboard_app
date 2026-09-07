@@ -3354,6 +3354,16 @@ class S {
     );
   }
 
+  /// `Failed to connect to {host}`
+  String failedToConnectToHost(Object host) {
+    return Intl.message(
+      'Failed to connect to $host',
+      name: 'failedToConnectToHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
   /// `The QR code session is no longer valid. Please refresh the QR code and scan again.`
   String get qrCodeSessionIsNoLongerValid {
     return Intl.message(
