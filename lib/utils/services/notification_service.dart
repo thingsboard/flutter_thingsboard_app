@@ -178,21 +178,15 @@ class NotificationService {
   }
 
   Future<void> _tearDownIfRegistered() async {
-    final bool registered;
     try {
-      registered = await _localDatabase.isPushRegistered();
+      if (!await _localDatabase.isPushRegistered()) {
+        return;
+      }
+      _log.debug('NotificationService::_tearDownIfRegistered()');
+      await _tearDownLocalPushState();
     } catch (e) {
-      _log.warn(
-        'NotificationService::_tearDownIfRegistered() failed to read the '
-        'registration flag: $e',
-      );
-      return;
+      _log.warn('NotificationService::_tearDownIfRegistered() failed: $e');
     }
-    if (!registered) {
-      return;
-    }
-    _log.debug('NotificationService::_tearDownIfRegistered()');
-    await _tearDownLocalPushState();
   }
 
   /// Deleting the FCM token is what stops delivery; the rest drops the local
