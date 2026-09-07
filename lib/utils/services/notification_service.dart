@@ -179,6 +179,9 @@ class NotificationService {
 
   Future<void> _tearDownIfRegistered() async {
     try {
+      // The flag keeps this a no-op on devices that never registered, so a
+      // fresh install sitting on the login screen never calls into FCM:
+      // deleteToken() without a token can mint one just to delete it.
       if (!await _localDatabase.isPushRegistered()) {
         return;
       }
