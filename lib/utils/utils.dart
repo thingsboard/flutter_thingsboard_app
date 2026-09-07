@@ -298,10 +298,9 @@ abstract class Utils {
     return _imagesUrlRegexp.hasMatch(url);
   }
 
-  /// HTTP(S) links are fetched as they are. Links relative to the platform,
-  /// such as an image public link, are resolved against the active endpoint.
-  /// Anything else has no meaningful target and is rendered as a missing
-  /// image.
+  /// HTTP(S) links are fetched as they are. Root-relative links, such as an
+  /// image public link, are resolved against the active endpoint. Anything
+  /// else has no meaningful target and is rendered as a missing image.
   static String? _resolveNetworkImageLink(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null) {
