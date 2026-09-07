@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   thingsboard_ce_client:
     path: ../thingsboard-dart-client/ce
+  dio: ^5.7.0
   intl: ^0.19.0
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0

@@ -179,15 +179,16 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
   }
 
   String _errorMessage(BuildContext context, NoAuthState state) {
+    final host = state.host ?? '';
     final serverMessage = state.serverMessage;
 
     return switch (state.failure) {
       NoAuthFailure.connectionFailed => S
           .of(context)
-          .failedToConnectToHost(state.host ?? ''),
+          .failedToConnectToHost(host),
       NoAuthFailure.tokenExchangeFailed => S
           .of(context)
-          .failedToObtainLoginTokenFromHost(state.host ?? ''),
+          .failedToObtainLoginTokenFromHost(host),
       // The server answers a revoked pair with "Token has expired": hardcoded
       // English, and wrong about the cause.
       NoAuthFailure.sessionInvalid =>

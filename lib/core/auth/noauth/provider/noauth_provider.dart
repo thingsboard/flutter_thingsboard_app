@@ -43,6 +43,9 @@ enum NoAuthFailure {
   unknown,
 }
 
+/// A request to the target host that failed, already classified for the view.
+/// [status] and [cause] are diagnostics only and reach the logs through
+/// [toString]; the classification has already happened in `_asFailure`.
 final class SwitchEndpointFailure implements Exception {
   const SwitchEndpointFailure(
     this.failure, {
@@ -54,10 +57,11 @@ final class SwitchEndpointFailure implements Exception {
   final NoAuthFailure failure;
   final String? serverMessage;
 
-  /// Diagnostics only, reaching the logs through [toString]: the
-  /// classification has already happened in `_asFailure`. [cause] is what
-  /// separates a timeout from a refused connection or a bad certificate.
+  /// HTTP status of the answer, if there was one.
   final int? status;
+
+  /// What Dio reported: separates a timeout from a refused connection or a
+  /// bad certificate.
   final DioExceptionType? cause;
 
   @override
