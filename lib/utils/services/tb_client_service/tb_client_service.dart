@@ -57,12 +57,7 @@ class TbClientService implements ITbClientService {
 
   void onInitError(dynamic e) {
     _overlayService.showAlertDialog(
-      content:
-          (context) => DialogContent(
-            title: S.of(context).fatalError,
-            message: translatedFatalErrorMessage(context, e),
-            ok: S.of(context).cancel,
-          ),
+      content: (context) => fatalErrorDialogContent(context, e),
     );
   }
 
@@ -80,7 +75,7 @@ class TbClientService implements ITbClientService {
 
         return;
       }
-      _overlayService.showErrorNotification(e.translatedMessage);
+      _overlayService.showErrorNotification(e.getTranslatedMessage);
     });
   }
 

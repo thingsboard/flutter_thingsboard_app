@@ -119,19 +119,14 @@ class TbContext implements PopEntry {
 
   Future<void> onFatalError(dynamic e) async {
     await _overlayService.showAlertDialog(
-      content:
-          (context) => DialogContent(
-            title: S.of(context).fatalError,
-            message: translatedFatalErrorMessage(context, e),
-            ok: S.of(context).cancel,
-          ),
+      content: (context) => fatalErrorDialogContent(context, e),
     );
     logout();
   }
 
   void onError(ThingsboardError tbError) {
     log.error('onError', tbError, tbError.getStackTrace());
-    _overlayService.showErrorNotification(tbError.translatedMessage);
+    _overlayService.showErrorNotification(tbError.getTranslatedMessage);
   }
 
   void onLoadStarted() {
