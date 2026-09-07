@@ -35,13 +35,22 @@ enum NoAuthStep { fetchingSession, loggingIn, switchingHost }
 
 /// What went wrong. The view resolves it to localized copy and falls back to
 /// the server's message only for [unknown].
-enum NoAuthFailure { tokenExchangeFailed, sessionInvalid, unknown }
+enum NoAuthFailure {
+  /// No HTTP answer from the target host at all (timeout, refused, DNS).
+  connectionFailed,
+  tokenExchangeFailed,
+  sessionInvalid,
+  unknown,
+}
 
 final class SwitchEndpointFailure implements Exception {
   const SwitchEndpointFailure(this.failure, {this.serverMessage, this.status});
 
   final NoAuthFailure failure;
   final String? serverMessage;
+
+  /// HTTP status of the answer, if there was one. Diagnostics only: the
+  /// classification has already happened in `_asFailure`.
   final int? status;
 
   @override
@@ -137,8 +146,8 @@ class NoauthProvider extends _$NoauthProvider {
   /// or schemeless from an older build) is nothing to stay on, so the switch
   /// proceeds. `EndpointService.isCustomEndpoint` keeps comparing hosts only:
   /// Firebase is bound to the default host, not to a scheme or port.
-  bool _isSameOrigin(String host, String previousEndpoint) {
-    final target = Uri.parse(host).origin;
+  bool _isSameOrigin(String targetEndpoint, String previousEndpoint) {
+    final target = Uri.parse(targetEndpoint).origin;
     final previous = Uri.tryParse(previousEndpoint);
     if (previous == null || !_isHttpUri(previous) || previous.host.isEmpty) {
       return false;
@@ -162,8 +171,8 @@ class NoauthProvider extends _$NoauthProvider {
     try {
       response = await _hostClient(host).get('/api/noauth/qr/$secret');
     } on DioException catch (e) {
-      // The server replies with a ThingsboardError body (e.g. an expired
-      // one-time secret): surface its message instead of the raw Dio text.
+      // /api/noauth/** is permitAll on the server, so a 401 here can only be
+      // the secret being rejected as unknown or expired.
       throw _asFailure(e, NoAuthFailure.tokenExchangeFailed);
     }
 
@@ -194,15 +203,7 @@ class NoauthProvider extends _$NoauthProvider {
         options: Options(headers: {'X-Authorization': 'Bearer $token'}),
       );
     } on DioException catch (e) {
-      // Only a 401 rejects the pair itself (the server maps JWT_TOKEN_EXPIRED
-      // to 401). A timeout or a proxy error says nothing about the QR session
-      // and must not tell the user to scan again.
-      throw _asFailure(
-        e,
-        e.response?.statusCode == 401
-            ? NoAuthFailure.sessionInvalid
-            : NoAuthFailure.unknown,
-      );
+      throw _asFailure(e, NoAuthFailure.sessionInvalid);
     }
   }
 
@@ -353,12 +354,21 @@ class NoauthProvider extends _$NoauthProvider {
     }
   }
 
-  SwitchEndpointFailure _asFailure(DioException e, NoAuthFailure failure) {
-    final body = e.response?.data;
+  /// No response at all is a transport failure and says nothing about the QR
+  /// session. A 401 is the server rejecting the secret or the pair (it maps
+  /// JWT_TOKEN_EXPIRED to 401) and becomes [whenRejected]; any other answer is
+  /// left to the server's own message.
+  SwitchEndpointFailure _asFailure(DioException e, NoAuthFailure whenRejected) {
+    final response = e.response;
+    if (response == null) {
+      return const SwitchEndpointFailure(NoAuthFailure.connectionFailed);
+    }
+
+    final body = response.data;
     return SwitchEndpointFailure(
-      failure,
+      response.statusCode == 401 ? whenRejected : NoAuthFailure.unknown,
       serverMessage: body is Map ? body['message'] as String? : null,
-      status: e.response?.statusCode,
+      status: response.statusCode,
     );
   }
 

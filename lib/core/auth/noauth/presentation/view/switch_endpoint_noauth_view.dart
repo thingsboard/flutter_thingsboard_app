@@ -182,6 +182,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     final serverMessage = state.serverMessage;
 
     return switch (state.failure) {
+      NoAuthFailure.connectionFailed => S.of(context).failedToConnectToServer,
       NoAuthFailure.tokenExchangeFailed => S
           .of(context)
           .failedToObtainLoginTokenFromHost(state.host ?? ''),
