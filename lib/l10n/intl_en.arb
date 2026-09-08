@@ -470,5 +470,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "gettingDataFromHost": "Getting data from your host {host}",
+  "loggingYouIntoHost": "Logging you into the host {host}",
+  "switchingToNewHost": "Switching you to the new host {host}",
+  "failedToObtainLoginTokenFromHost": "Failed to obtain a login token from {host}. Please scan a new QR code.",
+  "failedToConnectToHost": "Failed to connect to {host}",
+  "qrCodeSessionIsNoLongerValid": "The QR code session is no longer valid. Please refresh the QR code and scan again."
 }

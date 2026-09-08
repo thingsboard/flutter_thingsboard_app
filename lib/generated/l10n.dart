@@ -3313,6 +3313,66 @@ class S {
       args: [count],
     );
   }
+
+  /// `Getting data from your host {host}`
+  String gettingDataFromHost(Object host) {
+    return Intl.message(
+      'Getting data from your host $host',
+      name: 'gettingDataFromHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `Logging you into the host {host}`
+  String loggingYouIntoHost(Object host) {
+    return Intl.message(
+      'Logging you into the host $host',
+      name: 'loggingYouIntoHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `Switching you to the new host {host}`
+  String switchingToNewHost(Object host) {
+    return Intl.message(
+      'Switching you to the new host $host',
+      name: 'switchingToNewHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `Failed to obtain a login token from {host}. Please scan a new QR code.`
+  String failedToObtainLoginTokenFromHost(Object host) {
+    return Intl.message(
+      'Failed to obtain a login token from $host. Please scan a new QR code.',
+      name: 'failedToObtainLoginTokenFromHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `Failed to connect to {host}`
+  String failedToConnectToHost(Object host) {
+    return Intl.message(
+      'Failed to connect to $host',
+      name: 'failedToConnectToHost',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `The QR code session is no longer valid. Please refresh the QR code and scan again.`
+  String get qrCodeSessionIsNoLongerValid {
+    return Intl.message(
+      'The QR code session is no longer valid. Please refresh the QR code and scan again.',
+      name: 'qrCodeSessionIsNoLongerValid',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

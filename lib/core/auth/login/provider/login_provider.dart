@@ -23,7 +23,10 @@ part 'login_provider.g.dart';
 
 @riverpod
 class Login extends _$Login {
-  final _tbClient = getIt<ITbClientService>().client;
+  // Read the live client on every access: a QR-code endpoint switch re-creates
+  // the client (ITbClientService.reInit), so a reference captured at build time
+  // would keep pointing at the old host and fail with 401 (PROD-8200).
+  ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
   final _deviceInfoService = getIt<IDeviceInfoService>();
   late final StreamSubscription<UserLoadedEvent> _listener;
   final _overlayService = getIt<IOverlayService>();
@@ -32,11 +35,22 @@ class Login extends _$Login {
     _listener = getIt<ICommunicationService>().on<UserLoadedEvent>().listen((
       _,
     ) async {
-      await handleUserLoaded();
+      await _safeHandleUserLoaded();
     });
     ref.onDispose(() => _listener.cancel());
-    Future(() => handleUserLoaded());
+    Future(_safeHandleUserLoaded);
     return const LoginState(isUserLoaded: false);
+  }
+
+  /// handleUserLoaded runs from fire-and-forget contexts (event bus, build):
+  /// a failure there (e.g. the session was invalidated while loading the
+  /// user) must not escape as an unhandled zone error (PROD-8200).
+  Future<void> _safeHandleUserLoaded() async {
+    try {
+      await handleUserLoaded();
+    } catch (e) {
+      log('handle user loaded failed: $e');
+    }
   }
 
   Future<void> logout() async {

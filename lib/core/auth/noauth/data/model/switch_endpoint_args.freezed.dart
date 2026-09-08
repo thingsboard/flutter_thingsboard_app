@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SwitchEndpointArgs {
 
- String get secret; String? get host; String? get ttl;@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri get uri;
+ String? get secret; String? get host;@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri get uri;
 /// Create a copy of SwitchEndpointArgs
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SwitchEndpointArgsCopyWith<SwitchEndpointArgs> get copyWith => _$SwitchEndpoint
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SwitchEndpointArgs&&(identical(other.secret, secret) || other.secret == secret)&&(identical(other.host, host) || other.host == host)&&(identical(other.ttl, ttl) || other.ttl == ttl)&&(identical(other.uri, uri) || other.uri == uri));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SwitchEndpointArgs&&(identical(other.secret, secret) || other.secret == secret)&&(identical(other.host, host) || other.host == host)&&(identical(other.uri, uri) || other.uri == uri));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,secret,host,ttl,uri);
+int get hashCode => Object.hash(runtimeType,secret,host,uri);
 
 @override
 String toString() {
-  return 'SwitchEndpointArgs(secret: $secret, host: $host, ttl: $ttl, uri: $uri)';
+  return 'SwitchEndpointArgs(secret: $secret, host: $host, uri: $uri)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SwitchEndpointArgsCopyWith<$Res>  {
   factory $SwitchEndpointArgsCopyWith(SwitchEndpointArgs value, $Res Function(SwitchEndpointArgs) _then) = _$SwitchEndpointArgsCopyWithImpl;
 @useResult
 $Res call({
- String secret, String? host, String? ttl,@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri uri
+ String? secret, String? host,@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri uri
 });
 
 
@@ -65,11 +65,10 @@ class _$SwitchEndpointArgsCopyWithImpl<$Res>
 
 /// Create a copy of SwitchEndpointArgs
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? secret = null,Object? host = freezed,Object? ttl = freezed,Object? uri = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? secret = freezed,Object? host = freezed,Object? uri = null,}) {
   return _then(_self.copyWith(
-secret: null == secret ? _self.secret : secret // ignore: cast_nullable_to_non_nullable
-as String,host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
-as String?,ttl: freezed == ttl ? _self.ttl : ttl // ignore: cast_nullable_to_non_nullable
+secret: freezed == secret ? _self.secret : secret // ignore: cast_nullable_to_non_nullable
+as String?,host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
 as String?,uri: null == uri ? _self.uri : uri // ignore: cast_nullable_to_non_nullable
 as Uri,
   ));
@@ -156,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String secret,  String? host,  String? ttl, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? secret,  String? host, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SwitchEndpointArgs() when $default != null:
-return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
+return $default(_that.secret,_that.host,_that.uri);case _:
   return orElse();
 
 }
@@ -177,10 +176,10 @@ return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String secret,  String? host,  String? ttl, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? secret,  String? host, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)  $default,) {final _that = this;
 switch (_that) {
 case _SwitchEndpointArgs():
-return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
+return $default(_that.secret,_that.host,_that.uri);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +196,10 @@ return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String secret,  String? host,  String? ttl, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? secret,  String? host, @JsonKey(fromJson: fromFluroData, toJson: uriToJson)  Uri uri)?  $default,) {final _that = this;
 switch (_that) {
 case _SwitchEndpointArgs() when $default != null:
-return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
+return $default(_that.secret,_that.host,_that.uri);case _:
   return null;
 
 }
@@ -212,12 +211,11 @@ return $default(_that.secret,_that.host,_that.ttl,_that.uri);case _:
 @JsonSerializable()
 
 class _SwitchEndpointArgs implements SwitchEndpointArgs {
-  const _SwitchEndpointArgs({required this.secret, this.host, this.ttl, @JsonKey(fromJson: fromFluroData, toJson: uriToJson) required this.uri});
+  const _SwitchEndpointArgs({this.secret, this.host, @JsonKey(fromJson: fromFluroData, toJson: uriToJson) required this.uri});
   factory _SwitchEndpointArgs.fromJson(Map<String, dynamic> json) => _$SwitchEndpointArgsFromJson(json);
 
-@override final  String secret;
+@override final  String? secret;
 @override final  String? host;
-@override final  String? ttl;
 @override@JsonKey(fromJson: fromFluroData, toJson: uriToJson) final  Uri uri;
 
 /// Create a copy of SwitchEndpointArgs
@@ -233,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SwitchEndpointArgs&&(identical(other.secret, secret) || other.secret == secret)&&(identical(other.host, host) || other.host == host)&&(identical(other.ttl, ttl) || other.ttl == ttl)&&(identical(other.uri, uri) || other.uri == uri));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SwitchEndpointArgs&&(identical(other.secret, secret) || other.secret == secret)&&(identical(other.host, host) || other.host == host)&&(identical(other.uri, uri) || other.uri == uri));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,secret,host,ttl,uri);
+int get hashCode => Object.hash(runtimeType,secret,host,uri);
 
 @override
 String toString() {
-  return 'SwitchEndpointArgs(secret: $secret, host: $host, ttl: $ttl, uri: $uri)';
+  return 'SwitchEndpointArgs(secret: $secret, host: $host, uri: $uri)';
 }
 
 
@@ -253,7 +251,7 @@ abstract mixin class _$SwitchEndpointArgsCopyWith<$Res> implements $SwitchEndpoi
   factory _$SwitchEndpointArgsCopyWith(_SwitchEndpointArgs value, $Res Function(_SwitchEndpointArgs) _then) = __$SwitchEndpointArgsCopyWithImpl;
 @override @useResult
 $Res call({
- String secret, String? host, String? ttl,@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri uri
+ String? secret, String? host,@JsonKey(fromJson: fromFluroData, toJson: uriToJson) Uri uri
 });
 
 
@@ -270,11 +268,10 @@ class __$SwitchEndpointArgsCopyWithImpl<$Res>
 
 /// Create a copy of SwitchEndpointArgs
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? secret = null,Object? host = freezed,Object? ttl = freezed,Object? uri = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? secret = freezed,Object? host = freezed,Object? uri = null,}) {
   return _then(_SwitchEndpointArgs(
-secret: null == secret ? _self.secret : secret // ignore: cast_nullable_to_non_nullable
-as String,host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
-as String?,ttl: freezed == ttl ? _self.ttl : ttl // ignore: cast_nullable_to_non_nullable
+secret: freezed == secret ? _self.secret : secret // ignore: cast_nullable_to_non_nullable
+as String?,host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
 as String?,uri: null == uri ? _self.uri : uri // ignore: cast_nullable_to_non_nullable
 as Uri,
   ));
