@@ -85,8 +85,8 @@ abstract class Utils {
         onError: onError,
       );
     } else {
-      final newImageUrl = _removeTbImagePrefix(imageUrl);
-      if (_isImageResourceUrl(newImageUrl)) {
+      final resolvedImageUrl = _removeTbImagePrefix(imageUrl);
+      if (_isImageResourceUrl(resolvedImageUrl)) {
         final jwtToken = tbClient.getJwtToken();
         if (jwtToken == null) {
           return _onErrorImage(
@@ -98,7 +98,7 @@ abstract class Utils {
             onError: onError,
           );
         }
-        final parts = newImageUrl.split('/');
+        final parts = resolvedImageUrl.split('/');
         final key = parts[parts.length - 1];
         parts[parts.length - 1] = Uri.encodeComponent(key);
         final encodedUrl = parts.join('/');
@@ -115,20 +115,10 @@ abstract class Utils {
           semanticLabel: semanticLabel,
           onError: onError,
         );
-      } else if (_isBase64DataImageUrl(imageUrl)) {
+      } else if (_isBase64DataImageUrl(resolvedImageUrl)) {
         return _imageFromBase64(
           context,
-          imageUrl,
-          color: color,
-          width: width,
-          height: height,
-          semanticLabel: semanticLabel,
-          onError: onError,
-        );
-      } else if (_isValidUrl(imageUrl)) {
-        return _networkImage(
-          context,
-          imageUrl,
+          resolvedImageUrl,
           color: color,
           width: width,
           height: height,
@@ -136,8 +126,20 @@ abstract class Utils {
           onError: onError,
         );
       } else {
-        return _onErrorImage(
+        final imageLink = _resolveNetworkImageLink(resolvedImageUrl);
+        if (imageLink == null) {
+          return _onErrorImage(
+            context,
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+            onError: onError,
+          );
+        }
+        return _networkImage(
           context,
+          imageLink,
           color: color,
           width: width,
           height: height,
@@ -287,15 +289,30 @@ abstract class Utils {
   }
 
   static String _removeTbImagePrefix(String url) {
-    return url.replaceFirst(_tbImagePrefix, '');
+    return url.startsWith(_tbImagePrefix)
+        ? url.substring(_tbImagePrefix.length)
+        : url;
   }
 
   static bool _isImageResourceUrl(String url) {
     return _imagesUrlRegexp.hasMatch(url);
   }
 
-  static bool _isValidUrl(String url) {
-    return Uri.tryParse(url) != null;
+  /// HTTP(S) links are fetched as they are. Root-relative links, such as an
+  /// image public link, are resolved against the active endpoint. Anything
+  /// else has no meaningful target and is rendered as a missing image.
+  static String? _resolveNetworkImageLink(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return null;
+    }
+    if (uri.scheme == 'http' || uri.scheme == 'https') {
+      return url;
+    }
+    if (!uri.hasScheme && url.startsWith('/')) {
+      return getIt<IEndpointService>().getCachedEndpoint() + url;
+    }
+    return null;
   }
 
   static double degreesToRadians(double degrees) {
