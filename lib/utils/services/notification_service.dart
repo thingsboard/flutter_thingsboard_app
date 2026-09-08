@@ -181,7 +181,7 @@ class NotificationService {
     try {
       // The flag keeps this a no-op on devices that never registered, so a
       // fresh install sitting on the login screen never calls into FCM:
-      // deleteToken() without a token can mint one just to delete it.
+      // deleteToken() is an unconditional platform round trip either way.
       if (!await _localDatabase.isPushRegistered()) {
         return;
       }
@@ -195,7 +195,10 @@ class NotificationService {
   /// Deleting the FCM token is what stops delivery; the rest drops the local
   /// push state. Failures are swallowed so a logout still completes offline:
   /// the registration flag is cleared last, so an interrupted teardown is
-  /// retried by [cleanUpStalePushRegistration] on the next launch.
+  /// retried by [cleanUpStalePushRegistration] on the next launch. On iOS
+  /// `deleteToken()` throws `apns-token-not-set` until the APNS token the
+  /// plugin requests at launch has arrived (e.g. an offline launch); that is
+  /// one such interruption.
   Future<void> _tearDownLocalPushState() async {
     try {
       await _foregroundMessageSubscription?.cancel();
