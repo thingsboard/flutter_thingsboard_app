@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 
 part 'two_factor_confirm_provider.g.dart';
 
@@ -44,7 +44,7 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
             verificationCode: code,
             // Handle errors (e.g. 429) in-widget below instead of the global
             // error overlay; the new client exposes this via Dio `extra`.
-            extra: ThingsboardAppConstants.ignoreErrors,
+            extra: silentRequestExtra(),
           );
       final token = res.data?.token;
       if (token == null) {
@@ -80,7 +80,7 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
           .getTwoFactorAuthControllerApi()
           .requestTwoFaVerificationCode(
             providerType: type,
-            extra: ThingsboardAppConstants.ignoreErrors,
+            extra: silentRequestExtra(),
           );
       _resendTimer?.cancel();
       _resendTimer = Timer(

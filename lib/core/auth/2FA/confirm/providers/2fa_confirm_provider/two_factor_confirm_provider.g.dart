@@ -6,7 +6,7 @@ part of 'two_factor_confirm_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twoFactorConfirmHash() => r'b8f5088c5f25fdc3b38b135fd9e81a852a57e257';
+String _$twoFactorConfirmHash() => r'ba46beee87738fe8781c307273852edcb3176de9';
 
 /// Copied from Dart SDK
 class _SystemHash {

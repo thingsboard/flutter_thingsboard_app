@@ -19,6 +19,35 @@ class TbClientService implements ITbClientService {
   ThingsboardClient get client => _client;
   final IOverlayService _overlayService = getIt();
 
+  // The client performs best-effort internal calls during init() (e.g. the
+  // server version check hits /api/admin/updates, which answers 403 for
+  // non-SYS_ADMIN users). Those must not surface as error toasts, and the
+  // generated client library can't be modified to ignore them (PROD-8200).
+  //
+  // The client delivers error callbacks via Future(() => cb(error)), so an
+  // error raised during init() reaches onClientError one event-loop turn AFTER
+  // init() returns: the suppression has to outlive the call. ThingsboardError
+  // carries no request path, so it can't be narrowed down to those calls - it
+  // stays a time window, but a counted one, so that overlapping inits (a QR
+  // endpoint switch started during an init) can't lift each other's window.
+  static const _initErrorSuppression = Duration(seconds: 2);
+
+  int _pendingInits = 0;
+
+  // An unreachable server is never what the init-time 401/403 answers look
+  // like: keep it visible even inside the suppression window.
+  bool _shouldSuppress(ThingsboardError e) =>
+      _pendingInits > 0 && !Utils.isConnectionError(e);
+
+  Future<void> _initClient() async {
+    _pendingInits++;
+    try {
+      await _client.init();
+    } finally {
+      Future.delayed(_initErrorSuppression, () => _pendingInits--);
+    }
+  }
+
   ThingsboardClient _createClient(
     String endpoint, {
     required ErrorCallback onError,
@@ -42,7 +71,7 @@ class TbClientService implements ITbClientService {
     _client = _createClient(endpoint, onError: onClientError);
 
     try {
-      await _client.init();
+      await _initClient();
     } catch (e) {
       log('Failed to init tbClient: $e');
       onInitError(e);
@@ -76,6 +105,9 @@ class TbClientService implements ITbClientService {
 
   void onClientError(ThingsboardError e) {
     log('client on error: $e');
+    if (_shouldSuppress(e)) {
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Utils.isConnectionError(e)) {
         _overlayService.showAlertDialog(
@@ -108,7 +140,7 @@ class TbClientService implements ITbClientService {
     required VoidCallback onDone,
     required ErrorCallback onAuthError,
   }) async {
-    log('TbClient:reinit()');
+    log('TbClient:reinit() endpoint: $endpoint');
     _client = _createClient(
       endpoint,
       onError: (e) {
@@ -116,7 +148,7 @@ class TbClientService implements ITbClientService {
         onClientError(e);
       },
     );
-    await _client.init();
+    await _initClient();
     onDone();
   }
 }

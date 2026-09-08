@@ -14,10 +14,6 @@ abstract final class ThingsboardAppConstants {
     'thingsboardAndroidAppSecret',
   );
   static const ignoreRegionSelection = thingsBoardApiEndpoint != '';
-
-  /// Dio `extra` flag telling the TB client to skip the global error overlay so
-  /// the caller can handle the failure (e.g. a 429) inline.
-  static const ignoreErrors = {'ignoreErrors': true};
   static final navigationType =
   TbNavigationType.fromString(
   const String.fromEnvironment('navigationType'),

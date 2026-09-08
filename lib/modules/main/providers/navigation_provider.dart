@@ -53,6 +53,16 @@ class Navigation extends _$Navigation {
     return _getPages(_pagesLayout);
   }
 
+  /// Primes the page layout from the current login state and returns the path
+  /// of the first bottom bar page, or null when there is nothing to open yet.
+  /// [build] does not prime the layout, so callers that navigate right after a
+  /// login must go through here instead of reading [state] directly.
+  String? resolveHomePath() {
+    onLoggedIn();
+
+    return state.bottomBarPages.firstOrNull?.path;
+  }
+
   void onLoggedIn() {
     final login = ref.read(loginProvider);
     if (login.mobileLoginInfo != null && login.userScope != null) {

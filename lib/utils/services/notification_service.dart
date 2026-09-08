@@ -14,6 +14,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 class NotificationService {
@@ -29,7 +30,11 @@ class NotificationService {
   final FirebaseMessaging? _injectedMessaging;
   late NotificationDetails _notificationDetails;
   final TbLogger _log = getIt();
-  final ThingsboardClient _tbClient = getIt<ITbClientService>().client;
+  // Read the live client on every access: a QR-code endpoint switch re-creates
+  // the client (ITbClientService.reInit), so a reference captured at
+  // construction would keep pointing at the old host (PROD-8200).
+  ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
+
   final ILocalDatabaseService _localDatabase = getIt();
   final INotificationsLocalService _localService;
   StreamSubscription? _foregroundMessageSubscription;
@@ -88,6 +93,7 @@ class NotificationService {
           try {
             await _tbClient.getUserControllerApi().removeMobileSession(
               xMobileToken: previousToken,
+              extra: silentRequestExtra(),
             );
           } catch (e) {
             _log.warn(
@@ -141,6 +147,7 @@ class NotificationService {
       try {
         await _tbClient.getUserControllerApi().removeMobileSession(
           xMobileToken: _fcmToken!,
+          extra: silentRequestExtra(),
         );
       } catch (e) {
         // Best effort: the session may already be invalid (e.g. expired JWT).
@@ -268,6 +275,7 @@ class NotificationService {
       try {
         await _tbClient.getUserControllerApi().removeMobileSession(
           xMobileToken: token,
+          extra: silentRequestExtra(),
         );
       } catch (e) {
         _log.warn(
@@ -284,6 +292,16 @@ class NotificationService {
     final fcmToken = await getToken();
     _log.debug('FCM token: $fcmToken');
 
+    try {
+      await _syncMobileSession(fcmToken);
+    } catch (e) {
+      // The server may reject the session for an unknown mobile package:
+      // push notifications simply stay off, nothing else should break.
+      _log.error('NotificationService: failed to sync mobile session $e');
+    }
+  }
+
+  Future<void> _syncMobileSession(String? fcmToken) async {
     if (fcmToken == null) {
       return;
     }
@@ -291,6 +309,7 @@ class NotificationService {
     final mobileInfo =
         (await _tbClient.getUserControllerApi().getMobileSession(
           xMobileToken: fcmToken,
+          extra: silentRequestExtra(),
         )).data;
     if (mobileInfo == null) {
       await _saveToken(fcmToken);
@@ -317,6 +336,7 @@ class NotificationService {
       mobileSessionInfo: MobileSessionInfo(
         (b) => b..fcmTokenTimestamp = DateTime.now().millisecondsSinceEpoch,
       ),
+      extra: silentRequestExtra(),
     );
     await _localDatabase.setPushRegistered();
   }
@@ -422,7 +442,10 @@ class NotificationService {
     try {
       final resp = await _tbClient
           .getNotificationControllerApi()
-          .getUnreadNotificationsCount(deliveryMethod: 'MOBILE_APP');
+          .getUnreadNotificationsCount(
+            deliveryMethod: 'MOBILE_APP',
+            extra: silentRequestExtra(),
+          );
       return resp.data ?? 0;
     } catch (_) {
       return 0;

@@ -36,6 +36,9 @@ class QrCodeScannerPage extends HookWidget {
     final isBackCameraActive = useState(true);
 
     final controller = useMemoized(() => MobileScannerController());
+    // The scanner keeps detecting the same code on every frame: pop with the
+    // first result only, or GoRouter throws "There is nothing to pop".
+    final detectionHandled = useRef(false);
 
     // Check camera permission initially
     useEffect(() {
@@ -91,13 +94,13 @@ class QrCodeScannerPage extends HookWidget {
             errorBuilder: (p0, p1) => const ScannerErrorWidget(),
             controller: controller,
             onDetect: (barcodes) {
-              if (barcodes.barcodes.isNotEmpty) {
-                if (context.mounted) {
-             context.pop(
-                    barcodes.barcodes.first,
-                   
-                  );
-                }
+              if (barcodes.barcodes.isNotEmpty &&
+                  !detectionHandled.value &&
+                  context.mounted &&
+                  context.canPop()) {
+                detectionHandled.value = true;
+                unawaited(controller.stop());
+                context.pop(barcodes.barcodes.first);
               }
             },
           ),

@@ -82,13 +82,17 @@ void main() {
   }
 
   void stubMobileSession(MobileSessionInfo? session) => when(
-    () => userApi.getMobileSession(xMobileToken: any(named: 'xMobileToken')),
+    () => userApi.getMobileSession(
+      xMobileToken: any(named: 'xMobileToken'),
+      extra: any(named: 'extra'),
+    ),
   ).thenAnswer((_) async => response<MobileSessionInfo>(session));
 
   void verifyMobileSessionSaved(String token) => verify(
     () => userApi.saveMobileSession(
       xMobileToken: token,
       mobileSessionInfo: any(named: 'mobileSessionInfo'),
+      extra: any(named: 'extra'),
     ),
   ).called(1);
 
@@ -96,11 +100,15 @@ void main() {
     () => userApi.saveMobileSession(
       xMobileToken: any(named: 'xMobileToken'),
       mobileSessionInfo: any(named: 'mobileSessionInfo'),
+      extra: any(named: 'extra'),
     ),
   );
 
   void verifyNoSessionRemoval() => verifyNever(
-    () => userApi.removeMobileSession(xMobileToken: any(named: 'xMobileToken')),
+    () => userApi.removeMobileSession(
+      xMobileToken: any(named: 'xMobileToken'),
+      extra: any(named: 'extra'),
+    ),
   );
 
   void stubPushRegistered() => when(
@@ -126,6 +134,7 @@ void main() {
     when(
       () => notificationApi.getUnreadNotificationsCount(
         deliveryMethod: any(named: 'deliveryMethod'),
+        extra: any(named: 'extra'),
       ),
     ).thenAnswer((_) async => response<int>(0));
     when(() => firebaseService.apps).thenReturn(['[DEFAULT]']);
@@ -166,11 +175,14 @@ void main() {
       () => userApi.saveMobileSession(
         xMobileToken: any(named: 'xMobileToken'),
         mobileSessionInfo: any(named: 'mobileSessionInfo'),
+        extra: any(named: 'extra'),
       ),
     ).thenAnswer((_) async => response<void>());
     when(
-      () =>
-          userApi.removeMobileSession(xMobileToken: any(named: 'xMobileToken')),
+      () => userApi.removeMobileSession(
+        xMobileToken: any(named: 'xMobileToken'),
+        extra: any(named: 'extra'),
+      ),
     ).thenAnswer((_) async => response<void>());
 
     registerTestDependencies(
@@ -228,11 +240,15 @@ void main() {
       await buildService().init();
 
       verifyInOrder([
-        () => userApi.removeMobileSession(xMobileToken: fcmToken),
+        () => userApi.removeMobileSession(
+          xMobileToken: fcmToken,
+          extra: any(named: 'extra'),
+        ),
         () => messaging.deleteToken(),
         () => userApi.saveMobileSession(
           xMobileToken: refreshedToken,
           mobileSessionInfo: any(named: 'mobileSessionInfo'),
+          extra: any(named: 'extra'),
         ),
       ]);
       verify(() => localDatabase.setPushRegistered()).called(1);
@@ -260,8 +276,10 @@ void main() {
       await buildService().init();
 
       verifyNever(
-        () =>
-            userApi.getMobileSession(xMobileToken: any(named: 'xMobileToken')),
+        () => userApi.getMobileSession(
+          xMobileToken: any(named: 'xMobileToken'),
+          extra: any(named: 'extra'),
+        ),
       );
       verifyNever(() => localDatabase.setPushRegistered());
     });
@@ -309,10 +327,14 @@ void main() {
       await pumpEventQueue();
 
       verifyInOrder([
-        () => userApi.removeMobileSession(xMobileToken: fcmToken),
+        () => userApi.removeMobileSession(
+          xMobileToken: fcmToken,
+          extra: any(named: 'extra'),
+        ),
         () => userApi.saveMobileSession(
           xMobileToken: refreshedToken,
           mobileSessionInfo: any(named: 'mobileSessionInfo'),
+          extra: any(named: 'extra'),
         ),
       ]);
     });
@@ -335,6 +357,7 @@ void main() {
       when(
         () => userApi.removeMobileSession(
           xMobileToken: any(named: 'xMobileToken'),
+          extra: any(named: 'extra'),
         ),
       ).thenThrow(Exception('401'));
       await buildService().init();
@@ -350,6 +373,7 @@ void main() {
         () => userApi.saveMobileSession(
           xMobileToken: refreshedToken,
           mobileSessionInfo: any(named: 'mobileSessionInfo'),
+          extra: any(named: 'extra'),
         ),
       ).thenThrow(Exception('500'));
       await buildService().init();
@@ -360,7 +384,10 @@ void main() {
       await pumpEventQueue();
 
       verify(
-        () => userApi.removeMobileSession(xMobileToken: refreshedToken),
+        () => userApi.removeMobileSession(
+          xMobileToken: refreshedToken,
+          extra: any(named: 'extra'),
+        ),
       ).called(1);
       verifyMobileSessionSaved('second-refreshed-token');
     });
@@ -474,7 +501,10 @@ void main() {
       await service.logout();
 
       verify(
-        () => userApi.removeMobileSession(xMobileToken: fcmToken),
+        () => userApi.removeMobileSession(
+          xMobileToken: fcmToken,
+          extra: any(named: 'extra'),
+        ),
       ).called(1);
       verify(() => messaging.deleteToken()).called(1);
       verify(() => localDatabase.clearPushRegistered()).called(1);
@@ -485,6 +515,7 @@ void main() {
       when(
         () => userApi.removeMobileSession(
           xMobileToken: any(named: 'xMobileToken'),
+          extra: any(named: 'extra'),
         ),
       ).thenThrow(Exception('401'));
       final service = await buildServiceWithToken();
@@ -514,6 +545,7 @@ void main() {
       verify(
         () => userApi.removeMobileSession(
           xMobileToken: any(named: 'xMobileToken'),
+          extra: any(named: 'extra'),
         ),
       ).called(1);
     });
