@@ -14,7 +14,6 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -292,9 +291,7 @@ class TbContext implements PopEntry {
     log.debug('TbContext::logout($requestConfig, $notifyUser)');
     _handleRootState = true;
 
-    if (getIt<IFirebaseService>().apps.isNotEmpty) {
-      await getIt<NotificationService>().init();
-    }
+    await getIt<NotificationService>().logout();
 
     await tbClient.logout(requestConfig: requestConfig, notifyUser: notifyUser);
   }

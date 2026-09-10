@@ -24,7 +24,7 @@ Future<void> main() async {
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Hive.initFlutter();
-         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   Hive.registerAdapter(RegionAdapter());
   await setUpRootDependencies();
   if (UniversalPlatform.isAndroid) {
@@ -34,7 +34,7 @@ Future<void> main() async {
   }
 
   try {
-    getIt<IFirebaseService>().initializeApp(
+    await getIt<IFirebaseService>().initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e) {

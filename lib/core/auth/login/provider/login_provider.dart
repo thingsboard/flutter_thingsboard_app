@@ -13,7 +13,6 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -54,8 +53,7 @@ class Login extends _$Login {
   }
 
   Future<void> logout() async {
-    if (getIt<IFirebaseService>().apps.isNotEmpty &&
-        state.isFullyAuthenticated()) {
+    if (state.isFullyAuthenticated()) {
       await getIt<NotificationService>().logout();
     }
     await _tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
@@ -66,6 +64,12 @@ class Login extends _$Login {
 
     if (!_tbClient.isAuthenticated()) {
       state = const LoginState(isUserLoaded: false);
+      // Fire-and-forget: the cleanup swallows its own errors, and the
+      // registration flag is deleted last, so an interrupted attempt is
+      // retried on the next launch without delaying the login screen.
+      // NotificationService.init() waits for it, so a fast auto-login
+      // (QR code, OAuth2) cannot register a token while it is being deleted.
+      unawaited(getIt<NotificationService>().cleanUpStalePushRegistration());
       return;
     }
     if (_tbClient.isPreVerificationToken() ||
@@ -127,9 +131,7 @@ class Login extends _$Login {
 
   Future<void> _onFullyLoggedIn() async {
     await loadUser();
-    if (getIt<IFirebaseService>().apps.isNotEmpty) {
-      await getIt<NotificationService>().init();
-    }
+    await getIt<NotificationService>().init();
   }
 
   Future<void> twoFaConfirmed(LoginResponse response) async {
