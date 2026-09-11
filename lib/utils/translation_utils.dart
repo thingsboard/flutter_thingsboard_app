@@ -166,5 +166,29 @@ extension ActionTypeTranslationUtils on ActionType {
   }
 }
 
+extension ThingsboardErrorTranslationUtils on ThingsboardError {
+  /// App-wide fallback text for a message-less [ThingsboardError]; the wording
+  /// mirrors the client's own "Unknown error" literal in `parseMessage`.
+  String getTranslatedMessage(BuildContext context) {
+    final message = this.message;
+    return message == null || message.isEmpty
+        ? S.of(context).unknownError
+        : message;
+  }
+}
+
+DialogContent fatalErrorDialogContent(BuildContext context, Object? error) {
+  final message =
+      error is ThingsboardError
+          ? error.getTranslatedMessage(context)
+          : S.of(context).unknownError;
+
+  return DialogContent(
+    title: S.of(context).fatalError,
+    message: '${S.of(context).fatalApplicationErrorOccurred}\n$message',
+    ok: S.of(context).cancel,
+  );
+}
+
 typedef TranslationBuilder = String Function(BuildContext context);
 typedef TranslatedDialogBuilder = DialogContent Function(BuildContext context);
