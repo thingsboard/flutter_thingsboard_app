@@ -56,6 +56,12 @@ class TbClientService implements ITbClientService {
   }
 
   void onInitError(dynamic e) {
+    // The interceptor already routed a connection failure through
+    // onClientError, which shows the connection dialog; a fatal dialog for the
+    // same error would only stack on top of it.
+    if (Utils.isConnectionError(e)) {
+      return;
+    }
     // init() runs before runApp(), so the navigator context that the dialog
     // needs only exists after the first frame.
     WidgetsBinding.instance.addPostFrameCallback((_) {
