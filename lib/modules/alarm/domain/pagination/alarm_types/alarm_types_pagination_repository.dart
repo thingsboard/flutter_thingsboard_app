@@ -3,16 +3,16 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 
 final class AlarmTypesPaginationRepository
-    extends PaginationRepository<PageLink, AlarmType> {
+    extends PaginationRepository<PageLink, EntitySubtype> {
   AlarmTypesPaginationRepository({
     required AlarmTypesQueryCtrl alarmTypesQueryCtrl,
     required this.onFetchPageData,
   }) : super(pageKeyController: alarmTypesQueryCtrl);
 
-  final Future<PageData<AlarmType>> Function(PageLink) onFetchPageData;
+  final Future<PageData<EntitySubtype>> Function(PageLink) onFetchPageData;
 
   @override
-  Future<PageData<AlarmType>> fetchPageData(PageLink pageKey) {
+  Future<PageData<EntitySubtype>> fetchPageData(PageLink pageKey) {
     return onFetchPageData(pageKey);
   }
 }

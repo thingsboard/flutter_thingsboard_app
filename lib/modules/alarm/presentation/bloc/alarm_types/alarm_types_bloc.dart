@@ -14,7 +14,7 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
     on(_onEvent);
   }
 
-  final PaginationRepository<PageLink, AlarmType> paginationRepository;
+  final PaginationRepository<PageLink, EntitySubtype> paginationRepository;
   final FetchAlarmTypesUseCase fetchAlarmTypesUseCase;
   final IAlarmFiltersService filtersService;
 

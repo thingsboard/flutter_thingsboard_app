@@ -10,14 +10,14 @@ class AssigneeEntity extends Equatable {
   });
 
   factory AssigneeEntity.fromUserInfo(
-    UserInfo info, {
+    UserEmailInfo info, {
     required UserDetailsUseCase detailsUseCase,
   }) {
     final details = detailsUseCase(
       UserDetailsParams(
         firstName: info.firstName,
         lastName: info.lastName,
-        email: info.email,
+        email: info.email ?? '',
       ),
     );
 
@@ -28,7 +28,7 @@ class AssigneeEntity extends Equatable {
     );
   }
 
-  final UserInfo userInfo;
+  final UserEmailInfo userInfo;
   final String shortName;
   final String displayName;
 

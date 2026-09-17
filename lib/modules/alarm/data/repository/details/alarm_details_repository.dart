@@ -1,3 +1,4 @@
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/details/i_alarm_details_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/domain/repository/details/i_alarm_details_repository.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -47,7 +48,7 @@ class AlarmDetailsRepository implements IAlarmDetailsRepository {
   }
 
   @override
-  Future<PageData<UserInfo>> fetchAssignee(UsersAssignQuery query) {
+  Future<PageData<UserEmailInfo>> fetchAssignee(UsersAssignQuery query) {
     return datasource.fetchAssignee(query);
   }
 

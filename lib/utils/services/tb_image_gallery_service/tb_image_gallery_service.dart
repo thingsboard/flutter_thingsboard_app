@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -16,11 +17,15 @@ class TbImageGalleryService implements ITbImageGalleryService {
   }) async {
     try {
       final tbClient = getIt<ITbClientService>().client;
-      await tbClient.getImageService().uploadImageBytes(
-            imageBytes,
-            title: title,
-            mimeType: mimeType,
-          );
+      final file = MultipartFile.fromBytes(
+        imageBytes,
+        filename: title,
+        contentType: DioMediaType.parse(mimeType),
+      );
+      await tbClient.getImageControllerApi().uploadImage(
+        file: file,
+        title: title,
+      );
 
       getIt<IOverlayService>().showSuccessNotification(
         (context) => S.of(context).imageSavedToGallery,

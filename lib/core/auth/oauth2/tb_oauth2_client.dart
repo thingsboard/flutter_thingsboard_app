@@ -9,8 +9,6 @@ import 'package:thingsboard_app/core/auth/oauth2/tb_o_auth2_authenticate_result.
 import 'package:thingsboard_app/core/auth/web/tb_web_auth.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart'
-    show PlatformTypeToString;
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
@@ -46,7 +44,7 @@ class TbOAuth2Client implements IOAuth2Client {
     final params = Map<String, String>.from(url.queryParameters);
     params['pkg'] = pkgName;
     params['appToken'] = appToken;
-    params['platform'] = _deviceInfoService.getPlatformType().toShortString();
+    params['platform'] = _deviceInfoService.getPlatformType().name;
     url = url.replace(queryParameters: params);
 
     _logger.debug('TbOAuth2Client::authenticate() request url -> $url');

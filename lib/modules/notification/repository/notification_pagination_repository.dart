@@ -5,7 +5,7 @@ import 'package:thingsboard_app/modules/notification/controllers/notification_qu
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 class NotificationPaginationRepository {
-  NotificationPaginationRepository( {
+  NotificationPaginationRepository({
     required this.notificationQueryPageCtrl,
     required this.tbClient,
   });
@@ -37,11 +37,23 @@ class NotificationPaginationRepository {
     bool refresh = false,
   }) async {
     try {
-      final pageData = await tbClient.getNotificationService().getNotifications(
-        pageKey,
+      // Fetch raw JSON via the client's Dio rather than the typed
+      // getNotifications endpoint: the generated NotificationInfo drops the
+      // alarm fields (severity/status/alarmId) during deserialization, which
+      // the notification UI (badge, swipe-to-ack/clear, deep-link) relies on.
+      // PushNotification.fromJson parses the full server payload directly.
+      final response = await tbClient.dio.get<Map<String, dynamic>>(
+        '/api/notifications',
+        queryParameters: pageKey.toQueryParameters(),
       );
 
-      final isLastPage = !pageData.hasNext;
+      final page = PageData.fromJson(
+        response.data!,
+        (json) => PushNotification.fromJson(json as Map<String, dynamic>),
+      );
+      final items = page.data;
+
+      final isLastPage = !page.hasNext;
       if (refresh) {
         final state = pagingController.value;
         if (state.itemList != null) {
@@ -49,10 +61,10 @@ class NotificationPaginationRepository {
         }
       }
       if (isLastPage) {
-        pagingController.appendLastPage(pageData.data);
+        pagingController.appendLastPage(items);
       } else {
         final nextPageKey = notificationQueryPageCtrl.nextPageKey(pageKey);
-        pagingController.appendPage(pageData.data, nextPageKey);
+        pagingController.appendPage(items, nextPageKey);
       }
     } catch (error) {
       pagingController.error = error;

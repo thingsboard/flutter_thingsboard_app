@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:thingsboard_app/config/routes/use_app_links.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/themes/dark_theme.dart';
 import 'package:thingsboard_app/config/themes/tb_ce_theme.dart';
@@ -17,8 +18,10 @@ class ThingsboardApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
 
+    useAppLinks();
+
     return ToastificationWrapper(
-   child :  ColoredBox(
+      child: ColoredBox(
         color: tbCeTheme.scaffoldBackgroundColor,
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
@@ -38,7 +41,7 @@ class ThingsboardApp extends HookConsumerWidget {
           darkTheme: tbDarkTheme,
           routerConfig: router,
         ),
-   )
+      ),
     );
   }
 }

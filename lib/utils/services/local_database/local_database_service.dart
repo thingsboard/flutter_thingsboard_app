@@ -45,4 +45,20 @@ class LocalDatabaseService implements ILocalDatabaseService {
   Future<void> deleteInitialAppLink() {
     return storage.deleteItem(DatabaseKeys.initialAppLink);
   }
+
+  @override
+  Future<bool> isPushRegistered() async {
+    return await storage.getItem(DatabaseKeys.pushNotificationsRegistered) ==
+        true;
+  }
+
+  @override
+  Future<void> setPushRegistered() {
+    return storage.setItem(DatabaseKeys.pushNotificationsRegistered, true);
+  }
+
+  @override
+  Future<void> clearPushRegistered() {
+    return storage.deleteItem(DatabaseKeys.pushNotificationsRegistered);
+  }
 }

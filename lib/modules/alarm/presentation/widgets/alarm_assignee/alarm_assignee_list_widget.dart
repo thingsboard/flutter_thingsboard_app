@@ -1,3 +1,4 @@
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -131,8 +132,8 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     Widget? userInfoWidget;
 
                     if (state is AlarmAssigneeSelectedState) {
-                      final selectedId = state.assignee.userInfo.id.id;
-                      if (selectedId == item.userInfo.id.id) {
+                      final selectedId = state.assignee.userInfo.id?.id;
+                      if (selectedId == item.userInfo.id?.id) {
                         userInfoWidget = const SizedBox.shrink();
                       }
                     }
@@ -179,7 +180,7 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                                     ).toColor(),
                               ),
                               name: item.displayName,
-                              email: item.userInfo.email,
+                              email: item.userInfo.email ?? '',
                               showEmail: !item.displayName.isValidEmail(),
                               searchText: textEditingController.text,
                               onUserTap: (id) {
@@ -188,7 +189,7 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                                   AlarmAssigneeSelectedEvent(id),
                                 );
                               },
-                              id: item.userInfo.id.id!,
+                              id: item.userInfo.id?.id ?? '',
                             ),
                       ],
                     );

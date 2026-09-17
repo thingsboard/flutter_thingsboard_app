@@ -261,9 +261,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "applyChanges": MessageLookupByLibrary.simpleMessage("Áp dụng thay đổi"),
     "areYouSure": MessageLookupByLibrary.simpleMessage("Bạn có chắc chắn?"),
     "areYouSureYouWantToDeactivate": m3,
-    "areYouSureYouWantToExit": MessageLookupByLibrary.simpleMessage(
-      "Bạn có chắc chắn muốn thoát?",
-    ),
     "asset": MessageLookupByLibrary.simpleMessage("Tài sản"),
     "assetName": MessageLookupByLibrary.simpleMessage("Tên tài sản"),
     "assetProfile": MessageLookupByLibrary.simpleMessage("Hồ sơ tài sản"),
@@ -319,9 +316,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmNotRobotMessage": MessageLookupByLibrary.simpleMessage(
       "Bạn phải xác nhận rằng bạn không phải là rô bốt",
-    ),
-    "confirmToCloseTheApp": MessageLookupByLibrary.simpleMessage(
-      "Xác nhận để đóng ứng dụng",
     ),
     "confirmation": MessageLookupByLibrary.simpleMessage("Xác nhận"),
     "confirmingWifiConnection": MessageLookupByLibrary.simpleMessage(

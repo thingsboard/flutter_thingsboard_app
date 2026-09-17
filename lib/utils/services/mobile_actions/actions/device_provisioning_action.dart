@@ -7,6 +7,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/esp_provisioning_routes.dart';
+import 'package:thingsboard_app/core/auth/user_authority_bridge.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
@@ -29,7 +30,7 @@ class DeviceProvisioningAction extends MobileAction {
     final TbContext tbContext = getIt();
 
     try {
-      if (tbContext.userDetails?.authority != Authority.CUSTOMER_USER) {
+      if (tbContext.userDetails?.appAuthority != Authority.CUSTOMER_USER) {
         return WidgetMobileActionResult.errorResult(
           "Provisioning is only abaliable for customer roles.",
         );
@@ -60,10 +61,9 @@ class DeviceProvisioningAction extends MobileAction {
             case 'softap':
               provisioningResult = await getIt<ThingsboardAppRouter>()
                   .navigateTo(
-                     EspProvisioningRoutes.espSoftApProvisioning,
+                    EspProvisioningRoutes.espSoftApProvisioning,
                     routeSettings: RouteSettings(arguments: arguments),
                   );
-              
           }
 
           if (provisioningResult == true) {

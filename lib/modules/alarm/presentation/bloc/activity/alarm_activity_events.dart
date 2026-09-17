@@ -46,7 +46,7 @@ final class AlarmEditCommentEvent extends AlarmActivityEvent {
 
   final AlarmId alarmId;
   final String commentId;
-  final AlarmComment comment;
+  final AlarmCommentInfo comment;
 
   @override
   List<Object?> get props => [alarmId, commentId, comment];

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/di/dashboards_di.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_back_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -43,20 +44,7 @@ class _SingleDashboardViewState extends State<SingleDashboardView>
         leading: context.canPop()
           ? IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () async {
-                if (_dashboardController?.rightLayoutOpened.value == true) {
-                  await _dashboardController?.toggleRightLayout();
-                  return;
-                }
-                final controller = _dashboardController?.controller;
-                if (await controller?.canGoBack() == true) {
-                  await controller?.goBack();
-                } else {
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
-                  }
-                }
-              },
+              onPressed: _handleBack,
             )
           : null,
         elevation: 1,
@@ -87,39 +75,51 @@ class _SingleDashboardViewState extends State<SingleDashboardView>
         ],
         canGoBack: canGoBack,
       ),
-      body: SafeArea(
-        child: DashboardWidget(
-          titleCallback: (title) {
-            dashboardTitleValue.value = widget.title ?? title;
-          },
-          controllerCallback: (controller, _) {
-            _dashboardController = controller;
-            controller.hasRightLayout.addListener(() {
-              hasRightLayout.value = controller.hasRightLayout.value;
-            });
-            controller.rightLayoutOpened.addListener(() {
-              if (controller.rightLayoutOpened.value) {
-                rightLayoutMenuController.forward();
-              } else {
-                rightLayoutMenuController.reverse();
-              }
-            });
-
-            controller.canGoBack.addListener(() {
-              setState(() {
-                canGoBack = controller.canGoBack.value;
+      body: DashboardBackHandler(
+        onBack: _handleBack,
+        child: SafeArea(
+          child: DashboardWidget(
+            titleCallback: (title) {
+              dashboardTitleValue.value = widget.title ?? title;
+            },
+            controllerCallback: (controller, _) {
+              _dashboardController = controller;
+              controller.hasRightLayout.addListener(() {
+                hasRightLayout.value = controller.hasRightLayout.value;
               });
-            });
+              controller.rightLayoutOpened.addListener(() {
+                if (controller.rightLayoutOpened.value) {
+                  rightLayoutMenuController.forward();
+                } else {
+                  rightLayoutMenuController.reverse();
+                }
+              });
 
-            controller.openDashboard(
-              widget.id,
-              state: widget.state,
-              hideToolbar: widget.hideToolbar,
-            );
-          },
+              controller.canGoBack.addListener(() {
+                setState(() {
+                  canGoBack = controller.canGoBack.value;
+                });
+              });
+
+              controller.openDashboard(
+                widget.id,
+                state: widget.state,
+                hideToolbar: widget.hideToolbar,
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _handleBack() async {
+    if (await DashboardBackHandler.tryNavigateBack(_dashboardController)) {
+      return;
+    }
+    if (mounted && context.canPop()) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override

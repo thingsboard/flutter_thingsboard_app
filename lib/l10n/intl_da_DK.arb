@@ -430,8 +430,6 @@
   "phoneIsRequired": "Telefon er påkrævet",
   "phoneIsInvalid": "Telefonnummer er ugyldigt",
   "addVerificationMethod": "Tilføj verifikationsmetode",
-  "areYouSureYouWantToExit": "Er du sikker på, at du vil afslutte?",
-  "confirmToCloseTheApp": "Bekræft for at lukke appen",
   "loginNotification": "Log ind på din konto",
   "nSelected": "{count} valgt",
   "@nSelected": {

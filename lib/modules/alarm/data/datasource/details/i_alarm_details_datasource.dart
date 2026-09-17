@@ -1,3 +1,4 @@
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract interface class IAlarmDetailsDatasource {
@@ -22,7 +23,7 @@ abstract interface class IAlarmDetailsDatasource {
 
   Future<void> deleteComment(AlarmId id, {required String commentId});
 
-  Future<PageData<UserInfo>> fetchAssignee(UsersAssignQuery query);
+  Future<PageData<UserEmailInfo>> fetchAssignee(UsersAssignQuery query);
 
   Future<AlarmInfo> assignAlarm(String alarmId, String assigneeId);
 

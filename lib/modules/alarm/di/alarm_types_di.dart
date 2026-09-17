@@ -31,7 +31,7 @@ class AlarmTypesDi {
           () => FetchAlarmTypesUseCase(repository: locator()),
         );
 
-        locator.registerFactory<PaginationRepository<PageLink, AlarmType>>(
+        locator.registerFactory<PaginationRepository<PageLink, EntitySubtype>>(
           () => AlarmTypesPaginationRepository(
             alarmTypesQueryCtrl: locator(),
             onFetchPageData: locator<FetchAlarmTypesUseCase>(),
@@ -50,7 +50,7 @@ class AlarmTypesDi {
   }
 
   static void dispose(String scopeName) {
-    getIt<PaginationRepository<PageLink, AlarmType>>().dispose();
+    getIt<PaginationRepository<PageLink, EntitySubtype>>().dispose();
     getIt<AlarmTypesBloc>().close();
     getIt.dropScope(scopeName);
   }

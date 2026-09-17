@@ -430,8 +430,6 @@
   "phoneIsRequired": "手机号码是必填项",
   "phoneIsInvalid": "手机号码无效",
   "addVerificationMethod": "添加验证方式",
-  "areYouSureYouWantToExit": "您确定要退出吗？",
-  "confirmToCloseTheApp": "确认关闭应用",
   "nSelected": "已选择 {count} 项",
   "@nSelected": {
     "placeholders": {

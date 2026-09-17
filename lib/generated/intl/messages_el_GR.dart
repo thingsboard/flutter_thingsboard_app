@@ -271,9 +271,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "applyChanges": MessageLookupByLibrary.simpleMessage("Εφαρμογή αλλαγών"),
     "areYouSure": MessageLookupByLibrary.simpleMessage("Είστε σίγουροι;"),
     "areYouSureYouWantToDeactivate": m3,
-    "areYouSureYouWantToExit": MessageLookupByLibrary.simpleMessage(
-      "Είστε σίγουροι ότι θέλετε να βγείτε;",
-    ),
     "asset": MessageLookupByLibrary.simpleMessage("Περιουσιακό στοιχείο"),
     "assetName": MessageLookupByLibrary.simpleMessage(
       "Όνομα περιουσιακού στοιχείου",
@@ -335,9 +332,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmNotRobotMessage": MessageLookupByLibrary.simpleMessage(
       "Πρέπει να επιβεβαιώσετε ότι δεν είστε ρομπότ",
-    ),
-    "confirmToCloseTheApp": MessageLookupByLibrary.simpleMessage(
-      "Επιβεβαίωση για κλείσιμο της εφαρμογής",
     ),
     "confirmation": MessageLookupByLibrary.simpleMessage("Επιβεβαίωση"),
     "confirmingWifiConnection": MessageLookupByLibrary.simpleMessage(

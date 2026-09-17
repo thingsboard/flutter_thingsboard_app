@@ -430,8 +430,6 @@
   "phoneIsRequired": "Il telefono è obbligatorio",
   "phoneIsInvalid": "Il numero di telefono non è valido",
   "addVerificationMethod": "Aggiungi metodo di verifica",
-  "areYouSureYouWantToExit": "Sei sicuro di voler uscire?",
-  "confirmToCloseTheApp": "Conferma per chiudere l'app",
   "loginNotification": "Accedi al tuo account",
   "nSelected": "{count} selezionati",
   "@nSelected": {

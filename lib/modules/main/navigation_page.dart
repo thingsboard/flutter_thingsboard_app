@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/main/model/navigation_type.dart';
@@ -13,7 +12,6 @@ import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart'
 import 'package:thingsboard_app/modules/main/widgets/navigation_badge_widget.dart';
 import 'package:thingsboard_app/modules/main/widgets/tb_navigation_bar_widget.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 class NavigationPage extends HookConsumerWidget {
   const NavigationPage({super.key, required this.child});
@@ -52,22 +50,12 @@ class NavigationPage extends HookConsumerWidget {
     }, [GoRouterState.of(context).uri, items]);
 
     return PopScope(
-      onPopInvokedWithResult: (didPop, res) async {
+      onPopInvokedWithResult: (didPop, res) {
         if (!context.canPop()) {
           if (currentIndex.value != 0) {
             return context.pushReplacement(items.first.path);
           }
-          final confirm = await getIt<IOverlayService>().showConfirmDialog(
-            content:
-                (_) => DialogContent(
-                  title: 'Are you sure you want te exit?',
-                  message: 'Confirm to close the app',
-                  cancel: S.of(context).cancel,
-                ),
-          );
-          if (confirm == true && context.mounted) {
-            SystemNavigator.pop();
-          }
+          SystemNavigator.pop();
         }
       },
       canPop: false,

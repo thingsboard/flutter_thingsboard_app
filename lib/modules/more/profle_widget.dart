@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/endpoint_name_widget.dart';
+import 'package:thingsboard_app/core/auth/user_authority_bridge.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -86,7 +87,7 @@ class ProfileWidget extends StatelessWidget {
 String getAuthorityName(BuildContext context, User? user) {
   var name = '';
   if (user != null) {
-    final authority = user.authority;
+    final authority = user.appAuthority;
     switch (authority) {
       case Authority.SYS_ADMIN:
         name = S.of(context).systemAdministrator;

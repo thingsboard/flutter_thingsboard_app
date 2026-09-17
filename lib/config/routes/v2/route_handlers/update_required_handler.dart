@@ -6,17 +6,17 @@ import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
+import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 
 class UpdateRequiredHandler extends RouteHandler {
   late final ProviderSubscription<AsyncValue<LoginMobileInfo>> _subscription;
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
     _subscription = ref.listenManual(oauthProvider, (prev, next) async  {
-      final versionInfo = next.value?.versionInfo;
-      if (versionInfo != null) {
-        if (getIt<IVersionService>().appUpdateRequired(versionInfo)) {
-          await ref.read(loginProvider.notifier).logout();
-        }
+      final versionInfo = VersionInfo.fromNullable(next.value?.versionInfo);
+      if (versionInfo != null &&
+          getIt<IVersionService>().appUpdateRequired(versionInfo)) {
+        await ref.read(loginProvider.notifier).logout();
       }
     });
   }

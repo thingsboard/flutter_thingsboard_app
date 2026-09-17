@@ -66,22 +66,29 @@ class _AuditLogDetailsPageState extends State<AuditLogDetailsPage> {
           children: [
             Text(S.of(context).entityType, style: labelTextStyle),
             Text(
-              widget.auditLog.entityId.entityType.getTranslatedEntityType(
-                context,
-              ),
+              widget.auditLog.entityId?.entityType.getTranslatedEntityType(
+                    context,
+                  ) ??
+                  '',
               style: valueTextStyle,
             ),
             const SizedBox(height: 16),
             Text(S.of(context).type, style: labelTextStyle),
             Text(
-              widget.auditLog.actionType.getTranslatedActionType(context),
+              widget.auditLog.actionType?.getTranslatedActionType(context) ??
+                  '',
               style: valueTextStyle,
             ),
             const SizedBox(height: 16),
             Flexible(
               child: buildBorderedText(
                 S.of(context).actionData,
-                encoder.convert(widget.auditLog.actionData),
+                // `actionData` is a built_value [JsonObject] (MapJsonObject at
+                // runtime); JsonEncoder can't serialize the wrapper, so unwrap
+                // it to the underlying value first.
+                widget.auditLog.actionData != null
+                    ? encoder.convert(widget.auditLog.actionData!.value)
+                    : '',
               ),
             ),
             if (widget.auditLog.actionStatus == ActionStatus.FAILURE)

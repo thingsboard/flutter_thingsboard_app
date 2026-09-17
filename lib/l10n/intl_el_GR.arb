@@ -430,8 +430,6 @@
   "phoneIsRequired": "Το τηλέφωνο είναι υποχρεωτικό",
   "phoneIsInvalid": "Ο αριθμός τηλεφώνου δεν είναι έγκυρος",
   "addVerificationMethod": "Προσθήκη μεθόδου επαλήθευσης",
-  "areYouSureYouWantToExit": "Είστε σίγουροι ότι θέλετε να βγείτε;",
-  "confirmToCloseTheApp": "Επιβεβαίωση για κλείσιμο της εφαρμογής",
   "loginNotification": "Συνδεθείτε στον λογαριασμό σας",
   "nSelected": "{count} επιλεγμένα",
   "@nSelected": {

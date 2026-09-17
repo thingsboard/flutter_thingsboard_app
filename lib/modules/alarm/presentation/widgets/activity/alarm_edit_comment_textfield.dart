@@ -5,6 +5,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 
 class AlarmEditCommentTextField extends StatefulWidget {
   const AlarmEditCommentTextField(
@@ -16,7 +17,7 @@ class AlarmEditCommentTextField extends StatefulWidget {
 
   final AlarmId alarmId;
   final String commentId;
-  final AlarmComment commentToEdit;
+  final AlarmCommentInfo commentToEdit;
 
   @override
   State<StatefulWidget> createState() => _AlarmEditCommentState();
@@ -78,7 +79,7 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
 
   @override
   void initState() {
-    textController.text = (widget.commentToEdit.comment as AlarmCommentJsonNode).text;
+    textController.text = widget.commentToEdit.commentNode?.text ?? '';
     super.initState();
   }
 

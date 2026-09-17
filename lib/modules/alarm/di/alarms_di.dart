@@ -1,3 +1,4 @@
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/alarms_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/i_alarms_datasource.dart';

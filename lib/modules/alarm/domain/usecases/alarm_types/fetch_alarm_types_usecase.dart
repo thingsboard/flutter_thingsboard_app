@@ -3,13 +3,13 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
 
 class FetchAlarmTypesUseCase
-    extends UseCase<Future<PageData<AlarmType>>, PageLink> {
+    extends UseCase<Future<PageData<EntitySubtype>>, PageLink> {
   const FetchAlarmTypesUseCase({required this.repository});
 
   final IAlarmTypesRepository repository;
 
   @override
-  Future<PageData<AlarmType>> call(PageLink params) {
+  Future<PageData<EntitySubtype>> call(PageLink params) {
     return repository.fetchAlarmTypes(params);
   }
 }

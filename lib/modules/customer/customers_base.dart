@@ -6,6 +6,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 mixin CustomersBase on EntitiesBase<Customer, PageLink> {
@@ -20,8 +21,14 @@ mixin CustomersBase on EntitiesBase<Customer, PageLink> {
   Future<PageData<Customer>> fetchEntities(
     PageLink pageLink, {
     bool refresh = false,
-  }) {
-    return tbClient.getCustomerService().getCustomers(pageLink);
+  }) async {
+    final r = await tbClient.getCustomerControllerApi().getCustomers(
+      pageSize: pageLink.pageSize,
+      page: pageLink.page,
+      textSearch: pageLink.textSearch,
+    );
+    final p = r.data!;
+    return toPageData(p.data, p.totalPages, p.totalElements, p.hasNext);
   }
 
   @override

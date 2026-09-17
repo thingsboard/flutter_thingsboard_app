@@ -261,9 +261,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "areYouSure": MessageLookupByLibrary.simpleMessage("Weet u het zeker?"),
     "areYouSureYouWantToDeactivate": m3,
-    "areYouSureYouWantToExit": MessageLookupByLibrary.simpleMessage(
-      "Weet u zeker dat u wilt afsluiten?",
-    ),
     "asset": MessageLookupByLibrary.simpleMessage("Asset"),
     "assetName": MessageLookupByLibrary.simpleMessage("Assetnaam"),
     "assetProfile": MessageLookupByLibrary.simpleMessage("Assetprofiel"),
@@ -317,9 +314,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmNotRobotMessage": MessageLookupByLibrary.simpleMessage(
       "U moet bevestigen dat u geen robot bent",
-    ),
-    "confirmToCloseTheApp": MessageLookupByLibrary.simpleMessage(
-      "Bevestig om de app te sluiten",
     ),
     "confirmation": MessageLookupByLibrary.simpleMessage("Bevestiging"),
     "confirmingWifiConnection": MessageLookupByLibrary.simpleMessage(

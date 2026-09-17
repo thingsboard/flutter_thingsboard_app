@@ -1,5 +1,6 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart' hide Direction;
+import 'package:thingsboard_ce_client/src/model/page/sort_order.dart';
 
 class NotificationQueryCtrl extends PageKeyController<PushNotificationQuery> {
   NotificationQueryCtrl({int pageSize = 20, String? searchText})

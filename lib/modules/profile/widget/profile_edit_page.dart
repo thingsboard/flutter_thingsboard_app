@@ -1,3 +1,4 @@
+import 'package:built_value/json_object.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -52,14 +53,15 @@ class ProfileEditPage extends HookConsumerWidget {
             validators: [],
             value:
                 bool.tryParse(
-                  (user.additionalInfo?['homeDashboardHideToolbar']).toString(),
+                  (user.additionalInfo?.asMap?['homeDashboardHideToolbar'])
+                      .toString(),
                 ) ??
                 true,
           ),
           "unitSystem": FormControl(
             validators: [Validators.required],
             value: UnitSystems.fromString(
-              user.additionalInfo?['unitSystem']?.toString(),
+              user.additionalInfo?.asMap?['unitSystem']?.toString(),
             ),
           ),
           "lang": FormControl<Locale>(
@@ -83,7 +85,8 @@ class ProfileEditPage extends HookConsumerWidget {
       }),
     );
     useEffect(() {
-      final String? id = user.additionalInfo?['homeDashboardId']?.toString();
+      final String? id =
+          user.additionalInfo?.asMap?['homeDashboardId']?.toString();
       getHomeDashboardInfo(id, loading, form);
       return null;
     }, []);
@@ -442,9 +445,10 @@ class ProfileEditPage extends HookConsumerWidget {
     if (id != null) {
       try {
         loading.value = true;
-        final info = await getIt<ITbClientService>().client
-            .getDashboardService()
-            .getDashboardInfo(id);
+        final res = await getIt<ITbClientService>().client
+            .getDashboardControllerApi()
+            .getDashboardInfoById(dashboardId: id);
+        final info = res.data!;
         form
             .control('additionalInfo.homeDashboardId')
             .patchValue(info, updateParent: false, emitEvent: true);
@@ -457,7 +461,10 @@ class ProfileEditPage extends HookConsumerWidget {
     }
   }
 
-  Future<void> onDiscardPressed(BuildContext context, Locale initialLocale) async {
+  Future<void> onDiscardPressed(
+    BuildContext context,
+    Locale initialLocale,
+  ) async {
     final original = S.of(context).discardChanges;
     String titleString = original;
     if (original.isNotEmpty) {
@@ -516,29 +523,39 @@ Future<void> _saveProfile(
   if (form.invalid) {
     return;
   }
-  final newUser = user;
-  newUser.email = form.control('email').value.toString();
-  newUser.firstName = form.control('firstName').value?.toString();
-  newUser.lastName = form.control('lastName').value?.toString();
-  newUser.phone = (form.control('phone').value as PhoneNumber?)?.international;
-
-  newUser.additionalInfo ??= {};
   final additionalInfoForm = form.control('additionalInfo') as FormGroup;
-  newUser.additionalInfo!['homeDashboardHideToolbar'] =
-      additionalInfoForm.control('homeDashboardHideToolbar').value;
-  newUser.additionalInfo!['lang'] =
-      (additionalInfoForm.control('lang').value as Locale).toString();
-  newUser.additionalInfo!['unitSystem'] =
-      (additionalInfoForm.control('unitSystem').value as UnitSystems).name
-          .toUpperCase();
-  newUser.additionalInfo!['homeDashboardId'] =
-      (additionalInfoForm.control('homeDashboardId').value as DashboardInfo?)
-          ?.id
-          ?.id;
+  final existingAdditionalInfo =
+      user.additionalInfo?.asMap ?? <String, dynamic>{};
+  final updatedAdditionalInfo =
+      Map<String, dynamic>.from(existingAdditionalInfo)
+        ..['homeDashboardHideToolbar'] =
+            additionalInfoForm.control('homeDashboardHideToolbar').value
+        ..['lang'] =
+            (additionalInfoForm.control('lang').value as Locale).toString()
+        ..['unitSystem'] =
+            (additionalInfoForm.control('unitSystem').value as UnitSystems).name
+                .toUpperCase()
+        ..['homeDashboardId'] =
+            (additionalInfoForm.control('homeDashboardId').value
+                    as DashboardInfo?)
+                ?.id
+                ?.id;
+
+  final newUser = user.rebuild(
+    (b) =>
+        b
+          ..email = form.control('email').value.toString()
+          ..firstName = form.control('firstName').value?.toString()
+          ..lastName = form.control('lastName').value?.toString()
+          ..phone = (form.control('phone').value as PhoneNumber?)?.international
+          ..additionalInfo = JsonObject(updatedAdditionalInfo),
+  );
   isLoading.value = true;
   final overlayService = getIt<IOverlayService>();
   try {
-    await getIt<ITbClientService>().client.getUserService().saveUser(newUser);
+    await getIt<ITbClientService>().client.getUserControllerApi().saveUser(
+      user: newUser,
+    );
     await ref.read(loginProvider.notifier).loadUser();
     isLoading.value = false;
     canPop.value = true;

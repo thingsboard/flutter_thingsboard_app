@@ -12,7 +12,10 @@ class TenantDetailsPage extends ContactBasedDetailsPage<Tenant> {
       );
   final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<Tenant?> fetchEntity(String id) {
-    return tbClient.getTenantService().getTenant(id);
+  Future<Tenant?> fetchEntity(String id) async {
+    final r = await tbClient.getTenantControllerApi().getTenantById(
+      tenantId: id,
+    );
+    return r.data;
   }
 }

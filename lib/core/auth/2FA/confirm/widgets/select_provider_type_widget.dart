@@ -35,7 +35,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loading = useState(false);
-    final isForce = type == TwoFaViewType.force ;
+    final isForce = type == TwoFaViewType.force;
     final filtered =
         switch (type) {
           TwoFaViewType.setup => avalibleTypes,
@@ -122,7 +122,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                               }
 
                               context.push(
-                                '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?selectedProvider=${provider.toShortString()}&force=$isForce',
+                                '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
                               );
                             },
                             contentPadding: const EdgeInsets.symmetric(
@@ -183,10 +183,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                           : OutlinedButton.icon(
                             onPressed: () {
                               context.push(
-                                '${LoginRoutes.login}${type == TwoFaViewType.confirm
-                                        ? LoginRoutes.mfaConfirm
-                                        : LoginRoutes.mfaConfigure}?selectedProvider=${provider.toShortString()}&force=$isForce',
-
+                                '${LoginRoutes.login}${type == TwoFaViewType.confirm ? LoginRoutes.mfaConfirm : LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
                               );
                             },
                             style: OutlinedButton.styleFrom(
@@ -279,8 +276,14 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                               loading.value = true;
                               try {
                                 await getIt<ITbClientService>().client
-                                    .getTwoFactorAuthService()
-                                    .updateTwoFaAccountConfig(info, true);
+                                    .getTwoFactorAuthConfigControllerApi()
+                                    .updateTwoFaAccountConfig(
+                                      providerType: info,
+                                      twoFaAccountConfigUpdateRequest:
+                                          TwoFaAccountConfigUpdateRequest(
+                                            (b) => b..useByDefault = true,
+                                          ),
+                                    );
                                 await Future.delayed(
                                   const Duration(milliseconds: 200),
                                 );
@@ -375,8 +378,8 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
     }
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .deleteTwoFaAccountConfig(providerType);
+          .getTwoFactorAuthConfigControllerApi()
+          .deleteTwoFaAccountConfig(providerType: providerType);
 
       ref.invalidate(acountTwoFactorSettingsProvider);
     } catch (e) {

@@ -87,7 +87,10 @@ class LoginWidget extends HookConsumerWidget {
                                       loading,
                                       ref,
                                     ),
-                                clients: providers.value?.oAuth2Clients ?? [],
+                                clients:
+                                    providers.value?.oAuth2ClientLoginInfos
+                                        ?.toList() ??
+                                    [],
                               ),
                               TextDivider(text: S.of(context).or),
 
@@ -148,7 +151,7 @@ class LoginWidget extends HookConsumerWidget {
                                                 context,
                                                 form,
                                                 ref,
-                                                loading
+                                                loading,
                                               );
                                             },
                                     child: Text(
@@ -195,8 +198,10 @@ Future<void> onLoginPressed(
   final String password = form.control('password').value.toString();
   try {
     loading.value = true;
-  final res =   await ref.read(loginProvider.notifier).login(username, password);
-    
+    final res = await ref
+        .read(loginProvider.notifier)
+        .login(username, password);
+
     loading.value = res;
   } catch (e) {
     form.setErrors({"err": {}});
@@ -219,7 +224,7 @@ Future<void> onLoginWithBarcode(BuildContext context) async {
 }
 
 Future<void> onOauth2ButtonPressed(
-  OAuth2ClientInfo client,
+  OAuth2ClientLoginInfo client,
   BuildContext context,
   ValueNotifier<bool> loading,
   WidgetRef ref,
@@ -230,7 +235,9 @@ Future<void> onOauth2ButtonPressed(
     return;
   }
   loading.value = true;
-final res =  await  ref.read(loginProvider.notifier).oauthLogin(client.url);
+  final res = await ref
+      .read(loginProvider.notifier)
+      .oauthLogin(client.url ?? '');
   loading.value = res;
 }
 

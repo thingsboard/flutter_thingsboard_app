@@ -9,12 +9,18 @@ class DeviceDetailsPage extends EntityDetailsPage<DeviceInfo> {
     : super(entityId: deviceId, defaultTitle: 'Device');
   final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<DeviceInfo?> fetchEntity(String id) {
-    return tbClient.getDeviceService().getDeviceInfo(id);
+  Future<DeviceInfo?> fetchEntity(String id) async {
+    final r = await tbClient.getDeviceControllerApi().getDeviceInfoById(
+      deviceId: id,
+    );
+    return r.data;
   }
 
   @override
   Widget buildEntityDetails(BuildContext context, DeviceInfo entity) {
-    return ListTile(title: Text(entity.name), subtitle: Text(entity.type));
+    return ListTile(
+      title: Text(entity.name ?? ''),
+      subtitle: Text(entity.type ?? ''),
+    );
   }
 }

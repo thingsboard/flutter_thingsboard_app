@@ -10,6 +10,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_a
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -59,14 +60,14 @@ class _UserCommentState extends State<UserCommentWidget> {
             color: Colors.black.withValues(alpha: .54),
           ),
           onPressed: () {
-            if(widget.activity.id != null) {
+            if (widget.activity.id != null) {
               context.read<AlarmActivityBloc>().add(
-              AlarmEditCommentEvent(
-                widget.activity.id! ,
-                alarmId: widget.activity.alarmId,
-                comment: widget.activity,
-              ),
-            );
+                AlarmEditCommentEvent(
+                  widget.activity.id!.id,
+                  alarmId: widget.activity.alarmId!,
+                  comment: widget.activity,
+                ),
+              );
             }
           },
         ),
@@ -117,11 +118,13 @@ class _UserCommentState extends State<UserCommentWidget> {
               },
             );
 
-            if (delete == true && context.mounted && widget.activity.id != null) {
+            if (delete == true &&
+                context.mounted &&
+                widget.activity.id != null) {
               context.read<AlarmActivityBloc>().add(
                 DeleteAlarmCommentEvent(
-                  alarmId: widget.activity.alarmId,
-                  commentId: widget.activity.id!,
+                  alarmId: widget.activity.alarmId!,
+                  commentId: widget.activity.id!.id,
                 ),
               );
             }
@@ -134,6 +137,7 @@ class _UserCommentState extends State<UserCommentWidget> {
   }
 
   Widget _buildComment(UserDetailsOutput userInfo, Duration diff) {
+    final commentNode = widget.activity.commentNode;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,7 +167,7 @@ class _UserCommentState extends State<UserCommentWidget> {
                 ),
                 const SizedBox(width: 4),
                 Visibility(
-                  visible: (widget.activity.comment as AlarmCommentJsonNode).edited,
+                  visible: commentNode?.edited ?? false,
                   child: Text(
                     ' ${S.of(context).edited}',
                     style: TbTextStyles.bodyMedium.copyWith(
@@ -174,7 +178,7 @@ class _UserCommentState extends State<UserCommentWidget> {
               ],
             ),
             Text(
-              (widget.activity.comment as AlarmCommentJsonNode).text,
+              commentNode?.text ?? '',
               style: TbTextStyles.bodyLarge.copyWith(
                 color: Colors.black.withValues(alpha: .54),
               ),

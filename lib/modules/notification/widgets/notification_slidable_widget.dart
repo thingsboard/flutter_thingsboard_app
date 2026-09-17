@@ -169,7 +169,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
         loading = true;
       });
       try {
-        await widget.thingsboardClient.getAlarmService().ackAlarm(alarmId);
+        await widget.thingsboardClient.getAlarmControllerApi().ackAlarm(alarmId: alarmId);
       } catch (_) {}
 
       setState(() {
@@ -196,7 +196,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
       });
 
       try {
-        await widget.thingsboardClient.getAlarmService().clearAlarm(alarmId);
+        await widget.thingsboardClient.getAlarmControllerApi().clearAlarm(alarmId: alarmId);
       } catch (_) {}
 
       setState(() {

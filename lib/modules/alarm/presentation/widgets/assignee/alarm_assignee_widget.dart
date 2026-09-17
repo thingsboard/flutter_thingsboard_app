@@ -68,7 +68,7 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                   );
                 case AssigneeSelectedState():
                   return UserInfoWidget(
-                    id: state.assignee.userInfo.id.id ?? '',
+                    id: state.assignee.userInfo.id?.id ?? '',
                     avatar: UserInfoAvatarWidget(
                       shortName: state.assignee.shortName,
                       color:

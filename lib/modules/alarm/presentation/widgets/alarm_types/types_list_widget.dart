@@ -49,7 +49,7 @@ class TypesListWidget extends StatelessWidget {
               ),
             ),
             Flexible(
-              child: PagedListView<PageLink, AlarmType>.separated(
+              child: PagedListView<PageLink, EntitySubtype>.separated(
                 pagingController:
                     getIt<AlarmTypesBloc>()
                         .paginationRepository
@@ -66,7 +66,7 @@ class TypesListWidget extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pop();
                         getIt<AlarmTypesBloc>().add(
-                          AlarmTypesSelectedEvent(type: item.type),
+                          AlarmTypesSelectedEvent(type: item.type ?? ''),
                         );
                         onChanged();
                       },
@@ -74,7 +74,7 @@ class TypesListWidget extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              item.type,
+                              item.type ?? '',
                               style: const TextStyle(fontSize: 16, height: 1.5),
                             ),
                           ),

@@ -59,7 +59,7 @@ extension EntityTypeTranslationUtils on EntityType {
       EntityType.NOTIFICATION_RULE => S.of(context).notificationRule,
       EntityType.CALCULATED_FIELD => S.of(context).calculatedField,
       EntityType.QUEUE_STATS => S.of(context).queueStats,
-      EntityType.OAUTH2_CLIENT => S.of(context).oauth2Client,
+      EntityType.oAUTH2CLIENT => S.of(context).oauth2Client,
       EntityType.DOMAIN => S.of(context).domain,
       EntityType.MOBILE_APP => S.of(context).mobileApp,
       EntityType.MOBILE_APP_BUNDLE => S.of(context).mobileAppBundle,
@@ -68,6 +68,7 @@ extension EntityTypeTranslationUtils on EntityType {
       EntityType.AI_MODEL => S.of(context).aiModel,
 
       EntityType.API_KEY => S.of(context).apiKey,
+      _ => '',
     };
   }
 }
@@ -83,6 +84,7 @@ extension AlarmStatusTranslationUtils on AlarmStatus {
         '${S.of(context).cleared} ${S.of(context).acknowledged}',
       AlarmStatus.CLEARED_UNACK =>
         '${S.of(context).cleared} ${S.of(context).unacknowledged}',
+      _ => '',
     };
   }
 }
@@ -95,6 +97,7 @@ extension AlarmSeverityTranslationUtils on AlarmSeverity {
       AlarmSeverity.MINOR => S.of(context).minor,
       AlarmSeverity.WARNING => S.of(context).warning,
       AlarmSeverity.INDETERMINATE => S.of(context).indeterminate,
+      _ => '',
     };
   }
 }
@@ -104,6 +107,7 @@ extension ActionStatusTranslationUtils on ActionStatus {
     return switch (this) {
       ActionStatus.SUCCESS => S.of(context).actionStatusSuccess,
       ActionStatus.FAILURE => S.of(context).actionStatusFailure,
+      _ => '',
     };
   }
 }
@@ -157,8 +161,33 @@ extension ActionTypeTranslationUtils on ActionType {
       ActionType.UPDATED_COMMENT => S.of(context).actionTypeUpdatedComment,
       ActionType.DELETED_COMMENT => S.of(context).actionTypeDeletedComment,
       ActionType.SMS_SENT => S.of(context).actionTypeSmsSent,
+      _ => '',
     };
   }
+}
+
+extension ThingsboardErrorTranslationUtils on ThingsboardError {
+  /// App-wide fallback text for a message-less [ThingsboardError]; the wording
+  /// mirrors the client's own "Unknown error" literal in `parseMessage`.
+  String getTranslatedMessage(BuildContext context) {
+    final message = this.message;
+    return message == null || message.isEmpty
+        ? S.of(context).unknownError
+        : message;
+  }
+}
+
+DialogContent fatalErrorDialogContent(BuildContext context, Object? error) {
+  final message =
+      error is ThingsboardError
+          ? error.getTranslatedMessage(context)
+          : S.of(context).unknownError;
+
+  return DialogContent(
+    title: S.of(context).fatalError,
+    message: '${S.of(context).fatalApplicationErrorOccurred}\n$message',
+    ok: S.of(context).close,
+  );
 }
 
 typedef TranslationBuilder = String Function(BuildContext context);

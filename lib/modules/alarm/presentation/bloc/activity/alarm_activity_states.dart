@@ -36,7 +36,7 @@ final class AlarmCommentEditState extends AlarmActivityState {
 
   final AlarmId alarmId;
   final String commentId;
-  final AlarmComment commentToEdit;
+  final AlarmCommentInfo commentToEdit;
 
   @override
   List<Object?> get props => [commentId, alarmId, commentToEdit];

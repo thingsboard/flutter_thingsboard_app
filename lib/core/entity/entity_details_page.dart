@@ -4,7 +4,7 @@ import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
-abstract class EntityDetailsPage<T extends BaseData> extends StatefulWidget {
+abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
   const EntityDetailsPage({
     required String defaultTitle,
     required String entityId,
@@ -50,7 +50,7 @@ abstract class EntityDetailsPage<T extends BaseData> extends StatefulWidget {
   Widget buildEntityDetails(BuildContext context, T entity);
 }
 
-class _EntityDetailsPageState<T extends BaseData>
+class _EntityDetailsPageState<T extends Object>
     extends State<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
   late ValueNotifier<String> titleValue;
@@ -138,7 +138,7 @@ class _EntityDetailsPageState<T extends BaseData>
   }
 }
 
-abstract class ContactBasedDetailsPage<T extends ContactBased>
+abstract class ContactBasedDetailsPage<T extends Object>
     extends EntityDetailsPage<T> {
   const ContactBasedDetailsPage({
     required super.defaultTitle,
@@ -152,16 +152,20 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
 
   @override
   Widget buildEntityDetails(BuildContext context, T entity) {
+    final e = entity as dynamic;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(S.of(context).title, style: labelTextStyle),
-          Text(entity.getName(), style: valueTextStyle),
+          Text(
+            entity is HasName ? entity.getName() : (e.name as String? ?? ''),
+            style: valueTextStyle,
+          ),
           const SizedBox(height: 16),
           Text(S.of(context).country, style: labelTextStyle),
-          Text(entity.country ?? '', style: valueTextStyle),
+          Text(e.country as String? ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -171,7 +175,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).city, style: labelTextStyle),
-                    Text(entity.city ?? '', style: valueTextStyle),
+                    Text(e.city as String? ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -181,7 +185,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).stateOrProvince, style: labelTextStyle),
-                    Text(entity.state ?? '', style: valueTextStyle),
+                    Text(e.state as String? ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -189,19 +193,19 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
           ),
           const SizedBox(height: 16),
           Text(S.of(context).postalCode, style: labelTextStyle),
-          Text(entity.zip ?? '', style: valueTextStyle),
+          Text(e.zip as String? ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address, style: labelTextStyle),
-          Text(entity.address ?? '', style: valueTextStyle),
+          Text(e.address as String? ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address2, style: labelTextStyle),
-          Text(entity.address2 ?? '', style: valueTextStyle),
+          Text(e.address2 as String? ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).phone, style: labelTextStyle),
-          Text(entity.phone ?? '', style: valueTextStyle),
+          Text(e.phone as String? ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).email, style: labelTextStyle),
-          Text(entity.email ?? '', style: valueTextStyle),
+          Text(e.email as String? ?? '', style: valueTextStyle),
         ],
       ),
     );

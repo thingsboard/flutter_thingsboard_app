@@ -3,7 +3,7 @@ description: Flutter ThingsBoard Mobile Application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.8.1+14
+version: 1.9.0+15
 
 environment:
   sdk: ^3.7.0
@@ -12,7 +12,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  thingsboard_client: ^4.2.1
+  thingsboard_ce_client:
+    path: ../thingsboard-dart-client/ce
+  dio: ^5.7.0
   intl: ^0.19.0
   flutter_secure_storage: ^9.0.0
   flutter_speed_dial: ^7.0.0

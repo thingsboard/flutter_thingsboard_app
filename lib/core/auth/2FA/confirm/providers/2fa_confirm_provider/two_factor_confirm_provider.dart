@@ -6,6 +6,7 @@ import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 
 part 'two_factor_confirm_provider.g.dart';
 
@@ -36,12 +37,25 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   Future<void> verifyCode(String code) async {
     state = state.copyWith(loading: true);
     try {
-      final res = await _tbClient.checkTwoFaVerificationCode(
-        type,
-        code,
-        requestConfig: RequestConfig(ignoreErrors: true),
-      );
-      await ref.read(loginProvider.notifier).twoFaConfirmed(res);
+      final res = await _tbClient
+          .getTwoFactorAuthControllerApi()
+          .checkTwoFaVerificationCode(
+            providerType: type,
+            verificationCode: code,
+            // Handle errors (e.g. 429) in-widget below instead of the global
+            // error overlay; the new client exposes this via Dio `extra`.
+            extra: silentRequestExtra(),
+          );
+      final token = res.data?.token;
+      if (token == null) {
+        state = state.copyWith(loading: false, codeState: CodeState.invalid);
+        return;
+      }
+      await ref
+          .read(loginProvider.notifier)
+          .twoFaConfirmed(
+            LoginResponse(token: token, refreshToken: res.data?.refreshToken),
+          );
       state = state.copyWith(loading: false, codeState: CodeState.valid);
     } catch (e) {
       state = state.copyWith(loading: false);
@@ -62,10 +76,12 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   Future<void> sendCode() async {
     state = state.copyWith(codeSent: false, loading: true);
     try {
-      await _tbClient.getTwoFactorAuthService().requestTwoFaVerificationCode(
-        type,
-        requestConfig: RequestConfig(ignoreErrors: true),
-      );
+      await _tbClient
+          .getTwoFactorAuthControllerApi()
+          .requestTwoFaVerificationCode(
+            providerType: type,
+            extra: silentRequestExtra(),
+          );
       _resendTimer?.cancel();
       _resendTimer = Timer(
         Duration(seconds: _resendTimerDurationSeconds),

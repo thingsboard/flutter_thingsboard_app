@@ -17,4 +17,10 @@ abstract interface class ILocalDatabaseService {
   Future<String?> getInitialAppLink();
 
   Future<void> deleteInitialAppLink();
+
+  Future<bool> isPushRegistered();
+
+  Future<void> setPushRegistered();
+
+  Future<void> clearPushRegistered();
 }

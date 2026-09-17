@@ -9,6 +9,7 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
@@ -112,13 +113,19 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
     isLoading.value = true;
     final formValue = form.control('email').value.toString();
     try {
-      await getIt<ITbClientService>().client.sendResetPasswordLink(formValue);
+      await getIt<ITbClientService>().client
+          .getAuthControllerApi()
+          .requestResetPasswordByEmail(
+            resetPasswordEmailRequest: ResetPasswordEmailRequest(
+              (b) => b..email = formValue,
+            ),
+          );
       getIt<IOverlayService>().showSuccessNotification(
         (_) => S.of(context).emailVerificationSentText,
       );
     } catch (e) {
       getIt<TbLogger>().error(e);
-        getIt<IOverlayService>().showErrorNotification(
+      getIt<IOverlayService>().showErrorNotification(
         (_) => "${S.of(context).fatalError}: $e",
       );
     }

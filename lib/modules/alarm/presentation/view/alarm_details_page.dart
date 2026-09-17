@@ -126,7 +126,10 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
 
   @override
   void initState() {
-    AlarmDetailsDi.init(getIt<ITbClientService>().client, id: AlarmId(widget.id));
+    AlarmDetailsDi.init(
+      getIt<ITbClientService>().client,
+      id: AlarmId((b) => b..id = widget.id..entityType = EntityType.ALARM),
+    );
     super.initState();
   }
 

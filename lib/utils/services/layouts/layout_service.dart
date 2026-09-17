@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
-import 'package:thingsboard_app/thingsboard_client.dart'
-    show Authority, PageLayout, Pages;
+import 'package:thingsboard_app/thingsboard_client.dart' show Authority;
+import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 import 'package:thingsboard_app/utils/services/layouts/i_layout_service.dart';
 
 class LayoutService implements ILayoutService {

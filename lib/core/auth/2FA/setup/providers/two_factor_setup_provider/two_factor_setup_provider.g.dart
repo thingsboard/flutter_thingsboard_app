@@ -6,7 +6,7 @@ part of 'two_factor_setup_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generateConfigHash() => r'b4b4c43cc92d5355d07a5d888e84c486ecaba8d1';
+String _$generateConfigHash() => r'421ef736fa840869c566e9ea0655906656c34649';
 
 /// Copied from Dart SDK
 class _SystemHash {

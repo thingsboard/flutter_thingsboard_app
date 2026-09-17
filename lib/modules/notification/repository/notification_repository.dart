@@ -15,25 +15,25 @@ class NotificationRepository implements INotificationQueryRepository {
   final INotificationsLocalService localService;
 
   @override
-  Future<int> deleteNotification(String id) {
-    return thingsboardClient.getNotificationService().deleteNotification(id);
+  Future<void> deleteNotification(String id) {
+    return thingsboardClient
+        .getNotificationControllerApi()
+        .deleteNotification(id: id);
   }
 
   @override
-  Future<int> markAllAsRead() async {
-    final response = await thingsboardClient
-        .getNotificationService()
-        .markAllNotificationsAsRead('MOBILE_APP');
+  Future<void> markAllAsRead() async {
+    await thingsboardClient
+        .getNotificationControllerApi()
+        .markAllNotificationsAsRead(deliveryMethod: 'MOBILE_APP');
     localService.clearNotificationBadgeCount();
-
-    return response;
   }
 
   @override
-  Future<int> markNotificationAsRead(String id) {
-    return thingsboardClient.getNotificationService().markNotificationAsRead(
-      id,
-    );
+  Future<void> markNotificationAsRead(String id) {
+    return thingsboardClient
+        .getNotificationControllerApi()
+        .markNotificationAsRead(id: id);
   }
 
   @override

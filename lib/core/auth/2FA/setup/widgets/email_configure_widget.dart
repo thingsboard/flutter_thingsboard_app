@@ -73,17 +73,18 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
                   return FilledButton(
                     onPressed:
                         formGroup.control('email').invalid || loading.value
-                        ? null
-                        : () async {
-                            await _handleSendCode(form, codeSent);
-                          },
-                    child: loading.value
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(S.of(context).sendCode),
+                            ? null
+                            : () async {
+                              await _handleSendCode(form, codeSent);
+                            },
+                    child:
+                        loading.value
+                            ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                            : Text(S.of(context).sendCode),
                   );
                 },
               ),
@@ -125,10 +126,10 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
         throw Exception('Email is required');
       }
 
-      config.email = email;
+      final updatedConfig = config.rebuild((b) => b..email = email);
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .submitTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .submitTwoFaAccountConfig(twoFaAccountConfig: updatedConfig);
       return true;
     } catch (e) {
       return false;
@@ -153,10 +154,13 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
         throw Exception('Email is required');
       }
 
-      config.email = email;
+      final updatedConfig = config.rebuild((b) => b..email = email);
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config, verificationCode: code);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(
+            twoFaAccountConfig: updatedConfig,
+            verificationCode: code,
+          );
       onConfigured();
     } catch (e) {
       control.setErrors({TbValicationMessages.invalidCode: {}});

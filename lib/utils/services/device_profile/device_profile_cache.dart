@@ -12,14 +12,19 @@ abstract class DeviceProfileCache {
   ) async {
     final deviceProfile = _cache[name];
     if (deviceProfile == null) {
-      final device = await tbClient.getDeviceService().getDevice(deviceId);
-      final info = await tbClient
-          .getDeviceProfileService()
-          .getDeviceProfileInfo(device!.deviceProfileId!.id!);
+      final deviceR = await tbClient.getDeviceControllerApi().getDeviceById(
+        deviceId: deviceId,
+      );
+      final device = deviceR.data!;
+      final infoR = await tbClient
+          .getDeviceProfileControllerApi()
+          .getDeviceProfileInfoById(
+            deviceProfileId: device.deviceProfileId!.id!,
+          );
       final cache = CachedDeviceProfileInfo(
         activeCount: null,
         inactiveCount: null,
-        info: info!,
+        info: infoR.data!,
       );
       _cache[name] = cache;
       return cache;
@@ -63,16 +68,27 @@ abstract class DeviceProfileCache {
     PageLink pageLink, {
     bool invalidateCache = false,
   }) async {
-    final deviceProfileInfos = await tbClient
-        .getDeviceProfileService()
-        .getDeviceProfileInfos(pageLink);
+    final r = await tbClient
+        .getDeviceProfileControllerApi()
+        .getDeviceProfileInfos(
+          pageSize: pageLink.pageSize,
+          page: pageLink.page,
+          textSearch: pageLink.textSearch,
+        );
+    final p = r.data!;
+    final deviceProfileInfos = PageData<DeviceProfileInfo>(
+      p.data?.toList() ?? [],
+      p.totalPages ?? 0,
+      p.totalElements ?? 0,
+      p.hasNext ?? false,
+    );
     if (invalidateCache) {
       _cache.clear();
     }
     for (final deviceProfile in deviceProfileInfos.data) {
-      final existing = _cache[deviceProfile.name];
+      final existing = _cache[deviceProfile.name ?? ''];
       if (existing == null) {
-        _cache[deviceProfile.name] = CachedDeviceProfileInfo(
+        _cache[deviceProfile.name ?? ''] = CachedDeviceProfileInfo(
           activeCount: null,
           inactiveCount: null,
           info: deviceProfile,

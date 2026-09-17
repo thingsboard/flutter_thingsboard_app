@@ -9,6 +9,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 
@@ -24,8 +25,16 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
   Future<PageData<AuditLog>> fetchEntities(
     TimePageLink pageLink, {
     bool refresh = false,
-  }) {
-    return tbClient.getAuditLogService().getAuditLogs(pageLink);
+  }) async {
+    final r = await tbClient.getAuditLogControllerApi().getAuditLogs(
+      pageSize: pageLink.pageSize,
+      page: pageLink.page,
+      textSearch: pageLink.textSearch,
+      startTime: pageLink.startTime,
+      endTime: pageLink.endTime,
+    );
+    final p = r.data!;
+    return toPageData(p.data, p.totalPages, p.totalElements, p.hasNext);
   }
 
   @override
@@ -136,8 +145,9 @@ class _AuditLogCardState extends State<AuditLogCard> {
                                 Flexible(
                                   fit: FlexFit.tight,
                                   child: Text(
-                                    widget.auditLog.entityId.entityType
-                                        .getTranslatedEntityType(context),
+                                    widget.auditLog.entityId?.entityType
+                                            .getTranslatedEntityType(context) ??
+                                        '',
                                     style: const TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontWeight: FontWeight.normal,
@@ -148,7 +158,10 @@ class _AuditLogCardState extends State<AuditLogCard> {
                                 ),
                                 Text(
                                   widget.auditLog.actionStatus
-                                      .getTranslatedActionStatus(context),
+                                          ?.getTranslatedActionStatus(
+                                            context,
+                                          ) ??
+                                      '',
                                   style: TextStyle(
                                     color:
                                         widget.auditLog.actionStatus ==
@@ -176,9 +189,10 @@ class _AuditLogCardState extends State<AuditLogCard> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          widget.auditLog.actionType.getTranslatedActionType(
-                            context,
-                          ),
+                          widget.auditLog.actionType?.getTranslatedActionType(
+                                context,
+                              ) ??
+                              '',
                           style: const TextStyle(
                             color: Color(0xFF282828),
                             fontWeight: FontWeight.normal,

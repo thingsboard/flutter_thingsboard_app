@@ -43,6 +43,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
   @override
   void dispose() {
     DashboardsDi.dispose(diKey);
+    pageViewCtrl.dispose();
     super.dispose();
   }
 }

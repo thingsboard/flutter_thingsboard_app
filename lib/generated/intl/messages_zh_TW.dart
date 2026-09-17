@@ -205,7 +205,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "applyChanges": MessageLookupByLibrary.simpleMessage("套用變更"),
     "areYouSure": MessageLookupByLibrary.simpleMessage("您確定嗎？"),
     "areYouSureYouWantToDeactivate": m3,
-    "areYouSureYouWantToExit": MessageLookupByLibrary.simpleMessage("您確定要退出嗎？"),
     "asset": MessageLookupByLibrary.simpleMessage("資產"),
     "assetName": MessageLookupByLibrary.simpleMessage("資產名稱"),
     "assetProfile": MessageLookupByLibrary.simpleMessage("資產設定檔"),
@@ -244,7 +243,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmNotRobotMessage": MessageLookupByLibrary.simpleMessage(
       "您必須確認您不是機器人",
     ),
-    "confirmToCloseTheApp": MessageLookupByLibrary.simpleMessage("確認關閉應用程式"),
     "confirmation": MessageLookupByLibrary.simpleMessage("確認"),
     "confirmingWifiConnection": MessageLookupByLibrary.simpleMessage(
       "確認 Wi-Fi 連線",

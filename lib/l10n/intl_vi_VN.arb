@@ -430,8 +430,6 @@
   "phoneIsRequired": "Vui lòng nhập số điện thoại",
   "phoneIsInvalid": "Số điện thoại không hợp lệ",
   "addVerificationMethod": "Thêm phương thức xác minh",
-  "areYouSureYouWantToExit": "Bạn có chắc chắn muốn thoát?",
-  "confirmToCloseTheApp": "Xác nhận để đóng ứng dụng",
   "nSelected": "{count} đã chọn",
   "@nSelected": {
     "placeholders": {

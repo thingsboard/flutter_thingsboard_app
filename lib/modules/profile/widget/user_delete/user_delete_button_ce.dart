@@ -3,12 +3,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/core/auth/user_authority_bridge.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/more/profle_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+
 /// Example of user deletion feature for CE, it's not needed since there is no self registration
 /// on CE app
 Widget getDeleteButton(BuildContext context, WidgetRef ref, User user) {
@@ -60,13 +62,19 @@ Future<void> deleteAccount(
   if (delete == true) {
     final client = getIt<ITbClientService>().client;
     try {
+      final authority = user.appAuthority;
+
       /// More strict way. Deletes overall tenant account.
-      if (user.authority == Authority.TENANT_ADMIN) {
-        client.getTenantService().deleteTenant(user.tenantId!.id!);
+      if (authority == Authority.TENANT_ADMIN) {
+        await client.getTenantControllerApi().deleteTenant(
+          tenantId: user.tenantId?.id ?? '',
+        );
       }
-// You can use this for tenant user's deletion as well, if you want to keep your tenant
-      if (user.authority == Authority.CUSTOMER_USER) {
-        client.getUserService().deleteUser(user.id!.id!);
+      // You can use this for tenant user's deletion as well, if you want to keep your tenant
+      if (authority == Authority.CUSTOMER_USER) {
+        await client.getUserControllerApi().deleteUser(
+          userId: user.id?.id ?? '',
+        );
       }
       await ref.read(loginProvider.notifier).logout();
     } catch (e) {

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:thingsboard_app/locator.dart';
+
 import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_params.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
+
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {
@@ -36,8 +38,10 @@ class NotificationWidget extends StatelessWidget {
     final diff = DateTime.now().difference(
       DateTime.fromMillisecondsSinceEpoch(notification.createdTime!),
     );
-
-    final severity = notification.info?.alarmSeverity;
+    // PushNotificationInfo.alarmSeverity is the handwritten telemetry enum,
+    // while the toColor()/getTranslatedAlarmSeverity() UI extensions live on the
+    // built_value AlarmSeverity used across the alarm screens. Bridge by name.
+    final severity = _severityFromName(notification.info?.alarmSeverity?.name);
 
     return InkWell(
       onTap: isSelectionMode
@@ -52,13 +56,7 @@ class NotificationWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
           border:
-              notification.info?.alarmSeverity != null
-                  ? Border.all(
-                    color:
-                        notification.info?.alarmSeverity?.toColor() ??
-                        Colors.transparent,
-                  )
-                  : null,
+              severity != null ? Border.all(color: severity.toColor()) : null,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
@@ -158,7 +156,7 @@ class NotificationWidget extends StatelessWidget {
                         child: Text(
                           severity?.getTranslatedAlarmSeverity(context) ?? '',
                           style: TextStyle(
-                            color: AlarmSeverity.CRITICAL.toColor(),
+                            color: severity?.toColor(),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -172,5 +170,16 @@ class NotificationWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  AlarmSeverity? _severityFromName(String? name) {
+    if (name == null) {
+      return null;
+    }
+    try {
+      return AlarmSeverity.valueOf(name);
+    } catch (_) {
+      return null;
+    }
   }
 }

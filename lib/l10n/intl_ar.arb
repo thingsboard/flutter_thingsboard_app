@@ -430,8 +430,6 @@
   "phoneIsRequired": "رقم الهاتف مطلوب",
   "phoneIsInvalid": "رقم الهاتف غير صالح",
   "addVerificationMethod": "إضافة طريقة تحقق",
-  "areYouSureYouWantToExit": "هل أنت متأكد أنك تريد الخروج؟",
-  "confirmToCloseTheApp": "تأكيد لإغلاق التطبيق",
   "nSelected": "{count} محدد",
   "@nSelected": {
     "placeholders": {

@@ -86,12 +86,15 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
                             context.pop();
                           },
                           child: Text(
-                            isForce ? S.of(context).loginToApp : S.of(context).done,
+                            isForce
+                                ? S.of(context).loginToApp
+                                : S.of(context).done,
                           ),
                         ),
                       ),
-                      if (isForce && (userSettings.value?.configs.length != platformConfig.value?.length))
-
+                      if (isForce &&
+                          (userSettings.value?.configs?.length !=
+                              platformConfig.value?.length))
                         SizedBox(
                           width: double.infinity,
                           child: FilledButton(
@@ -109,8 +112,8 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
               ],
             ),
           ),
-                 if(platformConfig.isLoading || userSettings.isLoading)
-          const FullScreenLoader(),
+          if (platformConfig.isLoading || userSettings.isLoading)
+            const FullScreenLoader(),
         ],
       ),
     );

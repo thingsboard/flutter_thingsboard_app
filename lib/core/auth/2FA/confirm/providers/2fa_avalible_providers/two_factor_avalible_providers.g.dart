@@ -7,7 +7,7 @@ part of 'two_factor_avalible_providers.dart';
 // **************************************************************************
 
 String _$twoFaConfirmAvalibleProvidersHash() =>
-    r'9ec4bf288563ff26ccaf25b17ee4f19d4ae11d17';
+    r'33b28c823f302339070d33d5cd1b06185afdadb1';
 
 /// See also [twoFaConfirmAvalibleProviders].
 @ProviderFor(twoFaConfirmAvalibleProviders)

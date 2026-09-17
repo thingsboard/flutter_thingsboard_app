@@ -59,9 +59,10 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
           children: [
             StepChip(
               leading: '1',
-              title: S
-                  .of(context)
-                  .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
+              title:
+                  S
+                      .of(context)
+                      .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 20,
@@ -125,9 +126,9 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
     loading.value = true;
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
+          .getTwoFactorAuthConfigControllerApi()
           .verifyAndSaveTwoFaAccountConfig(
-            config,
+            twoFaAccountConfig: config,
             verificationCode: verificationCode,
           );
       onConfigured();

@@ -12,40 +12,41 @@ class OAuthButtons extends StatelessWidget {
     required this.clients,
     required this.onButtonPressed,
   });
-  final void Function(OAuth2ClientInfo) onButtonPressed;
-  final List<OAuth2ClientInfo> clients;
+  final void Function(OAuth2ClientLoginInfo) onButtonPressed;
+  final List<OAuth2ClientLoginInfo> clients;
   @override
   Widget build(BuildContext context) {
     return clients.length == 1 && clients.first.name == 'qr'
         ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              OAuthButton(
-                logo: SvgPicture.asset(
-                  ThingsboardImage.oauth2Logos['qr-code-logo']!,
-                ),
-                onTap: () => onButtonPressed(clients.first),
-                title: S.of(context).scanQrCode,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OAuthButton(
+              logo: SvgPicture.asset(
+                ThingsboardImage.oauth2Logos['qr-code-logo']!,
               ),
-            ],
-          )
+              onTap: () => onButtonPressed(clients.first),
+              title: S.of(context).scanQrCode,
+            ),
+          ],
+        )
         : Row(
-            spacing: 10,
-            children: clients
-                .map(
-                  (e) => Expanded(
-                    child: OAuthButton(
-                      logo: _getOauth2ButtonLogo(context, e),
-                      onTap: () => onButtonPressed(e),
+          spacing: 10,
+          children:
+              clients
+                  .map(
+                    (e) => Expanded(
+                      child: OAuthButton(
+                        logo: _getOauth2ButtonLogo(context, e),
+                        onTap: () => onButtonPressed(e),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-          );
+                  )
+                  .toList(),
+        );
   }
 }
 
-Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientInfo info) {
+Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientLoginInfo info) {
   final String? svgPath = ThingsboardImage.oauth2Logos[info.icon];
 
   if (svgPath != null) {
@@ -57,9 +58,6 @@ Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientInfo info) {
   return SizedBox(
     width: 24,
     height: 24,
-    child: Icon(
-      iconData,
-      color: Colors.black,
-    ),
+    child: Icon(iconData, color: Colors.black),
   );
 }

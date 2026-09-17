@@ -7,6 +7,7 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_r
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
+import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 
 class VersionRedirect implements Redirect {
   @override
@@ -20,11 +21,10 @@ class VersionRedirect implements Redirect {
       return null;
     }
     final oauth = ref.read(oauthProvider);
-    final versionInfo = oauth.value?.versionInfo;
-    if (versionInfo != null) {
-      if (getIt<IVersionService>().appUpdateRequired(versionInfo)) {
-        return LoginRoutes.login + LoginRoutes.updateRequired;
-      }
+    final versionInfo = VersionInfo.fromNullable(oauth.value?.versionInfo);
+    if (versionInfo != null &&
+        getIt<IVersionService>().appUpdateRequired(versionInfo)) {
+      return LoginRoutes.login + LoginRoutes.updateRequired;
     }
     return null;
   }

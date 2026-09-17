@@ -13,6 +13,7 @@ extension AlarmSeverityColors on AlarmSeverity {
       AlarmSeverity.WARNING => const Color(0xFFFAA405),
 
       AlarmSeverity.INDETERMINATE => Colors.black.withValues(alpha: 0.38),
+      _ => Colors.transparent,
     };
   }
 }

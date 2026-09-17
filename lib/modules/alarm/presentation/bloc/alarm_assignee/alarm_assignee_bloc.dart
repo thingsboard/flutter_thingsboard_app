@@ -54,7 +54,9 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
         );
 
         final assignee = paginationRepository.pagingController.itemList
-            ?.firstWhere((assignee) => assignee.userInfo.id.id == event.userId);
+            ?.firstWhere(
+              (assignee) => assignee.userInfo.id?.id == event.userId,
+            );
 
         emit(AlarmAssigneeSelectedState(assignee!));
         getIt<ICommunicationService>().fire(
@@ -81,11 +83,13 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
       case AlarmFetchAssigneeEvent():
         final alarmInfo = await fetchAlarmUseCase(id);
         if (alarmInfo?.assignee != null && alarmInfo?.assignee?.id != null) {
-          final userInfo = UserInfo(
-            alarmInfo!.assignee!.id!,
-            email: alarmInfo.assignee!.email,
-            firstName: alarmInfo.assignee!.firstName,
-            lastName: alarmInfo.assignee!.lastName,
+          final userInfo = UserEmailInfo(
+            (b) =>
+                b
+                  ..id = alarmInfo!.assignee!.id?.toBuilder()
+                  ..email = alarmInfo.assignee!.email ?? ''
+                  ..firstName = alarmInfo.assignee!.firstName
+                  ..lastName = alarmInfo.assignee!.lastName,
           );
 
           final assignee = AssigneeEntity.fromUserInfo(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +11,12 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/notification_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -26,6 +26,7 @@ class TbContext implements PopEntry {
   bool isUserLoaded = false;
   final _isAuthenticated = ValueNotifier<bool>(false);
   List<TwoFaProviderInfo>? twoFactorAuthProviders;
+  bool _dashboardAccessDenied = false;
   User? userDetails;
   HomeDashboardInfo? homeDashboard;
   VersionInfo? versionInfo;
@@ -34,10 +35,8 @@ class TbContext implements PopEntry {
   final _deviceInfoService = getIt<IDeviceInfoService>();
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _log = TbLogger();
-  StreamSubscription? _appLinkStreamSubscription;
 
   late bool _handleRootState;
-  final appLinks = AppLinks();
 
   @override
   final ValueNotifier<bool> canPopNotifier = ValueNotifier<bool>(false);
@@ -115,29 +114,15 @@ class TbContext implements PopEntry {
   }
 
   Future<void> onFatalError(dynamic e) async {
-    String getMessage(dynamic e, BuildContext context) {
-      final message =
-          e is ThingsboardError
-              ? (e.message ?? S.of(context).unknownError)
-              : S.of(context).unknownError;
-
-      return '${S.of(context).fatalApplicationErrorOccurred}\n$message';
-    }
-
     await _overlayService.showAlertDialog(
-      content:
-          (context) => DialogContent(
-            title: S.of(context).fatalError,
-            message: getMessage(e, context),
-            ok: S.of(context).cancel,
-          ),
+      content: (context) => fatalErrorDialogContent(context, e),
     );
     logout();
   }
 
   void onError(ThingsboardError tbError) {
     log.error('onError', tbError, tbError.getStackTrace());
-    _overlayService.showErrorNotification((_) => tbError.message!);
+    _overlayService.showErrorNotification(tbError.getTranslatedMessage);
   }
 
   void onLoadStarted() {
@@ -152,8 +137,10 @@ class TbContext implements PopEntry {
 
   Future<bool> checkDasboardAccess(String id) async {
     try {
-      final dashboard = await tbClient.getDashboardService().getDashboard(id);
-      if (dashboard == null) {
+      final response = await tbClient
+          .getDashboardControllerApi()
+          .getDashboardById(dashboardId: id);
+      if (response.data == null) {
         return false;
       }
     } catch (e) {
@@ -172,24 +159,24 @@ class TbContext implements PopEntry {
         log.debug('authUser: ${tbClient.getAuthUser()}');
         if (tbClient.getAuthUser()!.userId != null) {
           try {
-            final mobileInfo = await tbClient
-                .getMobileService()
+            final mobileResp = await tbClient
+                .getMobileAppControllerApi()
                 .getUserMobileInfo(
-                  MobileInfoQuery(
-                    platformType: _deviceInfoService.getPlatformType(),
-                    packageName: _deviceInfoService.getApplicationId(),
-                  ),
+                  pkgName: _deviceInfoService.getApplicationId(),
+                  platform: _deviceInfoService.getPlatformType().name,
                 );
+            final mobileInfo = mobileResp.data;
             userDetails = mobileInfo?.user;
             homeDashboard = mobileInfo?.homeDashboardInfo;
-            versionInfo = mobileInfo?.versionInfo;
+            versionInfo = VersionInfo.fromNullable(mobileInfo?.versionInfo);
             storeInfo = mobileInfo?.storeInfo;
+            _dashboardAccessDenied = false;
             if (_defaultDashboardId() != null) {
               final hasAccess = await checkDasboardAccess(
                 _defaultDashboardId()!,
               );
               if (!hasAccess) {
-                userDetails?.additionalInfo?['defaultDashboardId'] = null;
+                _dashboardAccessDenied = true;
               }
             }
           } catch (e) {
@@ -204,10 +191,11 @@ class TbContext implements PopEntry {
       } else {
         if (tbClient.isPreVerificationToken()) {
           log.debug('authUser: ${tbClient.getAuthUser()}');
-          twoFactorAuthProviders =
+          final tfaResp =
               await tbClient
-                  .getTwoFactorAuthService()
-                  .getAvailableLoginTwoFaProviders();
+                  .getTwoFactorAuthControllerApi()
+                  .getAvailableTwoFaProviderInfos();
+          twoFactorAuthProviders = tfaResp.data?.toList();
         } else {
           twoFactorAuthProviders = null;
         }
@@ -245,10 +233,6 @@ class TbContext implements PopEntry {
       if (_handleRootState) {
         await updateRouteState();
       }
-
-      if (isAuthenticated) {
-      
-      }
     } catch (e, s) {
       log.error('TbContext.onUserLoaded: $e', e, s);
 
@@ -283,14 +267,6 @@ class TbContext implements PopEntry {
         );
       }
     } finally {
-      _appLinkStreamSubscription ??= appLinks.uriLinkStream.listen(
-        (link) {
-          thingsboardAppRouter.navigateByAppLink(link.toString());
-        },
-        onError: (err) {
-          log.error('linkStream.listen $err');
-        },
-      );
       FlutterNativeSplash.remove();
     }
   }
@@ -302,14 +278,9 @@ class TbContext implements PopEntry {
     log.debug('TbContext::logout($requestConfig, $notifyUser)');
     _handleRootState = true;
 
-    if (getIt<IFirebaseService>().apps.isNotEmpty) {
-      await getIt<NotificationService>().init();
-    }
+    await getIt<NotificationService>().logout();
 
     await tbClient.logout(requestConfig: requestConfig, notifyUser: notifyUser);
-
-    _appLinkStreamSubscription?.cancel();
-    _appLinkStreamSubscription = null;
   }
 
   Future<void> updateRouteState() async {
@@ -363,17 +334,18 @@ class TbContext implements PopEntry {
   }
 
   String? _defaultDashboardId() {
-    if (userDetails != null && userDetails!.additionalInfo != null) {
-      return userDetails!.additionalInfo!['defaultDashboardId']?.toString();
-    }
-    return null;
+    if (_dashboardAccessDenied) return null;
+    final info = userDetails?.additionalInfo;
+    if (info == null || !info.isMap) return null;
+    return info.asMap['defaultDashboardId']?.toString();
   }
 
   bool _userForceFullscreen() {
+    final info = userDetails?.additionalInfo;
     return tbClient.getAuthUser()!.isPublic! ||
-        (userDetails != null &&
-            userDetails!.additionalInfo != null &&
-            userDetails!.additionalInfo!['defaultDashboardFullscreen'] == true);
+        (info != null &&
+            info.isMap &&
+            info.asMap['defaultDashboardFullscreen'] == true);
   }
 
   static String userAgent() {

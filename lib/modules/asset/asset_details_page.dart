@@ -15,8 +15,11 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
       );
   final tbClient = getIt<ITbClientService>().client;
   @override
-  Future<AssetInfo?> fetchEntity(String id) {
-    return tbClient.getAssetService().getAssetInfo(id);
+  Future<AssetInfo?> fetchEntity(String id) async {
+    final r = await tbClient.getAssetControllerApi().getAssetInfoById(
+      assetId: id,
+    );
+    return r.data;
   }
 
   @override
@@ -27,10 +30,10 @@ class AssetDetailsPage extends EntityDetailsPage<AssetInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(S.of(context).assetName, style: labelTextStyle),
-          Text(entity.name, style: valueTextStyle),
+          Text(entity.name ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).type, style: labelTextStyle),
-          Text(entity.type, style: valueTextStyle),
+          Text(entity.type ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).label, style: labelTextStyle),
           Text(entity.label ?? '', style: valueTextStyle),

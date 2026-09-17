@@ -35,16 +35,16 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
         }
         if (providers.value?.length == 1) {
           context.pushReplacement(
-            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${providers.value!.first.type.toShortString()}',
+            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${providers.value!.first.type?.name}',
           );
           return;
         }
         final defaultProvider = providers.value?.firstWhereOrNull(
-          (e) => e.isDefault,
+          (e) => e.default_ ?? false,
         );
         if (defaultProvider != null) {
           context.pushReplacement(
-             '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${defaultProvider.type.toShortString()}',
+            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${defaultProvider.type?.name}',
           );
           return;
         }
@@ -59,9 +59,10 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
       final info = providers.value!.firstWhere(
         (e) => e.type == selectedProvider,
       );
+      if (info.type == null) return const SizedBox();
       final codeLoading = ref.watch(
         twoFactorConfirmProvider(
-          info.type,
+          info.type!,
           info.minVerificationCodeSendPeriod,
         ).select((state) => state.loading),
       );
@@ -81,13 +82,18 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     return BaseTwoFactorLayout(
       title: S.of(context).verifyYourIdentity,
       isLoading: isLoading.value,
-      child: providers.value != null
-          ? SelectProviderTypeWidget(
-              activeProviders: const [],
-              avalibleTypes: providers.value!.map((e) => e.type).toList(),
-              type: TwoFaViewType.confirm,
-            )
-          : const SizedBox(),
+      child:
+          providers.value != null
+              ? SelectProviderTypeWidget(
+                activeProviders: const [],
+                avalibleTypes:
+                    providers.value!
+                        .where((e) => e.type != null)
+                        .map((e) => e.type!)
+                        .toList(),
+                type: TwoFaViewType.confirm,
+              )
+              : const SizedBox(),
     );
   }
 
@@ -96,11 +102,12 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     WidgetRef ref,
     TwoFaProviderInfo info,
   ) async {
+    if (info.type == null) return;
     isLoading.value = true;
     await ref
         .read(
           twoFactorConfirmProvider(
-            info.type,
+            info.type!,
             info.minVerificationCodeSendPeriod,
           ).notifier,
         )

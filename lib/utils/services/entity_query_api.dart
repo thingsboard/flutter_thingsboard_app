@@ -1,60 +1,128 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
 abstract class EntityQueryApi {
   static final activeDeviceKeyFilter = KeyFilter(
-    key: EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active'),
-    valueType: EntityKeyValueType.BOOLEAN,
-    predicate: BooleanFilterPredicate(
-      operation: BooleanOperation.EQUAL,
-      value: FilterPredicateValue(true),
-    ),
+    (b) =>
+        b
+          ..key =
+              EntityKey(
+                (b) =>
+                    b
+                      ..type = EntityKeyType.ATTRIBUTE
+                      ..key = 'active',
+              ).toBuilder()
+          ..valueType = EntityKeyValueType.BOOLEAN
+          ..predicate = BooleanFilterPredicate(
+            (b) =>
+                b
+                  ..type = 'BOOLEAN'
+                  ..operation = BooleanOperation.EQUAL
+                  ..value =
+                      FilterPredicateValueBoolean(
+                        (b) => b..defaultValue = true,
+                      ).toBuilder(),
+          ),
   );
 
   static final inactiveDeviceKeyFilter = KeyFilter(
-    key: EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active'),
-    valueType: EntityKeyValueType.BOOLEAN,
-    predicate: BooleanFilterPredicate(
-      operation: BooleanOperation.EQUAL,
-      value: FilterPredicateValue(false),
-    ),
+    (b) =>
+        b
+          ..key =
+              EntityKey(
+                (b) =>
+                    b
+                      ..type = EntityKeyType.ATTRIBUTE
+                      ..key = 'active',
+              ).toBuilder()
+          ..valueType = EntityKeyValueType.BOOLEAN
+          ..predicate = BooleanFilterPredicate(
+            (b) =>
+                b
+                  ..type = 'BOOLEAN'
+                  ..operation = BooleanOperation.EQUAL
+                  ..value =
+                      FilterPredicateValueBoolean(
+                        (b) => b..defaultValue = false,
+                      ).toBuilder(),
+          ),
   );
 
-  static final defaultDeviceFields = <EntityKey>[
-    EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'name'),
-    EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'type'),
-    EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'label'),
-    EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'createdTime'),
-  ];
+  static final defaultDeviceFields = BuiltList<EntityKey>([
+    EntityKey(
+      (b) =>
+          b
+            ..type = EntityKeyType.ENTITY_FIELD
+            ..key = 'name',
+    ),
+    EntityKey(
+      (b) =>
+          b
+            ..type = EntityKeyType.ENTITY_FIELD
+            ..key = 'type',
+    ),
+    EntityKey(
+      (b) =>
+          b
+            ..type = EntityKeyType.ENTITY_FIELD
+            ..key = 'label',
+    ),
+    EntityKey(
+      (b) =>
+          b
+            ..type = EntityKeyType.ENTITY_FIELD
+            ..key = 'createdTime',
+    ),
+  ]);
 
-  static final defaultDeviceAttributes = <EntityKey>[
-    EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active'),
-  ];
+  static final defaultDeviceAttributes = BuiltList<EntityKey>([
+    EntityKey(
+      (b) =>
+          b
+            ..type = EntityKeyType.ATTRIBUTE
+            ..key = 'active',
+    ),
+  ]);
 
   static Future<int> countDevices(
     ThingsboardClient tbClient, {
     String? deviceType,
     bool? active,
-  }) {
-    EntityFilter deviceFilter;
-    if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(
-        deviceTypes: [deviceType],
-        deviceNameFilter: '',
-      );
-    } else {
-      deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
-    }
-    final EntityCountQuery deviceCountQuery = EntityCountQuery(
-      entityFilter: deviceFilter,
-    );
+  }) async {
+    final EntityFilter deviceFilter =
+        deviceType != null
+            ? DeviceTypeFilter(
+              (b) =>
+                  b
+                    ..type = 'deviceType'
+                    ..deviceTypes = ListBuilder<String>([deviceType])
+                    ..deviceNameFilter = '',
+            )
+            : EntityTypeFilter(
+              (b) =>
+                  b
+                    ..type = 'entityType'
+                    ..entityType = EntityType.DEVICE,
+            );
+
+    BuiltList<KeyFilter>? keyFilters;
     if (active != null) {
-      deviceCountQuery.keyFilters = [
+      keyFilters = BuiltList<KeyFilter>([
         if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter,
-      ];
+      ]);
     }
-    return tbClient.getEntityQueryService().countEntitiesByQuery(
-      deviceCountQuery,
+
+    final deviceCountQuery = EntityCountQuery(
+      (b) =>
+          b
+            ..entityFilter = deviceFilter
+            ..keyFilters = keyFilters?.toBuilder(),
     );
+
+    final response = await tbClient
+        .getEntityQueryControllerApi()
+        .countEntitiesByQuery(entityCountQuery: deviceCountQuery);
+    return response.data ?? 0;
   }
 
   static EntityDataQuery createDefaultDeviceQuery({
@@ -63,35 +131,64 @@ abstract class EntityQueryApi {
     String? deviceType,
     bool? active,
   }) {
-    EntityFilter deviceFilter;
-    List<KeyFilter>? keyFilters;
-    if (deviceType != null) {
-      deviceFilter = DeviceTypeFilter(
-               deviceTypes: [deviceType],
-        deviceType: deviceType,
-        deviceNameFilter: '',
-      );
-    } else {
-      deviceFilter = EntityTypeFilter(entityType: EntityType.DEVICE);
-    }
+    final EntityFilter deviceFilter =
+        deviceType != null
+            ? DeviceTypeFilter(
+              (b) =>
+                  b
+                    ..type = 'deviceType'
+                    ..deviceTypes = ListBuilder<String>([deviceType])
+                    ..deviceNameFilter = '',
+            )
+            : EntityTypeFilter(
+              (b) =>
+                  b
+                    ..type = 'entityType'
+                    ..entityType = EntityType.DEVICE,
+            );
+
+    BuiltList<KeyFilter>? keyFilters;
     if (active != null) {
-      keyFilters = [
+      keyFilters = BuiltList<KeyFilter>([
         if (active) activeDeviceKeyFilter else inactiveDeviceKeyFilter,
-      ];
+      ]);
     }
+
     return EntityDataQuery(
-      entityFilter: deviceFilter,
-      keyFilters: keyFilters,
-      entityFields: defaultDeviceFields,
-      latestValues: defaultDeviceAttributes,
-      pageLink: EntityDataPageLink(
-        pageSize: pageSize,
-        textSearch: searchText,
-        sortOrder: EntityDataSortOrder(
-          key: EntityKey(type: EntityKeyType.ENTITY_FIELD, key: 'createdTime'),
-          direction: EntityDataSortOrderDirection.DESC,
-        ),
-      ),
+      (b) =>
+          b
+            ..entityFilter = deviceFilter
+            ..keyFilters = keyFilters?.toBuilder()
+            ..entityFields = defaultDeviceFields.toBuilder()
+            ..latestValues = defaultDeviceAttributes.toBuilder()
+            ..pageLink =
+                EntityDataPageLink(
+                  (b) =>
+                      b
+                        ..pageSize = pageSize
+                        ..textSearch = searchText
+                        ..sortOrder =
+                            EntityDataSortOrder(
+                              (b) =>
+                                  b
+                                    ..key =
+                                        EntityKey(
+                                          (b) =>
+                                              b
+                                                ..type =
+                                                    EntityKeyType.ENTITY_FIELD
+                                                ..key = 'createdTime',
+                                        ).toBuilder()
+                                    ..direction = Direction.DESC,
+                            ).toBuilder(),
+                ).toBuilder(),
     );
   }
+}
+
+/// Extension that restores the old `field()` / `attribute()` convenience
+/// accessors on the built_value [EntityData] model.
+extension EntityDataHelpers on EntityData {
+  String? field(String key) => latest?['ENTITY_FIELD']?[key]?.value;
+  String? attribute(String key) => latest?['ATTRIBUTE']?[key]?.value;
 }

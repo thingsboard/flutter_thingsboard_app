@@ -430,8 +430,6 @@
   "phoneIsRequired": "Telefoon is verplicht",
   "phoneIsInvalid": "Telefoonnummer is ongeldig",
   "addVerificationMethod": "Verificatiemethode toevoegen",
-  "areYouSureYouWantToExit": "Weet u zeker dat u wilt afsluiten?",
-  "confirmToCloseTheApp": "Bevestig om de app te sluiten",
   "loginNotification": "Log in op uw account",
   "nSelected": "{count} geselecteerd",
   "@nSelected": {

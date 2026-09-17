@@ -26,8 +26,8 @@ class BackupCodeConfigureWidget
   Future<void> saveConfig() async {
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(twoFaAccountConfig: config);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error saving codes: $e",
@@ -80,17 +80,19 @@ class BackupCodeConfigureWidget
                     selectionControls: MaterialTextSelectionControls(),
                     child: Column(
                       spacing: 12,
-                      children: chunkList(config.codes, 2)
-                          .map(
-                            (e) => Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(e[0], style: TbTextStyles.labelLarge),
-                                Text(e[1], style: TbTextStyles.labelLarge),
-                              ],
-                            ),
-                          )
-                          .toList(),
+                      children:
+                          chunkList(config.codes, 2)
+                              .map(
+                                (e) => Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(e[0], style: TbTextStyles.labelLarge),
+                                    Text(e[1], style: TbTextStyles.labelLarge),
+                                  ],
+                                ),
+                              )
+                              .toList(),
                     ),
                   ),
                 ),
@@ -146,8 +148,8 @@ class BackupCodeConfigureWidget
     loading.value = true;
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .generateTwoFaAccountConfig(config.getProviderType());
+          .getTwoFactorAuthConfigControllerApi()
+          .generateTwoFaAccountConfig(providerType: config.providerType);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error sending code: $e",

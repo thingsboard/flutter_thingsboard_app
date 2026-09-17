@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
@@ -202,10 +203,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         _isLoadingNotifier.value = true;
         try {
           await Future.delayed(const Duration(milliseconds: 300));
-          await getIt<ITbClientService>().client.changePassword(
-            currentPassword,
-            newPassword,
+          final client = getIt<ITbClientService>().client;
+          final response = await client.getAuthControllerApi().changePassword(
+            changePasswordRequest: ChangePasswordRequest(
+              (b) =>
+                  b
+                    ..currentPassword = currentPassword
+                    ..newPassword = newPassword,
+            ),
           );
+          // The server rotates the JWT pair on a password change; apply it so
+          // the stored refresh token stays valid and the session isn't dropped.
+          final jwtPair = response.data;
+          if (jwtPair?.token != null) {
+            await client.setUserFromJwtToken(
+              jwtPair!.token,
+              jwtPair.refreshToken,
+              false,
+            );
+          }
           if (mounted) {
            context.pop(true);
           }

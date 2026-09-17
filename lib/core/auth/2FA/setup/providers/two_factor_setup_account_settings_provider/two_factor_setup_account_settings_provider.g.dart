@@ -7,7 +7,7 @@ part of 'two_factor_setup_account_settings_provider.dart';
 // **************************************************************************
 
 String _$acountTwoFactorSettingsHash() =>
-    r'0a9e643aa0941c600edd5b452b60bf1cd6fdaf1c';
+    r'ade1c7e88e4a8de33c47fc285e38023e94298bc3';
 
 /// See also [acountTwoFactorSettings].
 @ProviderFor(acountTwoFactorSettings)

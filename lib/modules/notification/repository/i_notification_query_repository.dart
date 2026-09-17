@@ -1,9 +1,9 @@
 abstract interface class INotificationQueryRepository {
-  Future<int> markAllAsRead();
+  Future<void> markAllAsRead();
 
-  Future<int> markNotificationAsRead(String id);
+  Future<void> markNotificationAsRead(String id);
 
-  Future<int> deleteNotification(String id);
+  Future<void> deleteNotification(String id);
 
   Future<void> searchNotification(String searchText);
 

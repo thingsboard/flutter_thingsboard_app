@@ -53,7 +53,7 @@ class AssigneeDi {
   }
 
   static void dispose(String scopeName) {
-    getIt<PaginationRepository<PageLink, AlarmType>>().dispose();
+    getIt<PaginationRepository<PageLink, AssigneeEntity>>().dispose();
     getIt<AssigneeBloc>().close();
     getIt.dropScope(scopeName);
   }

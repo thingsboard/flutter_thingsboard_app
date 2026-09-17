@@ -83,7 +83,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: UserInfoWidget(
-                          id: state.assignee.userInfo.id.id ?? '',
+                          id: state.assignee.userInfo.id?.id ?? '',
                           avatar: UserInfoAvatarWidget(
                             shortName: state.assignee.shortName,
                             color: UiUtils.colorFromString(

@@ -13,6 +13,7 @@ import 'package:thingsboard_app/modules/main/model/navigation_item_data.dart';
 import 'package:thingsboard_app/modules/main/model/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 
 part 'navigation_provider.g.dart';
 
@@ -50,6 +51,16 @@ class Navigation extends _$Navigation {
       return const NavigationState(bottomBarPages: [], morePages: []);
     }
     return _getPages(_pagesLayout);
+  }
+
+  /// Primes the page layout from the current login state and returns the path
+  /// of the first bottom bar page, or null when there is nothing to open yet.
+  /// [build] does not prime the layout, so callers that navigate right after a
+  /// login must go through here instead of reading [state] directly.
+  String? resolveHomePath() {
+    onLoggedIn();
+
+    return state.bottomBarPages.firstOrNull?.path;
   }
 
   void onLoggedIn() {

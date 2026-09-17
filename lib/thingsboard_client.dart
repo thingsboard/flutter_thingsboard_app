@@ -7,4 +7,19 @@
 /// thus minimizing merge conflicts.
 library;
 
-export 'package:thingsboard_client/thingsboard_client.dart';
+// Hide generated built_value types that conflict with handwritten counterparts.
+export 'package:thingsboard_ce_client/thingsboard_ce_client.dart'
+    hide Authority, LoginRequest, LoginResponse, RefreshTokenRequest,
+         // Hide handwritten alarm query objects; app-local replacements live in
+         // lib/modules/alarm/domain/pagination/alarm_query_keys.dart.
+         AlarmQueryV2, AlarmCommentsQuery, UsersAssignQuery,
+         // Hide client-side Font models that shadow Flutter's built-in types.
+         FontWeight, FontStyle, Font,
+         // Hide TB NotificationSettings which shadows firebase_messaging's class.
+         NotificationSettings;
+
+// Use the handwritten auth models (plain Dart enum + positional-ish LoginRequest).
+export 'package:thingsboard_ce_client/src/model/authority_enum.dart'
+    show Authority, authorityFromString;
+export 'package:thingsboard_ce_client/src/model/login_models.dart'
+    show LoginRequest, LoginResponse, RefreshTokenRequest;

@@ -259,9 +259,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "applyChanges": MessageLookupByLibrary.simpleMessage("Anvend ændringer"),
     "areYouSure": MessageLookupByLibrary.simpleMessage("Er du sikker?"),
     "areYouSureYouWantToDeactivate": m3,
-    "areYouSureYouWantToExit": MessageLookupByLibrary.simpleMessage(
-      "Er du sikker på, at du vil afslutte?",
-    ),
     "asset": MessageLookupByLibrary.simpleMessage("Aktiv"),
     "assetName": MessageLookupByLibrary.simpleMessage("Aktivnavn"),
     "assetProfile": MessageLookupByLibrary.simpleMessage("Aktivprofil"),
@@ -311,9 +308,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmNotRobotMessage": MessageLookupByLibrary.simpleMessage(
       "Du skal bekræfte, at du ikke er en robot",
-    ),
-    "confirmToCloseTheApp": MessageLookupByLibrary.simpleMessage(
-      "Bekræft for at lukke appen",
     ),
     "confirmation": MessageLookupByLibrary.simpleMessage("Bekræftelse"),
     "confirmingWifiConnection": MessageLookupByLibrary.simpleMessage(

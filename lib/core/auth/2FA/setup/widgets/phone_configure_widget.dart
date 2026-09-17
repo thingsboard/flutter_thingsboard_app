@@ -148,10 +148,12 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
         throw Exception('Phone number is required');
       }
 
-      config.phoneNumber = phoneNumber.international;
+      final updatedConfig = config.rebuild(
+        (b) => b..phoneNumber = phoneNumber.international,
+      );
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .submitTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .submitTwoFaAccountConfig(twoFaAccountConfig: updatedConfig);
       return true;
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
@@ -176,10 +178,15 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     try {
       final phoneNumber = form.control('phone').value as PhoneNumber;
 
-      config.phoneNumber = phoneNumber.international;
+      final updatedConfig = config.rebuild(
+        (b) => b..phoneNumber = phoneNumber.international,
+      );
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config, verificationCode: code);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(
+            twoFaAccountConfig: updatedConfig,
+            verificationCode: code,
+          );
       onConfigured();
     } catch (e) {
       control.setErrors({TbValicationMessages.invalidCode: {}});
@@ -196,7 +203,6 @@ class PhoneTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return ReactivePhoneFormField<PhoneNumber>(
       controller: phoneController,
       countryButtonStyle: CountryButtonStyle(
@@ -206,12 +212,11 @@ class PhoneTextField extends HookWidget {
       ),
       style: TbTextStyles.bodyLarge,
       decoration: InputDecoration(
-        
         hintText: S.of(context).phone,
         isDense: true,
         helperText: S.of(context).phoneNumberHelperText,
       ),
-    
+
       formControlName: 'phone',
       focusNode: FocusNode(),
       valueAccessor: PhoneNumberValueAccessor(),

@@ -25,7 +25,8 @@ class EnterACodeWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = getTwoFaProviderData(selectedProvider.type);
+    final providerType = selectedProvider.type!;
+    final data = getTwoFaProviderData(providerType);
     final timerDuration = selectedProvider.minVerificationCodeSendPeriod ?? 0;
     final form = useMemoized(
       () => FormGroup({
@@ -43,13 +44,13 @@ class EnterACodeWidget extends HookConsumerWidget {
     )..forward();
     final state = ref.watch(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
     );
     ref.listen(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
       (prev, next) {
@@ -105,7 +106,7 @@ class EnterACodeWidget extends HookConsumerWidget {
               type: data.textInputType,
               autoFillHints: const [AutofillHints.oneTimeCode],
             ),
-            if (!noResendCodeProviders.contains(selectedProvider.type))
+            if (!noResendCodeProviders.contains(providerType))
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child:
@@ -167,7 +168,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     await ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )
@@ -178,7 +179,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )

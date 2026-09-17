@@ -176,10 +176,8 @@ class ProfilePreviewWidget extends HookConsumerWidget {
   }
 
   String getUnitName(BuildContext context) => UnitSystems.fromString(
-    user.additionalInfo?['unitSystem']?.toString(),
+    user.additionalInfo?.asMap?['unitSystem']?.toString(),
   ).getLocalizedName(context);
-
-
 }
 
 List<Locale> getAllLanguages(BuildContext context) {
@@ -197,7 +195,7 @@ String getLocalizedLanguageName(Locale locale, BuildContext context) {
 
 Locale getCurrentLocale(BuildContext context, User user) {
   final locale = S.delegate.supportedLocales.firstWhereOrNull(
-    (l) => l.toString() == user.additionalInfo?['lang']?.toString(),
+    (l) => l.toString() == user.additionalInfo?.asMap?['lang']?.toString(),
   );
 
   return locale ?? Localizations.localeOf(context);

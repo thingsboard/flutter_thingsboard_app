@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/di/dashboards_di.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_back_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -38,17 +40,7 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
             return TbAppBar(
               leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-                onPressed: () async {
-                  if (_dashboardController?.rightLayoutOpened.value == true) {
-                    await _dashboardController?.toggleRightLayout();
-                    return;
-                  }
-
-                  final controller = _dashboardController?.controller;
-                  if (await controller?.canGoBack() == true) {
-                    await controller?.goBack();
-                  }
-                },
+                onPressed: _handleBack,
               ),
               elevation: 1,
               shadowColor: Colors.transparent,
@@ -77,9 +69,11 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
           },
         ),
       ),
-      body: ValueListenableBuilder<String?>(
-        valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder:
+      body: DashboardBackHandler(
+        onBack: _handleBack,
+        child: ValueListenableBuilder<String?>(
+          valueListenable: getIt<IEndpointService>().listenEndpointChanges,
+          builder:
             (context, _, _) => DashboardWidget(
               titleCallback: (title) {
                 dashboardTitleValue.value = title;
@@ -96,6 +90,7 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
                 );
               },
             ),
+        ),
       ),
     );
   }
@@ -118,5 +113,14 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
 
   void _onCanGoBack(bool canGoBack) {
     showBackValue.value = canGoBack;
+  }
+
+  Future<void> _handleBack() async {
+    if (await DashboardBackHandler.tryNavigateBack(_dashboardController)) {
+      return;
+    }
+    if (mounted && context.canPop()) {
+      Navigator.of(context).pop();
+    }
   }
 }

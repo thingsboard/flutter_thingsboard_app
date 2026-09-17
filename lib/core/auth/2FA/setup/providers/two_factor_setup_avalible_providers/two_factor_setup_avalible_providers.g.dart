@@ -7,7 +7,7 @@ part of 'two_factor_setup_avalible_providers.dart';
 // **************************************************************************
 
 String _$twoFactorSetupAvalibleProvidersHash() =>
-    r'd6d760a291c656026f0b913e74c3982de589a368';
+    r'a9fdf60b6fdaa889d68372611ebae6423058c05b';
 
 /// See also [twoFactorSetupAvalibleProviders].
 @ProviderFor(twoFactorSetupAvalibleProviders)

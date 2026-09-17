@@ -7,12 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/design_tokens.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart' hide Direction;
+import 'package:thingsboard_ce_client/src/model/page/sort_order.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 
 typedef EntityTapFunction<T> = Function(T entity);
 typedef EntityCardWidgetBuilder<T> =
@@ -59,10 +60,12 @@ mixin EntitiesBase<T, P> {
   void onEntityTap(T entity, WidgetRef ref);
 }
 
-mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
+mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
   @override
   Widget buildEntityListCard(BuildContext context, T contact) {
-    final address = Utils.contactToShortAddress(contact);
+    final info = ContactInfo.of(contact);
+    final email = info?.email;
+    final address = info?.shortAddress;
     return Container(
       constraints: const BoxConstraints(minHeight: 56),
       decoration: BoxDecoration(borderRadius: DesignTokens.borderRadiusSmall),
@@ -82,7 +85,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                   children: [
                     Expanded(
                       child: Text(
-                        contact.getName(),
+                        info?.name ?? '',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TbTextStyles.labelLarge.copyWith(
@@ -94,7 +97,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                     Text(
                       entityDateFormat.format(
                         DateTime.fromMillisecondsSinceEpoch(
-                          contact.createdTime!,
+                          info?.createdTime ?? 0,
                         ),
                       ),
                       style: TbTextStyles.bodyMedium.copyWith(
@@ -104,9 +107,9 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                   ],
                 ),
 
-                if (contact.email != null)
+                if (email != null)
                   Text(
-                    contact.email!,
+                    email,
                     style: TbTextStyles.labelSmall.copyWith(
                       color: AppColors.textTertiary,
                     ),
@@ -204,7 +207,8 @@ abstract class BaseEntitiesWidget<T, P> extends ConsumerStatefulWidget
           : null;
 }
 
-abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<T, P>> {
+abstract class BaseEntitiesState<T, P>
+    extends ConsumerState<BaseEntitiesWidget<T, P>> {
   BaseEntitiesState();
   late final PagingController<P, T> pagingController;
   Completer<void>? _refreshCompleter;
@@ -221,7 +225,17 @@ abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<
     );
     widget.pageKeyController.addListener(_didChangePageKeyValue);
     pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+      // For the first page, infinite_scroll_pagination always re-requests the
+      // `firstPageKey` captured when this controller was created (see
+      // PagedLayoutBuilder). That key is stale whenever the page key is an
+      // immutable object that onSearchText/filters *replace* rather than mutate
+      // (e.g. EntityDataQuery for devices) — the search text would be dropped.
+      // Substitute the controller's current page key in that case.
+      final effectiveKey =
+          identical(pageKey, pagingController.firstPageKey)
+              ? widget.pageKeyController.value.pageKey
+              : pageKey;
+      _fetchPage(effectiveKey);
     });
   }
 
@@ -258,6 +272,9 @@ abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<
 
   void _refreshPagingController() {
     if (_reloadData) {
+      // refresh() resets the list and re-requests the first page; the page
+      // request listener substitutes the controller's current key so search
+      // text / filters are applied (see initState).
       pagingController.refresh();
       _reloadData = false;
     } else {

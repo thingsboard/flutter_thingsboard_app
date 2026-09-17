@@ -8,6 +8,7 @@ import 'package:thingsboard_app/modules/version/view/widgets/version_compare_wid
 import 'package:thingsboard_app/modules/version/view/widgets/version_empty_widget.dart';
 import 'package:thingsboard_app/modules/version/view/widgets/version_single_widget.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 
 class UpdateRequiredPage extends ConsumerWidget {
   const UpdateRequiredPage({super.key});
@@ -26,7 +27,7 @@ class UpdateRequiredPage extends ConsumerWidget {
                     VersionInfoFetchEvent(
                       VersionRouteArguments(
                         storeInfo: proivders.value.storeInfo,
-                        versionInfo: proivders.value.versionInfo!,
+                        versionInfo: VersionInfo.fromMobileAppVersionInfo(proivders.value.versionInfo!),
                       ),
                     ),
                   ),

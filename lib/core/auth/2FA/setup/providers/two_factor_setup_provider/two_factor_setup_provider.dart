@@ -1,4 +1,3 @@
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -12,9 +11,10 @@ Future<TwoFaAccountConfig> generateConfig(
   TwoFaProviderType type,
 ) async {
   final tbClient = getIt<ITbClientService>().client;
-  return await tbClient.getTwoFactorAuthService().generateTwoFaAccountConfig(
-    type,
-  );
+  final res = await tbClient
+      .getTwoFactorAuthConfigControllerApi()
+      .generateTwoFaAccountConfig(providerType: type.name);
+  return res.data!;
 }
 
 // @riverpod
