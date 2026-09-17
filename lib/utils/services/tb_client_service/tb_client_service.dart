@@ -10,6 +10,7 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 
@@ -83,24 +84,20 @@ class TbClientService implements ITbClientService {
     getIt<ICommunicationService>().fire(const UserLoadedEvent());
   }
 
-  String _getMessage(dynamic e, BuildContext context) {
-    final message =
-        e is ThingsboardError
-            ? (e.message ?? S.of(context).unknownError)
-            : S.of(context).unknownError;
-
-    return '${S.of(context).fatalApplicationErrorOccurred}\n$message';
-  }
-
   void onInitError(dynamic e) {
-    _overlayService.showAlertDialog(
-      content:
-          (context) => DialogContent(
-            title: S.of(context).fatalError,
-            message: _getMessage(e, context),
-            ok: S.of(context).cancel,
-          ),
-    );
+    // The interceptor already routed a connection failure through
+    // onClientError, which shows the connection dialog; a fatal dialog for the
+    // same error would only stack on top of it.
+    if (Utils.isConnectionError(e)) {
+      return;
+    }
+    // init() runs before runApp(), so the navigator context that the dialog
+    // needs only exists after the first frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _overlayService.showAlertDialog(
+        content: (context) => fatalErrorDialogContent(context, e),
+      );
+    });
   }
 
   void onClientError(ThingsboardError e) {
@@ -120,7 +117,7 @@ class TbClientService implements ITbClientService {
 
         return;
       }
-      _overlayService.showErrorNotification((_) => e.message!);
+      _overlayService.showErrorNotification(e.getTranslatedMessage);
     });
   }
 
