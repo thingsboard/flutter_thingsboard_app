@@ -56,9 +56,13 @@ class TbClientService implements ITbClientService {
   }
 
   void onInitError(dynamic e) {
-    _overlayService.showAlertDialog(
-      content: (context) => fatalErrorDialogContent(context, e),
-    );
+    // init() runs before runApp(), so the navigator context that the dialog
+    // needs only exists after the first frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _overlayService.showAlertDialog(
+        content: (context) => fatalErrorDialogContent(context, e),
+      );
+    });
   }
 
   void onClientError(ThingsboardError e) {

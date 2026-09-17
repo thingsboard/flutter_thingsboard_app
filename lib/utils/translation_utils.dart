@@ -186,7 +186,7 @@ DialogContent fatalErrorDialogContent(BuildContext context, Object? error) {
   return DialogContent(
     title: S.of(context).fatalError,
     message: '${S.of(context).fatalApplicationErrorOccurred}\n$message',
-    ok: S.of(context).cancel,
+    ok: S.of(context).close,
   );
 }
 
