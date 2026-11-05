@@ -1,5 +1,5 @@
-## [ThingsBoard PE Mobile Application](https://thingsboard.io/products/mobile-pe/) is an open-source project based on [Flutter](https://flutter.dev/)
-Powered by [ThingsBoard PE](https://thingsboard.io/products/thingsboard-pe/) IoT Platform
+## [ThingsBoard Mobile Application](https://thingsboard.io/products/mobile-pe/) is an open-source project based on [Flutter](https://flutter.dev/)
+Powered by [ThingsBoard](https://thingsboard.io) IoT Platform
 
 Build your own advanced IoT mobile application **with minimum coding efforts**
 

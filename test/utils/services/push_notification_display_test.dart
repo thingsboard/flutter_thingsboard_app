@@ -230,7 +230,7 @@ void main() {
     setUpAll(() async {
       kotlin =
           File(
-            'android/app/src/main/kotlin/org/thingsboard/pe/app/'
+            'android/app/src/main/kotlin/org/thingsboard/app/'
             'TbFirebaseMessagingService.kt',
           ).readAsStringSync();
       android = await shownAndroidDetails(message());

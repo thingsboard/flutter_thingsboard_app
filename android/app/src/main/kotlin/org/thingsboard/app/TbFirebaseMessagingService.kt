@@ -1,4 +1,4 @@
-package org.thingsboard.pe.app
+package org.thingsboard.app
 
 import android.app.ActivityManager
 import android.app.KeyguardManager

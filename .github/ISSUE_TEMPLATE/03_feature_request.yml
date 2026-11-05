@@ -17,7 +17,7 @@ body:
     attributes:
       value: |
         Before filling the form fields, please consider the following:
-        - Ensure that you have searched the [existing issues](https://github.com/thingsboard/flutter_thingsboard_pe_app/issues)
+        - Ensure that you have searched the [existing issues](https://github.com/thingsboard/flutter_thingsboard_app/issues)
         - Read the [mobile app documentation](https://thingsboard.io/docs/mobile/)
   - type: input
     attributes:
@@ -32,7 +32,7 @@ body:
       description: What type of ThingsBoard platform are you using?
       options:
         - Self-hosted ThingsBoard
-        - ThingsBoard PE Cloud
+        - ThingsBoard Cloud
     validations:
       required: true
   - type: textarea

@@ -1,6 +1,6 @@
 # Maintainers
 
-This file lists the maintainers of the ThingsBoard PE Mobile Application project.
+This file lists the maintainers of the ThingsBoard Mobile Application project.
 Maintainers review and merge pull requests, triage issues, and drive project releases.
 
 | Name                | GitHub                                     | Email                     |

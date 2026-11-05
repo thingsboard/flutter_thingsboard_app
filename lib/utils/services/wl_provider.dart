@@ -184,7 +184,7 @@ class Wl extends _$Wl {
         b
           ..logoImageUrl = defaultLogoUrl
           ..logoImageHeight = 36
-          ..appTitle = 'ThingsBoard PE'
+          ..appTitle = 'ThingsBoard'
           ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
           ..paletteSettings =
               (PaletteSettingsBuilder()
@@ -207,7 +207,7 @@ class Wl extends _$Wl {
           b
             ..logoImageUrl = defaultLogoUrl
             ..logoImageHeight = 50
-            ..appTitle = 'ThingsBoard PE'
+            ..appTitle = 'ThingsBoard'
             ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
             ..paletteSettings =
                 (PaletteSettingsBuilder()
