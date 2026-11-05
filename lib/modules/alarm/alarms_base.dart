@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 extension AlarmSeverityColors on AlarmSeverity {
   Color toColor() {

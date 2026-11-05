@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/live_location_tracking/live_tracking_remote.dart';
 import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_config.dart';
 

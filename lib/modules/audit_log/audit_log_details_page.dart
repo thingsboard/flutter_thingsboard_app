@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 

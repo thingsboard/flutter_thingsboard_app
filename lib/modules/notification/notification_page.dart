@@ -11,7 +11,7 @@ import 'package:thingsboard_app/modules/notification/repository/notification_rep
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';

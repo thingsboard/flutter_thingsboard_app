@@ -10,8 +10,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device/device_dashboard_navigation.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight, FontStyle;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';

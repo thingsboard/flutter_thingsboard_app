@@ -9,7 +9,7 @@ import 'package:thingsboard_app/core/auth/oauth2/i_oauth2_client.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/auth/login/models/mobile_basic_info.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';

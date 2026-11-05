@@ -6,8 +6,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 class EntitiesListWidgetController {
   final List<_EntitiesListWidgetState> states = [];

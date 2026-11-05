@@ -6,8 +6,7 @@ import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_params.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 
 import 'package:timeago/timeago.dart' as timeago;

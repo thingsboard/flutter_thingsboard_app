@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AlarmAssigneeQueryCtrl extends PageKeyController<UsersAssignQuery> {
   AlarmAssigneeQueryCtrl({

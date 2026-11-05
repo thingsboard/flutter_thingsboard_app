@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 /// Why the session is degraded, as a cause the UI layer can localize.

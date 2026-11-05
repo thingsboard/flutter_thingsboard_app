@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_auth_provider_login_data.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 final twoFactorAuthProvidersLoginData =
     <TwoFaProviderType, TwoFactorAuthProviderLoginData>{

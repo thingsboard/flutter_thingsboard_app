@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/i_alarms_datasource.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 
 class AlarmsDatasource implements IAlarmsDatasource {

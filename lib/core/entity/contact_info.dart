@@ -1,4 +1,4 @@
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 /// Typed view over the contact fields shared by [Customer] and [Tenant].
 ///

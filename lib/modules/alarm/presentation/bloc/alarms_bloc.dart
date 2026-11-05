@@ -5,7 +5,7 @@ import 'package:thingsboard_app/modules/alarm/domain/pagination/alarms/alarms_qu
 import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarms_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
 
 class AlarmBloc extends Bloc<AlarmEvent, AlarmsState> {

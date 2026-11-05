@@ -1,7 +1,7 @@
 import 'package:built_value/json_object.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class MobileBasicInfo {
   const MobileBasicInfo({

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AssigneeEntity extends Equatable {
   const AssigneeEntity({

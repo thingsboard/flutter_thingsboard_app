@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_pagination_repository.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class DashboardsQueryCtrl extends SearchablePageKeyController<PageLink> {
   DashboardsQueryCtrl() : super(PageLink(20));

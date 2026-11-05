@@ -1,4 +1,4 @@
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 

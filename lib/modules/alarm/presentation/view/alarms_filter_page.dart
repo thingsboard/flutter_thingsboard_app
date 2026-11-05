@@ -15,7 +15,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_control
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_types/alarm_types_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/alarm_assignee_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/filter_toggle_block_widget.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class AlarmsFilterPage extends StatefulWidget {

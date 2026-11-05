@@ -4,7 +4,7 @@ import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/main/model/navigation_item_data.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 

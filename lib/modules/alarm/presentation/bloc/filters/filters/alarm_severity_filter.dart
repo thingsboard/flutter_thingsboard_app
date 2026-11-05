@@ -3,7 +3,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AlarmSeverityFilter<T> implements IAlarmFilter<Set<T>> {
   AlarmSeverityFilter({required this.logger, T? initiallySelected}) {

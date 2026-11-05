@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/models/mobile_basic_info.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 
 /// Built from the wire format of `/api/permissions/allowedPermissions`, the

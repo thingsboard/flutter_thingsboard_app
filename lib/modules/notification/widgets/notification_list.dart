@@ -4,7 +4,7 @@ import 'package:thingsboard_app/modules/notification/widgets/no_notifications_fo
 import 'package:thingsboard_app/modules/notification/widgets/notification_slidable_widget.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_widget.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class NotificationsList extends StatelessWidget {

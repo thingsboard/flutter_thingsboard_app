@@ -8,8 +8,7 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 

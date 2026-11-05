@@ -8,7 +8,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_status_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_type_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 ///TODO: Refactor this
 class AlarmFiltersService implements IAlarmFiltersService {

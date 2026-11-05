@@ -4,7 +4,7 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/acknowledge_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/clear_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_details/bloc.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
   AlarmDetailsBloc({

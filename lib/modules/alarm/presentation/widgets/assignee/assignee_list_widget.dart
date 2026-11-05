@@ -6,8 +6,7 @@ import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.da
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_widget.dart';
-import 'package:thingsboard_client/thingsboard_client.dart'
-    hide FontWeight;
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/string_utils.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';

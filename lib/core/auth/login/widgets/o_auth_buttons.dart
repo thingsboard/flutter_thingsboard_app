@@ -4,7 +4,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/o_auth_button.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 class OAuthButtons extends StatelessWidget {
   const OAuthButtons({

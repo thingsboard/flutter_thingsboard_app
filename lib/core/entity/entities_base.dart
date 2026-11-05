@@ -10,7 +10,7 @@ import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';

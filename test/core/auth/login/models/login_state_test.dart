@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 
 /// Builds the login state from a payload shaped like the server's
 /// `/api/permissions/allowedPermissions` response.

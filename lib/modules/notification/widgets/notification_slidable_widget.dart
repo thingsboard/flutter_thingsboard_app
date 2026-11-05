@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 class NotificationSlidableWidget extends StatefulWidget {
