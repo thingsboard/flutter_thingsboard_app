@@ -24,8 +24,8 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
     // tenant-only and requires generic ASSET read, so a tenant admin with
     // group-scoped roles would get a 403 there.
     final r = await tbClient.getAssetControllerApi().getUserAssets(
-      pageSize: pageLink.pageSize.toString(),
-      page: pageLink.page.toString(),
+      pageSize: pageLink.pageSize,
+      page: pageLink.page,
       textSearch: pageLink.textSearch,
     );
     final p = r.data!;

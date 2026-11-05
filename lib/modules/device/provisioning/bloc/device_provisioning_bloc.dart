@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plugin_wifi_connect/plugin_wifi_connect.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
@@ -9,6 +9,7 @@ import 'package:thingsboard_app/modules/device/provisioning/bloc/bloc.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 
 class DeviceProvisioningBloc
     extends Bloc<DeviceProvisioningEvent, DeviceProvisioningState> {
@@ -114,6 +115,8 @@ class DeviceProvisioningBloc
                 claimRequest: ClaimRequest(
                   (b) => b..secretKey = deviceSecretKey,
                 ),
+                // Errors are reported on the claiming screen below.
+                extra: silentRequestExtra(),
               )
               .timeout(
                 const Duration(seconds: 20),
@@ -121,25 +124,27 @@ class DeviceProvisioningBloc
                     () => throw Exception('Device claiming timeout reached'),
               );
 
-          // A 2xx no longer guarantees success: the endpoint can return a
-          // ClaimResult body whose `response` is FAILURE. Only treat an
-          // explicit non-success result as a failure; an empty/unparseable
-          // body (e.g. the CLAIMED case) is still considered success.
-          if (_isClaimFailure(response.data)) {
-            emit(const DeviceProvisioningClaimingErrorState(null));
-            return;
+          final result = response.data?.response;
+          if (result == ClaimResponse.CLAIMED ||
+              result == ClaimResponse.SUCCESS) {
+            communicationService.fire(
+              const DeviceProvisioningStatusChangedEvent(
+                DeviceProvisioningStatus.done,
+              ),
+            );
+          } else {
+            emit(
+              const DeviceProvisioningClaimingErrorState(
+                'Something went wrong. Please try again.',
+              ),
+            );
           }
-
-          communicationService.fire(
-            const DeviceProvisioningStatusChangedEvent(
-              DeviceProvisioningStatus.done,
-            ),
-          );
         } catch (e) {
           logger.error('Device claiming error: $e');
 
           String? message;
-          if (e is ThingsboardError) {
+          // Generated calls throw DioException for server errors.
+          if (e is DioException) {
             message =
                 'Device not found. '
                 'Please contact the device provider.';
@@ -158,25 +163,6 @@ class DeviceProvisioningBloc
         mustReconnectToWifiBeforeClaiming = false;
         add(const SuccessfullyProvisionedEvent());
     }
-  }
-
-  /// Returns true only when the claim response body explicitly reports a
-  /// non-success result. Tolerant of empty/non-JSON bodies so legitimate
-  /// claims are never reported as failures.
-  bool _isClaimFailure(String? body) {
-    if (body == null || body.isEmpty) {
-      return false;
-    }
-    try {
-      final decoded = jsonDecode(body);
-      if (decoded is Map && decoded['response'] is String) {
-        final result = (decoded['response'] as String).toUpperCase();
-        return result != 'CLAIMED' && result != 'SUCCESS';
-      }
-    } catch (_) {
-      // Not a JSON ClaimResult body; assume success.
-    }
-    return false;
   }
 
   @override

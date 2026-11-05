@@ -25,8 +25,8 @@ mixin CustomersBase on EntitiesBase<Customer, PageLink> {
     // every authority: `/api/customers` is tenant-only and requires generic
     // CUSTOMER read, so a tenant admin with group-scoped roles gets a 403.
     final r = await tbClient.getCustomerControllerApi().getUserCustomers(
-      pageSize: pageLink.pageSize.toString(),
-      page: pageLink.page.toString(),
+      pageSize: pageLink.pageSize,
+      page: pageLink.page,
       textSearch: pageLink.textSearch,
     );
     final p = r.data!;
