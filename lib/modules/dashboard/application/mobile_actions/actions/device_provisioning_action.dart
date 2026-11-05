@@ -12,12 +12,12 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/esp_provisioning_routes.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_result.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceProvisioningAction extends MobileAction {
@@ -31,10 +31,10 @@ class DeviceProvisioningAction extends MobileAction {
 
   BuildContext get context => globalNavigatorKey.currentContext!;
   Future<WidgetMobileActionResult> _provisioningDevice() async {
-    final TbContext tbContext = getIt();
-
     try {
-      if (tbContext.userDetails?.authority != Authority.CUSTOMER_USER) {
+      final authority =
+          getIt<ITbClientService>().client.getAuthUser()?.authority;
+      if (authority != Authority.CUSTOMER_USER) {
         return WidgetMobileActionResult.errorResult(
           "Provisioning is only abaliable for customer roles.",
         );
