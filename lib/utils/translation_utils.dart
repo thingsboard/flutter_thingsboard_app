@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 extension EntityTypeTranslationUtils on EntityType {
@@ -66,7 +66,7 @@ extension EntityTypeTranslationUtils on EntityType {
       EntityType.GROUP_PERMISSION => S.of(context).groupPermission,
       EntityType.CALCULATED_FIELD => S.of(context).calculatedField,
       EntityType.QUEUE_STATS => S.of(context).queueStats,
-      EntityType.oAUTH2CLIENT => S.of(context).oauth2Client,
+      EntityType.OAUTH2_CLIENT => S.of(context).oauth2Client,
       EntityType.DOMAIN => S.of(context).domain,
       EntityType.MOBILE_APP => S.of(context).mobileApp,
       EntityType.MOBILE_APP_BUNDLE => S.of(context).mobileAppBundle,

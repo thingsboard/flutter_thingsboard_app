@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarm_types/i_alarm_types_repository.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
 
 class FetchAlarmTypesUseCase

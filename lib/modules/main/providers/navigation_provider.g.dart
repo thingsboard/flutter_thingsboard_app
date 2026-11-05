@@ -6,7 +6,7 @@ part of 'navigation_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$navigationHash() => r'164be2361fe70aae72e70b87a83ac61ea707d620';
+String _$navigationHash() => r'0584fd338d37da7e19ee5d8db742127546468a12';
 
 /// See also [Navigation].
 @ProviderFor(Navigation)
@@ -14,10 +14,9 @@ final navigationProvider =
     AutoDisposeNotifierProvider<Navigation, NavigationState>.internal(
       Navigation.new,
       name: r'navigationProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$navigationHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$navigationHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

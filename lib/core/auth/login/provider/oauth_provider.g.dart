@@ -13,8 +13,9 @@ String _$oauthHash() => r'38a771cc5d6b0994aea3f2af7236da7399b7eccf';
 final oauthProvider = AutoDisposeFutureProvider<LoginMobileInfo>.internal(
   oauth,
   name: r'oauthProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$oauthHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$oauthHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

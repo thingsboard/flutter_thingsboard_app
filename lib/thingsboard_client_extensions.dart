@@ -1,4 +1,4 @@
-import 'package:thingsboard_pe_client/thingsboard_pe_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 /// Extension that restores the old `hasGenericPermission()` / `hasReadGenericPermission()`
 /// helpers on the new built_value [AllowedPermissionsInfo] model.
@@ -63,36 +63,15 @@ extension AllowedPermissionsInfoExt on AllowedPermissionsInfo {
   }
 }
 
-/// Extension that restores typed access to an [AlarmCommentInfo]'s free-form
-/// `comment` payload on the new built_value model.
-///
-/// The new client types `comment` as a [JsonObject] (a `MapJsonObject` at
-/// runtime), whereas the old client exposed it pre-parsed. This decodes the
-/// underlying map back into the handwritten [AlarmCommentJsonNode] consumed by
-/// the alarm activity widgets.
-/// Memoizes the parsed [AlarmCommentJsonNode] per [AlarmCommentInfo] instance.
-///
-/// Extensions cannot hold state, so the parse result is cached by identity here.
-/// [AlarmCommentInfo] is immutable (built_value), so a cached node stays valid
-/// for the lifetime of the instance — this avoids re-decoding the JSON on every
-/// `commentNode` access during widget rebuilds (e.g. while scrolling the alarm
-/// activity list).
-final _commentNodeCache = Expando<AlarmCommentJsonNode>('commentNode');
-
+/// Typed access to the fields the app reads from an [AlarmCommentInfo]'s
+/// free-form `comment` payload (a [JsonObject] in the generated model;
+/// system-generated activity entries may have none).
 extension AlarmCommentInfoExt on AlarmCommentInfo {
-  /// `comment` is nullable on the new built_value model, and system-generated
-  /// activity entries may not carry a payload, so callers must handle null.
-  AlarmCommentJsonNode? get commentNode {
-    final cached = _commentNodeCache[this];
-    if (cached != null) {
-      return cached;
-    }
-    final raw = comment?.asMap;
-    if (raw == null) {
-      return null;
-    }
-    return _commentNodeCache[this] = AlarmCommentJsonNode.fromJson(
-      raw.cast<String, dynamic>(),
-    );
-  }
+  Map<String, Object?>? get _commentJson =>
+      comment?.isMap ?? false ? comment!.asMap.cast<String, Object?>() : null;
+
+  String? get commentText => _commentJson?['text'] as String?;
+
+  /// The server sets `edited` only on comments that were edited.
+  bool get commentEdited => _commentJson?['edited'] != null;
 }

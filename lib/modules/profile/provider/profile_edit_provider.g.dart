@@ -15,10 +15,9 @@ final profileEditProviderProvider =
     AutoDisposeNotifierProvider<ProfileEditProvider, ProfileEditState>.internal(
       ProfileEditProvider.new,
       name: r'profileEditProviderProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$profileEditProviderHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$profileEditProviderHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

@@ -11,7 +11,7 @@ import 'package:thingsboard_app/modules/notification/repository/notification_rep
 import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/widgets/filter_segmented_button.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_list.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -293,7 +293,7 @@ class _NotificationPageState extends State<NotificationPage> {
     final items = paginationRepository.pagingController.itemList;
     if (items == null || items.isEmpty) return;
     setState(() {
-      selectedIds = items.map((n) => n.id!.id!).toSet();
+      selectedIds = items.map((n) => n.id!.id).toSet();
     });
   }
 
@@ -308,8 +308,8 @@ class _NotificationPageState extends State<NotificationPage> {
     if (items == null || items.isEmpty) return false;
     return items.any(
       (n) =>
-          selectedIds.contains(n.id!.id!) &&
-          n.status != PushNotificationStatus.READ,
+          selectedIds.contains(n.id!.id) &&
+          n.status != NotificationStatus.READ,
     );
   }
 
@@ -327,7 +327,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
     final items = paginationRepository.pagingController.itemList ?? [];
     final toDelete =
-        items.where((n) => selectedIds.contains(n.id!.id!)).toList();
+        items.where((n) => selectedIds.contains(n.id!.id)).toList();
 
     setState(() {
       isProcessing = true;
@@ -340,8 +340,8 @@ class _NotificationPageState extends State<NotificationPage> {
     for (final notification in toDelete) {
       if (_cancelRequested) break;
       try {
-        await notificationRepository.deleteNotification(notification.id!.id!);
-        if (notification.status != PushNotificationStatus.READ) {
+        await notificationRepository.deleteNotification(notification.id!.id);
+        if (notification.status != NotificationStatus.READ) {
           unreadCount++;
         }
       } catch (_) {
@@ -377,8 +377,8 @@ class _NotificationPageState extends State<NotificationPage> {
     final toMark = items
         .where(
           (n) =>
-              selectedIds.contains(n.id!.id!) &&
-              n.status != PushNotificationStatus.READ,
+              selectedIds.contains(n.id!.id) &&
+              n.status != NotificationStatus.READ,
         )
         .toList();
 
@@ -403,7 +403,7 @@ class _NotificationPageState extends State<NotificationPage> {
       if (_cancelRequested) break;
       try {
         await notificationRepository
-            .markNotificationAsRead(notification.id!.id!);
+            .markNotificationAsRead(notification.id!.id);
         await notificationRepository.decreaseNotificationBadgeCount();
       } catch (_) {
         failCount++;

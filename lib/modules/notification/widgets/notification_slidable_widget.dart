@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 class NotificationSlidableWidget extends StatefulWidget {
@@ -17,7 +17,7 @@ class NotificationSlidableWidget extends StatefulWidget {
   });
 
   final Widget child;
-  final PushNotification notification;
+  final Notification notification;
   final ThingsboardClient thingsboardClient;
   final Function(String id, bool read) onClearNotification;
   final ValueChanged<String> onReadNotification;
@@ -47,7 +47,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
     return Slidable(
       key: ValueKey(widget.notification.id!.id),
       startActionPane:
-          widget.notification.status == PushNotificationStatus.READ
+          widget.notification.status == NotificationStatus.READ
               ? null
               : ActionPane(
                 extentRatio: 0.3,
@@ -56,7 +56,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
                   SlidableAction(
                     onPressed:
                         (context) => widget.onReadNotification(
-                          widget.notification.id!.id!,
+                          widget.notification.id!.id,
                         ),
                     backgroundColor: const Color(0xFF198038),
                     foregroundColor: Colors.white,
@@ -75,8 +75,8 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
           SlidableAction(
             onPressed: (context) {
               widget.onClearNotification(
-                widget.notification.id!.id!,
-                widget.notification.status == PushNotificationStatus.READ,
+                widget.notification.id!.id,
+                widget.notification.status == NotificationStatus.READ,
               );
             },
             backgroundColor: const Color(0xFFD12730).withValues(alpha: 0.94),
@@ -97,13 +97,14 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
     );
   }
 
-  List<Widget> _buildAlarmRelatedButtons(PushNotification notification) {
+  List<Widget> _buildAlarmRelatedButtons(Notification notification) {
     final items = <Widget>[];
 
     final type = notification.type;
-    if (type == PushNotificationType.ALARM) {
-      final status = notification.info?.alarmStatus;
-      final id = notification.info?.alarmId;
+    final info = notification.info;
+    if (type == NotificationType.ALARM && info is AlarmNotificationInfo) {
+      final status = info.alarmStatus;
+      final id = info.alarmId;
 
       if (id != null) {
         if ([
@@ -174,7 +175,7 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
       setState(() {
         loading = false;
-        widget.onReadNotification(widget.notification.id!.id!);
+        widget.onReadNotification(widget.notification.id!.id);
       });
     }
   }
@@ -201,12 +202,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
       setState(() {
         loading = false;
-        widget.onReadNotification(widget.notification.id!.id!);
+        widget.onReadNotification(widget.notification.id!.id);
       });
     }
   }
 
-  double _endExtentRatio(PushNotification notification) {
+  double _endExtentRatio(Notification notification) {
     final items = _buildAlarmRelatedButtons(notification);
     if (items.isEmpty) {
       return 0.27;

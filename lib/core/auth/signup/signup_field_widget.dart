@@ -4,7 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart'
+import 'package:thingsboard_client/thingsboard_client.dart'
     show SignUpField, SignUpFieldId;
 
 class SingUpFieldWidget extends StatelessWidget {
@@ -49,7 +49,7 @@ class SingUpFieldWidget extends StatelessWidget {
         return [AutofillHints.telephoneNumber];
       case SignUpFieldId.ADDRESS:
         return [AutofillHints.streetAddressLine1];
-      case SignUpFieldId.aDDRESS2:
+      case SignUpFieldId.ADDRESS2:
         return [AutofillHints.streetAddressLine2];
       case SignUpFieldId.COUNTRY:
         return [AutofillHints.countryName];
@@ -78,7 +78,7 @@ class SingUpFieldWidget extends StatelessWidget {
         return TextInputType.phone;
       case SignUpFieldId.ADDRESS:
         return TextInputType.streetAddress;
-      case SignUpFieldId.aDDRESS2:
+      case SignUpFieldId.ADDRESS2:
         return TextInputType.streetAddress;
       case SignUpFieldId.unknownDefaultOpenApi:
       case SignUpFieldId.COUNTRY:

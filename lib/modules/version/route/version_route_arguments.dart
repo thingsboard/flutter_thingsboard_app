@@ -1,5 +1,5 @@
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
-import 'package:thingsboard_pe_client/src/model/store_info.dart';
 
 class VersionRouteArguments {
   const VersionRouteArguments({

@@ -15,10 +15,9 @@ final twoFactorSetupAvalibleProvidersProvider =
     AutoDisposeFutureProvider<List<TwoFaProviderType>>.internal(
       twoFactorSetupAvalibleProviders,
       name: r'twoFactorSetupAvalibleProvidersProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$twoFactorSetupAvalibleProvidersHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$twoFactorSetupAvalibleProvidersHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

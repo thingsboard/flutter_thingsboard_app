@@ -14,8 +14,9 @@ final signupProvider =
     AutoDisposeNotifierProvider<Signup, SignupState>.internal(
       Signup.new,
       name: r'signupProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product') ? null : _$signupHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$signupHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

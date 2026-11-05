@@ -12,7 +12,7 @@ import 'package:thingsboard_app/core/auth/2FA/confirm/providers/2fa_confirm_prov
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 const noResendCodeProviders = {
   TwoFaProviderType.BACKUP_CODE,

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' hide UserService;
+import 'package:thingsboard_client/thingsboard_client.dart' hide UserService;
 import 'package:thingsboard_app/utils/services/communication/communication_service.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/custom_translation_service.dart';

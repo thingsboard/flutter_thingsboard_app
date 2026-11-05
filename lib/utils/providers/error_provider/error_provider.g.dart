@@ -13,8 +13,9 @@ String _$errorHash() => r'15539c7a40cb722fed920ac40f8e3483249cfc13';
 final errorProvider = AutoDisposeNotifierProvider<Error, void>.internal(
   Error.new,
   name: r'errorProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$errorHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$errorHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

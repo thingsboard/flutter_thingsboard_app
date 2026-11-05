@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -25,7 +25,7 @@ class SystemActivityWidget extends StatelessWidget {
           ),
         ),
         Text(
-          activity.commentNode?.text ?? '',
+          activity.commentText ?? '',
           style: TbTextStyles.bodyLarge.copyWith(
             color: Colors.black.withValues(alpha: .54),
           ),

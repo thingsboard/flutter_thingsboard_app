@@ -1,16 +1,17 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationIcon extends StatelessWidget {
   const NotificationIcon({super.key, required this.notification});
 
-  final PushNotification notification;
+  final Notification notification;
 
   @override
   Widget build(BuildContext context) {
     final config =
-        notification.additionalConfig?['icon'] as Map<String, dynamic>? ?? {};
+        notification.additionalConfig?.asMap['icon'] as Map<String, dynamic>? ??
+        {};
 
     return Icon(
       toNotificationIconData(config['icon']?.toString()) ?? Icons.notifications,

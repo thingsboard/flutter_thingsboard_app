@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
-import 'package:thingsboard_app/thingsboard_client.dart'
-    show AuditLog, standardSerializers;
+import 'package:thingsboard_client/thingsboard_client.dart'
+    show AuditLog, apiSerializers, registerAuditLog;
 
 /// Serializes the objects the app passes as GoRouter `extra`.
 ///
@@ -28,6 +28,10 @@ const _dataKey = 'data';
 const _dashboardArgumentsType = 'DashboardArgumentsEntity';
 const _auditLogType = 'AuditLog';
 
+/// Registers only [AuditLog] and the models it contains: the full
+/// `standardSerializers` would keep every generated model in the build.
+final _auditLogSerializers = apiSerializers(registerAuditLog);
+
 class _RouteExtraEncoder extends Converter<Object?, Object?> {
   const _RouteExtraEncoder();
 
@@ -41,7 +45,7 @@ class _RouteExtraEncoder extends Converter<Object?, Object?> {
       ),
       AuditLog() => _tagged(
         _auditLogType,
-        standardSerializers.toJson(AuditLog.serializer, input),
+        _auditLogSerializers.toJson(AuditLog.serializer, input),
       ),
       _ => _dropUnsupported(input),
     };
@@ -75,7 +79,7 @@ class _RouteExtraDecoder extends Converter<Object?, Object?> {
       _dashboardArgumentsType => DashboardArgumentsEntity.fromJson(
         jsonDecode(json) as Map<String, dynamic>,
       ),
-      _auditLogType => standardSerializers.fromJson(AuditLog.serializer, json),
+      _auditLogType => _auditLogSerializers.fromJson(AuditLog.serializer, json),
       final type => throw FormatException('Unknown route extra type: $type'),
     };
   }

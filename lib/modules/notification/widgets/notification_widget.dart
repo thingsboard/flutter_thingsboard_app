@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thingsboard_app/locator.dart';
 
@@ -6,7 +6,8 @@ import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_params.dart';
 import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart'
+    hide FontWeight;
 import 'package:thingsboard_app/utils/translation_utils.dart';
 
 import 'package:timeago/timeago.dart' as timeago;
@@ -24,7 +25,7 @@ class NotificationWidget extends StatelessWidget {
     super.key,
   });
 
-  final PushNotification notification;
+  final Notification notification;
   final ThingsboardClient thingsboardClient;
   final Function(String id, bool readed) onClearNotification;
   final ValueChanged<String> onReadNotification;
@@ -38,10 +39,8 @@ class NotificationWidget extends StatelessWidget {
     final diff = DateTime.now().difference(
       DateTime.fromMillisecondsSinceEpoch(notification.createdTime!),
     );
-    // PushNotificationInfo.alarmSeverity is the handwritten telemetry enum,
-    // while the toColor()/getTranslatedAlarmSeverity() UI extensions live on the
-    // built_value AlarmSeverity used across the alarm screens. Bridge by name.
-    final severity = _severityFromName(notification.info?.alarmSeverity?.name);
+    final info = notification.info;
+    final severity = info is AlarmNotificationInfo ? info.alarmSeverity : null;
 
     return InkWell(
       onTap: isSelectionMode
@@ -89,7 +88,7 @@ class NotificationWidget extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 7),
                             child: Text(
-                              notification.subject,
+                              notification.subject ?? '',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -102,7 +101,7 @@ class NotificationWidget extends StatelessWidget {
                             // Keeps the 8px body margin flutter_html used to add.
                             padding: const EdgeInsets.all(8),
                             child: HtmlWidget(
-                              notification.text,
+                              notification.text ?? '',
                               // Links were not tappable with flutter_html.
                               onTapUrl: (_) => true,
                             ),
@@ -127,7 +126,7 @@ class NotificationWidget extends StatelessWidget {
                         Visibility(
                           visible:
                               notification.status !=
-                              PushNotificationStatus.READ,
+                              NotificationStatus.READ,
                           child: SizedBox(
                             width: 30,
                             height: 50,
@@ -139,7 +138,7 @@ class NotificationWidget extends StatelessWidget {
                                 : IconButton(
                                     onPressed:
                                         () =>
-                                            onReadNotification(notification.id!.id!),
+                                            onReadNotification(notification.id!.id),
                                     icon: Icon(
                                       Icons.check_circle_outline,
                                       color: Colors.black.withValues(alpha: 0.38),
@@ -150,7 +149,7 @@ class NotificationWidget extends StatelessWidget {
                         Visibility(
                           visible:
                               notification.status ==
-                              PushNotificationStatus.READ,
+                              NotificationStatus.READ,
                           child: const SizedBox(width: 30, height: 50),
                         ),
                       ],
@@ -180,16 +179,5 @@ class NotificationWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  AlarmSeverity? _severityFromName(String? name) {
-    if (name == null) {
-      return null;
-    }
-    try {
-      return AlarmSeverity.valueOf(name);
-    } catch (_) {
-      return null;
-    }
   }
 }

@@ -6,7 +6,7 @@ part of 'noauth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$noauthProviderHash() => r'd5f9ef17bcdc0e7feb97fd77a73746b72772711e';
+String _$noauthProviderHash() => r'c32f06424af06ffc834f763c168509528f9090bf';
 
 /// See also [NoauthProvider].
 @ProviderFor(NoauthProvider)
@@ -14,10 +14,9 @@ final noauthProviderProvider =
     AutoDisposeNotifierProvider<NoauthProvider, NoAuthState>.internal(
       NoauthProvider.new,
       name: r'noauthProviderProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$noauthProviderHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$noauthProviderHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

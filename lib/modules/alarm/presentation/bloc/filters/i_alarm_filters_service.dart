@@ -1,6 +1,6 @@
 import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 enum Filters { status, severity, type, assignee }
 

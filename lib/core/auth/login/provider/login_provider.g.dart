@@ -6,15 +6,16 @@ part of 'login_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loginHash() => r'aa9fe5bd5d2b781d7fb32ae5bc3539461c93e410';
+String _$loginHash() => r'81473d8bbc6d72da0e23df1b5242b9fb4532a249';
 
 /// See also [Login].
 @ProviderFor(Login)
 final loginProvider = AutoDisposeNotifierProvider<Login, LoginState>.internal(
   Login.new,
   name: r'loginProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$loginHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

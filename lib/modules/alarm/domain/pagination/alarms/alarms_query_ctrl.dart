@@ -1,8 +1,7 @@
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' hide Direction;
-import 'package:thingsboard_pe_client/src/model/page/sort_order.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmQueryController extends PageKeyController<AlarmQueryV2> {
   AlarmQueryController({int pageSize = 20, String? searchText})

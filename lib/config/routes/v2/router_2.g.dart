@@ -6,15 +6,16 @@ part of 'router_2.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'9c2191b710ee87d439a3cab856ffe04e80244273';
+String _$routerHash() => r'ba7f50631ede5e2b60ffbaa50eb94d133e8ef501';
 
 /// See also [Router].
 @ProviderFor(Router)
 final routerProvider = AutoDisposeNotifierProvider<Router, GoRouter>.internal(
   Router.new,
   name: r'routerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$routerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

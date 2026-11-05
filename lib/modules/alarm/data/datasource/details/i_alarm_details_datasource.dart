@@ -1,5 +1,5 @@
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract interface class IAlarmDetailsDatasource {
   Future<PageData<AlarmCommentInfo>> fetchAlarmComments(

@@ -74,10 +74,9 @@ class TargetNameProvider extends AutoDisposeFutureProvider<String?> {
             targetName(ref as TargetNameRef, entityType: entityType, id: id),
         from: targetNameProvider,
         name: r'targetNameProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$targetNameHash,
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$targetNameHash,
         dependencies: TargetNameFamily._dependencies,
         allTransitiveDependencies: TargetNameFamily._allTransitiveDependencies,
         entityType: entityType,
@@ -168,10 +167,9 @@ final lastRecordProvider =
     AutoDisposeFutureProvider<LastTrackingRecord?>.internal(
       lastRecord,
       name: r'lastRecordProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$lastRecordHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$lastRecordHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
@@ -187,10 +185,9 @@ final liveTrackingProvider =
     AutoDisposeNotifierProvider<LiveTracking, LiveTrackingViewState>.internal(
       LiveTracking.new,
       name: r'liveTrackingProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$liveTrackingHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$liveTrackingHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

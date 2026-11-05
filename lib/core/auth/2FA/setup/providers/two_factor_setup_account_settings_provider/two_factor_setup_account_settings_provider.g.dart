@@ -15,10 +15,9 @@ final acountTwoFactorSettingsProvider =
     AutoDisposeFutureProvider<AccountTwoFaSettings?>.internal(
       acountTwoFactorSettings,
       name: r'acountTwoFactorSettingsProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$acountTwoFactorSettingsHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$acountTwoFactorSettingsHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

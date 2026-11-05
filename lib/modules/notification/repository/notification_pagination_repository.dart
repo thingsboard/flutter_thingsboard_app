@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:thingsboard_app/modules/notification/controllers/notification_query.dart';
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationPaginationRepository {
   NotificationPaginationRepository({
@@ -12,12 +13,12 @@ class NotificationPaginationRepository {
 
   final NotificationQueryCtrl notificationQueryPageCtrl;
   final ThingsboardClient tbClient;
-  late final PagingController<PushNotificationQuery, PushNotification>
+  late final PagingController<NotificationQuery, Notification>
   pagingController;
 
   void init() {
     pagingController =
-        PagingController<PushNotificationQuery, PushNotification>(
+        PagingController<NotificationQuery, Notification>(
           firstPageKey: notificationQueryPageCtrl.value.pageKey,
         );
 
@@ -33,27 +34,26 @@ class NotificationPaginationRepository {
   }
 
   Future<void> _fetchPage(
-    PushNotificationQuery pageKey, {
+    NotificationQuery pageKey, {
     bool refresh = false,
   }) async {
     try {
-      // Fetch raw JSON via the client's Dio rather than the typed
-      // getNotifications endpoint: the generated NotificationInfo drops the
-      // alarm fields (severity/status/alarmId) during deserialization, which
-      // the notification UI (badge, swipe-to-ack/clear, deep-link) relies on.
-      // PushNotification.fromJson parses the full server payload directly.
-      final response = await tbClient.dio.get<Map<String, dynamic>>(
-        '/api/notifications',
-        queryParameters: pageKey.toQueryParameters(),
-      );
+      final pageLink = pageKey.pageLink;
+      final response = await tbClient
+          .getNotificationControllerApi()
+          .getNotifications(
+            pageSize: pageLink.pageSize,
+            page: pageLink.page,
+            textSearch: pageLink.textSearch,
+            sortProperty: pageLink.sortOrder?.property,
+            sortOrder: pageLink.sortOrder?.direction.name,
+            unreadOnly: pageKey.unreadOnly,
+            deliveryMethod: NotificationDeliveryMethod.MOBILE_APP.name,
+          );
+      final page = response.data!;
+      final items = page.data?.toList() ?? <Notification>[];
 
-      final page = PageData.fromJson(
-        response.data!,
-        (json) => PushNotification.fromJson(json as Map<String, dynamic>),
-      );
-      final items = page.data;
-
-      final isLastPage = !page.hasNext;
+      final isLastPage = page.hasNext != true;
       if (refresh) {
         final state = pagingController.value;
         if (state.itemList != null) {

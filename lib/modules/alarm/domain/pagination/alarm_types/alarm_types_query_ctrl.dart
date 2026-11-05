@@ -1,6 +1,5 @@
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' hide Direction;
-import 'package:thingsboard_pe_client/src/model/page/sort_order.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmTypesQueryCtrl extends PageKeyController<PageLink> {
   AlarmTypesQueryCtrl({

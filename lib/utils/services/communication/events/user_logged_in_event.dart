@@ -1,4 +1,4 @@
-import 'package:thingsboard_app/thingsboard_client.dart' show User;
+import 'package:thingsboard_client/thingsboard_client.dart' show User;
 import 'package:thingsboard_app/utils/services/communication/communication_event.dart';
 
 final class UserLoggedInEvent extends CommunicationEvent {

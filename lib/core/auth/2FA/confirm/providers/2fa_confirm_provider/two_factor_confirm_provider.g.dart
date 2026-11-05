@@ -6,7 +6,7 @@ part of 'two_factor_confirm_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twoFactorConfirmHash() => r'ba46beee87738fe8781c307273852edcb3176de9';
+String _$twoFactorConfirmHash() => r'2045304edb304ef7d9d461211050d5080dc5f6ce';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -91,16 +91,14 @@ class TwoFactorConfirmProvider
     TwoFaProviderType type,
     int? resendTimerDurationSeconds,
   ) : this._internal(
-        () =>
-            TwoFactorConfirm()
-              ..type = type
-              ..resendTimerDurationSeconds = resendTimerDurationSeconds,
+        () => TwoFactorConfirm()
+          ..type = type
+          ..resendTimerDurationSeconds = resendTimerDurationSeconds,
         from: twoFactorConfirmProvider,
         name: r'twoFactorConfirmProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$twoFactorConfirmHash,
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$twoFactorConfirmHash,
         dependencies: TwoFactorConfirmFamily._dependencies,
         allTransitiveDependencies:
             TwoFactorConfirmFamily._allTransitiveDependencies,
@@ -132,10 +130,9 @@ class TwoFactorConfirmProvider
     return ProviderOverride(
       origin: this,
       override: TwoFactorConfirmProvider._internal(
-        () =>
-            create()
-              ..type = type
-              ..resendTimerDurationSeconds = resendTimerDurationSeconds,
+        () => create()
+          ..type = type
+          ..resendTimerDurationSeconds = resendTimerDurationSeconds,
         from: from,
         name: null,
         dependencies: null,

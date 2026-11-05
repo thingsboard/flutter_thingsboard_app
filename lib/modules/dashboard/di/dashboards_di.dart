@@ -2,7 +2,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_pagination_repository.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_query_ctrl.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/usecases/fetch_dashboards_usecase.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
 
 abstract class DashboardsDi {

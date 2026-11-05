@@ -1,5 +1,5 @@
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_info/platform_version.dart';
-import 'package:thingsboard_pe_client/src/model/mobile_app_version_info.dart';
 
 class VersionInfo {
   const VersionInfo({

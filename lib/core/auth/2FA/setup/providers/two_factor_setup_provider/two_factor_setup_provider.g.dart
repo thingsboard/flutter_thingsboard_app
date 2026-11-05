@@ -74,10 +74,9 @@ class GenerateConfigProvider
         (ref) => generateConfig(ref as GenerateConfigRef, type),
         from: generateConfigProvider,
         name: r'generateConfigProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$generateConfigHash,
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$generateConfigHash,
         dependencies: GenerateConfigFamily._dependencies,
         allTransitiveDependencies:
             GenerateConfigFamily._allTransitiveDependencies,

@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
 
@@ -54,7 +54,11 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
       await ref
           .read(loginProvider.notifier)
           .twoFaConfirmed(
-            LoginResponse(token: token, refreshToken: res.data?.refreshToken),
+            LoginResponse(
+              (b) => b
+                ..token = token
+                ..refreshToken = res.data?.refreshToken,
+            ),
           );
       state = state.copyWith(loading: false, codeState: CodeState.valid);
     } catch (e) {

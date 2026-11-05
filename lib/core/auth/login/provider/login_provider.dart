@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/oauth2/i_oauth2_client.dart';
-import 'package:thingsboard_app/core/auth/user_authority_bridge.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/core/auth/login/models/mobile_basic_info.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
@@ -96,7 +95,11 @@ class Login extends _$Login {
   Future<bool> login(String email, String password) async {
     try {
       final res = await _tbClient.login(
-        LoginRequest(userName: email, password: password),
+        LoginRequest(
+          (b) => b
+            ..username = email
+            ..password = password,
+        ),
       );
       final user = _tbClient.getAuthUser();
       if (user != null &&
@@ -144,7 +147,7 @@ class Login extends _$Login {
     state = state.copyWith(
       isUserLoaded: true,
       user: userInfo,
-      userScope: userInfo.appAuthority,
+      userScope: userInfo.authority,
       mobileLoginInfo: mobileInfo,
       userPermissions: userPermissions,
     );

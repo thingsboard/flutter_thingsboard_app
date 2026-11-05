@@ -18,7 +18,8 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart'
+    hide FontWeight;
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 
 class LoginWidget extends HookConsumerWidget {

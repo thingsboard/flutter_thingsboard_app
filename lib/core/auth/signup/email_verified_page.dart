@@ -9,7 +9,8 @@ import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.da
 import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart'
+    hide FontWeight;
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
@@ -34,8 +35,9 @@ class EmailVerifiedPage extends HookConsumerWidget {
       loginResponse.value =
           r.data?.token != null
               ? LoginResponse(
-                token: r.data!.token!,
-                refreshToken: r.data!.refreshToken,
+                (b) => b
+                  ..token = r.data!.token
+                  ..refreshToken = r.data!.refreshToken,
               )
               : null;
       isActivating.value = false;

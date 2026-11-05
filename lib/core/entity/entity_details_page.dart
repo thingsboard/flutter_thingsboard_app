@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart'
+    hide FontWeight;
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
@@ -66,8 +67,9 @@ class _EntityDetailsPageState<T extends Object>
     if (detailsTitle == null) {
       titleValue = ValueNotifier(widget._defaultTitle);
       entityFuture.then((value) {
-        if (value is HasName) {
-          titleValue.value = (value! as HasName).getName();
+        final name = _entityName(value);
+        if (name != null) {
+          titleValue.value = name;
         }
       });
     } else {
@@ -164,7 +166,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
           Text(S.of(context).title, style: labelTextStyle),
           Text(
             getIt<ICustomTranslationService>().translate(
-              entity is HasName ? entity.getName() : e.name as String?,
+              _entityName(entity) ?? e.name as String?,
             ),
             style: valueTextStyle,
           ),
@@ -216,3 +218,11 @@ abstract class ContactBasedDetailsPage<T extends Object>
     );
   }
 }
+
+/// The generated models have no common name interface (the client dropped
+/// `HasName`); these are the entity types shown by [EntityDetailsPage].
+String? _entityName(Object? entity) => switch (entity) {
+  Device(:final name) => name,
+  Asset(:final name) => name,
+  _ => null,
+};

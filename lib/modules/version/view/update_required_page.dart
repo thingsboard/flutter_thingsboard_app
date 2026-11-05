@@ -7,7 +7,7 @@ import 'package:thingsboard_app/modules/version/route/version_route_arguments.da
 import 'package:thingsboard_app/modules/version/view/widgets/version_compare_widget.dart';
 import 'package:thingsboard_app/modules/version/view/widgets/version_empty_widget.dart';
 import 'package:thingsboard_app/modules/version/view/widgets/version_single_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
 
 class UpdateRequiredPage extends ConsumerWidget {

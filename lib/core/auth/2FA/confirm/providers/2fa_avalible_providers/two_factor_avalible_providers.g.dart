@@ -15,10 +15,9 @@ final twoFaConfirmAvalibleProvidersProvider =
     AutoDisposeFutureProvider<List<TwoFaProviderInfo>>.internal(
       twoFaConfirmAvalibleProviders,
       name: r'twoFaConfirmAvalibleProvidersProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$twoFaConfirmAvalibleProvidersHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$twoFaConfirmAvalibleProvidersHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
