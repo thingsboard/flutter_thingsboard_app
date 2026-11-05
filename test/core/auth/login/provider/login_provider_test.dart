@@ -202,20 +202,4 @@ void main() {
       () => client.logout(requestConfig: any(named: 'requestConfig')),
     );
   });
-
-  test('twoFaConfirmed stores the tokens returned by the code check', () async {
-    when(() => client.isAuthenticated()).thenReturn(false);
-    when(
-      () => client.setUserFromJwtToken(any(), any(), any()),
-    ).thenAnswer((_) async {});
-    final container = await buildLogin();
-
-    await container
-        .read(loginProvider.notifier)
-        .twoFaConfirmed(LoginResponse((b) => b
-              ..token = 't'
-              ..refreshToken = 'r'));
-
-    verify(() => client.setUserFromJwtToken('t', 'r', true)).called(1);
-  });
 }

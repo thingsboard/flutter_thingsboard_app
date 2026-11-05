@@ -8,7 +8,6 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -203,24 +202,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         try {
           await Future.delayed(const Duration(milliseconds: 300));
           final client = getIt<ITbClientService>().client;
-          final response = await client.getAuthControllerApi().changePassword(
-            changePasswordRequest: ChangePasswordRequest(
-              (b) =>
-                  b
-                    ..currentPassword = currentPassword
-                    ..newPassword = newPassword,
-            ),
-          );
-          // The server rotates the JWT pair on a password change; apply it so
-          // the stored refresh token stays valid and the session isn't dropped.
-          final jwtPair = response.data;
-          if (jwtPair?.token != null) {
-            await client.setUserFromJwtToken(
-              jwtPair!.token,
-              jwtPair.refreshToken,
-              false,
-            );
-          }
+          // Stores the JWT pair the server rotates on a password change, so
+          // the session stays valid.
+          await client.changePassword(currentPassword, newPassword);
           if (mounted) {
             context.pop(true);
           }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
-import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
@@ -37,33 +36,16 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   Future<void> verifyCode(String code) async {
     state = state.copyWith(loading: true);
     try {
-      final res = await _tbClient
-          .getTwoFactorAuthControllerApi()
-          .checkTwoFaVerificationCode(
-            providerType: type,
-            verificationCode: code,
-            // Handle errors (e.g. 429) in-widget below instead of the global
-            // error overlay; the new client exposes this via Dio `extra`.
-            extra: silentRequestExtra(),
-          );
-      final token = res.data?.token;
-      if (token == null) {
-        state = state.copyWith(loading: false, codeState: CodeState.invalid);
-        return;
-      }
-      await ref
-          .read(loginProvider.notifier)
-          .twoFaConfirmed(
-            LoginResponse(
-              (b) => b
-                ..token = token
-                ..refreshToken = res.data?.refreshToken,
-            ),
-          );
+      // Stores the session and loads the user; errors (e.g. 429) are handled
+      // in-widget below instead of the global error overlay.
+      await _tbClient.checkTwoFaVerificationCode(
+        type,
+        code,
+        requestConfig: RequestConfig(ignoreErrors: true, ignoreLoading: true),
+      );
       state = state.copyWith(loading: false, codeState: CodeState.valid);
     } catch (e) {
       state = state.copyWith(loading: false);
-      // The generated API throws a DioException that wraps the error.
       if (toThingsboardError(e).status == 429) {
         state = state.copyWith(
           codeState: CodeState.tooManyRequests,
