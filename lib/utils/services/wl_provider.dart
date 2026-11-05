@@ -239,28 +239,23 @@ class Wl extends _$Wl {
       }
       b.logoImageHeight ??= defaultWlParams.logoImageHeight;
       if (_isEmpty(b.appTitle)) b.appTitle = defaultWlParams.appTitle;
-      if (b.favicon == null || _isEmpty(b.favicon?.url)) {
+      // Nested built_value builders are never null: reading one creates it
+      // empty, so "missing" means an empty url / palette type.
+      if (_isEmpty(b.favicon.url)) {
         b.favicon =
             defaultWlParams.favicon?.toBuilder() ??
             (FaviconBuilder()..url = '');
       }
-      if (b.paletteSettings == null) {
-        b.paletteSettings =
-            defaultWlParams.paletteSettings?.toBuilder() ??
-            PaletteSettingsBuilder();
-      } else {
-        if (b.paletteSettings!.primaryPalette == null ||
-            _isEmpty(b.paletteSettings!.primaryPalette?.type)) {
-          b.paletteSettings!.primaryPalette =
-              defaultWlParams.paletteSettings?.primaryPalette?.toBuilder() ??
-              (PaletteBuilder()..type = '');
-        }
-        if (b.paletteSettings!.accentPalette == null ||
-            _isEmpty(b.paletteSettings!.accentPalette?.type)) {
-          b.paletteSettings!.accentPalette =
-              defaultWlParams.paletteSettings?.accentPalette?.toBuilder() ??
-              (PaletteBuilder()..type = '');
-        }
+      final palettes = b.paletteSettings;
+      if (_isEmpty(palettes.primaryPalette.type)) {
+        palettes.primaryPalette =
+            defaultWlParams.paletteSettings?.primaryPalette?.toBuilder() ??
+            (PaletteBuilder()..type = '');
+      }
+      if (_isEmpty(palettes.accentPalette.type)) {
+        palettes.accentPalette =
+            defaultWlParams.paletteSettings?.accentPalette?.toBuilder() ??
+            (PaletteBuilder()..type = '');
       }
       if (_isEmpty(b.helpLinkBaseUrl) &&
           !_isEmpty(defaultWlParams.helpLinkBaseUrl)) {
