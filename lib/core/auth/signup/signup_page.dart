@@ -452,12 +452,20 @@ Future<void> _openRecaptcha(
         timeout: 10000,
       );
     } else {
-      final v3Captcha = captcha is V3CaptchaParams ? captcha : null;
+      // v2 and v3 both carry a site key; v2 was opened with an empty one.
+      final (siteKey, logActionName) = switch (captcha) {
+        V2CaptchaParams(:final siteKey, :final logActionName) ||
+        V3CaptchaParams(
+          :final siteKey,
+          :final logActionName,
+        ) => (siteKey, logActionName),
+        _ => (null, null),
+      };
       final String? recaptchaResponse = await getIt<ThingsboardAppRouter>()
           .navigateTo(
-            '/tbRecaptcha?siteKey=${v3Captcha?.siteKey ?? ''}'
+            '/tbRecaptcha?siteKey=${siteKey ?? ''}'
             '&version=${captcha.version}'
-            '&logActionName=${v3Captcha?.logActionName ?? ''}',
+            '&logActionName=${logActionName ?? ''}',
             transition: TransitionType.nativeModal,
           );
 
