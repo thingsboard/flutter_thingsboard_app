@@ -64,7 +64,7 @@ dependencies:
   google_fonts: ^6.3.2
   expandable: ^5.0.1
   focused_menu: ^1.0.5
-  recaptcha_enterprise_flutter: ^18.8.2
+  recaptcha_enterprise_flutter: ">=18.8.2 <18.9.0" # 18.9 needs Kotlin 2.2+ (android: 2.0.20)
   flutter_esp_ble_prov: ^0.1.7
   esp_smartconfig: ^3.0.0
   permission_handler: ^11.4.0
