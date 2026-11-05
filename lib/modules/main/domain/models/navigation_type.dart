@@ -9,6 +9,11 @@ enum TbNavigationType {
   push,
   mixed;
 
+  /// Set at build time with `--dart-define=navigationType=push|mixed`.
+  static final configured = TbNavigationType.fromString(
+    const String.fromEnvironment('navigationType'),
+  );
+
   static TbNavigationType fromString(String? input) {
     return TbNavigationType.values.firstWhereOrNull((e) => e.name == input) ??
         TbNavigationType.push;

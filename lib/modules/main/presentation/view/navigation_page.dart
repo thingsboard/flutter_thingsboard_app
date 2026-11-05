@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/providers/live_tracking_provider.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/widgets/live_tracking_bar.dart';
@@ -107,7 +106,7 @@ class NavigationPage extends HookConsumerWidget {
                     if (index < items.length) {
                       final path = items[index].path;
                       currentIndex.value = index;
-                      if (ThingsboardAppConstants.navigationType ==
+                      if (TbNavigationType.configured ==
                           TbNavigationType.push) {
                         context.push(path);
                         return;

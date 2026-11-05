@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/modules/main/domain/models/navigation_type.dart';
 
 abstract final class ThingsboardAppConstants {
   static const thingsBoardApiEndpoint = String.fromEnvironment(
@@ -19,7 +18,4 @@ abstract final class ThingsboardAppConstants {
     'thingsboardAndroidAppSecret',
   );
   static const ignoreRegionSelection = thingsBoardApiEndpoint != '';
-  static final navigationType = TbNavigationType.fromString(
-    const String.fromEnvironment('navigationType'),
-  );
 }
