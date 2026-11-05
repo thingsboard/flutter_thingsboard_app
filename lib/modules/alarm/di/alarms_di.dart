@@ -66,11 +66,11 @@ class AlarmsDi {
             queryController: locator(),
           ),
         );
-
-        AlarmTypesDi.init(tbClient, scopeName: typesScopeName);
-        AssigneeDi.inti(tbClient, scopeName: assigneeScopeName);
       },
     );
+    // get_it 9 does not allow pushing a scope from another scope's init.
+    AlarmTypesDi.init(tbClient, scopeName: typesScopeName);
+    AssigneeDi.inti(tbClient, scopeName: assigneeScopeName);
   }
 
   static void dispose(
