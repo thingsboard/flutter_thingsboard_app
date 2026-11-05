@@ -28,6 +28,8 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
         pageSize: pageLink.pageSize,
         page: pageLink.page,
         textSearch: pageLink.textSearch,
+        sortProperty: pageLink.sortOrder?.property,
+        sortOrder: pageLink.sortOrder?.direction.name,
         startTime: pageLink.startTime,
         endTime: pageLink.endTime,
       );

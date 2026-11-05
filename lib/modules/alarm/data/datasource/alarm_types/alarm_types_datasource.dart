@@ -13,6 +13,7 @@ class AlarmTypesDatasource implements IAlarmTypesDatasource {
       pageSize: pageKey.pageSize,
       page: pageKey.page,
       textSearch: pageKey.textSearch,
+      sortOrder: pageKey.sortOrder?.direction.name,
     );
     final page = response.data!;
     return toPageData(page.data, page.totalPages, page.totalElements, page.hasNext);

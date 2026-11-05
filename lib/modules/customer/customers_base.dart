@@ -28,6 +28,8 @@ mixin CustomersBase on EntitiesBase<Customer, PageLink> {
       pageSize: pageLink.pageSize,
       page: pageLink.page,
       textSearch: pageLink.textSearch,
+      sortProperty: pageLink.sortOrder?.property,
+      sortOrder: pageLink.sortOrder?.direction.name,
     );
     final p = r.data!;
     return toPageData(p.data, p.totalPages, p.totalElements, p.hasNext);

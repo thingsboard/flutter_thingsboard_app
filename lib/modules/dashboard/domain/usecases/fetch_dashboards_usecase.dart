@@ -16,6 +16,8 @@ class FetchDashboardsUseCase
           pageSize: params.pageSize,
           page: params.page,
           textSearch: params.textSearch,
+          sortProperty: params.sortOrder?.property,
+          sortOrder: params.sortOrder?.direction.name,
           mobile: true,
         );
     final page = response.data!;

@@ -74,6 +74,8 @@ abstract class DeviceProfileCache {
           pageSize: pageLink.pageSize,
           page: pageLink.page,
           textSearch: pageLink.textSearch,
+          sortProperty: pageLink.sortOrder?.property,
+          sortOrder: pageLink.sortOrder?.direction.name,
         );
     final p = r.data!;
     final deviceProfileInfos = PageData<DeviceProfileInfo>(

@@ -103,6 +103,8 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
           pageSize: query.pageLink.pageSize,
           page: query.pageLink.page,
           textSearch: query.pageLink.textSearch,
+          sortProperty: query.pageLink.sortOrder?.property,
+          sortOrder: query.pageLink.sortOrder?.direction.name,
         );
     final pd = res.data!;
     final users =

@@ -20,6 +20,8 @@ class AssigneeDatasource implements IAssigneeDatasource {
       pageSize: pageKey.pageSize,
       page: pageKey.page,
       textSearch: pageKey.textSearch,
+      sortProperty: pageKey.sortOrder?.property,
+      sortOrder: pageKey.sortOrder?.direction.name,
     );
     final page = response.data!;
     final users =
