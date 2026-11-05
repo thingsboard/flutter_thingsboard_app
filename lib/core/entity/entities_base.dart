@@ -86,7 +86,7 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
                   children: [
                     Expanded(
                       child: Text(
-                        customTranslationService.translate(info?.name),
+                        customTranslationService.translate(info?.title),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TbTextStyles.labelLarge.copyWith(

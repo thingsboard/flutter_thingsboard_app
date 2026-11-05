@@ -3,59 +3,64 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 /// Typed view over the contact fields shared by [Customer] and [Tenant].
 ///
 /// The generated built_value models expose identical contact getters but share
-/// no common supertype, so this adapter replaces `dynamic` field access with a
-/// compile-checked switch over the known contact-based entities.
+/// no common supertype, so this adapter gives the contact screens one
+/// compile-checked type instead of `dynamic` field access.
 class ContactInfo {
   const ContactInfo({
-    required this.name,
-    required this.email,
+    required this.title,
     required this.createdTime,
-    required this.shortAddress,
+    this.email,
+    this.phone,
+    this.country,
+    this.state,
+    this.city,
+    this.zip,
+    this.address,
+    this.address2,
   });
 
-  factory ContactInfo._from({
-    required String? name,
-    required String? email,
-    required int? createdTime,
-    required String? country,
-    required String? city,
-    required String? address,
-  }) {
-    final parts = [country, city, address].whereType<String>().toList();
-    return ContactInfo(
-      name: name ?? '',
-      email: email,
-      createdTime: createdTime ?? 0,
-      shortAddress: parts.isEmpty ? null : parts.join(', '),
-    );
-  }
-
-  final String name;
-  final String? email;
+  final String title;
   final int createdTime;
-  final String? shortAddress;
+  final String? email;
+  final String? phone;
+  final String? country;
+  final String? state;
+  final String? city;
+  final String? zip;
+  final String? address;
+  final String? address2;
 
-  static ContactInfo? of(Object? contact) {
-    if (contact is Customer) {
-      return ContactInfo._from(
-        name: contact.name,
-        email: contact.email,
-        createdTime: contact.createdTime,
-        country: contact.country,
-        city: contact.city,
-        address: contact.address,
-      );
-    }
-    if (contact is Tenant) {
-      return ContactInfo._from(
-        name: contact.name,
-        email: contact.email,
-        createdTime: contact.createdTime,
-        country: contact.country,
-        city: contact.city,
-        address: contact.address,
-      );
-    }
-    return null;
+  /// Country, city and address, as the list cards show them.
+  String? get shortAddress {
+    final parts = [country, city, address].whereType<String>().toList();
+    return parts.isEmpty ? null : parts.join(', ');
   }
+
+  static ContactInfo? of(Object? contact) => switch (contact) {
+    Customer() => ContactInfo(
+      title: contact.title,
+      createdTime: contact.createdTime ?? 0,
+      email: contact.email,
+      phone: contact.phone,
+      country: contact.country,
+      state: contact.state,
+      city: contact.city,
+      zip: contact.zip,
+      address: contact.address,
+      address2: contact.address2,
+    ),
+    Tenant() => ContactInfo(
+      title: contact.title,
+      createdTime: contact.createdTime ?? 0,
+      email: contact.email,
+      phone: contact.phone,
+      country: contact.country,
+      state: contact.state,
+      city: contact.city,
+      zip: contact.zip,
+      address: contact.address,
+      address2: contact.address2,
+    ),
+    _ => null,
+  };
 }

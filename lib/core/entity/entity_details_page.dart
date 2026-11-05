@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
@@ -160,7 +161,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
 
   @override
   Widget buildEntityDetails(BuildContext context, T entity) {
-    final e = entity as dynamic;
+    final e = ContactInfo.of(entity)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -169,13 +170,13 @@ abstract class ContactBasedDetailsPage<T extends Object>
           Text(S.of(context).title, style: labelTextStyle),
           Text(
             getIt<ICustomTranslationService>().translate(
-              _entityName(entity) ?? e.name as String?,
+              e.title,
             ),
             style: valueTextStyle,
           ),
           const SizedBox(height: 16),
           Text(S.of(context).country, style: labelTextStyle),
-          Text(e.country as String? ?? '', style: valueTextStyle),
+          Text(e.country ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -185,7 +186,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).city, style: labelTextStyle),
-                    Text(e.city as String? ?? '', style: valueTextStyle),
+                    Text(e.city ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -195,7 +196,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).stateOrProvince, style: labelTextStyle),
-                    Text(e.state as String? ?? '', style: valueTextStyle),
+                    Text(e.state ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -203,19 +204,19 @@ abstract class ContactBasedDetailsPage<T extends Object>
           ),
           const SizedBox(height: 16),
           Text(S.of(context).postalCode, style: labelTextStyle),
-          Text(e.zip as String? ?? '', style: valueTextStyle),
+          Text(e.zip ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address, style: labelTextStyle),
-          Text(e.address as String? ?? '', style: valueTextStyle),
+          Text(e.address ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address2, style: labelTextStyle),
-          Text(e.address2 as String? ?? '', style: valueTextStyle),
+          Text(e.address2 ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).phone, style: labelTextStyle),
-          Text(e.phone as String? ?? '', style: valueTextStyle),
+          Text(e.phone ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).email, style: labelTextStyle),
-          Text(e.email as String? ?? '', style: valueTextStyle),
+          Text(e.email ?? '', style: valueTextStyle),
         ],
       ),
     );
