@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'wifi_network.dart';
@@ -9,14 +9,14 @@ part of 'wifi_network.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$WifiNetwork {
 
- String get ssid; int get rssi; int get channel;// required Uint8List bssid,
- String get auth; String get password;
+ String get ssid; int get rssi; int get channel; String get auth; String get password;
 /// Create a copy of WifiNetwork
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $WifiNetworkCopyWith<WifiNetwork> get copyWith => _$WifiNetworkCopyWithImpl<Wifi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WifiNetwork&&(identical(other.ssid, ssid) || other.ssid == ssid)&&(identical(other.rssi, rssi) || other.rssi == rssi)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.password, password) || other.password == password));
+  final _this = this as WifiNetwork;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WifiNetwork&&(identical(other.ssid, _this.ssid) || other.ssid == _this.ssid)&&(identical(other.rssi, _this.rssi) || other.rssi == _this.rssi)&&(identical(other.channel, _this.channel) || other.channel == _this.channel)&&(identical(other.auth, _this.auth) || other.auth == _this.auth)&&(identical(other.password, _this.password) || other.password == _this.password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ssid,rssi,channel,auth,password);
+int get hashCode {
+  final _this = this as WifiNetwork;
+  return Object.hash(runtimeType,_this.ssid,_this.rssi,_this.channel,_this.auth,_this.password);
+}
 
 @override
 String toString() {
-  return 'WifiNetwork(ssid: $ssid, rssi: $rssi, channel: $channel, auth: $auth, password: $password)';
+  final _this = this as WifiNetwork;
+  return 'WifiNetwork(ssid: ${_this.ssid}, rssi: ${_this.rssi}, channel: ${_this.channel}, auth: ${_this.auth}, password: ${_this.password})';
 }
 
 
@@ -67,7 +72,7 @@ class _$WifiNetworkCopyWithImpl<$Res>
 /// Create a copy of WifiNetwork
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ssid = null,Object? rssi = null,Object? channel = null,Object? auth = null,Object? password = null,}) {
-  return _then(_self.copyWith(
+  return _then(WifiNetwork(
 ssid: null == ssid ? _self.ssid : ssid // ignore: cast_nullable_to_non_nullable
 as String,rssi: null == rssi ? _self.rssi : rssi // ignore: cast_nullable_to_non_nullable
 as int,channel: null == channel ? _self.channel : channel // ignore: cast_nullable_to_non_nullable
@@ -220,7 +225,6 @@ class _WifiNetwork implements WifiNetwork {
 @override final  String ssid;
 @override final  int rssi;
 @override final  int channel;
-// required Uint8List bssid,
 @override final  String auth;
 @override@JsonKey() final  String password;
 
@@ -237,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WifiNetwork&&(identical(other.ssid, ssid) || other.ssid == ssid)&&(identical(other.rssi, rssi) || other.rssi == rssi)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.password, password) || other.password == password));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WifiNetwork&&(identical(other.ssid, ssid) || other.ssid == ssid)&&(identical(other.rssi, rssi) || other.rssi == rssi)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.password, password) || other.password == password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ssid,rssi,channel,auth,password);
+int get hashCode {
+    return Object.hash(runtimeType,ssid,rssi,channel,auth,password);
+}
 
 @override
 String toString() {
-  return 'WifiNetwork(ssid: $ssid, rssi: $rssi, channel: $channel, auth: $auth, password: $password)';
+    return 'WifiNetwork(ssid: $ssid, rssi: $rssi, channel: $channel, auth: $auth, password: $password)';
 }
 
 

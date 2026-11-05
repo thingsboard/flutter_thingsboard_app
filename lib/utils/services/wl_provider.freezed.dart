@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'wl_provider.dart';
@@ -9,6 +9,7 @@ part of 'wl_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -28,16 +29,21 @@ $WlStateCopyWith<WlState> get copyWith => _$WlStateCopyWithImpl<WlState>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WlState&&(identical(other.loginWhiteLabelingParams, loginWhiteLabelingParams) || other.loginWhiteLabelingParams == loginWhiteLabelingParams)&&(identical(other.userParams, userParams) || other.userParams == userParams)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.loginTheme, loginTheme) || other.loginTheme == loginTheme)&&(identical(other.isUserWlMode, isUserWlMode) || other.isUserWlMode == isUserWlMode)&&(identical(other.logo, logo) || other.logo == logo));
+  final _this = this as WlState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WlState&&(identical(other.loginWhiteLabelingParams, _this.loginWhiteLabelingParams) || other.loginWhiteLabelingParams == _this.loginWhiteLabelingParams)&&(identical(other.userParams, _this.userParams) || other.userParams == _this.userParams)&&(identical(other.theme, _this.theme) || other.theme == _this.theme)&&(identical(other.loginTheme, _this.loginTheme) || other.loginTheme == _this.loginTheme)&&(identical(other.isUserWlMode, _this.isUserWlMode) || other.isUserWlMode == _this.isUserWlMode)&&(identical(other.logo, _this.logo) || other.logo == _this.logo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loginWhiteLabelingParams,userParams,theme,loginTheme,isUserWlMode,logo);
+int get hashCode {
+  final _this = this as WlState;
+  return Object.hash(runtimeType,_this.loginWhiteLabelingParams,_this.userParams,_this.theme,_this.loginTheme,_this.isUserWlMode,_this.logo);
+}
 
 @override
 String toString() {
-  return 'WlState(loginWhiteLabelingParams: $loginWhiteLabelingParams, userParams: $userParams, theme: $theme, loginTheme: $loginTheme, isUserWlMode: $isUserWlMode, logo: $logo)';
+  final _this = this as WlState;
+  return 'WlState(loginWhiteLabelingParams: ${_this.loginWhiteLabelingParams}, userParams: ${_this.userParams}, theme: ${_this.theme}, loginTheme: ${_this.loginTheme}, isUserWlMode: ${_this.isUserWlMode}, logo: ${_this.logo})';
 }
 
 
@@ -66,7 +72,7 @@ class _$WlStateCopyWithImpl<$Res>
 /// Create a copy of WlState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? loginWhiteLabelingParams = null,Object? userParams = null,Object? theme = null,Object? loginTheme = null,Object? isUserWlMode = null,Object? logo = null,}) {
-  return _then(_self.copyWith(
+  return _then(WlState(
 loginWhiteLabelingParams: null == loginWhiteLabelingParams ? _self.loginWhiteLabelingParams : loginWhiteLabelingParams // ignore: cast_nullable_to_non_nullable
 as LoginWhiteLabelingParams,userParams: null == userParams ? _self.userParams : userParams // ignore: cast_nullable_to_non_nullable
 as WhiteLabelingParams,theme: null == theme ? _self.theme : theme // ignore: cast_nullable_to_non_nullable
@@ -237,16 +243,18 @@ _$WlStateCopyWith<_WlState> get copyWith => __$WlStateCopyWithImpl<_WlState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WlState&&(identical(other.loginWhiteLabelingParams, loginWhiteLabelingParams) || other.loginWhiteLabelingParams == loginWhiteLabelingParams)&&(identical(other.userParams, userParams) || other.userParams == userParams)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.loginTheme, loginTheme) || other.loginTheme == loginTheme)&&(identical(other.isUserWlMode, isUserWlMode) || other.isUserWlMode == isUserWlMode)&&(identical(other.logo, logo) || other.logo == logo));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WlState&&(identical(other.loginWhiteLabelingParams, loginWhiteLabelingParams) || other.loginWhiteLabelingParams == loginWhiteLabelingParams)&&(identical(other.userParams, userParams) || other.userParams == userParams)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.loginTheme, loginTheme) || other.loginTheme == loginTheme)&&(identical(other.isUserWlMode, isUserWlMode) || other.isUserWlMode == isUserWlMode)&&(identical(other.logo, logo) || other.logo == logo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loginWhiteLabelingParams,userParams,theme,loginTheme,isUserWlMode,logo);
+int get hashCode {
+    return Object.hash(runtimeType,loginWhiteLabelingParams,userParams,theme,loginTheme,isUserWlMode,logo);
+}
 
 @override
 String toString() {
-  return 'WlState(loginWhiteLabelingParams: $loginWhiteLabelingParams, userParams: $userParams, theme: $theme, loginTheme: $loginTheme, isUserWlMode: $isUserWlMode, logo: $logo)';
+    return 'WlState(loginWhiteLabelingParams: $loginWhiteLabelingParams, userParams: $userParams, theme: $theme, loginTheme: $loginTheme, isUserWlMode: $isUserWlMode, logo: $logo)';
 }
 
 

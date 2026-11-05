@@ -2,7 +2,7 @@
 
 ## Toolchain
 
-The Flutter version is pinned in `.fvmrc` (Flutter 3.41.6, Dart 3.11). Use [FVM](https://fvm.app) or the same Flutter version:
+The Flutter version is pinned in `.fvmrc` (Flutter 3.47.9, Dart 3.13). Use [FVM](https://fvm.app) or the same Flutter version:
 
 ```bash
 fvm install              # installs the version from .fvmrc

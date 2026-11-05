@@ -46,7 +46,7 @@ abstract class _$Wl extends $Notifier<WlState> {
   WlState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<WlState, WlState>;
     final element =
         ref.element
@@ -56,6 +56,6 @@ abstract class _$Wl extends $Notifier<WlState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

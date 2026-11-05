@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'navigation_state.dart';
@@ -9,6 +9,7 @@ part of 'navigation_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $NavigationStateCopyWith<NavigationState> get copyWith => _$NavigationStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavigationState&&const DeepCollectionEquality().equals(other.bottomBarPages, bottomBarPages)&&const DeepCollectionEquality().equals(other.morePages, morePages));
+  final _this = this as NavigationState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavigationState&&const DeepCollectionEquality().equals(other.bottomBarPages, _this.bottomBarPages)&&const DeepCollectionEquality().equals(other.morePages, _this.morePages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(bottomBarPages),const DeepCollectionEquality().hash(morePages));
+int get hashCode {
+  final _this = this as NavigationState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.bottomBarPages),const DeepCollectionEquality().hash(_this.morePages));
+}
 
 @override
 String toString() {
-  return 'NavigationState(bottomBarPages: $bottomBarPages, morePages: $morePages)';
+  final _this = this as NavigationState;
+  return 'NavigationState(bottomBarPages: ${_this.bottomBarPages}, morePages: ${_this.morePages})';
 }
 
 
@@ -63,7 +69,7 @@ class _$NavigationStateCopyWithImpl<$Res>
 /// Create a copy of NavigationState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? bottomBarPages = null,Object? morePages = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavigationState(
 bottomBarPages: null == bottomBarPages ? _self.bottomBarPages : bottomBarPages // ignore: cast_nullable_to_non_nullable
 as List<NavigationItemData>,morePages: null == morePages ? _self.morePages : morePages // ignore: cast_nullable_to_non_nullable
 as List<NavigationItemData>,
@@ -207,7 +213,7 @@ return $default(_that.bottomBarPages,_that.morePages);case _:
 
 
 class _NavigationState implements NavigationState {
-  const _NavigationState({required final  List<NavigationItemData> bottomBarPages, required final  List<NavigationItemData> morePages}): _bottomBarPages = bottomBarPages,_morePages = morePages;
+  const _NavigationState({required  List<NavigationItemData> bottomBarPages, required  List<NavigationItemData> morePages}): _bottomBarPages = bottomBarPages,_morePages = morePages;
   
 
  final  List<NavigationItemData> _bottomBarPages;
@@ -235,16 +241,18 @@ _$NavigationStateCopyWith<_NavigationState> get copyWith => __$NavigationStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavigationState&&const DeepCollectionEquality().equals(other._bottomBarPages, _bottomBarPages)&&const DeepCollectionEquality().equals(other._morePages, _morePages));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavigationState&&const DeepCollectionEquality().equals(other.bottomBarPages, _bottomBarPages)&&const DeepCollectionEquality().equals(other.morePages, _morePages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_bottomBarPages),const DeepCollectionEquality().hash(_morePages));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_bottomBarPages),const DeepCollectionEquality().hash(_morePages));
+}
 
 @override
 String toString() {
-  return 'NavigationState(bottomBarPages: $bottomBarPages, morePages: $morePages)';
+    return 'NavigationState(bottomBarPages: $bottomBarPages, morePages: $morePages)';
 }
 
 

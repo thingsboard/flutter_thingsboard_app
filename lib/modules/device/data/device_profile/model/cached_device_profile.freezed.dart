@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'cached_device_profile.dart';
@@ -9,6 +9,7 @@ part of 'cached_device_profile.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $CachedDeviceProfileInfoCopyWith<CachedDeviceProfileInfo> get copyWith => _$Cach
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CachedDeviceProfileInfo&&(identical(other.activeCount, activeCount) || other.activeCount == activeCount)&&(identical(other.inactiveCount, inactiveCount) || other.inactiveCount == inactiveCount)&&(identical(other.info, info) || other.info == info));
+  final _this = this as CachedDeviceProfileInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CachedDeviceProfileInfo&&(identical(other.activeCount, _this.activeCount) || other.activeCount == _this.activeCount)&&(identical(other.inactiveCount, _this.inactiveCount) || other.inactiveCount == _this.inactiveCount)&&(identical(other.info, _this.info) || other.info == _this.info));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,activeCount,inactiveCount,info);
+int get hashCode {
+  final _this = this as CachedDeviceProfileInfo;
+  return Object.hash(runtimeType,_this.activeCount,_this.inactiveCount,_this.info);
+}
 
 @override
 String toString() {
-  return 'CachedDeviceProfileInfo(activeCount: $activeCount, inactiveCount: $inactiveCount, info: $info)';
+  final _this = this as CachedDeviceProfileInfo;
+  return 'CachedDeviceProfileInfo(activeCount: ${_this.activeCount}, inactiveCount: ${_this.inactiveCount}, info: ${_this.info})';
 }
 
 
@@ -63,7 +69,7 @@ class _$CachedDeviceProfileInfoCopyWithImpl<$Res>
 /// Create a copy of CachedDeviceProfileInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? activeCount = freezed,Object? inactiveCount = freezed,Object? info = null,}) {
-  return _then(_self.copyWith(
+  return _then(CachedDeviceProfileInfo(
 activeCount: freezed == activeCount ? _self.activeCount : activeCount // ignore: cast_nullable_to_non_nullable
 as int?,inactiveCount: freezed == inactiveCount ? _self.inactiveCount : inactiveCount // ignore: cast_nullable_to_non_nullable
 as int?,info: null == info ? _self.info : info // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$CachedDeviceProfileInfoCopyWith<_CachedDeviceProfileInfo> get copyWith => __$C
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CachedDeviceProfileInfo&&(identical(other.activeCount, activeCount) || other.activeCount == activeCount)&&(identical(other.inactiveCount, inactiveCount) || other.inactiveCount == inactiveCount)&&(identical(other.info, info) || other.info == info));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CachedDeviceProfileInfo&&(identical(other.activeCount, activeCount) || other.activeCount == activeCount)&&(identical(other.inactiveCount, inactiveCount) || other.inactiveCount == inactiveCount)&&(identical(other.info, info) || other.info == info));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,activeCount,inactiveCount,info);
+int get hashCode {
+    return Object.hash(runtimeType,activeCount,inactiveCount,info);
+}
 
 @override
 String toString() {
-  return 'CachedDeviceProfileInfo(activeCount: $activeCount, inactiveCount: $inactiveCount, info: $info)';
+    return 'CachedDeviceProfileInfo(activeCount: $activeCount, inactiveCount: $inactiveCount, info: $info)';
 }
 
 

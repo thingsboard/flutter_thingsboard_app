@@ -48,7 +48,7 @@ abstract class _$ProfileEditProvider extends $Notifier<ProfileEditState> {
   ProfileEditState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<ProfileEditState, ProfileEditState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$ProfileEditProvider extends $Notifier<ProfileEditState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

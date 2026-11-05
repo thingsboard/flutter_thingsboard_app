@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'live_tracking_session.dart';
@@ -9,6 +9,7 @@ part of 'live_tracking_session.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LiveTrackingSessionCopyWith<LiveTrackingSession> get copyWith => _$LiveTracking
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveTrackingSession&&(identical(other.config, config) || other.config == config)&&(identical(other.status, status) || other.status == status)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.fixCount, fixCount) || other.fixCount == fixCount)&&(identical(other.savedCount, savedCount) || other.savedCount == savedCount)&&(identical(other.saveErrorCount, saveErrorCount) || other.saveErrorCount == saveErrorCount)&&(identical(other.lastFix, lastFix) || other.lastFix == lastFix)&&(identical(other.lastError, lastError) || other.lastError == lastError));
+  final _this = this as LiveTrackingSession;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveTrackingSession&&(identical(other.config, _this.config) || other.config == _this.config)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.startedAt, _this.startedAt) || other.startedAt == _this.startedAt)&&(identical(other.fixCount, _this.fixCount) || other.fixCount == _this.fixCount)&&(identical(other.savedCount, _this.savedCount) || other.savedCount == _this.savedCount)&&(identical(other.saveErrorCount, _this.saveErrorCount) || other.saveErrorCount == _this.saveErrorCount)&&(identical(other.lastFix, _this.lastFix) || other.lastFix == _this.lastFix)&&(identical(other.lastError, _this.lastError) || other.lastError == _this.lastError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,config,status,startedAt,fixCount,savedCount,saveErrorCount,lastFix,lastError);
+int get hashCode {
+  final _this = this as LiveTrackingSession;
+  return Object.hash(runtimeType,_this.config,_this.status,_this.startedAt,_this.fixCount,_this.savedCount,_this.saveErrorCount,_this.lastFix,_this.lastError);
+}
 
 @override
 String toString() {
-  return 'LiveTrackingSession(config: $config, status: $status, startedAt: $startedAt, fixCount: $fixCount, savedCount: $savedCount, saveErrorCount: $saveErrorCount, lastFix: $lastFix, lastError: $lastError)';
+  final _this = this as LiveTrackingSession;
+  return 'LiveTrackingSession(config: ${_this.config}, status: ${_this.status}, startedAt: ${_this.startedAt}, fixCount: ${_this.fixCount}, savedCount: ${_this.savedCount}, saveErrorCount: ${_this.saveErrorCount}, lastFix: ${_this.lastFix}, lastError: ${_this.lastError})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LiveTrackingSessionCopyWithImpl<$Res>
 /// Create a copy of LiveTrackingSession
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? config = null,Object? status = null,Object? startedAt = null,Object? fixCount = null,Object? savedCount = null,Object? saveErrorCount = null,Object? lastFix = freezed,Object? lastError = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LiveTrackingSession(
 config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as LiveTrackingConfig,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LiveTrackingStatus,startedAt: null == startedAt ? _self.startedAt : startedAt // ignore: cast_nullable_to_non_nullable
@@ -247,16 +253,18 @@ _$LiveTrackingSessionCopyWith<_LiveTrackingSession> get copyWith => __$LiveTrack
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveTrackingSession&&(identical(other.config, config) || other.config == config)&&(identical(other.status, status) || other.status == status)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.fixCount, fixCount) || other.fixCount == fixCount)&&(identical(other.savedCount, savedCount) || other.savedCount == savedCount)&&(identical(other.saveErrorCount, saveErrorCount) || other.saveErrorCount == saveErrorCount)&&(identical(other.lastFix, lastFix) || other.lastFix == lastFix)&&(identical(other.lastError, lastError) || other.lastError == lastError));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveTrackingSession&&(identical(other.config, config) || other.config == config)&&(identical(other.status, status) || other.status == status)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.fixCount, fixCount) || other.fixCount == fixCount)&&(identical(other.savedCount, savedCount) || other.savedCount == savedCount)&&(identical(other.saveErrorCount, saveErrorCount) || other.saveErrorCount == saveErrorCount)&&(identical(other.lastFix, lastFix) || other.lastFix == lastFix)&&(identical(other.lastError, lastError) || other.lastError == lastError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,config,status,startedAt,fixCount,savedCount,saveErrorCount,lastFix,lastError);
+int get hashCode {
+    return Object.hash(runtimeType,config,status,startedAt,fixCount,savedCount,saveErrorCount,lastFix,lastError);
+}
 
 @override
 String toString() {
-  return 'LiveTrackingSession(config: $config, status: $status, startedAt: $startedAt, fixCount: $fixCount, savedCount: $savedCount, saveErrorCount: $saveErrorCount, lastFix: $lastFix, lastError: $lastError)';
+    return 'LiveTrackingSession(config: $config, status: $status, startedAt: $startedAt, fixCount: $fixCount, savedCount: $savedCount, saveErrorCount: $saveErrorCount, lastFix: $lastFix, lastError: $lastError)';
 }
 
 

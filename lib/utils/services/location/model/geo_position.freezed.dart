@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'geo_position.dart';
@@ -9,6 +9,7 @@ part of 'geo_position.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $GeoPositionCopyWith<GeoPosition> get copyWith => _$GeoPositionCopyWithImpl<GeoP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GeoPosition&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.accuracy, accuracy) || other.accuracy == accuracy)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.altitude, altitude) || other.altitude == altitude)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.heading, heading) || other.heading == heading));
+  final _this = this as GeoPosition;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GeoPosition&&(identical(other.latitude, _this.latitude) || other.latitude == _this.latitude)&&(identical(other.longitude, _this.longitude) || other.longitude == _this.longitude)&&(identical(other.accuracy, _this.accuracy) || other.accuracy == _this.accuracy)&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&(identical(other.altitude, _this.altitude) || other.altitude == _this.altitude)&&(identical(other.speed, _this.speed) || other.speed == _this.speed)&&(identical(other.heading, _this.heading) || other.heading == _this.heading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,latitude,longitude,accuracy,timestamp,altitude,speed,heading);
+int get hashCode {
+  final _this = this as GeoPosition;
+  return Object.hash(runtimeType,_this.latitude,_this.longitude,_this.accuracy,_this.timestamp,_this.altitude,_this.speed,_this.heading);
+}
 
 @override
 String toString() {
-  return 'GeoPosition(latitude: $latitude, longitude: $longitude, accuracy: $accuracy, timestamp: $timestamp, altitude: $altitude, speed: $speed, heading: $heading)';
+  final _this = this as GeoPosition;
+  return 'GeoPosition(latitude: ${_this.latitude}, longitude: ${_this.longitude}, accuracy: ${_this.accuracy}, timestamp: ${_this.timestamp}, altitude: ${_this.altitude}, speed: ${_this.speed}, heading: ${_this.heading})';
 }
 
 
@@ -63,7 +69,7 @@ class _$GeoPositionCopyWithImpl<$Res>
 /// Create a copy of GeoPosition
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? latitude = null,Object? longitude = null,Object? accuracy = null,Object? timestamp = null,Object? altitude = null,Object? speed = null,Object? heading = null,}) {
-  return _then(_self.copyWith(
+  return _then(GeoPosition(
 latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,accuracy: null == accuracy ? _self.accuracy : accuracy // ignore: cast_nullable_to_non_nullable
@@ -233,16 +239,18 @@ _$GeoPositionCopyWith<_GeoPosition> get copyWith => __$GeoPositionCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GeoPosition&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.accuracy, accuracy) || other.accuracy == accuracy)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.altitude, altitude) || other.altitude == altitude)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.heading, heading) || other.heading == heading));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GeoPosition&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.accuracy, accuracy) || other.accuracy == accuracy)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.altitude, altitude) || other.altitude == altitude)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.heading, heading) || other.heading == heading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,latitude,longitude,accuracy,timestamp,altitude,speed,heading);
+int get hashCode {
+    return Object.hash(runtimeType,latitude,longitude,accuracy,timestamp,altitude,speed,heading);
+}
 
 @override
 String toString() {
-  return 'GeoPosition(latitude: $latitude, longitude: $longitude, accuracy: $accuracy, timestamp: $timestamp, altitude: $altitude, speed: $speed, heading: $heading)';
+    return 'GeoPosition(latitude: $latitude, longitude: $longitude, accuracy: $accuracy, timestamp: $timestamp, altitude: $altitude, speed: $speed, heading: $heading)';
 }
 
 

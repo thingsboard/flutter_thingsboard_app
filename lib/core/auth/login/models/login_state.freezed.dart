@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_state.dart';
@@ -9,6 +9,7 @@ part of 'login_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope)&&(identical(other.userPermissions, userPermissions) || other.userPermissions == userPermissions));
+  final _this = this as LoginState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isUserLoaded, _this.isUserLoaded) || other.isUserLoaded == _this.isUserLoaded)&&(identical(other.user, _this.user) || other.user == _this.user)&&(identical(other.mobileLoginInfo, _this.mobileLoginInfo) || other.mobileLoginInfo == _this.mobileLoginInfo)&&(identical(other.userScope, _this.userScope) || other.userScope == _this.userScope)&&(identical(other.userPermissions, _this.userPermissions) || other.userPermissions == _this.userPermissions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope,userPermissions);
+int get hashCode {
+  final _this = this as LoginState;
+  return Object.hash(runtimeType,_this.isUserLoaded,_this.user,_this.mobileLoginInfo,_this.userScope,_this.userPermissions);
+}
 
 @override
 String toString() {
-  return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope, userPermissions: $userPermissions)';
+  final _this = this as LoginState;
+  return 'LoginState(isUserLoaded: ${_this.isUserLoaded}, user: ${_this.user}, mobileLoginInfo: ${_this.mobileLoginInfo}, userScope: ${_this.userScope}, userPermissions: ${_this.userPermissions})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LoginStateCopyWithImpl<$Res>
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isUserLoaded = null,Object? user = freezed,Object? mobileLoginInfo = freezed,Object? userScope = freezed,Object? userPermissions = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LoginState(
 isUserLoaded: null == isUserLoaded ? _self.isUserLoaded : isUserLoaded // ignore: cast_nullable_to_non_nullable
 as bool,user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as User?,mobileLoginInfo: freezed == mobileLoginInfo ? _self.mobileLoginInfo : mobileLoginInfo // ignore: cast_nullable_to_non_nullable
@@ -229,16 +235,18 @@ _$LoginStateCopyWith<_LoginState> get copyWith => __$LoginStateCopyWithImpl<_Log
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope)&&(identical(other.userPermissions, userPermissions) || other.userPermissions == userPermissions));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope)&&(identical(other.userPermissions, userPermissions) || other.userPermissions == userPermissions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope,userPermissions);
+int get hashCode {
+    return Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope,userPermissions);
+}
 
 @override
 String toString() {
-  return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope, userPermissions: $userPermissions)';
+    return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope, userPermissions: $userPermissions)';
 }
 
 

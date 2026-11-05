@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'live_tracking_provider.dart';
@@ -9,6 +9,7 @@ part of 'live_tracking_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LiveTrackingViewStateCopyWith<LiveTrackingViewState> get copyWith => _$LiveTrac
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveTrackingViewState&&(identical(other.session, session) || other.session == session)&&(identical(other.hidden, hidden) || other.hidden == hidden));
+  final _this = this as LiveTrackingViewState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveTrackingViewState&&(identical(other.session, _this.session) || other.session == _this.session)&&(identical(other.hidden, _this.hidden) || other.hidden == _this.hidden));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,session,hidden);
+int get hashCode {
+  final _this = this as LiveTrackingViewState;
+  return Object.hash(runtimeType,_this.session,_this.hidden);
+}
 
 @override
 String toString() {
-  return 'LiveTrackingViewState(session: $session, hidden: $hidden)';
+  final _this = this as LiveTrackingViewState;
+  return 'LiveTrackingViewState(session: ${_this.session}, hidden: ${_this.hidden})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LiveTrackingViewStateCopyWithImpl<$Res>
 /// Create a copy of LiveTrackingViewState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? session = freezed,Object? hidden = null,}) {
-  return _then(_self.copyWith(
+  return _then(LiveTrackingViewState(
 session: freezed == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
 as LiveTrackingSession?,hidden: null == hidden ? _self.hidden : hidden // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -235,16 +241,18 @@ _$LiveTrackingViewStateCopyWith<_LiveTrackingViewState> get copyWith => __$LiveT
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveTrackingViewState&&(identical(other.session, session) || other.session == session)&&(identical(other.hidden, hidden) || other.hidden == hidden));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveTrackingViewState&&(identical(other.session, session) || other.session == session)&&(identical(other.hidden, hidden) || other.hidden == hidden));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,session,hidden);
+int get hashCode {
+    return Object.hash(runtimeType,session,hidden);
+}
 
 @override
 String toString() {
-  return 'LiveTrackingViewState(session: $session, hidden: $hidden)';
+    return 'LiveTrackingViewState(session: $session, hidden: $hidden)';
 }
 
 
