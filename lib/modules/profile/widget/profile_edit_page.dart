@@ -473,7 +473,11 @@ class ProfileEditPage extends HookConsumerWidget {
         loading.value = true;
         final res = await getIt<ITbClientService>().client
             .getDashboardControllerApi()
-            .getDashboardInfoById(dashboardId: id);
+            .getDashboardInfoById(
+              dashboardId: id,
+              // A deleted or inaccessible home dashboard just stays unset.
+              extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+            );
         final info = res.data!;
         form
             .control('additionalInfo.homeDashboardId')

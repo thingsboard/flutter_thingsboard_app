@@ -12,8 +12,13 @@ class DeviceDetailsPage extends EntityDetailsPage<Device> {
 
   @override
   Future<Device?> fetchEntity(String id) async {
-    final r = await tbClient.getDeviceControllerApi().getDeviceById(deviceId: id);
-    return r.data;
+    final r = await nullIfNotFound(
+      () => tbClient.getDeviceControllerApi().getDeviceById(
+        deviceId: id,
+        extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+      ),
+    );
+    return r?.data;
   }
 
   @override

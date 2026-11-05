@@ -46,9 +46,14 @@ class AlarmsDatasource implements IAlarmsDatasource {
 
   @override
   Future<AlarmInfo?> getAlarmInfo(String id) async {
-    final response = await thingsboardClient
-        .getAlarmControllerApi()
-        .getAlarmInfoById(alarmId: id);
-    return response.data;
+    // A deleted alarm (e.g. opened from a notification) is not an error:
+    // the details page shows its error state without a global toast.
+    final response = await nullIfNotFound(
+      () => thingsboardClient.getAlarmControllerApi().getAlarmInfoById(
+        alarmId: id,
+        extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+      ),
+    );
+    return response?.data;
   }
 }

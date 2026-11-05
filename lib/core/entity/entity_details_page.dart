@@ -65,12 +65,16 @@ class _EntityDetailsPageState<T extends Object>
     final ValueNotifier<String>? detailsTitle = widget.detailsTitle();
     if (detailsTitle == null) {
       titleValue = ValueNotifier(widget._defaultTitle);
-      entityFuture.then((value) {
-        final name = _entityName(value);
-        if (name != null) {
-          titleValue.value = name;
-        }
-      });
+      entityFuture.then(
+        (value) {
+          final name = _entityName(value);
+          if (name != null) {
+            titleValue.value = name;
+          }
+        },
+        // The FutureBuilder below shows the failure; keep the default title.
+        onError: (_) {},
+      );
     } else {
       titleValue = detailsTitle;
     }
@@ -223,5 +227,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
 String? _entityName(Object? entity) => switch (entity) {
   Device(:final name) => name,
   Asset(:final name) => name,
+  Customer(:final title) => title,
+  Tenant(:final title) => title,
   _ => null,
 };

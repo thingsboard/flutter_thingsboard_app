@@ -9,9 +9,10 @@ part 'two_factor_setup_account_settings_provider.g.dart';
 @riverpod
 Future<AccountTwoFaSettings?> acountTwoFactorSettings(Ref ref) async {
   final client = getIt<ITbClientService>().client;
-  final res =
-      await client
-          .getTwoFactorAuthConfigControllerApi()
-          .getAccountTwoFaSettings();
-  return res.data;
+  final res = await nullIfNotFound(
+    () => client.getTwoFactorAuthConfigControllerApi().getAccountTwoFaSettings(
+      extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+    ),
+  );
+  return res?.data;
 }

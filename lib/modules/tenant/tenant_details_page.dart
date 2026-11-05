@@ -13,9 +13,12 @@ class TenantDetailsPage extends ContactBasedDetailsPage<Tenant> {
   final tbClient = getIt<ITbClientService>().client;
   @override
   Future<Tenant?> fetchEntity(String id) async {
-    final r = await tbClient.getTenantControllerApi().getTenantById(
-      tenantId: id,
+    final r = await nullIfNotFound(
+      () => tbClient.getTenantControllerApi().getTenantById(
+        tenantId: id,
+        extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+      ),
     );
-    return r.data;
+    return r?.data;
   }
 }

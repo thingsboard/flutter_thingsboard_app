@@ -17,8 +17,13 @@ class AssetDetailsPage extends EntityDetailsPage<Asset> {
   final tbClient = getIt<ITbClientService>().client;
   @override
   Future<Asset?> fetchEntity(String id) async {
-    final r = await tbClient.getAssetControllerApi().getAssetById(assetId: id);
-    return r.data;
+    final r = await nullIfNotFound(
+      () => tbClient.getAssetControllerApi().getAssetById(
+        assetId: id,
+        extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+      ),
+    );
+    return r?.data;
   }
 
   @override

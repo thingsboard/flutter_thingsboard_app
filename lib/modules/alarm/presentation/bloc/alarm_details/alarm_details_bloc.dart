@@ -33,7 +33,14 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
   ) async {
     switch (event) {
       case AlarmDetailsFetchEvent():
-        final alarmInfo = await fetchAlarmUseCase(event.id!);
+        final AlarmInfo? alarmInfo;
+        try {
+          alarmInfo = await fetchAlarmUseCase(event.id!);
+        } catch (_) {
+          // The client's error handler has already shown the error.
+          emit(const AlarmDetailsErrorState(''));
+          return;
+        }
         if (alarmInfo != null) {
           final acknowledge = [
             AlarmStatus.CLEARED_UNACK,

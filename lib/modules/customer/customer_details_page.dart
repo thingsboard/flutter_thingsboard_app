@@ -13,9 +13,12 @@ class CustomerDetailsPage extends ContactBasedDetailsPage<Customer> {
   final tbClient = getIt<ITbClientService>().client;
   @override
   Future<Customer?> fetchEntity(String id) async {
-    final r = await tbClient.getCustomerControllerApi().getCustomerById(
-      customerId: id,
+    final r = await nullIfNotFound(
+      () => tbClient.getCustomerControllerApi().getCustomerById(
+        customerId: id,
+        extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+      ),
     );
-    return r.data;
+    return r?.data;
   }
 }
