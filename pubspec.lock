@@ -1728,12 +1728,11 @@ packages:
   plugin_wifi_connect:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: a2df1b11c699159bd7360470ef77c17bfdd47a85
-      url: "https://github.com/thingsboard/flutter_wifi_connect"
-    source: git
-    version: "1.0.3"
+      name: plugin_wifi_connect
+      sha256: "529735d5514576d94918566d8087dc70b43cd821036879a3d379e9d72b40458d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   pointycastle:
     dependency: transitive
     description:
