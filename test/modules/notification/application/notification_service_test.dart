@@ -15,7 +15,7 @@ import 'package:thingsboard_app/modules/notification/application/notification_se
 import 'package:thingsboard_client/thingsboard_client.dart'
     hide NotificationSettings;
 
-import '../../helpers/test_dependencies.dart';
+import '../../../helpers/test_dependencies.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 

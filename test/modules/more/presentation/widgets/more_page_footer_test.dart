@@ -19,7 +19,7 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-import '../../../helpers/test_dependencies.dart';
+import '../../../../helpers/test_dependencies.dart';
 
 class MockWhiteLabelingControllerApi extends Mock
     implements WhiteLabelingControllerApi {}

@@ -9,7 +9,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/alarms_datasource.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-import '../../helpers/test_dependencies.dart';
+import '../../../../../helpers/test_dependencies.dart';
 
 class MockAlarmControllerApi extends Mock implements AlarmControllerApi {}
 
