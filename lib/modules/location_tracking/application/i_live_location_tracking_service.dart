@@ -3,8 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_config.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_session.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
 
 /// App-wide owner of at most one live GPS tracking session. Runs the
 /// location stream, saves telemetry/attributes per fix, and exposes session

@@ -9,12 +9,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_entity_name_resolver.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_location_tracking_service.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_store.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/last_tracking_record.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_config.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_session.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_entity_name_resolver.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_live_tracking_store.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/last_tracking_record.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
 
 part 'live_tracking_provider.freezed.dart';
 part 'live_tracking_provider.g.dart';

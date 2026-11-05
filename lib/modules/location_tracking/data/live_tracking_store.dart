@@ -7,8 +7,8 @@ import 'dart:convert';
 
 import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_store.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/last_tracking_record.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_live_tracking_store.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/last_tracking_record.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LiveTrackingStore implements ILiveTrackingStore {

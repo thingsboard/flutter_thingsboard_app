@@ -9,8 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/location_tracking_routes.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/location_tracking/presentation/provider/live_tracking_provider.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_session.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
+import 'package:thingsboard_app/modules/location_tracking/presentation/providers/live_tracking_provider.dart';
 
 /// Persistent bar shown on all main pages while a tracking session exists.
 class LiveTrackingBar extends ConsumerWidget {

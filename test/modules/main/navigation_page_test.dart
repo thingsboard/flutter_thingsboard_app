@@ -10,14 +10,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
 import 'package:thingsboard_app/modules/main/domain/models/navigation_item_data.dart';
 import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/main/presentation/view/navigation_page.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_location_tracking_service.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_config.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_session.dart';
 
 class MockLiveLocationTrackingService extends Mock
     implements ILiveLocationTrackingService {}

@@ -10,7 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/location_tracking_routes.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_notifications.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_tracking_notifications.dart';
 
 /// Android-only ongoing notification shown while a live tracking session is
 /// paused. While tracking is active the geolocator foreground service owns its

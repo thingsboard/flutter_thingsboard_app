@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/last_tracking_record.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/last_tracking_record.dart';
 
 /// Persists the single most-recent tracking session so the idle page can show
 /// and relaunch it. Device-global; cleared on logout.

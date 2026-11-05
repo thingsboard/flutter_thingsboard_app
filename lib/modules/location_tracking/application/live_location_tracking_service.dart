@@ -6,15 +6,15 @@
 import 'dart:async';
 
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_entity_name_resolver.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_location_tracking_service.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_notifications.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_remote.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_store.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/last_tracking_record.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_config.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_error.dart';
-import 'package:thingsboard_app/utils/services/live_location_tracking/model/live_tracking_session.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_tracking_notifications.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_entity_name_resolver.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_live_tracking_remote.dart';
+import 'package:thingsboard_app/modules/location_tracking/data/i_live_tracking_store.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/last_tracking_record.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_error.dart';
+import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
 import 'package:thingsboard_app/utils/services/location/i_location_service.dart';
 import 'package:thingsboard_app/utils/services/location/model/geo_position.dart';
 import 'package:thingsboard_app/utils/services/location/model/location_fix.dart';
