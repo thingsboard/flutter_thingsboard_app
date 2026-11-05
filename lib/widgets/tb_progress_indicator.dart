@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 class TbProgressIndicator extends ConsumerStatefulWidget {
   const TbProgressIndicator({this.size = 36.0, this.valueColor});

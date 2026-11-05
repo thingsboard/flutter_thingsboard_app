@@ -5,12 +5,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/soft_ap/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/enter_password_dialog.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/help_message_widget.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/scan_list_widget.dart';
+import 'package:thingsboard_app/utils/ui/full_screen_dialog.dart';
 
 class WifiList extends StatelessWidget {
 const  WifiList( {required this.wifi, super.key});
@@ -28,7 +28,7 @@ const  WifiList( {required this.wifi, super.key});
             wifi,
             icon: Icons.wifi_outlined,
             onTap: (network) async {
-              final String? networkPass = await TbContext.showFullScreenDialog2(
+              final String? networkPass = await showFullScreenDialog(
                 PasswordDialog(
                   helpMessage: S.of(context).wifiPasswordMessage(network),
                   textFieldLabel: S.of(context).wifiPassword,

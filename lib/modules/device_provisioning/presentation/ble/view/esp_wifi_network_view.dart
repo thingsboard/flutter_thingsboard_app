@@ -5,12 +5,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/enter_password_dialog.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/help_message_widget.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets/scan_list_widget.dart';
+import 'package:thingsboard_app/utils/ui/full_screen_dialog.dart';
 
 class EspWifiNetworkView extends StatelessWidget {
   const EspWifiNetworkView({
@@ -37,7 +37,7 @@ class EspWifiNetworkView extends StatelessWidget {
             networks,
             icon: Icons.wifi_outlined,
             onTap: (network) async {
-              final String? networkPass = await TbContext.showFullScreenDialog2(
+              final String? networkPass = await showFullScreenDialog(
                 PasswordDialog(
                   helpMessage: S.of(context).wifiPasswordMessage(network),
                   textFieldLabel: S.of(context).wifiPassword,
