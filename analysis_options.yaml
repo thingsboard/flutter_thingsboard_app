@@ -1,7 +1,5 @@
 include: package:lint/strict.yaml
 analyzer:
-  plugins:
-    - custom_lint
   exclude:
     - '**.freezed.dart'
     - '**.g.dart'

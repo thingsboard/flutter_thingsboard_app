@@ -75,5 +75,12 @@ Future<void> main() async {
     Bloc.observer = AppBlocObserver(getIt());
   }
   FlutterNativeSplash.remove();
-  runApp(const ProviderScope(child: ThingsboardApp()));
+  runApp(
+    ProviderScope(
+      // Riverpod 3 retries failing providers by default. The app reports
+      // errors and offers its own retry, as with Riverpod 2, so keep it off.
+      retry: (retryCount, error) => null,
+      child: const ThingsboardApp(),
+    ),
+  );
 }

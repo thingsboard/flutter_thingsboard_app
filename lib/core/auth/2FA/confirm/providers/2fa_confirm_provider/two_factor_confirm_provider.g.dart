@@ -6,193 +6,111 @@ part of 'two_factor_confirm_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twoFactorConfirmHash() => r'3c506c19a5b29b03d7f9e8a5323100cac01ac5d3';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
+@ProviderFor(TwoFactorConfirm)
+final twoFactorConfirmProvider = TwoFactorConfirmFamily._();
 
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
+final class TwoFactorConfirmProvider
+    extends $NotifierProvider<TwoFactorConfirm, TwoFactorConfirmState> {
+  TwoFactorConfirmProvider._({
+    required TwoFactorConfirmFamily super.from,
+    required (TwoFaProviderType, int?) super.argument,
+  }) : super(
+         retry: null,
+         name: r'twoFactorConfirmProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$twoFactorConfirmHash();
+
+  @override
+  String toString() {
+    return r'twoFactorConfirmProvider'
+        ''
+        '$argument';
   }
 
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  @$internal
+  @override
+  TwoFactorConfirm create() => TwoFactorConfirm();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TwoFactorConfirmState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TwoFactorConfirmState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TwoFactorConfirmProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-abstract class _$TwoFactorConfirm
-    extends BuildlessAutoDisposeNotifier<TwoFactorConfirmState> {
-  late final TwoFaProviderType type;
-  late final int? resendTimerDurationSeconds;
+String _$twoFactorConfirmHash() => r'3c506c19a5b29b03d7f9e8a5323100cac01ac5d3';
+
+final class TwoFactorConfirmFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          TwoFactorConfirm,
+          TwoFactorConfirmState,
+          TwoFactorConfirmState,
+          TwoFactorConfirmState,
+          (TwoFaProviderType, int?)
+        > {
+  TwoFactorConfirmFamily._()
+    : super(
+        retry: null,
+        name: r'twoFactorConfirmProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  TwoFactorConfirmProvider call(
+    TwoFaProviderType type,
+    int? resendTimerDurationSeconds,
+  ) => TwoFactorConfirmProvider._(
+    argument: (type, resendTimerDurationSeconds),
+    from: this,
+  );
+
+  @override
+  String toString() => r'twoFactorConfirmProvider';
+}
+
+abstract class _$TwoFactorConfirm extends $Notifier<TwoFactorConfirmState> {
+  late final _$args = ref.$arg as (TwoFaProviderType, int?);
+  TwoFaProviderType get type => _$args.$1;
+  int? get resendTimerDurationSeconds => _$args.$2;
 
   TwoFactorConfirmState build(
     TwoFaProviderType type,
     int? resendTimerDurationSeconds,
   );
-}
-
-/// See also [TwoFactorConfirm].
-@ProviderFor(TwoFactorConfirm)
-const twoFactorConfirmProvider = TwoFactorConfirmFamily();
-
-/// See also [TwoFactorConfirm].
-class TwoFactorConfirmFamily extends Family<TwoFactorConfirmState> {
-  /// See also [TwoFactorConfirm].
-  const TwoFactorConfirmFamily();
-
-  /// See also [TwoFactorConfirm].
-  TwoFactorConfirmProvider call(
-    TwoFaProviderType type,
-    int? resendTimerDurationSeconds,
-  ) {
-    return TwoFactorConfirmProvider(type, resendTimerDurationSeconds);
-  }
-
+  @$mustCallSuper
   @override
-  TwoFactorConfirmProvider getProviderOverride(
-    covariant TwoFactorConfirmProvider provider,
-  ) {
-    return call(provider.type, provider.resendTimerDurationSeconds);
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'twoFactorConfirmProvider';
-}
-
-/// See also [TwoFactorConfirm].
-class TwoFactorConfirmProvider
-    extends
-        AutoDisposeNotifierProviderImpl<
-          TwoFactorConfirm,
-          TwoFactorConfirmState
-        > {
-  /// See also [TwoFactorConfirm].
-  TwoFactorConfirmProvider(
-    TwoFaProviderType type,
-    int? resendTimerDurationSeconds,
-  ) : this._internal(
-        () => TwoFactorConfirm()
-          ..type = type
-          ..resendTimerDurationSeconds = resendTimerDurationSeconds,
-        from: twoFactorConfirmProvider,
-        name: r'twoFactorConfirmProvider',
-        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-            ? null
-            : _$twoFactorConfirmHash,
-        dependencies: TwoFactorConfirmFamily._dependencies,
-        allTransitiveDependencies:
-            TwoFactorConfirmFamily._allTransitiveDependencies,
-        type: type,
-        resendTimerDurationSeconds: resendTimerDurationSeconds,
-      );
-
-  TwoFactorConfirmProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.type,
-    required this.resendTimerDurationSeconds,
-  }) : super.internal();
-
-  final TwoFaProviderType type;
-  final int? resendTimerDurationSeconds;
-
-  @override
-  TwoFactorConfirmState runNotifierBuild(covariant TwoFactorConfirm notifier) {
-    return notifier.build(type, resendTimerDurationSeconds);
-  }
-
-  @override
-  Override overrideWith(TwoFactorConfirm Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: TwoFactorConfirmProvider._internal(
-        () => create()
-          ..type = type
-          ..resendTimerDurationSeconds = resendTimerDurationSeconds,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        type: type,
-        resendTimerDurationSeconds: resendTimerDurationSeconds,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<TwoFactorConfirm, TwoFactorConfirmState>
-  createElement() {
-    return _TwoFactorConfirmProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is TwoFactorConfirmProvider &&
-        other.type == type &&
-        other.resendTimerDurationSeconds == resendTimerDurationSeconds;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, type.hashCode);
-    hash = _SystemHash.combine(hash, resendTimerDurationSeconds.hashCode);
-
-    return _SystemHash.finish(hash);
+  void runBuild() {
+    final ref = this.ref as $Ref<TwoFactorConfirmState, TwoFactorConfirmState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<TwoFactorConfirmState, TwoFactorConfirmState>,
+              TwoFactorConfirmState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
   }
 }
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin TwoFactorConfirmRef
-    on AutoDisposeNotifierProviderRef<TwoFactorConfirmState> {
-  /// The parameter `type` of this provider.
-  TwoFaProviderType get type;
-
-  /// The parameter `resendTimerDurationSeconds` of this provider.
-  int? get resendTimerDurationSeconds;
-}
-
-class _TwoFactorConfirmProviderElement
-    extends
-        AutoDisposeNotifierProviderElement<
-          TwoFactorConfirm,
-          TwoFactorConfirmState
-        >
-    with TwoFactorConfirmRef {
-  _TwoFactorConfirmProviderElement(super.provider);
-
-  @override
-  TwoFaProviderType get type => (origin as TwoFactorConfirmProvider).type;
-  @override
-  int? get resendTimerDurationSeconds =>
-      (origin as TwoFactorConfirmProvider).resendTimerDurationSeconds;
-}
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,20 +6,56 @@ part of 'error_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(Error)
+final errorProvider = ErrorProvider._();
+
+final class ErrorProvider extends $NotifierProvider<Error, void> {
+  ErrorProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'errorProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$errorHash();
+
+  @$internal
+  @override
+  Error create() => Error();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(void value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<void>(value),
+    );
+  }
+}
+
 String _$errorHash() => r'15539c7a40cb722fed920ac40f8e3483249cfc13';
 
-/// See also [Error].
-@ProviderFor(Error)
-final errorProvider = AutoDisposeNotifierProvider<Error, void>.internal(
-  Error.new,
-  name: r'errorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$errorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$Error = AutoDisposeNotifier<void>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$Error extends $Notifier<void> {
+  void build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<void, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<void, void>,
+              void,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

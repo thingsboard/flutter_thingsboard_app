@@ -6,25 +6,48 @@ part of 'two_factor_setup_avalible_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twoFactorSetupAvalibleProvidersHash() =>
-    r'a9fdf60b6fdaa889d68372611ebae6423058c05b';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [twoFactorSetupAvalibleProviders].
 @ProviderFor(twoFactorSetupAvalibleProviders)
 final twoFactorSetupAvalibleProvidersProvider =
-    AutoDisposeFutureProvider<List<TwoFaProviderType>>.internal(
-      twoFactorSetupAvalibleProviders,
-      name: r'twoFactorSetupAvalibleProvidersProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$twoFactorSetupAvalibleProvidersHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+    TwoFactorSetupAvalibleProvidersProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TwoFactorSetupAvalibleProvidersRef =
-    AutoDisposeFutureProviderRef<List<TwoFaProviderType>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class TwoFactorSetupAvalibleProvidersProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<TwoFaProviderType>>,
+          List<TwoFaProviderType>,
+          FutureOr<List<TwoFaProviderType>>
+        >
+    with
+        $FutureModifier<List<TwoFaProviderType>>,
+        $FutureProvider<List<TwoFaProviderType>> {
+  TwoFactorSetupAvalibleProvidersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'twoFactorSetupAvalibleProvidersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$twoFactorSetupAvalibleProvidersHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<TwoFaProviderType>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<TwoFaProviderType>> create(Ref ref) {
+    return twoFactorSetupAvalibleProviders(ref);
+  }
+}
+
+String _$twoFactorSetupAvalibleProvidersHash() =>
+    r'a9fdf60b6fdaa889d68372611ebae6423058c05b';

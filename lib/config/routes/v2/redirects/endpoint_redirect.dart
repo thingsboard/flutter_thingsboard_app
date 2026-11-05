@@ -19,7 +19,7 @@ class EndpointRedirect extends Redirect {
   Future<String?> redirect(
     BuildContext context,
     GoRouterState state,
-    Ref<Object?> ref,
+    Ref ref,
   ) async {
     final region = await getIt<ILocalDatabaseService>().getSelectedRegion();
     if ((region == null) && !ThingsboardAppConstants.ignoreRegionSelection) {

@@ -6,21 +6,57 @@ part of 'noauth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(NoauthProvider)
+final noauthProviderProvider = NoauthProviderProvider._();
+
+final class NoauthProviderProvider
+    extends $NotifierProvider<NoauthProvider, NoAuthState> {
+  NoauthProviderProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noauthProviderProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$noauthProviderHash();
+
+  @$internal
+  @override
+  NoauthProvider create() => NoauthProvider();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NoAuthState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NoAuthState>(value),
+    );
+  }
+}
+
 String _$noauthProviderHash() => r'c5938dce7b6848c099bbbef84c5f01f9f2c7c348';
 
-/// See also [NoauthProvider].
-@ProviderFor(NoauthProvider)
-final noauthProviderProvider =
-    AutoDisposeNotifierProvider<NoauthProvider, NoAuthState>.internal(
-      NoauthProvider.new,
-      name: r'noauthProviderProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$noauthProviderHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$NoauthProvider = AutoDisposeNotifier<NoAuthState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$NoauthProvider extends $Notifier<NoAuthState> {
+  NoAuthState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<NoAuthState, NoAuthState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<NoAuthState, NoAuthState>,
+              NoAuthState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

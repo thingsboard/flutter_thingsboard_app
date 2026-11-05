@@ -6,25 +6,48 @@ part of 'two_factor_avalible_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twoFaConfirmAvalibleProvidersHash() =>
-    r'33b28c823f302339070d33d5cd1b06185afdadb1';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [twoFaConfirmAvalibleProviders].
 @ProviderFor(twoFaConfirmAvalibleProviders)
 final twoFaConfirmAvalibleProvidersProvider =
-    AutoDisposeFutureProvider<List<TwoFaProviderInfo>>.internal(
-      twoFaConfirmAvalibleProviders,
-      name: r'twoFaConfirmAvalibleProvidersProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$twoFaConfirmAvalibleProvidersHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+    TwoFaConfirmAvalibleProvidersProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TwoFaConfirmAvalibleProvidersRef =
-    AutoDisposeFutureProviderRef<List<TwoFaProviderInfo>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class TwoFaConfirmAvalibleProvidersProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<TwoFaProviderInfo>>,
+          List<TwoFaProviderInfo>,
+          FutureOr<List<TwoFaProviderInfo>>
+        >
+    with
+        $FutureModifier<List<TwoFaProviderInfo>>,
+        $FutureProvider<List<TwoFaProviderInfo>> {
+  TwoFaConfirmAvalibleProvidersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'twoFaConfirmAvalibleProvidersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$twoFaConfirmAvalibleProvidersHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<TwoFaProviderInfo>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<TwoFaProviderInfo>> create(Ref ref) {
+    return twoFaConfirmAvalibleProviders(ref);
+  }
+}
+
+String _$twoFaConfirmAvalibleProvidersHash() =>
+    r'33b28c823f302339070d33d5cd1b06185afdadb1';

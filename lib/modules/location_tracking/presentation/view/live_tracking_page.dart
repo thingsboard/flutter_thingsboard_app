@@ -163,7 +163,7 @@ class _ActiveSession extends ConsumerWidget {
       targetNameProvider(entityType: target.entityType, id: target.id),
     );
     final name = displayTargetName(
-      nameAsync.valueOrNull ?? session.config.targetName,
+      nameAsync.value ?? session.config.targetName,
       target,
     );
     final statusColor =

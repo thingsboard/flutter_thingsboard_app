@@ -6,20 +6,56 @@ part of 'login_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(Login)
+final loginProvider = LoginProvider._();
+
+final class LoginProvider extends $NotifierProvider<Login, LoginState> {
+  LoginProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'loginProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$loginHash();
+
+  @$internal
+  @override
+  Login create() => Login();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LoginState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LoginState>(value),
+    );
+  }
+}
+
 String _$loginHash() => r'525a88407c1ecc84f74db2c63d7aef93dcd1c486';
 
-/// See also [Login].
-@ProviderFor(Login)
-final loginProvider = AutoDisposeNotifierProvider<Login, LoginState>.internal(
-  Login.new,
-  name: r'loginProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$loginHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$Login = AutoDisposeNotifier<LoginState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$Login extends $Notifier<LoginState> {
+  LoginState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<LoginState, LoginState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<LoginState, LoginState>,
+              LoginState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

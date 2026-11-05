@@ -6,21 +6,56 @@ part of 'signup_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(Signup)
+final signupProvider = SignupProvider._();
+
+final class SignupProvider extends $NotifierProvider<Signup, SignupState> {
+  SignupProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'signupProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$signupHash();
+
+  @$internal
+  @override
+  Signup create() => Signup();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SignupState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SignupState>(value),
+    );
+  }
+}
+
 String _$signupHash() => r'1fe59e188611a7387c4b8ceebd99931daffcc8a6';
 
-/// See also [Signup].
-@ProviderFor(Signup)
-final signupProvider =
-    AutoDisposeNotifierProvider<Signup, SignupState>.internal(
-      Signup.new,
-      name: r'signupProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$signupHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$Signup = AutoDisposeNotifier<SignupState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$Signup extends $Notifier<SignupState> {
+  SignupState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<SignupState, SignupState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SignupState, SignupState>,
+              SignupState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
