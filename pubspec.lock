@@ -1185,7 +1185,7 @@ packages:
     source: hosted
     version: "0.15.7"
   http:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
@@ -1505,10 +1505,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobile_scanner
-      sha256: c6184bf2913dd66be244108c9c27ca04b01caf726321c44b0e7a7a1e32d41044
+      sha256: "175c62fc813c2bd762757359a2088f8cbdb72020cf85d4cd27fc4d3fe59be058"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.4"
+    version: "7.5.0"
   mocktail:
     dependency: "direct dev"
     description:
@@ -1882,10 +1882,10 @@ packages:
     dependency: "direct main"
     description:
       name: recaptcha_enterprise_flutter
-      sha256: "0b72f1f2284a61345b28a2b663b1d7a140d324f65cbbd4f6ca2764ee4e743196"
+      sha256: c09a2f8ab3ef4ca6269e98fef0d880e88537e2c520f1000ff6ebd4d3e07e0e73
       url: "https://pub.dev"
     source: hosted
-    version: "18.8.2"
+    version: "18.9.3"
   riverpod:
     dependency: transitive
     description:
@@ -2325,7 +2325,7 @@ packages:
     source: hosted
     version: "14.3.1"
   wakelock_plus:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: wakelock_plus
       sha256: "61713aa82b7f85c21c9f4cd0a148abd75f38a74ec645fcb1e446f882c82fd09b"

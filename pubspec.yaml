@@ -61,7 +61,7 @@ dependencies:
   google_fonts: ^6.3.2
   expandable: ^5.0.1
   focused_menu: ^1.0.5
-  recaptcha_enterprise_flutter: ">=18.8.2 <18.9.0" # 18.9 needs Kotlin 2.2+ (android: 2.0.20)
+  recaptcha_enterprise_flutter: ^18.9.3
   flutter_esp_ble_prov: ^0.1.7
   esp_smartconfig: ^3.0.0
   permission_handler: ^11.4.0
@@ -75,7 +75,7 @@ dependencies:
   file_picker: ^9.2.3
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
-  mobile_scanner: ">=7.1.4 <7.2.0" # 7.2+ needs CameraX 1.6 (AGP 8.9.1, compileSdk 36)
+  mobile_scanner: ^7.5.0
   flutter_hooks: ^0.21.2
   esp_provisioning_softap:
     git:
