@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';

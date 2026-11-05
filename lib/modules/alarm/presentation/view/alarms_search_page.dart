@@ -5,10 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/bloc.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
 class AlarmsSearchPage extends StatelessWidget {

@@ -12,7 +12,7 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';

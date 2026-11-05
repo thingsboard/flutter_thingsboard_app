@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/modules/notification/domain/usecases/handle_notification_tap_params.dart';
 import 'package:thingsboard_app/modules/notification/domain/usecases/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
