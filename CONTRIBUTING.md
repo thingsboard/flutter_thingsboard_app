@@ -46,6 +46,17 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 A missing helper, an awkward API or a wrong model belongs in the client, not in a workaround here: open an issue or pull request in the client repository.
 
+## License headers
+
+Every hand-written Dart file in `lib/` and `test/` starts with the license header (CI checks it):
+
+```dart
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+```
+
 ## Commits
 
 Use [Conventional Commits](https://www.conventionalcommits.org) (`fix: …`, `feat: …`, `refactor: …`, `chore: …`, `test: …`) and explain in the body why the change is needed.

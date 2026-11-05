@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 /// App-level accuracy tiers, decoupled from the geolocator plugin's enum the
 /// same way [GeoPosition] is decoupled from its `Position`.
 enum LocationAccuracyLevel { low, balanced, high }

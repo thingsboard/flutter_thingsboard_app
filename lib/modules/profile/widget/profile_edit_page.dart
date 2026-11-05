@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:built_value/json_object.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';

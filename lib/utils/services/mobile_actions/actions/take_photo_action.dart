@@ -1,3 +1,7 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 import 'package:image_picker/image_picker.dart';
 import 'package:thingsboard_app/utils/services/mobile_actions/actions/take_picture_from_gallery_action.dart';

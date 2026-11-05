@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/modules/notification/controllers/notification_query_ctrl.dart';
 import 'package:thingsboard_app/modules/notification/repository/i_notification_query_repository.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/assignee_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/i_assignee_datasource.dart';

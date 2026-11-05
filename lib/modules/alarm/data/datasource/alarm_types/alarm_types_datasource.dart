@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarm_types/i_alarm_types_datasource.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';

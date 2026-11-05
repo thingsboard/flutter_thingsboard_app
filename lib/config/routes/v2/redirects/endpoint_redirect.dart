@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/src/state.dart';
 import 'package:riverpod/src/framework.dart';

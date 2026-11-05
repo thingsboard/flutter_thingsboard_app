@@ -22,6 +22,14 @@ jobs:
           flutter-version: ${{ steps.fvm.outputs.flutter }}
           channel: stable
           cache: true
+      - name: Check license headers
+        run: |
+          missing=$(git ls-files 'lib/*.dart' 'test/*.dart' \
+            | grep -vE '\.g\.dart$|\.freezed\.dart$|^lib/generated/|^lib/firebase_options\.dart$' \
+            | xargs grep -L '^// Copyright © 2021-2026 ThingsBoard, Inc\.' || true)
+          if [ -n "$missing" ]; then
+            echo "Missing license header (see CONTRIBUTING.md):"; echo "$missing"; exit 1
+          fi
       - run: flutter pub get
       - name: Check generated code is up to date
         # freezed / json_serializable / riverpod outputs are committed.

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
 import 'package:thingsboard_app/modules/audit_log/audit_logs_page.dart';

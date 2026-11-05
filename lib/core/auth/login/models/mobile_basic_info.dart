@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:built_value/json_object.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 import 'package:thingsboard_app/utils/services/version_service/version_info.dart';

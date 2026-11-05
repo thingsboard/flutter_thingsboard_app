@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/config/routes/v2/redirects/endpoint_redirect.dart';
 import 'package:thingsboard_app/core/auth/2FA/redirect/two_factor_configure_redirect.dart';
 import 'package:thingsboard_app/core/auth/2FA/redirect/two_factor_confirm_redirect.dart';
