@@ -70,8 +70,27 @@ extension AlarmCommentInfoExt on AlarmCommentInfo {
   Map<String, Object?>? get _commentJson =>
       comment?.isMap ?? false ? comment!.asMap.cast<String, Object?>() : null;
 
-  String? get commentText => _commentJson?['text'] as String?;
+  /// The comment text; a comment posted as a plain JSON string is its own
+  /// text, as the hand-written client read it.
+  String? get commentText {
+    final value = comment;
+    if (value != null && value.isString) {
+      return value.asString;
+    }
+    return _commentJson?['text'] as String?;
+  }
 
   /// The server sets `edited` only on comments that were edited.
   bool get commentEdited => _commentJson?['edited'] != null;
+}
+
+extension AlarmInfoExt on AlarmInfo {
+  /// The dashboard an alarm rule links in the alarm `details`, if any.
+  String? get detailsDashboardId {
+    final value = details;
+    if (value == null || !value.isMap) {
+      return null;
+    }
+    return value.asMap['dashboardId']?.toString();
+  }
 }

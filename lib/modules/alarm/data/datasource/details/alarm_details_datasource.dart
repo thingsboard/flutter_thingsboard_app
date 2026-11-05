@@ -118,14 +118,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
       alarmId: alarmId,
       assigneeId: assigneeId,
     );
-    // TODO: deliberate second round-trip. The controller returns Alarm, not
-    // AlarmInfo, so re-fetch to obtain the enriched info. Do not "optimize"
-    // this away without changing the return type.
-    final alarm = res.data!;
-    final infoRes = await thingsboardClient
-        .getAlarmControllerApi()
-        .getAlarmInfoById(alarmId: alarm.id?.id ?? alarmId);
-    return infoRes.data!;
+    return res.data!;
   }
 
   @override
@@ -133,14 +126,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     final res = await thingsboardClient.getAlarmControllerApi().unassignAlarm(
       alarmId: alarmId,
     );
-    // TODO: deliberate second round-trip. The controller returns Alarm, not
-    // AlarmInfo, so re-fetch to obtain the enriched info. Do not "optimize"
-    // this away without changing the return type.
-    final alarm = res.data!;
-    final infoRes = await thingsboardClient
-        .getAlarmControllerApi()
-        .getAlarmInfoById(alarmId: alarm.id?.id ?? alarmId);
-    return infoRes.data!;
+    return res.data!;
   }
 }
 
