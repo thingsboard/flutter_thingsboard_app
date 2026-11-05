@@ -6,8 +6,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
-import 'package:thingsboard_app/modules/main/widgets/bottom_navbar_items.dart';
+import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/presentation/widgets/bottom_navbar_items.dart';
 
 class TbNavigationBarWidget extends StatelessWidget {
   const TbNavigationBarWidget({

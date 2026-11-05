@@ -12,12 +12,12 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/provider/live_tracking_provider.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/widgets/live_tracking_bar.dart';
-import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
-import 'package:thingsboard_app/modules/main/model/navigation_type.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
-import 'package:thingsboard_app/modules/main/widgets/navigation_badge_widget.dart';
-import 'package:thingsboard_app/modules/main/widgets/tb_navigation_bar_widget.dart';
+import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/domain/models/navigation_type.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/widgets/navigation_badge_widget.dart';
+import 'package:thingsboard_app/modules/main/presentation/widgets/tb_navigation_bar_widget.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class NavigationPage extends HookConsumerWidget {

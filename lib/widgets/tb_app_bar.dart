@@ -11,7 +11,7 @@ import 'package:super_tooltip/super_tooltip.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
 class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {

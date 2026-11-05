@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/more/more_page.dart';
+import 'package:thingsboard_app/modules/more/presentation/view/more_page.dart';
 
 class MoreRoutes {
   static const more = '/more';

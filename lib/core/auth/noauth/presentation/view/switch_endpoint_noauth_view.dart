@@ -17,7 +17,7 @@ import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loa
 import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class SwitchEndpointNoAuthView extends HookConsumerWidget {

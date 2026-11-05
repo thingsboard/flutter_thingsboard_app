@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/main/model/navigation_item_data.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
+import 'package:thingsboard_app/modules/main/domain/models/navigation_item_data.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 
 NavigationItemData devicesItem({String? label}) => NavigationItemData(

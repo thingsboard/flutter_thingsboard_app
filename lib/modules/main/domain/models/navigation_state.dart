@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:thingsboard_app/modules/main/model/navigation_item_data.dart';
+import 'package:thingsboard_app/modules/main/domain/models/navigation_item_data.dart';
 
 part 'navigation_state.freezed.dart';
 

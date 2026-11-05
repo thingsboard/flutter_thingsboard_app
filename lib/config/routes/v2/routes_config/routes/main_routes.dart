@@ -18,7 +18,7 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/more_route
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/notification_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/profile_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/url_routes.dart';
-import 'package:thingsboard_app/modules/main/navigation_page.dart';
+import 'package:thingsboard_app/modules/main/presentation/view/navigation_page.dart';
 
 final allMainPages = [
   ...homeRoutes,

@@ -32,7 +32,7 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/tenant_rou
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/url_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/version_routes.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 final shellKey = GlobalKey<NavigatorState>();

@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
-import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.dart';
 
 class MoreMenuItemWidget extends StatelessWidget {
   const MoreMenuItemWidget(

@@ -7,18 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/model/main_navigation_item.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
-import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
-import 'package:thingsboard_app/modules/more/profle_widget.dart';
-import 'package:thingsboard_app/modules/more/widgets/more_page_footer.dart';
+import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/more/presentation/widgets/more_menu_item_widget.dart';
+import 'package:thingsboard_app/modules/more/presentation/widgets/more_page_footer.dart';
+import 'package:thingsboard_app/modules/more/presentation/widgets/profle_widget.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class MorePage extends HookConsumerWidget {
