@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 extension EntityTypeTranslationUtils on EntityType {
   String getTranslatedEntityType(BuildContext context) {

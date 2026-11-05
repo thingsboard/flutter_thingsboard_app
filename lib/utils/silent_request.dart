@@ -1,4 +1,4 @@
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 /// Request extra for calls that must not drive the global UI: no error toast or
 /// dialog from the client's error handler, and no global loading indicator.

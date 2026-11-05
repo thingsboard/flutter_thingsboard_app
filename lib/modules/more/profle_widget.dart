@@ -7,9 +7,9 @@ import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key, required this.userDetails, this.user});

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 const _dashboardsPage = PageLayout(id: Pages.dashboards);
 

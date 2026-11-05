@@ -1,11 +1,11 @@
 import 'package:built_value/json_object.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/details/i_alarm_details_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 // The app barrel re-exports the handwritten `Authority` enum; the generated
 // built_value `UserInfo.authority` needs the generated one, so import it prefixed.
-import 'package:thingsboard_app/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   const AlarmDetailsDatasource(this.thingsboardClient);

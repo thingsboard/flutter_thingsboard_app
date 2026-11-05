@@ -1,9 +1,9 @@
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/i_assignee_datasource.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 // The app barrel re-exports the handwritten `Authority` enum; the generated
 // built_value `UserInfo.authority` needs the generated one, so import it prefixed.
-import 'package:thingsboard_app/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AssigneeDatasource implements IAssigneeDatasource {
   const AssigneeDatasource({required this.tbClient});

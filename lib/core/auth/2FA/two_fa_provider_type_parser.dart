@@ -1,4 +1,4 @@
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 /// [TwoFaProviderType.valueOf] throws on an unknown name; this tolerant parser
 /// returns null instead so callers can skip unrecognized provider types.

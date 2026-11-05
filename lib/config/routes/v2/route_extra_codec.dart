@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' show AuditLog, apiSerializers, registerAuditLog;
+import 'package:thingsboard_client/thingsboard_client.dart' show AuditLog, apiSerializers, registerAuditLog;
 
 /// Serializes the objects the app passes as GoRouter `extra`.
 ///

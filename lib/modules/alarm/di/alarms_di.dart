@@ -1,10 +1,10 @@
-import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/alarms_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarms/i_alarms_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/repository/alarms/alarms_repository.dart';
 import 'package:thingsboard_app/modules/alarm/di/alarm_types_di.dart';
 import 'package:thingsboard_app/modules/alarm/di/assignee_di.dart';
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarms/alarms_pagination_repository.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarms/alarms_query_ctrl.dart';
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarms/i_alarms_repository.dart';
@@ -12,8 +12,8 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/alarm_filters_service.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmsDi {
   AlarmsDi._();

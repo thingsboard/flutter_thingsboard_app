@@ -8,12 +8,12 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/assign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/unassign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/bloc.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events/alarm_assignee_updated_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 // The app barrel re-exports the handwritten `Authority` enum; the generated
 // built_value `UserInfo.authority` needs the generated one, so import it prefixed.
-import 'package:thingsboard_app/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart' as tb_model;
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
   AlarmAssigneeBloc({

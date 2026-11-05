@@ -1,4 +1,3 @@
-import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +6,7 @@ import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/activity/alarm_activity_pagination_repository.dart';
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_states.dart';
@@ -15,11 +15,11 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/activity/alar
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/activity/alarm_edit_comment_textfield.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_filter_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_list_widget.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmActivityWidget extends HookConsumerWidget {
   const AlarmActivityWidget(this.alarmId, {super.key});

@@ -1,6 +1,6 @@
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class FetchDashboardsUseCase
     extends UseCase<Future<PageData<DashboardInfo>>, PageLink> {
