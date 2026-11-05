@@ -68,7 +68,7 @@ abstract final class PushNotificationDisplay {
     );
 
     await (plugin ?? PushNotificationDisplay.plugin).initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
     );
   }
@@ -83,10 +83,10 @@ abstract final class PushNotificationDisplay {
     }
 
     await (plugin ?? PushNotificationDisplay.plugin).show(
-      notificationIdFor(message),
-      notification.title,
-      notification.body,
-      await _detailsFor(message),
+      id: notificationIdFor(message),
+      title: notification.title,
+      body: notification.body,
+      notificationDetails: await _detailsFor(message),
       payload: json.encode(message.data),
     );
   }

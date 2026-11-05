@@ -48,7 +48,13 @@ MockFlutterLocalNotificationsPlugin stubbedPlugin() {
   final plugin = MockFlutterLocalNotificationsPlugin();
   when(
     () =>
-        plugin.show(any(), any(), any(), any(), payload: any(named: 'payload')),
+        plugin.show(
+          id: any(named: 'id'),
+          title: any(named: 'title'),
+          body: any(named: 'body'),
+          notificationDetails: any(named: 'notificationDetails'),
+          payload: any(named: 'payload'),
+        ),
   ).thenAnswer((_) async {});
   return plugin;
 }
@@ -61,10 +67,10 @@ Future<AndroidNotificationDetails> shownAndroidDetails(
   final details =
       verify(
             () => plugin.show(
-              any(),
-              any(),
-              any(),
-              captureAny(),
+              id: any(named: 'id'),
+              title: any(named: 'title'),
+              body: any(named: 'body'),
+              notificationDetails: captureAny(named: 'notificationDetails'),
               payload: any(named: 'payload'),
             ),
           ).captured.single
@@ -129,10 +135,10 @@ void main() {
 
       verifyNever(
         () => plugin.show(
-          any(),
-          any(),
-          any(),
-          any(),
+          id: any(named: 'id'),
+          title: any(named: 'title'),
+          body: any(named: 'body'),
+          notificationDetails: any(named: 'notificationDetails'),
           payload: any(named: 'payload'),
         ),
       );
@@ -146,10 +152,10 @@ void main() {
 
       verify(
         () => plugin.show(
-          1487038457,
-          'Alarm',
-          'High temp',
-          any(),
+          id: 1487038457,
+          title: 'Alarm',
+          body: 'High temp',
+          notificationDetails: any(named: 'notificationDetails'),
           payload: json.encode(data),
         ),
       ).called(1);

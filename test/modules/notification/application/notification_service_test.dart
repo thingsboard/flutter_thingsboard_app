@@ -158,7 +158,7 @@ void main() {
 
     when(
       () => localNotificationsPlugin.initialize(
-        any(),
+        settings: any(named: 'settings'),
         onDidReceiveNotificationResponse: any(
           named: 'onDidReceiveNotificationResponse',
         ),

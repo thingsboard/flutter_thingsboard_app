@@ -47,12 +47,12 @@ class LiveTrackingNotifications implements ILiveTrackingNotifications {
     }
     try {
       await _plugin.show(
-        _notificationId,
-        'ThingsBoard',
-        targetName == null
+        id: _notificationId,
+        title: 'ThingsBoard',
+        body: targetName == null
             ? 'Live location tracking is paused'
             : 'Live tracking of $targetName is paused',
-        NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             'live_tracking',
             'Live location tracking',
@@ -80,7 +80,7 @@ class LiveTrackingNotifications implements ILiveTrackingNotifications {
       return;
     }
     try {
-      await _plugin.cancel(_notificationId);
+      await _plugin.cancel(id: _notificationId);
     } catch (e, s) {
       _log.error('LiveTrackingNotifications: cancel failed', e, s);
     }
