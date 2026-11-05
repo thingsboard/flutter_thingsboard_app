@@ -9,6 +9,48 @@ fvm install              # installs the version from .fvmrc
 fvm flutter pub get
 ```
 
+## Project structure
+
+The code is organised **feature-first**, with layers inside each feature, as described in [Flutter project structure: feature-first or layer-first?](https://codewithandrea.com/articles/flutter-project-structure/). Code shared by several features is grouped by type, as the [Flutter architecture case study](https://docs.flutter.dev/app-architecture/case-study) does for its data layer. The REST layer itself is a separate package, [`thingsboard_client`](https://github.com/thingsboard/dart_thingsboard_client), as in the [Very Good layered architecture](https://engineering.verygood.ventures/architecture/architecture/).
+
+```
+lib/
+  main.dart, thingsboard_app.dart, locator.dart   app entry, root widget, get_it setup
+  modules/<feature>/                               one folder per user task (alarms, devices, provisioning, ...)
+  core/                                            app-wide concerns: auth and session, entity list/details base, context, logger
+  config/routes/, config/themes/                   routing (one *_routes.dart per feature) and themes
+  utils/services/                                  services shared by several features (client, endpoint, overlay, storage, white-labeling, ...)
+  utils/, widgets/, constants/                     shared helpers, widgets and constants
+  l10n/ (sources), generated/ (generated)          translations
+test/                                              mirrors lib/: a test sits at the path of the file it covers
+```
+
+### Feature template
+
+A feature has only the layers it needs:
+
+```
+modules/<feature>/
+  presentation/
+    view/          pages (screens)
+    widgets/       widgets of this feature
+    bloc/ | providers/ | controllers/   state: Blocs, Riverpod providers, page-key controllers
+  application/     services of this feature (orchestration, platform integration)
+  domain/
+    models/        app models of this feature
+    usecases/      use cases, only when they add something over calling a repository
+  data/            repositories and data sources over thingsboard_client or the device
+  di/              get_it registrations of this feature
+```
+
+Rules:
+
+- Code used by one feature lives in that feature. Move it to `utils/services/` (or `core/`) only when a second feature needs it.
+- Organise features around what the user does, not around screens: device provisioning is its own feature, not part of the device list.
+- Do not add an empty layer "for symmetry". Most features need only `presentation/`, and a domain layer is optional (see [Flutter's recommendations](https://docs.flutter.dev/app-architecture/recommendations)).
+- Keep dependencies between features few and one-way. Routing (`config/routes/`) and the app root compose the features and import them. Other shared code (`core/`, `utils/`, `widgets/`, `constants/`) should not import a feature when that is easy to avoid: move a widget, model or helper that two places need into shared code. Do not add interfaces, registries or provider overrides only to remove such an import. The known exceptions are the login notifier (`core/auth`), which starts and stops push notifications and live tracking, and the app bar and QR endpoint switch, which read the navigation shell (`modules/main`).
+- Generated files (`*.g.dart`, `*.freezed.dart`) sit next to their sources.
+
 ## Generated code
 
 Generated files are committed and CI checks they are current. After changing a `@riverpod`, `@freezed` or `@JsonSerializable` class, run:
