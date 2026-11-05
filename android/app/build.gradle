@@ -45,8 +45,8 @@ def redirectURLScheme = getDartDefineValue('registrationRedirectUrlScheme') ?: '
 
 android {
 namespace "org.thingsboard.app"
-    ndkVersion "29.0.13113456 rc1"
-    compileSdkVersion 35
+    ndkVersion flutter.ndkVersion
+    compileSdkVersion flutter.compileSdkVersion
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
