@@ -36,8 +36,7 @@ class NotificationWidget extends StatelessWidget {
     final diff = DateTime.now().difference(
       DateTime.fromMillisecondsSinceEpoch(notification.createdTime!),
     );
-    final info = notification.info;
-    final severity = info is AlarmNotificationInfo ? info.alarmSeverity : null;
+    final severity = notificationAlarmSeverity(notification.info);
 
     return InkWell(
       onTap: isSelectionMode
@@ -178,3 +177,14 @@ class NotificationWidget extends StatelessWidget {
     );
   }
 }
+
+/// The alarm severity shown on a notification. Every alarm-related
+/// notification carries it, as the hand-written PushNotificationInfo did for
+/// all types.
+AlarmSeverity? notificationAlarmSeverity(NotificationInfo? info) =>
+    switch (info) {
+      AlarmNotificationInfo(:final alarmSeverity) ||
+      AlarmCommentNotificationInfo(:final alarmSeverity) ||
+      AlarmAssignmentNotificationInfo(:final alarmSeverity) => alarmSeverity,
+      _ => null,
+    };

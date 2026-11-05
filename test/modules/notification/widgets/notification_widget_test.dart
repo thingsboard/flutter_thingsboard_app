@@ -1,0 +1,40 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:thingsboard_app/modules/notification/widgets/notification_widget.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+void main() {
+  group('notificationAlarmSeverity', () {
+    test('reads the severity of alarm, comment and assignment info', () {
+      expect(
+        notificationAlarmSeverity(
+          AlarmNotificationInfo((b) => b..alarmSeverity = AlarmSeverity.MAJOR),
+        ),
+        AlarmSeverity.MAJOR,
+      );
+      expect(
+        notificationAlarmSeverity(
+          AlarmCommentNotificationInfo(
+            (b) => b..alarmSeverity = AlarmSeverity.MINOR,
+          ),
+        ),
+        AlarmSeverity.MINOR,
+      );
+      expect(
+        notificationAlarmSeverity(
+          AlarmAssignmentNotificationInfo(
+            (b) => b..alarmSeverity = AlarmSeverity.WARNING,
+          ),
+        ),
+        AlarmSeverity.WARNING,
+      );
+    });
+
+    test('is null for other notifications', () {
+      expect(notificationAlarmSeverity(null), isNull);
+      expect(
+        notificationAlarmSeverity(GeneralNotificationInfo((b) => b)),
+        isNull,
+      );
+    });
+  });
+}
