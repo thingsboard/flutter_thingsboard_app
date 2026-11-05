@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thingsboard_app/modules/version/bloc/bloc.dart';
+import 'package:thingsboard_app/modules/version/presentation/bloc/bloc.dart';
 
 class VersionInfoBloc extends Bloc<VersionInfoEvent, VersionInfoState> {
   VersionInfoBloc() : super(const VersionLoadingState()) {

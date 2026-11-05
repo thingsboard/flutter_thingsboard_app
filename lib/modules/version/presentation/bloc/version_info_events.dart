@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:equatable/equatable.dart';
-import 'package:thingsboard_app/modules/version/route/version_route_arguments.dart';
+import 'package:thingsboard_app/modules/version/domain/models/version_route_arguments.dart';
 
 sealed class VersionInfoEvent extends Equatable {
   const VersionInfoEvent();

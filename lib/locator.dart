@@ -9,6 +9,8 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
+import 'package:thingsboard_app/modules/version/application/i_version_service.dart';
+import 'package:thingsboard_app/modules/version/application/version_service.dart';
 import 'package:thingsboard_app/utils/services/communication/communication_service.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/custom_translation_service.dart';
@@ -44,8 +46,6 @@ import 'package:thingsboard_app/utils/services/tb_image_gallery_service/i_tb_ima
 import 'package:thingsboard_app/utils/services/tb_image_gallery_service/tb_image_gallery_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
-import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
-import 'package:thingsboard_app/utils/services/version_service/version_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 final getIt = GetIt.instance;

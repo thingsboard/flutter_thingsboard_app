@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
+import 'package:thingsboard_app/modules/version/domain/models/version_info.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class VersionRouteArguments {

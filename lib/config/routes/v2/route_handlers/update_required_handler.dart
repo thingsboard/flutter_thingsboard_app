@@ -9,8 +9,8 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
-import 'package:thingsboard_app/utils/services/version_service/version_info.dart';
+import 'package:thingsboard_app/modules/version/application/i_version_service.dart';
+import 'package:thingsboard_app/modules/version/domain/models/version_info.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class UpdateRequiredHandler extends RouteHandler {

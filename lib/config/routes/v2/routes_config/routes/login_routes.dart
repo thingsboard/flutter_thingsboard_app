@@ -11,7 +11,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_setup.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_provider_type_parser.dart';
 import 'package:thingsboard_app/core/auth/login/view/login_page.dart';
 import 'package:thingsboard_app/core/auth/reset_password/reset_password_request_page.dart';
-import 'package:thingsboard_app/modules/version/view/update_required_page.dart';
+import 'package:thingsboard_app/modules/version/presentation/view/update_required_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginRoutes {
