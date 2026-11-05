@@ -11,6 +11,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -119,14 +120,17 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
             resetPasswordEmailRequest: ResetPasswordEmailRequest(
               (b) => b..email = formValue,
             ),
+            // The error is shown below, once.
+            extra: InterceptorConfig(ignoreErrors: true).toExtra(),
           );
       getIt<IOverlayService>().showSuccessNotification(
         (_) => S.of(context).emailVerificationSentText,
       );
     } catch (e) {
       getIt<TbLogger>().error(e);
+      final error = toThingsboardError(e);
       getIt<IOverlayService>().showErrorNotification(
-        (_) => "${S.of(context).fatalError}: $e",
+        (context) => error.getTranslatedMessage(context),
       );
     }
     isLoading.value = false;
