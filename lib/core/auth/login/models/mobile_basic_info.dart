@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:built_value/json_object.dart';
-import 'package:thingsboard_app/modules/version/domain/models/version_info.dart';
+import 'package:thingsboard_app/core/auth/login/models/version_info.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 

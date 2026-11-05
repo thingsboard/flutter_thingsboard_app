@@ -10,11 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/actions/url_action.dart';
-import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/launch_result.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
@@ -28,8 +27,10 @@ abstract class Utils {
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
   static Future<bool> onWebViewLinkPressed(String link) async {
-    final LaunchResult result = await UrlAction.tryLaunch(link);
-    if (!result.launched) {
+    final canLaunch = await canLaunchUrlString(link);
+    if (canLaunch) {
+      await launchUrlString(link);
+    } else {
       getIt<IOverlayService>().showErrorNotification(
         (context) => S.of(context).cantLaunchUrlLink(link),
       );

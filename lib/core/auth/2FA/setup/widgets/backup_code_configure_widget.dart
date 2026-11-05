@@ -16,7 +16,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
+import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';

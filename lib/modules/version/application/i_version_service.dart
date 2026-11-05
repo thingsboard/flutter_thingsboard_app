@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/modules/version/domain/models/version_info.dart';
+import 'package:thingsboard_app/core/auth/login/models/version_info.dart';
 
 abstract interface class IVersionService {
   bool appUpdateRequired(VersionInfo info);

@@ -6,8 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thingsboard_app/core/auth/login/models/version_info.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
-import 'package:thingsboard_app/modules/version/domain/models/version_info.dart';
 import 'package:thingsboard_app/modules/version/domain/models/version_route_arguments.dart';
 import 'package:thingsboard_app/modules/version/presentation/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/version/presentation/view/widgets/version_compare_widget.dart';
