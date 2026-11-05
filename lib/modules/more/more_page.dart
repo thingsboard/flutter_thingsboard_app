@@ -19,7 +19,7 @@ import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart'
 import 'package:thingsboard_app/modules/more/more_menu_item_widget.dart';
 import 'package:thingsboard_app/modules/more/profle_widget.dart';
 import 'package:thingsboard_app/modules/more/widgets/more_page_footer.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class MorePage extends HookConsumerWidget {
   const MorePage({super.key});

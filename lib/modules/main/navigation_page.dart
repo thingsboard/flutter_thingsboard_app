@@ -18,7 +18,7 @@ import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
 import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/main/widgets/navigation_badge_widget.dart';
 import 'package:thingsboard_app/modules/main/widgets/tb_navigation_bar_widget.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class NavigationPage extends HookConsumerWidget {
   const NavigationPage({super.key, required this.child});

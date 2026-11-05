@@ -9,7 +9,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_design_icons_flutter/icon_map.dart';
-import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
+import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
 
 /// The iOS notification service extension cannot read the Dart icon maps, so
 /// it ships a JSON copy of them. This keeps that copy in sync: a package

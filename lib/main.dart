@@ -21,11 +21,11 @@ import 'package:thingsboard_app/constants/enviroment_variables.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/notification/application/push_notification_display.dart';
 import 'package:thingsboard_app/thingsboard_app.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/live_location_tracking/i_live_tracking_notifications.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
-import 'package:thingsboard_app/utils/services/push_notification_display.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {

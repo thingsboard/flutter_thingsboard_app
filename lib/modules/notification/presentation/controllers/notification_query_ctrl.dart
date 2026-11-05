@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_app/modules/notification/controllers/notification_query.dart';
+import 'package:thingsboard_app/modules/notification/presentation/controllers/notification_query.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationQueryCtrl extends PageKeyController<NotificationQuery> {

@@ -10,8 +10,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
-import 'package:thingsboard_app/utils/services/notification_service.dart';
+import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart'
     hide NotificationSettings;
 

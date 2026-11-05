@@ -11,7 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/utils/services/push_notification_display.dart';
+import 'package:thingsboard_app/modules/notification/application/push_notification_display.dart';
 
 class MockFlutterLocalNotificationsPlugin extends Mock
     implements FlutterLocalNotificationsPlugin {}

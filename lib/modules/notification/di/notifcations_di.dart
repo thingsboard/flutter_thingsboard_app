@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/notification/usecase/handle_notification_tap_usecase.dart';
+import 'package:thingsboard_app/modules/notification/domain/usecases/handle_notification_tap_usecase.dart';
 
 abstract final class NotifcationsDi {
   static const _scopeName = 'NotifcationsDi';

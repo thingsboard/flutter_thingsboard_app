@@ -11,8 +11,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
-import 'package:thingsboard_app/modules/notification/widgets/notification_icon.dart';
-import 'package:thingsboard_app/utils/services/notification_icon_renderer.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_icon_renderer.dart';
+import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
 
 /// Upgrades a background push with the icon configured in the notification
 /// template. TbFirebaseMessagingService posts a plain notification for it

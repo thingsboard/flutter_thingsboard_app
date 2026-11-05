@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
-import 'package:thingsboard_app/modules/notification/service/notifications_local_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notifications_local_service.dart';
 
 class NavigationBadgeWidget extends StatelessWidget {
   const NavigationBadgeWidget({super.key, required this.isLarge});

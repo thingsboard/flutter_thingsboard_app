@@ -8,7 +8,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:thingsboard_app/utils/services/notification_icon_renderer.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_icon_renderer.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

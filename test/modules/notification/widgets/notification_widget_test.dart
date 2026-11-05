@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thingsboard_app/modules/notification/widgets/notification_widget.dart';
+import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_widget.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 void main() {
