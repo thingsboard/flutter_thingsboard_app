@@ -26,12 +26,7 @@ class AlarmFiltersEntity extends Equatable {
       severityList: severity.isNotEmpty ? severity : null,
       assigneeId:
           userId != null
-              ? UserId(
-                (b) =>
-                    b
-                      ..id = userId
-                      ..entityType = EntityType.USER,
-              )
+              ? UserId((b) => b..id = userId)
               : null,
     );
   }

@@ -10,9 +10,6 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/unassign_
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/bloc.dart';
 import 'package:thingsboard_app/utils/services/communication/events/alarm_assignee_updated_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
-// The app barrel re-exports the handwritten `Authority` enum; the generated
-// built_value `UserInfo.authority` needs the generated one, so import it prefixed.
-import 'package:thingsboard_client/thingsboard_client.dart' as tb_model;
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
@@ -90,7 +87,7 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
             (b) =>
                 b
                   ..id = alarmInfo!.assignee!.id?.toBuilder()
-                  ..authority = tb_model.Authority.CUSTOMER_USER
+                  ..authority = Authority.CUSTOMER_USER
                   ..email = alarmInfo.assignee!.email ?? ''
                   ..firstName = alarmInfo.assignee!.firstName
                   ..lastName = alarmInfo.assignee!.lastName,

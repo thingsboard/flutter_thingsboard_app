@@ -16,7 +16,6 @@ abstract class EntityQueryApi {
           ..predicate = BooleanFilterPredicate(
             (b) =>
                 b
-                  ..type = 'BOOLEAN'
                   ..operation = BooleanOperation.EQUAL
                   ..value =
                       FilterPredicateValueBoolean(
@@ -39,7 +38,6 @@ abstract class EntityQueryApi {
           ..predicate = BooleanFilterPredicate(
             (b) =>
                 b
-                  ..type = 'BOOLEAN'
                   ..operation = BooleanOperation.EQUAL
                   ..value =
                       FilterPredicateValueBoolean(
@@ -94,14 +92,12 @@ abstract class EntityQueryApi {
             ? DeviceTypeFilter(
               (b) =>
                   b
-                    ..type = 'deviceType'
                     ..deviceTypes = ListBuilder<String>([deviceType])
                     ..deviceNameFilter = '',
             )
             : EntityTypeFilter(
               (b) =>
                   b
-                    ..type = 'entityType'
                     ..entityType = EntityType.DEVICE,
             );
 
@@ -132,7 +128,6 @@ abstract class EntityQueryApi {
             ..entityFilter = SingleEntityFilter(
               (b) =>
                   b
-                    ..type = 'singleEntity'
                     ..singleEntity =
                         AliasEntityId(
                           (b) =>
@@ -165,14 +160,12 @@ abstract class EntityQueryApi {
             ? DeviceTypeFilter(
               (b) =>
                   b
-                    ..type = 'deviceType'
                     ..deviceTypes = ListBuilder<String>([deviceType])
                     ..deviceNameFilter = '',
             )
             : EntityTypeFilter(
               (b) =>
                   b
-                    ..type = 'entityType'
                     ..entityType = EntityType.DEVICE,
             );
 

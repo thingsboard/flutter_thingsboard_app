@@ -133,7 +133,7 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
   void initState() {
     AlarmDetailsDi.init(
       getIt<ITbClientService>().client,
-      id: AlarmId((b) => b..id = widget.id..entityType = EntityType.ALARM),
+      id: AlarmId((b) => b..id = widget.id),
     );
     super.initState();
   }
