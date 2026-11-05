@@ -73,7 +73,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
   }
 
  static  Future<void> saveWithFilePicker(String filename, Uint8List bytes) async {
-    final String? outputFile = await FilePicker.platform.saveFile(
+    final Uri? outputFile = await FilePicker.saveFile(
         dialogTitle: 'Please select an output file:',
         fileName: filename,
         bytes: bytes,);

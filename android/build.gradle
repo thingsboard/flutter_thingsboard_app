@@ -16,9 +16,11 @@ subprojects {
         if (project.plugins.hasPlugin("com.android.application") ||
                 project.plugins.hasPlugin("com.android.library")) {
             project.android {
-                // Plugins with an older compileSdk must build against the
-                // app's SDK (androidx.camera 1.6 needs 36).
-                compileSdkVersion 36
+                // One SDK for every module: plugins with an older compileSdk
+                // build against it too. 37: permission_handler_android 14.1
+                // uses Android 17 APIs (androidx.camera 1.6 needs 36+).
+                // targetSdk stays 36.
+                compileSdkVersion 'android-37.0'
                 if (namespace == null) {
                         namespace project.group
                     }
