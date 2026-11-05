@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [master, 'develop/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Analyze, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the Flutter version from .fvmrc
+        id: fvm
+        run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.flutter }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Check generated code is up to date
+        # freezed / json_serializable / riverpod outputs are committed.
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          git diff --exit-code -- '*.g.dart' '*.freezed.dart'
+      - name: Analyze
+        # Errors only for now: the code base still carries warnings and infos
+        # from before 2.0.0. Tighten to --fatal-infos once they are fixed.
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Test
+        run: flutter test
+      - name: Build Android
+        run: flutter build apk --debug
