@@ -11,10 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device_provisioning/data/eps_ble/i_wifi_provisioning_service.dart';
+import 'package:thingsboard_app/modules/device_provisioning/domain/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/modules/device_provisioning/domain/models/provisioning_permission_type.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/ble/bloc/bloc.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 
 class EspBleProvisioningBloc

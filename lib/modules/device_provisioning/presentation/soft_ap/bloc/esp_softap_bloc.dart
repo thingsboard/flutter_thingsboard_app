@@ -12,11 +12,11 @@ import 'package:plugin_wifi_connect/plugin_wifi_connect.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device_provisioning/data/soft_ap/i_soft_ap_service.dart';
+import 'package:thingsboard_app/modules/device_provisioning/domain/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/modules/device_provisioning/domain/models/wifi_network.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/bloc/bloc.dart'
     show DeviceProvisioningStatus;
 import 'package:thingsboard_app/modules/device_provisioning/presentation/soft_ap/bloc/bloc.dart';
-import 'package:thingsboard_app/utils/services/communication/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 
 class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
