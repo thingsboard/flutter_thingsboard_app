@@ -1,0 +1,32 @@
+group 'de.petersen.nico.esp_provisioning_softap'
+version '1.0-SNAPSHOT'
+
+// The Android Gradle and Kotlin plugins come from the app's build
+// (android/settings.gradle).
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    namespace "de.petersen.nico.esp_provisioning_softap"
+    compileSdk 36
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdk 24
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}

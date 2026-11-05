@@ -74,9 +74,9 @@ dependencies:
   json_annotation: ^4.12.0
   mobile_scanner: ^7.5.0
   flutter_hooks: ^0.21.2
+  # Vendored: the upstream plugin is unmaintained since 2022.
   esp_provisioning_softap:
-    git:
-      url: https://github.com/thingsboard/esp_provisioning_softap
+    path: packages/esp_provisioning_softap
   flutter_slidable: ^4.0.3
   flutter_native_splash: ^2.4.6
   super_tooltip: ^2.1.1
@@ -105,9 +105,6 @@ dev_dependencies:
   json_serializable: ^6.15.2
   freezed: ^4.0.3
   intl_utils: ^2.8.11
-dependency_overrides:
-  # esp_provisioning_softap (git) still requires logger ^1.0.0.
-  logger: ^2.5.0
 
 flutter:
   uses-material-design: true

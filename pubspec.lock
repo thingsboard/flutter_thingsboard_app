@@ -420,11 +420,9 @@ packages:
   esp_provisioning_softap:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: aaa081e4de82958e227989e781cb211f3377c40b
-      url: "https://github.com/thingsboard/esp_provisioning_softap"
-    source: git
+      path: "packages/esp_provisioning_softap"
+      relative: true
+    source: path
     version: "1.0.4"
   esp_smartconfig:
     dependency: "direct main"
