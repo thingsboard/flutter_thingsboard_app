@@ -5,12 +5,12 @@
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_type.dart';
 
 /// Starts a live tracking session from a fully-resolved dashboard config
 /// (see the phase 1c wire protocol). Replaces any active session.

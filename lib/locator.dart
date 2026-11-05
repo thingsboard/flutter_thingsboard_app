@@ -8,6 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
+import 'package:thingsboard_app/modules/dashboard/application/tb_image_gallery_service/i_tb_image_gallery_service.dart';
+import 'package:thingsboard_app/modules/dashboard/application/tb_image_gallery_service/tb_image_gallery_service.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_tracking_notifications.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/live_location_tracking_service.dart';
@@ -42,8 +44,6 @@ import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.d
 import 'package:thingsboard_app/utils/services/storage/_tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/tb_client_service.dart';
-import 'package:thingsboard_app/utils/services/tb_image_gallery_service/i_tb_image_gallery_service.dart';
-import 'package:thingsboard_app/utils/services/tb_image_gallery_service/tb_image_gallery_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
 import 'package:thingsboard_app/utils/services/user/user_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';

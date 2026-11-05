@@ -3,11 +3,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:thingsboard_app/utils/services/mobile_actions/results/device_provisioning_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/results/image_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/results/launch_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/results/location_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/results/qr_code_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/device_provisioning_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/image_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/launch_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/location_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/qr_code_result.dart';
 
 abstract class MobileActionResult {
   MobileActionResult();

@@ -4,10 +4,10 @@
 // found in the LICENSE file.
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/results/launch_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/results/launch_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_result.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 abstract class UrlAction extends MobileAction {

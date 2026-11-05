@@ -8,10 +8,10 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_result.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_mobile_action_type.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_result.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 
 class ScanQrAction extends MobileAction {
 

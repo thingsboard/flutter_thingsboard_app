@@ -8,9 +8,9 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/application/tb_image_gallery_service/i_tb_image_gallery_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
-import 'package:thingsboard_app/utils/services/tb_image_gallery_service/i_tb_image_gallery_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TbImageGalleryService implements ITbImageGalleryService {
