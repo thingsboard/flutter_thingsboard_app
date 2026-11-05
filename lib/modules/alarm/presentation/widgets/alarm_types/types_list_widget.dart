@@ -56,49 +56,60 @@ class TypesListWidget extends StatelessWidget {
               ),
             ),
             Flexible(
-              child: PagedListView<PageLink, EntitySubtype>.separated(
-                pagingController:
-                    getIt<AlarmTypesBloc>()
-                        .paginationRepository
-                        .pagingController,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        getIt<AlarmTypesBloc>().add(
-                          AlarmTypesSelectedEvent(type: item.type ?? ''),
-                        );
-                        onChanged();
-                      },
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              customTranslationService.translate(item.type),
-                              style: const TextStyle(fontSize: 16, height: 1.5),
-                            ),
-                          ),
-                        ],
+              child: PagingListener(
+                controller: getIt<AlarmTypesBloc>()
+                    .paginationRepository
+                    .pagingController,
+                builder: (context, state, fetchNextPage) =>
+                    PagedListView<PageLink, EntitySubtype>.separated(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
                       ),
-                    );
-                  },
-                  firstPageProgressIndicatorBuilder: (_) {
-                    return Container(
-                      height: 200,
-                      color: const Color(0x99FFFFFF),
-                      child: Center(child: TbProgressIndicator(size: 50.0)),
-                    );
-                  },
-                ),
-                separatorBuilder:
-                    (_, _) => const Divider(thickness: 1, height: 32),
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, item, index) {
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              getIt<AlarmTypesBloc>().add(
+                                AlarmTypesSelectedEvent(type: item.type ?? ''),
+                              );
+                              onChanged();
+                            },
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    customTranslationService.translate(
+                                      item.type,
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (_) {
+                          return Container(
+                            height: 200,
+                            color: const Color(0x99FFFFFF),
+                            child: Center(
+                              child: TbProgressIndicator(size: 50.0),
+                            ),
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, _) =>
+                          const Divider(thickness: 1, height: 32),
+                    ),
               ),
             ),
           ],

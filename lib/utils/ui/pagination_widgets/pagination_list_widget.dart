@@ -35,11 +35,17 @@ class PaginationListWidget<T, B> extends StatelessWidget {
         ),
         SliverPadding(
           padding: const EdgeInsets.all(16),
-          sliver: PagedSliverList<T, B>.separated(
-            pagingController: pagingController,
-            builderDelegate: builderDelegate,
-            separatorBuilder:
-                separatorWidgetBuilder ?? (_, _) => const SizedBox(height: 16),
+          sliver: PagingListener(
+            controller: pagingController,
+            builder: (context, state, fetchNextPage) =>
+                PagedSliverList<T, B>.separated(
+                  state: state,
+                  fetchNextPage: fetchNextPage,
+                  builderDelegate: builderDelegate,
+                  separatorBuilder:
+                      separatorWidgetBuilder ??
+                      (_, _) => const SizedBox(height: 16),
+                ),
           ),
         ),
       ],

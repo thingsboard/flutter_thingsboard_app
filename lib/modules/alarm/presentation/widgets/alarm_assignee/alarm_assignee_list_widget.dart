@@ -94,24 +94,23 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     color: Colors.black.withValues(alpha: 0.54),
                     size: 24,
                   ),
-                  suffixIcon:
-                      textEditingController.text.isNotEmpty
-                          ? IconButton(
-                            onPressed: () {
-                              context.read<AlarmAssigneeBloc>().add(
-                                const AlarmAssigneeResetSearchTextEvent(),
-                              );
-                              setState(() {
-                                textEditingController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.close_rounded,
-                              color: Colors.black.withValues(alpha: .54),
-                              size: 24,
-                            ),
-                          )
-                          : null,
+                  suffixIcon: textEditingController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            context.read<AlarmAssigneeBloc>().add(
+                              const AlarmAssigneeResetSearchTextEvent(),
+                            );
+                            setState(() {
+                              textEditingController.clear();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: Colors.black.withValues(alpha: .54),
+                            size: 24,
+                          ),
+                        )
+                      : null,
                 ),
                 onChanged: (text) {
                   context.read<AlarmAssigneeBloc>().add(
@@ -122,126 +121,128 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
               ),
             ),
             Expanded(
-              child: PagedListView<UsersAssignQuery, AssigneeEntity>.separated(
-                pagingController:
+              child: PagingListener(
+                controller:
                     getIt<AlarmAssigneePaginationRepository>().pagingController,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                shrinkWrap: true,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) {
-                    final state = context.read<AlarmAssigneeBloc>().state;
-                    Widget? userInfoWidget;
-
-                    if (state is AlarmAssigneeSelectedState) {
-                      final selectedId = state.assignee.userInfo.id?.id;
-                      if (selectedId == item.userInfo.id?.id) {
-                        userInfoWidget = const SizedBox.shrink();
-                      }
-                    }
-
-                    return Column(
-                      children: [
-                        Visibility(
-                          visible:
-                              index == 0 && state is AlarmAssigneeSelectedState,
-                          child: Column(
-                            children: [
-                              UserInfoWidget(
-                                avatar: Icon(
-                                  Icons.account_circle,
-                                  color: Colors.black.withValues(alpha: 0.38),
-                                  size: 32,
-                                ),
-                                name: S.of(context).unassigned,
-                                onUserTap: (id) {
-                                  Navigator.of(context).pop();
-                                  context.read<AlarmAssigneeBloc>().add(
-                                    const AlarmAssigneeUnassignedEvent(),
-                                  );
-                                },
-                                id:
-                                    getIt<ITbClientService>().client
-                                        .getAuthUser()!
-                                        .userId!,
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-                          ),
-                        ),
-                        userInfoWidget ??
-                            UserInfoWidget(
-                              avatar: UserInfoAvatarWidget(
-                                shortName: item.shortName,
-                                color:
-                                    HSLColor.fromAHSL(
-                                      1,
-                                      item.displayName.hashCode % 360,
-                                      40 / 100,
-                                      60 / 100,
-                                    ).toColor(),
-                              ),
-                              name: item.displayName,
-                              email: item.userInfo.email,
-                              showEmail: !item.displayName.isValidEmail(),
-                              searchText: textEditingController.text,
-                              onUserTap: (id) {
-                                Navigator.of(context).pop();
-                                context.read<AlarmAssigneeBloc>().add(
-                                  AlarmAssigneeSelectedEvent(id),
-                                );
-                              },
-                              id: item.userInfo.id?.id ?? '',
-                            ),
-                      ],
-                    );
-                  },
-                  firstPageProgressIndicatorBuilder: (_) {
-                    return Container(
-                      height: 200,
-                      color: const Color(0x99FFFFFF),
-                      child: const Center(
-                        child: TbProgressIndicator(
-                       
-                          size: 50.0,
-                        ),
+                builder: (context, state, fetchNextPage) =>
+                    PagedListView<UsersAssignQuery, AssigneeEntity>.separated(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
                       ),
-                    );
-                  },
-                  noItemsFoundIndicatorBuilder: (_) {
-                    return Column(
-                      children: [
-                        const SizedBox(height: 72),
-                        Text(
-                          S.of(context).noResultsFound,
-                          style: TbTextStyles.titleXs.copyWith(
-                            color: Colors.black.withValues(alpha: .87),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          S.of(context).tryRefiningYourQuery,
-                          style: TbTextStyles.bodyLarge.copyWith(
-                            color: Colors.black.withValues(alpha: .54),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  firstPageErrorIndicatorBuilder: (_) {
-                    return TbErrorWidget(
-                      onRefresh:
-                          () => context.read<AlarmAssigneeBloc>().add(
-                            const AlarmAssigneeRefreshEvent(),
-                          ),
-                    );
-                  },
-                ),
-                separatorBuilder: (_, _) {
-                  return const SizedBox(height: 16);
-                },
+                      shrinkWrap: true,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, item, index) {
+                          final state = context.read<AlarmAssigneeBloc>().state;
+                          Widget? userInfoWidget;
+
+                          if (state is AlarmAssigneeSelectedState) {
+                            final selectedId = state.assignee.userInfo.id?.id;
+                            if (selectedId == item.userInfo.id?.id) {
+                              userInfoWidget = const SizedBox.shrink();
+                            }
+                          }
+
+                          return Column(
+                            children: [
+                              Visibility(
+                                visible:
+                                    index == 0 &&
+                                    state is AlarmAssigneeSelectedState,
+                                child: Column(
+                                  children: [
+                                    UserInfoWidget(
+                                      avatar: Icon(
+                                        Icons.account_circle,
+                                        color: Colors.black.withValues(
+                                          alpha: 0.38,
+                                        ),
+                                        size: 32,
+                                      ),
+                                      name: S.of(context).unassigned,
+                                      onUserTap: (id) {
+                                        Navigator.of(context).pop();
+                                        context.read<AlarmAssigneeBloc>().add(
+                                          const AlarmAssigneeUnassignedEvent(),
+                                        );
+                                      },
+                                      id: getIt<ITbClientService>().client
+                                          .getAuthUser()!
+                                          .userId!,
+                                    ),
+                                    const SizedBox(height: 16),
+                                  ],
+                                ),
+                              ),
+                              userInfoWidget ??
+                                  UserInfoWidget(
+                                    avatar: UserInfoAvatarWidget(
+                                      shortName: item.shortName,
+                                      color: HSLColor.fromAHSL(
+                                        1,
+                                        item.displayName.hashCode % 360,
+                                        40 / 100,
+                                        60 / 100,
+                                      ).toColor(),
+                                    ),
+                                    name: item.displayName,
+                                    email: item.userInfo.email,
+                                    showEmail: !item.displayName.isValidEmail(),
+                                    searchText: textEditingController.text,
+                                    onUserTap: (id) {
+                                      Navigator.of(context).pop();
+                                      context.read<AlarmAssigneeBloc>().add(
+                                        AlarmAssigneeSelectedEvent(id),
+                                      );
+                                    },
+                                    id: item.userInfo.id?.id ?? '',
+                                  ),
+                            ],
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (_) {
+                          return Container(
+                            height: 200,
+                            color: const Color(0x99FFFFFF),
+                            child: const Center(
+                              child: TbProgressIndicator(size: 50.0),
+                            ),
+                          );
+                        },
+                        noItemsFoundIndicatorBuilder: (_) {
+                          return Column(
+                            children: [
+                              const SizedBox(height: 72),
+                              Text(
+                                S.of(context).noResultsFound,
+                                style: TbTextStyles.titleXs.copyWith(
+                                  color: Colors.black.withValues(alpha: .87),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                S.of(context).tryRefiningYourQuery,
+                                style: TbTextStyles.bodyLarge.copyWith(
+                                  color: Colors.black.withValues(alpha: .54),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        firstPageErrorIndicatorBuilder: (_) {
+                          return TbErrorWidget(
+                            onRefresh: () => context
+                                .read<AlarmAssigneeBloc>()
+                                .add(const AlarmAssigneeRefreshEvent()),
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, _) {
+                        return const SizedBox(height: 16);
+                      },
+                    ),
               ),
             ),
           ],

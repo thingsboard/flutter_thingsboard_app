@@ -34,20 +34,24 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
     slivers.add(
       SliverPadding(
         padding: const EdgeInsets.all(16),
-        sliver: PagedSliverList.separated(
-          pagingController: pagingController,
-          separatorBuilder: (context, index) => const SizedBox(height: 8),
-          builderDelegate: PagedChildBuilderDelegate<T>(
-            itemBuilder: (context, item, index) => EntityListCard<T>(
-              item,
-              key: widget.getKey(item),
-              entityCardWidgetBuilder: widget.buildEntityListCard,
-              onEntityTap: (i)=> widget.onEntityTap(i, ref),
+        sliver: PagingListener(
+          controller: pagingController,
+          builder: (context, state, fetchNextPage) => PagedSliverList.separated(
+            state: state,
+            fetchNextPage: fetchNextPage,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            builderDelegate: PagedChildBuilderDelegate<T>(
+              itemBuilder: (context, item, index) => EntityListCard<T>(
+                item,
+                key: widget.getKey(item),
+                entityCardWidgetBuilder: widget.buildEntityListCard,
+                onEntityTap: (i) => widget.onEntityTap(i, ref),
+              ),
+              firstPageProgressIndicatorBuilder:
+                  firstPageProgressIndicatorBuilder,
+              newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
+              noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
             ),
-            firstPageProgressIndicatorBuilder:
-                firstPageProgressIndicatorBuilder,
-            newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
-            noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
           ),
         ),
       ),

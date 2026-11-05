@@ -122,65 +122,79 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
               builder: (context, formGroup, child) {
                 final searchValue = formGroup.control('searchValue').value;
 
-                return PagedListView<PageKeyType, ItemType>.separated(
-                  pagingController: repository.pagingController,
-                  shrinkWrap: true,
-                  separatorBuilder:
-                      (context, index) => const Divider(height: 1),
-                  builderDelegate: PagedChildBuilderDelegate<ItemType>(
-                    noItemsFoundIndicatorBuilder:
-                        (context) => FirstPageExceptionIndicator(
-                          title: S.of(context).notFound,
-                          message: S.of(context).listIsEmptyText,
-                        ),
-                    animateTransitions: true,
-                    firstPageProgressIndicatorBuilder:
-                        (context) => const Center(child: TbProgressIndicator()),
-                    itemBuilder: (context, item, index) {
-                      bool isSelected = false;
-                      if (selectedValue != null) {
-                        final convertedItem =
-                            listTitleBuilder?.call(context, item) ??
-                            item.toString();
-                        final convertedSelectedItem =
-                            listTitleBuilder?.call(context, selectedValue as ItemType) ??
-                            selectedValue.toString();
-                        isSelected = convertedSelectedItem == convertedItem;
-                      }
-
-                      return Material(
-                        child:
-                            itemBuilder?.call(context, item) ??
-                            ListTile(
-                              selected: isSelected,
-                              selectedTileColor: Theme.of(
-                                context,
-                              ).primaryColor.withValues(alpha: 0.06),
-                              onTap: () => context.pop(item),
-                              dense: true,
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    listTitleBuilder?.call(context, item) ??
-                                        item.toString(),
-                                  ).boldSubString(
-                                    searchValue.toString(),
-
-                                    regularTextStyle: TbTextStyles.bodyLarge,
-                                  ),
-                                  if (isSelected)
-                                    Icon(
-                                      Icons.check,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                ],
+                return PagingListener(
+                  controller: repository.pagingController,
+                  builder: (context, state, fetchNextPage) =>
+                      PagedListView<PageKeyType, ItemType>.separated(
+                        state: state,
+                        fetchNextPage: fetchNextPage,
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 1),
+                        builderDelegate: PagedChildBuilderDelegate<ItemType>(
+                          noItemsFoundIndicatorBuilder: (context) =>
+                              FirstPageExceptionIndicator(
+                                title: S.of(context).notFound,
+                                message: S.of(context).listIsEmptyText,
                               ),
-                            ),
-                      );
-                    },
-                  ),
+                          animateTransitions: true,
+                          firstPageProgressIndicatorBuilder: (context) =>
+                              const Center(child: TbProgressIndicator()),
+                          itemBuilder: (context, item, index) {
+                            bool isSelected = false;
+                            if (selectedValue != null) {
+                              final convertedItem =
+                                  listTitleBuilder?.call(context, item) ??
+                                  item.toString();
+                              final convertedSelectedItem =
+                                  listTitleBuilder?.call(
+                                    context,
+                                    selectedValue as ItemType,
+                                  ) ??
+                                  selectedValue.toString();
+                              isSelected =
+                                  convertedSelectedItem == convertedItem;
+                            }
+
+                            return Material(
+                              child:
+                                  itemBuilder?.call(context, item) ??
+                                  ListTile(
+                                    selected: isSelected,
+                                    selectedTileColor: Theme.of(context)
+                                        .primaryColor
+                                        .withValues(alpha: 0.06),
+                                    onTap: () => context.pop(item),
+                                    dense: true,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          listTitleBuilder?.call(
+                                                context,
+                                                item,
+                                              ) ??
+                                              item.toString(),
+                                        ).boldSubString(
+                                          searchValue.toString(),
+
+                                          regularTextStyle:
+                                              TbTextStyles.bodyLarge,
+                                        ),
+                                        if (isSelected)
+                                          Icon(
+                                            Icons.check,
+                                            color: Theme.of(context)
+                                                .primaryColor,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                            );
+                          },
+                        ),
+                      ),
                 );
               },
             ),

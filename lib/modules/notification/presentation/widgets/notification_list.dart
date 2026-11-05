@@ -33,44 +33,48 @@ class NotificationsList extends StatelessWidget {
   final ValueChanged<String>? onToggleSelection;
   final ValueChanged<String>? onLongPress;
 
-  final PagingController<NotificationQuery, Notification>
-  pagingController;
+  final PagingController<NotificationQuery, Notification> pagingController;
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<NotificationQuery, Notification>.separated(
-      pagingController: pagingController,
-      builderDelegate: PagedChildBuilderDelegate(
-        itemBuilder: (context, item, index) {
-          final id = item.id!.id;
-          return NotificationSlidableWidget(
-            notification: item,
-            onReadNotification: onReadNotification,
-            onClearNotification: onClearNotification,
-            isSelectionMode: isSelectionMode,
-            thingsboardClient: thingsboardClient,
-            child: NotificationWidget(
-              notification: item,
-              thingsboardClient: thingsboardClient,
-              onClearNotification: onClearNotification,
-              onReadNotification: onReadNotification,
-              isSelectionMode: isSelectionMode,
-              isSelected: selectedIds.contains(id),
-              onToggleSelection: () => onToggleSelection?.call(id),
-              onLongPress: () => onLongPress?.call(id),
-            ),
-          );
-        },
-        firstPageProgressIndicatorBuilder:
-            (_) => const SizedBox.expand(
-              child: ColoredBox(
-                color: Color(0x99FFFFFF),
-                child: Center(child: TbProgressIndicator(size: 50.0)),
+    return PagingListener(
+      controller: pagingController,
+      builder: (context, state, fetchNextPage) =>
+          PagedListView<NotificationQuery, Notification>.separated(
+            state: state,
+            fetchNextPage: fetchNextPage,
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, item, index) {
+                final id = item.id!.id;
+                return NotificationSlidableWidget(
+                  notification: item,
+                  onReadNotification: onReadNotification,
+                  onClearNotification: onClearNotification,
+                  isSelectionMode: isSelectionMode,
+                  thingsboardClient: thingsboardClient,
+                  child: NotificationWidget(
+                    notification: item,
+                    thingsboardClient: thingsboardClient,
+                    onClearNotification: onClearNotification,
+                    onReadNotification: onReadNotification,
+                    isSelectionMode: isSelectionMode,
+                    isSelected: selectedIds.contains(id),
+                    onToggleSelection: () => onToggleSelection?.call(id),
+                    onLongPress: () => onLongPress?.call(id),
+                  ),
+                );
+              },
+              firstPageProgressIndicatorBuilder: (_) => const SizedBox.expand(
+                child: ColoredBox(
+                  color: Color(0x99FFFFFF),
+                  child: Center(child: TbProgressIndicator(size: 50.0)),
+                ),
               ),
+              noItemsFoundIndicatorBuilder: (_) =>
+                  const NoNotificationsFoundWidget(),
             ),
-        noItemsFoundIndicatorBuilder: (_) => const NoNotificationsFoundWidget(),
-      ),
-      separatorBuilder: (_, _) => const Divider(thickness: 1),
+            separatorBuilder: (_, _) => const Divider(thickness: 1),
+          ),
     );
   }
 }

@@ -33,7 +33,7 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         filtersService.setSelectedFilter(Filters.assignee, data: event.userId);
         queryCtrl.onSearchText(null);
 
-        final assignee = paginationRepository.pagingController.itemList
+        final assignee = paginationRepository.pagingController.items
             ?.firstWhere((assignee) => assignee.userInfo.id?.id == event.userId);
 
         if (assignee != null) {

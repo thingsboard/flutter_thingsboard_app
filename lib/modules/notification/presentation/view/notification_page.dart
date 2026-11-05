@@ -295,7 +295,7 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   void _selectAll() {
-    final items = paginationRepository.pagingController.itemList;
+    final items = paginationRepository.pagingController.items;
     if (items == null || items.isEmpty) return;
     setState(() {
       selectedIds = items.map((n) => n.id!.id).toSet();
@@ -303,13 +303,13 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   bool get _allSelected {
-    final items = paginationRepository.pagingController.itemList;
+    final items = paginationRepository.pagingController.items;
     if (items == null || items.isEmpty) return false;
     return selectedIds.length == items.length;
   }
 
   bool get _hasUnreadSelected {
-    final items = paginationRepository.pagingController.itemList;
+    final items = paginationRepository.pagingController.items;
     if (items == null || items.isEmpty) return false;
     return items.any(
       (n) =>
@@ -330,7 +330,7 @@ class _NotificationPageState extends State<NotificationPage> {
     );
     if (confirmed != true) return;
 
-    final items = paginationRepository.pagingController.itemList ?? [];
+    final items = paginationRepository.pagingController.items ?? [];
     final toDelete =
         items.where((n) => selectedIds.contains(n.id!.id)).toList();
 
@@ -378,7 +378,7 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   Future<void> _batchMarkAsRead() async {
-    final items = paginationRepository.pagingController.itemList ?? [];
+    final items = paginationRepository.pagingController.items ?? [];
     final toMark = items
         .where(
           (n) =>

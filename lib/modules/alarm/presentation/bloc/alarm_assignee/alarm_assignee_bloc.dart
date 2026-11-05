@@ -58,7 +58,7 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           AssignAlarmParams(id: id, userId: event.userId),
         );
 
-        final assignee = paginationRepository.pagingController.itemList
+        final assignee = paginationRepository.pagingController.items
             ?.firstWhere(
               (assignee) => assignee.userInfo.id?.id == event.userId,
             );

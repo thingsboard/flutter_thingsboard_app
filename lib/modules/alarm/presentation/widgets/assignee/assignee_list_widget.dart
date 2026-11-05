@@ -111,116 +111,122 @@ class AssigneeListWidget extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: PagedListView<PageLink, AssigneeEntity>.separated(
-                  pagingController:
-                      getIt<AssigneeBloc>()
-                          .paginationRepository
-                          .pagingController,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  shrinkWrap: true,
-                  builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) {
-                      final state = getIt<AssigneeBloc>().state;
-                      Widget? userInfoWidget;
+                child: PagingListener(
+                  controller: getIt<AssigneeBloc>()
+                      .paginationRepository
+                      .pagingController,
+                  builder: (context, state, fetchNextPage) =>
+                      PagedListView<PageLink, AssigneeEntity>.separated(
+                        state: state,
+                        fetchNextPage: fetchNextPage,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        shrinkWrap: true,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, item, index) {
+                            final state = getIt<AssigneeBloc>().state;
+                            Widget? userInfoWidget;
 
-                      if (state is AssigneeSelectedState) {
-                        final selectedId = state.assignee.userInfo.id?.id;
-                        if (selectedId == item.userInfo.id?.id) {
-                          userInfoWidget = const SizedBox.shrink();
-                        }
-                      }
+                            if (state is AssigneeSelectedState) {
+                              final selectedId = state.assignee.userInfo.id?.id;
+                              if (selectedId == item.userInfo.id?.id) {
+                                userInfoWidget = const SizedBox.shrink();
+                              }
+                            }
 
-                      return Column(
-                        children: [
-                          Visibility(
-                            visible:
-                                index == 0 &&
-                                state is! AssigneeSelfAssignmentState,
-                            child: Column(
+                            return Column(
                               children: [
-                                UserInfoWidget(
-                                  avatar: Icon(
-                                    Icons.account_circle,
-                                    color: Colors.black.withValues(alpha: 0.38),
-                                    size: 32,
-                                  ),
-                                  name: 'Assigned to me',
-                                  onUserTap: (id) {
-                                    Navigator.of(context).pop();
-                                    getIt<AssigneeBloc>().add(
-                                      AssigneeSelectedEvent(
-                                        userId: id,
-                                        selfAssignment: true,
+                                Visibility(
+                                  visible:
+                                      index == 0 &&
+                                      state is! AssigneeSelfAssignmentState,
+                                  child: Column(
+                                    children: [
+                                      UserInfoWidget(
+                                        avatar: Icon(
+                                          Icons.account_circle,
+                                          color: Colors.black.withValues(
+                                            alpha: 0.38,
+                                          ),
+                                          size: 32,
+                                        ),
+                                        name: 'Assigned to me',
+                                        onUserTap: (id) {
+                                          Navigator.of(context).pop();
+                                          getIt<AssigneeBloc>().add(
+                                            AssigneeSelectedEvent(
+                                              userId: id,
+                                              selfAssignment: true,
+                                            ),
+                                          );
+
+                                          onChanged();
+                                        },
+                                        id: getIt<ITbClientService>().client
+                                            .getAuthUser()!
+                                            .userId!,
                                       ),
-                                    );
-
-                                    onChanged();
-                                  },
-                                  id:
-                                      getIt<ITbClientService>().client
-                                          .getAuthUser()!
-                                          .userId!,
+                                      const Divider(thickness: 1, height: 32),
+                                    ],
+                                  ),
                                 ),
-                                const Divider(thickness: 1, height: 32),
+                                userInfoWidget ??
+                                    UserInfoWidget(
+                                      avatar: UserInfoAvatarWidget(
+                                        shortName: item.shortName,
+                                        color: HSLColor.fromAHSL(
+                                          1,
+                                          item.displayName.hashCode % 360,
+                                          40 / 100,
+                                          60 / 100,
+                                        ).toColor(),
+                                      ),
+                                      name: item.displayName,
+                                      email: item.userInfo.email,
+                                      showEmail: !item.displayName
+                                          .isValidEmail(),
+                                      onUserTap: (id) {
+                                        Navigator.of(context).pop();
+                                        getIt<AssigneeBloc>().add(
+                                          AssigneeSelectedEvent(userId: id),
+                                        );
+
+                                        onChanged();
+                                      },
+                                      id: item.userInfo.id?.id ?? '',
+                                    ),
                               ],
-                            ),
-                          ),
-                          userInfoWidget ??
-                              UserInfoWidget(
-                                avatar: UserInfoAvatarWidget(
-                                  shortName: item.shortName,
-                                  color:
-                                      HSLColor.fromAHSL(
-                                        1,
-                                        item.displayName.hashCode % 360,
-                                        40 / 100,
-                                        60 / 100,
-                                      ).toColor(),
-                                ),
-                                name: item.displayName,
-                                email: item.userInfo.email,
-                                showEmail: !item.displayName.isValidEmail(),
-                                onUserTap: (id) {
-                                  Navigator.of(context).pop();
-                                  getIt<AssigneeBloc>().add(
-                                    AssigneeSelectedEvent(userId: id),
-                                  );
-
-                                  onChanged();
-                                },
-                                id: item.userInfo.id?.id ?? '',
+                            );
+                          },
+                          firstPageProgressIndicatorBuilder: (_) {
+                            return Container(
+                              height: 200,
+                              color: const Color(0x99FFFFFF),
+                              child: Center(
+                                child: TbProgressIndicator(size: 50.0),
                               ),
-                        ],
-                      );
-                    },
-                    firstPageProgressIndicatorBuilder: (_) {
-                      return Container(
-                        height: 200,
-                        color: const Color(0x99FFFFFF),
-                        child: Center(child: TbProgressIndicator(size: 50.0)),
-                      );
-                    },
-                  ),
-                  separatorBuilder: (_, index) {
-                    final state = getIt<AssigneeBloc>().state;
+                            );
+                          },
+                        ),
+                        separatorBuilder: (_, index) {
+                          final state = getIt<AssigneeBloc>().state;
 
-                    if (state is AssigneeSelectedState) {
-                      final selectedId = state.assignee.userInfo.id?.id;
-                      final userId =
-                          getIt<AssigneeBloc>()
-                              .paginationRepository
-                              .pagingController
-                              .itemList?[index];
-                      if (selectedId == userId?.userInfo.id?.id) {
-                        return const SizedBox.shrink();
-                      }
-                    }
+                          if (state is AssigneeSelectedState) {
+                            final selectedId = state.assignee.userInfo.id?.id;
+                            final userId = getIt<AssigneeBloc>()
+                                .paginationRepository
+                                .pagingController
+                                .items?[index];
+                            if (selectedId == userId?.userInfo.id?.id) {
+                              return const SizedBox.shrink();
+                            }
+                          }
 
-                    return const Divider(thickness: 1, height: 24);
-                  },
+                          return const Divider(thickness: 1, height: 24);
+                        },
+                      ),
                 ),
               ),
             ],
