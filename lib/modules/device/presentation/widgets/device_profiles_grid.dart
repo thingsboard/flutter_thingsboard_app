@@ -5,7 +5,7 @@
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_grid.dart';
-import 'package:thingsboard_app/modules/device/device_profiles_base.dart';
+import 'package:thingsboard_app/modules/device/presentation/widgets/device_profiles_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceProfilesGrid extends BaseEntitiesWidget<DeviceProfileInfo, PageLink>

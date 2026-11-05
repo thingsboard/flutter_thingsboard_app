@@ -8,8 +8,8 @@ import 'package:thingsboard_app/config/routes/router.dart';
 
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/device/devices_base.dart';
-import 'package:thingsboard_app/modules/device/devices_list.dart';
+import 'package:thingsboard_app/modules/device/presentation/widgets/devices_base.dart';
+import 'package:thingsboard_app/modules/device/presentation/widgets/devices_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 

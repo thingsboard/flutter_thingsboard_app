@@ -14,7 +14,7 @@ import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/device/device_dashboard_navigation.dart';
+import 'package:thingsboard_app/modules/device/presentation/device_dashboard_navigation.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/provider/live_tracking_provider.dart';
 import 'package:thingsboard_app/utils/services/live_location_tracking/live_tracking_display.dart';
 import 'package:thingsboard_app/utils/services/live_location_tracking/model/last_tracking_record.dart';

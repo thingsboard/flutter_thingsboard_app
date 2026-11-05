@@ -7,7 +7,7 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list_widget.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/device/devices_base.dart';
+import 'package:thingsboard_app/modules/device/presentation/widgets/devices_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DevicesListWidget extends EntitiesListWidget<EntityData, EntityDataQuery>

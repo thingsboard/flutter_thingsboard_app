@@ -11,7 +11,7 @@ import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
-import 'package:thingsboard_app/utils/services/device_profile/device_profile_cache.dart';
+import 'package:thingsboard_app/modules/device/data/device_profile/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
