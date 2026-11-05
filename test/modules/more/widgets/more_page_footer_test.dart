@@ -8,7 +8,7 @@ import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/more/widgets/pe_more_page_footer.dart';
+import 'package:thingsboard_app/modules/more/widgets/more_page_footer.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
