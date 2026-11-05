@@ -52,3 +52,6 @@ GoogleService-Info.plist
 # FVM Version Cache
 .fvm/
 WARP.md
+
+# Local working notes, not versioned
+/docs/
