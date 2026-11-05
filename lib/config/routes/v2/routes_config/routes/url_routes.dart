@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/url/url_page.dart';
+import 'package:thingsboard_app/modules/url/presentation/view/url_page.dart';
 
 class UrlRoutes {
   static const url = '/url';

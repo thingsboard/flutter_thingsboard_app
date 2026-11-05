@@ -8,24 +8,24 @@ import 'package:thingsboard_app/config/routes/router.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/customer/customers_list.dart';
+import 'package:thingsboard_app/modules/asset/presentation/widgets/assets_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
-class CustomersPage extends StatefulWidget {
-  const CustomersPage({this.searchMode = false, super.key});
+class AssetsPage extends StatefulWidget {
+  const AssetsPage({this.searchMode = false, super.key});
   final bool searchMode;
 
   @override
-  State<StatefulWidget> createState() => _CustomersPageState();
+  State<StatefulWidget> createState() => _AssetsPageState();
 }
 
-class _CustomersPageState extends State<CustomersPage> {
+class _AssetsPageState extends State<AssetsPage> {
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    final customersList = CustomersList(
+    final assetsList = AssetsList(
       _pageLinkController,
       searchMode: widget.searchMode,
     );
@@ -36,21 +36,19 @@ class _CustomersPageState extends State<CustomersPage> {
       );
     } else {
       appBar = TbAppBar(
-        title: Text(customersList.title(context)),
+        title: Text(assetsList.title(context)),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               // translate-me-ignore-next-line
-              getIt<ThingsboardAppRouter>().navigateTo(
-                '/customers?search=true',
-              );
+              getIt<ThingsboardAppRouter>().navigateTo('/assets?search=true');
             },
           ),
         ],
       );
     }
-    return Scaffold(appBar: appBar, body: customersList);
+    return Scaffold(appBar: appBar, body: assetsList);
   }
 
   @override

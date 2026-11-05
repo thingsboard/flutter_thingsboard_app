@@ -8,56 +8,54 @@ import 'package:thingsboard_app/config/routes/router.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/audit_log/audit_logs_list.dart';
+import 'package:thingsboard_app/modules/customer/presentation/widgets/customers_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
-class AuditLogsPage extends StatefulWidget {
-  const AuditLogsPage({this.searchMode = false, super.key});
+class CustomersPage extends StatefulWidget {
+  const CustomersPage({this.searchMode = false, super.key});
   final bool searchMode;
 
   @override
-  State<StatefulWidget> createState() => _AuditLogsPageState();
+  State<StatefulWidget> createState() => _CustomersPageState();
 }
 
-class _AuditLogsPageState extends State<AuditLogsPage> {
-  final TimePageLinkController _timePageLinkController =
-      TimePageLinkController();
+class _CustomersPageState extends State<CustomersPage> {
+  final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    final auditLogsList = AuditLogsList(
-      _timePageLinkController,
+    final customersList = CustomersList(
+      _pageLinkController,
       searchMode: widget.searchMode,
     );
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        onSearch:
-            (searchText) => _timePageLinkController.onSearchText(searchText),
+        onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        title: Text(auditLogsList.title(context)),
+        title: Text(customersList.title(context)),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               // translate-me-ignore-next-line
               getIt<ThingsboardAppRouter>().navigateTo(
-                '/auditLogs?search=true',
+                '/customers?search=true',
               );
             },
           ),
         ],
       );
     }
-    return Scaffold(appBar: appBar, body: auditLogsList);
+    return Scaffold(appBar: appBar, body: customersList);
   }
 
   @override
   void dispose() {
-    _timePageLinkController.dispose();
+    _pageLinkController.dispose();
     super.dispose();
   }
 }

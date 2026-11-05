@@ -8,24 +8,24 @@ import 'package:thingsboard_app/config/routes/router.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/asset/assets_list.dart';
+import 'package:thingsboard_app/modules/tenant/presentation/widgets/tenants_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
-class AssetsPage extends StatefulWidget {
-  const AssetsPage({this.searchMode = false, super.key});
+class TenantsPage extends StatefulWidget {
+  const TenantsPage({this.searchMode = false, super.key});
   final bool searchMode;
 
   @override
-  State<StatefulWidget> createState() => _AssetsPageState();
+  State<StatefulWidget> createState() => _TenantsPageState();
 }
 
-class _AssetsPageState extends State<AssetsPage> {
+class _TenantsPageState extends State<TenantsPage> {
   final PageLinkController _pageLinkController = PageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    final assetsList = AssetsList(
+    final tenantsList = TenantsList(
       _pageLinkController,
       searchMode: widget.searchMode,
     );
@@ -36,19 +36,19 @@ class _AssetsPageState extends State<AssetsPage> {
       );
     } else {
       appBar = TbAppBar(
-        title: Text(assetsList.title(context)),
+        title: Text(tenantsList.title(context)),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               // translate-me-ignore-next-line
-              getIt<ThingsboardAppRouter>().navigateTo('/assets?search=true');
+              getIt<ThingsboardAppRouter>().navigateTo('/tenants?search=true');
             },
           ),
         ],
       );
     }
-    return Scaffold(appBar: appBar, body: assetsList);
+    return Scaffold(appBar: appBar, body: tenantsList);
   }
 
   @override

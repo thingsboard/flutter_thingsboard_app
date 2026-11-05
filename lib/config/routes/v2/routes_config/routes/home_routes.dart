@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/home/home_page.dart';
+import 'package:thingsboard_app/modules/home/presentation/view/home_page.dart';
 
 class HomeRoutes {
   static const home = '/home';

@@ -8,52 +8,56 @@ import 'package:thingsboard_app/config/routes/router.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/tenant/tenants_list.dart';
+import 'package:thingsboard_app/modules/audit_log/presentation/widgets/audit_logs_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
-class TenantsPage extends StatefulWidget {
-  const TenantsPage({this.searchMode = false, super.key});
+class AuditLogsPage extends StatefulWidget {
+  const AuditLogsPage({this.searchMode = false, super.key});
   final bool searchMode;
 
   @override
-  State<StatefulWidget> createState() => _TenantsPageState();
+  State<StatefulWidget> createState() => _AuditLogsPageState();
 }
 
-class _TenantsPageState extends State<TenantsPage> {
-  final PageLinkController _pageLinkController = PageLinkController();
+class _AuditLogsPageState extends State<AuditLogsPage> {
+  final TimePageLinkController _timePageLinkController =
+      TimePageLinkController();
 
   @override
   Widget build(BuildContext context) {
-    final tenantsList = TenantsList(
-      _pageLinkController,
+    final auditLogsList = AuditLogsList(
+      _timePageLinkController,
       searchMode: widget.searchMode,
     );
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        onSearch: (searchText) => _pageLinkController.onSearchText(searchText),
+        onSearch:
+            (searchText) => _timePageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(
-        title: Text(tenantsList.title(context)),
+        title: Text(auditLogsList.title(context)),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               // translate-me-ignore-next-line
-              getIt<ThingsboardAppRouter>().navigateTo('/tenants?search=true');
+              getIt<ThingsboardAppRouter>().navigateTo(
+                '/auditLogs?search=true',
+              );
             },
           ),
         ],
       );
     }
-    return Scaffold(appBar: appBar, body: tenantsList);
+    return Scaffold(appBar: appBar, body: auditLogsList);
   }
 
   @override
   void dispose() {
-    _pageLinkController.dispose();
+    _timePageLinkController.dispose();
     super.dispose();
   }
 }

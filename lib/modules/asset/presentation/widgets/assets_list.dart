@@ -5,7 +5,7 @@
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list.dart';
-import 'package:thingsboard_app/modules/asset/assets_base.dart';
+import 'package:thingsboard_app/modules/asset/presentation/widgets/assets_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AssetsList extends BaseEntitiesWidget<Asset, PageLink>

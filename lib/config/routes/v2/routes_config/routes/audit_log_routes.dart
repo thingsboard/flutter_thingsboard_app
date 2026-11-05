@@ -4,8 +4,8 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/audit_log/audit_log_details_page.dart';
-import 'package:thingsboard_app/modules/audit_log/audit_logs_page.dart';
+import 'package:thingsboard_app/modules/audit_log/presentation/view/audit_log_details_page.dart';
+import 'package:thingsboard_app/modules/audit_log/presentation/view/audit_logs_page.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AuditLogRoutes {

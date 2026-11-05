@@ -4,8 +4,8 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/asset/asset_details_page.dart';
-import 'package:thingsboard_app/modules/asset/assets_page.dart';
+import 'package:thingsboard_app/modules/asset/presentation/view/asset_details_page.dart';
+import 'package:thingsboard_app/modules/asset/presentation/view/assets_page.dart';
 
 class AssetRoutes {
   static const assets = '/assets';

@@ -11,7 +11,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboard_permission_error_view.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboards_page.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/home_dashboard_page.dart';
-import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
+import 'package:thingsboard_app/modules/tenant/presentation/widgets/tenants_widget.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class HomePage extends ConsumerStatefulWidget {

@@ -5,8 +5,8 @@
 
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
-import 'package:thingsboard_app/modules/customer/customer_details_page.dart';
-import 'package:thingsboard_app/modules/customer/customers_page.dart';
+import 'package:thingsboard_app/modules/customer/presentation/view/customer_details_page.dart';
+import 'package:thingsboard_app/modules/customer/presentation/view/customers_page.dart';
 
 class CustomerRoutes{
   static const customers = '/customers';

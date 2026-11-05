@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_list.dart';
-import 'package:thingsboard_app/modules/customer/customers_base.dart';
+import 'package:thingsboard_app/modules/customer/presentation/widgets/customers_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class CustomersList extends BaseEntitiesWidget<Customer, PageLink>
