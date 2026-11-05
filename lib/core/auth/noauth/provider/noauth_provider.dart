@@ -16,8 +16,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 part 'noauth_provider.g.dart';
 
 /// Storage keys `ThingsboardClient.init()` reads to restore a session (see
-/// `thingsboard_client_base.dart` in `../thingsboard-dart-client/pe`, a path
-/// dependency with no version pin to check against). The QR switch writes them
+/// `thingsboard_client_base.dart` in thingsboard_client). The QR switch writes them
 /// directly to hand the freshly created client exactly the exchanged pair, so
 /// they must be kept in sync with the client.
 const _jwtTokenStorageKey = 'jwt_token';
@@ -177,33 +176,45 @@ class NoauthProvider extends _$NoauthProvider {
     return target == previous.origin;
   }
 
-  /// Exchanges the one-time QR secret for a JWT pair on the TARGET host.
-  ///
-  /// A raw Dio is used (instead of the typed
-  /// `getQrCodeSettingsControllerApi().getUserTokenByMobileSecret`) because the
-  /// request must hit [host], not the current client's endpoint.
+  /// Exchanges the one-time QR secret for a JWT pair on the TARGET host,
+  /// which can differ from the current client's endpoint. Does not touch the
+  /// current session: the pair is verified and staged below.
   Future<_ExchangedSession> _exchangeSecret({
     required String host,
     required String secret,
   }) async {
-    final Response<dynamic> response;
+    final LoginResponse login;
     try {
-      response = await _hostClient(host).get('/api/noauth/qr/$secret');
-    } on DioException catch (e) {
-      // /api/noauth/** is permitAll on the server, so a 401 here can only be
-      // the secret being rejected as unknown or expired.
-      throw _asFailure(e, rejectedAs: NoAuthFailure.tokenExchangeFailed);
+      login = await getIt<ITbClientService>().client.getLoginDataBySecretKey(
+        host: host,
+        key: secret,
+      );
+    } on ThingsboardError catch (e) {
+      throw _asExchangeFailure(e);
     }
+    return (token: login.token, refreshToken: login.refreshToken);
+  }
 
-    final data = response.data;
-    final token = data is Map ? data['token'] as String? : null;
-    if (token == null) {
-      throw const SwitchEndpointFailure(NoAuthFailure.tokenExchangeFailed);
+  SwitchEndpointFailure _asExchangeFailure(ThingsboardError e) {
+    final dioError = e.error is DioException ? e.error as DioException : null;
+    if (dioError != null && dioError.response == null) {
+      return SwitchEndpointFailure(
+        NoAuthFailure.connectionFailed,
+        cause: dioError.type,
+      );
     }
-
-    return (
-      token: token,
-      refreshToken: data is Map ? data['refreshToken'] as String? : null,
+    final status = e.status ?? dioError?.response?.statusCode;
+    if (status == null) {
+      // An answer without a token.
+      return const SwitchEndpointFailure(NoAuthFailure.tokenExchangeFailed);
+    }
+    // /api/noauth/** is permitAll on the server, so a 401 here can only be
+    // the secret being rejected as unknown or expired.
+    return SwitchEndpointFailure(
+      status == 401 ? NoAuthFailure.tokenExchangeFailed : NoAuthFailure.unknown,
+      serverMessage: e.message,
+      status: status,
+      cause: dioError?.type,
     );
   }
 
