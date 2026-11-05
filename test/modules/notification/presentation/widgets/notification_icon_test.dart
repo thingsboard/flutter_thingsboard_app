@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
+import 'package:thingsboard_app/utils/ui/material_icons.dart';
 
 void main() {
   group('toNotificationIconData', () {

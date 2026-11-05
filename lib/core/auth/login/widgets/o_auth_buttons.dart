@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/o_auth_button.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
+import 'package:thingsboard_app/utils/ui/material_icons.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class OAuthButtons extends StatelessWidget {
@@ -79,7 +79,7 @@ Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientLoginInfo info) {
     );
   }
 
-  final iconData = NavigationHelper.getIconFromString(info.icon);
+  final iconData = iconFromString(info.icon);
 
   return SizedBox(width: 24, height: 24, child: Icon(iconData));
 }
