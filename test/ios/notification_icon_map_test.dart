@@ -8,12 +8,12 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_design_icons_flutter/icon_map.dart';
 import 'package:thingsboard_app/utils/ui/material_icons.dart';
+import 'package:thingsboard_app/utils/ui/mdi_icons.g.dart';
 
 /// The iOS notification service extension cannot read the Dart icon maps, so
-/// it ships a JSON copy of them. This keeps that copy in sync: a package
-/// upgrade or a map edit that moves a codepoint fails here instead of silently
+/// it ships a JSON copy of them. This keeps that copy in sync: an MDI
+/// upgrade (tool/generate_mdi_icons.py) or a map edit that moves a codepoint fails here instead of silently
 /// dropping icons from iOS notifications. Regenerate the copy with:
 ///
 ///     flutter test --update-goldens test/ios/notification_icon_map_test.dart
@@ -22,7 +22,7 @@ void main() {
     final file = File('ios/NotificationServiceExtension/icon_map.json');
     final expected = {
       'material': _codepoints(materialIconsMap),
-      'mdi': _codepoints(iconMap),
+      'mdi': _codepoints(mdiIcons),
     };
 
     if (autoUpdateGoldenFiles) {

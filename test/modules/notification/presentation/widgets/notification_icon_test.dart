@@ -5,9 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
 import 'package:thingsboard_app/utils/ui/material_icons.dart';
+import 'package:thingsboard_app/utils/ui/mdi_icons.g.dart';
 
 void main() {
   group('toNotificationIconData', () {
@@ -20,9 +20,9 @@ void main() {
     });
 
     test('resolves mdi icon names, hyphenated web names included', () {
-      expect(toNotificationIconData('mdi:bell'), MdiIcons.bell);
+      expect(toNotificationIconData('mdi:bell'), mdiIcons['bell']);
       // The iOS extension ports this camelCase mapping; see icon_map.json.
-      expect(toNotificationIconData('mdi:ab-testing'), MdiIcons.abTesting);
+      expect(toNotificationIconData('mdi:ab-testing'), mdiIcons['abtesting']);
     });
 
     test('returns null for unknown or missing names', () {

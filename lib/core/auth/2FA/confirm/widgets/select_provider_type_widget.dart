@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:thingsboard_app/utils/ui/material_icons.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
@@ -392,7 +392,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
 
 Widget getIcon(String iconName, BuildContext context, Color color) {
   Widget icon;
-  final iconData = MdiIcons.fromString(iconName);
+  final iconData = mdiIconFromString(iconName);
   if (iconData != null) {
     icon = Icon(iconData, size: 24, color: color);
   } else {

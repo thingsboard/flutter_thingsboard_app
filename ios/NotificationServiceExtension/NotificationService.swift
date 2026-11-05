@@ -99,8 +99,7 @@ private struct Glyph {
     private static let materialFontPath =
         "Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf"
     private static let mdiFontPath =
-        "Frameworks/App.framework/flutter_assets/packages/"
-        + "material_design_icons_flutter/lib/fonts/materialdesignicons-webfont.ttf"
+        "Frameworks/App.framework/flutter_assets/assets/fonts/materialdesignicons-webfont.ttf"
 
     private static let iconMap: [String: [String: UInt32]] = {
         guard let url = Bundle.main.url(forResource: "icon_map", withExtension: "json"),
@@ -112,7 +111,7 @@ private struct Glyph {
 
     init?(name: String) {
         if name.contains("mdi") {
-            let mdiName = Glyph.camelCased(name.components(separatedBy: "mdi:").last ?? name)
+            let mdiName = Glyph.mdiKey(name.components(separatedBy: "mdi:").last ?? name)
             guard let code = Glyph.iconMap["mdi"]?[mdiName] else { return nil }
             codepoint = code
             fontPath = Glyph.mdiFontPath
@@ -165,21 +164,12 @@ private struct Glyph {
         return CTFontCreateWithGraphicsFont(cgFont, size, nil, nil)
     }
 
-    /// Mirrors MdiIcons.toCamelCase from material_design_icons_flutter, which
-    /// turns web icon names like "ab-testing" into map keys like "abTesting".
-    private static func camelCased(_ name: String) -> String {
-        let pattern = "[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return name }
-
-        let source = name as NSString
-        let matches = regex.matches(in: name, range: NSRange(location: 0, length: source.length))
-        guard !matches.isEmpty else { return "" }
-
-        var result = ""
-        for match in matches {
-            let token = source.substring(with: match.range)
-            result += token.prefix(1).uppercased() + token.dropFirst().lowercased()
-        }
-        return result.prefix(1).lowercased() + String(result.dropFirst())
+    /// Mirrors mdiIconFromString in lib/utils/ui/material_icons.dart: the map
+    /// keys are the MDI names without dashes, lower-cased, so both
+    /// "account-circle" and "accountCircle" resolve.
+    private static func mdiKey(_ name: String) -> String {
+        name.replacingOccurrences(of: "-", with: "")
+            .replacingOccurrences(of: "_", with: "")
+            .lowercased()
     }
 }

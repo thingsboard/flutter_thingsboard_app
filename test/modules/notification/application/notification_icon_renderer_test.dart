@@ -7,8 +7,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_icon_renderer.dart';
+import 'package:thingsboard_app/utils/ui/mdi_icons.g.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -27,9 +27,9 @@ void main() {
       expect(bytes.sublist(0, pngSignature.length), equals(pngSignature));
     });
 
-    test('renders an MDI glyph, which comes from a package font', () async {
+    test('renders an MDI glyph from the app\'s icon font', () async {
       final bytes = await NotificationIconRenderer.renderPng(
-        MdiIcons.bell,
+        mdiIcons['bell']!,
         const Color(0xFFF44336),
       );
 

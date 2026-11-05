@@ -4,7 +4,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart' hide Notification;
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:thingsboard_app/utils/ui/material_icons.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -33,7 +32,7 @@ IconData? toNotificationIconData(String? name) {
 
   if (name.contains('mdi')) {
     // translate-me-ignore-next-line
-    return MdiIcons.fromString(name.split('mdi:').last);
+    return mdiIconFromString(name.split('mdi:').last);
   }
 
   return materialIconsMap[name];

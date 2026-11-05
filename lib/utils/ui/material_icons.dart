@@ -4,21 +4,25 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:thingsboard_app/utils/ui/mdi_icons.g.dart';
 
 /// The icon for a ThingsBoard icon name: `mdi:<name>` for Material Design
 /// Icons, otherwise a Material icon name; [Icons.error_outline] when unknown.
 IconData iconFromString(String? icon) {
   if (icon != null) {
     if (icon.contains('mdi')) {
-      return MdiIcons.fromString(icon.split('mdi:').last) ??
-          Icons.error_outline;
+      return mdiIconFromString(icon.split('mdi:').last) ?? Icons.error_outline;
     }
 
     return materialIconsMap[icon] ?? Icons.error_outline;
   }
   return Icons.error_outline;
 }
+
+/// The Material Design Icons icon for [name]: `account-circle` as the
+/// ThingsBoard web UI writes it, or `accountCircle`.
+IconData? mdiIconFromString(String name) =>
+    mdiIcons[name.replaceAll(RegExp('[-_]'), '').toLowerCase()];
 
 /// Material icon names as the ThingsBoard web UI uses them.
 const materialIconsMap = {
