@@ -18,9 +18,9 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_bottom_sheet_builder.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_app/widgets/tb_bottom_sheet_builder.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class SelectProviderTypeWidget extends HookConsumerWidget {

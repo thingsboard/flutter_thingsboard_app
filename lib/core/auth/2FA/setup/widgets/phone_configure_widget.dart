@@ -16,9 +16,9 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_country_picker.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_drop_down_text_field.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/widgets/tb_country_picker.dart';
+import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {

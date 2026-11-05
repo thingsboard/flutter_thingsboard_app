@@ -22,14 +22,14 @@ import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_p
 import 'package:thingsboard_app/modules/profile/domain/models/unit_systems.dart';
 import 'package:thingsboard_app/modules/profile/presentation/widgets/profile_preview_widget.dart';
 import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_async_bottom_sheet_builder.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_bottom_sheet_builder.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_country_picker.dart';
-import 'package:thingsboard_app/modules/profile/presentation/widgets/tb_drop_down_text_field.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
+import 'package:thingsboard_app/widgets/tb_bottom_sheet_builder.dart';
+import 'package:thingsboard_app/widgets/tb_country_picker.dart';
+import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfileEditPage extends HookConsumerWidget {

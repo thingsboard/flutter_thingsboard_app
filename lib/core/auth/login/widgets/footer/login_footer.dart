@@ -10,7 +10,7 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/register_r
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/more/presentation/widgets/more_page_footer.dart';
+import 'package:thingsboard_app/widgets/more_page_footer.dart';
 
 class LoginFooter extends ConsumerWidget {
   const LoginFooter({super.key});
