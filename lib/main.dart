@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -26,7 +28,6 @@ import 'package:thingsboard_app/modules/notification/application/push_notificati
 import 'package:thingsboard_app/thingsboard_app.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
   final WidgetsBinding widgetsBinding =
@@ -39,7 +40,7 @@ Future<void> main() async {
   // A paused-session notification survives process death while the session
   // itself does not, so drop any leftover from a previous run.
   unawaited(getIt<ILiveTrackingNotifications>().clear());
-  if (UniversalPlatform.isAndroid) {
+  if (Platform.isAndroid) {
     await InAppWebViewController.setWebContentsDebuggingEnabled(
       kDebugMode || EnvironmentVariables.verbose,
     );
@@ -57,7 +58,7 @@ Future<void> main() async {
   // this handler replaces it with the icon version. On iOS the system shows
   // the push and the Notification Service Extension attaches the icon, so a
   // handler there would show every push twice.
-  if (UniversalPlatform.isAndroid) {
+  if (Platform.isAndroid) {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 

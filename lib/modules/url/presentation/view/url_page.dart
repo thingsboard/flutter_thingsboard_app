@@ -12,7 +12,6 @@ import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart'
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UrlPage extends StatefulWidget {
@@ -83,47 +82,44 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
           ),
         ],
       ),
-      body:
-          UniversalPlatform.isWeb
-              ? Center(child: Text(S.of(context).notImplemented))
-              : Stack(
-                children: [
-                  InAppWebView(
-                    keepAlive: InAppWebViewKeepAlive(),
-                    initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-                    onWebViewCreated: (ctrl) {
-                      webViewController = ctrl;
-                    },
-                    onPermissionRequest: (controller, request) async {
-                      return PermissionResponse(
-                        resources: request.resources,
-                        action: PermissionResponseAction.GRANT,
-                      );
-                    },
-                    onTitleChanged: (_, title) {
-                      titleNotifier.value = title ?? S.of(context).url;
-                    },
-                    onLoadStop: (controller, url) async {
-                      canGoBack = await controller.canGoBack();
-                      ready = true;
-                      setState(() {});
-                    },
+      body: Stack(
+        children: [
+          InAppWebView(
+            keepAlive: InAppWebViewKeepAlive(),
+            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+            onWebViewCreated: (ctrl) {
+              webViewController = ctrl;
+            },
+            onPermissionRequest: (controller, request) async {
+              return PermissionResponse(
+                resources: request.resources,
+                action: PermissionResponseAction.GRANT,
+              );
+            },
+            onTitleChanged: (_, title) {
+              titleNotifier.value = title ?? S.of(context).url;
+            },
+            onLoadStop: (controller, url) async {
+              canGoBack = await controller.canGoBack();
+              ready = true;
+              setState(() {});
+            },
 
-                    onUpdateVisitedHistory: (ctrl, url, _) async {
-                      subTitleUrlNotifier.value = url?.host ?? widget.url;
-                      canGoBack = await ctrl.canGoBack();
-                      setState(() {});
-                    },
-                  ),
-                  AnimatedVisibilityWidget(
-                    show: !ready,
-                    child: const ColoredBox(
-                      color: AppColors.white,
-                      child: FullScreenLoader(),
-                    ),
-                  ),
-                ],
-              ),
+            onUpdateVisitedHistory: (ctrl, url, _) async {
+              subTitleUrlNotifier.value = url?.host ?? widget.url;
+              canGoBack = await ctrl.canGoBack();
+              setState(() {});
+            },
+          ),
+          AnimatedVisibilityWidget(
+            show: !ready,
+            child: const ColoredBox(
+              color: AppColors.white,
+              child: FullScreenLoader(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -134,7 +130,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
     webViewController?.dispose();
     super.dispose();
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

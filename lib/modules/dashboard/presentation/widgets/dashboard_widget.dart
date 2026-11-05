@@ -20,7 +20,6 @@ import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DashboardWidget extends StatefulWidget {
@@ -66,9 +65,6 @@ class _DashboardState extends State<DashboardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (UniversalPlatform.isWeb) {
-      return Center(child: Text(S.of(context).notImplemented));
-    }
     return Stack(
       children: [
         InAppWebView(
