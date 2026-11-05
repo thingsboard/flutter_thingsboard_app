@@ -13,7 +13,7 @@ import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart'
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/profile/di/profile_di.dart';
-import 'package:thingsboard_app/modules/profile/widget/profile_preview_widget.dart';
+import 'package:thingsboard_app/modules/profile/presentation/widgets/profile_preview_widget.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 

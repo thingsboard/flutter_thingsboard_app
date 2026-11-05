@@ -4,9 +4,9 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
-import 'package:thingsboard_app/modules/profile/change_password_page.dart';
-import 'package:thingsboard_app/modules/profile/profile_page.dart';
-import 'package:thingsboard_app/modules/profile/widget/profile_edit_page.dart';
+import 'package:thingsboard_app/modules/profile/presentation/view/change_password_page.dart';
+import 'package:thingsboard_app/modules/profile/presentation/view/profile_edit_page.dart';
+import 'package:thingsboard_app/modules/profile/presentation/view/profile_page.dart';
 
 class ProfileRoutes {
   static const profile = '/profile';
