@@ -2784,6 +2784,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Interrupted'**
   String get liveTrackingEndReasonInterrupted;
+
+  /// No description provided for @serverUpdateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Server update required'**
+  String get serverUpdateRequired;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to login'**
+  String get backToLogin;
+
+  /// No description provided for @serverRequiresVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This app works with ThingsBoard {minVersion} or later.'**
+  String serverRequiresVersion(String minVersion);
+
+  /// No description provided for @serverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Server'**
+  String get serverLabel;
+
+  /// No description provided for @versionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get versionLabel;
+
+  /// No description provided for @askAdminToUpdateServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your server administrator to update the server.'**
+  String get askAdminToUpdateServer;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -526,5 +526,18 @@
   "liveTrackingEndReason": "End reason",
   "liveTrackingEndReasonManual": "Stopped manually",
   "liveTrackingEndReasonMaxDuration": "Reached max duration",
-  "liveTrackingEndReasonInterrupted": "Interrupted"
+  "liveTrackingEndReasonInterrupted": "Interrupted",
+  "serverUpdateRequired": "Server update required",
+  "backToLogin": "Back to login",
+  "serverRequiresVersion": "This app works with ThingsBoard {minVersion} or later.",
+  "@serverRequiresVersion": {
+    "placeholders": {
+      "minVersion": {
+        "type": "String"
+      }
+    }
+  },
+  "serverLabel": "Server",
+  "versionLabel": "Version",
+  "askAdminToUpdateServer": "Ask your server administrator to update the server."
 }

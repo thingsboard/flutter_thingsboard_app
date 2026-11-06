@@ -1540,4 +1540,25 @@ class SDe extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Server-Update erforderlich';
+
+  @override
+  String get backToLogin => 'Zurück zur Anmeldung';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Diese App funktioniert mit ThingsBoard $minVersion oder neuer.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Version';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Bitten Sie Ihren Serveradministrator, den Server zu aktualisieren.';
 }

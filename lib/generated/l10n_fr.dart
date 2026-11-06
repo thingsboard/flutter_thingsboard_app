@@ -1541,4 +1541,25 @@ class SFr extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Mise à jour du serveur requise';
+
+  @override
+  String get backToLogin => 'Retour à la connexion';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Cette application fonctionne avec ThingsBoard $minVersion ou une version ultérieure.';
+  }
+
+  @override
+  String get serverLabel => 'Serveur';
+
+  @override
+  String get versionLabel => 'Version';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Demandez à l\'administrateur du serveur de le mettre à jour.';
 }

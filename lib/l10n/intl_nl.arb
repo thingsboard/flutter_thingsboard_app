@@ -481,5 +481,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "Serverupdate vereist",
+  "backToLogin": "Terug naar inloggen",
+  "serverRequiresVersion": "Deze app werkt met ThingsBoard {minVersion} of nieuwer.",
+  "serverLabel": "Server",
+  "versionLabel": "Versie",
+  "askAdminToUpdateServer": "Vraag uw serverbeheerder om de server bij te werken."
 }

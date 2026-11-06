@@ -1536,4 +1536,25 @@ class SIt extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Aggiornamento del server richiesto';
+
+  @override
+  String get backToLogin => 'Torna all\'accesso';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Questa app funziona con ThingsBoard $minVersion o versioni successive.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Versione';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Chiedi all\'amministratore del server di aggiornarlo.';
 }

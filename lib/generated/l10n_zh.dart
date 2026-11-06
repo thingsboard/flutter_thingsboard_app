@@ -1511,6 +1511,26 @@ class SZh extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => '需要更新服务器';
+
+  @override
+  String get backToLogin => '返回登录';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return '此应用需要 ThingsBoard $minVersion 或更高版本。';
+  }
+
+  @override
+  String get serverLabel => '服务器';
+
+  @override
+  String get versionLabel => '版本';
+
+  @override
+  String get askAdminToUpdateServer => '请联系服务器管理员更新服务器。';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -2837,6 +2857,26 @@ class SZhCn extends SZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get serverUpdateRequired => '需要更新服务器';
+
+  @override
+  String get backToLogin => '返回登录';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return '此应用需要 ThingsBoard $minVersion 或更高版本。';
+  }
+
+  @override
+  String get serverLabel => '服务器';
+
+  @override
+  String get versionLabel => '版本';
+
+  @override
+  String get askAdminToUpdateServer => '请联系服务器管理员更新服务器。';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4163,4 +4203,24 @@ class SZhTw extends SZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get serverUpdateRequired => '需要更新伺服器';
+
+  @override
+  String get backToLogin => '返回登入';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return '此應用程式需要 ThingsBoard $minVersion 或更新版本。';
+  }
+
+  @override
+  String get serverLabel => '伺服器';
+
+  @override
+  String get versionLabel => '版本';
+
+  @override
+  String get askAdminToUpdateServer => '請聯絡伺服器管理員更新伺服器。';
 }

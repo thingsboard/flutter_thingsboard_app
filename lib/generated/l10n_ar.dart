@@ -1517,4 +1517,24 @@ class SAr extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'يلزم تحديث الخادم';
+
+  @override
+  String get backToLogin => 'العودة إلى تسجيل الدخول';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'يعمل هذا التطبيق مع ThingsBoard $minVersion أو أحدث.';
+  }
+
+  @override
+  String get serverLabel => 'الخادم';
+
+  @override
+  String get versionLabel => 'الإصدار';
+
+  @override
+  String get askAdminToUpdateServer => 'اطلب من مسؤول الخادم تحديث الخادم.';
 }

@@ -480,5 +480,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "需要更新伺服器",
+  "backToLogin": "返回登入",
+  "serverRequiresVersion": "此應用程式需要 ThingsBoard {minVersion} 或更新版本。",
+  "serverLabel": "伺服器",
+  "versionLabel": "版本",
+  "askAdminToUpdateServer": "請聯絡伺服器管理員更新伺服器。"
 }

@@ -29,6 +29,27 @@ class TbClientService implements ITbClientService {
   // onClientError is the app's to show.
   Future<void> _initClient() => _client.init();
 
+  final _unsupportedServer = ValueNotifier<UnsupportedServerVersionError?>(
+    null,
+  );
+
+  @override
+  ValueListenable<UnsupportedServerVersionError?> get unsupportedServer =>
+      _unsupportedServer;
+
+  @override
+  bool reportUnsupportedServer(Object error) {
+    if (error is! UnsupportedServerVersionError) {
+      return false;
+    }
+    log('Unsupported server: $error');
+    _unsupportedServer.value = error;
+    return true;
+  }
+
+  @override
+  void clearUnsupportedServer() => _unsupportedServer.value = null;
+
   ThingsboardClient _createClient(
     String endpoint, {
     required ErrorCallback onError,
@@ -65,6 +86,9 @@ class TbClientService implements ITbClientService {
   }
 
   void onInitError(dynamic e) {
+    if (reportUnsupportedServer(e as Object)) {
+      return;
+    }
     // The interceptor already routed a connection failure through
     // onClientError, which shows the connection dialog; a fatal dialog for the
     // same error would only stack on top of it.
@@ -115,7 +139,14 @@ class TbClientService implements ITbClientService {
         onClientError(e);
       },
     );
-    await _initClient();
+    try {
+      await _initClient();
+    } catch (e) {
+      if (reportUnsupportedServer(e)) {
+        return;
+      }
+      rethrow;
+    }
     onDone();
   }
 }

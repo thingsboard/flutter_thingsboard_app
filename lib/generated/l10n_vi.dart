@@ -1525,4 +1525,25 @@ class SVi extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Cần cập nhật máy chủ';
+
+  @override
+  String get backToLogin => 'Quay lại đăng nhập';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Ứng dụng này hoạt động với ThingsBoard $minVersion trở lên.';
+  }
+
+  @override
+  String get serverLabel => 'Máy chủ';
+
+  @override
+  String get versionLabel => 'Phiên bản';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Hãy yêu cầu quản trị viên máy chủ cập nhật máy chủ.';
 }

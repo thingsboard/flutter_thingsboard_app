@@ -481,5 +481,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "Se requiere actualizar el servidor",
+  "backToLogin": "Volver al inicio de sesión",
+  "serverRequiresVersion": "Esta aplicación funciona con ThingsBoard {minVersion} o posterior.",
+  "serverLabel": "Servidor",
+  "versionLabel": "Versión",
+  "askAdminToUpdateServer": "Pida al administrador del servidor que lo actualice."
 }

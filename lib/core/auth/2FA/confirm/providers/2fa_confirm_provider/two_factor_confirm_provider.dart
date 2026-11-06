@@ -51,6 +51,9 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
       state = state.copyWith(loading: false, codeState: CodeState.valid);
     } catch (e) {
       state = state.copyWith(loading: false);
+      if (getIt<ITbClientService>().reportUnsupportedServer(e)) {
+        return;
+      }
       if (toThingsboardError(e).status == 429) {
         state = state.copyWith(
           codeState: CodeState.tooManyRequests,

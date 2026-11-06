@@ -481,5 +481,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "Serveropdatering påkrævet",
+  "backToLogin": "Tilbage til login",
+  "serverRequiresVersion": "Denne app virker med ThingsBoard {minVersion} eller nyere.",
+  "serverLabel": "Server",
+  "versionLabel": "Version",
+  "askAdminToUpdateServer": "Bed din serveradministrator om at opdatere serveren."
 }

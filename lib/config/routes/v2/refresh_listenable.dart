@@ -10,6 +10,7 @@ import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class RefreshListenable extends ChangeNotifier {
   RefreshListenable(this._ref) {
@@ -22,6 +23,7 @@ class RefreshListenable extends ChangeNotifier {
     _ref.listen(navigationProvider, (current, next) {
       notifyListeners();
     });
+    getIt<ITbClientService>().unsupportedServer.addListener(notifyListeners);
     getIt<IEndpointService>().listenEndpointChanges.addListener(() {
       notifyListeners();
     });

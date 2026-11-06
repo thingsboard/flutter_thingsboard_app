@@ -1524,4 +1524,25 @@ class SNo extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Serveroppdatering kreves';
+
+  @override
+  String get backToLogin => 'Tilbake til innlogging';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Denne appen fungerer med ThingsBoard $minVersion eller nyere.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Versjon';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Be serveradministratoren om å oppdatere serveren.';
 }

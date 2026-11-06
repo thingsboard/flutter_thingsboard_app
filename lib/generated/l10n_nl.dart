@@ -1532,4 +1532,25 @@ class SNl extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Serverupdate vereist';
+
+  @override
+  String get backToLogin => 'Terug naar inloggen';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Deze app werkt met ThingsBoard $minVersion of nieuwer.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Versie';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Vraag uw serverbeheerder om de server bij te werken.';
 }

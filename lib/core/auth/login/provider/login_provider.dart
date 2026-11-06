@@ -111,6 +111,7 @@ class Login extends _$Login {
         return false;
       }
     } catch (e) {
+      getIt<ITbClientService>().reportUnsupportedServer(e);
       return false;
     }
     return true;
@@ -223,7 +224,9 @@ class Login extends _$Login {
         _overlayService.showErrorNotification((_) => result.error!);
       }
     } catch (e) {
-      _overlayService.showErrorNotification((_) => e.toString());
+      if (!getIt<ITbClientService>().reportUnsupportedServer(e)) {
+        _overlayService.showErrorNotification((_) => e.toString());
+      }
     }
     return false;
   }

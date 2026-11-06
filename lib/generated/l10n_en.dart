@@ -1527,4 +1527,25 @@ class SEn extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Server update required';
+
+  @override
+  String get backToLogin => 'Back to login';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'This app works with ThingsBoard $minVersion or later.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Version';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Ask your server administrator to update the server.';
 }

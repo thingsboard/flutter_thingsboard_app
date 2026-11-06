@@ -481,5 +481,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "Απαιτείται ενημέρωση διακομιστή",
+  "backToLogin": "Επιστροφή στη σύνδεση",
+  "serverRequiresVersion": "Αυτή η εφαρμογή λειτουργεί με ThingsBoard {minVersion} ή νεότερη.",
+  "serverLabel": "Διακομιστής",
+  "versionLabel": "Έκδοση",
+  "askAdminToUpdateServer": "Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει."
 }

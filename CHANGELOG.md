@@ -5,7 +5,7 @@
 ThingsBoard CE and PE are now one product, and this is its single mobile app. It continues the ThingsBoard PE app (all of its history is kept) and ships under the CE store identity.
 
 - **Breaking:** the app id is `org.thingsboard.app` on Android and iOS (it was `org.thingsboard.pe.app` for the PE app), and the app is named **ThingsBoard App**.
-- **Breaking:** requires ThingsBoard 4.4.0 or later. The client checks the server version on login, two-factor verification and start-up, for every user.
+- **Breaking:** requires ThingsBoard 4.4.0 or later. The client checks the server version on login, two-factor verification, QR code and OAuth sign-in and start-up, for every user; an older server shows a "Server update required" page with the server's version and keeps no session.
 - **Breaking:** updating from 1.x signs the user out once and asks for the region or server again: the app data moved to the platform secure storage.
 - Moved to `thingsboard_client` 5.0, the single generated Dart client for ThingsBoard, replacing `thingsboard_pe_client`. The app is built with Flutter 3.47.9 (`.fvmrc`).
 - Fixed regressions from the move to the generated client in 1.9:

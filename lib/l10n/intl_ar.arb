@@ -480,5 +480,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "يلزم تحديث الخادم",
+  "backToLogin": "العودة إلى تسجيل الدخول",
+  "serverRequiresVersion": "يعمل هذا التطبيق مع ThingsBoard {minVersion} أو أحدث.",
+  "serverLabel": "الخادم",
+  "versionLabel": "الإصدار",
+  "askAdminToUpdateServer": "اطلب من مسؤول الخادم تحديث الخادم."
 }

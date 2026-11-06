@@ -480,5 +480,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "serverUpdateRequired": "Cần cập nhật máy chủ",
+  "backToLogin": "Quay lại đăng nhập",
+  "serverRequiresVersion": "Ứng dụng này hoạt động với ThingsBoard {minVersion} trở lên.",
+  "serverLabel": "Máy chủ",
+  "versionLabel": "Phiên bản",
+  "askAdminToUpdateServer": "Hãy yêu cầu quản trị viên máy chủ cập nhật máy chủ."
 }

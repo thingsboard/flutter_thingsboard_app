@@ -62,11 +62,11 @@ class EmailVerifiedPage extends HookConsumerWidget {
   ) {
     final response = loginResponse.value;
     if (response != null) {
-      tbClientService.client.setUserFromJwtToken(
-        response.token,
-        response.refreshToken,
-        true,
-      );
+      tbClientService.client
+          .setUserFromJwtToken(response.token, response.refreshToken, true)
+          .catchError((Object e) {
+            tbClientService.reportUnsupportedServer(e);
+          });
     } else {
       context.go(LoginRoutes.login);
     }

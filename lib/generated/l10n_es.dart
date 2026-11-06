@@ -1536,4 +1536,25 @@ class SEs extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Se requiere actualizar el servidor';
+
+  @override
+  String get backToLogin => 'Volver al inicio de sesión';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Esta aplicación funciona con ThingsBoard $minVersion o posterior.';
+  }
+
+  @override
+  String get serverLabel => 'Servidor';
+
+  @override
+  String get versionLabel => 'Versión';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Pida al administrador del servidor que lo actualice.';
 }

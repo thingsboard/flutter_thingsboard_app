@@ -1540,4 +1540,25 @@ class SEl extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Απαιτείται ενημέρωση διακομιστή';
+
+  @override
+  String get backToLogin => 'Επιστροφή στη σύνδεση';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Αυτή η εφαρμογή λειτουργεί με ThingsBoard $minVersion ή νεότερη.';
+  }
+
+  @override
+  String get serverLabel => 'Διακομιστής';
+
+  @override
+  String get versionLabel => 'Έκδοση';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει.';
 }

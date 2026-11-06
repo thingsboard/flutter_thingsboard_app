@@ -1530,4 +1530,25 @@ class SDa extends S {
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Interrupted';
+
+  @override
+  String get serverUpdateRequired => 'Serveropdatering påkrævet';
+
+  @override
+  String get backToLogin => 'Tilbage til login';
+
+  @override
+  String serverRequiresVersion(String minVersion) {
+    return 'Denne app virker med ThingsBoard $minVersion eller nyere.';
+  }
+
+  @override
+  String get serverLabel => 'Server';
+
+  @override
+  String get versionLabel => 'Version';
+
+  @override
+  String get askAdminToUpdateServer =>
+      'Bed din serveradministrator om at opdatere serveren.';
 }

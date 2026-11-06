@@ -258,6 +258,8 @@ class NoauthProvider extends _$NoauthProvider {
       await _switchFirebaseApps(previousEndpoint);
     }
     await _reInitClient(host, logTag: 'switch');
+    // The server update page takes over; the session was not kept.
+    if (getIt<ITbClientService>().unsupportedServer.value != null) return;
 
     final client = getIt<ITbClientService>().client;
     if (!client.isAuthenticated()) {
