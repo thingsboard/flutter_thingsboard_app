@@ -53,8 +53,6 @@ dependencies:
   equatable: ^3.0.0
   app_links: ^7.2.2
   collection: ^1.19.1
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   event_bus: ^2.0.1
   expandable: ^5.0.1

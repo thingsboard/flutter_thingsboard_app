@@ -15,11 +15,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/app_bloc_observer.dart';
 import 'package:thingsboard_app/constants/enviroment_variables.dart';
-import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_tracking_notifications.dart';
@@ -32,9 +30,7 @@ Future<void> main() async {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Hive.initFlutter();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-  Hive.registerAdapter(RegionAdapter());
   await setUpRootDependencies();
   // A paused-session notification survives process death while the session
   // itself does not, so drop any leftover from a previous run.

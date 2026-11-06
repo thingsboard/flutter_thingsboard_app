@@ -4,51 +4,92 @@
 // found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 TbStorage createAppStorage() => TbSecureStorage();
 
-class TbSecureStorage<T> implements TbStorage {
-  late Box encryptedBox;
+/// The app's key-value storage (session tokens, endpoint, region, ...) in the
+/// Android Keystore / iOS Keychain. Values are JSON (strings, numbers,
+/// booleans). Everything is read once in [init] and kept in memory, so reads
+/// do not go to the platform.
+class TbSecureStorage implements TbStorage<Object?> {
+  TbSecureStorage({
+    FlutterSecureStorage? storage,
+    Future<Directory> Function()? supportDirectory,
+    Future<Directory> Function()? documentsDirectory,
+  }) : _storage = storage ?? _defaultStorage,
+       _supportDirectory = supportDirectory ?? getApplicationSupportDirectory,
+       _documentsDirectory =
+           documentsDirectory ?? getApplicationDocumentsDirectory;
+
+  static const _defaultStorage = FlutterSecureStorage(
+    // Readable while the device is locked after the first unlock, for push
+    // and live tracking started in the background; never in a backup.
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
+  );
+
+  /// Marks an install that has started once. iOS keeps the Keychain after
+  /// the app is deleted, so without it a reinstall would come back signed in.
+  static const _installMarker = 'tb_storage_v2';
+
+  final FlutterSecureStorage _storage;
+  final Future<Directory> Function() _supportDirectory;
+  final Future<Directory> Function() _documentsDirectory;
+  final _values = <String, String>{};
 
   Future<void> init() async {
-    const secureStorage = FlutterSecureStorage();
-    // if key not exists return null
-    final encryptionKeyString = await secureStorage.read(key: 'key');
-    if (encryptionKeyString == null) {
-      final key = Hive.generateSecureKey();
-      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
+    try {
+      final supportDir = await _supportDirectory();
+      final marker = File('${supportDir.path}/$_installMarker');
+      if (!marker.existsSync()) {
+        // A new install, or the update from the 1.x storage (an encrypted
+        // Hive box whose key was the only Keychain entry): start clean.
+        await _storage.deleteAll();
+        await _deleteHiveBox();
+        marker.createSync(recursive: true);
+      }
+      _values.addAll(await _storage.readAll());
+    } catch (_) {
+      // Unreadable storage (e.g. a lost Keystore key): start signed out
+      // rather than fail the app start.
+      _values.clear();
+      await _storage.deleteAll().catchError((_) {});
     }
+  }
 
-    final key = await secureStorage.read(key: 'key');
-    final encryptionKeyUint8List = base64Url.decode(key!);
-
-    encryptedBox = await Hive.openBox(
-      'securedStorage',
-      encryptionCipher: HiveAesCipher(encryptionKeyUint8List),
-    );
+  Future<void> _deleteHiveBox() async {
+    final dir = await _documentsDirectory();
+    for (final name in ['securedstorage.hive', 'securedstorage.lock']) {
+      final file = File('${dir.path}/$name');
+      if (file.existsSync()) file.deleteSync();
+    }
   }
 
   @override
-  Future<void> deleteItem(dynamic key) async {
-    return await encryptedBox.delete(key);
+  Future<void> setItem(String key, Object? value) async {
+    final encoded = jsonEncode(value);
+    _values[key] = encoded;
+    await _storage.write(key: key, value: encoded);
   }
 
   @override
-  Future<T>? getItem(dynamic key, {dynamic defaultValue}) async {
-    return encryptedBox.get(key) as T;
+  Future<void> deleteItem(String key) async {
+    _values.remove(key);
+    await _storage.delete(key: key);
   }
 
   @override
-  Future<void> setItem(dynamic key, dynamic value) async {
-    return await encryptedBox.put(key, value);
+  Future<Object?> getItem(String key, {Object? defaultValue}) async {
+    final encoded = _values[key];
+    return encoded == null ? defaultValue : jsonDecode(encoded);
   }
 
   @override
-  Future<bool> containsKey(dynamic key) async {
-    return encryptedBox.containsKey(key);
-  }
+  Future<bool> containsKey(String key) async => _values.containsKey(key);
 }

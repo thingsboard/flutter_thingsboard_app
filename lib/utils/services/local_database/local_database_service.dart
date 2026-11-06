@@ -23,12 +23,13 @@ class LocalDatabaseService implements ILocalDatabaseService {
 
   @override
   Future<Region?> getSelectedRegion() async {
-    return await storage.getItem(DatabaseKeys.selectedRegion) as Region?;
+    final name = await storage.getItem(DatabaseKeys.selectedRegion) as String?;
+    return name == null ? null : Region.values.asNameMap()[name];
   }
 
   @override
   Future<void> saveSelectedRegion(Region region) {
-    return storage.setItem(DatabaseKeys.selectedRegion, region);
+    return storage.setItem(DatabaseKeys.selectedRegion, region.name);
   }
 
   @override
