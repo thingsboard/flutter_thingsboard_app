@@ -40,6 +40,26 @@ void main() {
     });
   });
 
+  test('Norwegian Bokmål and Nynorsk use the Norwegian translation', () {
+    expect(localeFromTbCode('nb_NO'), const Locale('no'));
+    expect(
+      resolveAppLocale(const [Locale('nb', 'NO')], S.supportedLocales),
+      const Locale('no'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('nn')], S.supportedLocales),
+      const Locale('no'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('uk', 'UA')], S.supportedLocales),
+      const Locale('en'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('zh', 'TW')], S.supportedLocales),
+      const Locale('zh', 'TW'),
+    );
+  });
+
   group('tbLocaleCode', () {
     test('gives the ThingsBoard code of an app language', () {
       expect(tbLocaleCode(const Locale('de')), 'de_DE');

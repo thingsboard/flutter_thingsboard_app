@@ -47,7 +47,7 @@ String tbLocaleCode(Locale locale) =>
 Locale? localeFromTbCode(String? code) {
   if (code == null || code.isEmpty) return null;
   final normalized = code.replaceAll('-', '_');
-  final language = normalized.split('_').first;
+  final language = _languageAlias(normalized.split('_').first);
   return S.supportedLocales.firstWhereOrNull(
         (l) => l.toString() == normalized,
       ) ??
@@ -55,3 +55,26 @@ Locale? localeFromTbCode(String? code) {
         (l) => l.languageCode == language && l.countryCode == null,
       );
 }
+
+/// Norwegian devices report Bokmål (nb) or Nynorsk (nn); the app has one
+/// Norwegian translation, 'no'.
+String _languageAlias(String language) =>
+    language == 'nb' || language == 'nn' ? 'no' : language;
+
+/// MaterialApp.localeListResolutionCallback: Flutter's default resolution
+/// with the language aliases applied.
+Locale resolveAppLocale(
+  List<Locale>? locales,
+  Iterable<Locale> supportedLocales,
+) => basicLocaleListResolution(
+  locales
+      ?.map(
+        (l) => Locale.fromSubtags(
+          languageCode: _languageAlias(l.languageCode),
+          scriptCode: l.scriptCode,
+          countryCode: l.countryCode,
+        ),
+      )
+      .toList(),
+  supportedLocales,
+);

@@ -29,6 +29,7 @@ class ThingsboardApp extends HookConsumerWidget {
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
         locale: ref.watch(appLocaleProvider),
+        localeListResolutionCallback: resolveAppLocale,
         builder: (context, child) {
           // Formats without an explicit locale (DateFormat.yMd()) follow
           // the app language.
