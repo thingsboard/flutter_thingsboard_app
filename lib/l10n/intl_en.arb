@@ -363,7 +363,7 @@
   "isRequiredText": "is required.",
   "no2faProvidersFound": "No 2FA providers found",
   "pleaseContactYourSystemAdministrator": "Please contact your system administrator",
-  "errorOccured": "Error occured: {e}",
+  "errorOccured": "Error occurred: {e}",
   "unsavedChanges": "Unsaved changes",
   "youHaveUnsavedChangesAreYouSureYouWantTo": "You have unsaved changes. Are you sure you want to leave this page?",
   "deleteAccount": "Delete account",
