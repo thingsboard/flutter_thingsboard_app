@@ -83,7 +83,8 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     }
   }
 
-  void onDownloadStartRequest(
+  /// Returns null: the response only configures the Windows download UI.
+  DownloadStartResponse? onDownloadStarting(
     InAppWebViewController controller,
     DownloadStartRequest downloadStartRequest,
   ) {
@@ -126,6 +127,7 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
         flutterBlobDownload("${downloadStartRequest.suggestedFilename ?? ''}", "$downloadURL");
       ''',
       );
+      return null;
     } else {
       throw UnimplementedError(
         'Download from URL $downloadURL is not supported.',

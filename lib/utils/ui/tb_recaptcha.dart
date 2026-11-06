@@ -15,8 +15,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 
 class TbRecaptcha extends StatefulWidget {
-  const TbRecaptcha(
-     {
+  const TbRecaptcha({
     required this.siteKey,
     required this.version,
     this.logActionName,
@@ -32,6 +31,9 @@ class TbRecaptcha extends StatefulWidget {
 }
 
 class _TbRecaptchaState extends State<TbRecaptcha> {
+  late final Future<void> _cacheCleared =
+      InAppWebViewController.clearAllCache();
+
   final _webViewController = Completer<InAppWebViewController>();
 
   bool webViewLoading = true;
@@ -42,7 +44,6 @@ class _TbRecaptchaState extends State<TbRecaptcha> {
 
   final setting = InAppWebViewSettings(
     mediaPlaybackRequiresUserGesture: false,
-    clearCache: true,
     supportZoom: false,
     allowsInlineMediaPlayback: true,
     isInspectable: kDebugMode,
@@ -83,40 +84,48 @@ class _TbRecaptchaState extends State<TbRecaptcha> {
   Widget _buildRecaptchaView(BuildContext context) {
     return Stack(
       children: [
-        InAppWebView(
-          key: recaptchaWebViewKey,
-          initialUrlRequest: URLRequest(url: _initialUrl),
-          initialSettings: setting,
-          onWebViewCreated: (webViewController) {
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileRecaptchaLoadedHandler',
-              callback: (args)  {
-                recaptchaLoading.value = false;
-              },
-            );
-            webViewController.addJavaScriptHandler(
-              handlerName: 'tbMobileRecaptchaHandler',
-              callback: (args)  {
-                final recaptchaResponse = args[0];
-                getIt<ThingsboardAppRouter>().pop(recaptchaResponse);
-              },
-            );
-          },
-          onConsoleMessage: (controller, consoleMessage) {
-            log(
-              // translate-me-ignore-next-line
-              '[JavaScript console] ${consoleMessage.messageLevel}: '
-              '${consoleMessage.message}',
-            );
-          },
-          onLoadStop: (controller, url)  {
-            // translate-me-ignore-next-line
-            log('onLoadStop: $url');
-            if (webViewLoading) {
-              webViewLoading = false;
-              _webViewController.complete(controller);
-            }
-          },
+        FutureBuilder<void>(
+          future: _cacheCleared,
+          // The WebView starts once the cache is cleared, as the old
+          // `clearCache` setting did (an error still lets it start).
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+              ? InAppWebView(
+                  key: recaptchaWebViewKey,
+                  initialUrlRequest: URLRequest(url: _initialUrl),
+                  initialSettings: setting,
+                  onWebViewCreated: (webViewController) {
+                    webViewController.addJavaScriptHandler(
+                      handlerName: 'tbMobileRecaptchaLoadedHandler',
+                      callback: (List<dynamic> args) {
+                        recaptchaLoading.value = false;
+                      },
+                    );
+                    webViewController.addJavaScriptHandler(
+                      handlerName: 'tbMobileRecaptchaHandler',
+                      callback: (List<dynamic> args) {
+                        final recaptchaResponse = args[0];
+                        getIt<ThingsboardAppRouter>().pop(recaptchaResponse);
+                      },
+                    );
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    log(
+                      // translate-me-ignore-next-line
+                      '[JavaScript console] ${consoleMessage.messageLevel}: '
+                      '${consoleMessage.message}',
+                    );
+                  },
+                  onLoadStop: (controller, url) {
+                    // translate-me-ignore-next-line
+                    log('onLoadStop: $url');
+                    if (webViewLoading) {
+                      webViewLoading = false;
+                      _webViewController.complete(controller);
+                    }
+                  },
+                )
+              : const SizedBox.shrink(),
         ),
         ValueListenableBuilder(
           valueListenable: recaptchaLoading,
