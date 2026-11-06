@@ -24,34 +24,10 @@ class TbClientService implements ITbClientService {
   ThingsboardClient get client => _client;
   final IOverlayService _overlayService = getIt();
 
-  // The client performs best-effort internal calls during init() (e.g. the
-  // server version check hits /api/admin/updates, which answers 403 for
-  // non-SYS_ADMIN users). Those must not surface as error toasts, and the
-  // generated client library can't be modified to ignore them (PROD-8200).
-  //
-  // The client delivers error callbacks via Future(() => cb(error)), so an
-  // error raised during init() reaches onClientError one event-loop turn AFTER
-  // init() returns: the suppression has to outlive the call. ThingsboardError
-  // carries no request path, so it can't be narrowed down to those calls - it
-  // stays a time window, but a counted one, so that overlapping inits (a QR
-  // endpoint switch started during an init) can't lift each other's window.
-  static const _initErrorSuppression = Duration(seconds: 2);
-
-  int _pendingInits = 0;
-
-  // An unreachable server is never what the init-time 401/403 answers look
-  // like: keep it visible even inside the suppression window.
-  bool _shouldSuppress(ThingsboardError e) =>
-      _pendingInits > 0 && !Utils.isConnectionError(e);
-
-  Future<void> _initClient() async {
-    _pendingInits++;
-    try {
-      await _client.init();
-    } finally {
-      Future.delayed(_initErrorSuppression, () => _pendingInits--);
-    }
-  }
+  // ThingsboardClient.init() makes its own calls silently (the server
+  // version check and the session refresh), so every error that reaches
+  // onClientError is the app's to show.
+  Future<void> _initClient() => _client.init();
 
   ThingsboardClient _createClient(
     String endpoint, {
@@ -106,9 +82,6 @@ class TbClientService implements ITbClientService {
 
   void onClientError(ThingsboardError e) {
     log('client on error: $e');
-    if (_shouldSuppress(e)) {
-      return;
-    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Utils.isConnectionError(e)) {
         _overlayService.showConnectionErrorDialog();
