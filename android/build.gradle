@@ -29,6 +29,17 @@ subprojects {
         
     }
 }
+// android.builtInKotlin=false (gradle.properties) keeps AGP 9 building the
+// plugins that still apply the Kotlin plugin themselves. recaptcha_enterprise_
+// flutter instead expects AGP 9's built-in Kotlin and skips the plugin, so
+// apply it for that project once its Android library plugin is in place.
+subprojects {
+    if (project.name == 'recaptcha_enterprise_flutter') {
+        project.plugins.withId('com.android.library') {
+            project.apply plugin: 'org.jetbrains.kotlin.android'
+        }
+    }
+}
 subprojects {
     project.evaluationDependsOn(':app')
 }
