@@ -174,6 +174,18 @@ abstract class Utils {
     String? semanticLabel,
     Widget Function(BuildContext)? onError,
   }) {
+    // Tried as a raster image first, an SVG would be downloaded twice.
+    if (Uri.tryParse(imageUrl)?.path.toLowerCase().endsWith('.svg') ?? false) {
+      return _svgImageFromUrl(
+        context,
+        imageUrl,
+        headers: headers,
+        width: width,
+        height: height,
+        semanticLabel: semanticLabel,
+        onError: onError,
+      );
+    }
     return Image.network(
       imageUrl,
       headers: headers,
