@@ -1,0 +1,530 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:core';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/core/entity/entities_base.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/device/data/device_profile/device_profile_cache.dart';
+import 'package:thingsboard_app/modules/device/data/device_profile/model/cached_device_profile.dart';
+import 'package:thingsboard_app/modules/device/presentation/device_dashboard_navigation.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
+import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
+  @override
+  String title(BuildContext context) => S.of(context).devices(2);
+
+  @override
+  String noItemsFoundText(BuildContext context) => S.of(context).noDevicesFound;
+  final tbClient = getIt<ITbClientService>().client;
+  @override
+  Future<PageData<EntityData>> fetchEntities(
+    EntityDataQuery dataQuery, {
+    bool refresh = false,
+  }) async {
+    final response = await tbClient
+        .getEntityQueryControllerApi()
+        .findEntityDataByQuery(entityDataQuery: dataQuery);
+    final pd = response.data!;
+    return toPageData(pd.data, pd.totalPages, pd.totalElements, pd.hasNext);
+  }
+
+  @override
+  Future<void> onEntityTap(EntityData device, WidgetRef ref) =>
+      openDeviceProfileDashboard(
+        ref,
+        deviceId: device.entityId,
+        deviceType: device.field('type')!,
+        deviceName: device.field('name'),
+        deviceLabel: device.field('label'),
+        replace: true,
+      );
+
+  @override
+  Widget buildEntityListCard(BuildContext context, EntityData device) {
+    return _buildEntityListCard(context, device, false);
+  }
+
+  @override
+  Widget buildEntityListWidgetCard(BuildContext context, EntityData device) {
+    return _buildEntityListCard(context, device, true);
+  }
+
+  @override
+  Widget buildEntityGridCard(BuildContext context, EntityData device) {
+    return Text(customTranslationService.translate(device.field('name')));
+  }
+
+  bool displayCardImage(bool listWidgetCard) => listWidgetCard;
+
+  Widget _buildEntityListCard(
+    BuildContext context,
+    EntityData device,
+    bool listWidgetCard,
+  ) {
+    return DeviceCard(
+      device: device,
+      listWidgetCard: listWidgetCard,
+      displayImage: displayCardImage(listWidgetCard),
+    );
+  }
+}
+
+class DeviceQueryController extends PageKeyController<EntityDataQuery> {
+  DeviceQueryController({
+    int pageSize = 20,
+    String? searchText,
+    String? deviceType,
+    bool? active,
+  }) : super(
+         EntityQueryApi.createDefaultDeviceQuery(
+           pageSize: pageSize,
+           searchText: searchText,
+           deviceType: deviceType,
+           active: active,
+         ),
+       );
+
+  @override
+  EntityDataQuery nextPageKey(EntityDataQuery pageKey) {
+    final currentPage = pageKey.pageLink?.page ?? 0;
+    return pageKey.rebuild(
+      (b) => b.pageLink.update((pl) => pl..page = currentPage + 1),
+    );
+  }
+
+  void onSearchText(String searchText) {
+    value = PageKeyValue(
+      value.pageKey.rebuild(
+        (b) => b.pageLink.update(
+          (pl) => pl
+            ..page = 0
+            ..textSearch = searchText,
+        ),
+      ),
+    );
+    notifyListeners();
+  }
+}
+
+class DeviceCard extends StatefulWidget {
+  const DeviceCard({
+    super.key,
+    required this.device,
+    this.listWidgetCard = false,
+    this.displayImage = false,
+  });
+  final EntityData device;
+  final bool listWidgetCard;
+  final bool displayImage;
+
+  @override
+  State<StatefulWidget> createState() => _DeviceCardState();
+}
+
+class _DeviceCardState extends State<DeviceCard> {
+  final entityDateFormat = DateFormat('yyyy-MM-dd');
+
+  late Future<CachedDeviceProfileInfo> deviceProfileFuture;
+  final tbClient = getIt<ITbClientService>().client;
+  final ICustomTranslationService customTranslationService = getIt();
+  @override
+  void initState() {
+    super.initState();
+    if (widget.displayImage || !widget.listWidgetCard) {
+      deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
+        tbClient,
+        widget.device.field('type')!,
+        widget.device.entityId?.id ?? '',
+      );
+    }
+  }
+
+  @override
+  void didUpdateWidget(DeviceCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.displayImage || !widget.listWidgetCard) {
+      final oldDevice = oldWidget.device;
+      final device = widget.device;
+      if (oldDevice.field('type')! != device.field('type')!) {
+        deviceProfileFuture = DeviceProfileCache.getDeviceProfileInfo(
+          tbClient,
+          widget.device.field('type')!,
+          widget.device.entityId?.id ?? '',
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.listWidgetCard) {
+      return buildListWidgetCard(context);
+    } else {
+      return buildCard(context);
+    }
+  }
+
+  Widget buildCard(BuildContext context) {
+    final name = customTranslationService.translate(
+      widget.device.field('name'),
+    );
+    final label = customTranslationService.translate(
+      widget.device.field('label'),
+    );
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: 4,
+              decoration: BoxDecoration(
+                color: widget.device.attribute('active') == 'true'
+                    ? const Color(0xFF008A00)
+                    : const Color(0xFFAFAFAF),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4),
+                ),
+              ),
+            ),
+          ),
+        ),
+        FutureBuilder<CachedDeviceProfileInfo>(
+          future: deviceProfileFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              final profile = snapshot.data!;
+              final bool hasDashboard = profile.info.defaultDashboardId != null;
+              Widget image;
+              BoxFit imageFit;
+              if (profile.info.image != null) {
+                image = Utils.imageFromTbImage(
+                  context,
+                  tbClient,
+                  profile.info.image,
+                );
+                imageFit = BoxFit.contain;
+              } else {
+                image = SvgPicture.asset(
+                  ThingsboardImage.deviceProfilePlaceholder,
+
+                  semanticsLabel: 'Device',
+                );
+                imageFit = BoxFit.contain;
+              }
+              return Row(
+                children: [
+                  const SizedBox(width: 20),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            if (widget.displayImage)
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: FittedBox(
+                                          fit: imageFit,
+                                          child: image,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            const SizedBox(width: 12),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        fit: FlexFit.tight,
+                                        child: Text(
+                                          name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: Color(0xFF282828),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            height: 20 / 14,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        entityDateFormat.format(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                            int.tryParse(
+                                                  widget.device.field(
+                                                        'createdTime',
+                                                      ) ??
+                                                      '0',
+                                                ) ??
+                                                0,
+                                          ),
+                                        ),
+                                        style: const TextStyle(
+                                          color: Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          height: 16 / 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (label.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 2),
+                                      child: Text(
+                                        label,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle: FontStyle.italic,
+                                          height: 16 / 12,
+                                        ),
+                                      ),
+                                    ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.device.field('type')!,
+                                        style: const TextStyle(
+                                          color: Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          height: 16 / 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        widget.device.attribute('active') ==
+                                                'true'
+                                            ? S.of(context).active
+                                            : S.of(context).inactive,
+                                        style: TextStyle(
+                                          color:
+                                              widget.device.attribute(
+                                                    'active',
+                                                  ) ==
+                                                  'true'
+                                              ? const Color(0xFF008A00)
+                                              : const Color(0xFFAFAFAF),
+                                          fontSize: 12,
+                                          height: 16 / 12,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            if (hasDashboard)
+                              const Icon(
+                                Icons.chevron_right,
+                                color: Color(0xFFACACAC),
+                              ),
+                            if (hasDashboard) const SizedBox(width: 16),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return SizedBox(
+                height: 64,
+                child: Center(
+                  child: RefreshProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildListWidgetCard(BuildContext context) {
+    final name = customTranslationService.translate(
+      widget.device.field('name'),
+    );
+    final label = customTranslationService.translate(
+      widget.device.field('label'),
+    );
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (widget.displayImage)
+          Container(
+            width: 58,
+            height: 58,
+            decoration: const BoxDecoration(
+              // color: Color(0xFFEEEEEE),
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
+            ),
+            child: FutureBuilder<CachedDeviceProfileInfo>(
+              future: deviceProfileFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  final profile = snapshot.data!;
+                  Widget image;
+                  BoxFit imageFit;
+                  if (profile.info.image != null) {
+                    image = Utils.imageFromTbImage(
+                      context,
+                      tbClient,
+                      profile.info.image,
+                    );
+                    imageFit = BoxFit.contain;
+                  } else {
+                    image = SvgPicture.asset(
+                      ThingsboardImage.deviceProfilePlaceholder,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor,
+                        BlendMode.overlay,
+                      ),
+                      semanticsLabel: 'Device',
+                    );
+                    imageFit = BoxFit.cover;
+                  }
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(4),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: FittedBox(fit: imageFit, child: image),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: RefreshProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(
+                        Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Color(0xFF282828),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 20 / 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (label.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.italic,
+                        height: 16 / 12,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.device.field('type')!,
+                      style: const TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        height: 16 / 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

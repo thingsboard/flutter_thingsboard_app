@@ -1,11 +1,17 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DashboardGridCard extends StatefulWidget {
   const DashboardGridCard({super.key, required this.dashboard});
@@ -28,7 +34,11 @@ class _DashboardGridCardState extends State<DashboardGridCard> {
     final hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, getIt<ITbClientService>().client, widget.dashboard.image);
+      image = Utils.imageFromTbImage(
+        context,
+        getIt<ITbClientService>().client,
+        widget.dashboard.image,
+      );
     } else {
       image = SvgPicture.asset(
         ThingsboardImage.dashboardPlaceholder,
@@ -64,7 +74,9 @@ class _DashboardGridCardState extends State<DashboardGridCard> {
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Center(
                 child: AutoSizeText(
-                  widget.dashboard.title,
+                  getIt<ICustomTranslationService>().translate(
+                    widget.dashboard.title,
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

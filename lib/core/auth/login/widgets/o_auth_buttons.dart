@@ -1,10 +1,15 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/o_auth_button.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_helper.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/ui/material_icons.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class OAuthButtons extends StatelessWidget {
   const OAuthButtons({
@@ -12,8 +17,8 @@ class OAuthButtons extends StatelessWidget {
     required this.clients,
     required this.onButtonPressed,
   });
-  final void Function(OAuth2ClientInfo) onButtonPressed;
-  final List<OAuth2ClientInfo> clients;
+  final void Function(OAuth2ClientLoginInfo) onButtonPressed;
+  final List<OAuth2ClientLoginInfo> clients;
   @override
   Widget build(BuildContext context) {
     return clients.length == 1 && clients.first.name == 'qr'
@@ -23,6 +28,10 @@ class OAuthButtons extends StatelessWidget {
               OAuthButton(
                 logo: SvgPicture.asset(
                   ThingsboardImage.oauth2Logos['qr-code-logo']!,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 onTap: () => onButtonPressed(clients.first),
                 title: S.of(context).scanQrCode,
@@ -45,21 +54,30 @@ class OAuthButtons extends StatelessWidget {
   }
 }
 
-Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientInfo info) {
+// Single-color brand marks; drawn in the foreground so they stay visible on
+// the primary palette. Multicolor logos (Google, Facebook) keep their colors.
+const _monochromeLogos = {'github-logo', 'apple-logo', 'qr-code'};
+
+Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientLoginInfo info) {
   final String? svgPath = ThingsboardImage.oauth2Logos[info.icon];
 
   if (svgPath != null) {
-    return SizedBox(width: 24, height: 24, child: SvgPicture.asset(svgPath));
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: SvgPicture.asset(
+        svgPath,
+        colorFilter: _monochromeLogos.contains(info.icon)
+            ? ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              )
+            : null,
+      ),
+    );
   }
 
-  final iconData = NavigationHelper.getIconFromString(info.icon);
+  final iconData = iconFromString(info.icon);
 
-  return SizedBox(
-    width: 24,
-    height: 24,
-    child: Icon(
-      iconData,
-      color: Colors.black,
-    ),
-  );
+  return SizedBox(width: 24, height: 24, child: Icon(iconData));
 }

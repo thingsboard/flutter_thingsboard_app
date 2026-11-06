@@ -1,8 +1,12 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
@@ -10,6 +14,7 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -18,28 +23,49 @@ class TbClientService implements ITbClientService {
   @override
   ThingsboardClient get client => _client;
   final IOverlayService _overlayService = getIt();
+
+  final _unsupportedServer = ValueNotifier<UnsupportedServerVersionError?>(
+    null,
+  );
+
+  @override
+  ValueListenable<UnsupportedServerVersionError?> get unsupportedServer =>
+      _unsupportedServer;
+
+  @override
+  bool reportUnsupportedServer(Object error) {
+    if (error is! UnsupportedServerVersionError) {
+      return false;
+    }
+    log('Unsupported server: $error');
+    _unsupportedServer.value = error;
+    return true;
+  }
+
+  @override
+  void clearUnsupportedServer() => _unsupportedServer.value = null;
+
+  ThingsboardClient _createClient(
+    String endpoint, {
+    required ErrorCallback onError,
+  }) {
+    return ThingsboardClient(
+      endpoint,
+      storage: getIt(),
+      onUserLoaded: onUserLoaded,
+      onError: onError,
+      onLoadStarted: onLoadStarted,
+      onLoadFinished: onLoadFinished,
+      computeFunc: <Q, R>(callback, message) => compute(callback, message),
+    );
+  }
+
   @override
   Future<void> init() async {
     final endpoint = await getIt<IEndpointService>().getEndpoint();
     log('TbClient::init() endpoint: $endpoint');
 
-    _client = ThingsboardClient(
-      endpoint,
-      storage: getIt(),
-      onUserLoaded: () {
-        onUserLoaded();
-      },
-      onError: (e) {
-        onClientError(e);
-      },
-      onLoadStarted: () {
-        onLoadStarted();
-      },
-      onLoadFinished: () {
-        onLoadFinished();
-      },
-      computeFunc: <Q, R>(callback, message) => compute(callback, message),
-    );
+    _client = _createClient(endpoint, onError: onClientError);
 
     try {
       await _client.init();
@@ -54,41 +80,35 @@ class TbClientService implements ITbClientService {
     getIt<ICommunicationService>().fire(const UserLoadedEvent());
   }
 
-  String _getMessage(dynamic e, BuildContext context) {
-    final message =
-        e is ThingsboardError
-            ? (e.message ?? S.of(context).unknownError)
-            : S.of(context).unknownError;
-
-    return '${S.of(context).fatalApplicationErrorOccurred}\n$message';
+  void onInitError(Object e) {
+    if (reportUnsupportedServer(e)) {
+      return;
+    }
+    // The interceptor already routed a connection failure through
+    // onClientError, which shows the connection dialog; a fatal dialog for the
+    // same error would only stack on top of it.
+    if (Utils.isConnectionError(e)) {
+      return;
+    }
+    // init() runs before runApp(), so the navigator context that the dialog
+    // needs only exists after the first frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _overlayService.showAlertDialog(
+        content: (context) => fatalErrorDialogContent(context, e),
+      );
+    });
   }
 
-  void onInitError(dynamic e) {
-    _overlayService.showAlertDialog(
-      content:
-          (context) => DialogContent(
-            title: S.of(context).fatalError,
-            message: _getMessage(e, context),
-            ok: S.of(context).cancel,
-          ),
-    );
-  }
-
+  // ThingsboardClient.init() makes its own calls silently, so every error
+  // here is the app's to show.
   void onClientError(ThingsboardError e) {
     log('client on error: $e');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Utils.isConnectionError(e)) {
-        _overlayService.showAlertDialog(
-          content:
-              (context) => DialogContent(
-                title: S.of(context).connectionError,
-                message: S.of(context).failedToConnectToServer,
-              ),
-        );
-
+        _overlayService.showConnectionErrorDialog();
         return;
       }
-      _overlayService.showErrorNotification((_) => e.message!);
+      _overlayService.showErrorNotification(e.getTranslatedMessage);
     });
   }
 
@@ -108,8 +128,22 @@ class TbClientService implements ITbClientService {
     required VoidCallback onDone,
     required ErrorCallback onAuthError,
   }) async {
-    log('TbClient:reinit()');
-   await  _client.reInit(endpoint);
+    log('TbClient:reinit() endpoint: $endpoint');
+    _client = _createClient(
+      endpoint,
+      onError: (e) {
+        onAuthError(e);
+        onClientError(e);
+      },
+    );
+    try {
+      await _client.init();
+    } catch (e) {
+      if (reportUnsupportedServer(e)) {
+        return;
+      }
+      rethrow;
+    }
     onDone();
   }
 }

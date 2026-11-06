@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,34 +39,41 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
         ...slivers,
         SliverPadding(
           padding: const EdgeInsets.all(16),
-          sliver: PagedSliverGrid(
-            showNewPageProgressIndicatorAsGridChild: false,
-            showNewPageErrorIndicatorAsGridChild: false,
-            showNoMoreItemsIndicatorAsGridChild: false,
-            pagingController: pagingController,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: gridChildAspectRatio,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              crossAxisCount:
-                  Orientation.portrait == MediaQuery.of(context).orientation
-                      ? (isMobile(context) ? 2 : 4)
-                      : (isMobile(context) ? 4 : 5),
-            ),
-            builderDelegate: PagedChildBuilderDelegate<T>(
-              itemBuilder: (context, item, index) => EntityGridCard<T>(
-                item,
-                key: widget.getKey(item),
-                entityCardWidgetBuilder: widget.buildEntityGridCard,
-                onEntityTap: (i) => widget.onEntityTap(i, ref),
-                settings: widget.entityGridCardSettings(item),
+          sliver: PagingListener(
+            controller: pagingController,
+            builder: (context, state, fetchNextPage) => PagedSliverGrid(
+              showNewPageProgressIndicatorAsGridChild: false,
+              showNewPageErrorIndicatorAsGridChild: false,
+              showNoMoreItemsIndicatorAsGridChild: false,
+              state: state,
+              fetchNextPage: fetchNextPage,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: gridChildAspectRatio,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                crossAxisCount:
+                    Orientation.portrait == MediaQuery.of(context).orientation
+                    ? (isMobile(context) ? 2 : 4)
+                    : (isMobile(context) ? 4 : 5),
               ),
-              firstPageErrorIndicatorBuilder: (context) => Text("first page error"),
-              newPageErrorIndicatorBuilder: (context) => Text("new page error"),
-              firstPageProgressIndicatorBuilder:
-                  firstPageProgressIndicatorBuilder,
-              newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
-              noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
+              builderDelegate: PagedChildBuilderDelegate<T>(
+                itemBuilder: (context, item, index) => EntityGridCard<T>(
+                  item,
+                  key: widget.getKey(item),
+                  entityCardWidgetBuilder: widget.buildEntityGridCard,
+                  onEntityTap: (i) => widget.onEntityTap(i, ref),
+                  settings: widget.entityGridCardSettings(item),
+                ),
+                firstPageErrorIndicatorBuilder: (context) =>
+                    const Text("first page error"),
+                newPageErrorIndicatorBuilder: (context) =>
+                    const Text("new page error"),
+                firstPageProgressIndicatorBuilder:
+                    firstPageProgressIndicatorBuilder,
+                newPageProgressIndicatorBuilder:
+                    newPageProgressIndicatorBuilder,
+                noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
+              ),
             ),
           ),
         ),

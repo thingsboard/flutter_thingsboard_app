@@ -1,0 +1,95 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
+
+class TbDropDownTextField<T> extends HookWidget {
+  const TbDropDownTextField({
+    super.key,
+    required this.formControlName,
+    required this.selectedItemBuilder,
+    this.hint = '',
+    this.label = '',
+    required this.bottomSheetBuilder,
+    this.onSelected,
+  });
+
+  final String formControlName;
+  final String? Function(T? value) selectedItemBuilder;
+  final String hint;
+  final String label;
+  final Widget Function(BuildContext, T? selectedValue) bottomSheetBuilder;
+  final void Function(T? val)? onSelected;
+  @override
+  Widget build(BuildContext context) {
+    final topForm = ReactiveForm.of(context) as FormControlCollection?;
+    final control = topForm?.control(formControlName);
+    final val = control?.value as T?;
+    final isRequired =
+        control?.validators.contains(Validators.required) ?? false;
+    final form = useMemoized(
+      () => FormGroup({"value": FormControl(value: selectedItemBuilder(val))}),
+    );
+    // The shown text is built per value: rebuild it on a language change.
+    final locale = Localizations.localeOf(context);
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final current = topForm?.control(formControlName).value as T?;
+        form
+            .control('value')
+            .updateValue(current == null ? null : selectedItemBuilder(current));
+      });
+      return null;
+    }, [locale]);
+    useEffect(() {
+      final stream = topForm?.control(formControlName).valueChanges.listen((e) {
+        form
+            .control('value')
+            .patchValue(e == null ? null : selectedItemBuilder(e as T));
+      });
+      return () {
+        stream?.cancel();
+      };
+    }, []);
+    return ReactiveForm(
+      formGroup: form,
+      child: ReactiveFormConsumer(
+        builder: (context, form, child) => TbTextField(
+          formControlName: 'value',
+          readOnly: true,
+          hint: hint,
+          label: label,
+          suffixIcon: !isRequired && form.control('value').value != null
+              ? IconButton(
+                  onPressed: () {
+                    topForm?.control(formControlName).updateValue(null);
+                    onSelected?.call(null);
+                  },
+                  icon: const Icon(Icons.close),
+                )
+              : const Icon(Icons.arrow_drop_down, size: 24),
+          onPressed: () async {
+            final val = control?.value as T?;
+            final info = await showModalBottomSheet<T>(
+              context: context,
+              builder: (context) => bottomSheetBuilder(context, val),
+              showDragHandle: false,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+            );
+
+            if (info != null && context.mounted) {
+              topForm?.control(formControlName).updateValue(info);
+              onSelected?.call(info);
+            }
+          },
+        ),
+      ),
+    );
+  }
+}

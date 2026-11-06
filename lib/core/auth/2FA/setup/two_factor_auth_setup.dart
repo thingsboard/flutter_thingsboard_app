@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,6 +19,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/backup_code_configur
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/phone_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_provider_type_parser.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -65,58 +71,62 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         title: _getSelectedProviderTitle(data, context, selectedProvider!),
         isLoading: isLoading.value,
         child: config.when(
-          data:
-              (configData) => Column(
-                children: [
-                  Expanded(
-                    child: _buildProviderWidget(
-                      selectedProvider!,
-                      configData,
-                      isLoading,
-                      ref,
-                      context,
+          data: (configData) => Column(
+            children: [
+              Expanded(
+                child: _buildProviderWidget(
+                  selectedProvider!,
+                  configData,
+                  isLoading,
+                  ref,
+                  context,
+                ),
+              ),
+              if (isForce && (providers.value?.length ?? 0) > 1)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        context.push(
+                          '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce',
+                        );
+                      },
+                      child: Text(S.of(context).tryAnotherWay),
                     ),
                   ),
-                  if (isForce && (providers.value?.length ?? 0) > 1)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            context.push(
-                              '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce',
-                            );
-                          },
-                          child: Text(S.of(context).tryAnotherWay),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                ),
+            ],
+          ),
           loading: () => const SizedBox.shrink(),
           error: (error, stack) => Center(child: Text('Error: $error')),
         ),
       );
     }
-      return BaseTwoFactorLayout(
-        title: S.of(context).twofactorAuthentication,
-        isLoading: isLoading.value,
-        child:
-            providers.value != null &&
-                    !(userConfig.isLoading || userConfig.isRefreshing)
-                ? SelectProviderTypeWidget(
-                  defaultProvider:
-                      userConfig.value?.configs.entries
-                          .firstWhereOrNull((e) => e.value.useByDefault)
-                          ?.key,
-                  activeProviders:
-                      userConfig.value?.configs.keys.toList() ?? [],
-                  avalibleTypes: providers.value!,
-                  type: isForce ? TwoFaViewType.force : TwoFaViewType.setup,
-                )
-                : const SizedBox(),
-      );
+    return BaseTwoFactorLayout(
+      title: S.of(context).twofactorAuthentication,
+      isLoading: isLoading.value,
+      child:
+          providers.value != null &&
+              !(userConfig.isLoading || userConfig.isRefreshing)
+          ? SelectProviderTypeWidget(
+              defaultProvider: tryParseTwoFaProviderType(
+                userConfig.value?.configs?.entries
+                    .firstWhereOrNull((e) => e.value.useByDefault ?? false)
+                    ?.key,
+              ),
+              activeProviders:
+                  userConfig.value?.configs?.keys
+                      .map(tryParseTwoFaProviderType)
+                      .whereType<TwoFaProviderType>()
+                      .toList() ??
+                  [],
+              avalibleTypes: providers.value!,
+              type: isForce ? TwoFaViewType.force : TwoFaViewType.setup,
+            )
+          : const SizedBox(),
+    );
   }
 
   Widget _buildProviderWidget(
@@ -149,6 +159,7 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         loading: loading,
         config: config as BackupCodeTwoFaAccountConfig,
       ),
+      _ => const SizedBox.shrink(),
     };
   }
 
@@ -172,7 +183,7 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
   ) {
     ref.invalidate(acountTwoFactorSettingsProvider);
     final route =
-        '${LoginRoutes.login}${LoginRoutes.mfaForceSuccess}${'?force=$isForce'}&selectedProvider=${configuredType.toShortString()}';
+        '${LoginRoutes.login}${LoginRoutes.mfaForceSuccess}${'?force=$isForce'}&selectedProvider=${configuredType.name}';
     context.pushReplacement(route, extra: configuredType);
   }
 }

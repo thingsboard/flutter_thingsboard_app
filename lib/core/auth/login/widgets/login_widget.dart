@@ -1,4 +1,8 @@
-import 'package:fluro/fluro.dart';
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -18,8 +22,8 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginWidget extends HookConsumerWidget {
   const LoginWidget({super.key});
@@ -80,14 +84,17 @@ class LoginWidget extends HookConsumerWidget {
                                 ),
                               ),
                               OAuthButtons(
-                                onButtonPressed:
-                                    (client) => onOauth2ButtonPressed(
+                                onButtonPressed: (client) =>
+                                    onOauth2ButtonPressed(
                                       client,
                                       context,
                                       loading,
                                       ref,
                                     ),
-                                clients: providers.value?.oAuth2Clients ?? [],
+                                clients:
+                                    providers.value?.oAuth2ClientLoginInfos
+                                        ?.toList() ??
+                                    [],
                               ),
                               TextDivider(text: S.of(context).or),
 
@@ -142,15 +149,15 @@ class LoginWidget extends HookConsumerWidget {
                                     ),
                                     onPressed:
                                         formGroup.invalid && formGroup.touched
-                                            ? null
-                                            : () async {
-                                              await onLoginPressed(
-                                                context,
-                                                form,
-                                                ref,
-                                                loading
-                                              );
-                                            },
+                                        ? null
+                                        : () async {
+                                            await onLoginPressed(
+                                              context,
+                                              form,
+                                              ref,
+                                              loading,
+                                            );
+                                          },
                                     child: Text(
                                       S.of(context).login,
                                       style: TbTextStyles.labelMedium,
@@ -193,13 +200,15 @@ Future<void> onLoginPressed(
   }
   final String username = form.control('email').value.toString();
   final String password = form.control('password').value.toString();
+  // Covers the request only: once a session is stored, LoginPage shows its
+  // own loader until the user loads, and drops it if the session is dropped.
   try {
     loading.value = true;
-  final res =   await ref.read(loginProvider.notifier).login(username, password);
-    
-    loading.value = res;
+    await ref.read(loginProvider.notifier).login(username, password);
   } catch (e) {
     form.setErrors({"err": {}});
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -207,7 +216,6 @@ Future<void> onLoginWithBarcode(BuildContext context) async {
   try {
     final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
       '/qrCodeScan',
-      transition: TransitionType.nativeModal,
     );
 
     if (barcode != null && barcode.rawValue != null) {
@@ -219,7 +227,7 @@ Future<void> onLoginWithBarcode(BuildContext context) async {
 }
 
 Future<void> onOauth2ButtonPressed(
-  OAuth2ClientInfo client,
+  OAuth2ClientLoginInfo client,
   BuildContext context,
   ValueNotifier<bool> loading,
   WidgetRef ref,
@@ -230,8 +238,8 @@ Future<void> onOauth2ButtonPressed(
     return;
   }
   loading.value = true;
-final res =  await  ref.read(loginProvider.notifier).oauthLogin(client.url);
-  loading.value = res;
+  await ref.read(loginProvider.notifier).oauthLogin(client.url ?? '');
+  loading.value = false;
 }
 
 Future<void> onForgotPassword(BuildContext context) async {

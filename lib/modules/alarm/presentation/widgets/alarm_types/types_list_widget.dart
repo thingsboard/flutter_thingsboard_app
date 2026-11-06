@@ -1,10 +1,16 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TypesListWidget extends StatelessWidget {
   const TypesListWidget({required this.onChanged, super.key});
@@ -13,6 +19,7 @@ class TypesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customTranslationService = getIt<ICustomTranslationService>();
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -49,51 +56,60 @@ class TypesListWidget extends StatelessWidget {
               ),
             ),
             Flexible(
-              child: PagedListView<PageLink, AlarmType>.separated(
-                pagingController:
-                    getIt<AlarmTypesBloc>()
-                        .paginationRepository
-                        .pagingController,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        getIt<AlarmTypesBloc>().add(
-                          AlarmTypesSelectedEvent(type: item.type),
-                        );
-                        onChanged();
-                      },
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              item.type,
-                              style: const TextStyle(fontSize: 16, height: 1.5),
+              child: PagingListener(
+                controller: getIt<AlarmTypesBloc>()
+                    .paginationRepository
+                    .pagingController,
+                builder: (context, state, fetchNextPage) =>
+                    PagedListView<PageLink, EntitySubtype>.separated(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, item, index) {
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              getIt<AlarmTypesBloc>().add(
+                                AlarmTypesSelectedEvent(type: item.type ?? ''),
+                              );
+                              onChanged();
+                            },
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    customTranslationService.translate(
+                                      item.type,
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (_) {
+                          return Container(
+                            height: 200,
+                            color: const Color(0x99FFFFFF),
+                            child: const Center(
+                              child: TbProgressIndicator(size: 50.0),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                  firstPageProgressIndicatorBuilder: (_) {
-                    return Container(
-                      height: 200,
-                      color: const Color(0x99FFFFFF),
-                      child: const Center(
-                        child: TbProgressIndicator(size: 50.0),
-                      ),
-                    );
-                  },
-                ),
-                separatorBuilder:
-                    (_, _) => const Divider(thickness: 1, height: 32),
+                      separatorBuilder: (_, _) =>
+                          const Divider(thickness: 1, height: 32),
+                    ),
               ),
             ),
           ],

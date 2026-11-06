@@ -1,19 +1,20 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 class EntityListCard<T> extends StatelessWidget {
-
   const EntityListCard(
     T entity, {
-    EntityTapFunction<T>? onEntityTap,
-    required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
-    bool listWidgetCard = false,
     super.key,
-  })  : _entity = entity,
-        _onEntityTap = onEntityTap,
-        _entityCardWidgetBuilder = entityCardWidgetBuilder,
-        _listWidgetCard = listWidgetCard;
+    this._onEntityTap,
+    required this._entityCardWidgetBuilder,
+    this._listWidgetCard = false,
+  }) : _entity = entity;
   final bool _listWidgetCard;
   final T _entity;
   final EntityTapFunction<T>? _onEntityTap;
@@ -24,13 +25,12 @@ class EntityListCard<T> extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: Container(
-        margin:
-            _listWidgetCard ? const EdgeInsets.only(right: 8) : EdgeInsets.zero,
+        margin: _listWidgetCard
+            ? const EdgeInsets.only(right: 8)
+            : EdgeInsets.zero,
         decoration: _listWidgetCard
             ? BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFDEDEDE),
-                ),
+                border: Border.all(color: const Color(0xFFDEDEDE)),
                 borderRadius: BorderRadius.circular(4),
               )
             : BoxDecoration(
@@ -44,14 +44,16 @@ class EntityListCard<T> extends StatelessWidget {
               ),
         child: Card(
           margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           elevation: 0,
           child: _entityCardWidgetBuilder(context, _entity),
         ),
       ),
-      onTap: () => _onEntityTap?.call(_entity),
+      onTap: () {
+        if (_onEntityTap != null) {
+          _onEntityTap(_entity);
+        }
+      },
     );
   }
 }

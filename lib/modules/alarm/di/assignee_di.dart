@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/assignee_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/i_assignee_datasource.dart';
@@ -8,8 +13,8 @@ import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assigne
 import 'package:thingsboard_app/modules/alarm/domain/repository/assignee/i_assigne_repository.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/fetch_assignee_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/assignee_bloc.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AssigneeDi {
   AssigneeDi._();
@@ -53,7 +58,7 @@ class AssigneeDi {
   }
 
   static void dispose(String scopeName) {
-    getIt<PaginationRepository<PageLink, AlarmType>>().dispose();
+    getIt<PaginationRepository<PageLink, AssigneeEntity>>().dispose();
     getIt<AssigneeBloc>().close();
     getIt.dropScope(scopeName);
   }

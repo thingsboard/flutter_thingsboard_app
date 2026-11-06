@@ -1,11 +1,16 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
-import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 part 'two_factor_confirm_provider.g.dart';
 
@@ -36,23 +41,25 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   Future<void> verifyCode(String code) async {
     state = state.copyWith(loading: true);
     try {
-      final res = await _tbClient.checkTwoFaVerificationCode(
+      // Stores the session and loads the user; errors (e.g. 429) are handled
+      // in-widget below instead of the global error overlay.
+      await _tbClient.checkTwoFaVerificationCode(
         type,
         code,
-        requestConfig: RequestConfig(ignoreErrors: true),
+        requestConfig: RequestConfig(ignoreErrors: true, ignoreLoading: true),
       );
-      await ref.read(loginProvider.notifier).twoFaConfirmed(res);
       state = state.copyWith(loading: false, codeState: CodeState.valid);
     } catch (e) {
       state = state.copyWith(loading: false);
-      if (e is ThingsboardError) {
-        if (e.status == 429) {
-          state = state.copyWith(
-            codeState: CodeState.tooManyRequests,
-            loading: false,
-          );
-          return;
-        }
+      if (getIt<ITbClientService>().reportUnsupportedServer(e)) {
+        return;
+      }
+      if (toThingsboardError(e).status == 429) {
+        state = state.copyWith(
+          codeState: CodeState.tooManyRequests,
+          loading: false,
+        );
+        return;
       }
       state = state.copyWith(codeState: CodeState.invalid);
       return;
@@ -61,21 +68,28 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
 
   Future<void> sendCode() async {
     state = state.copyWith(codeSent: false, loading: true);
+    var sent = false;
     try {
-      await _tbClient.getTwoFactorAuthService().requestTwoFaVerificationCode(
-        type,
-        requestConfig: RequestConfig(ignoreErrors: true),
-      );
+      await _tbClient
+          .getTwoFactorAuthControllerApi()
+          .requestTwoFaVerificationCode(
+            providerType: type,
+            extra: silentRequestExtra(),
+          );
       _resendTimer?.cancel();
       _resendTimer = Timer(
         Duration(seconds: _resendTimerDurationSeconds),
         () => _activateResend(),
       );
-    } catch (e) {}
+      sent = true;
+    } catch (_) {
+      // The request is silent; without a sent code the resend timer never
+      // starts, so the user can request the code again right away.
+    }
     state = state.copyWith(
       codeSent: true,
       loading: false,
-      resendAvalible: false,
+      resendAvalible: !sent,
     );
   }
 

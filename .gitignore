@@ -8,7 +8,7 @@
 .buildlog/
 .history
 .svn/
-
+android/build/
 # IntelliJ related
 *.iml
 *.ipr
@@ -30,6 +30,8 @@ ios/Flutter/AppConfig.xcconfig
 .pub-cache/
 .pub/
 /build/
+/ios/build/
+
 .vscode/
 # Web related
 lib/generated_plugin_registrant.dart
@@ -40,6 +42,8 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 app_constants.json
+google-services.json
+GoogleService-Info.plist
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
@@ -48,3 +52,6 @@ app_constants.json
 # FVM Version Cache
 .fvm/
 WARP.md
+
+# Local working notes, not versioned
+/docs/

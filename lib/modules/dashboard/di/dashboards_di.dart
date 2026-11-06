@@ -1,9 +1,14 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_action_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_pagination_repository.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_query_ctrl.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/usecases/fetch_dashboards_usecase.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/mobile_actions/widget_action_handler.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class DashboardsDi {
   static void init(String key, {required ThingsboardClient tbClient}) {

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +14,9 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/step_chip.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class TwoFaConfigWidget<T extends TwoFaAccountConfig>
     extends HookConsumerWidget {
@@ -125,9 +130,9 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
     loading.value = true;
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
+          .getTwoFactorAuthConfigControllerApi()
           .verifyAndSaveTwoFaAccountConfig(
-            config,
+            twoFaAccountConfig: config,
             verificationCode: verificationCode,
           );
       onConfigured();

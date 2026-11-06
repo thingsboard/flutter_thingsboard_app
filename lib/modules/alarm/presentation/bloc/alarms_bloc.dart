@@ -1,11 +1,17 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/alarm_filters_entity.dart';
+import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarms/alarms_query_ctrl.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarms_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmBloc extends Bloc<AlarmEvent, AlarmsState> {
   AlarmBloc({

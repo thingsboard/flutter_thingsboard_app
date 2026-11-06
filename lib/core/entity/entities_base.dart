@@ -1,22 +1,30 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/design_tokens.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/page_data_paging_controller.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
-import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 typedef EntityTapFunction<T> = Function(T entity);
-typedef EntityCardWidgetBuilder<T> =
-    Widget Function(BuildContext context, T entity);
+typedef EntityCardWidgetBuilder<T> = Widget Function(
+  BuildContext context,
+  T entity,
+);
 
 class EntityCardSettings {
   EntityCardSettings({this.dropShadow = true});
@@ -25,6 +33,7 @@ class EntityCardSettings {
 
 mixin EntitiesBase<T, P> {
   final entityDateFormat = DateFormat('yyyy-MM-dd');
+  final ICustomTranslationService customTranslationService = getIt();
 
   String title(BuildContext context);
 
@@ -59,10 +68,12 @@ mixin EntitiesBase<T, P> {
   void onEntityTap(T entity, WidgetRef ref);
 }
 
-mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
+mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
   @override
   Widget buildEntityListCard(BuildContext context, T contact) {
-    final address = Utils.contactToShortAddress(contact);
+    final info = ContactInfo.of(contact);
+    final email = info?.email;
+    final address = info?.shortAddress;
     return Container(
       constraints: const BoxConstraints(minHeight: 56),
       decoration: BoxDecoration(borderRadius: DesignTokens.borderRadiusSmall),
@@ -70,7 +81,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
       child: Row(
         spacing: 12,
         children: [
-          Icon(Icons.group, color: AppColors.iconDisabled),
+          const Icon(Icons.group, color: AppColors.iconDisabled),
           Flexible(
             fit: FlexFit.tight,
             child: Column(
@@ -82,7 +93,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                   children: [
                     Expanded(
                       child: Text(
-                        contact.getName(),
+                        customTranslationService.translate(info?.title),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TbTextStyles.labelLarge.copyWith(
@@ -94,7 +105,7 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                     Text(
                       entityDateFormat.format(
                         DateTime.fromMillisecondsSinceEpoch(
-                          contact.createdTime!,
+                          info?.createdTime ?? 0,
                         ),
                       ),
                       style: TbTextStyles.bodyMedium.copyWith(
@@ -104,9 +115,9 @@ mixin ContactBasedBase<T extends ContactBased, P> on EntitiesBase<T, P> {
                   ],
                 ),
 
-                if (contact.email != null)
+                if (email != null)
                   Text(
-                    contact.email!,
+                    email,
                     style: TbTextStyles.labelSmall.copyWith(
                       color: AppColors.textTertiary,
                     ),
@@ -191,38 +202,35 @@ abstract class BaseEntitiesWidget<T, P> extends ConsumerStatefulWidget
   final PageKeyController<P> pageKeyController;
 
   @override
-  Widget? buildHeading(BuildContext context) =>
-      searchMode
-          ? Text(
-            S.of(context).searchResults,
-            style: const TextStyle(
-              color: Color(0xFFAFAFAF),
-              fontSize: 16,
-              height: 24 / 16,
-            ),
-          )
-          : null;
+  Widget? buildHeading(BuildContext context) => searchMode
+      ? Text(
+          S.of(context).searchResults,
+          style: const TextStyle(
+            color: Color(0xFFAFAFAF),
+            fontSize: 16,
+            height: 24 / 16,
+          ),
+        )
+      : null;
 }
 
-abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<T, P>> {
+abstract class BaseEntitiesState<T, P>
+    extends ConsumerState<BaseEntitiesWidget<T, P>> {
   BaseEntitiesState();
-  late final PagingController<P, T> pagingController;
-  Completer<void>? _refreshCompleter;
-  bool _dataLoading = false;
-  bool _scheduleRefresh = false;
-  bool _reloadData = false;
+  late final PageDataPagingController<P, T> pagingController;
   final IOverlayService overlayService = getIt();
 
   @override
   void initState() {
     super.initState();
-    pagingController = PagingController(
-      firstPageKey: widget.pageKeyController.value.pageKey,
+    pagingController = PageDataPagingController.withKeys(
+      pageKeys: () => widget.pageKeyController,
+      fetchPageData: (pageKey, {required refresh}) {
+        overlayService.hideNotification();
+        return widget.fetchEntities(pageKey, refresh: refresh);
+      },
     );
     widget.pageKeyController.addListener(_didChangePageKeyValue);
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
   }
 
   @override
@@ -241,73 +249,16 @@ abstract class BaseEntitiesState<T, P> extends ConsumerState<BaseEntitiesWidget<
     super.dispose();
   }
 
-  void _didChangePageKeyValue() {
-    _reloadData = true;
-    _refresh();
-  }
-
-  Future<void> _refresh() {
-    _refreshCompleter ??= Completer();
-    if (_dataLoading) {
-      _scheduleRefresh = true;
-    } else {
-      _refreshPagingController();
-    }
-    return _refreshCompleter!.future;
-  }
-
-  void _refreshPagingController() {
-    if (_reloadData) {
-      pagingController.refresh();
-      _reloadData = false;
-    } else {
-      _fetchPage(widget.pageKeyController.value.pageKey, refresh: true);
-    }
-  }
-
-  Future<void> _fetchPage(P pageKey, {bool refresh = false}) async {
-    if (mounted) {
-      _dataLoading = true;
-      try {
-        overlayService.hideNotification();
-        final pageData = await widget.fetchEntities(pageKey, refresh: refresh);
-        final isLastPage = !pageData.hasNext;
-        if (refresh) {
-          final state = pagingController.value;
-          if (state.itemList != null) {
-            state.itemList!.clear();
-          }
-        }
-        if (isLastPage) {
-          pagingController.appendLastPage(pageData.data);
-        } else {
-          final nextPageKey = widget.pageKeyController.nextPageKey(pageKey);
-          pagingController.appendPage(pageData.data, nextPageKey);
-        }
-      } catch (error) {
-        if (mounted) {
-          pagingController.error = error;
-        }
-      } finally {
-        _dataLoading = false;
-        if (refresh) {
-          _refreshCompleter!.complete();
-          _refreshCompleter = null;
-        }
-        if (_scheduleRefresh) {
-          _scheduleRefresh = false;
-          if (mounted) {
-            _refreshPagingController();
-          }
-        }
-      }
-    }
-  }
+  /// New search text or filters: start the list over.
+  void _didChangePageKeyValue() => pagingController.refresh();
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => Future.wait([widget.onRefresh(), _refresh()]),
+      onRefresh: () => Future.wait([
+        widget.onRefresh(),
+        pagingController.reloadFirstPage(refresh: true),
+      ]),
       child: pagedViewBuilder(context),
     );
   }

@@ -1,27 +1,38 @@
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url ("https://jitpack.io/") }
     }
 }
 
-rootProject.buildDir = '../build'
+def newBuildDir = rootProject.layout.buildDirectory.dir('../../build').get()
+rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.layout.buildDirectory.value(newBuildDir.dir(project.name))
 }
 subprojects {
     afterEvaluate { project ->
         if (project.plugins.hasPlugin("com.android.application") ||
                 project.plugins.hasPlugin("com.android.library")) {
             project.android {
-                compileSdkVersion 35
-                buildToolsVersion "35.0.0"
+                // One compileSdk for every module: permission_handler_android
+                // 14.1 uses Android 17 APIs. targetSdk stays 36.
+                compileSdkVersion 'android-37.0'
                 if (namespace == null) {
                         namespace project.group
                     }
             }
+        }
+        
+    }
+}
+// recaptcha_enterprise_flutter relies on AGP 9's built-in Kotlin, which
+// android.builtInKotlin=false turns off, so apply the Kotlin plugin to it.
+subprojects {
+    if (project.name == 'recaptcha_enterprise_flutter') {
+        project.plugins.withId('com.android.library') {
+            project.apply plugin: 'org.jetbrains.kotlin.android'
         }
     }
 }
@@ -30,5 +41,5 @@ subprojects {
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

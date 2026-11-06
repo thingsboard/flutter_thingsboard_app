@@ -1,7 +1,13 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/foundation.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 
 class EndpointService implements IEndpointService {
@@ -9,52 +15,61 @@ class EndpointService implements IEndpointService {
 
   static const northAmericaHost = 'https://thingsboard.cloud';
   static const europeHost = 'https://eu.thingsboard.cloud';
+  static final _defaultEndpoint = normalizeEndpoint(
+    ThingsboardAppConstants.thingsBoardApiEndpoint,
+  );
 
   final ILocalDatabaseService databaseService;
   String? _cachedEndpoint;
   final _notifierValue = ValueNotifier<String?>(UniqueKey().toString());
-  final _defaultEndpoints = <String>{
-    ThingsboardAppConstants.thingsBoardApiEndpoint,
-  };
+  final _defaultEndpoints = <String>{_defaultEndpoint};
 
   @override
   ValueListenable<String?> get listenEndpointChanges => _notifierValue;
 
   @override
   Future<void> setEndpoint(String endpoint) async {
-    _cachedEndpoint = endpoint;
+    final normalized = normalizeEndpoint(endpoint);
+    _cachedEndpoint = normalized;
     _notifierValue.value = UniqueKey().toString();
 
-    if (endpoint == northAmericaHost) {
+    if (normalized == northAmericaHost) {
       databaseService.saveSelectedRegion(Region.northAmerica);
-    } else if (endpoint == europeHost) {
+    } else if (normalized == europeHost) {
       databaseService.saveSelectedRegion(Region.europe);
     } else {
       databaseService.saveSelectedRegion(Region.custom);
     }
 
-    await databaseService.setSelectedEndpoint(endpoint);
+    await databaseService.setSelectedEndpoint(normalized);
   }
 
   @override
   Future<String> getEndpoint() async {
-    _cachedEndpoint ??= await databaseService.getSelectedEndpoint();
+    if (_cachedEndpoint == null) {
+      final storedEndpoint = await databaseService.getSelectedEndpoint();
+      if (storedEndpoint != null) {
+        _cachedEndpoint = normalizeEndpoint(storedEndpoint);
+      }
+    }
 
-    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint ?? _defaultEndpoint;
   }
 
   @override
   Future<bool> isCustomEndpoint() async {
     _cachedEndpoint ??= await getEndpoint();
     final host = Uri.parse(_cachedEndpoint!).host;
-    final defaultHosts = _defaultEndpoints.map((e) => Uri.parse(e).host).toSet();
+    final defaultHosts = _defaultEndpoints
+        .map((e) => Uri.parse(e).host)
+        .toSet();
     final isCustom = !defaultHosts.contains(host);
     return isCustom;
   }
 
   @override
   String getCachedEndpoint() {
-    return _cachedEndpoint ?? ThingsboardAppConstants.thingsBoardApiEndpoint;
+    return _cachedEndpoint ?? _defaultEndpoint;
   }
 
   @override
@@ -70,6 +85,6 @@ class EndpointService implements IEndpointService {
       await setEndpoint(europeHost);
     }
 
-    return databaseService.saveSelectedRegion(region);
+    return await databaseService.saveSelectedRegion(region);
   }
 }

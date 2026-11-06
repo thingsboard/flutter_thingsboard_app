@@ -1,4 +1,8 @@
-import 'package:country_picker/country_picker.dart';
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,11 +15,10 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/profile/widget/tb_country_picker.dart';
-import 'package:thingsboard_app/modules/profile/widget/tb_drop_down_text_field.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/widgets/tb_country_picker.dart';
+import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
   const PhoneConfigureWidget({
@@ -34,9 +37,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
         'phone': FormControl<PhoneNumber>(
           validators: [PhoneValidators.valid, PhoneValidators.required],
         ),
-        'countryCode': FormControl<Country>(
-          value: CountryService().findByCode('US'),
-        ),
+        'countryCode': FormControl<IsoCode>(value: IsoCode.US),
       }),
     );
 
@@ -63,17 +64,17 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                       S.of(context).enterAPhoneNumberToUseAsYourAuthenticator,
                       style: TbTextStyles.bodyMedium,
                     ),
-                    TbDropDownTextField<Country>(
+                    TbDropDownTextField<IsoCode>(
                       formControlName: 'countryCode',
-                      selectedItemBuilder:
-                          (country) => _getCountryDisplayName(country!),
+                      selectedItemBuilder: (country) =>
+                          countryDisplayName(context, country),
                       label: S.of(context).country,
-                      bottomSheetBuilder:
-                          (context, value) => const TbCountryPicker(),
+                      bottomSheetBuilder: (context, value) =>
+                          const TbCountryPicker(),
                       onSelected: (country) {
                         if (country != null) {
                           phoneController.value = PhoneNumber(
-                            isoCode: IsoCode.fromJson(country.countryCode),
+                            isoCode: country,
                             nsn: phoneController.value.nsn,
                           );
                         }
@@ -91,18 +92,17 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                   return FilledButton(
                     onPressed:
                         formGroup.control('phone').invalid || loading.value
-                            ? null
-                            : () async {
-                              await _handleSendCode(form, codeSent);
-                            },
-                    child:
-                        loading.value
-                            ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                            : Text(S.of(context).sendCode),
+                        ? null
+                        : () async {
+                            await _handleSendCode(form, codeSent);
+                          },
+                    child: loading.value
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(S.of(context).sendCode),
                   );
                 },
               ),
@@ -126,10 +126,6 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     );
   }
 
-  String _getCountryDisplayName(Country country) {
-    return '${country.flagEmoji} ${country.name}';
-  }
-
   Future<void> _handleSendCode(
     FormGroup form,
     ValueNotifier<bool> codeSent,
@@ -142,16 +138,15 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
   Future<bool> _sendCode(FormGroup form) async {
     loading.value = true;
     try {
-      final PhoneNumber? phoneNumber =
+      final PhoneNumber phoneNumber =
           form.control('phone').value as PhoneNumber;
-      if (phoneNumber == null) {
-        throw Exception('Phone number is required');
-      }
 
-      config.phoneNumber = phoneNumber.international;
+      final updatedConfig = config.rebuild(
+        (b) => b..phoneNumber = phoneNumber.international,
+      );
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .submitTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .submitTwoFaAccountConfig(twoFaAccountConfig: updatedConfig);
       return true;
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
@@ -176,10 +171,15 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     try {
       final phoneNumber = form.control('phone').value as PhoneNumber;
 
-      config.phoneNumber = phoneNumber.international;
+      final updatedConfig = config.rebuild(
+        (b) => b..phoneNumber = phoneNumber.international,
+      );
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config, verificationCode: code);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(
+            twoFaAccountConfig: updatedConfig,
+            verificationCode: code,
+          );
       onConfigured();
     } catch (e) {
       control.setErrors({TbValicationMessages.invalidCode: {}});
@@ -196,22 +196,20 @@ class PhoneTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return ReactivePhoneFormField<PhoneNumber>(
       controller: phoneController,
-      countryButtonStyle: CountryButtonStyle(
+      countryButtonStyle: const CountryButtonStyle(
         textStyle: TbTextStyles.bodyLarge,
         showFlag: false,
         showDropdownIcon: false,
       ),
       style: TbTextStyles.bodyLarge,
       decoration: InputDecoration(
-        
         hintText: S.of(context).phone,
         isDense: true,
         helperText: S.of(context).phoneNumberHelperText,
       ),
-    
+
       formControlName: 'phone',
       focusNode: FocusNode(),
       valueAccessor: PhoneNumberValueAccessor(),

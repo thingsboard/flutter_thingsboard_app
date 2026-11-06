@@ -1,22 +1,27 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.dart';
+import 'package:thingsboard_app/core/auth/login/models/version_info.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:thingsboard_app/utils/services/version_service/i_version_service.dart';
+import 'package:thingsboard_app/modules/version/application/i_version_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class UpdateRequiredHandler extends RouteHandler {
   late final ProviderSubscription<AsyncValue<LoginMobileInfo>> _subscription;
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
-    _subscription = ref.listenManual(oauthProvider, (prev, next) async  {
-      final versionInfo = next.value?.versionInfo;
-      if (versionInfo != null) {
-        if (getIt<IVersionService>().appUpdateRequired(versionInfo)) {
-          await ref.read(loginProvider.notifier).logout();
-        }
+    _subscription = ref.listenManual(oauthProvider, (prev, next) async {
+      final versionInfo = VersionInfo.fromNullable(next.value?.versionInfo);
+      if (versionInfo != null &&
+          getIt<IVersionService>().appUpdateRequired(versionInfo)) {
+        await ref.read(loginProvider.notifier).logout();
       }
     });
   }

@@ -1,9 +1,14 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
-import 'package:thingsboard_app/modules/device/device_details_page.dart';
-import 'package:thingsboard_app/modules/device/devices_list_page.dart';
-import 'package:thingsboard_app/modules/device/devices_main_page.dart';
-import 'package:thingsboard_app/modules/device/devices_page.dart';
+import 'package:thingsboard_app/modules/device/presentation/view/device_details_page.dart';
+import 'package:thingsboard_app/modules/device/presentation/view/devices_list_page.dart';
+import 'package:thingsboard_app/modules/device/presentation/view/devices_main_page.dart';
+import 'package:thingsboard_app/modules/device/presentation/view/devices_page.dart';
 
 class DeviceRoutes {
   static const devices = '/devices';

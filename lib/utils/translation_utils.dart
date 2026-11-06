@@ -1,7 +1,12 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/widgets.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 extension EntityTypeTranslationUtils on EntityType {
   String getTranslatedEntityType(BuildContext context) {
@@ -57,6 +62,13 @@ extension EntityTypeTranslationUtils on EntityType {
       EntityType.NOTIFICATION => S.of(context).notifications(1),
 
       EntityType.NOTIFICATION_RULE => S.of(context).notificationRule,
+      EntityType.ENTITY_GROUP => S.of(context).entityGroup,
+      EntityType.CONVERTER => S.of(context).converter,
+      EntityType.INTEGRATION => S.of(context).integration,
+      EntityType.SCHEDULER_EVENT => S.of(context).schedulerEvent,
+      EntityType.BLOB_ENTITY => S.of(context).blobEntity,
+      EntityType.ROLE => S.of(context).role,
+      EntityType.GROUP_PERMISSION => S.of(context).groupPermission,
       EntityType.CALCULATED_FIELD => S.of(context).calculatedField,
       EntityType.QUEUE_STATS => S.of(context).queueStats,
       EntityType.OAUTH2_CLIENT => S.of(context).oauth2Client,
@@ -68,6 +80,8 @@ extension EntityTypeTranslationUtils on EntityType {
       EntityType.AI_MODEL => S.of(context).aiModel,
 
       EntityType.API_KEY => S.of(context).apiKey,
+      EntityType.REPORT_TEMPLATE => 'Report template',
+      _ => '',
     };
   }
 }
@@ -83,6 +97,7 @@ extension AlarmStatusTranslationUtils on AlarmStatus {
         '${S.of(context).cleared} ${S.of(context).acknowledged}',
       AlarmStatus.CLEARED_UNACK =>
         '${S.of(context).cleared} ${S.of(context).unacknowledged}',
+      _ => '',
     };
   }
 }
@@ -95,6 +110,7 @@ extension AlarmSeverityTranslationUtils on AlarmSeverity {
       AlarmSeverity.MINOR => S.of(context).minor,
       AlarmSeverity.WARNING => S.of(context).warning,
       AlarmSeverity.INDETERMINATE => S.of(context).indeterminate,
+      _ => '',
     };
   }
 }
@@ -104,6 +120,7 @@ extension ActionStatusTranslationUtils on ActionStatus {
     return switch (this) {
       ActionStatus.SUCCESS => S.of(context).actionStatusSuccess,
       ActionStatus.FAILURE => S.of(context).actionStatusFailure,
+      _ => '',
     };
   }
 }
@@ -157,8 +174,41 @@ extension ActionTypeTranslationUtils on ActionType {
       ActionType.UPDATED_COMMENT => S.of(context).actionTypeUpdatedComment,
       ActionType.DELETED_COMMENT => S.of(context).actionTypeDeletedComment,
       ActionType.SMS_SENT => S.of(context).actionTypeSmsSent,
+      ActionType.ADDED_TO_ENTITY_GROUP =>
+        S.of(context).actionTypeAddedToEntityGroup,
+      ActionType.REMOVED_FROM_ENTITY_GROUP =>
+        S.of(context).actionTypeRemovedFromEntityGroup,
+      ActionType.REST_API_RULE_ENGINE_CALL =>
+        S.of(context).actionTypeRestApiRuleEngineCall,
+      ActionType.MADE_PUBLIC => S.of(context).actionTypeMadePublic,
+      ActionType.MADE_PRIVATE => S.of(context).actionTypeMadePrivate,
+      ActionType.CHANGE_OWNER => S.of(context).actionTypeChangeOwner,
+      _ => '',
     };
   }
+}
+
+extension ThingsboardErrorTranslationUtils on ThingsboardError {
+  /// App-wide fallback text for a message-less [ThingsboardError]; the wording
+  /// mirrors the client's own "Unknown error" literal in `parseMessage`.
+  String getTranslatedMessage(BuildContext context) {
+    final message = this.message;
+    return message == null || message.isEmpty
+        ? S.of(context).unknownError
+        : message;
+  }
+}
+
+DialogContent fatalErrorDialogContent(BuildContext context, Object? error) {
+  final message = error is ThingsboardError
+      ? error.getTranslatedMessage(context)
+      : S.of(context).unknownError;
+
+  return DialogContent(
+    title: S.of(context).fatalError,
+    message: '${S.of(context).fatalApplicationErrorOccurred}\n$message',
+    ok: S.of(context).close,
+  );
 }
 
 typedef TranslationBuilder = String Function(BuildContext context);

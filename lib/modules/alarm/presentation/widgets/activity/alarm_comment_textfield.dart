@@ -1,10 +1,15 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmCommentTextField extends StatefulWidget {
   const AlarmCommentTextField(this.alarmId, {super.key});
@@ -34,10 +39,9 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
         hintText: S.of(context).addCommentMessage,
         suffixIcon: IconButton(
           icon: const Icon(Icons.send_rounded, size: 24),
-          onPressed:
-              textController.text.isNotEmpty
-                  ? () => _submitComment(context)
-                  : null,
+          onPressed: textController.text.isNotEmpty
+              ? () => _submitComment(context)
+              : null,
         ),
         suffixIconConstraints: const BoxConstraints(maxWidth: 34),
       ),

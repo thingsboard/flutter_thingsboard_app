@@ -1,9 +1,13 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/bloc.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_list.dart';
 import 'package:thingsboard_app/widgets/tb_app_search_bar.dart';
 
 class AlarmsSearchPage extends StatelessWidget {
@@ -13,17 +17,16 @@ class AlarmsSearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppSearchBar(
-        onSearch:
-            (searchText) => getIt<AlarmBloc>().add(
-              AlarmSearchTextChanged(searchText: searchText),
-            ),
+        onSearch: (searchText) => getIt<AlarmBloc>().add(
+          AlarmSearchTextChanged(searchText: searchText),
+        ),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             getIt<AlarmBloc>().add(
               const AlarmSearchTextChanged(searchText: null),
             );
-           context.pop();
+            context.pop();
           },
         ),
       ),

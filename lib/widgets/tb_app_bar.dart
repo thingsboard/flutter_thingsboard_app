@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +11,7 @@ import 'package:super_tooltip/super_tooltip.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
 class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
@@ -42,18 +47,17 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     final morePages = ref.watch(
       navigationProvider.select((n) => n.bottomBarPages),
     );
-    final isMainPage =
-        morePages
-            .where(
-              (e) => GoRouterState.of(context).path?.contains(e.path) ?? false,
-            )
-            .isNotEmpty;
+    final isMainPage = morePages
+        .where((e) => GoRouterState.of(context).path?.contains(e.path) ?? false)
+        .isNotEmpty;
 
     return Column(
       children: [
         AppBar(
           automaticallyImplyLeading: false,
-          leadingWidth: getLeading(context, isMainPage) is EmptyLeading ? 20 : 40,
+          leadingWidth: getLeading(context, isMainPage) is EmptyLeading
+              ? 20
+              : 40,
           titleSpacing: 4,
           leading: getLeading(context, isMainPage),
           title: buildTitle(context),
@@ -131,26 +135,28 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         children: [
           Flexible(child: text),
           SuperTooltip(
-            borderRadius: 4,
-            arrowLength: 8,
-            arrowBaseWidth: 16,
-            top: padding,
-            borderColor: Colors.transparent,
-            popupDirection: TooltipDirection.left,
-
-            boxShadows: [
-              BoxShadow(
-                color: AppColors.black.withValues(alpha: .15),
-                blurRadius: 6,
-                spreadRadius: 2,
-              ),
-              BoxShadow(
-                color: AppColors.black.withValues(alpha: .3),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
-            shadowColor: Colors.transparent,
+            style: TooltipStyle(
+              borderRadius: 4,
+              borderColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              boxShadows: [
+                BoxShadow(
+                  color: AppColors.black.withValues(alpha: .15),
+                  blurRadius: 6,
+                  spreadRadius: 2,
+                ),
+                BoxShadow(
+                  color: AppColors.black.withValues(alpha: .3),
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            arrowConfig: const ArrowConfiguration(length: 8, baseWidth: 16),
+            positionConfig: PositionConfiguration(
+              top: padding,
+              preferredDirection: TooltipDirection.left,
+            ),
             content: Text(
               text.data ?? '',
               style: TbTextStyles.labelSmall.copyWith(
@@ -158,7 +164,9 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
               ),
             ),
             controller: _controller,
-            barrierColor: Colors.transparent,
+            barrierConfig: const BarrierConfiguration(
+              color: Colors.transparent,
+            ),
             child: InkWell(
               onTap: () {
                 _controller.showTooltip();

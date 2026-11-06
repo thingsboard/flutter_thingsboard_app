@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -8,9 +13,9 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/assign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/unassign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/bloc.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/communication/events/alarm_assignee_updated_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
   AlarmAssigneeBloc({
@@ -53,8 +58,10 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
           AssignAlarmParams(id: id, userId: event.userId),
         );
 
-        final assignee = paginationRepository.pagingController.itemList
-            ?.firstWhere((assignee) => assignee.userInfo.id.id == event.userId);
+        final assignee = paginationRepository.pagingController.items
+            ?.firstWhere(
+              (assignee) => assignee.userInfo.id?.id == event.userId,
+            );
 
         emit(AlarmAssigneeSelectedState(assignee!));
         getIt<ICommunicationService>().fire(
@@ -82,10 +89,12 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
         final alarmInfo = await fetchAlarmUseCase(id);
         if (alarmInfo?.assignee != null && alarmInfo?.assignee?.id != null) {
           final userInfo = UserInfo(
-            alarmInfo!.assignee!.id!,
-            email: alarmInfo.assignee!.email,
-            firstName: alarmInfo.assignee!.firstName,
-            lastName: alarmInfo.assignee!.lastName,
+            (b) => b
+              ..id = alarmInfo!.assignee!.id?.toBuilder()
+              ..authority = Authority.CUSTOMER_USER
+              ..email = alarmInfo.assignee!.email ?? ''
+              ..firstName = alarmInfo.assignee!.firstName
+              ..lastName = alarmInfo.assignee!.lastName,
           );
 
           final assignee = AssigneeEntity.fromUserInfo(

@@ -1,8 +1,13 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/constants/database_keys.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LocalDatabaseService implements ILocalDatabaseService {
   const LocalDatabaseService({required this.storage, required this.logger});
@@ -18,12 +23,13 @@ class LocalDatabaseService implements ILocalDatabaseService {
 
   @override
   Future<Region?> getSelectedRegion() async {
-    return await storage.getItem(DatabaseKeys.selectedRegion) as Region?;
+    final name = await storage.getItem(DatabaseKeys.selectedRegion) as String?;
+    return name == null ? null : Region.values.asNameMap()[name];
   }
 
   @override
   Future<void> saveSelectedRegion(Region region) {
-    return storage.setItem(DatabaseKeys.selectedRegion, region);
+    return storage.setItem(DatabaseKeys.selectedRegion, region.name);
   }
 
   @override
@@ -44,5 +50,21 @@ class LocalDatabaseService implements ILocalDatabaseService {
   @override
   Future<void> deleteInitialAppLink() {
     return storage.deleteItem(DatabaseKeys.initialAppLink);
+  }
+
+  @override
+  Future<bool> isPushRegistered() async {
+    return await storage.getItem(DatabaseKeys.pushNotificationsRegistered) ==
+        true;
+  }
+
+  @override
+  Future<void> setPushRegistered() {
+    return storage.setItem(DatabaseKeys.pushNotificationsRegistered, true);
+  }
+
+  @override
+  Future<void> clearPushRegistered() {
+    return storage.deleteItem(DatabaseKeys.pushNotificationsRegistered);
   }
 }

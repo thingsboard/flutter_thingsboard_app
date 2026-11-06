@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +16,7 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TwoFactorAuthConfigSuccess extends ConsumerWidget {
   const TwoFactorAuthConfigSuccess({
@@ -86,12 +91,15 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
                             context.pop();
                           },
                           child: Text(
-                            isForce ? S.of(context).loginToApp : S.of(context).done,
+                            isForce
+                                ? S.of(context).loginToApp
+                                : S.of(context).done,
                           ),
                         ),
                       ),
-                      if (isForce && (userSettings.value?.configs.length != platformConfig.value?.length))
-
+                      if (isForce &&
+                          (userSettings.value?.configs?.length !=
+                              platformConfig.value?.length))
                         SizedBox(
                           width: double.infinity,
                           child: FilledButton(
@@ -109,8 +117,8 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
               ],
             ),
           ),
-                 if(platformConfig.isLoading || userSettings.isLoading)
-          const FullScreenLoader(),
+          if (platformConfig.isLoading || userSettings.isLoading)
+            const FullScreenLoader(),
         ],
       ),
     );

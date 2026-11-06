@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math';
 
 import 'package:expandable/expandable.dart';
@@ -7,11 +12,12 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmDetailsWidget extends StatefulWidget {
   AlarmDetailsWidget({
@@ -80,15 +86,15 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                 children: [
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
-                    details:
-                        widget.alarmInfo.status?.getTranslatedAlarmStatus(
-                          context,
-                        ) ??
-                        '',
+                    details: widget.alarmInfo.status.getTranslatedAlarmStatus(
+                      context,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
-                    details: widget.alarmInfo.type,
+                    details: getIt<ICustomTranslationService>().translate(
+                      widget.alarmInfo.type,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).severity,
@@ -100,7 +106,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).originator,
-                    details: widget.alarmInfo.originatorName ?? '',
+                    details: getIt<ICustomTranslationService>().translate(
+                      widget.alarmInfo.originatorName,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).startTime,
@@ -131,9 +139,8 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                           );
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).primaryColor.withValues(alpha: .1),
+                          backgroundColor: Theme.of(context).primaryColor
+                              .withValues(alpha: .1),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(

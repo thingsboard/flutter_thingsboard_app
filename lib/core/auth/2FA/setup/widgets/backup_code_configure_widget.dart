@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,10 +16,10 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class BackupCodeConfigureWidget
     extends TwoFaConfigWidget<BackupCodeTwoFaAccountConfig> {
@@ -26,8 +31,8 @@ class BackupCodeConfigureWidget
   Future<void> saveConfig() async {
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(twoFaAccountConfig: config);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error saving codes: $e",
@@ -54,7 +59,7 @@ class BackupCodeConfigureWidget
             child: Column(
               spacing: 20,
               children: [
-                Column(
+                const Column(
                   spacing: 8,
                   children: [
                     Text(
@@ -146,8 +151,8 @@ class BackupCodeConfigureWidget
     loading.value = true;
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .generateTwoFaAccountConfig(config.getProviderType());
+          .getTwoFactorAuthConfigControllerApi()
+          .generateTwoFaAccountConfig(providerType: config.providerType);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error sending code: $e",

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math' show pi;
 
 import 'package:flutter/material.dart';
@@ -13,7 +18,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeWidget extends StatelessWidget {
-  const AlarmAssigneeWidget({  super.key});
+  const AlarmAssigneeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +29,14 @@ class AlarmAssigneeWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder:
-                (_) => BlocProvider.value(
-                  value: context.read<AlarmAssigneeBloc>(),
-                  child: const AnimatedSize(
-                    curve: Curves.easeInOut,
-                    duration: Duration(milliseconds: 500),
-                    child: AlarmAssigneeListWidget(),
-                  ),
-                ),
+            builder: (_) => BlocProvider.value(
+              value: context.read<AlarmAssigneeBloc>(),
+              child: const AnimatedSize(
+                curve: Curves.easeInOut,
+                duration: Duration(milliseconds: 500),
+                child: AlarmAssigneeListWidget(),
+              ),
+            ),
           );
 
           if (context.mounted) {
@@ -83,7 +87,7 @@ class AlarmAssigneeWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: UserInfoWidget(
-                          id: state.assignee.userInfo.id.id ?? '',
+                          id: state.assignee.userInfo.id?.id ?? '',
                           avatar: UserInfoAvatarWidget(
                             shortName: state.assignee.shortName,
                             color: UiUtils.colorFromString(

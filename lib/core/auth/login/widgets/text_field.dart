@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -61,6 +66,9 @@ class TbTextField extends HookWidget {
     final isErrorState = useState(false);
     // final theme = Theme.of(context);
     final counter = useState(0);
+    final errorColor =
+        Theme.of(context).inputDecorationTheme.errorStyle?.color ??
+        AppColors.textError;
     //  final iconStateColor = isErrorState.value ? AppColors.textError : null;
 
     useEffect(() {
@@ -90,11 +98,10 @@ class TbTextField extends HookWidget {
       focusNode: node,
       readOnly: readOnly,
       onTap: (control) {
-        if(onPressed != null) {
-        onPressed?.call();
-        node.unfocus();
+        if (onPressed != null) {
+          onPressed?.call();
+          node.unfocus();
         }
-
       },
       onChanged: (control) {
         counter.value = control.value?.toString().length ?? 0;
@@ -111,8 +118,8 @@ class TbTextField extends HookWidget {
       autofillHints: autoFillHints,
       formControlName: formControlName,
       validationMessages: {
-        ValidationMessage.required:
-            (error) => '$label ${S.of(context).isRequiredText}',
+        ValidationMessage.required: (error) =>
+            '$label ${S.of(context).isRequiredText}',
         ValidationMessage.email: (error) => S.of(context).emailInvalidText,
         ValidationMessage.mustMatch: (error) => 'Fields must match',
         ValidationMessage.minLength: (error) {
@@ -123,55 +130,56 @@ class TbTextField extends HookWidget {
           final desc = error as Map;
           return '$label is too long, required lenght is ${desc['requiredLength']}';
         },
-        TbValicationMessages.tooManyRequests:
-            (error) => S.of(context).verificationCodeManyRequest,
-        TbValicationMessages.invalidCode:
-            (error) => S.of(context).verificationCodeInvalid,
+        TbValicationMessages.tooManyRequests: (error) =>
+            S.of(context).verificationCodeManyRequest,
+        TbValicationMessages.invalidCode: (error) =>
+            S.of(context).verificationCodeInvalid,
       },
       style: TbTextStyles.bodyLarge.copyWith(
-        color: isErrorState.value ? AppColors.textError : null,
+        color: isErrorState.value ? errorColor : null,
       ),
       decoration: InputDecoration(
-        counterText:
-            maxLengthValidator != null
-                ? '${counter.value}/$counterMaxValue'
-                : null,
+        counterText: maxLengthValidator != null
+            ? '${counter.value}/$counterMaxValue'
+            : null,
         suffixIcon:
             suffixIcon ??
             (obscureText
                 ? IconButton(
-                  splashRadius: 10,
+                    splashRadius: 10,
 
-                  icon: Icon(
-                    !isVisible.value ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.iconDisabled,
-                    size: 24,
-                  ),
+                    icon: Icon(
+                      !isVisible.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color:
+                          Theme.of(context)
+                              .inputDecorationTheme
+                              .suffixIconColor ??
+                          AppColors.iconDisabled,
+                      size: 24,
+                    ),
 
-                  onPressed: () {
-                    isVisible.value = !isVisible.value;
-                  },
-                )
+                    onPressed: () {
+                      isVisible.value = !isVisible.value;
+                    },
+                  )
                 : const SizedBox(width: 24)),
         prefixIcon: prefixIcon,
         labelText: isRequired ? '$label*' : label,
         hintText: hint,
-        
+
         isDense: true,
         border: const OutlineInputBorder(),
         // Override theme styles when there's an error state
-        labelStyle:
-            isErrorState.value
-                ? TbTextStyles.bodyLarge.copyWith(color: AppColors.textError)
-                : null,
-        floatingLabelStyle:
-            isErrorState.value
-                ? WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
-                  return TbTextStyles.labelSmall.copyWith(
-                    color: AppColors.textError,
-                  );
-                })
-                : null,
+        labelStyle: isErrorState.value
+            ? TbTextStyles.bodyLarge.copyWith(color: errorColor)
+            : null,
+        floatingLabelStyle: isErrorState.value
+            ? WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
+                return TbTextStyles.labelSmall.copyWith(color: errorColor);
+              })
+            : null,
       ),
     );
   }

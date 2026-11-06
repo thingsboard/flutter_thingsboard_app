@@ -1,4 +1,8 @@
-import 'package:fluro/fluro.dart';
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
@@ -8,6 +12,10 @@ import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_argum
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
+/// Query parameter [ThingsboardAppRouter.navigateByAppLink] adds to carry the
+/// whole scanned link; routes read it back from `state.uri.queryParameters`.
+const appLinkUriQueryParam = 'uri';
+
 class ThingsboardAppRouter {
   ThingsboardAppRouter({required this.overlayService});
 
@@ -15,21 +23,16 @@ class ThingsboardAppRouter {
   final TbLogger log = getIt<TbLogger>();
 
   BuildContext? get context => globalNavigatorKey.currentContext;
-  Future<T?> navigateTo<T>(
-    String path, {
-    bool replace = false,
-    bool clearStack = false,
-    bool closeDashboard = true,
-    TransitionType? transition,
-    Duration? transitionDuration,
-    bool restoreDashboard = true,
-    RouteSettings? routeSettings,
-  }) async {
+  Future<T?> navigateTo<T>(String path, {RouteSettings? routeSettings}) async {
     overlayService.hideNotification();
     final mapArgs = routeSettings?.arguments as Map<String, dynamic>?;
     String query = '';
     if (mapArgs != null) {
-      query = mapArgs.entries.map((e) => '${e.key}=${e.value}').join('&');
+      // Percent-encoded: values can carry '&' and '=' themselves (an app link
+      // passed along as `appLinkUriQueryParam` always does).
+      query = Uri(
+        queryParameters: mapArgs.map((key, value) => MapEntry(key, '$value')),
+      ).query;
     }
     final result = await context?.push(
       '$path${query.isEmpty ? query : '?$query'}',
@@ -62,6 +65,7 @@ class ThingsboardAppRouter {
     );
   }
 
+  //TODO: &&  !link.contains('signuprified') is merge conflict, need to refactor
   Future<void> navigateByAppLink(String? link) async {
     if (link != null) {
       final uri = Uri.parse(link);
@@ -70,7 +74,7 @@ class ThingsboardAppRouter {
       navigateTo(
         uri.path,
         routeSettings: RouteSettings(
-          arguments: {...uri.queryParameters, 'uri': uri},
+          arguments: {...uri.queryParameters, appLinkUriQueryParam: uri},
         ),
       );
     }
