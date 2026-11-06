@@ -41,7 +41,7 @@ ThemeData  tbTheme(MaterialColor primarySwatch, Color primaryColor, Color accent
    progressIndicatorTheme: ProgressIndicatorThemeData(
       color: accentColor, 
     ),
-    indicatorColor: accentColor
+    tabBarTheme: TabBarThemeData(indicatorColor: accentColor),
 );
 }
 

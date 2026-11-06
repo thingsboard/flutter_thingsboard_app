@@ -3,6 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// The service keeps firebase_messaging's deprecated FCM token API on
+// purpose (see NotificationService._messaging); the tests mock it.
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 
 import 'package:dio/dio.dart';

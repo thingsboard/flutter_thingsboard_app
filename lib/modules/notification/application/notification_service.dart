@@ -53,6 +53,12 @@ class NotificationService {
   /// Resolved lazily: `FirebaseMessaging.instance` needs an initialized
   /// Firebase app, and the locator constructs this service before `main()`
   /// initializes Firebase.
+  ///
+  /// firebase_messaging 17 deprecates getToken/deleteToken/onTokenRefresh in
+  /// favour of register()/onRegistered, which yield a Firebase Installation
+  /// ID for FCM direct-send. ThingsBoard sends pushes to the FCM registration
+  /// token, so the token API stays (its uses are marked deprecated_member_use)
+  /// until the server supports installation IDs.
   FirebaseMessaging get _messaging =>
       _injectedMessaging ?? FirebaseMessaging.instance;
 
@@ -90,6 +96,7 @@ class NotificationService {
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       await _getAndSaveToken();
 
+      // ignore: deprecated_member_use
       _onTokenRefreshSubscription = _messaging.onTokenRefresh.listen((
         token,
       ) async {
@@ -132,6 +139,7 @@ class NotificationService {
 
   Future<String?> getToken() async {
     try {
+      // ignore: deprecated_member_use
       return _fcmToken = await _messaging.getToken();
     } catch (_) {
       return null;
@@ -217,6 +225,7 @@ class NotificationService {
       await _foregroundMessageSubscription?.cancel();
       await _onMessageOpenedAppSubscription?.cancel();
       await _onTokenRefreshSubscription?.cancel();
+      // ignore: deprecated_member_use
       await _messaging.deleteToken();
       _fcmToken = null;
       await _messaging.setAutoInitEnabled(false);
@@ -284,6 +293,7 @@ class NotificationService {
       }
     }
 
+    // ignore: deprecated_member_use
     await _messaging.deleteToken();
     return await getToken();
   }
