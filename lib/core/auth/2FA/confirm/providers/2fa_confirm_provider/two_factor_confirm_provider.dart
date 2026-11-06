@@ -65,6 +65,7 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
 
   Future<void> sendCode() async {
     state = state.copyWith(codeSent: false, loading: true);
+    var sent = false;
     try {
       await _tbClient
           .getTwoFactorAuthControllerApi()
@@ -77,11 +78,15 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
         Duration(seconds: _resendTimerDurationSeconds),
         () => _activateResend(),
       );
-    } catch (e) {}
+      sent = true;
+    } catch (_) {
+      // The request is silent; without a sent code the resend timer never
+      // starts, so the user can request the code again right away.
+    }
     state = state.copyWith(
       codeSent: true,
       loading: false,
-      resendAvalible: false,
+      resendAvalible: !sent,
     );
   }
 
