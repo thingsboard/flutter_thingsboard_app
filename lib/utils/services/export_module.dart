@@ -12,6 +12,35 @@ import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 
 class TbDashboardExportModule {
+  /// Reads a `blob:` download as the page clicks its link. The web UI
+  /// revokes the URL right after the click (TB 4.2.1+), before
+  /// [onDownloadStarting] could fetch it.
+  static final blobDownloadScript = UserScript(
+    injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
+    source: '''
+(function () {
+  const click = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function () {
+    if (!this.hasAttribute('download') || !this.href.startsWith('blob:')) {
+      return click.call(this);
+    }
+    const filename = this.download;
+    fetch(this.href)
+      .then((response) => response.blob())
+      .then((blob) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve([reader.result.split(',')[1], blob.type]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      }))
+      .then(([base64, type]) => window.flutter_inappwebview.callHandler(
+        'downloadBase64', filename, base64, type || ''))
+      .catch((error) => console.error('Error downloading blob:', error));
+  };
+})();
+''',
+  );
+
   void injectFileDownloadHandler(InAppWebViewController controller) {
     controller.addJavaScriptHandler(
       handlerName: 'downloadBase64',
@@ -34,13 +63,9 @@ class TbDashboardExportModule {
   ]) async {
     final Uint8List data = await compute(base64Decode, base64);
 
-    String finalFileName =
-        'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now())}';
-    if (finalFileName.contains('.') &&
-        mimeType != null &&
-        mimeType.isNotEmpty) {
-      finalFileName = finalFileName.split('.').first;
-    }
+    String finalFileName = filename.isNotEmpty
+        ? filename
+        : 'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now())}';
     // Enhanced file extension handling
     if (!finalFileName.contains('.')) {
       String? extension;

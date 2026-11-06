@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -77,6 +78,9 @@ class _DashboardState extends State<DashboardWidget> {
               snapshot.connectionState == ConnectionState.done
               ? InAppWebView(
                   onDownloadStarting: _exportModule.onDownloadStarting,
+                  initialUserScripts: UnmodifiableListView([
+                    TbDashboardExportModule.blobDownloadScript,
+                  ]),
                   initialUrlRequest: URLRequest(url: _initialUrl),
                   initialSettings: settings,
                   onWebViewCreated: _onWebViewCreated,
