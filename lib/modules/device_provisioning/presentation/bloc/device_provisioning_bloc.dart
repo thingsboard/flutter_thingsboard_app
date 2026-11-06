@@ -5,10 +5,10 @@
 
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plugin_wifi_connect/plugin_wifi_connect.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/device_provisioning/domain/events/device_provisioning_status_changed_event.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/bloc/bloc.dart';
@@ -139,22 +139,25 @@ class DeviceProvisioningBloc
             );
           } else {
             emit(
-              const DeviceProvisioningClaimingErrorState(
-                'Something went wrong. Please try again.',
+              DeviceProvisioningClaimingErrorState(
+                (context) => S.of(context).deviceClaimFailed,
               ),
             );
           }
         } catch (e) {
           logger.error('Device claiming error: $e');
 
-          String? message;
-          if (e is DioException) {
-            message =
-                'Device not found. '
-                'Please contact the device provider.';
-          }
-
-          emit(DeviceProvisioningClaimingErrorState(message));
+          final error = toThingsboardError(e);
+          final serverMessage = error.message;
+          emit(
+            DeviceProvisioningClaimingErrorState(
+              (context) => error.status == 404
+                  ? S.of(context).deviceToClaimNotFound
+                  : error.status != null && serverMessage != null
+                  ? serverMessage
+                  : S.of(context).deviceClaimFailed,
+            ),
+          );
         }
 
       case ErrorDuringProvisioningEvent():

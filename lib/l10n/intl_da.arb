@@ -480,5 +480,7 @@
   "serverRequiresVersion": "Denne app virker med ThingsBoard {minVersion} eller nyere.",
   "serverLabel": "Server",
   "versionLabel": "Version",
-  "askAdminToUpdateServer": "Bed din serveradministrator om at opdatere serveren."
+  "askAdminToUpdateServer": "Bed din serveradministrator om at opdatere serveren.",
+  "deviceClaimFailed": "Enheden kunne ikke gøres krav på. Prøv igen.",
+  "deviceToClaimNotFound": "Enheden blev ikke fundet. Kontakt enhedens leverandør."
 }

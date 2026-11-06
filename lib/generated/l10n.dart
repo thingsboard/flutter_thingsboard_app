@@ -2778,6 +2778,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Ask your server administrator to update the server.'**
   String get askAdminToUpdateServer;
+
+  /// No description provided for @deviceClaimFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The device could not be claimed. Please try again.'**
+  String get deviceClaimFailed;
+
+  /// No description provided for @deviceToClaimNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Device not found. Please contact the device provider.'**
+  String get deviceToClaimNotFound;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

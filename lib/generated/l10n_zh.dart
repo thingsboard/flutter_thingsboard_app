@@ -1508,6 +1508,12 @@ class SZh extends S {
 
   @override
   String get askAdminToUpdateServer => '请联系服务器管理员更新服务器。';
+
+  @override
+  String get deviceClaimFailed => '无法认领设备，请重试。';
+
+  @override
+  String get deviceToClaimNotFound => '未找到设备，请联系设备提供商。';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -2831,6 +2837,12 @@ class SZhCn extends SZh {
 
   @override
   String get askAdminToUpdateServer => '请联系服务器管理员更新服务器。';
+
+  @override
+  String get deviceClaimFailed => '无法认领设备，请重试。';
+
+  @override
+  String get deviceToClaimNotFound => '未找到设备，请联系设备提供商。';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4154,4 +4166,10 @@ class SZhTw extends SZh {
 
   @override
   String get askAdminToUpdateServer => '請聯絡伺服器管理員更新伺服器。';
+
+  @override
+  String get deviceClaimFailed => '無法認領裝置，請再試一次。';
+
+  @override
+  String get deviceToClaimNotFound => '找不到裝置，請聯絡裝置供應商。';
 }

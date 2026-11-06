@@ -1523,4 +1523,12 @@ class SDa extends S {
   @override
   String get askAdminToUpdateServer =>
       'Bed din serveradministrator om at opdatere serveren.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Enheden kunne ikke gøres krav på. Prøv igen.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Enheden blev ikke fundet. Kontakt enhedens leverandør.';
 }

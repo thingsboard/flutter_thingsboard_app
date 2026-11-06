@@ -1533,4 +1533,12 @@ class SDe extends S {
   @override
   String get askAdminToUpdateServer =>
       'Bitten Sie Ihren Serveradministrator, den Server zu aktualisieren.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Das Gerät konnte nicht beansprucht werden. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Gerät nicht gefunden. Bitte wenden Sie sich an den Geräteanbieter.';
 }

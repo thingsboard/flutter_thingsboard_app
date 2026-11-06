@@ -1511,4 +1511,12 @@ class SAr extends S {
 
   @override
   String get askAdminToUpdateServer => 'اطلب من مسؤول الخادم تحديث الخادم.';
+
+  @override
+  String get deviceClaimFailed =>
+      'تعذّر المطالبة بالجهاز. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'لم يتم العثور على الجهاز. يرجى التواصل مع مزوّد الجهاز.';
 }

@@ -1530,4 +1530,12 @@ class SIt extends S {
   @override
   String get askAdminToUpdateServer =>
       'Chiedi all\'amministratore del server di aggiornarlo.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Impossibile rivendicare il dispositivo. Riprova.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Dispositivo non trovato. Contatta il fornitore del dispositivo.';
 }

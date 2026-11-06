@@ -480,5 +480,7 @@
   "serverRequiresVersion": "Αυτή η εφαρμογή λειτουργεί με ThingsBoard {minVersion} ή νεότερη.",
   "serverLabel": "Διακομιστής",
   "versionLabel": "Έκδοση",
-  "askAdminToUpdateServer": "Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει."
+  "askAdminToUpdateServer": "Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει.",
+  "deviceClaimFailed": "Δεν ήταν δυνατή η διεκδίκηση της συσκευής. Δοκιμάστε ξανά.",
+  "deviceToClaimNotFound": "Η συσκευή δεν βρέθηκε. Επικοινωνήστε με τον πάροχο της συσκευής."
 }

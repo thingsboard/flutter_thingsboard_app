@@ -1522,4 +1522,12 @@ class SEn extends S {
   @override
   String get askAdminToUpdateServer =>
       'Ask your server administrator to update the server.';
+
+  @override
+  String get deviceClaimFailed =>
+      'The device could not be claimed. Please try again.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Device not found. Please contact the device provider.';
 }

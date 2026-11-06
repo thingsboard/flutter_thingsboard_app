@@ -1519,4 +1519,12 @@ class SNo extends S {
   @override
   String get askAdminToUpdateServer =>
       'Be serveradministratoren om å oppdatere serveren.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Enheten kunne ikke gjøres krav på. Prøv igjen.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Fant ikke enheten. Kontakt leverandøren av enheten.';
 }

@@ -1534,4 +1534,12 @@ class SFr extends S {
   @override
   String get askAdminToUpdateServer =>
       'Demandez à l\'administrateur du serveur de le mettre à jour.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Impossible de réclamer l\'appareil. Veuillez réessayer.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Appareil introuvable. Veuillez contacter le fournisseur de l\'appareil.';
 }

@@ -82,9 +82,7 @@ class DeviceProvisioningView extends StatelessWidget {
           BlocConsumer<DeviceProvisioningBloc, DeviceProvisioningState>(
             listener: (context, state) {
               if (state is DeviceProvisioningClaimingErrorState) {
-                if (state.message != null) {
-                  overlayService.showErrorNotification((_) => state.message!);
-                }
+                overlayService.showErrorNotification(state.message);
               }
             },
             builder: (context, state) {

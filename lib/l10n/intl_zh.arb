@@ -437,5 +437,7 @@
   "serverRequiresVersion": "此应用需要 ThingsBoard {minVersion} 或更高版本。",
   "serverLabel": "服务器",
   "versionLabel": "版本",
-  "askAdminToUpdateServer": "请联系服务器管理员更新服务器。"
+  "askAdminToUpdateServer": "请联系服务器管理员更新服务器。",
+  "deviceClaimFailed": "无法认领设备，请重试。",
+  "deviceToClaimNotFound": "未找到设备，请联系设备提供商。"
 }

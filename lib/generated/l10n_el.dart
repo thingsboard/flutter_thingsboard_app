@@ -1533,4 +1533,12 @@ class SEl extends S {
   @override
   String get askAdminToUpdateServer =>
       'Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Δεν ήταν δυνατή η διεκδίκηση της συσκευής. Δοκιμάστε ξανά.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Η συσκευή δεν βρέθηκε. Επικοινωνήστε με τον πάροχο της συσκευής.';
 }

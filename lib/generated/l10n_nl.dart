@@ -1525,4 +1525,12 @@ class SNl extends S {
   @override
   String get askAdminToUpdateServer =>
       'Vraag uw serverbeheerder om de server bij te werken.';
+
+  @override
+  String get deviceClaimFailed =>
+      'Het apparaat kon niet worden geclaimd. Probeer het opnieuw.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Apparaat niet gevonden. Neem contact op met de leverancier van het apparaat.';
 }

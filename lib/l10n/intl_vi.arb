@@ -479,5 +479,7 @@
   "serverRequiresVersion": "Ứng dụng này hoạt động với ThingsBoard {minVersion} trở lên.",
   "serverLabel": "Máy chủ",
   "versionLabel": "Phiên bản",
-  "askAdminToUpdateServer": "Hãy yêu cầu quản trị viên máy chủ cập nhật máy chủ."
+  "askAdminToUpdateServer": "Hãy yêu cầu quản trị viên máy chủ cập nhật máy chủ.",
+  "deviceClaimFailed": "Không thể nhận thiết bị. Vui lòng thử lại.",
+  "deviceToClaimNotFound": "Không tìm thấy thiết bị. Vui lòng liên hệ nhà cung cấp thiết bị."
 }

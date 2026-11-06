@@ -479,5 +479,7 @@
   "serverRequiresVersion": "يعمل هذا التطبيق مع ThingsBoard {minVersion} أو أحدث.",
   "serverLabel": "الخادم",
   "versionLabel": "الإصدار",
-  "askAdminToUpdateServer": "اطلب من مسؤول الخادم تحديث الخادم."
+  "askAdminToUpdateServer": "اطلب من مسؤول الخادم تحديث الخادم.",
+  "deviceClaimFailed": "تعذّر المطالبة بالجهاز. يرجى المحاولة مرة أخرى.",
+  "deviceToClaimNotFound": "لم يتم العثور على الجهاز. يرجى التواصل مع مزوّد الجهاز."
 }

@@ -1518,4 +1518,11 @@ class SVi extends S {
   @override
   String get askAdminToUpdateServer =>
       'Hãy yêu cầu quản trị viên máy chủ cập nhật máy chủ.';
+
+  @override
+  String get deviceClaimFailed => 'Không thể nhận thiết bị. Vui lòng thử lại.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Không tìm thấy thiết bị. Vui lòng liên hệ nhà cung cấp thiết bị.';
 }

@@ -1530,4 +1530,12 @@ class SEs extends S {
   @override
   String get askAdminToUpdateServer =>
       'Pida al administrador del servidor que lo actualice.';
+
+  @override
+  String get deviceClaimFailed =>
+      'No se pudo reclamar el dispositivo. Inténtelo de nuevo.';
+
+  @override
+  String get deviceToClaimNotFound =>
+      'Dispositivo no encontrado. Póngase en contacto con el proveedor del dispositivo.';
 }

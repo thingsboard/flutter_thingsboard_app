@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:equatable/equatable.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 
 sealed class DeviceProvisioningState extends Equatable {
   const DeviceProvisioningState();
@@ -51,7 +52,7 @@ final class DeviceProvisioningClaimingErrorState
     extends DeviceProvisioningState {
   const DeviceProvisioningClaimingErrorState(this.message);
 
-  final String? message;
+  final TranslationBuilder message;
 
   @override
   List<Object?> get props => [message];
