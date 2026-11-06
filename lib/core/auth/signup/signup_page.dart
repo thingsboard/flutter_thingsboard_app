@@ -5,7 +5,6 @@
 
 import 'dart:ui';
 
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -125,7 +124,7 @@ class _SignUpPageContent extends HookConsumerWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          getIt<ThingsboardAppRouter>().navigateTo('/login', replace: true);
+          getIt<ThingsboardAppRouter>().navigateTo('/login');
         }
       },
       child: ReactiveForm(
@@ -468,7 +467,6 @@ Future<void> _openRecaptcha(
             '/tbRecaptcha?siteKey=${siteKey ?? ''}'
             '&version=${captcha.version}'
             '&logActionName=${logActionName ?? ''}',
-            transition: TransitionType.nativeModal,
           );
 
       recaptchaResponseNotifier.value = recaptchaResponse;
@@ -482,20 +480,19 @@ Future<void> _openRecaptcha(
 
 Future<void> _openPrivacyPolicy(BuildContext context, FormGroup group) async {
   final bool? acceptPrivacyPolicy = await getIt<ThingsboardAppRouter>()
-      .navigateTo('/privacyPolicy', transition: TransitionType.nativeModal);
+      .navigateTo('/privacyPolicy');
   group.control('privacyPolicy').updateValue(acceptPrivacyPolicy);
 }
 
 Future<void> _openTermsOfUse(BuildContext context, FormGroup group) async {
   final bool? acceptTermsOfUse = await getIt<ThingsboardAppRouter>().navigateTo(
     '/termsOfUse',
-    transition: TransitionType.nativeModal,
   );
   group.control('termsOfUse').updateValue(acceptTermsOfUse);
 }
 
 Future<void> _login(BuildContext context) async {
-  getIt<ThingsboardAppRouter>().navigateTo('/login', replace: true);
+  getIt<ThingsboardAppRouter>().navigateTo('/login');
 }
 
 Future<void> _signUp(

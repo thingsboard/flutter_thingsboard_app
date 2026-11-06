@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
@@ -24,16 +23,7 @@ class ThingsboardAppRouter {
   final TbLogger log = getIt<TbLogger>();
 
   BuildContext? get context => globalNavigatorKey.currentContext;
-  Future<T?> navigateTo<T>(
-    String path, {
-    bool replace = false,
-    bool clearStack = false,
-    bool closeDashboard = true,
-    TransitionType? transition,
-    Duration? transitionDuration,
-    bool restoreDashboard = true,
-    RouteSettings? routeSettings,
-  }) async {
+  Future<T?> navigateTo<T>(String path, {RouteSettings? routeSettings}) async {
     overlayService.hideNotification();
     final mapArgs = routeSettings?.arguments as Map<String, dynamic>?;
     String query = '';

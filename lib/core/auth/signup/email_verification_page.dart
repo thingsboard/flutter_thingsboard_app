@@ -145,7 +145,6 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
     getIt<ThingsboardAppRouter>().navigateTo(
       '/emailVerification?email=${Uri.encodeComponent(widget._email)}',
-      replace: true,
     );
     if (mounted) {
       getIt<IOverlayService>().showSuccessNotification(

@@ -51,11 +51,7 @@ class EmailVerifiedPage extends HookConsumerWidget {
         if (context.canPop()) {
           context.pop();
         } else {
-          getIt<ThingsboardAppRouter>().navigateTo(
-            '/login',
-            replace: true,
-            clearStack: true,
-          );
+          getIt<ThingsboardAppRouter>().navigateTo('/login');
         }
       }
     }

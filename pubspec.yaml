@@ -23,7 +23,6 @@ dependencies:
   intl: ^0.20.2
   flutter_secure_storage: ^11.2.0
   cupertino_icons: ^1.0.9
-  fluro: ^2.0.5
   flutter_svg: ^2.2.2
   jovial_svg: ^1.1.29
   auto_size_text: ^3.0.0
