@@ -281,14 +281,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
-  color:
-    dependency: transitive
-    description:
-      name: color
-      sha256: ddcdf1b3badd7008233f5acffaf20ca9f5dc2cd0172b75f68f24526a5f5725cb
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   convert:
     dependency: transitive
     description:
@@ -369,14 +361,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.14"
-  dartx:
-    dependency: transitive
-    description:
-      name: dartx
-      sha256: "8b25435617027257d43e6508b5fe061012880ddfdaa75a71d607c3de2a13d244"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   dbus:
     dependency: transitive
     description:
@@ -714,22 +698,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.3.0+2"
-  flutter_gen:
-    dependency: "direct dev"
-    description:
-      name: flutter_gen
-      sha256: b2ffc4a2653baffc5bccd42a5d8631c7b71d7e57ded1de0c2dbdfcc5c4690dc1
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.15.0"
-  flutter_gen_core:
-    dependency: transitive
-    description:
-      name: flutter_gen_core
-      sha256: "8ccb1f809642b34eb4857d8d7c4e5b41430a8cba8206177aae2ffe9d72b5eef3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.15.0"
   flutter_hooks:
     dependency: "direct main"
     description:
@@ -818,14 +786,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.14.4"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -1206,14 +1166,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.8"
-  hashcodes:
-    dependency: transitive
-    description:
-      name: hashcodes
-      sha256: "80f9410a5b3c8e110c4b7604546034749259f5d6dcca63e0d3c17c9258f1a651"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   hive:
     dependency: "direct main"
     description:
@@ -1342,14 +1294,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
-  image_size_getter:
-    dependency: transitive
-    description:
-      name: image_size_getter
-      sha256: "7c26937e0ae341ca558b7556591fd0cc456fcc454583b7cb665d2f03e93e590f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.1"
   infinite_scroll_pagination:
     dependency: "direct main"
     description:
@@ -1483,14 +1427,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.14.0"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   listen:
     dependency: transitive
     description:
@@ -2177,14 +2113,6 @@ packages:
       url: "https://github.com/thingsboard/dart_thingsboard_client.git"
     source: git
     version: "5.0.0"
-  time:
-    dependency: transitive
-    description:
-      name: time
-      sha256: "46187cf30bffdab28c56be9a63861b36e4ab7347bf403297595d6a97e10c789f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.6"
   timeago:
     dependency: "direct main"
     description:
@@ -2465,14 +2393,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.23.0"
-  wifi_scan:
-    dependency: "direct main"
-    description:
-      name: wifi_scan
-      sha256: d83a3d3acd795994b5504ff785ac5da10571826df409bb27cb690b93cab551fc
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1+3"
   win32:
     dependency: transitive
     description:
