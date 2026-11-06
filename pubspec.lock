@@ -249,14 +249,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  country_picker:
-    dependency: "direct main"
-    description:
-      name: country_picker
-      sha256: "8ef721183bd7e0a6017c413693cdc68051daceef5790f5420c3b4378b5c69115"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.28"
   cross_file:
     dependency: transitive
     description:
@@ -614,7 +606,7 @@ packages:
     source: hosted
     version: "9.1.1"
   flutter_country_selector:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_country_selector
       sha256: "92d7ae9092ba492bfb0ffe5cd6b38c941261b56e81941d73a0a963fdf5fcf8f6"

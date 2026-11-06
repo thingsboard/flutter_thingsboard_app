@@ -80,7 +80,8 @@ dependencies:
   super_tooltip: ^2.1.1
   go_router: ^18.1.3
   hooks_riverpod: ^3.4.3
-  country_picker: ^2.0.28
+  # Country names and dial codes, the data the phone field uses.
+  flutter_country_selector: ^1.0.19
   native_device_orientation: ^2.1.0
   reactive_forms: ^18.2.2
   reactive_phone_form_field: ^5.0.2

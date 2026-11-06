@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -38,9 +37,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
         'phone': FormControl<PhoneNumber>(
           validators: [PhoneValidators.valid, PhoneValidators.required],
         ),
-        'countryCode': FormControl<Country>(
-          value: CountryService().findByCode('US'),
-        ),
+        'countryCode': FormControl<IsoCode>(value: IsoCode.US),
       }),
     );
 
@@ -67,17 +64,17 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                       S.of(context).enterAPhoneNumberToUseAsYourAuthenticator,
                       style: TbTextStyles.bodyMedium,
                     ),
-                    TbDropDownTextField<Country>(
+                    TbDropDownTextField<IsoCode>(
                       formControlName: 'countryCode',
                       selectedItemBuilder: (country) =>
-                          _getCountryDisplayName(country!),
+                          countryDisplayName(context, country),
                       label: S.of(context).country,
                       bottomSheetBuilder: (context, value) =>
                           const TbCountryPicker(),
                       onSelected: (country) {
                         if (country != null) {
                           phoneController.value = PhoneNumber(
-                            isoCode: IsoCode.fromJson(country.countryCode),
+                            isoCode: country,
                             nsn: phoneController.value.nsn,
                           );
                         }
@@ -127,10 +124,6 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
       title: providerData.descFunction(context, phoneNumber.international),
       resendTimeoutSeconds: 30,
     );
-  }
-
-  String _getCountryDisplayName(Country country) {
-    return '${country.flagEmoji} ${country.name}';
   }
 
   Future<void> _handleSendCode(

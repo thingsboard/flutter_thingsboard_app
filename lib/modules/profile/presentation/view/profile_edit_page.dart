@@ -4,7 +4,6 @@
 // found in the LICENSE file.
 
 import 'package:built_value/json_object.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -86,9 +85,9 @@ class ProfileEditPage extends HookConsumerWidget {
               : null,
           validators: [PhoneValidators.valid],
         ),
-        "countryCode": FormControl<Country>(
+        "countryCode": FormControl<IsoCode>(
           validators: [Validators.required],
-          value: CountryService().findByCode('US'),
+          value: IsoCode.US,
         ),
       }),
     );
@@ -221,18 +220,16 @@ class ProfileEditPage extends HookConsumerWidget {
                                       color: AppColors.iconDisabled,
                                     ),
                                     Expanded(
-                                      child: TbDropDownTextField<Country>(
+                                      child: TbDropDownTextField<IsoCode>(
                                         formControlName: 'countryCode',
                                         selectedItemBuilder: (value) =>
-                                            getCountryDisplayName(value),
+                                            countryDisplayName(context, value),
                                         label: S.of(context).country,
                                         bottomSheetBuilder: (_, val) =>
                                             const TbCountryPicker(),
                                         onSelected: (val) {
                                           phoneController.value = PhoneNumber(
-                                            isoCode: IsoCode.fromJson(
-                                              val!.countryCode,
-                                            ),
+                                            isoCode: val!,
                                             nsn: phoneController.value.nsn,
                                           );
                                         },
@@ -603,10 +600,6 @@ Future<bool> onCancelEditing(BuildContext context) async {
     ),
   );
   return cancel ?? false;
-}
-
-String getCountryDisplayName(Country? country) {
-  return '${country?.flagEmoji} ${country?.name}';
 }
 
 void _setLanguageAndNavigate(

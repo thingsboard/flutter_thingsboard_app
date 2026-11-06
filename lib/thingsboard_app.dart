@@ -12,6 +12,7 @@ import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/providers/app_locale/app_locale_provider.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+import 'package:thingsboard_app/widgets/tb_country_picker.dart';
 import 'package:toastification/toastification.dart';
 
 class ThingsboardApp extends HookConsumerWidget {
@@ -26,7 +27,10 @@ class ThingsboardApp extends HookConsumerWidget {
 
     return ToastificationWrapper(
       child: MaterialApp.router(
-        localizationsDelegates: S.localizationsDelegates,
+        localizationsDelegates: const [
+          ...S.localizationsDelegates,
+          CountryNamesDelegate(),
+        ],
         supportedLocales: S.supportedLocales,
         locale: ref.watch(appLocaleProvider),
         localeListResolutionCallback: resolveAppLocale,
