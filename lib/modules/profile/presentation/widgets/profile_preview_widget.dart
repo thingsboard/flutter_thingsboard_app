@@ -179,7 +179,7 @@ class ProfilePreviewWidget extends HookConsumerWidget {
   ).getLocalizedName(context);
 }
 
-List<Locale> getAllLanguages(BuildContext context) {
+List<Locale> getAllLanguages() {
   final List<Locale> fixedList = List.from(S.supportedLocales);
   fixedList.removeWhere((e) => e.languageCode == 'zh' && e.countryCode == null);
 
@@ -192,7 +192,7 @@ Locale getCurrentLocale(BuildContext context, User user) {
     user.additionalInfo?.asMap['lang']?.toString(),
   );
 
-  return locale != null && getAllLanguages(context).contains(locale)
+  return locale != null && getAllLanguages().contains(locale)
       ? locale
       : Localizations.localeOf(context);
 }

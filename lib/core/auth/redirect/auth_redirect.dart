@@ -50,19 +50,6 @@ class AuthRedirect implements Redirect {
     if (!login.isUserLoaded && !loginPath) {
       return '/login${path.isEmpty ? '' : '?redirect=$path'}';
     }
-
-    // if (login.isUserLoaded &&
-    //     ![
-    //       Authority.PRE_VERIFICATION_TOKEN,
-    //       Authority.MFA_CONFIGURATION_TOKEN,
-    //     ].contains(login.userScope) &&
-    //     isLoginPath(state)) {
-    //   final redirect = state.uri.queryParameters['ridirect'];
-    //   if (redirect != null && redirect.isNotEmpty) {
-    //     return redirect;
-    //   }
-    //   return '/home';
-    // }
     return null;
   }
 }

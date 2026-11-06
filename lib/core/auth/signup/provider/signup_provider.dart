@@ -20,11 +20,7 @@ class Signup extends _$Signup {
 
   @override
   SignupState build() {
-    return const SignupState(isSigningUp: false, recaptchaResponse: null);
-  }
-
-  void setRecaptchaResponse(String? response) {
-    state = state.copyWith(recaptchaResponse: response);
+    return const SignupState(isSigningUp: false);
   }
 
   Future<SignUpResult> signup(SignUpRequest request) async {
@@ -71,18 +67,11 @@ class Signup extends _$Signup {
 }
 
 class SignupState {
-  const SignupState({
-    required this.isSigningUp,
-    required this.recaptchaResponse,
-  });
+  const SignupState({required this.isSigningUp});
 
   final bool isSigningUp;
-  final String? recaptchaResponse;
 
-  SignupState copyWith({bool? isSigningUp, String? recaptchaResponse}) {
-    return SignupState(
-      isSigningUp: isSigningUp ?? this.isSigningUp,
-      recaptchaResponse: recaptchaResponse ?? this.recaptchaResponse,
-    );
+  SignupState copyWith({bool? isSigningUp}) {
+    return SignupState(isSigningUp: isSigningUp ?? this.isSigningUp);
   }
 }

@@ -56,8 +56,6 @@ abstract class WlState with _$WlState {
   WhiteLabelingParams get wlParams =>
       isUserWlMode ? userParams : _loginToWlParams(loginWhiteLabelingParams);
 
-  bool? get loginShowNameVersion => loginWhiteLabelingParams.showNameVersion;
-
   bool? get showNameBottom => loginWhiteLabelingParams.showNameBottom;
 
   bool? get showNameVersion => isUserWlMode

@@ -17,8 +17,6 @@ import 'package:timeago/timeago.dart' as timeago;
 class NotificationWidget extends StatelessWidget {
   const NotificationWidget({
     required this.notification,
-    required this.thingsboardClient,
-    required this.onClearNotification,
     required this.onReadNotification,
     this.isSelectionMode = false,
     this.isSelected = false,
@@ -28,8 +26,6 @@ class NotificationWidget extends StatelessWidget {
   });
 
   final Notification notification;
-  final ThingsboardClient thingsboardClient;
-  final Function(String id, bool readed) onClearNotification;
   final ValueChanged<String> onReadNotification;
   final bool isSelectionMode;
   final bool isSelected;

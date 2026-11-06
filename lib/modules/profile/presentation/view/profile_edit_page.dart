@@ -40,7 +40,7 @@ class ProfileEditPage extends HookConsumerWidget {
     final login = ref.watch(loginProvider);
     final user = login.user!;
     final loading = useState(false);
-    final allLanguages = useMemoized(() => getAllLanguages(context));
+    final allLanguages = useMemoized(() => getAllLanguages());
     final canPop = useState(true);
 
     final initialLocale = useMemoized(() => getCurrentLocale(context, user));

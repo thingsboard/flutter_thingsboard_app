@@ -270,10 +270,7 @@ class _SignUpPageContent extends HookConsumerWidget {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  _openPrivacyPolicy(
-                                                    context,
-                                                    form,
-                                                  );
+                                                  _openPrivacyPolicy(form);
                                                 },
                                                 child: Text(
                                                   " ${S.of(context).privacyPolicy}",
@@ -314,10 +311,7 @@ class _SignUpPageContent extends HookConsumerWidget {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  _openTermsOfUse(
-                                                    context,
-                                                    form,
-                                                  );
+                                                  _openTermsOfUse(form);
                                                 },
                                                 child: Text(
                                                   " ${S.of(context).termsOfUse}",
@@ -478,13 +472,13 @@ Future<void> _openRecaptcha(
   }
 }
 
-Future<void> _openPrivacyPolicy(BuildContext context, FormGroup group) async {
+Future<void> _openPrivacyPolicy(FormGroup group) async {
   final bool? acceptPrivacyPolicy = await getIt<ThingsboardAppRouter>()
       .navigateTo('/privacyPolicy');
   group.control('privacyPolicy').updateValue(acceptPrivacyPolicy);
 }
 
-Future<void> _openTermsOfUse(BuildContext context, FormGroup group) async {
+Future<void> _openTermsOfUse(FormGroup group) async {
   final bool? acceptTermsOfUse = await getIt<ThingsboardAppRouter>().navigateTo(
     '/termsOfUse',
   );

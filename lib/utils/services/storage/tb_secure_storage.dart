@@ -10,8 +10,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-TbStorage createAppStorage() => TbSecureStorage();
-
 /// The app's key-value storage in the Android Keystore / iOS Keychain, as
 /// JSON. Read once in [init] and kept in memory.
 class TbSecureStorage implements TbStorage<Object?> {

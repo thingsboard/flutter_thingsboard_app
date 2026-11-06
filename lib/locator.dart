@@ -41,7 +41,7 @@ import 'package:thingsboard_app/utils/services/location/i_location_service.dart'
 import 'package:thingsboard_app/utils/services/location/location_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.dart';
-import 'package:thingsboard_app/utils/services/storage/_tb_secure_storage.dart';
+import 'package:thingsboard_app/utils/services/storage/tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
@@ -51,7 +51,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 final getIt = GetIt.instance;
 
 Future<void> setUpRootDependencies() async {
-  final secureStorage = createAppStorage() as TbSecureStorage;
+  final secureStorage = TbSecureStorage();
   await secureStorage.init();
   final deviceInfoService = DeviceInfoService();
   await deviceInfoService.init();

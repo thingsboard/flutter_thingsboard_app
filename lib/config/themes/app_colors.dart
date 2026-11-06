@@ -22,7 +22,6 @@ class AppColors {
   static const textTertiary = Color(0x8A000000);
   static const textDisabled = Color(0x61000000);
   static const textWhite = Color(0xFFFFFFFF);
-  static const textDark = Color(0xFF282828);
 
   // Icon Colors
   static const iconSecondary = Color(0xC2000000);

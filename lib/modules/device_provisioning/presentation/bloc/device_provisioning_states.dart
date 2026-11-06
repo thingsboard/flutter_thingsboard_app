@@ -38,16 +38,6 @@ final class DeviceProvisioningClaimingWipState extends DeviceProvisioningState {
   const DeviceProvisioningClaimingWipState();
 }
 
-// final class DeviceProvisioningClaimingDoneState
-//     extends DeviceProvisioningState {
-//   const DeviceProvisioningClaimingDoneState(this.deviceName);
-//
-//   final String deviceName;
-//
-//   @override
-//   List<Object?> get props => [deviceName];
-// }
-
 final class DeviceProvisioningClaimingErrorState
     extends DeviceProvisioningState {
   const DeviceProvisioningClaimingErrorState(this.message);

@@ -40,22 +40,16 @@ class DeviceInfoService implements IDeviceInfoService {
   bool isPhysicalDevice() {
     if (Platform.isAndroid) {
       return androidInfo!.isPhysicalDevice == true;
-    } else if (Platform.isIOS) {
-      return iosInfo!.isPhysicalDevice;
-    } else {
-      return false;
     }
+    return iosInfo!.isPhysicalDevice;
   }
 
   @override
   String getSystemVersion() {
     if (Platform.isAndroid) {
       return androidInfo?.version.release ?? 'Unknown Android Version';
-    } else if (Platform.isIOS) {
-      return iosInfo?.systemVersion ?? 'Unknown iOS Version';
-    } else {
-      return 'Unknown Platform Version';
     }
+    return iosInfo?.systemVersion ?? 'Unknown iOS Version';
   }
 
   @override
@@ -67,9 +61,7 @@ class DeviceInfoService implements IDeviceInfoService {
   String getDeviceModel() {
     return Platform.isAndroid
         ? androidInfo?.model ?? 'Unknown Android Model'
-        : Platform.isIOS
-        ? iosInfo?.model ?? 'Unknown iOS Model'
-        : 'Unknown Device Model';
+        : iosInfo?.model ?? 'Unknown iOS Model';
   }
 
   @override

@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thingsboard_app/utils/services/storage/_tb_secure_storage.dart';
+import 'package:thingsboard_app/utils/services/storage/tb_secure_storage.dart';
 
 void main() {
   late Directory support;

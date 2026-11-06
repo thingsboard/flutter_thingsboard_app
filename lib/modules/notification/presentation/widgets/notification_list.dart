@@ -54,8 +54,6 @@ class NotificationsList extends StatelessWidget {
                   thingsboardClient: thingsboardClient,
                   child: NotificationWidget(
                     notification: item,
-                    thingsboardClient: thingsboardClient,
-                    onClearNotification: onClearNotification,
                     onReadNotification: onReadNotification,
                     isSelectionMode: isSelectionMode,
                     isSelected: selectedIds.contains(id),

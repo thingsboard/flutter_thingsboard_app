@@ -25,14 +25,6 @@ abstract final class TbTextStyles {
     letterSpacing: 0,
   );
 
-  static const titleSmall = TextStyle(
-    fontFamily: 'Roboto',
-    fontWeight: FontWeight.w500,
-    fontSize: 20,
-    height: 1.2, // 24px line height
-    letterSpacing: 0.01,
-  );
-
   static const titleXs = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,

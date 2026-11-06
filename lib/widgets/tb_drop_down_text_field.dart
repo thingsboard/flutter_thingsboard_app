@@ -35,8 +35,7 @@ class TbDropDownTextField<T> extends HookWidget {
     final form = useMemoized(
       () => FormGroup({"value": FormControl(value: selectedItemBuilder(val))}),
     );
-    // The shown text is built once per value: rebuild it when the app
-    // language changes (the profile previews a newly picked language).
+    // The shown text is built per value: rebuild it on a language change.
     final locale = Localizations.localeOf(context);
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {

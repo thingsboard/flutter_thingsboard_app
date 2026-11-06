@@ -3,28 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-class PlatformVersionMatcher {
-  static const int minPlatformVersionInt = 3900;
-
-  static bool isSupportedPlatformVersion(
-    PlatformVersion platformVersion, {
-    required String type,
-  }) {
-    if (type != 'PE' && type != 'PAAS') {
-      return false;
-    }
-
-    try {
-      if (platformVersion.versionInt() < minPlatformVersionInt) {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-    return true;
-  }
-}
-
 class PlatformVersion {
   PlatformVersion({
     required this.major,

@@ -12,20 +12,16 @@ import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 
 class TbDashboardExportModule {
-  /// Reads a `blob:` download as the page clicks its link. The web UI
-  /// revokes the URL right after the click (TB 4.2.1+), before
-  /// [onDownloadStarting] could fetch it.
+  /// Hands `blob:` downloads to the downloadBase64 handler. The web UI
+  /// revokes a blob URL right after clicking its link (TB 4.2.1+), so those
+  /// clicks are read at once; other blob downloads come via
+  /// [onDownloadStarting].
   static final blobDownloadScript = UserScript(
     injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
     source: '''
 (function () {
-  const click = HTMLAnchorElement.prototype.click;
-  HTMLAnchorElement.prototype.click = function () {
-    if (!this.hasAttribute('download') || !this.href.startsWith('blob:')) {
-      return click.call(this);
-    }
-    const filename = this.download;
-    fetch(this.href)
+  window.tbDownloadBlob = function (url, filename) {
+    fetch(url)
       .then((response) => response.blob())
       .then((blob) => new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -36,6 +32,13 @@ class TbDashboardExportModule {
       .then(([base64, type]) => window.flutter_inappwebview.callHandler(
         'downloadBase64', filename, base64, type || ''))
       .catch((error) => console.error('Error downloading blob:', error));
+  };
+  const click = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function () {
+    if (!this.hasAttribute('download') || !this.href.startsWith('blob:')) {
+      return click.call(this);
+    }
+    window.tbDownloadBlob(this.href, this.download);
   };
 })();
 ''',
@@ -120,41 +123,8 @@ class TbDashboardExportModule {
     if (downloadURL.startsWith('blob')) {
       controller.evaluateJavascript(
         source:
-            '''
-        function flutterBlobToBase64(blob) {
-          return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              const base64data = reader.result.split(',')[1];
-              resolve(base64data);
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          });
-        }
-        
-        async function flutterBlobDownload(filename, blobUrl) {
-          try {
-            const response = await fetch(blobUrl);
-            const blob = await response.blob();
-            
-            const base64 = await flutterBlobToBase64(blob);
-            
-            // Get the MIME type from the blob
-            const mimeType = blob.type || '';
-            
-            window.flutter_inappwebview.callHandler(
-              'downloadBase64',
-              filename,
-              base64,
-              mimeType
-            );
-          } catch (error) {
-            console.error('Error downloading blob:', error);
-          }
-        }
-        flutterBlobDownload("${downloadStartRequest.suggestedFilename ?? ''}", "$downloadURL");
-      ''',
+            'window.tbDownloadBlob(${jsonEncode(downloadURL)}, '
+            '${jsonEncode(downloadStartRequest.suggestedFilename ?? '')});',
       );
       return null;
     } else {
