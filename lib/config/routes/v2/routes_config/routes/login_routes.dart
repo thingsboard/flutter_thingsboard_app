@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/two_factor_authentication_page.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_config_success.dart';
@@ -22,6 +23,16 @@ class LoginRoutes {
   static const mfaForce = '/mfaForce';
   static const mfaForceSuccess = '/mfaForceSuccess';
   static const mfaConfigure = '/mfaConfigure';
+}
+
+/// Back to the login page: the one under the current page, or a new one when
+/// the page was opened on its own (an app link).
+void backToLogin(BuildContext context) {
+  if (context.canPop()) {
+    context.pop();
+  } else {
+    context.go(LoginRoutes.login);
+  }
 }
 
 // Authentication routes

@@ -8,12 +8,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:recaptcha_enterprise_flutter/recaptcha.dart';
 import 'package:recaptcha_enterprise_flutter/recaptcha_action.dart';
 import 'package:recaptcha_enterprise_flutter/recaptcha_client.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/core/auth/signup/provider/signup_provider.dart';
@@ -121,10 +123,11 @@ class _SignUpPageContent extends HookConsumerWidget {
     }
 
     return PopScope(
-      canPop: false,
+      // Opened from an app link there is no login page to go back to.
+      canPop: context.canPop(),
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          getIt<ThingsboardAppRouter>().navigateTo('/login');
+          context.go(LoginRoutes.login);
         }
       },
       child: ReactiveForm(
@@ -491,9 +494,7 @@ Future<void> _openTermsOfUse(BuildContext context, FormGroup group) async {
   group.control('termsOfUse').updateValue(acceptTermsOfUse);
 }
 
-Future<void> _login(BuildContext context) async {
-  getIt<ThingsboardAppRouter>().navigateTo('/login');
-}
+void _login(BuildContext context) => backToLogin(context);
 
 Future<void> _signUp(
   BuildContext context,

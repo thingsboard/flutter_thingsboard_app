@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -143,9 +142,6 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           platform: getIt<IDeviceInfoService>().getPlatformType().name,
         );
 
-    getIt<ThingsboardAppRouter>().navigateTo(
-      '/emailVerification?email=${Uri.encodeComponent(widget._email)}',
-    );
     if (mounted) {
       getIt<IOverlayService>().showSuccessNotification(
         (_) => S.of(context).emailVersificationSuccessfullySentNotification,

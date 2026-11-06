@@ -8,7 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -48,16 +48,15 @@ class EmailVerifiedPage extends HookConsumerWidget {
       //   'EmailVerifiedPage::activateAndGetCredentials() error -> $e',
       // );
       if (context.mounted) {
-        if (context.canPop()) {
-          context.pop();
-        } else {
-          getIt<ThingsboardAppRouter>().navigateTo('/login');
-        }
+        backToLogin(context);
       }
     }
   }
 
+  /// Signs in with the activation's tokens, as the web UI does; without
+  /// them the user signs in on the login page.
   void handleLogin(
+    BuildContext context,
     ValueNotifier<LoginResponse?> loginResponse,
     ITbClientService tbClientService,
   ) {
@@ -68,6 +67,8 @@ class EmailVerifiedPage extends HookConsumerWidget {
         response.refreshToken,
         true,
       );
+    } else {
+      context.go(LoginRoutes.login);
     }
   }
 
@@ -162,6 +163,7 @@ class EmailVerifiedPage extends HookConsumerWidget {
                                     ),
                                   ),
                                   onPressed: () => handleLogin(
+                                    context,
                                     loginResponse,
                                     tbClientService,
                                   ),
