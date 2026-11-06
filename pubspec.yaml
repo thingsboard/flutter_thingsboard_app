@@ -60,7 +60,6 @@ dependencies:
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   event_bus: ^2.0.1
-  google_fonts: ^9.0.0
   expandable: ^5.0.1
   focused_menu: ^1.0.5
   recaptcha_enterprise_flutter: ^18.9.3
@@ -116,6 +115,17 @@ flutter:
     - family: MaterialDesignIcons
       fonts:
         - asset: assets/fonts/materialdesignicons-webfont.ttf
+    # The Google Fonts build of Roboto (the files google_fonts downloaded at
+    # run time), bundled so text does not depend on fonts.gstatic.com.
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/roboto/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/roboto/Roboto-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/roboto/Roboto-Bold.ttf
+          weight: 700
 
 flutter_launcher_icons:
   ### android config

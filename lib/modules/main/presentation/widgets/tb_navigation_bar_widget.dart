@@ -5,7 +5,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.dart';
 import 'package:thingsboard_app/modules/main/presentation/widgets/bottom_navbar_items.dart';
 
@@ -53,14 +52,16 @@ class TbNavigationBarWidget extends StatelessWidget {
                     lineIndicatorWidth: lineIndicatorWidth,
                     index: index,
                     onTap: onTap,
-                    selectedTextStyle: GoogleFonts.roboto(
+                    selectedTextStyle: TextStyle(
+                      fontFamily: 'Roboto',
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       height: 1.3,
                       letterSpacing: .4,
                       color: bottomTheme.selectedItemColor,
                     ),
-                    unSelectedTextStyle: GoogleFonts.roboto(
+                    unSelectedTextStyle: TextStyle(
+                      fontFamily: 'Roboto',
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       height: 1.3,

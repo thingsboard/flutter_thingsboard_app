@@ -248,7 +248,7 @@ class ProfileEditPage extends HookConsumerWidget {
                                           ReactivePhoneFormField<PhoneNumber>(
                                             controller: phoneController,
                                             countryButtonStyle:
-                                                CountryButtonStyle(
+                                                const CountryButtonStyle(
                                                   textStyle:
                                                       TbTextStyles.bodyLarge,
                                                   showFlag: false,

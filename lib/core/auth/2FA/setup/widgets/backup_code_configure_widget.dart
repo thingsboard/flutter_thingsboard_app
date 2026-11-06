@@ -59,7 +59,7 @@ class BackupCodeConfigureWidget
             child: Column(
               spacing: 20,
               children: [
-                Column(
+                const Column(
                   spacing: 8,
                   children: [
                     Text(

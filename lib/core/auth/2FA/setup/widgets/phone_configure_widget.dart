@@ -205,7 +205,7 @@ class PhoneTextField extends HookWidget {
   Widget build(BuildContext context) {
     return ReactivePhoneFormField<PhoneNumber>(
       controller: phoneController,
-      countryButtonStyle: CountryButtonStyle(
+      countryButtonStyle: const CountryButtonStyle(
         textStyle: TbTextStyles.bodyLarge,
         showFlag: false,
         showDropdownIcon: false,
