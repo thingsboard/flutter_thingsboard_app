@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
@@ -25,14 +26,17 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 class NotificationService {
   NotificationService({
     FirebaseMessaging? messaging,
+    FirebaseInstallations? installations,
     FlutterLocalNotificationsPlugin? localNotificationsPlugin,
     INotificationsLocalService? localService,
   }) : _injectedMessaging = messaging,
+       _injectedInstallations = installations,
        flutterLocalNotificationsPlugin =
            localNotificationsPlugin ?? PushNotificationDisplay.plugin,
        _localService = localService ?? NotificationsLocalService();
 
   final FirebaseMessaging? _injectedMessaging;
+  final FirebaseInstallations? _injectedInstallations;
   final TbLogger _log = getIt();
   // Read the live client on every access: a QR-code endpoint switch re-creates
   // the client (ITbClientService.reInit), so a reference captured at
@@ -43,24 +47,23 @@ class NotificationService {
   final INotificationsLocalService _localService;
   StreamSubscription? _foregroundMessageSubscription;
   StreamSubscription? _onMessageOpenedAppSubscription;
-  StreamSubscription? _onTokenRefreshSubscription;
+  StreamSubscription? _onRegisteredSubscription;
   Future<void>? _staleCleanup;
 
-  String? _fcmToken;
+  /// The Firebase Installation ID this device is registered with FCM under;
+  /// the server stores it as the mobile session token (`X-Mobile-Token`).
+  String? _fid;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   /// Resolved lazily: `FirebaseMessaging.instance` needs an initialized
   /// Firebase app, and the locator constructs this service before `main()`
   /// initializes Firebase.
-  ///
-  /// firebase_messaging 17 deprecates getToken/deleteToken/onTokenRefresh in
-  /// favour of register()/onRegistered, which yield a Firebase Installation
-  /// ID for FCM direct-send. ThingsBoard sends pushes to the FCM registration
-  /// token, so the token API stays (its uses are marked deprecated_member_use)
-  /// until the server supports installation IDs.
   FirebaseMessaging get _messaging =>
       _injectedMessaging ?? FirebaseMessaging.instance;
+
+  FirebaseInstallations get _installations =>
+      _injectedInstallations ?? FirebaseInstallations.instance;
 
   bool get _isFirebaseConfigured => getIt<IFirebaseService>().apps.isNotEmpty;
 
@@ -94,35 +97,12 @@ class NotificationService {
     );
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      await _getAndSaveToken();
-
-      // ignore: deprecated_member_use
-      _onTokenRefreshSubscription = _messaging.onTokenRefresh.listen((
-        token,
-      ) async {
-        final previousToken = _fcmToken;
-        _fcmToken = token;
-        if (previousToken != null) {
-          try {
-            await _tbClient.getUserControllerApi().removeMobileSession(
-              xMobileToken: previousToken,
-              extra: silentRequestExtra(),
-            );
-          } catch (e) {
-            _log.warn(
-              'NotificationService: failed to remove the mobile session of '
-              'the previous FCM token: $e',
-            );
-          }
-        }
-        try {
-          await _saveToken(token);
-        } catch (e) {
-          _log.warn(
-            'NotificationService: failed to save the refreshed FCM token: $e',
-          );
-        }
-      });
+      // FCM registers app instances by Firebase Installation ID (FID); the
+      // registration-token API is deprecated (firebase_messaging 17). The
+      // server keeps sending with the `token` target, which accepts FIDs
+      // during Firebase's migration period.
+      _onRegisteredSubscription = _messaging.onRegistered.listen(_onFidChanged);
+      await _registerAndSave();
 
       await _initFlutterLocalNotificationsPlugin();
       await _configFirebaseMessaging();
@@ -137,11 +117,14 @@ class NotificationService {
     );
   }
 
-  Future<String?> getToken() async {
+  /// Registers this app instance with FCM and returns its FID, or null when
+  /// that fails (e.g. offline).
+  Future<String?> registerWithFcm() async {
     try {
-      // ignore: deprecated_member_use
-      return _fcmToken = await _messaging.getToken();
-    } catch (_) {
+      await _messaging.register();
+      return _fid = await _installations.getId();
+    } catch (e) {
+      _log.warn('NotificationService: FCM registration failed: $e');
       return null;
     }
   }
@@ -156,16 +139,16 @@ class NotificationService {
     }
 
     _log.debug('NotificationService::logout()');
-    if (_fcmToken != null) {
+    if (_fid != null) {
       _log.debug('NotificationService::logout() removeMobileSession');
       try {
         await _tbClient.getUserControllerApi().removeMobileSession(
-          xMobileToken: _fcmToken!,
+          xMobileToken: _fid!,
           extra: silentRequestExtra(),
         );
       } catch (e) {
         // Best effort: the session may already be invalid (e.g. expired JWT).
-        // Deleting the local FCM token below still stops the notifications.
+        // Unregistering from FCM below still stops the notifications.
         _log.warn(
           'NotificationService::logout() removeMobileSession failed: $e',
         );
@@ -179,15 +162,15 @@ class NotificationService {
   /// without an explicit logout (e.g. the refresh token expired while the
   /// app was closed, #304). The JWT is already invalid at this point, so the
   /// server-side mobile session usually can't be removed here; deleting the
-  /// local FCM token makes further pushes bounce, and the platform purges
+  /// unregistering from FCM makes further pushes bounce, and the platform purges
   /// the session on the next delivery attempt.
   ///
   /// Idempotent, never throws, and safe to call whenever the client is
   /// unauthenticated. Concurrent calls share a single run, and [init] waits
   /// for a run that is already in flight. The reverse direction is not
-  /// ordered: a cleanup that starts while [init] is mid-flight can delete the
-  /// token [init] just registered, which only costs pushes until the next
-  /// launch registers a fresh one.
+  /// ordered: a cleanup that starts while [init] is mid-flight can unregister
+  /// the registration [init] just made, which only costs pushes until the
+  /// next launch registers again.
   Future<void> cleanUpStalePushRegistration() async {
     if (!_isFirebaseConfigured) {
       return;
@@ -202,7 +185,7 @@ class NotificationService {
     try {
       // The flag keeps this a no-op on devices that never registered, so a
       // fresh install sitting on the login screen never calls into FCM:
-      // deleteToken() is an unconditional platform round trip either way.
+      // unregister() is an unconditional platform round trip either way.
       if (!await _localDatabase.isPushRegistered()) {
         return;
       }
@@ -213,21 +196,18 @@ class NotificationService {
     }
   }
 
-  /// Deleting the FCM token is what stops delivery; the rest drops the local
+  /// Unregistering from FCM is what stops delivery; the rest drops the local
   /// push state. Failures are swallowed so a logout still completes offline:
   /// the registration flag is cleared last, so an interrupted teardown is
-  /// retried by [cleanUpStalePushRegistration] on the next launch. On iOS
-  /// `deleteToken()` throws `apns-token-not-set` until the APNS token the
-  /// plugin requests at launch has arrived (e.g. an offline launch); that is
-  /// one such interruption.
+  /// retried by [cleanUpStalePushRegistration] on the next launch (e.g. an
+  /// offline launch).
   Future<void> _tearDownLocalPushState() async {
     try {
       await _foregroundMessageSubscription?.cancel();
       await _onMessageOpenedAppSubscription?.cancel();
-      await _onTokenRefreshSubscription?.cancel();
-      // ignore: deprecated_member_use
-      await _messaging.deleteToken();
-      _fcmToken = null;
+      await _onRegisteredSubscription?.cancel();
+      await _messaging.unregister();
+      _fid = null;
       await _messaging.setAutoInitEnabled(false);
       await flutterLocalNotificationsPlugin.cancelAll();
       await _localService.clearNotificationBadgeCount();
@@ -267,8 +247,8 @@ class NotificationService {
       return;
     }
     _launchNotificationHandled = true;
-    final launchDetails =
-        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    final launchDetails = await flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
     final payload = launchDetails?.notificationResponse?.payload;
     if (launchDetails?.didNotificationLaunchApp == true && payload != null) {
       try {
@@ -279,31 +259,12 @@ class NotificationService {
     }
   }
 
-  Future<String?> _resetToken(String? token) async {
-    if (token != null) {
-      try {
-        await _tbClient.getUserControllerApi().removeMobileSession(
-          xMobileToken: token,
-          extra: silentRequestExtra(),
-        );
-      } catch (e) {
-        _log.warn(
-          'NotificationService::_resetToken() removeMobileSession failed: $e',
-        );
-      }
-    }
-
-    // ignore: deprecated_member_use
-    await _messaging.deleteToken();
-    return await getToken();
-  }
-
-  Future<void> _getAndSaveToken() async {
-    final fcmToken = await getToken();
-    _log.debug('FCM token: $fcmToken');
+  Future<void> _registerAndSave() async {
+    final fid = await registerWithFcm();
+    _log.debug('FCM installation ID: $fid');
 
     try {
-      await _syncMobileSession(fcmToken);
+      await _syncMobileSession(fid);
     } catch (e) {
       // The server may reject the session for an unknown mobile package:
       // push notifications simply stay off, nothing else should break.
@@ -311,29 +272,52 @@ class NotificationService {
     }
   }
 
-  Future<void> _syncMobileSession(String? fcmToken) async {
-    if (fcmToken == null) {
+  /// FCM reports a (possibly new) FID on routine syncs and when it changes:
+  /// move the server-side mobile session to it.
+  Future<void> _onFidChanged(String fid) async {
+    final previous = _fid;
+    _fid = fid;
+    if (previous == fid) {
       return;
     }
-
-    final mobileInfo =
-        (await _tbClient.getUserControllerApi().getMobileSession(
-          xMobileToken: fcmToken,
+    if (previous != null) {
+      try {
+        await _tbClient.getUserControllerApi().removeMobileSession(
+          xMobileToken: previous,
           extra: silentRequestExtra(),
-        )).data;
-    if (mobileInfo == null) {
-      await _saveToken(fcmToken);
+        );
+      } catch (e) {
+        _log.warn(
+          'NotificationService: failed to remove the mobile session of '
+          'the previous installation ID: $e',
+        );
+      }
+    }
+    try {
+      await _saveToken(fid);
+    } catch (e) {
+      _log.warn(
+        'NotificationService: failed to save the new installation ID: $e',
+      );
+    }
+  }
+
+  Future<void> _syncMobileSession(String? fid) async {
+    if (fid == null) {
       return;
     }
 
-    final tokenAge =
+    final mobileInfo = (await _tbClient.getUserControllerApi().getMobileSession(
+      xMobileToken: fid,
+      extra: silentRequestExtra(),
+    )).data;
+    // An FID is stable, unlike the old registration tokens, which were
+    // rotated monthly: refreshing the session timestamp is enough.
+    final age =
         DateTime.now().millisecondsSinceEpoch -
-        (mobileInfo.fcmTokenTimestamp ?? 0);
-    if (tokenAge > const Duration(days: 30).inMilliseconds) {
-      final freshToken = await _resetToken(fcmToken);
-      if (freshToken != null) {
-        await _saveToken(freshToken);
-      }
+        (mobileInfo?.fcmTokenTimestamp ?? 0);
+    if (mobileInfo == null || age > const Duration(days: 30).inMilliseconds) {
+      await _saveToken(fid);
       return;
     }
 
@@ -386,8 +370,8 @@ class NotificationService {
         case 'DASHBOARD':
           String? dashboardId;
           if ((data['dashboardId'] ?? data['onClick.dashboardId']) != null) {
-            dashboardId =
-                (data['dashboardId'] ?? data['onClick.dashboardId']).toString();
+            dashboardId = (data['dashboardId'] ?? data['onClick.dashboardId'])
+                .toString();
           }
           EntityId? entityId;
           final rawEntityId =
@@ -398,18 +382,16 @@ class NotificationService {
           );
           if (rawEntityId != null && entityType != null) {
             entityId = $EntityId(
-              (b) =>
-                  b
-                    ..entityType = entityType
-                    ..id = rawEntityId.toString(),
+              (b) => b
+                ..entityType = entityType
+                ..id = rawEntityId.toString(),
             );
           }
 
           final state = Utils.createDashboardEntityState(
             entityId,
-            stateId:
-                (data['dashboardState'] ?? data['onClick.dashboardState'])
-                    .toString(),
+            stateId: (data['dashboardState'] ?? data['onClick.dashboardState'])
+                .toString(),
           );
 
           if (dashboardId != null) {

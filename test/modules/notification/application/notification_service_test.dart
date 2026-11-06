@@ -3,13 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// The service keeps firebase_messaging's deprecated FCM token API on
-// purpose (see NotificationService._messaging); the tests mock it.
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +20,8 @@ import '../../../helpers/test_dependencies.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
+class MockFirebaseInstallations extends Mock implements FirebaseInstallations {}
+
 class MockFlutterLocalNotificationsPlugin extends Mock
     implements FlutterLocalNotificationsPlugin {}
 
@@ -34,8 +33,8 @@ class MockUserControllerApi extends Mock implements UserControllerApi {}
 class MockNotificationControllerApi extends Mock
     implements NotificationControllerApi {}
 
-const fcmToken = 'fcm-token';
-const refreshedToken = 'refreshed-token';
+const installationId = 'installation-id';
+const newInstallationId = 'new-installation-id';
 
 Response<T> response<T>([T? data]) =>
     Response<T>(requestOptions: RequestOptions(), data: data);
@@ -57,20 +56,19 @@ NotificationSettings permission(AuthorizationStatus status) =>
     );
 
 MobileSessionInfo sessionRegistered(Duration ago) => MobileSessionInfo(
-  (b) =>
-      b
-        ..fcmTokenTimestamp =
-            DateTime.now().subtract(ago).millisecondsSinceEpoch,
+  (b) => b
+    ..fcmTokenTimestamp = DateTime.now().subtract(ago).millisecondsSinceEpoch,
 );
 
 void main() {
   late MockFirebaseMessaging messaging;
+  late MockFirebaseInstallations installations;
   late MockFlutterLocalNotificationsPlugin localNotificationsPlugin;
   late MockNotificationsLocalService localService;
   late MockLocalDatabaseService localDatabase;
   late MockFirebaseService firebaseService;
   late MockUserControllerApi userApi;
-  late StreamController<String> tokenRefreshes;
+  late StreamController<String> fidChanges;
 
   setUpAll(() {
     registerFallbackValue(const InitializationSettings());
@@ -79,15 +77,16 @@ void main() {
 
   NotificationService buildService() => NotificationService(
     messaging: messaging,
+    installations: installations,
     localNotificationsPlugin: localNotificationsPlugin,
     localService: localService,
   );
 
-  /// `logout()` only removes the server-side session for a token the service
-  /// has already resolved, so prime the private token field first.
+  /// `logout()` only removes the server-side session for an installation ID
+  /// the service has already resolved, so register first.
   Future<NotificationService> buildServiceWithToken() async {
     final service = buildService();
-    await service.getToken();
+    await service.registerWithFcm();
     return service;
   }
 
@@ -121,26 +120,26 @@ void main() {
     ),
   );
 
-  void stubPushRegistered() => when(
-    () => localDatabase.isPushRegistered(),
-  ).thenAnswer((_) async => true);
+  void stubPushRegistered() =>
+      when(() => localDatabase.isPushRegistered())
+          .thenAnswer((_) async => true);
 
   setUp(() {
     messaging = MockFirebaseMessaging();
+    installations = MockFirebaseInstallations();
     localNotificationsPlugin = MockFlutterLocalNotificationsPlugin();
     localService = MockNotificationsLocalService();
     localDatabase = MockLocalDatabaseService();
     firebaseService = MockFirebaseService();
     userApi = MockUserControllerApi();
-    tokenRefreshes = StreamController<String>.broadcast();
-    addTearDown(tokenRefreshes.close);
+    fidChanges = StreamController<String>.broadcast();
+    addTearDown(fidChanges.close);
 
     final notificationApi = MockNotificationControllerApi();
     final tbClient = MockThingsboardClient();
     when(() => tbClient.getUserControllerApi()).thenReturn(userApi);
-    when(
-      () => tbClient.getNotificationControllerApi(),
-    ).thenReturn(notificationApi);
+    when(() => tbClient.getNotificationControllerApi())
+        .thenReturn(notificationApi);
     when(
       () => notificationApi.getUnreadNotificationsCount(
         deliveryMethod: any(named: 'deliveryMethod'),
@@ -149,16 +148,14 @@ void main() {
     ).thenAnswer((_) async => response<int>(0));
     when(() => firebaseService.apps).thenReturn(['[DEFAULT]']);
 
-    when(() => messaging.getToken()).thenAnswer((_) async => fcmToken);
-    when(() => messaging.deleteToken()).thenAnswer((_) async {});
+    when(() => messaging.register()).thenAnswer((_) async {});
+    when(() => installations.getId()).thenAnswer((_) async => installationId);
+    when(() => messaging.unregister()).thenAnswer((_) async {});
     when(() => messaging.setAutoInitEnabled(any())).thenAnswer((_) async {});
     when(() => messaging.getInitialMessage()).thenAnswer((_) async => null);
-    when(
-      () => messaging.requestPermission(provisional: true),
-    ).thenAnswer((_) async => permission(AuthorizationStatus.authorized));
-    when(
-      () => messaging.onTokenRefresh,
-    ).thenAnswer((_) => tokenRefreshes.stream);
+    when(() => messaging.requestPermission(provisional: true))
+        .thenAnswer((_) async => permission(AuthorizationStatus.authorized));
+    when(() => messaging.onRegistered).thenAnswer((_) => fidChanges.stream);
 
     when(
       () => localNotificationsPlugin.initialize(
@@ -169,15 +166,12 @@ void main() {
       ),
     ).thenAnswer((_) async => true);
     when(() => localNotificationsPlugin.cancelAll()).thenAnswer((_) async {});
-    when(
-      () => localNotificationsPlugin.getNotificationAppLaunchDetails(),
-    ).thenAnswer((_) async => null);
-    when(
-      () => localService.clearNotificationBadgeCount(),
-    ).thenAnswer((_) async {});
-    when(
-      () => localService.updateNotificationsCount(any()),
-    ).thenAnswer((_) async {});
+    when(() => localNotificationsPlugin.getNotificationAppLaunchDetails())
+        .thenAnswer((_) async => null);
+    when(() => localService.clearNotificationBadgeCount())
+        .thenAnswer((_) async {});
+    when(() => localService.updateNotificationsCount(any()))
+        .thenAnswer((_) async {});
 
     when(() => localDatabase.isPushRegistered()).thenAnswer((_) async => false);
     when(() => localDatabase.setPushRegistered()).thenAnswer((_) async {});
@@ -208,26 +202,24 @@ void main() {
   group('NotificationService.init', () {
     test('handles the notification that launched the app once per process, '
         'not again when a later login re-runs init()', () async {
-      when(
-        () => localNotificationsPlugin.getNotificationAppLaunchDetails(),
-      ).thenAnswer(
-        (_) async => const NotificationAppLaunchDetails(
-          true,
-          notificationResponse: NotificationResponse(
-            notificationResponseType:
-                NotificationResponseType.selectedNotification,
-            payload: '{}',
-          ),
-        ),
-      );
+      when(() => localNotificationsPlugin.getNotificationAppLaunchDetails())
+          .thenAnswer(
+            (_) async => const NotificationAppLaunchDetails(
+              true,
+              notificationResponse: NotificationResponse(
+                notificationResponseType:
+                    NotificationResponseType.selectedNotification,
+                payload: '{}',
+              ),
+            ),
+          );
       final service = buildService();
 
       await service.init();
       await service.init();
 
-      verify(
-        () => localNotificationsPlugin.getNotificationAppLaunchDetails(),
-      ).called(1);
+      verify(() => localNotificationsPlugin.getNotificationAppLaunchDetails())
+          .called(1);
     });
 
     test('skips entirely when Firebase is not configured', () async {
@@ -235,7 +227,7 @@ void main() {
 
       await buildService().init();
 
-      verifyNever(() => messaging.getToken());
+      verifyNever(() => messaging.register());
       verifyNever(() => localDatabase.setPushRegistered());
     });
 
@@ -245,13 +237,12 @@ void main() {
     ]) {
       test('registers the device and marks push as registered under '
           '$status when the server has no session for the token', () async {
-        when(
-          () => messaging.requestPermission(provisional: true),
-        ).thenAnswer((_) async => permission(status));
+        when(() => messaging.requestPermission(provisional: true))
+            .thenAnswer((_) async => permission(status));
 
         await buildService().init();
 
-        verifyMobileSessionSaved(fcmToken);
+        verifyMobileSessionSaved(installationId);
         verify(() => localDatabase.setPushRegistered()).called(1);
       });
     }
@@ -266,49 +257,21 @@ void main() {
       verify(() => localDatabase.setPushRegistered()).called(1);
     });
 
-    test('rotates a token older than 30 days and marks push as '
-        'registered', () async {
+    test('refreshes a server-side session older than 30 days for the same '
+        'installation ID and marks push as registered', () async {
       stubMobileSession(sessionRegistered(const Duration(days: 31)));
-      final tokens = [fcmToken, refreshedToken];
-      when(
-        () => messaging.getToken(),
-      ).thenAnswer((_) async => tokens.removeAt(0));
 
       await buildService().init();
 
-      verifyInOrder([
-        () => userApi.removeMobileSession(
-          xMobileToken: fcmToken,
-          extra: any(named: 'extra'),
-        ),
-        () => messaging.deleteToken(),
-        () => userApi.saveMobileSession(
-          xMobileToken: refreshedToken,
-          mobileSessionInfo: any(named: 'mobileSessionInfo'),
-          extra: any(named: 'extra'),
-        ),
-      ]);
+      verifyNoSessionRemoval();
+      verifyNever(() => messaging.unregister());
+      verifyMobileSessionSaved(installationId);
       verify(() => localDatabase.setPushRegistered()).called(1);
     });
 
-    test('leaves push unregistered when the rotation cannot obtain a fresh '
-        'token', () async {
-      stubMobileSession(sessionRegistered(const Duration(days: 31)));
-      final tokens = <String?>[fcmToken, null];
-      when(
-        () => messaging.getToken(),
-      ).thenAnswer((_) async => tokens.removeAt(0));
-
-      await buildService().init();
-
-      verify(() => messaging.deleteToken()).called(1);
-      verifyNoSessionSaved();
-      verifyNever(() => localDatabase.setPushRegistered());
-    });
-
-    test('does not mark push as registered when no FCM token is '
+    test('does not mark push as registered when no installation ID is '
         'available', () async {
-      when(() => messaging.getToken()).thenThrow(Exception('offline'));
+      when(() => installations.getId()).thenThrow(Exception('offline'));
 
       await buildService().init();
 
@@ -323,73 +286,72 @@ void main() {
 
     test('does not register the device when notification permission '
         'is denied', () async {
-      when(
-        () => messaging.requestPermission(provisional: true),
-      ).thenAnswer((_) async => permission(AuthorizationStatus.denied));
+      when(() => messaging.requestPermission(provisional: true))
+          .thenAnswer((_) async => permission(AuthorizationStatus.denied));
 
       await buildService().init();
 
-      verifyNever(() => messaging.getToken());
+      verifyNever(() => messaging.register());
       verifyNever(() => localDatabase.setPushRegistered());
     });
 
-    test('waits for a pending stale cleanup, so the token it registers '
-        'is not the one being deleted', () async {
+    test('waits for a pending stale cleanup, so its registration is not '
+        'the one being unregistered', () async {
       stubPushRegistered();
-      final deleteToken = Completer<void>();
-      when(() => messaging.deleteToken()).thenAnswer((_) => deleteToken.future);
+      final unregister = Completer<void>();
+      when(() => messaging.unregister()).thenAnswer((_) => unregister.future);
       final service = buildService();
 
       final cleanup = service.cleanUpStalePushRegistration();
       final init = service.init();
       await pumpEventQueue();
-      verifyNever(() => messaging.getToken());
+      verifyNever(() => messaging.register());
 
-      deleteToken.complete();
+      unregister.complete();
       await Future.wait([cleanup, init]);
 
       verifyInOrder([
         () => localDatabase.clearPushRegistered(),
-        () => messaging.getToken(),
+        () => messaging.register(),
         () => localDatabase.setPushRegistered(),
       ]);
     });
   });
 
-  group('NotificationService token refresh', () {
-    test('moves the mobile session to the refreshed token', () async {
+  group('NotificationService installation ID change', () {
+    test('moves the mobile session to the new installation ID', () async {
       await buildService().init();
 
-      tokenRefreshes.add(refreshedToken);
+      fidChanges.add(newInstallationId);
       await pumpEventQueue();
 
       verifyInOrder([
         () => userApi.removeMobileSession(
-          xMobileToken: fcmToken,
+          xMobileToken: installationId,
           extra: any(named: 'extra'),
         ),
         () => userApi.saveMobileSession(
-          xMobileToken: refreshedToken,
+          xMobileToken: newInstallationId,
           mobileSessionInfo: any(named: 'mobileSessionInfo'),
           extra: any(named: 'extra'),
         ),
       ]);
     });
 
-    test('registers the refreshed token when the initial token could not '
+    test('registers the new installation ID when the initial one could not '
         'be obtained', () async {
-      when(() => messaging.getToken()).thenThrow(Exception('offline'));
+      when(() => installations.getId()).thenThrow(Exception('offline'));
       await buildService().init();
 
-      tokenRefreshes.add(refreshedToken);
+      fidChanges.add(newInstallationId);
       await pumpEventQueue();
 
       verifyNoSessionRemoval();
-      verifyMobileSessionSaved(refreshedToken);
+      verifyMobileSessionSaved(newInstallationId);
       verify(() => localDatabase.setPushRegistered()).called(1);
     });
 
-    test('still saves the refreshed token when removing the previous '
+    test('still saves the new installation ID when removing the previous '
         'session fails', () async {
       when(
         () => userApi.removeMobileSession(
@@ -399,34 +361,34 @@ void main() {
       ).thenThrow(Exception('401'));
       await buildService().init();
 
-      tokenRefreshes.add(refreshedToken);
+      fidChanges.add(newInstallationId);
       await pumpEventQueue();
 
-      verifyMobileSessionSaved(refreshedToken);
+      verifyMobileSessionSaved(newInstallationId);
     });
 
-    test('keeps listening when saving the refreshed token fails', () async {
+    test('keeps listening when saving the new installation ID fails', () async {
       when(
         () => userApi.saveMobileSession(
-          xMobileToken: refreshedToken,
+          xMobileToken: newInstallationId,
           mobileSessionInfo: any(named: 'mobileSessionInfo'),
           extra: any(named: 'extra'),
         ),
       ).thenThrow(Exception('500'));
       await buildService().init();
 
-      tokenRefreshes.add(refreshedToken);
+      fidChanges.add(newInstallationId);
       await pumpEventQueue();
-      tokenRefreshes.add('second-refreshed-token');
+      fidChanges.add('second-installation-id');
       await pumpEventQueue();
 
       verify(
         () => userApi.removeMobileSession(
-          xMobileToken: refreshedToken,
+          xMobileToken: newInstallationId,
           extra: any(named: 'extra'),
         ),
       ).called(1);
-      verifyMobileSessionSaved('second-refreshed-token');
+      verifyMobileSessionSaved('second-installation-id');
     });
   });
 
@@ -437,7 +399,7 @@ void main() {
       await buildService().cleanUpStalePushRegistration();
 
       verifyNever(() => localDatabase.isPushRegistered());
-      verifyNever(() => messaging.deleteToken());
+      verifyNever(() => messaging.unregister());
     });
 
     test(
@@ -446,7 +408,7 @@ void main() {
         await buildService().cleanUpStalePushRegistration();
 
         verify(() => localDatabase.isPushRegistered()).called(1);
-        verifyNever(() => messaging.deleteToken());
+        verifyNever(() => messaging.unregister());
         verifyNever(() => localDatabase.clearPushRegistered());
       },
     );
@@ -457,7 +419,7 @@ void main() {
 
       await buildService().cleanUpStalePushRegistration();
 
-      verify(() => messaging.deleteToken()).called(1);
+      verify(() => messaging.unregister()).called(1);
       verify(() => messaging.setAutoInitEnabled(false)).called(1);
       verify(() => localNotificationsPlugin.cancelAll()).called(1);
       verify(() => localService.clearNotificationBadgeCount()).called(1);
@@ -468,7 +430,7 @@ void main() {
     test('keeps the registration flag when the cleanup is interrupted, '
         'so it is retried on the next launch', () async {
       stubPushRegistered();
-      when(() => messaging.deleteToken()).thenThrow(Exception('no network'));
+      when(() => messaging.unregister()).thenThrow(Exception('no network'));
 
       await buildService().cleanUpStalePushRegistration();
 
@@ -484,14 +446,14 @@ void main() {
         service.cleanUpStalePushRegistration(),
       ]);
 
-      verify(() => messaging.deleteToken()).called(1);
+      verify(() => messaging.unregister()).called(1);
     });
 
     test('retries the teardown on the next call after an interrupted one '
         'and clears the flag once it succeeds', () async {
       stubPushRegistered();
       var deleteAttempts = 0;
-      when(() => messaging.deleteToken()).thenAnswer((_) async {
+      when(() => messaging.unregister()).thenAnswer((_) async {
         if (deleteAttempts++ == 0) {
           throw Exception('no network');
         }
@@ -503,21 +465,20 @@ void main() {
 
       await service.cleanUpStalePushRegistration();
 
-      verify(() => messaging.deleteToken()).called(2);
+      verify(() => messaging.unregister()).called(2);
       verify(() => localDatabase.clearPushRegistered()).called(1);
     });
 
     test('completes when the registration flag cannot be read, so a later '
         'init() still registers', () async {
-      when(
-        () => localDatabase.isPushRegistered(),
-      ).thenThrow(Exception('corrupt box'));
+      when(() => localDatabase.isPushRegistered())
+          .thenThrow(Exception('corrupt box'));
       final service = buildService();
 
       await expectLater(service.cleanUpStalePushRegistration(), completes);
       await service.init();
 
-      verifyNever(() => messaging.deleteToken());
+      verifyNever(() => messaging.unregister());
       verify(() => localDatabase.setPushRegistered()).called(1);
     });
   });
@@ -528,7 +489,7 @@ void main() {
 
       await buildService().logout();
 
-      verifyNever(() => messaging.deleteToken());
+      verifyNever(() => messaging.unregister());
     });
 
     test('removes the mobile session and cleans up the local '
@@ -539,11 +500,11 @@ void main() {
 
       verify(
         () => userApi.removeMobileSession(
-          xMobileToken: fcmToken,
+          xMobileToken: installationId,
           extra: any(named: 'extra'),
         ),
       ).called(1);
-      verify(() => messaging.deleteToken()).called(1);
+      verify(() => messaging.unregister()).called(1);
       verify(() => localDatabase.clearPushRegistered()).called(1);
     });
 
@@ -559,13 +520,13 @@ void main() {
 
       await service.logout();
 
-      verify(() => messaging.deleteToken()).called(1);
+      verify(() => messaging.unregister()).called(1);
       verify(() => localDatabase.clearPushRegistered()).called(1);
     });
 
     test('completes when the local teardown fails (e.g. offline) and keeps '
         'the registration flag for the next launch', () async {
-      when(() => messaging.deleteToken()).thenThrow(Exception('no network'));
+      when(() => messaging.unregister()).thenThrow(Exception('no network'));
       final service = await buildServiceWithToken();
 
       await expectLater(service.logout(), completes);
@@ -573,7 +534,8 @@ void main() {
       verifyNever(() => localDatabase.clearPushRegistered());
     });
 
-    test('does not reuse the deleted FCM token on a repeated logout', () async {
+    test('does not reuse the unregistered installation ID on a repeated '
+        'logout', () async {
       final service = await buildServiceWithToken();
 
       await service.logout();
