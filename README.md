@@ -1,12 +1,20 @@
-## [ThingsBoard Mobile Application](https://thingsboard.io/products/mobile-pe/) is an open-source project based on [Flutter](https://flutter.dev/)
-Powered by [ThingsBoard](https://thingsboard.io) IoT Platform
+# ThingsBoard App
 
-Build your own advanced IoT mobile application **with minimum coding efforts**
+The open-source mobile app for the [ThingsBoard](https://thingsboard.io) IoT platform, built with [Flutter](https://flutter.dev/). Use it as is, or build your own branded IoT mobile app with minimum coding effort.
 
-## Please be informed the Web platform is not supported, because it's a part of our main platform!
+- **Platforms:** Android and iOS. The web platform is not supported: the ThingsBoard web UI covers it.
+- **Server:** ThingsBoard 4.4.0 or later.
 
 ## Resources
 
-- [Getting started](https://thingsboard.io/docs/pe/mobile/getting-started/) - learn how to set up and run your first IoT mobile app
-- [Customize your app](https://thingsboard.io/docs/pe/mobile/customization/) - learn how to customize the app
-- [Publish your app](https://thingsboard.io/docs/pe/mobile/release/) - learn how to publish app to Google Play or App Store
+- [Getting started](https://thingsboard.io/docs/pe/mobile/getting-started/): set up and run your first IoT mobile app.
+- [Customize your app](https://thingsboard.io/docs/pe/mobile/customization/): change branding, pages and behaviour.
+- [Publish your app](https://thingsboard.io/docs/pe/mobile/release/): release it to Google Play or the App Store.
+
+## Development
+
+The Flutter version is pinned in `.fvmrc`. Project structure, generated code, checks and conventions are described in [CONTRIBUTING.md](CONTRIBUTING.md); changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+[BSD 3-Clause](LICENSE)
