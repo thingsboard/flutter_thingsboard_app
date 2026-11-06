@@ -403,21 +403,6 @@ class SIt extends S {
   String get signIn => 'Accedi';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'La password deve contenere almeno 6 caratteri';
-
-  @override
-  String get confirmNotRobotMessage => 'Devi confermare di non essere un robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Devi accettare la nostra Informativa sulla privacy';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Devi accettare i nostri Termini di utilizzo';
-
-  @override
   String get inactiveUserAlreadyExists => 'Utente inattivo già esistente';
 
   @override
@@ -565,19 +550,10 @@ class SIt extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Inserisci il PIN di $deviceName per confermare la prova di possesso';
-  }
-
-  @override
   String get next => 'Avanti';
 
   @override
   String get confirmation => 'Conferma';
-
-  @override
-  String get bleHelpMessage =>
-      'Per eseguire il provisioning del tuo nuovo dispositivo, assicurati che il Bluetooth del telefono sia attivo e che il dispositivo sia nel raggio d\'azione';
 
   @override
   String get wifiPassword => 'Password Wi-Fi';
@@ -1307,9 +1283,6 @@ class SIt extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'L\'autenticazione a due fattori protegge il tuo account da accessi non autorizzati. Devi solo inserire un codice di sicurezza quando accedi.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Campo calcolato';

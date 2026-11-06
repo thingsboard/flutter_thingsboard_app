@@ -70,8 +70,8 @@ class NotificationService {
     if (!_isFirebaseConfigured) {
       return;
     }
-    // A stale cleanup started while unauthenticated may still be deleting the
-    // FCM token; registering concurrently would delete the token just saved.
+    // A stale cleanup started while unauthenticated may still be unregistering
+    // from FCM; registering concurrently would undo the new registration.
     // This relies on the service being a locator singleton: the login
     // provider started that cleanup on this same instance.
     await _staleCleanup;
@@ -96,10 +96,8 @@ class NotificationService {
     );
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      // FCM registers app instances by Firebase Installation ID (FID); the
-      // registration-token API is deprecated (firebase_messaging 17). The
-      // server keeps sending with the `token` target, which accepts FIDs
-      // during Firebase's migration period.
+      // The server sends to the FID through the `token` target, which FCM
+      // accepts during its migration off registration tokens.
       _onRegisteredSubscription = _messaging.onRegistered.listen(_onFidChanged);
       await _registerAndSave();
 
@@ -160,9 +158,9 @@ class NotificationService {
   /// Cleans up a stale push registration left by a session that ended
   /// without an explicit logout (e.g. the refresh token expired while the
   /// app was closed, #304). The JWT is already invalid at this point, so the
-  /// server-side mobile session usually can't be removed here; deleting the
-  /// unregistering from FCM makes further pushes bounce, and the platform purges
-  /// the session on the next delivery attempt.
+  /// server-side mobile session usually can't be removed here; unregistering
+  /// from FCM makes further pushes bounce, and the platform purges the session
+  /// on the next delivery attempt.
   ///
   /// Idempotent, never throws, and safe to call whenever the client is
   /// unauthenticated. Concurrent calls share a single run, and [init] waits
@@ -198,8 +196,7 @@ class NotificationService {
   /// Unregistering from FCM is what stops delivery; the rest drops the local
   /// push state. Failures are swallowed so a logout still completes offline:
   /// the registration flag is cleared last, so an interrupted teardown is
-  /// retried by [cleanUpStalePushRegistration] on the next launch (e.g. an
-  /// offline launch).
+  /// retried by [cleanUpStalePushRegistration] on the next launch.
   Future<void> _tearDownLocalPushState() async {
     try {
       await _foregroundMessageSubscription?.cancel();
@@ -310,8 +307,8 @@ class NotificationService {
       xMobileToken: fid,
       extra: silentRequestExtra(),
     )).data;
-    // An FID is stable, unlike the old registration tokens, which were
-    // rotated monthly: refreshing the session timestamp is enough.
+    // The FID does not rotate: a stale session only needs its timestamp
+    // refreshed.
     final age =
         DateTime.now().millisecondsSinceEpoch -
         (mobileInfo?.fcmTokenTimestamp ?? 0);

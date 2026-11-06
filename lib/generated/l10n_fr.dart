@@ -404,22 +404,6 @@ class SFr extends S {
   String get signIn => 'Se connecter';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Votre mot de passe doit contenir au moins 6 caractères';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'Vous devez confirmer que vous n\'êtes pas un robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Vous devez accepter notre politique de confidentialité';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Vous devez accepter nos conditions d\'utilisation';
-
-  @override
   String get inactiveUserAlreadyExists => 'Un utilisateur inactif existe déjà';
 
   @override
@@ -567,19 +551,10 @@ class SFr extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Saisissez le code PIN de $deviceName pour confirmer la preuve de possession';
-  }
-
-  @override
   String get next => 'Suivant';
 
   @override
   String get confirmation => 'Confirmation';
-
-  @override
-  String get bleHelpMessage =>
-      'Pour provisionner votre nouvel appareil, assurez-vous que le Bluetooth de votre téléphone est activé et que vous êtes à portée de l\'appareil';
 
   @override
   String get wifiPassword => 'Mot de passe Wi-Fi';
@@ -1312,9 +1287,6 @@ class SFr extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'L\'authentification à deux facteurs protège votre compte contre les accès non autorisés. Il vous suffit de saisir un code de sécurité lors de la connexion.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Champ calculé';

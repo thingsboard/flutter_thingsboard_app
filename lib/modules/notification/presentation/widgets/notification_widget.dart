@@ -183,9 +183,7 @@ class NotificationWidget extends StatelessWidget {
   }
 }
 
-/// The alarm severity shown on a notification. Every alarm-related
-/// notification carries it, as the hand-written PushNotificationInfo did for
-/// all types.
+/// The alarm severity of an alarm-related notification, null for other types.
 AlarmSeverity? notificationAlarmSeverity(NotificationInfo? info) =>
     switch (info) {
       AlarmNotificationInfo(:final alarmSeverity) ||

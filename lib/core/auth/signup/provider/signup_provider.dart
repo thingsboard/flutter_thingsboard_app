@@ -27,10 +27,6 @@ class Signup extends _$Signup {
     state = state.copyWith(recaptchaResponse: response);
   }
 
-  void clearRecaptchaResponse() {
-    state = state.copyWith();
-  }
-
   Future<SignUpResult> signup(SignUpRequest request) async {
     state = state.copyWith(isSigningUp: true);
     try {

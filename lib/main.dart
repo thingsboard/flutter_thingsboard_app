@@ -72,8 +72,8 @@ Future<void> main() async {
   FlutterNativeSplash.remove();
   runApp(
     ProviderScope(
-      // Riverpod 3 retries failing providers by default. The app reports
-      // errors and offers its own retry, as with Riverpod 2, so keep it off.
+      // Riverpod 3 retries failing providers by default; the app reports
+      // errors and offers its own retry.
       retry: (retryCount, error) => null,
       child: const ThingsboardApp(),
     ),

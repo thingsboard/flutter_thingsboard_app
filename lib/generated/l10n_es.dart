@@ -403,21 +403,6 @@ class SEs extends S {
   String get signIn => 'Iniciar sesión';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Tu contraseña debe tener al menos 6 caracteres';
-
-  @override
-  String get confirmNotRobotMessage => 'Debes confirmar que no eres un robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Debes aceptar nuestra Política de privacidad';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Debes aceptar nuestros Términos de uso';
-
-  @override
   String get inactiveUserAlreadyExists => 'Ya existe un usuario inactivo';
 
   @override
@@ -565,19 +550,10 @@ class SEs extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Ingresa el PIN de $deviceName para confirmar la prueba de posesión';
-  }
-
-  @override
   String get next => 'Siguiente';
 
   @override
   String get confirmation => 'Confirmación';
-
-  @override
-  String get bleHelpMessage =>
-      'Para aprovisionar tu nuevo dispositivo, asegúrate de que el Bluetooth de tu teléfono esté activado y dentro del alcance de tu nuevo dispositivo';
 
   @override
   String get wifiPassword => 'Contraseña de Wi-Fi';
@@ -1307,9 +1283,6 @@ class SEs extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'La autenticación de dos factores protege tu cuenta del acceso no autorizado. Solo necesitas ingresar un código de seguridad al iniciar sesión.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Campo calculado';

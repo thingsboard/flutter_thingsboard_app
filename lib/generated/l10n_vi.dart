@@ -398,22 +398,6 @@ class SVi extends S {
   String get signIn => 'Đăng nhập';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Mật khẩu của bạn phải có ít nhất 6 ký tự';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'Bạn phải xác nhận rằng bạn không phải là rô bốt';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Bạn phải chấp nhận Chính sách quyền riêng tư của chúng tôi';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Bạn phải chấp nhận Điều khoản sử dụng của chúng tôi';
-
-  @override
   String get inactiveUserAlreadyExists =>
       'Người dùng không hoạt động đã tồn tại';
 
@@ -561,19 +545,10 @@ class SVi extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Nhập mã PIN của $deviceName để xác nhận bằng chứng sở hữu';
-  }
-
-  @override
   String get next => 'Tiếp theo';
 
   @override
   String get confirmation => 'Xác nhận';
-
-  @override
-  String get bleHelpMessage =>
-      'Để cung cấp thiết bị mới của bạn, vui lòng đảm bảo rằng Bluetooth trên điện thoại của bạn đã được bật và nằm trong phạm vi của thiết bị mới.';
 
   @override
   String get wifiPassword => 'Mật khẩu Wi-Fi';
@@ -1296,9 +1271,6 @@ class SVi extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Xác thực hai yếu tố bảo vệ tài khoản của bạn khỏi bị truy cập trái phép. Tất cả những gì bạn phải làm là nhập mã bảo mật khi đăng nhập.';
-
-  @override
-  String get cantDeleteUserAccount => 'Không thể xóa tài khoản người dùng';
 
   @override
   String get calculatedField => 'Trường được tính toán';

@@ -211,8 +211,8 @@ abstract class ContactBasedDetailsPage<T extends Object>
   }
 }
 
-/// The generated models have no common name interface (the client dropped
-/// `HasName`); these are the entity types shown by [EntityDetailsPage].
+/// The generated models share no name interface; these are the entity types
+/// shown by [EntityDetailsPage].
 String? _entityName(Object? entity) => switch (entity) {
   Device(:final name) => name,
   Asset(:final name) => name,

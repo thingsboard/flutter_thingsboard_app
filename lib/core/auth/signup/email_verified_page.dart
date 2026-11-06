@@ -44,9 +44,6 @@ class EmailVerifiedPage extends HookConsumerWidget {
           : null;
       isActivating.value = false;
     } catch (e) {
-      // tbContext.log.error(
-      //   'EmailVerifiedPage::activateAndGetCredentials() error -> $e',
-      // );
       if (context.mounted) {
         backToLogin(context);
       }

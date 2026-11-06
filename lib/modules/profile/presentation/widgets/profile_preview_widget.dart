@@ -39,9 +39,8 @@ class ProfilePreviewWidget extends HookConsumerWidget {
       S.of(context).email: user.email,
       S.of(context).firstName: user.firstName,
       S.of(context).lastName: user.lastName,
-      S.of(context).language: getLocalizedLanguageName(
+      S.of(context).language: nativeLanguageName(
         getCurrentLocale(context, user),
-        context,
       ),
 
       S.of(context).unitSystem: getUnitName(context),
@@ -186,9 +185,6 @@ List<Locale> getAllLanguages(BuildContext context) {
 
   return fixedList;
 }
-
-String getLocalizedLanguageName(Locale locale, BuildContext context) =>
-    nativeLanguageName(locale);
 
 /// The user's language among the selectable ones, else the shown language.
 Locale getCurrentLocale(BuildContext context, User user) {

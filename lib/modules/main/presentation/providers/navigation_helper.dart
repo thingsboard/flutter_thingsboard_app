@@ -203,7 +203,7 @@ class NavigationHelper {
 
   static IconData getIcon(PageLayout pageLayout) {
     if (pageLayout.icon != null) {
-      return getIconFromString(pageLayout.icon);
+      return iconFromString(pageLayout.icon);
     }
 
     switch (pageLayout.id) {
@@ -229,7 +229,7 @@ class NavigationHelper {
         return Icons.my_location;
       case Pages.undefined:
       case null:
-        return getIconFromString(pageLayout.icon);
+        return iconFromString(pageLayout.icon);
     }
   }
 
@@ -268,6 +268,4 @@ class NavigationHelper {
         return pageLayout.path ?? '/error';
     }
   }
-
-  static IconData getIconFromString(String? icon) => iconFromString(icon);
 }

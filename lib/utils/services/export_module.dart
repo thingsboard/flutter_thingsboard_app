@@ -21,7 +21,6 @@ class TbDashboardExportModule {
           final String base64 = args[1] as String;
           final String? mimeType = args.length > 2 ? args[2] as String? : null;
 
-          // Here you can use what you want to download the file.
           _downloadToDevice(filename, base64, mimeType);
         }
       },
@@ -50,8 +49,6 @@ class TbDashboardExportModule {
       if (mimeType != null && mimeType.isNotEmpty) {
         extension = _getExtensionFromMimeType(mimeType);
       }
-
-      // If still no extension, try content-based detection
       extension ??= 'bin';
 
       finalFileName = '$finalFileName.$extension';
@@ -82,15 +79,11 @@ class TbDashboardExportModule {
     String filename,
     Uint8List bytes,
   ) async {
-    final Uri? outputFile = await FilePicker.saveFile(
+    await FilePicker.saveFile(
       dialogTitle: 'Please select an output file:',
       fileName: filename,
       bytes: bytes,
     );
-
-    if (outputFile == null) {
-      // User canceled the picker
-    }
   }
 
   /// Returns null: the response only configures the Windows download UI.

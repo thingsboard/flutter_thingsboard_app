@@ -107,7 +107,6 @@ class ServerUpdateRequiredPage extends StatelessWidget {
   }
 }
 
-/// The server the user is on and the version it runs, the one in red.
 class _ServerCard extends StatelessWidget {
   const _ServerCard({required this.host, required this.version});
 

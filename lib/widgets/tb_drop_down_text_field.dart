@@ -15,7 +15,6 @@ class TbDropDownTextField<T> extends HookWidget {
     required this.selectedItemBuilder,
     this.hint = '',
     this.label = '',
-    this.prefixIcon,
     required this.bottomSheetBuilder,
     this.onSelected,
   });
@@ -24,7 +23,6 @@ class TbDropDownTextField<T> extends HookWidget {
   final String? Function(T? value) selectedItemBuilder;
   final String hint;
   final String label;
-  final Widget? prefixIcon;
   final Widget Function(BuildContext, T? selectedValue) bottomSheetBuilder;
   final void Function(T? val)? onSelected;
   @override
@@ -72,13 +70,9 @@ class TbDropDownTextField<T> extends HookWidget {
               showDragHandle: false,
               backgroundColor: Colors.transparent,
               isScrollControlled: true,
-              // constraints: BoxConstraints.loose(
-              //   Size.fromHeight(mediaQuery.size.height - 72),
-              // ),
             );
 
             if (info != null && context.mounted) {
-              // form.control('value').updateValue(selectedItemBuilder(info));
               topForm?.control(formControlName).updateValue(info);
               onSelected?.call(info);
             }

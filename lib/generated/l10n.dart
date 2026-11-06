@@ -833,30 +833,6 @@ abstract class S {
   /// **'Sign In'**
   String get signIn;
 
-  /// No description provided for @invalidPasswordLengthMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Your password must be at least 6 characters long'**
-  String get invalidPasswordLengthMessage;
-
-  /// No description provided for @confirmNotRobotMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'You must confirm that you are not a robot'**
-  String get confirmNotRobotMessage;
-
-  /// No description provided for @acceptPrivacyPolicyMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'You must accept our Privacy Policy'**
-  String get acceptPrivacyPolicyMessage;
-
-  /// No description provided for @acceptTermsOfUseMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'You must accept our Terms of Use'**
-  String get acceptTermsOfUseMessage;
-
   /// No description provided for @inactiveUserAlreadyExists.
   ///
   /// In en, this message translates to:
@@ -1127,12 +1103,6 @@ abstract class S {
   /// **'Update to {version}'**
   String updateTo(Object version);
 
-  /// No description provided for @popTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter PIN of {deviceName} to confirm proof of possession'**
-  String popTitle(Object deviceName);
-
   /// No description provided for @next.
   ///
   /// In en, this message translates to:
@@ -1144,12 +1114,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Confirmation'**
   String get confirmation;
-
-  /// No description provided for @bleHelpMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'To provision your new device, please make sure that your phone’s Bluetooth is turned on and within range of your new device'**
-  String get bleHelpMessage;
 
   /// No description provided for @wifiPassword.
   ///
@@ -2418,12 +2382,6 @@ abstract class S {
   /// **'Two-factor authentication protects your account from unauthorized access. All you have to do is enter a security code when you log in.'**
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou;
-
-  /// No description provided for @cantDeleteUserAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Can\\\'t delete user account'**
-  String get cantDeleteUserAccount;
 
   /// No description provided for @calculatedField.
   ///

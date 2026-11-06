@@ -57,6 +57,5 @@ class NotificationPaginationRepository {
     );
   }
 
-  /// Read status, filter or search changed: reload the first page in place.
   void _didChangePageKeyValue() => pagingController.reloadFirstPage();
 }

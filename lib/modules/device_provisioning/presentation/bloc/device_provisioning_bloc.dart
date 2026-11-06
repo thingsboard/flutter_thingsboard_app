@@ -148,7 +148,6 @@ class DeviceProvisioningBloc
           logger.error('Device claiming error: $e');
 
           String? message;
-          // Generated calls throw DioException for server errors.
           if (e is DioException) {
             message =
                 'Device not found. '

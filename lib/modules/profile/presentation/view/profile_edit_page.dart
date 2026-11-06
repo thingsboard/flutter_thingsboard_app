@@ -44,7 +44,6 @@ class ProfileEditPage extends HookConsumerWidget {
     final canPop = useState(true);
 
     final initialLocale = useMemoized(() => getCurrentLocale(context, user));
-    // The app language to restore when the edit is cancelled.
     final localeBeforeEdit = useMemoized(() => ref.read(appLocaleProvider));
     final selectedLocale = useState<Locale>(initialLocale);
 
@@ -289,21 +288,14 @@ class ProfileEditPage extends HookConsumerWidget {
                                           selectedLocale.value = val!;
                                         },
                                         selectedItemBuilder: (val) =>
-                                            getLocalizedLanguageName(
-                                              val!,
-                                              context,
-                                            ),
+                                            nativeLanguageName(val!),
                                         bottomSheetBuilder: (_, val) =>
                                             TbBottomSheetBuilder<Locale>(
                                               allItems: allLanguages,
 
                                               title: S.of(context).language,
-                                              listTitleBuilder:
-                                                  (context, item) =>
-                                                      getLocalizedLanguageName(
-                                                        item,
-                                                        context,
-                                                      ),
+                                              listTitleBuilder: (_, item) =>
+                                                  nativeLanguageName(item),
                                             ),
                                       ),
                                     ),

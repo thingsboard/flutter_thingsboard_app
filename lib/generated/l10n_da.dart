@@ -399,22 +399,6 @@ class SDa extends S {
   String get signIn => 'Log ind';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Din adgangskode skal være mindst 6 tegn lang';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'Du skal bekræfte, at du ikke er en robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Du skal acceptere vores privatlivspolitik';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Du skal acceptere vores brugsbetingelser';
-
-  @override
   String get inactiveUserAlreadyExists => 'Inaktiv bruger findes allerede';
 
   @override
@@ -561,19 +545,10 @@ class SDa extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Indtast PIN-kode for $deviceName for at bekræfte ejerskab';
-  }
-
-  @override
   String get next => 'Næste';
 
   @override
   String get confirmation => 'Bekræftelse';
-
-  @override
-  String get bleHelpMessage =>
-      'For at klargøre din nye enhed, skal du sikre dig, at telefonens Bluetooth er slået til og inden for rækkevidde af den nye enhed';
 
   @override
   String get wifiPassword => 'Wi-Fi adgangskode';
@@ -1301,9 +1276,6 @@ class SDa extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'To-faktor-godkendelse beskytter din konto mod uautoriseret adgang. Alt du skal gøre er at indtaste en sikkerhedskode, når du logger ind.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Beregnet felt';

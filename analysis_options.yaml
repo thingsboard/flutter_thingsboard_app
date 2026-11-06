@@ -19,9 +19,8 @@ linter:
     require_trailing_commas: false
     use_setters_to_change_properties: false
     sort_pub_dependencies: false
-    # Dart 3.13 constructor and declaration syntax (primary constructors,
-    # `new(...)`, `class A;`). Adopting it rewrites most classes; that is a
-    # separate decision, not a lint fix.
+    # Dart 3.13 primary-constructor syntax: adopting it would rewrite most
+    # classes.
     use_primary_constructors: false
     unnecessary_type_name_in_constructor: false
     empty_container_bodies: false

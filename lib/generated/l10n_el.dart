@@ -406,22 +406,6 @@ class SEl extends S {
   String get signIn => 'Σύνδεση';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Ο κωδικός σας πρέπει να περιέχει τουλάχιστον 6 χαρακτήρες';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'Πρέπει να επιβεβαιώσετε ότι δεν είστε ρομπότ';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Πρέπει να αποδεχθείτε την Πολιτική απορρήτου';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Πρέπει να αποδεχθείτε τους Όρους χρήσης';
-
-  @override
   String get inactiveUserAlreadyExists => 'Υπάρχει ήδη ανενεργός χρήστης';
 
   @override
@@ -569,19 +553,10 @@ class SEl extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Εισαγάγετε το PIN της συσκευής $deviceName για επιβεβαίωση ιδιοκτησίας';
-  }
-
-  @override
   String get next => 'Επόμενο';
 
   @override
   String get confirmation => 'Επιβεβαίωση';
-
-  @override
-  String get bleHelpMessage =>
-      'Για να διαμορφώσετε τη νέα σας συσκευή, βεβαιωθείτε ότι το Bluetooth του τηλεφώνου σας είναι ενεργοποιημένο και εντός εμβέλειας της νέας συσκευής';
 
   @override
   String get wifiPassword => 'Κωδικός Wi-Fi';
@@ -1311,9 +1286,6 @@ class SEl extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Ο έλεγχος ταυτότητας δύο παραγόντων προστατεύει τον λογαριασμό σας. Αρκεί να εισαγάγετε έναν κωδικό ασφαλείας κατά τη σύνδεση.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Υπολογιζόμενο πεδίο';

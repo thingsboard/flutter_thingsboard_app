@@ -390,18 +390,6 @@ class SZh extends S {
   String get signIn => '登录';
 
   @override
-  String get invalidPasswordLengthMessage => '密码长度至少为6个字符';
-
-  @override
-  String get confirmNotRobotMessage => '您必须确认您不是机器人';
-
-  @override
-  String get acceptPrivacyPolicyMessage => '您必须接受我们的隐私政策';
-
-  @override
-  String get acceptTermsOfUseMessage => '您必须接受我们的使用条款';
-
-  @override
   String get inactiveUserAlreadyExists => '未激活用户已存在';
 
   @override
@@ -548,18 +536,10 @@ class SZh extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return '输入 $deviceName 的PIN码以确认拥有权证明';
-  }
-
-  @override
   String get next => '下一步';
 
   @override
   String get confirmation => '确认';
-
-  @override
-  String get bleHelpMessage => '要配置您的新设备，请确保您手机的蓝牙已打开且在新设备的信号范围内';
 
   @override
   String get wifiPassword => 'Wi-Fi 密码';
@@ -1284,9 +1264,6 @@ class SZh extends S {
       'Two-factor authentication protects your account from unauthorized access. All you have to do is enter a security code when you log in.';
 
   @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
-
-  @override
   String get calculatedField => 'Calculated field';
 
   @override
@@ -1900,18 +1877,6 @@ class SZhCn extends SZh {
   String get signIn => '登录';
 
   @override
-  String get invalidPasswordLengthMessage => '密码长度至少为6个字符';
-
-  @override
-  String get confirmNotRobotMessage => '您必须确认您不是机器人';
-
-  @override
-  String get acceptPrivacyPolicyMessage => '您必须接受我们的隐私政策';
-
-  @override
-  String get acceptTermsOfUseMessage => '您必须接受我们的使用条款';
-
-  @override
   String get inactiveUserAlreadyExists => '未激活用户已存在';
 
   @override
@@ -2058,18 +2023,10 @@ class SZhCn extends SZh {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return '输入 $deviceName 的PIN码以确认拥有权证明';
-  }
-
-  @override
   String get next => '下一步';
 
   @override
   String get confirmation => '确认';
-
-  @override
-  String get bleHelpMessage => '要配置您的新设备，请确保您手机的蓝牙已打开且在新设备的信号范围内';
 
   @override
   String get wifiPassword => 'Wi-Fi 密码';
@@ -2770,9 +2727,6 @@ class SZhCn extends SZh {
       '双因素认证保护您的账户免受未授权访问。您只需在登录时输入安全码。';
 
   @override
-  String get cantDeleteUserAccount => '无法删除用户账户';
-
-  @override
   String get calculatedField => '计算字段';
 
   @override
@@ -3246,18 +3200,6 @@ class SZhTw extends SZh {
   String get signIn => '登入';
 
   @override
-  String get invalidPasswordLengthMessage => '密碼長度至少需要6個字元';
-
-  @override
-  String get confirmNotRobotMessage => '您必須確認您不是機器人';
-
-  @override
-  String get acceptPrivacyPolicyMessage => '您必須接受我們的隱私權政策';
-
-  @override
-  String get acceptTermsOfUseMessage => '您必須接受我們的使用條款';
-
-  @override
   String get inactiveUserAlreadyExists => '未啟用使用者已存在';
 
   @override
@@ -3404,18 +3346,10 @@ class SZhTw extends SZh {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return '輸入 $deviceName 的PIN碼以確認持有權證明';
-  }
-
-  @override
   String get next => '下一步';
 
   @override
   String get confirmation => '確認';
-
-  @override
-  String get bleHelpMessage => '要配置您的新設備，請確保您手機的藍牙已開啟且在新設備的訊號範圍內';
 
   @override
   String get wifiPassword => 'Wi-Fi 密碼';
@@ -4114,9 +4048,6 @@ class SZhTw extends SZh {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       '雙因素驗證保護您的帳戶免受未經授權的存取。您只需在登入時輸入安全碼。';
-
-  @override
-  String get cantDeleteUserAccount => '無法刪除使用者帳戶';
 
   @override
   String get calculatedField => '計算欄位';

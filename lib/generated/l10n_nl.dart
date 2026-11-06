@@ -400,22 +400,6 @@ class SNl extends S {
   String get signIn => 'Inloggen';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Uw wachtwoord moet minimaal 6 tekens lang zijn';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'U moet bevestigen dat u geen robot bent';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'U moet ons privacybeleid accepteren';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'U moet onze gebruiksvoorwaarden accepteren';
-
-  @override
   String get inactiveUserAlreadyExists => 'Inactieve gebruiker bestaat al';
 
   @override
@@ -562,19 +546,10 @@ class SNl extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Voer de pincode van $deviceName in om eigendomsbewijs te bevestigen';
-  }
-
-  @override
   String get next => 'Volgende';
 
   @override
   String get confirmation => 'Bevestiging';
-
-  @override
-  String get bleHelpMessage =>
-      'Om uw nieuwe apparaat te provisioneren, zorg ervoor dat Bluetooth op uw telefoon is ingeschakeld en dat u zich binnen bereik van uw nieuwe apparaat bevindt';
 
   @override
   String get wifiPassword => 'Wi-Fi-wachtwoord';
@@ -1303,9 +1278,6 @@ class SNl extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Tweefactorauthenticatie beschermt uw account tegen ongeautoriseerde toegang. U hoeft alleen een beveiligingscode in te voeren bij het inloggen.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Berekend veld';

@@ -86,8 +86,8 @@ class _TbRecaptchaState extends State<TbRecaptcha> {
       children: [
         FutureBuilder<void>(
           future: _cacheCleared,
-          // The WebView starts once the cache is cleared, as the old
-          // `clearCache` setting did (an error still lets it start).
+          // Start the WebView with a cleared cache; a failed clear still
+          // lets it start.
           builder: (context, snapshot) =>
               snapshot.connectionState == ConnectionState.done
               ? InAppWebView(

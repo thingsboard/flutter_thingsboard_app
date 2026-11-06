@@ -404,22 +404,6 @@ class SDe extends S {
   String get signIn => 'Anmelden';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Ihr Passwort muss mindestens 6 Zeichen lang sein';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'Sie müssen bestätigen, dass Sie kein Roboter sind';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Sie müssen unsere Datenschutzerklärung akzeptieren';
-
-  @override
-  String get acceptTermsOfUseMessage =>
-      'Sie müssen unsere Nutzungsbedingungen akzeptieren';
-
-  @override
   String get inactiveUserAlreadyExists =>
       'Ein inaktiver Benutzer existiert bereits';
 
@@ -568,19 +552,10 @@ class SDe extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Geben Sie die PIN von $deviceName ein, um den Besitznachweis zu bestätigen';
-  }
-
-  @override
   String get next => 'Weiter';
 
   @override
   String get confirmation => 'Bestätigung';
-
-  @override
-  String get bleHelpMessage =>
-      'Um Ihr neues Gerät bereitzustellen, stellen Sie bitte sicher, dass das Bluetooth Ihres Telefons eingeschaltet ist und sich in Reichweite Ihres neuen Geräts befindet';
 
   @override
   String get wifiPassword => 'WLAN-Passwort';
@@ -1311,9 +1286,6 @@ class SDe extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Die Zwei-Faktor-Authentifizierung schützt Ihr Konto vor unbefugtem Zugriff. Sie müssen nur einen Sicherheitscode eingeben, wenn Sie sich anmelden.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Berechnetes Feld';

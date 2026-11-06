@@ -379,9 +379,7 @@ class _SignUpPageContent extends HookConsumerWidget {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    _login(context);
-                                  },
+                                  onPressed: () => backToLogin(context),
                                   child: Text(
                                     S.of(context).signIn,
                                     style: TextStyle(
@@ -456,7 +454,6 @@ Future<void> _openRecaptcha(
         timeout: 10000,
       );
     } else {
-      // v2 and v3 both carry a site key; v2 was opened with an empty one.
       final (siteKey, logActionName) = switch (captcha) {
         V2CaptchaParams(:final siteKey, :final logActionName) ||
         V3CaptchaParams(
@@ -493,8 +490,6 @@ Future<void> _openTermsOfUse(BuildContext context, FormGroup group) async {
   );
   group.control('termsOfUse').updateValue(acceptTermsOfUse);
 }
-
-void _login(BuildContext context) => backToLogin(context);
 
 Future<void> _signUp(
   BuildContext context,

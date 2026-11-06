@@ -86,9 +86,8 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
-            <!-- App links go through app_links (useAppLinks), which defers them
-                 until the app is ready; Flutter's own deep linking would open
-                 every link a second time. -->
+            <!-- App links go through app_links; Flutter's own deep linking
+                 would open every link a second time. -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash

@@ -48,7 +48,7 @@ class AuthRedirect implements Redirect {
     }
     final loginPath = isLoginPath(state);
     if (!login.isUserLoaded && !loginPath) {
-      return '/login${path.isEmpty == true ? '' : '?redirect=$path'}';
+      return '/login${path.isEmpty ? '' : '?redirect=$path'}';
     }
 
     // if (login.isUserLoaded &&

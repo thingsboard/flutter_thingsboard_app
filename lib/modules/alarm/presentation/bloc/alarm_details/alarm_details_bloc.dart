@@ -42,7 +42,6 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         try {
           alarmInfo = await fetchAlarmUseCase(event.id!);
         } catch (_) {
-          // The client's error handler has already shown the error.
           emit(const AlarmDetailsErrorState(''));
           return;
         }

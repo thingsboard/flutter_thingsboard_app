@@ -61,8 +61,7 @@ class LoginHeader extends ConsumerWidget {
                             ),
 
                             textHeightBehavior: const TextHeightBehavior(
-                              applyHeightToFirstAscent:
-                                  false, // Disable height for ascent
+                              applyHeightToFirstAscent: false,
                               applyHeightToLastDescent: false,
                             ),
                           ),

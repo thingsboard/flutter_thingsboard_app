@@ -101,7 +101,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # Localizations from lib/l10n (l10n.yaml).
   generate: true
   assets:
     - assets/images/
@@ -111,8 +110,7 @@ flutter:
     - family: MaterialDesignIcons
       fonts:
         - asset: assets/fonts/materialdesignicons-webfont.ttf
-    # The Google Fonts build of Roboto (the files google_fonts downloaded at
-    # run time), bundled so text does not depend on fonts.gstatic.com.
+    # Google Fonts' Roboto, bundled so text does not depend on fonts.gstatic.com.
     - family: Roboto
       fonts:
         - asset: assets/fonts/roboto/Roboto-Regular.ttf

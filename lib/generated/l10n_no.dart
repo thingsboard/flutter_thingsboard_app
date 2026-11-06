@@ -399,20 +399,6 @@ class SNo extends S {
   String get signIn => 'Logg inn';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Passordet må være minst 6 tegn langt';
-
-  @override
-  String get confirmNotRobotMessage => 'Du må bekrefte at du ikke er en robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'Du må godta vår personvernerklæring';
-
-  @override
-  String get acceptTermsOfUseMessage => 'Du må godta våre vilkår for bruk';
-
-  @override
   String get inactiveUserAlreadyExists => 'Inaktiv bruker finnes allerede';
 
   @override
@@ -559,19 +545,10 @@ class SNo extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Skriv inn PIN for $deviceName for å bekrefte eierskapsbevis';
-  }
-
-  @override
   String get next => 'Neste';
 
   @override
   String get confirmation => 'Bekreftelse';
-
-  @override
-  String get bleHelpMessage =>
-      'For å klargjøre den nye enheten din, sørg for at telefonens Bluetooth er slått på og innenfor rekkevidde av enheten.';
 
   @override
   String get wifiPassword => 'Wi-Fi-passord';
@@ -1295,9 +1272,6 @@ class SNo extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Tofaktorautentisering beskytter kontoen din mot uautorisert tilgang. Du trenger bare å taste inn en sikkerhetskode når du logger inn.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Beregnet felt';

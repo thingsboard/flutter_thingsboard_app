@@ -76,7 +76,7 @@ extension AlarmCommentInfoExt on AlarmCommentInfo {
       comment?.isMap ?? false ? comment!.asMap.cast<String, Object?>() : null;
 
   /// The comment text; a comment posted as a plain JSON string is its own
-  /// text, as the hand-written client read it.
+  /// text.
   String? get commentText {
     final value = comment;
     if (value != null && value.isString) {

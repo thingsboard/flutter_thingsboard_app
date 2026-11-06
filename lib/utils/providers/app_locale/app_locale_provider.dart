@@ -36,7 +36,6 @@ const _tbLocaleCodes = {
   'zh': 'zh_CN',
 };
 
-/// Each app language in itself, for the language picker.
 const _nativeLanguageNames = {
   'ar': 'العربية',
   'da': 'dansk',

@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 
-/// Pushes [dialog] as a full-screen dialog route and returns its result.
 Future<T?> showFullScreenDialog<T>(Widget dialog, BuildContext context) {
   return Navigator.of(context).push<T>(
     MaterialPageRoute<T>(builder: (_) => dialog, fullscreenDialog: true),

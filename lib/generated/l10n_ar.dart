@@ -398,20 +398,6 @@ class SAr extends S {
   String get signIn => 'تسجيل الدخول';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
-
-  @override
-  String get confirmNotRobotMessage => 'يجب أن تؤكد أنك لست روبوت';
-
-  @override
-  String get acceptPrivacyPolicyMessage =>
-      'يجب أن تقبل سياسة الخصوصية الخاصة بنا';
-
-  @override
-  String get acceptTermsOfUseMessage => 'يجب أن تقبل شروط الاستخدام الخاصة بنا';
-
-  @override
   String get inactiveUserAlreadyExists => 'يوجد مستخدم غير نشط بالفعل';
 
   @override
@@ -558,19 +544,10 @@ class SAr extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'أدخل رقم PIN الخاص بـ $deviceName لتأكيد إثبات الحيازة';
-  }
-
-  @override
   String get next => 'التالي';
 
   @override
   String get confirmation => 'التأكيد';
-
-  @override
-  String get bleHelpMessage =>
-      'لتزويد جهازك الجديد، يرجى التأكد من تشغيل البلوتوث في هاتفك وأنه ضمن نطاق جهازك الجديد';
 
   @override
   String get wifiPassword => 'كلمة مرور Wi-Fi';
@@ -1288,9 +1265,6 @@ class SAr extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'المصادقة الثنائية تحمي حسابك من الوصول غير المصرح به. كل ما عليك فعله هو إدخال رمز أمان عند تسجيل الدخول.';
-
-  @override
-  String get cantDeleteUserAccount => 'لا يمكن حذف حساب المستخدم';
 
   @override
   String get calculatedField => 'حقل محسوب';

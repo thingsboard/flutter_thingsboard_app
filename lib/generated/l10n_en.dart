@@ -399,20 +399,6 @@ class SEn extends S {
   String get signIn => 'Sign In';
 
   @override
-  String get invalidPasswordLengthMessage =>
-      'Your password must be at least 6 characters long';
-
-  @override
-  String get confirmNotRobotMessage =>
-      'You must confirm that you are not a robot';
-
-  @override
-  String get acceptPrivacyPolicyMessage => 'You must accept our Privacy Policy';
-
-  @override
-  String get acceptTermsOfUseMessage => 'You must accept our Terms of Use';
-
-  @override
   String get inactiveUserAlreadyExists => 'Inactive user already exists';
 
   @override
@@ -559,19 +545,10 @@ class SEn extends S {
   }
 
   @override
-  String popTitle(Object deviceName) {
-    return 'Enter PIN of $deviceName to confirm proof of possession';
-  }
-
-  @override
   String get next => 'Next';
 
   @override
   String get confirmation => 'Confirmation';
-
-  @override
-  String get bleHelpMessage =>
-      'To provision your new device, please make sure that your phone’s Bluetooth is turned on and within range of your new device';
 
   @override
   String get wifiPassword => 'Wi-Fi password';
@@ -1298,9 +1275,6 @@ class SEn extends S {
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
       'Two-factor authentication protects your account from unauthorized access. All you have to do is enter a security code when you log in.';
-
-  @override
-  String get cantDeleteUserAccount => 'Can\\\'t delete user account';
 
   @override
   String get calculatedField => 'Calculated field';

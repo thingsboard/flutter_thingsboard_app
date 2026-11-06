@@ -3,13 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: unused_import
-
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/modules/notification/domain/usecases/handle_notification_tap_params.dart';
-import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class HandleNotificationTapUsecase
     extends UseCase<void, HandleNotificationTapParams> {

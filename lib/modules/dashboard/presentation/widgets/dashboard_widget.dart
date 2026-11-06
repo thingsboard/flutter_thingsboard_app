@@ -71,8 +71,8 @@ class _DashboardState extends State<DashboardWidget> {
       children: [
         FutureBuilder<void>(
           future: _cacheCleared,
-          // The WebView starts once the cache is cleared, as the old
-          // `clearCache` setting did (an error still lets it start).
+          // Load the dashboard only after the cache is cleared; a failed
+          // clear still lets it start.
           builder: (context, snapshot) =>
               snapshot.connectionState == ConnectionState.done
               ? InAppWebView(

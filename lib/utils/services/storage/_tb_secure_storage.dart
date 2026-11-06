@@ -12,10 +12,8 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 TbStorage createAppStorage() => TbSecureStorage();
 
-/// The app's key-value storage (session tokens, endpoint, region, ...) in the
-/// Android Keystore / iOS Keychain. Values are JSON (strings, numbers,
-/// booleans). Everything is read once in [init] and kept in memory, so reads
-/// do not go to the platform.
+/// The app's key-value storage in the Android Keystore / iOS Keychain, as
+/// JSON. Read once in [init] and kept in memory.
 class TbSecureStorage implements TbStorage<Object?> {
   TbSecureStorage({
     FlutterSecureStorage? storage,

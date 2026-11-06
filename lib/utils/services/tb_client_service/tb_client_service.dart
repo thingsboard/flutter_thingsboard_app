@@ -24,11 +24,6 @@ class TbClientService implements ITbClientService {
   ThingsboardClient get client => _client;
   final IOverlayService _overlayService = getIt();
 
-  // ThingsboardClient.init() makes its own calls silently (the server
-  // version check and the session refresh), so every error that reaches
-  // onClientError is the app's to show.
-  Future<void> _initClient() => _client.init();
-
   final _unsupportedServer = ValueNotifier<UnsupportedServerVersionError?>(
     null,
   );
@@ -73,7 +68,7 @@ class TbClientService implements ITbClientService {
     _client = _createClient(endpoint, onError: onClientError);
 
     try {
-      await _initClient();
+      await _client.init();
     } catch (e) {
       log('Failed to init tbClient: $e');
       onInitError(e);
@@ -85,8 +80,8 @@ class TbClientService implements ITbClientService {
     getIt<ICommunicationService>().fire(const UserLoadedEvent());
   }
 
-  void onInitError(dynamic e) {
-    if (reportUnsupportedServer(e as Object)) {
+  void onInitError(Object e) {
+    if (reportUnsupportedServer(e)) {
       return;
     }
     // The interceptor already routed a connection failure through
@@ -104,6 +99,8 @@ class TbClientService implements ITbClientService {
     });
   }
 
+  // ThingsboardClient.init() makes its own calls silently, so every error
+  // here is the app's to show.
   void onClientError(ThingsboardError e) {
     log('client on error: $e');
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -140,7 +137,7 @@ class TbClientService implements ITbClientService {
       },
     );
     try {
-      await _initClient();
+      await _client.init();
     } catch (e) {
       if (reportUnsupportedServer(e)) {
         return;
