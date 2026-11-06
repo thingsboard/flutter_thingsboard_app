@@ -36,6 +36,30 @@ const _tbLocaleCodes = {
   'zh': 'zh_CN',
 };
 
+/// Each app language in itself, for the language picker.
+const _nativeLanguageNames = {
+  'ar': 'العربية',
+  'da': 'dansk',
+  'de': 'Deutsch',
+  'el': 'Ελληνικά',
+  'en': 'English',
+  'es': 'español',
+  'fr': 'français',
+  'it': 'italiano',
+  'nl': 'Nederlands',
+  'no': 'norsk',
+  'vi': 'Tiếng Việt',
+  'zh': '中文',
+  'zh_CN': '中文 (中国)',
+  'zh_TW': '中文 (台湾)',
+};
+
+/// The name of an app language in that language.
+String nativeLanguageName(Locale locale) =>
+    _nativeLanguageNames[locale.toString()] ??
+    _nativeLanguageNames[locale.languageCode] ??
+    locale.toString();
+
 /// The ThingsBoard language code for an app locale.
 String tbLocaleCode(Locale locale) => locale.countryCode != null
     ? locale.toString()

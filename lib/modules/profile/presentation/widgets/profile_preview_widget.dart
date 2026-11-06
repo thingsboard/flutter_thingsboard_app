@@ -4,7 +4,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
@@ -188,11 +187,8 @@ List<Locale> getAllLanguages(BuildContext context) {
   return fixedList;
 }
 
-String getLocalizedLanguageName(Locale locale, BuildContext context) {
-  return LocaleNamesLocalizationsDelegate.nativeLocaleNames[locale
-          .toString()] ??
-      'Unknown language';
-}
+String getLocalizedLanguageName(Locale locale, BuildContext context) =>
+    nativeLanguageName(locale);
 
 /// The user's language among the selectable ones, else the shown language.
 Locale getCurrentLocale(BuildContext context, User user) {

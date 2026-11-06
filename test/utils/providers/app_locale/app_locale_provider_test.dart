@@ -60,6 +60,13 @@ void main() {
     );
   });
 
+  test('every supported language has a native name', () {
+    for (final locale in S.supportedLocales) {
+      expect(nativeLanguageName(locale), isNot(locale.toString()));
+    }
+    expect(nativeLanguageName(const Locale('no')), 'norsk');
+  });
+
   group('tbLocaleCode', () {
     test('gives the ThingsBoard code of an app language', () {
       expect(tbLocaleCode(const Locale('de')), 'de_DE');
