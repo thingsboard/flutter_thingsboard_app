@@ -6,8 +6,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/models/mobile_basic_info.dart';
@@ -16,6 +14,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
+import 'package:thingsboard_app/utils/providers/app_locale/app_locale_provider.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
@@ -137,11 +136,7 @@ class Login extends _$Login {
             ? userInfo.additionalInfo?.asMap['lang']
             : null;
     final langStr = lang?.toString();
-    final locale = S.delegate.supportedLocales.firstWhereOrNull(
-      (l) => l.toString() == langStr || l.languageCode == langStr,
-    );
-
-    await S.load(locale ?? const Locale('en'));
+    ref.read(appLocaleProvider.notifier).set(localeFromTbCode(langStr));
     await getIt<ICustomTranslationService>().load(
       localeCode: (langStr != null && langStr.isNotEmpty) ? langStr : 'en_US',
     );

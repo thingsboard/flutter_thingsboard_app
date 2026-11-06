@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +15,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/more/presentation/widgets/profle_widget.dart';
 import 'package:thingsboard_app/modules/profile/domain/models/unit_systems.dart';
+import 'package:thingsboard_app/utils/providers/app_locale/app_locale_provider.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -183,7 +183,7 @@ class ProfilePreviewWidget extends HookConsumerWidget {
 }
 
 List<Locale> getAllLanguages(BuildContext context) {
-  final List<Locale> fixedList = List.from(S.delegate.supportedLocales);
+  final List<Locale> fixedList = List.from(S.supportedLocales);
   fixedList.removeWhere((e) => e.languageCode == 'zh' && e.countryCode == null);
 
   return fixedList;
@@ -195,12 +195,15 @@ String getLocalizedLanguageName(Locale locale, BuildContext context) {
       'Unknown language';
 }
 
+/// The user's language among the selectable ones, else the shown language.
 Locale getCurrentLocale(BuildContext context, User user) {
-  final locale = S.delegate.supportedLocales.firstWhereOrNull(
-    (l) => l.toString() == user.additionalInfo?.asMap?['lang']?.toString(),
+  final locale = localeFromTbCode(
+    user.additionalInfo?.asMap?['lang']?.toString(),
   );
 
-  return locale ?? Localizations.localeOf(context);
+  return locale != null && getAllLanguages(context).contains(locale)
+      ? locale
+      : Localizations.localeOf(context);
 }
 
 Future<void> _changePassword(BuildContext context) async {

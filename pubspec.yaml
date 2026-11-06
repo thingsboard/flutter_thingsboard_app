@@ -101,10 +101,11 @@ dev_dependencies:
   riverpod_generator: ^4.0.9
   json_serializable: ^6.15.2
   freezed: ^4.0.3
-  intl_utils: ^2.8.11
 
 flutter:
   uses-material-design: true
+  # Localizations from lib/l10n (l10n.yaml).
+  generate: true
   assets:
     - assets/images/
   fonts:
@@ -142,6 +143,3 @@ flutter_launcher_icons:
   # liquid_glass_translucency_ios: 0.3
   # liquid_glass_shadow_opacity_ios: 0.3
   ###
-
-flutter_intl:
-  enabled: true

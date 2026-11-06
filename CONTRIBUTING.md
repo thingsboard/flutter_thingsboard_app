@@ -59,7 +59,7 @@ Generated files are committed and CI checks they are current. After changing a `
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-Translations live in `lib/l10n/*.arb`; `lib/generated/` is generated from them by the Flutter Intl plugin (`intl_utils`). Do not edit generated files by hand.
+Translations live in `lib/l10n/intl_<language>.arb`; `flutter gen-l10n` (also run by `flutter pub get` and builds, configured in `l10n.yaml`) generates the `S` class in `lib/generated/`. Do not edit generated files by hand. Name a file by language only (`intl_de.arb`); add a region (`intl_zh_TW.arb`) only next to the language file. ThingsBoard stores the user language as `ll_CC` (`de_DE`): when adding a language, add its code to `_tbLocaleCodes` in `lib/utils/providers/app_locale/app_locale_provider.dart`.
 
 ## Checks
 

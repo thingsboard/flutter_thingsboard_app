@@ -4,12 +4,13 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:thingsboard_app/config/routes/use_app_links.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/utils/providers/app_locale/app_locale_provider.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 import 'package:toastification/toastification.dart';
 
@@ -25,13 +26,15 @@ class ThingsboardApp extends HookConsumerWidget {
 
     return ToastificationWrapper(
       child: MaterialApp.router(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
+        localizationsDelegates: S.localizationsDelegates,
+        supportedLocales: S.supportedLocales,
+        locale: ref.watch(appLocaleProvider),
+        builder: (context, child) {
+          // Formats without an explicit locale (DateFormat.yMd()) follow
+          // the app language.
+          Intl.defaultLocale = Localizations.localeOf(context).toString();
+          return child!;
+        },
         title: wlState.wlParams.appTitle,
         themeMode: ThemeMode.light,
         theme: wlState.theme,

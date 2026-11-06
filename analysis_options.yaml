@@ -4,7 +4,7 @@ analyzer:
     - '**.freezed.dart'
     - '**.g.dart'
     - "**/*.gform.dart"
-    - "**/messages_*.dart"
+    - lib/generated/**
     - build/**
     - android/**
     - ios/**

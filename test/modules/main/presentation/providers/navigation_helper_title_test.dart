@@ -38,7 +38,7 @@ void main() {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: S.delegate.supportedLocales,
+        supportedLocales: S.supportedLocales,
         home: Builder(
           builder: (context) {
             title = NavigationHelper.getLocalizedTitle(context, item);

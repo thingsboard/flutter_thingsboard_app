@@ -133,7 +133,7 @@ void main() {
             ),
           ),
           localizationsDelegates: const [S.delegate],
-          supportedLocales: S.delegate.supportedLocales,
+          supportedLocales: S.supportedLocales,
         ),
       ),
     );
