@@ -5,8 +5,10 @@
 
 import 'package:flutter/widgets.dart';
 
-typedef ProviderDescFunction =
-    String Function(BuildContext context, String? contact);
+typedef ProviderDescFunction = String Function(
+  BuildContext context,
+  String? contact,
+);
 typedef TextFunction = String Function(BuildContext context);
 
 class TwoFactorAuthProviderLoginData {

@@ -27,18 +27,17 @@ class LoginHeader extends ConsumerWidget {
     final logoHeight = (wl.loginWhiteLabelingParams.logoImageHeight ?? 50)
         .toDouble()
         .clamp(1.0, 200.0);
-    final logo =
-        wl.isCustomLogo
-            ? wl.logo
-            : SvgPicture.asset(
-              ThingsboardImage.thingsBoardWithTitle,
-              height: logoHeight,
-              colorFilter: ColorFilter.mode(
-                theme.colorScheme.primary,
-                BlendMode.srcIn,
-              ),
-              semanticsLabel: 'ThingsBoard Logo',
-            );
+    final logo = wl.isCustomLogo
+        ? wl.logo
+        : SvgPicture.asset(
+            ThingsboardImage.thingsBoardWithTitle,
+            height: logoHeight,
+            colorFilter: ColorFilter.mode(
+              theme.colorScheme.primary,
+              BlendMode.srcIn,
+            ),
+            semanticsLabel: 'ThingsBoard Logo',
+          );
 
     return Column(
       children: [

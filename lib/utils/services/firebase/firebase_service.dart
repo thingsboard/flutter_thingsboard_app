@@ -9,10 +9,7 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 
 class FirebaseService implements IFirebaseService {
-  FirebaseService({
-    required this.logger,
-    required this.endpointService,
-  });
+  FirebaseService({required this.logger, required this.endpointService});
 
   final TbLogger logger;
   final _apps = <String>[];
@@ -46,7 +43,8 @@ class FirebaseService implements IFirebaseService {
 
     return null;
   }
-@override
+
+  @override
   Future<void> clearApps() async {
     try {
       for (final app in Firebase.apps) {
@@ -58,6 +56,7 @@ class FirebaseService implements IFirebaseService {
       _apps.clear();
     }
   }
+
   @override
   Future<void> removeApp({String name = defaultFirebaseAppName}) async {
     try {

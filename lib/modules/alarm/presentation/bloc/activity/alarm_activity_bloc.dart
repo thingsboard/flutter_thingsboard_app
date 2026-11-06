@@ -68,10 +68,9 @@ class AlarmActivityBloc extends Bloc<AlarmActivityEvent, AlarmActivityState> {
   ) async {
     switch (event) {
       case AlarmActivityFetchEvent():
-        comments ??=
-            (await fetchAlarmCommentsUseCase(
-              AlarmCommentsQuery(pageLink: PageLink(1), id: id),
-            )).data;
+        comments ??= (await fetchAlarmCommentsUseCase(
+          AlarmCommentsQuery(pageLink: PageLink(1), id: id),
+        )).data;
 
         final details = userDetailsUseCase(
           UserDetailsParams(

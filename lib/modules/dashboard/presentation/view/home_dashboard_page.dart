@@ -56,13 +56,12 @@ class _HomeDashboardState extends State<HomeDashboardPage> {
     return ValueListenableBuilder(
       builder: (context, value, child) {
         return DashboardsAppbar(
-          leading:
-              value
-                  ? IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: _handleBack,
-                  )
-                  : null,
+          leading: value
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: _handleBack,
+                )
+              : null,
 
           dashboardState: true,
           body: DashboardBackHandler(
@@ -75,15 +74,16 @@ class _HomeDashboardState extends State<HomeDashboardPage> {
                   return;
                 }
                 final newVal =
-                    await _dashboardController?.controller?.canGoBack() ?? false;
+                    await _dashboardController?.controller?.canGoBack() ??
+                    false;
                 canGoback.value = newVal;
               },
               controllerCallback: (controller, loadingCtrl) async {
                 _dashboardController = controller;
 
                 if (_loaded) {
-                  final canGoBack =
-                      await _dashboardController?.controller?.canGoBack();
+                  final canGoBack = await _dashboardController?.controller
+                      ?.canGoBack();
                   canGoback.value = canGoBack ?? false;
                   return;
                 }

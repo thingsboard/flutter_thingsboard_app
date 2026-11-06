@@ -10,9 +10,8 @@ part 'navigation_state.freezed.dart';
 
 @freezed
 abstract class NavigationState with _$NavigationState {
-
-const   factory NavigationState({
-  required List<NavigationItemData> bottomBarPages,
-  required List<NavigationItemData> morePages,
-}) = _NavigationState;
+  const factory NavigationState({
+    required List<NavigationItemData> bottomBarPages,
+    required List<NavigationItemData> morePages,
+  }) = _NavigationState;
 }

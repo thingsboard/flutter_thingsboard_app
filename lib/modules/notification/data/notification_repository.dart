@@ -21,9 +21,9 @@ class NotificationRepository implements INotificationQueryRepository {
 
   @override
   Future<void> deleteNotification(String id) {
-    return thingsboardClient
-        .getNotificationControllerApi()
-        .deleteNotification(id: id);
+    return thingsboardClient.getNotificationControllerApi().deleteNotification(
+      id: id,
+    );
   }
 
   @override

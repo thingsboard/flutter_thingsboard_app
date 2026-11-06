@@ -85,10 +85,9 @@ class _AuditLogCardState extends State<AuditLogCard> {
             child: Container(
               width: 4,
               decoration: BoxDecoration(
-                color:
-                    widget.auditLog.actionStatus == ActionStatus.SUCCESS
-                        ? const Color(0xFF008A00)
-                        : const Color(0xFFFF0000),
+                color: widget.auditLog.actionStatus == ActionStatus.SUCCESS
+                    ? const Color(0xFF008A00)
+                    : const Color(0xFFFF0000),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
@@ -174,9 +173,9 @@ class _AuditLogCardState extends State<AuditLogCard> {
                                   style: TextStyle(
                                     color:
                                         widget.auditLog.actionStatus ==
-                                                ActionStatus.SUCCESS
-                                            ? const Color(0xFF008A00)
-                                            : const Color(0xFFFF0000),
+                                            ActionStatus.SUCCESS
+                                        ? const Color(0xFF008A00)
+                                        : const Color(0xFFFF0000),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
                                     height: 16 / 12,

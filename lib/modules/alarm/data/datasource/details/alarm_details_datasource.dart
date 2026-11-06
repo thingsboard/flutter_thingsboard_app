@@ -53,10 +53,9 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     required String comment,
   }) async {
     final body = AlarmComment(
-      (b) =>
-          b
-            ..type = AlarmCommentType.OTHER
-            ..comment = JsonObject(<String, dynamic>{'text': comment}),
+      (b) => b
+        ..type = AlarmCommentType.OTHER
+        ..comment = JsonObject(<String, dynamic>{'text': comment}),
     );
     final res = await thingsboardClient
         .getAlarmCommentControllerApi()
@@ -71,16 +70,15 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     required String comment,
   }) async {
     final body = AlarmComment(
-      (b) =>
-          b
-            // The server upserts based on the presence of `id`: setting it
-            // updates the existing comment, omitting it creates a new one.
-            ..id = AlarmCommentId((idb) => idb..id = id).toBuilder()
-            ..type = AlarmCommentType.OTHER
-            ..comment = JsonObject(<String, dynamic>{
-              'text': comment,
-              'edited': 'true',
-            }),
+      (b) => b
+        // The server upserts based on the presence of `id`: setting it
+        // updates the existing comment, omitting it creates a new one.
+        ..id = AlarmCommentId((idb) => idb..id = id).toBuilder()
+        ..type = AlarmCommentType.OTHER
+        ..comment = JsonObject(<String, dynamic>{
+          'text': comment,
+          'edited': 'true',
+        }),
     );
     final res = await thingsboardClient
         .getAlarmCommentControllerApi()
@@ -133,14 +131,13 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
 }
 
 AlarmCommentInfo _alarmCommentToInfo(AlarmComment c) => AlarmCommentInfo(
-  (b) =>
-      b
-        ..id = c.id?.toBuilder()
-        ..createdTime = c.createdTime
-        ..alarmId = c.alarmId?.toBuilder()
-        ..userId = c.userId?.toBuilder()
-        ..type = c.type
-        ..comment = c.comment,
+  (b) => b
+    ..id = c.id?.toBuilder()
+    ..createdTime = c.createdTime
+    ..alarmId = c.alarmId?.toBuilder()
+    ..userId = c.userId?.toBuilder()
+    ..type = c.type
+    ..comment = c.comment,
 );
 
 /// Maps the assignee endpoint's [UserEmailInfo] onto the app's [UserInfo]
@@ -149,11 +146,10 @@ AlarmCommentInfo _alarmCommentToInfo(AlarmComment c) => AlarmCommentInfo(
 /// fill a neutral [Authority.CUSTOMER_USER] and an empty-string email fallback
 /// to satisfy the built_value `.build()` null checks.
 UserInfo _userEmailInfoToUserInfo(UserEmailInfo e) => UserInfo(
-  (b) =>
-      b
-        ..id = e.id?.toBuilder()
-        ..authority = Authority.CUSTOMER_USER
-        ..email = e.email ?? ''
-        ..firstName = e.firstName
-        ..lastName = e.lastName,
+  (b) => b
+    ..id = e.id?.toBuilder()
+    ..authority = Authority.CUSTOMER_USER
+    ..email = e.email ?? ''
+    ..firstName = e.firstName
+    ..lastName = e.lastName,
 );

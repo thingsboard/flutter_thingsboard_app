@@ -131,28 +131,26 @@ class Navigation extends _$Navigation {
               return e.path.contains(fullScreenProfile);
             }) ==
             null;
-    final more =
-        shouldAddProfile
-            ? const NavigationItemData(
-              title: 'Profile',
-              icon: Icons.person,
-              path: fullScreenProfile,
-            )
-            : const NavigationItemData(
-              title: 'More',
-              icon: Icons.menu_outlined,
-              path: morePath,
-            );
+    final more = shouldAddProfile
+        ? const NavigationItemData(
+            title: 'Profile',
+            icon: Icons.person,
+            path: fullScreenProfile,
+          )
+        : const NavigationItemData(
+            title: 'More',
+            icon: Icons.menu_outlined,
+            path: morePath,
+          );
     NavigationState navState = const NavigationState(
       bottomBarPages: [],
       morePages: [],
     );
     if (_deviceScreenSize.width < 600) {
       navState = navState.copyWith(
-        bottomBarPages:
-            _allPages.length > 3
-                ? [..._allPages.sublist(0, 3), more]
-                : [..._allPages, more],
+        bottomBarPages: _allPages.length > 3
+            ? [..._allPages.sublist(0, 3), more]
+            : [..._allPages, more],
       );
       navState = navState.copyWith(
         morePages: _getMorePages(navState.bottomBarPages),
@@ -161,10 +159,9 @@ class Navigation extends _$Navigation {
     }
     if (_deviceScreenSize.width < 960) {
       navState = navState.copyWith(
-        bottomBarPages:
-            _allPages.length > 5
-                ? [..._allPages.sublist(0, 5), more]
-                : [..._allPages, more],
+        bottomBarPages: _allPages.length > 5
+            ? [..._allPages.sublist(0, 5), more]
+            : [..._allPages, more],
       );
 
       navState = navState.copyWith(
@@ -174,10 +171,9 @@ class Navigation extends _$Navigation {
     }
 
     navState = navState.copyWith(
-      bottomBarPages:
-          _allPages.length > 9
-              ? [..._allPages.sublist(0, 9), more]
-              : [..._allPages, more],
+      bottomBarPages: _allPages.length > 9
+          ? [..._allPages.sublist(0, 9), more]
+          : [..._allPages, more],
     );
     navState = navState.copyWith(
       morePages: _getMorePages(navState.bottomBarPages),

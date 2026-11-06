@@ -80,10 +80,9 @@ VoidCallback? _targetTapHandler(
   LiveTrackingTarget target,
 ) => switch (target.entityType) {
   'ASSET' => () => context.push('${AssetRoutes.asset}/${target.id}'),
-  'CUSTOMER' =>
-    () => context.push(
-      '${CustomerRoutes.customers}${CustomerRoutes.customer}/${target.id}',
-    ),
+  'CUSTOMER' => () => context.push(
+    '${CustomerRoutes.customers}${CustomerRoutes.customer}/${target.id}',
+  ),
   'DEVICE' => () => _openDeviceTarget(ref, target.id),
   _ => null,
 };
@@ -95,8 +94,9 @@ Future<void> _openDeviceTarget(WidgetRef ref, String deviceId) async {
   try {
     final device =
         (await getIt<ITbClientService>().client
-            .getDeviceControllerApi()
-            .getDeviceById(deviceId: deviceId)).data;
+                .getDeviceControllerApi()
+                .getDeviceById(deviceId: deviceId))
+            .data;
     if (device == null) {
       return;
     }
@@ -140,11 +140,9 @@ List<Widget> _saveConfigTiles(
           dashboard.title ?? dashboardId ?? '',
           style: dashboardId != null ? _linkStyle(context) : null,
         ),
-        onTap:
-            dashboardId != null
-                ? () =>
-                    context.push('${DashboardRoutes.dashboard}/$dashboardId')
-                : null,
+        onTap: dashboardId != null
+            ? () => context.push('${DashboardRoutes.dashboard}/$dashboardId')
+            : null,
       ),
   ];
 }
@@ -166,10 +164,9 @@ class _ActiveSession extends ConsumerWidget {
       nameAsync.value ?? session.config.targetName,
       target,
     );
-    final statusColor =
-        tracking
-            ? AppColors.notificationSuccess
-            : AppColors.notificationWarning;
+    final statusColor = tracking
+        ? AppColors.notificationSuccess
+        : AppColors.notificationWarning;
     return ListView(
       children: [
         ..._saveConfigTiles(context, ref, session.config, name),
@@ -244,8 +241,8 @@ class _ActiveSession extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: FilledButton.icon(
-                  onPressed:
-                      () => ref.read(liveTrackingProvider.notifier).stop(),
+                  onPressed: () =>
+                      ref.read(liveTrackingProvider.notifier).stop(),
                   icon: const Icon(Icons.stop),
                   label: Text(S.of(context).liveTrackingStop),
                 ),

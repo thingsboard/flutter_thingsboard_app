@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+
 class TbProgressIndicator extends ConsumerStatefulWidget {
   const TbProgressIndicator({this.size = 36.0, this.valueColor});
   final double size;
@@ -27,17 +28,13 @@ class _TbProgressIndicatorState extends ConsumerState<TbProgressIndicator>
   @override
   void initState() {
     super.initState();
-      _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500),
-        vsync: this,
-        animationBehavior: AnimationBehavior.preserve,
-      );
-      _rotation = CurvedAnimation(
-        parent: _controller!,
-        curve: Curves.easeInOut,
-      );
-      _controller!.repeat();
-    
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+      animationBehavior: AnimationBehavior.preserve,
+    );
+    _rotation = CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
+    _controller!.repeat();
   }
 
   @override
@@ -94,7 +91,7 @@ class _TbProgressIndicatorState extends ConsumerState<TbProgressIndicator>
             height: widget.size,
             width: widget.size,
             colorFilter: ColorFilter.mode(
-               theme.colorScheme.secondary,
+              theme.colorScheme.secondary,
               BlendMode.srcIn,
             ),
           ),

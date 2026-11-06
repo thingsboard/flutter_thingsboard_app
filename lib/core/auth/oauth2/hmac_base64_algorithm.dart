@@ -5,11 +5,11 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 class HMACBase64Algorithm extends JWTAlgorithm {
-
   const HMACBase64Algorithm(this._name);
   static const hs512 = HMACBase64Algorithm('HS512');
 

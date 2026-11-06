@@ -73,8 +73,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text:
-                                        S.of(context).emailVerificationSentText,
+                                    text: S
+                                        .of(context)
+                                        .emailVerificationSentText,
                                   ),
                                   TextSpan(
                                     text: widget._email,

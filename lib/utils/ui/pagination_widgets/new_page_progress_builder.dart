@@ -11,13 +11,8 @@ class NewPageProgressBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(
-        top: 16,
-        bottom: 16,
-      ),
-      child: Center(
-        child: RefreshProgressIndicator(),
-      ),
+      padding: EdgeInsets.only(top: 16, bottom: 16),
+      child: Center(child: RefreshProgressIndicator()),
     );
   }
 }

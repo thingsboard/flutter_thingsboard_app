@@ -26,13 +26,12 @@ final dashboardRoutes = [
     path: DashboardRoutes.dashboard,
     builder: (context, state) {
       final args = state.extra! as DashboardArgumentsEntity;
-   
+
       return SingleDashboardView(
         id: args.id,
         title: args.title,
         state: args.state,
         hideToolbar: args.hideToolbar,
-        
       );
     },
   ),

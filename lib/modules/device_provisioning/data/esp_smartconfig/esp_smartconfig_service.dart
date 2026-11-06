@@ -9,7 +9,7 @@ import 'package:thingsboard_app/modules/device_provisioning/data/esp_smartconfig
 class EspSmartConfigService implements IEspSmartConfigService {
   const EspSmartConfigService(this.provisioner);
 
-   final Provisioner provisioner;
+  final Provisioner provisioner;
 
   @override
   Provisioner create(SmartConfig config) {
@@ -22,7 +22,7 @@ class EspSmartConfigService implements IEspSmartConfigService {
   }
 
   @override
-  Future<void> start(ProvisioningRequest request)  {
+  Future<void> start(ProvisioningRequest request) {
     return provisioner.start(request);
   }
 

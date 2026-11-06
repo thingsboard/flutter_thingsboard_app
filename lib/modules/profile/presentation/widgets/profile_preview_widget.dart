@@ -88,30 +88,29 @@ class ProfilePreviewWidget extends HookConsumerWidget {
               spacing: 24,
               children: [
                 Column(
-                  children:
-                      tableData.entries
-                          .map(
-                            (e) => [
-                              ListTile(
-                                title: Text(
-                                  e.key,
-                                  style: TbTextStyles.bodyMedium.copyWith(
-                                    color: AppColors.textTertiary,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  e.value?.toString() ?? ' ',
-                                  style: TbTextStyles.bodyLarge.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
+                  children: tableData.entries
+                      .map(
+                        (e) => [
+                          ListTile(
+                            title: Text(
+                              e.key,
+                              style: TbTextStyles.bodyMedium.copyWith(
+                                color: AppColors.textTertiary,
                               ),
+                            ),
+                            subtitle: Text(
+                              e.value?.toString() ?? ' ',
+                              style: TbTextStyles.bodyLarge.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ),
 
-                              const Divider(),
-                            ],
-                          )
-                          .expand((e) => e)
-                          .toList(),
+                          const Divider(),
+                        ],
+                      )
+                      .expand((e) => e)
+                      .toList(),
                 ),
 
                 Padding(

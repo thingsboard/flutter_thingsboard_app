@@ -106,20 +106,24 @@ void main() {
     expect(c.isLoading, isFalse);
   });
 
-  test('a page that arrives after reloadFirstPage started is dropped', () async {
-    final slow = Completer<PageData<String>>();
-    var calls = 0;
-    final c = PageDataPagingController<PageLink, String>(
-      pageKeyController: keys,
-      fetchPageData: (_, {required refresh}) =>
-          calls++ == 0 ? slow.future : Future.value(PageData(['new'], 1, 1, false)),
-    );
+  test(
+    'a page that arrives after reloadFirstPage started is dropped',
+    () async {
+      final slow = Completer<PageData<String>>();
+      var calls = 0;
+      final c = PageDataPagingController<PageLink, String>(
+        pageKeyController: keys,
+        fetchPageData: (_, {required refresh}) => calls++ == 0
+            ? slow.future
+            : Future.value(PageData(['new'], 1, 1, false)),
+      );
 
-    c.fetchNextPage();
-    await c.reloadFirstPage();
-    slow.complete(PageData(['old'], 1, 1, false));
-    await pumpEventQueue();
+      c.fetchNextPage();
+      await c.reloadFirstPage();
+      slow.complete(PageData(['old'], 1, 1, false));
+      await pumpEventQueue();
 
-    expect(c.items, ['new']);
-  });
+      expect(c.items, ['new']);
+    },
+  );
 }

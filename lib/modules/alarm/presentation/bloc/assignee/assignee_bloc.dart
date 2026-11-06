@@ -34,7 +34,9 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         queryCtrl.onSearchText(null);
 
         final assignee = paginationRepository.pagingController.items
-            ?.firstWhere((assignee) => assignee.userInfo.id?.id == event.userId);
+            ?.firstWhere(
+              (assignee) => assignee.userInfo.id?.id == event.userId,
+            );
 
         if (assignee != null) {
           if (event.selfAssignment) {

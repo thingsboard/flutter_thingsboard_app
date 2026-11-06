@@ -44,9 +44,13 @@ class _VersionSingleState extends State<VersionSingleWidget>
         actions: [
           IconButton(
             onPressed: () {
-              context.push( UiUtilsRoutes.qrCodeScan);
+              context.push(UiUtilsRoutes.qrCodeScan);
             },
-            icon: SvgPicture.asset(ThingsboardImage.oauth2Logos['qr-code']!, width: 24, height: 24,),
+            icon: SvgPicture.asset(
+              ThingsboardImage.oauth2Logos['qr-code']!,
+              width: 24,
+              height: 24,
+            ),
           ),
         ],
       ),
@@ -56,7 +60,10 @@ class _VersionSingleState extends State<VersionSingleWidget>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TabBar(controller: tabCtrl, tabs: [Tab(text: widget.version)]),
+              TabBar(
+                controller: tabCtrl,
+                tabs: [Tab(text: widget.version)],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   // Keeps the 8px body margin flutter_html used to add.

@@ -6,9 +6,9 @@
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/actions/show_map_location_action.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 
-class ShowMapWithDirectionsAction  extends ShowMapLocationAction {
-    @override
+class ShowMapWithDirectionsAction extends ShowMapLocationAction {
+  @override
   WidgetMobileActionType get type => WidgetMobileActionType.mapDirection;
   @override
-  Future<String>  getUrl(List args) => getMapUrl(args, true);
+  Future<String> getUrl(List args) => getMapUrl(args, true);
 }

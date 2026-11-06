@@ -32,8 +32,9 @@ class DeviceProvisioningAction extends MobileAction {
   BuildContext get context => globalNavigatorKey.currentContext!;
   Future<WidgetMobileActionResult> _provisioningDevice() async {
     try {
-      final authority =
-          getIt<ITbClientService>().client.getAuthUser()?.authority;
+      final authority = getIt<ITbClientService>().client
+          .getAuthUser()
+          ?.authority;
       if (authority != Authority.CUSTOMER_USER) {
         return WidgetMobileActionResult.errorResult(
           "Provisioning is only abaliable for customer roles.",

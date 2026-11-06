@@ -30,10 +30,10 @@ class EspBleProvisioningBloc
     subscription = communicationService
         .on<DeviceProvisioningStatusChangedEvent>()
         .listen((event) {
-      if (event.status == DeviceProvisioningStatus.done) {
-        add(const EspBleProvisioningDoneEvent());
-      }
-    });
+          if (event.status == DeviceProvisioningStatus.done) {
+            add(const EspBleProvisioningDoneEvent());
+          }
+        });
   }
 
   factory EspBleProvisioningBloc.create(int? androidSdkVersion) {
@@ -63,7 +63,7 @@ class EspBleProvisioningBloc
           final status = await Permission.bluetooth.request();
           if (status == PermissionStatus.permanentlyDenied) {
             emit(
-               const EspBlePermissionsMissing(
+              const EspBlePermissionsMissing(
                 openAppSettings: true,
                 permissions: ProvisioningPermissionsType.bluetooth,
               ),
@@ -130,7 +130,6 @@ class EspBleProvisioningBloc
           emit(EspEstablishSessionError(event.deviceName));
         }
 
-
       case EspBleProvisionDeviceEvent():
         emit(
           EspBleProvisioningInProgressState(
@@ -164,9 +163,8 @@ class EspBleProvisioningBloc
               )
               .timeout(
                 const Duration(seconds: 20),
-                onTimeout: () => throw Exception(
-                  'Device provisioning timeout reached',
-                ),
+                onTimeout: () =>
+                    throw Exception('Device provisioning timeout reached'),
               );
 
           if (result == true) {

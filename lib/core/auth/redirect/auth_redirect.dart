@@ -34,7 +34,7 @@ class AuthRedirect implements Redirect {
     if (RegisterRoutes.isRegisterRoute(path)) {
       return null;
     }
-      if (path == SelectRegionRoutes.chooseRegion) {
+    if (path == SelectRegionRoutes.chooseRegion) {
       return null;
     }
     if (path == LoginRoutes.login + LoginRoutes.mfaConfigure) {

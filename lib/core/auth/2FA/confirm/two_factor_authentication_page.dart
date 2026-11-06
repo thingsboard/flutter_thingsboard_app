@@ -95,18 +95,16 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     return BaseTwoFactorLayout(
       title: S.of(context).verifyYourIdentity,
       isLoading: isLoading.value,
-      child:
-          providers.value != null
-              ? SelectProviderTypeWidget(
-                activeProviders: const [],
-                avalibleTypes:
-                    providers.value!
-                        .where((e) => e.type != null)
-                        .map((e) => e.type!)
-                        .toList(),
-                type: TwoFaViewType.confirm,
-              )
-              : const SizedBox(),
+      child: providers.value != null
+          ? SelectProviderTypeWidget(
+              activeProviders: const [],
+              avalibleTypes: providers.value!
+                  .where((e) => e.type != null)
+                  .map((e) => e.type!)
+                  .toList(),
+              type: TwoFaViewType.confirm,
+            )
+          : const SizedBox(),
     );
   }
 

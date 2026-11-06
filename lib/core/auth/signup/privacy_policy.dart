@@ -77,13 +77,13 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed:
-                        () => getIt<ThingsboardAppRouter>().pop(false, context),
+                    onPressed: () =>
+                        getIt<ThingsboardAppRouter>().pop(false, context),
                     child: Text(S.of(context).cancel),
                   ),
                   ElevatedButton(
-                    onPressed:
-                        () => getIt<ThingsboardAppRouter>().pop(true, context),
+                    onPressed: () =>
+                        getIt<ThingsboardAppRouter>().pop(true, context),
                     child: Text(S.of(context).accept),
                   ),
                 ],

@@ -34,7 +34,11 @@ class _DashboardGridCardState extends State<DashboardGridCard> {
     final hasImage = widget.dashboard.image != null;
     Widget image;
     if (hasImage) {
-      image = Utils.imageFromTbImage(context, getIt<ITbClientService>().client, widget.dashboard.image);
+      image = Utils.imageFromTbImage(
+        context,
+        getIt<ITbClientService>().client,
+        widget.dashboard.image,
+      );
     } else {
       image = SvgPicture.asset(
         ThingsboardImage.dashboardPlaceholder,
@@ -70,8 +74,9 @@ class _DashboardGridCardState extends State<DashboardGridCard> {
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Center(
                 child: AutoSizeText(
-                  getIt<ICustomTranslationService>()
-                      .translate(widget.dashboard.title),
+                  getIt<ICustomTranslationService>().translate(
+                    widget.dashboard.title,
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

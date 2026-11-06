@@ -14,7 +14,7 @@ class ExitConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TbAlertDialog(
-      title:  Text(S.of(context).exitDeviceProvisioning),
+      title: Text(S.of(context).exitDeviceProvisioning),
       content: Text(S.of(context).areYouSure),
       actions: [
         TextButton(

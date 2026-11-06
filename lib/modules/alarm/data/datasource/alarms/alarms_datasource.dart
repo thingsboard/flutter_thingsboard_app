@@ -26,18 +26,15 @@ class AlarmsDatasource implements IAlarmsDatasource {
           sortOrder: query.pageLink.sortOrder?.direction.name,
           startTime: query.pageLink.startTime,
           endTime: query.pageLink.endTime,
-          statusList:
-              query.statusList != null
-                  ? BuiltList<String>(query.statusList!.map((s) => s.name))
-                  : null,
-          severityList:
-              query.severityList != null
-                  ? BuiltList<String>(query.severityList!.map((s) => s.name))
-                  : null,
-          typeList:
-              query.typeList != null
-                  ? BuiltList<String>(query.typeList!)
-                  : null,
+          statusList: query.statusList != null
+              ? BuiltList<String>(query.statusList!.map((s) => s.name))
+              : null,
+          severityList: query.severityList != null
+              ? BuiltList<String>(query.severityList!.map((s) => s.name))
+              : null,
+          typeList: query.typeList != null
+              ? BuiltList<String>(query.typeList!)
+              : null,
           assigneeId: query.assigneeId?.id,
         );
     final page = response.data!;

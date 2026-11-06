@@ -22,10 +22,7 @@ class _DevicesPageState extends State<DevicesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceProfilesList = DeviceProfilesGrid(
-     
-      _pageLinkController,
-    );
+    final deviceProfilesList = DeviceProfilesGrid(_pageLinkController);
     return Scaffold(
       appBar: TbAppBar(title: Text(deviceProfilesList.title(context))),
       body: deviceProfilesList,

@@ -27,24 +27,24 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
     required this.deviceName,
     required this.pop,
   }) : super(
-          Platform.isAndroid
-              ? const EspManuallyConnectToDeviceNetworkState()
-              : const EspSoftAppLoadingState(),
-        ) {
+         Platform.isAndroid
+             ? const EspManuallyConnectToDeviceNetworkState()
+             : const EspSoftAppLoadingState(),
+       ) {
     on(_onEvent);
 
     subscription = communicationService
         .on<DeviceProvisioningStatusChangedEvent>()
         .listen((event) {
-      if (event.status == DeviceProvisioningStatus.done) {
-        add(const EspSoftApProvisioningDoneEvent());
-      }
-    });
+          if (event.status == DeviceProvisioningStatus.done) {
+            add(const EspSoftApProvisioningDoneEvent());
+          }
+        });
 
     // PluginWifiConnect.connect(deviceName);
 
     if (Platform.isIOS) {
-     add(const EspSoftApAutoConnectToDeviceWifi());
+      add(const EspSoftApAutoConnectToDeviceWifi());
     }
   }
 
@@ -80,7 +80,7 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
         await _onEspSoftApConnectToDeviceEvent(emit);
 
       case EspSoftApStartProvisioningEvent():
-       _onEspSoftApStartProvisioningEvent(emit, event);
+        _onEspSoftApStartProvisioningEvent(emit, event);
 
       case EspSoftApAutoConnectToDeviceWifi():
         bool? connectionResult;
@@ -97,7 +97,6 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
           }
         }
 
-
       case EspSoftApManuallyConnectToDeviceWifi():
         emit(const EspManuallyConnectToDeviceNetworkState());
 
@@ -108,104 +107,104 @@ class EspSoftApBloc extends Bloc<EspSoftApEvent, EspSoftApState> {
         emit(EspSoftApWiFiListState(wiFis));
     }
   }
-Future<void> _onEspSoftApStartProvisioningEvent(Emitter<EspSoftApState> emit, EspSoftApStartProvisioningEvent event) async {
- emit(
-          EspSoftApProvisioningInProgressState(
-            ssid: event.ssid,
-            password: event.password,
-          ),
-        );
-        await Future.delayed(const Duration(milliseconds: 500));
-        communicationService.fire(
-          const DeviceProvisioningStatusChangedEvent(
-            DeviceProvisioningStatus.wifi,
-          ),
+
+  Future<void> _onEspSoftApStartProvisioningEvent(
+    Emitter<EspSoftApState> emit,
+    EspSoftApStartProvisioningEvent event,
+  ) async {
+    emit(
+      EspSoftApProvisioningInProgressState(
+        ssid: event.ssid,
+        password: event.password,
+      ),
+    );
+    await Future.delayed(const Duration(milliseconds: 500));
+    communicationService.fire(
+      const DeviceProvisioningStatusChangedEvent(DeviceProvisioningStatus.wifi),
+    );
+
+    try {
+      await softApService.sendWifiConfig(
+        provisioning,
+        ssid: event.ssid,
+        password: event.password,
+      );
+      await softApService.applyWifiConfig(provisioning);
+
+      communicationService.fire(
+        const DeviceProvisioningStatusChangedEvent(
+          DeviceProvisioningStatus.confirmation,
+        ),
+      );
+
+      int getStatusTries = 5;
+      while (getStatusTries >= 0) {
+        if (isClosed) return;
+
+        await Future.delayed(const Duration(seconds: 10));
+        final status = await softApService.getStatus(provisioning);
+        logger.info(
+          'SoftAp get connection status: ${status.state},'
+          ' failed reason: ${status.failedReason}, '
+          'ip: ${status.ip}, '
+          'getStatus tries left: $getStatusTries',
         );
 
-        try {
-          await softApService.sendWifiConfig(
-            provisioning,
-            ssid: event.ssid,
-            password: event.password,
-          );
-          await softApService.applyWifiConfig(provisioning);
-
+        if (status.state == WifiConnectionState.Connected) {
+          await PluginWifiConnect.disconnect();
           communicationService.fire(
             const DeviceProvisioningStatusChangedEvent(
-              DeviceProvisioningStatus.confirmation,
+              DeviceProvisioningStatus.success,
             ),
           );
 
-          int getStatusTries = 5;
-          while (getStatusTries >= 0) {
-            if (isClosed) return;
-
-            await Future.delayed(const Duration(seconds: 10));
-            final status = await softApService.getStatus(provisioning);
-            logger.info(
-              'SoftAp get connection status: ${status.state},'
-              ' failed reason: ${status.failedReason}, '
-              'ip: ${status.ip}, '
-              'getStatus tries left: $getStatusTries',
-            );
-
-            if (status.state == WifiConnectionState.Connected) {
-              await PluginWifiConnect.disconnect();
-              communicationService.fire(
-                const DeviceProvisioningStatusChangedEvent(
-                  DeviceProvisioningStatus.success,
-                ),
-              );
-
-              break;
-            } else if (status.state == WifiConnectionState.ConnectionFailed) {
-              await PluginWifiConnect.disconnect();
-              communicationService.fire(
-                const DeviceProvisioningStatusChangedEvent(
-                  DeviceProvisioningStatus.fail,
-                ),
-              );
-
-              break;
-            } else if (getStatusTries == 0 &&
-                status.state == WifiConnectionState.Connecting) {
-              logger.info(
-                'SoftAp no more tries left to get device connection '
-                'status but the status still connecting considered as failed',
-              );
-              communicationService.fire(
-                const DeviceProvisioningStatusChangedEvent(
-                  DeviceProvisioningStatus.fail,
-                ),
-              );
-            }
-
-            --getStatusTries;
-          }
-        } catch (e) {
-          logger.error('Error provisioning device $e');
+          break;
+        } else if (status.state == WifiConnectionState.ConnectionFailed) {
+          await PluginWifiConnect.disconnect();
           communicationService.fire(
             const DeviceProvisioningStatusChangedEvent(
               DeviceProvisioningStatus.fail,
             ),
           );
-        } 
 
-}
-  Future<void> _onEspSoftApConnectToDeviceEvent(Emitter<EspSoftApState> emit) async {
-     emit(const EspSoftAppLoadingState());
-    
+          break;
+        } else if (getStatusTries == 0 &&
+            status.state == WifiConnectionState.Connecting) {
+          logger.info(
+            'SoftAp no more tries left to get device connection '
+            'status but the status still connecting considered as failed',
+          );
+          communicationService.fire(
+            const DeviceProvisioningStatusChangedEvent(
+              DeviceProvisioningStatus.fail,
+            ),
+          );
+        }
+
+        --getStatusTries;
+      }
+    } catch (e) {
+      logger.error('Error provisioning device $e');
+      communicationService.fire(
+        const DeviceProvisioningStatusChangedEvent(
+          DeviceProvisioningStatus.fail,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onEspSoftApConnectToDeviceEvent(
+    Emitter<EspSoftApState> emit,
+  ) async {
+    emit(const EspSoftAppLoadingState());
+
     try {
       provisioning = await softApService
-          .startProvisioning(
-            hostname: '192.168.4.1:80',
-            pop: pop,
-          )
+          .startProvisioning(hostname: '192.168.4.1:80', pop: pop)
           .timeout(
             const Duration(seconds: 20),
-            onTimeout: () => throw Exception(
-              'SoftAp startProvisioning timeout reached.',
-            ),
+            onTimeout: () =>
+                throw Exception('SoftAp startProvisioning timeout reached.'),
           );
     } catch (e) {
       logger.error('SoftAp Error connecting to device $e');
@@ -216,7 +215,7 @@ Future<void> _onEspSoftApStartProvisioningEvent(Emitter<EspSoftApState> emit, Es
             'to grant Local Network permission, which cannot be triggered '
             'in advance by the developer.',
           );
-    
+
           --connectionRetries;
           logger.debug('Connection retries left $connectionRetries');
           await Future.delayed(const Duration(seconds: 15));
@@ -225,27 +224,26 @@ Future<void> _onEspSoftApStartProvisioningEvent(Emitter<EspSoftApState> emit, Es
         } else {
           emit(const EspSoftApConnectionErrorState());
         }
-    
+
         connectionRetries = 5;
         return;
       }
     }
-    
+
     await scanWifi(emit);
   }
 
   Future<void> scanWifi(Emitter<EspSoftApState> emit) async {
     try {
-      final wifiList =
-          await softApService.startScanWiFi(provisioning).timeout(
-                const Duration(seconds: 20),
-                onTimeout: () => throw Exception(
-                  'SoftAp startScanWiFi timeout reached',
-                ),
-              );
-    
+      final wifiList = await softApService
+          .startScanWiFi(provisioning)
+          .timeout(
+            const Duration(seconds: 20),
+            onTimeout: () =>
+                throw Exception('SoftAp startScanWiFi timeout reached'),
+          );
+
       if (wifiList != null && wifiList.isNotEmpty) {
-    
         wiFis = wifiList.map((e) => WifiNetwork.fromJson(e)).toList();
         emit(EspSoftApWiFiListState(wiFis));
       } else {

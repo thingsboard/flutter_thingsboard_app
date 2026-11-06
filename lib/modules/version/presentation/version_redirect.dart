@@ -22,7 +22,7 @@ class VersionRedirect implements Redirect {
     Ref ref,
   ) async {
     final path = state.fullPath;
-    if (path ==  UiUtilsRoutes.qrCodeScan) {
+    if (path == UiUtilsRoutes.qrCodeScan) {
       return null;
     }
     final oauth = ref.read(oauthProvider);

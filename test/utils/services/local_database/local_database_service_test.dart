@@ -29,9 +29,8 @@ void main() {
 
       await service.setPushRegistered();
 
-      verify(
-        () => storage.setItem('pushNotificationsRegistered', true),
-      ).called(1);
+      verify(() => storage.setItem('pushNotificationsRegistered', true))
+          .called(1);
     });
 
     test('isPushRegistered reads the stored flag', () async {

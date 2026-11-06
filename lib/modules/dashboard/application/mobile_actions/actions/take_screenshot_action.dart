@@ -38,13 +38,16 @@ class TakeScreenshotAction extends MobileAction {
           unawaited(
             getIt<ITbImageGalleryService>().uploadImage(
               Uint8List.fromList(imageBytes),
-              title: 'tb_screenshot_${DateTime.now().millisecondsSinceEpoch}.png',
+              title:
+                  'tb_screenshot_${DateTime.now().millisecondsSinceEpoch}.png',
             ),
           );
         }
 
-        final String imageUrl =
-            UriData.fromBytes(imageBytes, mimeType: 'image/png').toString();
+        final String imageUrl = UriData.fromBytes(
+          imageBytes,
+          mimeType: 'image/png',
+        ).toString();
         return WidgetMobileActionResult.successResult(
           MobileActionResult.image(imageUrl),
         );

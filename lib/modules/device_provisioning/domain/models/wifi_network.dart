@@ -12,15 +12,16 @@ part 'wifi_network.freezed.dart';
 part 'wifi_network.g.dart';
 
 @freezed
- abstract  class WifiNetwork with _$WifiNetwork {
-const    factory WifiNetwork({
+abstract class WifiNetwork with _$WifiNetwork {
+  const factory WifiNetwork({
     required String ssid,
     required int rssi,
     required int channel,
-   // required Uint8List bssid,
+    // required Uint8List bssid,
     required String auth,
     @Default('') String password,
   }) = _WifiNetwork;
 
-  factory WifiNetwork.fromJson(Map<String, Object?> json) => _$WifiNetworkFromJson(json);
+  factory WifiNetwork.fromJson(Map<String, Object?> json) =>
+      _$WifiNetworkFromJson(json);
 }

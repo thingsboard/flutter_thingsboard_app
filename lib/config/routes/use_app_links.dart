@@ -46,15 +46,14 @@ void useAppLinks() {
         }
         navigate(link);
       },
-      onError:
-          (Object e) =>
-              getIt<TbLogger>().error('useAppLinks: uriLinkStream $e', e),
+      onError: (Object e) =>
+          getIt<TbLogger>().error('useAppLinks: uriLinkStream $e', e),
     );
 
     // Consume the link the app was cold-started with (stored in main()).
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final initialLink =
-          await getIt<ILocalDatabaseService>().getInitialAppLink();
+      final initialLink = await getIt<ILocalDatabaseService>()
+          .getInitialAppLink();
       if (initialLink != null && initialLink != lastLink) {
         navigate(initialLink);
       }

@@ -90,6 +90,6 @@ Future<void> onChangeEndpoint(Region region, WidgetRef ref) async {
     onDone: () {},
     onAuthError: (error) {},
   );
- await  ref.read(wlProvider.notifier).updateWhiteLabeling();
+  await ref.read(wlProvider.notifier).updateWhiteLabeling();
   getIt<ThingsboardAppRouter>().navigateTo('/');
 }

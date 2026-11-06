@@ -22,8 +22,8 @@ class VersionInfo {
       minVersionReleaseNotes: info.minVersionReleaseNotes,
       latestVersion:
           info.latestVersion != null && info.latestVersion!.isNotEmpty
-              ? _tryParse(info.latestVersion!)
-              : null,
+          ? _tryParse(info.latestVersion!)
+          : null,
       latestVersionReleaseNotes: info.latestVersionReleaseNotes,
     );
   }

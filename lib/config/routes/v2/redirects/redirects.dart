@@ -15,5 +15,4 @@ final redirects = [
   TwoFactorAuthConfirmRedirect(),
   TwoFactorAuthSetupRedirect(),
   VersionRedirect(),
-
 ];

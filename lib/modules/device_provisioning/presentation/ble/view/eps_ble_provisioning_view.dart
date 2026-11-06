@@ -45,8 +45,8 @@ class _EspBleProvisioningViewState extends State<EspBleProvisioningView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EspBleProvisioningBloc>(
-      create:
-          (_) => EspBleProvisioningBloc.create(
+      create: (_) =>
+          EspBleProvisioningBloc.create(
             deviceInfoService.getAndroidDeviceInfo()?.version.sdkInt,
           )..add(
             EspBleScanNetworksEvent(
@@ -86,11 +86,10 @@ class _EspBleProvisioningViewState extends State<EspBleProvisioningView> {
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  onPressed:
-                      () => showDialog(
-                        context: context,
-                        builder: (_) => const ExitConfirmationDialog(),
-                      ),
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (_) => const ExitConfirmationDialog(),
+                  ),
                 ),
               );
             }(),
@@ -136,8 +135,8 @@ class _EspBleProvisioningViewState extends State<EspBleProvisioningView> {
                     case EspBlePermissionsMissing():
                       return BleDevicesEmptyView(
                         showOpenAppSettings: state.openAppSettings,
-                        onTryAgain:
-                            () => context.read<EspBleProvisioningBloc>().add(
+                        onTryAgain: () =>
+                            context.read<EspBleProvisioningBloc>().add(
                               EspBleScanNetworksEvent(
                                 deviceName: widget.name,
                                 pop: widget.poofOfPossession,

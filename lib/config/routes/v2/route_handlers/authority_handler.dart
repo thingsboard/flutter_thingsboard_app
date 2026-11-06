@@ -18,7 +18,6 @@ abstract class AuthorityHandler extends RouteHandler {
 
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
-    
     _subscription = ref.listenManual(loginProvider, (cur, next) {
       if (next.userScope == authority) {
         context.push(path);

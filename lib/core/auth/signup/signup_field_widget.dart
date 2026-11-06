@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_client/thingsboard_client.dart' show SignUpField, SignUpFieldId;
+import 'package:thingsboard_client/thingsboard_client.dart'
+    show SignUpField, SignUpFieldId;
 
 class SingUpFieldWidget extends StatelessWidget {
   const SingUpFieldWidget({
@@ -108,12 +109,12 @@ class SingUpFieldWidget extends StatelessWidget {
 
     return validators.isNotEmpty
         ? FormBuilderValidators.compose([
-          ...validators,
-          if (field.id == SignUpFieldId.EMAIL)
-            FormBuilderValidators.email(
-              errorText: S.of(context).emailInvalidText,
-            ),
-        ])
+            ...validators,
+            if (field.id == SignUpFieldId.EMAIL)
+              FormBuilderValidators.email(
+                errorText: S.of(context).emailInvalidText,
+              ),
+          ])
         : null;
   }
 

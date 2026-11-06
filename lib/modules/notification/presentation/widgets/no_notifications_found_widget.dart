@@ -11,16 +11,13 @@ class NoNotificationsFoundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             S.of(context).noNotificationsFound,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
           ),
         ],
       ),

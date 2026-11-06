@@ -26,6 +26,11 @@ class FetchDashboardsUseCase
           mobile: true,
         );
     final page = response.data!;
-    return toPageData(page.data, page.totalPages, page.totalElements, page.hasNext);
+    return toPageData(
+      page.data,
+      page.totalPages,
+      page.totalElements,
+      page.hasNext,
+    );
   }
 }

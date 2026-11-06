@@ -4,7 +4,6 @@
 // found in the LICENSE file.
 
 class TbOAuth2AuthenticateResult {
-
   TbOAuth2AuthenticateResult.success(this.accessToken, this.refreshToken);
 
   TbOAuth2AuthenticateResult.failed(this.error);

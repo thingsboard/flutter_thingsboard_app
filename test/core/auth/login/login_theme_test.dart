@@ -111,17 +111,13 @@ void main() {
         ),
       );
 
-      Color? buttonColor(String label) =>
-          tester
-              .widget<Material>(
-                find
-                    .ancestor(
-                      of: find.text(label),
-                      matching: find.byType(Material),
-                    )
-                    .first,
-              )
-              .color;
+      Color? buttonColor(String label) => tester
+          .widget<Material>(
+            find
+                .ancestor(of: find.text(label), matching: find.byType(Material))
+                .first,
+          )
+          .color;
 
       expect(buttonColor('enabled'), Colors.amber);
       expect(buttonColor('disabled'), isNot(Colors.amber));

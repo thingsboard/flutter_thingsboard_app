@@ -14,9 +14,8 @@ abstract final class NotifcationsDi {
     }
     getIt.pushNewScope(
       scopeName: _scopeName,
-      init:
-          (getIt) =>
-              getIt.registerFactory(() => HandleNotificationTapUsecase()),
+      init: (getIt) =>
+          getIt.registerFactory(() => HandleNotificationTapUsecase()),
     );
   }
 

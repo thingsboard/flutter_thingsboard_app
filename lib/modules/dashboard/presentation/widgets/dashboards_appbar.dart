@@ -33,11 +33,7 @@ class DashboardsAppbar extends ConsumerWidget {
         leading: leading,
         elevation: dashboardState ? 0 : 8,
         title: Center(
-          child: SizedBox(
-            height: kToolbarHeight - 8,
-            child:
-                wlState.logo,
-          ),
+          child: SizedBox(height: kToolbarHeight - 8, child: wlState.logo),
         ),
         actions: [
           if (getIt<ITbClientService>().client.isSystemAdmin())

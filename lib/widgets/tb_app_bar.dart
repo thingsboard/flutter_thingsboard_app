@@ -47,18 +47,17 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     final morePages = ref.watch(
       navigationProvider.select((n) => n.bottomBarPages),
     );
-    final isMainPage =
-        morePages
-            .where(
-              (e) => GoRouterState.of(context).path?.contains(e.path) ?? false,
-            )
-            .isNotEmpty;
+    final isMainPage = morePages
+        .where((e) => GoRouterState.of(context).path?.contains(e.path) ?? false)
+        .isNotEmpty;
 
     return Column(
       children: [
         AppBar(
           automaticallyImplyLeading: false,
-          leadingWidth: getLeading(context, isMainPage) is EmptyLeading ? 20 : 40,
+          leadingWidth: getLeading(context, isMainPage) is EmptyLeading
+              ? 20
+              : 40,
           titleSpacing: 4,
           leading: getLeading(context, isMainPage),
           title: buildTitle(context),

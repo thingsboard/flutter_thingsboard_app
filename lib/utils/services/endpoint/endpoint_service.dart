@@ -60,7 +60,9 @@ class EndpointService implements IEndpointService {
   Future<bool> isCustomEndpoint() async {
     _cachedEndpoint ??= await getEndpoint();
     final host = Uri.parse(_cachedEndpoint!).host;
-    final defaultHosts = _defaultEndpoints.map((e) => Uri.parse(e).host).toSet();
+    final defaultHosts = _defaultEndpoints
+        .map((e) => Uri.parse(e).host)
+        .toSet();
     final isCustom = !defaultHosts.contains(host);
     return isCustom;
   }

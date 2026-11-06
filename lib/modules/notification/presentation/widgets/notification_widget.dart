@@ -55,8 +55,9 @@ class NotificationWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
-          border:
-              severity != null ? Border.all(color: severity.toColor()) : null,
+          border: severity != null
+              ? Border.all(color: severity.toColor())
+              : null,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
@@ -126,8 +127,7 @@ class NotificationWidget extends StatelessWidget {
                       children: [
                         Visibility(
                           visible:
-                              notification.status !=
-                              NotificationStatus.READ,
+                              notification.status != NotificationStatus.READ,
                           child: SizedBox(
                             width: 30,
                             height: 50,
@@ -137,20 +137,20 @@ class NotificationWidget extends StatelessWidget {
                                     color: Colors.black.withValues(alpha: 0.38),
                                   )
                                 : IconButton(
-                                    onPressed:
-                                        () =>
-                                            onReadNotification(notification.id!.id),
+                                    onPressed: () =>
+                                        onReadNotification(notification.id!.id),
                                     icon: Icon(
                                       Icons.check_circle_outline,
-                                      color: Colors.black.withValues(alpha: 0.38),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.38,
+                                      ),
                                     ),
                                   ),
                           ),
                         ),
                         Visibility(
                           visible:
-                              notification.status ==
-                              NotificationStatus.READ,
+                              notification.status == NotificationStatus.READ,
                           child: const SizedBox(width: 30, height: 50),
                         ),
                       ],

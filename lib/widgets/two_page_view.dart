@@ -13,7 +13,7 @@ class TwoPageViewController {
 
   ValueListenable<int> get currentIndex => _currentIndex;
 
- void  setTransitionIndexedStackState(_TwoPageViewState state) {
+  void setTransitionIndexedStackState(_TwoPageViewState state) {
     _state = state;
   }
 
@@ -39,7 +39,6 @@ class TwoPageViewController {
 }
 
 class TwoPageView extends StatefulWidget {
-
   const TwoPageView({
     super.key,
     required this.first,

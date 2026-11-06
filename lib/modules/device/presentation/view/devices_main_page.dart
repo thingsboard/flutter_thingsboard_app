@@ -9,7 +9,7 @@ import 'package:thingsboard_app/modules/device/presentation/widgets/device_profi
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DevicesMainPage extends StatefulWidget {
-  const DevicesMainPage( {super.key});
+  const DevicesMainPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _DevicesMainPageState();
@@ -29,13 +29,10 @@ class _DevicesMainPageState extends State<DevicesMainPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final deviceProfilesList = DeviceProfilesGrid(
-  
-      _pageLinkController,
-    );
+    final deviceProfilesList = DeviceProfilesGrid(_pageLinkController);
 
     return Scaffold(
-      appBar: TbAppBar(title: Text(deviceProfilesList.title(context)),),
+      appBar: TbAppBar(title: Text(deviceProfilesList.title(context))),
       body: deviceProfilesList,
     );
   }

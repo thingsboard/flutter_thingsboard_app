@@ -73,17 +73,16 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
                                     vertical: 12,
                                   ),
                                 ),
-                                onPressed:
-                                    form.invalid && form.touched
-                                        ? null
-                                        : () {
-                                          _requestPasswordReset(
-                                            context,
-                                            form,
-                                            ref,
-                                            isLoading,
-                                          );
-                                        },
+                                onPressed: form.invalid && form.touched
+                                    ? null
+                                    : () {
+                                        _requestPasswordReset(
+                                          context,
+                                          form,
+                                          ref,
+                                          isLoading,
+                                        );
+                                      },
                                 child: Text(S.of(context).requestPasswordReset),
                               ),
                             ),

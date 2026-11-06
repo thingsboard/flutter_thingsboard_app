@@ -13,8 +13,8 @@ abstract class TbThemeUtils {
   // static const Color _tbTextColor = Color(0xFF282828);
 
   static final tbPrimary =
-  // ignore: deprecated_member_use
-  _mergeColors(Colors.teal, {'500': Colors.teal[800]!.value});
+      // ignore: deprecated_member_use
+      _mergeColors(Colors.teal, {'500': Colors.teal[800]!.value});
   static final tbAccent = _mergeColors(Colors.deepOrange, {});
   static final tbPrimaryColor = tbPrimary[500]!;
   static final tbAccentColor = tbAccent[500]!;

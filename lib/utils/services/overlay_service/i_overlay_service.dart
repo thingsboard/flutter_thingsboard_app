@@ -8,12 +8,8 @@ import 'package:thingsboard_app/utils/translation_utils.dart';
 abstract interface class IOverlayService {
   void hideNotification();
 
-  Future<bool?> showAlertDialog({
-      required TranslatedDialogBuilder content
-  });
-  Future<bool?> showConfirmDialog({
-    required TranslatedDialogBuilder content
-  });
+  Future<bool?> showAlertDialog({required TranslatedDialogBuilder content});
+  Future<bool?> showConfirmDialog({required TranslatedDialogBuilder content});
 
   /// "Failed to connect to server", shown once however many requests fail.
   void showConnectionErrorDialog();
@@ -24,7 +20,7 @@ abstract interface class IOverlayService {
     required TranslatedDialogBuilder content,
   });
 
-    void showErrorNotification(
+  void showErrorNotification(
     TranslationBuilder tranlatedMessage, {
     Duration? duration,
   });
@@ -36,13 +32,12 @@ abstract interface class IOverlayService {
   });
 }
 
-
 class DialogContent {
   DialogContent({
     required this.title,
     required this.message,
-     this.ok = 'OK',
-     this.cancel,
+    this.ok = 'OK',
+    this.cancel,
   });
   final String title;
   final String message;

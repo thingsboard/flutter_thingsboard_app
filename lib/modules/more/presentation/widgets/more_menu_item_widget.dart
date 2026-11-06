@@ -25,21 +25,23 @@ class MoreMenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-    
       onTap: onTap,
-   
-      
+
       horizontalTitleGap: 0,
-      leading:  Icon(menuItem.icon, color: color ?? AppColors.iconSecondary, size: 24,),
+      leading: Icon(
+        menuItem.icon,
+        color: color ?? AppColors.iconSecondary,
+        size: 24,
+      ),
       title: Text(
         menuItem.title,
         style: TbTextStyles.bodyMedium.copyWith(
           color: color ?? AppColors.textSecondary,
         ),
       ),
-      trailing: showTrailing ?  Icon(Icons.chevron_right, color: color ?? AppColors.iconDisabled,) : null,
+      trailing: showTrailing
+          ? Icon(Icons.chevron_right, color: color ?? AppColors.iconDisabled)
+          : null,
     );
-
-
   }
 }

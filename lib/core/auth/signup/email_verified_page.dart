@@ -35,14 +35,13 @@ class EmailVerifiedPage extends HookConsumerWidget {
         pkgName: getIt<IDeviceInfoService>().getApplicationId(),
         platform: getIt<IDeviceInfoService>().getPlatformType().name,
       );
-      loginResponse.value =
-          r.data?.token != null
-              ? LoginResponse(
-                (b) => b
-                  ..token = r.data!.token
-                  ..refreshToken = r.data!.refreshToken,
-              )
-              : null;
+      loginResponse.value = r.data?.token != null
+          ? LoginResponse(
+              (b) => b
+                ..token = r.data!.token
+                ..refreshToken = r.data!.refreshToken,
+            )
+          : null;
       isActivating.value = false;
     } catch (e) {
       // tbContext.log.error(
@@ -166,11 +165,10 @@ class EmailVerifiedPage extends HookConsumerWidget {
                                       vertical: 16,
                                     ),
                                   ),
-                                  onPressed:
-                                      () => handleLogin(
-                                        loginResponse,
-                                        tbClientService,
-                                      ),
+                                  onPressed: () => handleLogin(
+                                    loginResponse,
+                                    tbClientService,
+                                  ),
                                   child: Text(S.of(context).login),
                                 ),
                               ],

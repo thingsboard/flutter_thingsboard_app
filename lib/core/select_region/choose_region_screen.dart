@@ -45,7 +45,6 @@ class ChooseRegionScreen extends HookConsumerWidget {
                 selected: currentRegion.value == Region.northAmerica,
                 onTap: () {
                   currentRegion.value = Region.northAmerica;
-                  
                 },
               ),
               Container(
@@ -57,8 +56,7 @@ class ChooseRegionScreen extends HookConsumerWidget {
                 subTitle: S.of(context).europeRegionShort,
                 selected: currentRegion.value == Region.europe,
                 onTap: () {
-                     currentRegion.value = Region.europe;
-                  
+                  currentRegion.value = Region.europe;
                 },
               ),
               if (selectedRegion == Region.custom) ...[
@@ -70,14 +68,12 @@ class ChooseRegionScreen extends HookConsumerWidget {
                 ),
                 RegionWidget(
                   title: 'Custom',
-                  subTitle:
-                      Uri.parse(
-                        getIt<IEndpointService>().getCachedEndpoint(),
-                      ).host,
+                  subTitle: Uri.parse(
+                    getIt<IEndpointService>().getCachedEndpoint(),
+                  ).host,
                   selected: currentRegion.value == Region.custom,
                   onTap: () {
-                       currentRegion.value = Region.custom;
-
+                    currentRegion.value = Region.custom;
                   },
                 ),
               ],

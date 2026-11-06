@@ -58,7 +58,7 @@ class ProfilePage extends HookConsumerWidget {
           ),
           if (fullscreen)
             IconButton(
-              icon:  const Icon(Icons.logout, color: AppColors.textError),
+              icon: const Icon(Icons.logout, color: AppColors.textError),
               onPressed: () {
                 ref.read(loginProvider.notifier).logout();
               },
@@ -72,10 +72,12 @@ class ProfilePage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: user == null ? const SizedBox() :  ProfilePreviewWidget(
-                  user: user,
-                  loadingNotifier: isLoading,
-                ),
+                child: user == null
+                    ? const SizedBox()
+                    : ProfilePreviewWidget(
+                        user: user,
+                        loadingNotifier: isLoading,
+                      ),
               ),
             ),
           ),

@@ -18,7 +18,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeWidget extends StatelessWidget {
-  const AlarmAssigneeWidget({  super.key});
+  const AlarmAssigneeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +29,14 @@ class AlarmAssigneeWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder:
-                (_) => BlocProvider.value(
-                  value: context.read<AlarmAssigneeBloc>(),
-                  child: const AnimatedSize(
-                    curve: Curves.easeInOut,
-                    duration: Duration(milliseconds: 500),
-                    child: AlarmAssigneeListWidget(),
-                  ),
-                ),
+            builder: (_) => BlocProvider.value(
+              value: context.read<AlarmAssigneeBloc>(),
+              child: const AnimatedSize(
+                curve: Curves.easeInOut,
+                duration: Duration(milliseconds: 500),
+                child: AlarmAssigneeListWidget(),
+              ),
+            ),
           );
 
           if (context.mounted) {

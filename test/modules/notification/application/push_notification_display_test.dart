@@ -47,14 +47,13 @@ String kotlinConst(String source, String name) {
 MockFlutterLocalNotificationsPlugin stubbedPlugin() {
   final plugin = MockFlutterLocalNotificationsPlugin();
   when(
-    () =>
-        plugin.show(
-          id: any(named: 'id'),
-          title: any(named: 'title'),
-          body: any(named: 'body'),
-          notificationDetails: any(named: 'notificationDetails'),
-          payload: any(named: 'payload'),
-        ),
+    () => plugin.show(
+      id: any(named: 'id'),
+      title: any(named: 'title'),
+      body: any(named: 'body'),
+      notificationDetails: any(named: 'notificationDetails'),
+      payload: any(named: 'payload'),
+    ),
   ).thenAnswer((_) async {});
   return plugin;
 }
@@ -239,11 +238,10 @@ void main() {
     late AndroidNotificationDetails android;
 
     setUpAll(() async {
-      kotlin =
-          File(
-            'android/app/src/main/kotlin/org/thingsboard/app/'
-            'TbFirebaseMessagingService.kt',
-          ).readAsStringSync();
+      kotlin = File(
+        'android/app/src/main/kotlin/org/thingsboard/app/'
+        'TbFirebaseMessagingService.kt',
+      ).readAsStringSync();
       android = await shownAndroidDetails(message());
     });
 
@@ -286,11 +284,11 @@ void main() {
         return calls < 3
             ? []
             : [
-              ActiveNotification(
-                id: notificationIdFor(message()),
-                tag: messageId,
-              ),
-            ];
+                ActiveNotification(
+                  id: notificationIdFor(message()),
+                  tag: messageId,
+                ),
+              ];
       });
 
       await PushNotificationDisplay.waitForPlainNotification(

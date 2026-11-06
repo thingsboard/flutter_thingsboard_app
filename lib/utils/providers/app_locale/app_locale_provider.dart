@@ -37,10 +37,9 @@ const _tbLocaleCodes = {
 };
 
 /// The ThingsBoard language code for an app locale.
-String tbLocaleCode(Locale locale) =>
-    locale.countryCode != null
-        ? locale.toString()
-        : _tbLocaleCodes[locale.languageCode] ?? locale.toString();
+String tbLocaleCode(Locale locale) => locale.countryCode != null
+    ? locale.toString()
+    : _tbLocaleCodes[locale.languageCode] ?? locale.toString();
 
 /// The app locale for a ThingsBoard language code, as the web UI resolves
 /// it: the exact locale, else the same language; null when unsupported.

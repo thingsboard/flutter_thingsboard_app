@@ -13,10 +13,7 @@ sealed class EspBleProvisioningEvent extends Equatable {
 }
 
 final class EspBleScanNetworksEvent extends EspBleProvisioningEvent {
-  const EspBleScanNetworksEvent({
-    required this.deviceName,
-    required this.pop,
-  });
+  const EspBleScanNetworksEvent({required this.deviceName, required this.pop});
 
   final String deviceName;
   final String pop; // proofOfPossession

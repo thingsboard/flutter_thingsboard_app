@@ -60,15 +60,13 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
               icon: Icon(
                 Icons.check,
                 size: 24,
-                color:
-                    textController.text.isNotEmpty
-                        ? const Color(0xff00695C)
-                        : Theme.of(context).disabledColor,
+                color: textController.text.isNotEmpty
+                    ? const Color(0xff00695C)
+                    : Theme.of(context).disabledColor,
               ),
-              onPressed:
-                  textController.text.isNotEmpty
-                      ? () => _submitComment(context)
-                      : null,
+              onPressed: textController.text.isNotEmpty
+                  ? () => _submitComment(context)
+                  : null,
             ),
           ],
         ),

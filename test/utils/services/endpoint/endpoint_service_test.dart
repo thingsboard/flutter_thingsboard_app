@@ -31,9 +31,8 @@ void main() {
     test(
       'a stored endpoint with a trailing slash is returned normalized',
       () async {
-        when(
-          () => database.getSelectedEndpoint(),
-        ).thenAnswer((_) async => 'https://h/');
+        when(() => database.getSelectedEndpoint())
+            .thenAnswer((_) async => 'https://h/');
 
         expect(await service.getEndpoint(), 'https://h');
         expect(service.getCachedEndpoint(), 'https://h');
@@ -43,9 +42,8 @@ void main() {
     test(
       'reads the stored endpoint once and serves it from the cache',
       () async {
-        when(
-          () => database.getSelectedEndpoint(),
-        ).thenAnswer((_) async => 'https://h/');
+        when(() => database.getSelectedEndpoint())
+            .thenAnswer((_) async => 'https://h/');
 
         await service.getEndpoint();
         await service.getEndpoint();

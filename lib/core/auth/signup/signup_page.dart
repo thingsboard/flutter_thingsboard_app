@@ -190,9 +190,8 @@ class _SignUpPageContent extends HookConsumerWidget {
                                             obscureText: passwordFiled,
                                           );
                                         },
-                                        separatorBuilder:
-                                            (_, _) =>
-                                                const SizedBox(height: 12),
+                                        separatorBuilder: (_, _) =>
+                                            const SizedBox(height: 12),
                                         itemCount: signUpFields.length,
                                       ),
                                       ReactiveCheckboxListTile(
@@ -238,10 +237,9 @@ class _SignUpPageContent extends HookConsumerWidget {
                                               },
                                               child: Text(
                                                 S.of(context).imNotARobot,
-                                                style:
-                                                    Theme.of(
-                                                      context,
-                                                    ).textTheme.bodyMedium,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium,
                                               ),
                                             ),
                                           ],
@@ -278,10 +276,9 @@ class _SignUpPageContent extends HookConsumerWidget {
                                                 child: Text(
                                                   " ${S.of(context).privacyPolicy}",
                                                   style: TextStyle(
-                                                    color:
-                                                        Theme.of(
-                                                          context,
-                                                        ).colorScheme.primary,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
                                                     letterSpacing: 1,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w600,
@@ -323,10 +320,9 @@ class _SignUpPageContent extends HookConsumerWidget {
                                                 child: Text(
                                                   " ${S.of(context).termsOfUse}",
                                                   style: TextStyle(
-                                                    color:
-                                                        Theme.of(
-                                                          context,
-                                                        ).colorScheme.primary,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
                                                     letterSpacing: 1,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w600,
@@ -351,22 +347,21 @@ class _SignUpPageContent extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             ReactiveFormConsumer(
-                              builder:
-                                  (context, formGroup, child) => ElevatedButton(
-                                    onPressed:
-                                        form.invalid
-                                            ? null
-                                            : () {
-                                              _signUp(
-                                                context,
-                                                ref,
-                                                form,
-                                                selfRegistrationParams,
-                                                signUpFields,
-                                                recaptchaResponse,
-                                                log,
-                                              );
-                                            },
+                              builder: (context, formGroup, child) =>
+                                  ElevatedButton(
+                                    onPressed: form.invalid
+                                        ? null
+                                        : () {
+                                            _signUp(
+                                              context,
+                                              ref,
+                                              form,
+                                              selfRegistrationParams,
+                                              signUpFields,
+                                              recaptchaResponse,
+                                              log,
+                                            );
+                                          },
                                     child: Text(S.of(context).signUp),
                                   ),
                             ),
@@ -388,8 +383,9 @@ class _SignUpPageContent extends HookConsumerWidget {
                                   child: Text(
                                     S.of(context).signIn,
                                     style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
                                       letterSpacing: 1,
                                       fontSize: 14,
                                       height: 20 / 14,
@@ -442,8 +438,9 @@ Future<void> _openRecaptcha(
       // Get recaptcha client for enterprise version
       RecaptchaClient? client;
       final deviceService = getIt<IDeviceInfoService>();
-      final enterpriseCaptcha =
-          captcha is EnterpriseCaptchaParams ? captcha : null;
+      final enterpriseCaptcha = captcha is EnterpriseCaptchaParams
+          ? captcha
+          : null;
       if (deviceService.getPlatformType() == PlatformType.IOS) {
         client = await Recaptcha.fetchClient(enterpriseCaptcha?.iosKey ?? '');
       } else if (deviceService.getPlatformType() == PlatformType.ANDROID) {
@@ -565,13 +562,12 @@ Future<void> _promptToResendEmailVerification(
   String email,
 ) async {
   final res = await getIt<IOverlayService>().showConfirmDialog(
-    content:
-        (_) => DialogContent(
-          title: S.of(context).inactiveUserAlreadyExists,
-          message: S.of(context).inactiveUserAlreadyExistsMessage,
-          cancel: S.of(context).cancel,
-          ok: S.of(context).resend,
-        ),
+    content: (_) => DialogContent(
+      title: S.of(context).inactiveUserAlreadyExists,
+      message: S.of(context).inactiveUserAlreadyExistsMessage,
+      cancel: S.of(context).cancel,
+      ok: S.of(context).resend,
+    ),
   );
 
   if (res == true) {

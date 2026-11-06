@@ -21,24 +21,20 @@ final alarmRoutes = [
     builder: (context, state) {
       final searchMode = state.uri.queryParameters['search'] == 'true';
       if (!searchMode) {
-        return AlarmsPage(
-          searchMode: searchMode,
-        );
+        return AlarmsPage(searchMode: searchMode);
       } else {
         return const AlarmsSearchPage();
       }
     },
     routes: [
- GoRoute(
-    path: '${AlarmRoutes.alarmDetails}/:id',
-   parentNavigatorKey: globalNavigatorKey,
-    builder: (context, state) {
-      final id = state.pathParameters['id']!;
-      return AlarmDetailsPage( id: id);
-    },
+      GoRoute(
+        path: '${AlarmRoutes.alarmDetails}/:id',
+        parentNavigatorKey: globalNavigatorKey,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return AlarmDetailsPage(id: id);
+        },
+      ),
+    ],
   ),
-    ]
-  ),
-  
- 
 ];

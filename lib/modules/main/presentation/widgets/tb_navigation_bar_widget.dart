@@ -43,36 +43,36 @@ class TbNavigationBarWidget extends StatelessWidget {
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: customBottomBarItems.mapIndexed((index, item) =>  Expanded(
-              child: BottomNavbarItems(
-                label: item.title,
-                icon: item.icon,
-                currentIndex: currentIndex,
-                lineIndicatorWidth: lineIndicatorWidth,
-                index: index,
-                onTap: onTap,
-                selectedTextStyle: GoogleFonts.roboto(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  height: 1.3,
-                  letterSpacing: .4,
-                  color: bottomTheme.selectedItemColor,
+          children: customBottomBarItems
+              .mapIndexed(
+                (index, item) => Expanded(
+                  child: BottomNavbarItems(
+                    label: item.title,
+                    icon: item.icon,
+                    currentIndex: currentIndex,
+                    lineIndicatorWidth: lineIndicatorWidth,
+                    index: index,
+                    onTap: onTap,
+                    selectedTextStyle: GoogleFonts.roboto(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      height: 1.3,
+                      letterSpacing: .4,
+                      color: bottomTheme.selectedItemColor,
+                    ),
+                    unSelectedTextStyle: GoogleFonts.roboto(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      height: 1.3,
+                      letterSpacing: .4,
+                      color: bottomTheme.unselectedItemColor,
+                    ),
+                    showAdditionalIcon: item.showAdditionalIcon,
+                    additionalIcon: item.additionalIconLarge,
+                  ),
                 ),
-                unSelectedTextStyle: GoogleFonts.roboto(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  height: 1.3,
-                  letterSpacing: .4,
-                  color: bottomTheme.unselectedItemColor,
-                ),
-                showAdditionalIcon:
-                    item.showAdditionalIcon,
-                additionalIcon: item.additionalIconLarge,
-              ),
-            ),).toList()
-    
-          
-         
+              )
+              .toList(),
         ),
       ),
     );

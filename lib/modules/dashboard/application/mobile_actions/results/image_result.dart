@@ -6,7 +6,6 @@
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
 
 class ImageResult extends MobileActionResult {
-
   ImageResult(this.imageUrl);
   String imageUrl;
 

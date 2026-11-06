@@ -52,17 +52,15 @@ class BottomNavbarItems extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color:
-                        isSelected
-                            ? bottomTheme.selectedItemColor!
-                            : Colors.transparent,
+                    color: isSelected
+                        ? bottomTheme.selectedItemColor!
+                        : Colors.transparent,
                     width: isSelected ? lineIndicatorWidth : 0,
                   ),
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Column(
-             
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: showAdditionalIcon ? 18 : 0),
@@ -72,10 +70,9 @@ class BottomNavbarItems extends StatelessWidget {
                         Icon(
                           icon,
                           size: 26,
-                          color:
-                              isSelected
-                                  ? bottomTheme.selectedItemColor
-                                  : bottomTheme.unselectedItemColor,
+                          color: isSelected
+                              ? bottomTheme.selectedItemColor
+                              : bottomTheme.unselectedItemColor,
                         ),
                         ConstrainedBox(
                           constraints: const BoxConstraints(

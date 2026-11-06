@@ -270,5 +270,4 @@ class NavigationHelper {
   }
 
   static IconData getIconFromString(String? icon) => iconFromString(icon);
-
 }

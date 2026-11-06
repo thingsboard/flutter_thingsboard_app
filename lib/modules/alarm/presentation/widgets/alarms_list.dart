@@ -24,8 +24,8 @@ class AlarmsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh:
-          () async => getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
+      onRefresh: () async =>
+          getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
       child: PaginationListWidget<AlarmQueryV2, AlarmInfo>(
         pagingController:
             getIt<AlarmBloc>().paginationRepository.pagingController,
@@ -38,17 +38,16 @@ class AlarmsList extends StatelessWidget {
               },
             );
           },
-          firstPageProgressIndicatorBuilder:
-              (_) => const FirstPageProgressBuilder(),
-          newPageProgressIndicatorBuilder:
-              (_) => const NewPageProgressBuilder(),
-          noItemsFoundIndicatorBuilder:
-              (context) => FirstPageExceptionIndicator(
+          firstPageProgressIndicatorBuilder: (_) =>
+              const FirstPageProgressBuilder(),
+          newPageProgressIndicatorBuilder: (_) =>
+              const NewPageProgressBuilder(),
+          noItemsFoundIndicatorBuilder: (context) =>
+              FirstPageExceptionIndicator(
                 title: S.of(context).noAlarmsFound,
                 message: S.of(context).listIsEmptyText,
-                onTryAgain:
-                    () =>
-                        getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
+                onTryAgain: () =>
+                    getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
               ),
         ),
       ),

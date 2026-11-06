@@ -39,20 +39,17 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loading = useState(false);
     final isForce = type == TwoFaViewType.force;
-    final filtered =
-        switch (type) {
-          TwoFaViewType.setup => avalibleTypes,
+    final filtered = switch (type) {
+      TwoFaViewType.setup => avalibleTypes,
 
-          TwoFaViewType.force =>
-            (activeProviders.isEmpty
-                    ? avalibleTypes.where(
-                      (e) => e != TwoFaProviderType.BACKUP_CODE,
-                    )
-                    : avalibleTypes.where((e) => !activeProviders.contains(e)))
-                .toList(),
+      TwoFaViewType.force =>
+        (activeProviders.isEmpty
+                ? avalibleTypes.where((e) => e != TwoFaProviderType.BACKUP_CODE)
+                : avalibleTypes.where((e) => !activeProviders.contains(e)))
+            .toList(),
 
-          TwoFaViewType.confirm => avalibleTypes,
-        }.toList();
+      TwoFaViewType.confirm => avalibleTypes,
+    }.toList();
 
     if (avalibleTypes.isEmpty) {
       return ErrorStateWidget(
@@ -114,94 +111,95 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                       );
                       return type == TwoFaViewType.setup
                           ? ListTile(
-                            enabled: isEnabled,
-                            onTap: () async {
-                              if (isSelected) {
-                                return await deactivateProvider(
-                                  context,
-                                  ref,
-                                  provider,
+                              enabled: isEnabled,
+                              onTap: () async {
+                                if (isSelected) {
+                                  return await deactivateProvider(
+                                    context,
+                                    ref,
+                                    provider,
+                                  );
+                                }
+
+                                context.push(
+                                  '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
                                 );
-                              }
-
-                              context.push(
-                                '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
-                              );
-                            },
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                            ),
-                            horizontalTitleGap: 16,
-                            minLeadingWidth: 24,
-                            dense: true,
-                            leading: getIcon(
-                              data.icon,
-                              context,
-                              isEnabled
-                                  ? AppColors.iconSecondary
-                                  : AppColors.iconDisabled,
-                            ),
-                            title: Text(data.nameFunction(context)),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              spacing: 8,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: (isSelected
-                                            ? AppColors.notificationSuccess
-                                            : AppColors.black)
-                                        .withValues(alpha: .06),
-                                  ),
-                                  child: Text(
-                                    isSelected
-                                        ? S.of(context).active
-                                        : S.of(context).inactive,
-                                    textAlign: TextAlign.center,
-
-                                    style: TbTextStyles.bodyMedium.copyWith(
+                              },
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                              ),
+                              horizontalTitleGap: 16,
+                              minLeadingWidth: 24,
+                              dense: true,
+                              leading: getIcon(
+                                data.icon,
+                                context,
+                                isEnabled
+                                    ? AppColors.iconSecondary
+                                    : AppColors.iconDisabled,
+                              ),
+                              title: Text(data.nameFunction(context)),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                spacing: 8,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
                                       color:
-                                          isSelected
-                                              ? AppColors.notificationSuccess
-                                              : AppColors.textSecondary,
-                                      height: 1,
+                                          (isSelected
+                                                  ? AppColors
+                                                        .notificationSuccess
+                                                  : AppColors.black)
+                                              .withValues(alpha: .06),
+                                    ),
+                                    child: Text(
+                                      isSelected
+                                          ? S.of(context).active
+                                          : S.of(context).inactive,
+                                      textAlign: TextAlign.center,
+
+                                      style: TbTextStyles.bodyMedium.copyWith(
+                                        color: isSelected
+                                            ? AppColors.notificationSuccess
+                                            : AppColors.textSecondary,
+                                        height: 1,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Icon(
-                                  isSelected
-                                      ? Icons.close
-                                      : Icons.chevron_right,
-                                  color: AppColors.iconDisabled,
-                                  size: 24,
-                                ),
-                              ],
-                            ),
-                          )
-                          : OutlinedButton.icon(
-                            onPressed: () {
-                              context.push(
-                                '${LoginRoutes.login}${type == TwoFaViewType.confirm ? LoginRoutes.mfaConfirm : LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
-                              );
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                                horizontal: 10,
+                                  Icon(
+                                    isSelected
+                                        ? Icons.close
+                                        : Icons.chevron_right,
+                                    color: AppColors.iconDisabled,
+                                    size: 24,
+                                  ),
+                                ],
                               ),
-                            ),
-                            label: Text(data.nameFunction(context)),
-                            icon: getIcon(
-                              data.icon,
-                              context,
-                              Theme.of(context).primaryColor,
-                            ),
-                          );
+                            )
+                          : OutlinedButton.icon(
+                              onPressed: () {
+                                context.push(
+                                  '${LoginRoutes.login}${type == TwoFaViewType.confirm ? LoginRoutes.mfaConfirm : LoginRoutes.mfaConfigure}?selectedProvider=${provider.name}&force=$isForce',
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 10,
+                                ),
+                              ),
+                              label: Text(data.nameFunction(context)),
+                              icon: getIcon(
+                                data.icon,
+                                context,
+                                Theme.of(context).primaryColor,
+                              ),
+                            );
                     },
                     separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemCount: filtered.length,
@@ -217,59 +215,58 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                         final data = getTwoFaProviderData(defaultProvider!);
                         return InkWell(
                           onTap: () async {
-                            final info = await showModalBottomSheet<
-                              TwoFaProviderType?
-                            >(
-                              context: context,
-                              builder:
-                                  (
-                                    context,
-                                  ) => TbBottomSheetBuilder<TwoFaProviderType>(
-                                    itemBuilder: (context, search, item) {
-                                      final data = getTwoFaProviderData(item);
-                                      return InkWell(
-                                        onTap: () => context.pop(item),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Row(
-                                            spacing: 16,
-                                            children: [
-                                              getIcon(
-                                                data.icon,
-                                                context,
-                                                AppColors.iconSecondary,
-                                              ),
-                                              Text(
-                                                data.nameFunction(context),
+                            final info =
+                                await showModalBottomSheet<TwoFaProviderType?>(
+                                  context: context,
+                                  builder: (context) =>
+                                      TbBottomSheetBuilder<TwoFaProviderType>(
+                                        itemBuilder: (context, search, item) {
+                                          final data = getTwoFaProviderData(
+                                            item,
+                                          );
+                                          return InkWell(
+                                            onTap: () => context.pop(item),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(16),
+                                              child: Row(
+                                                spacing: 16,
+                                                children: [
+                                                  getIcon(
+                                                    data.icon,
+                                                    context,
+                                                    AppColors.iconSecondary,
+                                                  ),
+                                                  Text(
+                                                    data.nameFunction(context),
 
-                                                textHeightBehavior:
-                                                    const TextHeightBehavior(
-                                                      applyHeightToFirstAscent:
-                                                          false, // Disable height for ascent
-                                                      applyHeightToLastDescent:
-                                                          false,
-                                                    ),
-                                                style: TbTextStyles.bodyLarge,
+                                                    textHeightBehavior:
+                                                        const TextHeightBehavior(
+                                                          applyHeightToFirstAscent:
+                                                              false, // Disable height for ascent
+                                                          applyHeightToLastDescent:
+                                                              false,
+                                                        ),
+                                                    style:
+                                                        TbTextStyles.bodyLarge,
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    title: 'Select method',
-                                    allItems:
-                                        activeProviders
+                                            ),
+                                          );
+                                        },
+                                        title: 'Select method',
+                                        allItems: activeProviders
                                             .where(
                                               (e) =>
                                                   e !=
                                                   TwoFaProviderType.BACKUP_CODE,
                                             )
                                             .toList(),
-                                  ),
-                              showDragHandle: false,
-                              backgroundColor: Colors.transparent,
-                              isScrollControlled: true,
-                            );
+                                      ),
+                                  showDragHandle: false,
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                );
                             if (info != null) {
                               loading.value = true;
                               try {
@@ -339,38 +336,35 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
     final bool res =
         await showDialog<bool>(
           context: context,
-          builder:
-              (context) => AlertDialog(
-                title: Text(
-                  S
-                      .of(context)
-                      .areYouSureYouWantToDeactivate(
-                        data.nameFunction(context),
-                      ),
-                  style: TbTextStyles.titleXs.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                content: Text(
-                  S.of(context).thisWillMakeYourAccountLessSecure,
-                  style: TbTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textTertiary,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => context.pop(false),
-                    child: Text(S.of(context).cancel),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppColors.textError,
-                    ),
-                    onPressed: () => context.pop(true),
-                    child: Text(S.of(context).yesDeactivate),
-                  ),
-                ],
+          builder: (context) => AlertDialog(
+            title: Text(
+              S
+                  .of(context)
+                  .areYouSureYouWantToDeactivate(data.nameFunction(context)),
+              style: TbTextStyles.titleXs.copyWith(
+                color: AppColors.textSecondary,
               ),
+            ),
+            content: Text(
+              S.of(context).thisWillMakeYourAccountLessSecure,
+              style: TbTextStyles.bodyMedium.copyWith(
+                color: AppColors.textTertiary,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => context.pop(false),
+                child: Text(S.of(context).cancel),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.textError,
+                ),
+                onPressed: () => context.pop(true),
+                child: Text(S.of(context).yesDeactivate),
+              ),
+            ],
+          ),
         ) ??
         false;
     if (res == false) {

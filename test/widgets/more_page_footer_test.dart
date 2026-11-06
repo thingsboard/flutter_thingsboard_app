@@ -44,10 +44,9 @@ void main() {
     when(() => wlApi.getLoginWhiteLabelParams()).thenAnswer(
       (_) async => Response(
         data: LoginWhiteLabelingParams(
-          (b) =>
-              b
-                ..logoImageUrl = defaultLogoUrl
-                ..showNameVersion = true,
+          (b) => b
+            ..logoImageUrl = defaultLogoUrl
+            ..showNameVersion = true,
         ),
         requestOptions: RequestOptions(),
       ),
@@ -55,10 +54,9 @@ void main() {
     when(() => wlApi.getWhiteLabelParams()).thenAnswer(
       (_) async => Response(
         data: WhiteLabelingParams(
-          (b) =>
-              b
-                ..logoImageUrl = defaultLogoUrl
-                ..showNameVersion = true,
+          (b) => b
+            ..logoImageUrl = defaultLogoUrl
+            ..showNameVersion = true,
         ),
         requestOptions: RequestOptions(),
       ),
@@ -76,9 +74,8 @@ void main() {
     );
 
     final localDatabase = MockLocalDatabaseService();
-    when(
-      () => localDatabase.getSelectedRegion(),
-    ).thenAnswer((_) async => Region.europe);
+    when(() => localDatabase.getSelectedRegion())
+        .thenAnswer((_) async => Region.europe);
     registerTestDependencies(
       tbClient: client,
       localDatabase: localDatabase,

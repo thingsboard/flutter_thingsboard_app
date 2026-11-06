@@ -10,8 +10,8 @@ class ShowMapLocationAction extends UrlAction {
   @override
   WidgetMobileActionType get type => WidgetMobileActionType.mapLocation;
   @override
-  Future<String>  getUrl(List args) => getMapUrl(args, false);
- Future<String> getMapUrl(
+  Future<String> getUrl(List args) => getMapUrl(args, false);
+  Future<String> getMapUrl(
     List<dynamic> args,
     bool directionElseLocation,
   ) async {

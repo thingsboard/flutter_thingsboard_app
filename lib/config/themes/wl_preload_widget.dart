@@ -15,25 +15,21 @@ class WlPreloadWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wlLoading = useFuture(
-      useMemoized(
-        () => ref
-            .read(wlProvider.notifier)
-            .updateWhiteLabeling(),
-      ),
+      useMemoized(() => ref.read(wlProvider.notifier).updateWhiteLabeling()),
     );
     return wlLoading.connectionState == ConnectionState.waiting
         ? const ColoredBox(
-          color: AppColors.scaffoldBackground,
-          child: Padding(
-            padding: EdgeInsets.all(48.0),
-            child: Center(
-              child: LinearProgressIndicator(
-                color: Colors.blueAccent,
-                backgroundColor: Colors.black12,
+            color: AppColors.scaffoldBackground,
+            child: Padding(
+              padding: EdgeInsets.all(48.0),
+              child: Center(
+                child: LinearProgressIndicator(
+                  color: Colors.blueAccent,
+                  backgroundColor: Colors.black12,
+                ),
               ),
             ),
-          ),
-        )
+          )
         : child;
   }
 }

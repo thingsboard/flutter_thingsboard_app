@@ -61,7 +61,9 @@ class _TermsOfUseState extends State<TermsOfUse> {
                           onTapUrl: (link) => Utils.onWebViewLinkPressed(link),
                         );
                       } else {
-                        return const Center(child: TbProgressIndicator(size: 50.0));
+                        return const Center(
+                          child: TbProgressIndicator(size: 50.0),
+                        );
                       }
                     },
                   ),
@@ -74,13 +76,13 @@ class _TermsOfUseState extends State<TermsOfUse> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed:
-                        () => getIt<ThingsboardAppRouter>().pop(false, context),
+                    onPressed: () =>
+                        getIt<ThingsboardAppRouter>().pop(false, context),
                     child: Text(S.of(context).cancel),
                   ),
                   ElevatedButton(
-                    onPressed:
-                        () => getIt<ThingsboardAppRouter>().pop(true, context),
+                    onPressed: () =>
+                        getIt<ThingsboardAppRouter>().pop(true, context),
                     child: Text(S.of(context).accept),
                   ),
                 ],

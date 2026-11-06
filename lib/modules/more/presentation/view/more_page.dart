@@ -50,39 +50,37 @@ class MorePage extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileWidget(userDetails: userDetails, user: login.user),
-                  if(items.isNotEmpty)
-                  ...[Divider(
-                    color: Colors.black.withValues(alpha: .05),
-                    thickness: 1,
-                    height: 0,
-                  ),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: items
-                                .map(
-                                  (e) => MoreMenuItemWidget(
-                                    TbMainNavigationItem(
-                                      title: NavigationHelper.getLocalizedTitle(
-                                        context,
-                                        e,
-                                      ),
-                                      icon: e.icon,
-                                      path: e.path,
-                                      showAdditionalIcon: e.showNotificationBadge,
+                  if (items.isNotEmpty) ...[
+                    Divider(
+                      color: Colors.black.withValues(alpha: .05),
+                      thickness: 1,
+                      height: 0,
+                    ),
+                    Flexible(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: items
+                              .map(
+                                (e) => MoreMenuItemWidget(
+                                  TbMainNavigationItem(
+                                    title: NavigationHelper.getLocalizedTitle(
+                                      context,
+                                      e,
                                     ),
-                                    onTap: () {
-                                      context.push(e.path);
-                                    },
+                                    icon: e.icon,
+                                    path: e.path,
+                                    showAdditionalIcon: e.showNotificationBadge,
                                   ),
-                                )
-                                .toList(),
-                              
-                                
+                                  onTap: () {
+                                    context.push(e.path);
+                                  },
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
-                  ),
-                 ],
+                  ],
                   Divider(
                     color: Colors.black.withValues(alpha: .05),
                     thickness: 1,
@@ -96,8 +94,8 @@ class MorePage extends HookConsumerWidget {
                     ),
                     showTrailing: false,
                     color: AppColors.textError,
-                    onTap: () async  {
-                   await    ref.read(loginProvider.notifier).logout();
+                    onTap: () async {
+                      await ref.read(loginProvider.notifier).logout();
                     },
                   ),
                 ],

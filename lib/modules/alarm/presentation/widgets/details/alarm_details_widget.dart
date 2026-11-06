@@ -86,10 +86,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                 children: [
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
-                    details:
-                        widget.alarmInfo.status.getTranslatedAlarmStatus(
-                          context,
-                        ),
+                    details: widget.alarmInfo.status.getTranslatedAlarmStatus(
+                      context,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
@@ -140,9 +139,8 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                           );
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).primaryColor.withValues(alpha: .1),
+                          backgroundColor: Theme.of(context).primaryColor
+                              .withValues(alpha: .1),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(

@@ -47,10 +47,9 @@ final loginRoutes = [
           final skip =
               state.uri.queryParameters['skipDefault'].toString() == 'true';
           final providerQuery = state.uri.queryParameters['selectedProvider'];
-          final providerType =
-              providerQuery != null
-                  ? tryParseTwoFaProviderType(providerQuery)
-                  : null;
+          final providerType = providerQuery != null
+              ? tryParseTwoFaProviderType(providerQuery)
+              : null;
 
           return TwoFactorAuthenticationPage(
             skipDefault: skip,
@@ -83,10 +82,9 @@ final loginRoutes = [
               bool.tryParse(state.uri.queryParameters['force'].toString()) ??
               false;
           final providerQuery = state.uri.queryParameters['selectedProvider'];
-          final providerType =
-              providerQuery != null
-                  ? tryParseTwoFaProviderType(providerQuery)
-                  : null;
+          final providerType = providerQuery != null
+              ? tryParseTwoFaProviderType(providerQuery)
+              : null;
 
           return TwoFactorAuthSetup(
             isForce: force,

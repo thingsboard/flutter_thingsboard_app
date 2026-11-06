@@ -79,7 +79,10 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showErrorNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showErrorNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     return showNotification(
       message,
       NotificationType.error,
@@ -88,12 +91,18 @@ class OverlayService implements IOverlayService {
   }
 
   @override
-  void showInfoNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showInfoNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     showNotification(message, NotificationType.info, duration: duration);
   }
 
   @override
-  void showWarnNotification(TranslationBuilder message, {Duration? duration = const Duration(seconds: 2)}) {
+  void showWarnNotification(
+    TranslationBuilder message, {
+    Duration? duration = const Duration(seconds: 2),
+  }) {
     showNotification(message, NotificationType.warn, duration: duration);
   }
 
@@ -144,22 +153,18 @@ class OverlayService implements IOverlayService {
           Colors.black54,
       themes: InheritedTheme.capture(from: context, to: navigator.context),
       traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
-      builder:
-          (context) => AlertDialog(
-            title: Text(data.title),
-            content: Text(data.message),
-            actions: [
-              if (data.cancel != null)
-                TextButton(
-                  onPressed: () => context.pop(false),
-                  child: Text(data.cancel!),
-                ),
-              TextButton(
-                onPressed: () => context.pop(true),
-                child: Text(data.ok),
-              ),
-            ],
-          ),
+      builder: (context) => AlertDialog(
+        title: Text(data.title),
+        content: Text(data.message),
+        actions: [
+          if (data.cancel != null)
+            TextButton(
+              onPressed: () => context.pop(false),
+              child: Text(data.cancel!),
+            ),
+          TextButton(onPressed: () => context.pop(true), child: Text(data.ok)),
+        ],
+      ),
     );
     onPush?.call(route);
     return navigator.push(route);

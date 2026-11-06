@@ -18,9 +18,7 @@ class FirstPageProgressBuilder extends StatelessWidget {
           right: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RefreshProgressIndicator(),
-            ],
+            children: [RefreshProgressIndicator()],
           ),
         ),
       ],

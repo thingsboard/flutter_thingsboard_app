@@ -15,10 +15,8 @@ class RouteNotFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TbAppBar(title: Text(S.of(context).notFound), ),
-      body: Center(
-        child: Text(S.of(context).routeNotDefined(path)),
-      ),
+      appBar: TbAppBar(title: Text(S.of(context).notFound)),
+      body: Center(child: Text(S.of(context).routeNotDefined(path))),
     );
   }
 }

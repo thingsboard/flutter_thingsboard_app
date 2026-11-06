@@ -69,11 +69,11 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                     ),
                     TbDropDownTextField<Country>(
                       formControlName: 'countryCode',
-                      selectedItemBuilder:
-                          (country) => _getCountryDisplayName(country!),
+                      selectedItemBuilder: (country) =>
+                          _getCountryDisplayName(country!),
                       label: S.of(context).country,
-                      bottomSheetBuilder:
-                          (context, value) => const TbCountryPicker(),
+                      bottomSheetBuilder: (context, value) =>
+                          const TbCountryPicker(),
                       onSelected: (country) {
                         if (country != null) {
                           phoneController.value = PhoneNumber(
@@ -95,18 +95,17 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                   return FilledButton(
                     onPressed:
                         formGroup.control('phone').invalid || loading.value
-                            ? null
-                            : () async {
-                              await _handleSendCode(form, codeSent);
-                            },
-                    child:
-                        loading.value
-                            ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                            : Text(S.of(context).sendCode),
+                        ? null
+                        : () async {
+                            await _handleSendCode(form, codeSent);
+                          },
+                    child: loading.value
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(S.of(context).sendCode),
                   );
                 },
               ),

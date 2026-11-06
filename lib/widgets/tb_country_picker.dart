@@ -20,11 +20,10 @@ class TbCountryPicker extends HookWidget {
       shrinkWrap: false,
       title: S.of(context).selectCountry,
       allItems: allCountries,
-      searchFunction:
-          (input, country) => country.displayName.toLowerCase().contains(input),
-      listTitleBuilder:
-          (context, country) =>
-              '${country.flagEmoji} ${country.name} +${country.phoneCode}',
+      searchFunction: (input, country) =>
+          country.displayName.toLowerCase().contains(input),
+      listTitleBuilder: (context, country) =>
+          '${country.flagEmoji} ${country.name} +${country.phoneCode}',
     );
   }
 }

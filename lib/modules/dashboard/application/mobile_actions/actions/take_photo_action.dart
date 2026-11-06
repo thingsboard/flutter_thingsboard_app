@@ -8,7 +8,7 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/act
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 
 class TakePhotoAction extends TakePictureFromGalleryAction {
-@override
+  @override
   ImageSource get imageSource => ImageSource.camera;
   @override
   WidgetMobileActionType get type => WidgetMobileActionType.takePhoto;

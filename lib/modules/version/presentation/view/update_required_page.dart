@@ -24,18 +24,19 @@ class UpdateRequiredPage extends ConsumerWidget {
     if (proivders is AsyncData<LoginMobileInfo>) {
       return PopScope(
         canPop: false,
-     
+
         child: BlocProvider<VersionInfoBloc>(
-          create:
-              (_) =>
-                  VersionInfoBloc()..add(
-                    VersionInfoFetchEvent(
-                      VersionRouteArguments(
-                        storeInfo: proivders.value.storeInfo,
-                        versionInfo: VersionInfo.fromMobileAppVersionInfo(proivders.value.versionInfo!),
-                      ),
-                    ),
+          create: (_) => VersionInfoBloc()
+            ..add(
+              VersionInfoFetchEvent(
+                VersionRouteArguments(
+                  storeInfo: proivders.value.storeInfo,
+                  versionInfo: VersionInfo.fromMobileAppVersionInfo(
+                    proivders.value.versionInfo!,
                   ),
+                ),
+              ),
+            ),
           child: BlocBuilder<VersionInfoBloc, VersionInfoState>(
             builder: (context, state) {
               switch (state) {
@@ -47,7 +48,7 @@ class UpdateRequiredPage extends ConsumerWidget {
                     latestVersionNotes: state.latestVersionNotes,
                     storeLink: state.storeLink,
                   );
-        
+
                 case VersionInfoSingleState():
                   return VersionSingleWidget(
                     version: state.version,
@@ -55,13 +56,13 @@ class UpdateRequiredPage extends ConsumerWidget {
                     storeLink: state.storeLink,
                     latestVersion: state.latestVersion,
                   );
-        
+
                 case VersionInfoEmptyState():
                   return VersionEmptyWidget(
                     storeLink: state.storeLink,
                     latestVersion: state.latestVersion,
                   );
-        
+
                 default:
                   return const SizedBox.shrink();
               }

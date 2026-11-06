@@ -52,20 +52,18 @@ class _DevicesListPageState extends State<DevicesListPage>
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        onSearch:
-            (searchText) => _deviceQueryController.onSearchText(searchText),
+        onSearch: (searchText) =>
+            _deviceQueryController.onSearchText(searchText),
       );
     } else {
-      final String titleText =
-          widget.deviceType != null
-              ? widget.deviceType!
-              : S.of(context).allDevices;
+      final String titleText = widget.deviceType != null
+          ? widget.deviceType!
+          : S.of(context).allDevices;
       String? subTitleText;
       if (widget.active != null) {
-        subTitleText =
-            widget.active == true
-                ? S.of(context).active
-                : S.of(context).inactive;
+        subTitleText = widget.active == true
+            ? S.of(context).active
+            : S.of(context).inactive;
       }
       final Column title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,

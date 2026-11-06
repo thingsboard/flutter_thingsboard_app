@@ -41,9 +41,8 @@ class TbErrorWidget extends StatelessWidget {
           child: TextButton(
             onPressed: onRefresh,
             style: TextButton.styleFrom(
-              backgroundColor: Theme.of(
-                context,
-              ).primaryColor.withValues(alpha: .1),
+              backgroundColor: Theme.of(context).primaryColor
+                  .withValues(alpha: .1),
               fixedSize: const Size(216, 48),
             ),
             child: Row(

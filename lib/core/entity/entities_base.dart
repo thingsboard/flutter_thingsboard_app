@@ -21,8 +21,10 @@ import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 typedef EntityTapFunction<T> = Function(T entity);
-typedef EntityCardWidgetBuilder<T> =
-    Widget Function(BuildContext context, T entity);
+typedef EntityCardWidgetBuilder<T> = Widget Function(
+  BuildContext context,
+  T entity,
+);
 
 class EntityCardSettings {
   EntityCardSettings({this.dropShadow = true});
@@ -200,17 +202,16 @@ abstract class BaseEntitiesWidget<T, P> extends ConsumerStatefulWidget
   final PageKeyController<P> pageKeyController;
 
   @override
-  Widget? buildHeading(BuildContext context) =>
-      searchMode
-          ? Text(
-            S.of(context).searchResults,
-            style: const TextStyle(
-              color: Color(0xFFAFAFAF),
-              fontSize: 16,
-              height: 24 / 16,
-            ),
-          )
-          : null;
+  Widget? buildHeading(BuildContext context) => searchMode
+      ? Text(
+          S.of(context).searchResults,
+          style: const TextStyle(
+            color: Color(0xFFAFAFAF),
+            fontSize: 16,
+            height: 24 / 16,
+          ),
+        )
+      : null;
 }
 
 abstract class BaseEntitiesState<T, P>

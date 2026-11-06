@@ -13,8 +13,9 @@ class DashboardsQueryCtrl extends SearchablePageKeyController<PageLink> {
   PageLink nextPageKey(PageLink pageKey) {
     return pageKey.nextPageLink();
   }
+
   @override
-   void onSearchText(String? searchText) {
+  void onSearchText(String? searchText) {
     final query = value.pageKey;
     query.page = 0;
     query.textSearch = searchText;

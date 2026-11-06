@@ -7,7 +7,6 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/act
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 
 class MakePhoneCallAction extends UrlAction {
-
   @override
   WidgetMobileActionType get type => WidgetMobileActionType.makePhoneCall;
   String _makePhoneCall(List<dynamic> args) {

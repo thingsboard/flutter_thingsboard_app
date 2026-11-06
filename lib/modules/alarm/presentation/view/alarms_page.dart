@@ -104,11 +104,7 @@ class _AlarmsPageState extends State<AlarmsPage>
               );
 
             case 1:
-              return 
-              AlarmsFilterPage(
-
-               pageController: _preloadPageCtrl,
-             );
+              return AlarmsFilterPage(pageController: _preloadPageCtrl);
           }
 
           return const SizedBox.shrink();

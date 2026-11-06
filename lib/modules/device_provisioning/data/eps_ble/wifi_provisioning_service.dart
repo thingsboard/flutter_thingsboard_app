@@ -8,7 +8,7 @@ import 'package:thingsboard_app/modules/device_provisioning/data/eps_ble/i_wifi_
 
 class BleProvisioningService implements IBleProvisioningService {
   BleProvisioningService([FlutterEspBleProv? prov])
-      : espBleProv = prov ?? FlutterEspBleProv();
+    : espBleProv = prov ?? FlutterEspBleProv();
 
   final FlutterEspBleProv espBleProv;
 
@@ -18,7 +18,7 @@ class BleProvisioningService implements IBleProvisioningService {
     required String proofOfPossession,
     required String ssid,
     required String passphrase,
-  })  {
+  }) {
     return espBleProv.provisionWifi(
       deviceName,
       proofOfPossession,
@@ -28,7 +28,7 @@ class BleProvisioningService implements IBleProvisioningService {
   }
 
   @override
-  Future<List<String>> scanBleDevices(String prefix)  {
+  Future<List<String>> scanBleDevices(String prefix) {
     return espBleProv.scanBleDevices(prefix);
   }
 
@@ -36,7 +36,7 @@ class BleProvisioningService implements IBleProvisioningService {
   Future<List<String>> scanWifiNetworks({
     required String deviceName,
     required String proofOfPossession,
-  })  {
+  }) {
     return espBleProv.scanWifiNetworks(deviceName, proofOfPossession);
   }
 

@@ -26,10 +26,7 @@ class ClaimingWip extends StatelessWidget {
           S.of(context).provisionedSuccessfully,
           inProgress: false,
         ),
-        ConnectionStateRow(
-          S.of(context).claimingDevice,
-          inProgress: true,
-        ),
+        ConnectionStateRow(S.of(context).claimingDevice, inProgress: true),
       ],
     );
   }

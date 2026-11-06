@@ -25,7 +25,11 @@ class RegionWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: BoxDecoration(color: selected ? theme.primaryColor.withValues(alpha: .1) : Colors.transparent),
+      decoration: BoxDecoration(
+        color: selected
+            ? theme.primaryColor.withValues(alpha: .1)
+            : Colors.transparent,
+      ),
       child: InkWell(
         onTap: onTap,
         child: Row(
@@ -37,10 +41,9 @@ class RegionWidget extends StatelessWidget {
                 Text(
                   title,
                   style: TbTextStyles.labelLarge.copyWith(
-                    color:
-                        selected
-                            ? Theme.of(context).primaryColor
-                            : Colors.black.withValues(alpha: .76),
+                    color: selected
+                        ? Theme.of(context).primaryColor
+                        : Colors.black.withValues(alpha: .76),
                   ),
                 ),
                 Text(

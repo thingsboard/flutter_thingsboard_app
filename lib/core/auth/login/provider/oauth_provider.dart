@@ -14,11 +14,10 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 part 'oauth_provider.g.dart';
 
 final qrCode = OAuth2ClientLoginInfo(
-  (b) =>
-      b
-        ..name = 'qr'
-        ..icon = 'qr-code'
-        ..url = '',
+  (b) => b
+    ..name = 'qr'
+    ..icon = 'qr-code'
+    ..url = '',
 );
 
 @riverpod
@@ -43,11 +42,10 @@ Future<LoginMobileInfo> oauth(Ref ref) async {
           loginInfo.oAuth2ClientLoginInfos?.toList() ??
           <OAuth2ClientLoginInfo>[];
       return loginInfo.rebuild(
-        (b) =>
-            b.oAuth2ClientLoginInfos = ListBuilder<OAuth2ClientLoginInfo>([
-              ...existingClients,
-              qrCode,
-            ]),
+        (b) => b.oAuth2ClientLoginInfos = ListBuilder<OAuth2ClientLoginInfo>([
+          ...existingClients,
+          qrCode,
+        ]),
       );
     }
   } catch (_) {}

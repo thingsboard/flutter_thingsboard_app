@@ -7,12 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 
 class MainItemWidget extends StatefulWidget {
-const   MainItemWidget(
-     {
-    required this.child,
-    required this.path,
-    super.key,
-  });
+  const MainItemWidget({required this.child, required this.path, super.key});
 
   final Widget? child;
   final String path;
@@ -28,10 +23,8 @@ class _MainItemWidgetState extends State<MainItemWidget>
     super.build(context);
     return widget.child ??
         Scaffold(
-          appBar: AppBar(title:  Text(S.of(context).notFound)),
-          body: Center(
-            child: Text(S.of(context).routeNotDefined(widget.path)),
-          ),
+          appBar: AppBar(title: Text(S.of(context).notFound)),
+          body: Center(child: Text(S.of(context).routeNotDefined(widget.path))),
         );
   }
 

@@ -60,16 +60,14 @@ void main() {
     );
 
     final communication = MockCommunicationService();
-    when(
-      () => communication.on<UserLoadedEvent>(),
-    ).thenAnswer((_) => const Stream.empty());
+    when(() => communication.on<UserLoadedEvent>())
+        .thenAnswer((_) => const Stream.empty());
     final deviceInfo = MockDeviceInfoService();
     when(() => deviceInfo.getApplicationId()).thenReturn('org.thingsboard.app');
     when(() => deviceInfo.getPlatformType()).thenReturn(PlatformType.ANDROID);
     final notifications = MockNotificationService();
-    when(
-      () => notifications.cleanUpStalePushRegistration(),
-    ).thenAnswer((_) async {});
+    when(() => notifications.cleanUpStalePushRegistration())
+        .thenAnswer((_) async {});
     final liveLocation = MockLiveLocationTrackingService();
     when(() => liveLocation.teardownForLogout()).thenAnswer((_) async {});
     getIt
@@ -95,15 +93,13 @@ void main() {
         extra: any(named: 'extra'),
       ),
     ).thenThrow(ThingsboardError(message: 'Internal error', status: 500));
-    when(
-      () => client.logout(requestConfig: any(named: 'requestConfig')),
-    ).thenAnswer((_) async {});
+    when(() => client.logout(requestConfig: any(named: 'requestConfig')))
+        .thenAnswer((_) async {});
   });
 
   void answerDialog(List<bool?> answers) {
-    when(
-      () => overlay.showConfirmDialog(content: any(named: 'content')),
-    ).thenAnswer((_) async => answers.removeAt(0));
+    when(() => overlay.showConfirmDialog(content: any(named: 'content')))
+        .thenAnswer((_) async => answers.removeAt(0));
   }
 
   Future<ProviderContainer> buildLogin() async {
@@ -120,12 +116,10 @@ void main() {
 
     await buildLogin();
 
-    verify(
-      () => overlay.showConfirmDialog(content: any(named: 'content')),
-    ).called(1);
-    verify(
-      () => client.logout(requestConfig: any(named: 'requestConfig')),
-    ).called(1);
+    verify(() => overlay.showConfirmDialog(content: any(named: 'content')))
+        .called(1);
+    verify(() => client.logout(requestConfig: any(named: 'requestConfig')))
+        .called(1);
   });
 
   test('an unreachable server offers retry in the connection-error dialog, '
@@ -162,9 +156,8 @@ void main() {
     verifyNever(
       () => overlay.showConfirmDialog(content: any(named: 'content')),
     );
-    verify(
-      () => client.logout(requestConfig: any(named: 'requestConfig')),
-    ).called(1);
+    verify(() => client.logout(requestConfig: any(named: 'requestConfig')))
+        .called(1);
   });
 
   test('retry loads the user again', () async {
@@ -179,9 +172,8 @@ void main() {
         extra: any(named: 'extra'),
       ),
     ).called(2);
-    verify(
-      () => client.logout(requestConfig: any(named: 'requestConfig')),
-    ).called(1);
+    verify(() => client.logout(requestConfig: any(named: 'requestConfig')))
+        .called(1);
   });
 
   test('a session replaced during the load is left alone', () async {

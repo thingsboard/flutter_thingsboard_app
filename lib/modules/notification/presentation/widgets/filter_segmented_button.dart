@@ -45,18 +45,16 @@ class FilterSegmentedButton<T> extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color:
-                      segments[index].value == selected
-                          ? Theme.of(context).primaryColor
-                          : null,
+                  color: segments[index].value == selected
+                      ? Theme.of(context).primaryColor
+                      : null,
                 ),
                 child: Center(
                   child: Text(
                     segments[index].label,
-                    style:
-                        segments[index].value == selected
-                            ? selectedTextStyle
-                            : unselectedTextStyle,
+                    style: segments[index].value == selected
+                        ? selectedTextStyle
+                        : unselectedTextStyle,
                   ),
                 ),
               ),

@@ -15,19 +15,21 @@ abstract final class LoginDi {
       return;
     }
     getIt.pushNewScope(
-        scopeName: scopeName,
-        init: (locator) {
-          locator.registerFactory<IOAuth2Client>(
-            () => TbOAuth2Client(
-                tbLogger: locator(),
-                deviceInfoService: locator(),
-                appSecretProvider: AppSecretProvider.local(),),
-          );
-        },);
+      scopeName: scopeName,
+      init: (locator) {
+        locator.registerFactory<IOAuth2Client>(
+          () => TbOAuth2Client(
+            tbLogger: locator(),
+            deviceInfoService: locator(),
+            appSecretProvider: AppSecretProvider.local(),
+          ),
+        );
+      },
+    );
   }
 
   static void dispose() {
-    if(getIt.hasScope(scopeName)) {
+    if (getIt.hasScope(scopeName)) {
       getIt.dropScope(scopeName);
     }
   }

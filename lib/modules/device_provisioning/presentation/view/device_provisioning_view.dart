@@ -42,16 +42,14 @@ class DeviceProvisioningView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DeviceProvisioningBloc>(
-      create:
-          (_) => DeviceProvisioningBloc.create(
-            deviceName: deviceName,
-            deviceSecretKey: deviceSecretKey,
-            tbClient: getIt<ITbClientService>().client,
-            mustReconnectToWifiBeforeClaiming:
-                mustReconnectToWifiBeforeClaiming,
-            ssid: ssid,
-            wifiPassword: wifiPassword,
-          ),
+      create: (_) => DeviceProvisioningBloc.create(
+        deviceName: deviceName,
+        deviceSecretKey: deviceSecretKey,
+        tbClient: getIt<ITbClientService>().client,
+        mustReconnectToWifiBeforeClaiming: mustReconnectToWifiBeforeClaiming,
+        ssid: ssid,
+        wifiPassword: wifiPassword,
+      ),
       child: Column(
         children: [
           Center(
@@ -131,11 +129,9 @@ class DeviceProvisioningView extends StatelessWidget {
                   children: [
                     TryAgainButton(
                       label: S.of(context).openWifiSettings,
-                      onTryAgain:
-                          () =>
-                              Platform.isAndroid
-                                  ? const OpenSettingsPlusAndroid().wifi()
-                                  : const OpenSettingsPlusIOS().wifi(),
+                      onTryAgain: () => Platform.isAndroid
+                          ? const OpenSettingsPlusAndroid().wifi()
+                          : const OpenSettingsPlusIOS().wifi(),
                     ),
                     const SizedBox(height: 16),
                     SizedBox(

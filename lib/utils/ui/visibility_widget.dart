@@ -29,10 +29,7 @@ class AnimatedVisibilityWidget extends HookWidget {
     );
 
     final animation = useAnimation(
-      CurvedAnimation(
-        parent: controller,
-        curve: curve,
-      ),
+      CurvedAnimation(parent: controller, curve: curve),
     );
 
     final isVisible = useState(show);
@@ -55,10 +52,7 @@ class AnimatedVisibilityWidget extends HookWidget {
 
     return Opacity(
       opacity: animation,
-      child: Transform.scale(
-        scale: 0.6 + (animation * 0.4),
-        child: child,
-      ),
+      child: Transform.scale(scale: 0.6 + (animation * 0.4), child: child),
     );
   }
 }

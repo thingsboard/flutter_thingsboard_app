@@ -85,19 +85,17 @@ class BackupCodeConfigureWidget
                     selectionControls: MaterialTextSelectionControls(),
                     child: Column(
                       spacing: 12,
-                      children:
-                          chunkList(config.codes, 2)
-                              .map(
-                                (e) => Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(e[0], style: TbTextStyles.labelLarge),
-                                    Text(e[1], style: TbTextStyles.labelLarge),
-                                  ],
-                                ),
-                              )
-                              .toList(),
+                      children: chunkList(config.codes, 2)
+                          .map(
+                            (e) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(e[0], style: TbTextStyles.labelLarge),
+                                Text(e[1], style: TbTextStyles.labelLarge),
+                              ],
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
                 ),

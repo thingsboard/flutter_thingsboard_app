@@ -110,10 +110,9 @@ class DeviceQueryController extends PageKeyController<EntityDataQuery> {
     value = PageKeyValue(
       value.pageKey.rebuild(
         (b) => b.pageLink.update(
-          (pl) =>
-              pl
-                ..page = 0
-                ..textSearch = searchText,
+          (pl) => pl
+            ..page = 0
+            ..textSearch = searchText,
         ),
       ),
     );
@@ -194,10 +193,9 @@ class _DeviceCardState extends State<DeviceCard> {
             child: Container(
               width: 4,
               decoration: BoxDecoration(
-                color:
-                    widget.device.attribute('active') == 'true'
-                        ? const Color(0xFF008A00)
-                        : const Color(0xFFAFAFAF),
+                color: widget.device.attribute('active') == 'true'
+                    ? const Color(0xFF008A00)
+                    : const Color(0xFFAFAFAF),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
@@ -350,11 +348,11 @@ class _DeviceCardState extends State<DeviceCard> {
                                         style: TextStyle(
                                           color:
                                               widget.device.attribute(
-                                                        'active',
-                                                      ) ==
-                                                      'true'
-                                                  ? const Color(0xFF008A00)
-                                                  : const Color(0xFFAFAFAF),
+                                                    'active',
+                                                  ) ==
+                                                  'true'
+                                              ? const Color(0xFF008A00)
+                                              : const Color(0xFFAFAFAF),
                                           fontSize: 12,
                                           height: 16 / 12,
                                           fontWeight: FontWeight.normal,

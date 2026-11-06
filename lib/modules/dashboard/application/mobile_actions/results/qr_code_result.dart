@@ -6,7 +6,6 @@
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
 
 class QrCodeResult extends MobileActionResult {
-
   QrCodeResult(this.code, this.format);
   String code;
   String format;

@@ -56,8 +56,10 @@ class TakePictureFromGalleryAction extends MobileAction {
             );
           }
 
-          final String imageUrl =
-              UriData.fromBytes(imageBytes, mimeType: mimeType).toString();
+          final String imageUrl = UriData.fromBytes(
+            imageBytes,
+            mimeType: mimeType,
+          ).toString();
           return WidgetMobileActionResult.successResult(
             MobileActionResult.image(imageUrl),
           );

@@ -14,7 +14,6 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/wid
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
 
 class ScanQrAction extends MobileAction {
-
   @override
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
     List args,

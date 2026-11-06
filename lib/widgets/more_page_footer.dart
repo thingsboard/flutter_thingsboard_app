@@ -26,7 +26,7 @@ class MorePageFooter extends ConsumerWidget {
         children: [
           if ((wl.showNameVersion ?? false) &&
               wl.platformNameAndVersion.isNotEmpty)
-            Text(wl.platformNameAndVersion,  style: TbTextStyles.bodyMedium),
+            Text(wl.platformNameAndVersion, style: TbTextStyles.bodyMedium),
           appVersionInfo(),
         ],
       ),
@@ -37,7 +37,7 @@ class MorePageFooter extends ConsumerWidget {
     final ver = getIt<IDeviceInfoService>().getBuildVersion();
     if (EnvironmentVariables.showAppVersion) {
       // translate-me-ignore-next-line
-      return Text('version: $ver',  style: TbTextStyles.bodyMedium);
+      return Text('version: $ver', style: TbTextStyles.bodyMedium);
     }
     return const SizedBox();
   }

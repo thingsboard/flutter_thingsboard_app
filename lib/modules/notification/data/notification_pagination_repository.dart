@@ -49,7 +49,12 @@ class NotificationPaginationRepository {
           deliveryMethod: NotificationDeliveryMethod.MOBILE_APP.name,
         );
     final page = response.data!;
-    return toPageData(page.data, page.totalPages, page.totalElements, page.hasNext);
+    return toPageData(
+      page.data,
+      page.totalPages,
+      page.totalElements,
+      page.hasNext,
+    );
   }
 
   /// Read status, filter or search changed: reload the first page in place.

@@ -23,7 +23,8 @@ final auditLogRoutes = [
       return AuditLogsPage(searchMode: searchMode);
     },
   ),
-  GoRoute(path: AuditLogRoutes.auditLogDetais,
-  builder: (context, state) => AuditLogDetailsPage(state.extra! as AuditLog),
+  GoRoute(
+    path: AuditLogRoutes.auditLogDetais,
+    builder: (context, state) => AuditLogDetailsPage(state.extra! as AuditLog),
   ),
 ];

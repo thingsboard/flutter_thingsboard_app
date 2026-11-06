@@ -50,42 +50,40 @@ class TbDropDownTextField<T> extends HookWidget {
     return ReactiveForm(
       formGroup: form,
       child: ReactiveFormConsumer(
-        builder:
-            (context, form, child) => TbTextField(
-              formControlName: 'value',
-              readOnly: true,
-              hint: hint,
-              label: label,
-              suffixIcon:
-                  !isRequired && form.control('value').value != null
-                      ? IconButton(
-                        onPressed: () {
-                          topForm?.control(formControlName).updateValue(null);
-                          onSelected?.call(null);
-                        },
-                        icon: const Icon(Icons.close),
-                      )
-                      : const Icon(Icons.arrow_drop_down, size: 24),
-              onPressed: () async {
-                final val = control?.value as T?;
-                final info = await showModalBottomSheet<T>(
-                  context: context,
-                  builder: (context) => bottomSheetBuilder(context, val),
-                  showDragHandle: false,
-                  backgroundColor: Colors.transparent,
-                  isScrollControlled: true,
-                  // constraints: BoxConstraints.loose(
-                  //   Size.fromHeight(mediaQuery.size.height - 72),
-                  // ),
-                );
+        builder: (context, form, child) => TbTextField(
+          formControlName: 'value',
+          readOnly: true,
+          hint: hint,
+          label: label,
+          suffixIcon: !isRequired && form.control('value').value != null
+              ? IconButton(
+                  onPressed: () {
+                    topForm?.control(formControlName).updateValue(null);
+                    onSelected?.call(null);
+                  },
+                  icon: const Icon(Icons.close),
+                )
+              : const Icon(Icons.arrow_drop_down, size: 24),
+          onPressed: () async {
+            final val = control?.value as T?;
+            final info = await showModalBottomSheet<T>(
+              context: context,
+              builder: (context) => bottomSheetBuilder(context, val),
+              showDragHandle: false,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              // constraints: BoxConstraints.loose(
+              //   Size.fromHeight(mediaQuery.size.height - 72),
+              // ),
+            );
 
-                if (info != null && context.mounted) {
-                  // form.control('value').updateValue(selectedItemBuilder(info));
-                  topForm?.control(formControlName).updateValue(info);
-                  onSelected?.call(info);
-                }
-              },
-            ),
+            if (info != null && context.mounted) {
+              // form.control('value').updateValue(selectedItemBuilder(info));
+              topForm?.control(formControlName).updateValue(info);
+              onSelected?.call(info);
+            }
+          },
+        ),
       ),
     );
   }

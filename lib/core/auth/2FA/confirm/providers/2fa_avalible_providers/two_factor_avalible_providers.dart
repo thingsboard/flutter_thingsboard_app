@@ -14,10 +14,9 @@ part 'two_factor_avalible_providers.g.dart';
 Future<List<TwoFaProviderInfo>> twoFaConfirmAvalibleProviders(Ref ref) async {
   final tbClient = getIt<ITbClientService>().client;
   try {
-    final res =
-        await tbClient
-            .getTwoFactorAuthControllerApi()
-            .getAvailableTwoFaProviderInfos();
+    final res = await tbClient
+        .getTwoFactorAuthControllerApi()
+        .getAvailableTwoFaProviderInfos();
     return res.data?.toList() ?? [];
   } catch (e) {
     return [];

@@ -25,8 +25,9 @@ class HomeHandler extends RouteHandler {
       if (next.isFullyAuthenticated() &&
           prev?.isFullyAuthenticated() == false &&
           path != LoginRoutes.login + LoginRoutes.updateRequired) {
-        final homePath =
-            ref.read(navigationProvider.notifier).resolveHomePath();
+        final homePath = ref
+            .read(navigationProvider.notifier)
+            .resolveHomePath();
         if (homePath == null) {
           return;
         }

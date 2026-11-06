@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 class TbMainNavigationItem extends Equatable {
   const TbMainNavigationItem({
-
     required this.title,
     required this.icon,
     required this.path,
@@ -28,12 +27,12 @@ class TbMainNavigationItem extends Equatable {
 
   @override
   List<Object?> get props => [
-        title,
-        icon,
-        path,
-        id,
-        showAdditionalIcon,
-        additionalIconSmall,
-        additionalIconLarge,
-      ];
+    title,
+    icon,
+    path,
+    id,
+    showAdditionalIcon,
+    additionalIconSmall,
+    additionalIconLarge,
+  ];
 }

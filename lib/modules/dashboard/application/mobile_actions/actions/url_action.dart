@@ -14,20 +14,19 @@ abstract class UrlAction extends MobileAction {
   Future<String> getUrl(List args);
   @override
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
-      List args, InAppWebViewController controller,) async {
+    List args,
+    InAppWebViewController controller,
+  ) async {
     final urlToLaunch = await getUrl(args);
-    
+
     return WidgetMobileActionResult.successResult(await tryLaunch(urlToLaunch));
   }
 
- static Future<LaunchResult> tryLaunch(
-    String url,
-  ) async {
-
+  static Future<LaunchResult> tryLaunch(String url) async {
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);
       return LaunchResult(true);
-    } 
-      return LaunchResult(false);
+    }
+    return LaunchResult(false);
   }
 }

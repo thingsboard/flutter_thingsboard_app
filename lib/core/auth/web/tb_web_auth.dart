@@ -14,8 +14,8 @@ class TbWebAuth {
 
   static final OnAppLifecycleResumeObserver _resumedObserver =
       OnAppLifecycleResumeObserver(() {
-    _cleanUpDanglingCalls();
-  });
+        _cleanUpDanglingCalls();
+      });
 
   static Future<String> authenticate({
     required String url,

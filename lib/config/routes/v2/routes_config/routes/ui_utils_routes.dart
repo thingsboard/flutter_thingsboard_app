@@ -12,7 +12,6 @@ class UiUtilsRoutes {
 
 // UI utility routes
 final uiUtilsRoutes = [
-  
   GoRoute(
     path: UiUtilsRoutes.qrCodeScan,
     builder: (context, state) {

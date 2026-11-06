@@ -54,15 +54,14 @@ class Signup extends _$Signup {
     );
 
     return SignUpRequest(
-      (b) =>
-          b
-            ..fields = MapBuilder<String, String>(
-              fields.map((k, v) => MapEntry(k.name, v)),
-            )
-            ..recaptchaResponse = recaptchaResponse
-            ..pkgName = _deviceInfoService.getApplicationId()
-            ..appSecret = appSecret
-            ..platform = _deviceInfoService.getPlatformType(),
+      (b) => b
+        ..fields = MapBuilder<String, String>(
+          fields.map((k, v) => MapEntry(k.name, v)),
+        )
+        ..recaptchaResponse = recaptchaResponse
+        ..pkgName = _deviceInfoService.getApplicationId()
+        ..appSecret = appSecret
+        ..platform = _deviceInfoService.getPlatformType(),
     );
   }
 

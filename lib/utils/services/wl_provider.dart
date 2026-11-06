@@ -60,10 +60,9 @@ abstract class WlState with _$WlState {
 
   bool? get showNameBottom => loginWhiteLabelingParams.showNameBottom;
 
-  bool? get showNameVersion =>
-      isUserWlMode
-          ? userParams.showNameVersion
-          : loginWhiteLabelingParams.showNameVersion;
+  bool? get showNameVersion => isUserWlMode
+      ? userParams.showNameVersion
+      : loginWhiteLabelingParams.showNameVersion;
 
   String get platformName =>
       (isUserWlMode
@@ -82,31 +81,29 @@ abstract class WlState with _$WlState {
     if (platformVersion.isNotEmpty) 'v.$platformVersion',
   ].join(' ');
 
-  bool get isCustomLogo =>
-      isUserWlMode
-          ? userParams.logoImageUrl != defaultLogoUrl
-          : loginWhiteLabelingParams.logoImageUrl != defaultLogoUrl;
+  bool get isCustomLogo => isUserWlMode
+      ? userParams.logoImageUrl != defaultLogoUrl
+      : loginWhiteLabelingParams.logoImageUrl != defaultLogoUrl;
 }
 
 WhiteLabelingParams _loginToWlParams(LoginWhiteLabelingParams p) =>
     WhiteLabelingParams(
-      (b) =>
-          b
-            ..logoImageUrl = p.logoImageUrl
-            ..logoImageHeight = p.logoImageHeight
-            ..appTitle = p.appTitle
-            ..favicon = p.favicon?.toBuilder()
-            ..paletteSettings = p.paletteSettings?.toBuilder()
-            ..helpLinkBaseUrl = p.helpLinkBaseUrl
-            ..uiHelpBaseUrl = p.uiHelpBaseUrl
-            ..enableHelpLinks = p.enableHelpLinks
-            ..whiteLabelingEnabled = p.whiteLabelingEnabled
-            ..showNameVersion = p.showNameVersion
-            ..platformName = p.platformName
-            ..platformVersion = p.platformVersion
-            ..customCss = p.customCss
-            ..hideConnectivityDialog = p.hideConnectivityDialog
-            ..overrideTrendzName = p.overrideTrendzName,
+      (b) => b
+        ..logoImageUrl = p.logoImageUrl
+        ..logoImageHeight = p.logoImageHeight
+        ..appTitle = p.appTitle
+        ..favicon = p.favicon?.toBuilder()
+        ..paletteSettings = p.paletteSettings?.toBuilder()
+        ..helpLinkBaseUrl = p.helpLinkBaseUrl
+        ..uiHelpBaseUrl = p.uiHelpBaseUrl
+        ..enableHelpLinks = p.enableHelpLinks
+        ..whiteLabelingEnabled = p.whiteLabelingEnabled
+        ..showNameVersion = p.showNameVersion
+        ..platformName = p.platformName
+        ..platformVersion = p.platformVersion
+        ..customCss = p.customCss
+        ..hideConnectivityDialog = p.hideConnectivityDialog
+        ..overrideTrendzName = p.overrideTrendzName,
     );
 
 @riverpod
@@ -177,51 +174,44 @@ class Wl extends _$Wl {
     semanticsLabel: 'ThingsBoard Logo',
   );
 
-
   static WhiteLabelingParams _createDefaultWlParams() => WhiteLabelingParams(
-    (b) =>
-        b
-          ..logoImageUrl = defaultLogoUrl
-          ..logoImageHeight = 36
-          ..appTitle = 'ThingsBoard'
-          ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
-          ..paletteSettings =
-              (PaletteSettingsBuilder()
-                ..primaryPalette =
-                    (PaletteBuilder()
-                      ..type = 'tb-primary') // translate-me-ignore
-                ..accentPalette =
-                    (PaletteBuilder()
-                      ..type = 'tb-accent')) // translate-me-ignore
-          ..helpLinkBaseUrl = 'https://thingsboard.io'
-          ..enableHelpLinks = true
-          ..showNameVersion = false
-          ..platformName = 'ThingsBoard',
+    (b) => b
+      ..logoImageUrl = defaultLogoUrl
+      ..logoImageHeight = 36
+      ..appTitle = 'ThingsBoard'
+      ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
+      ..paletteSettings =
+          (PaletteSettingsBuilder()
+            ..primaryPalette =
+                (PaletteBuilder()..type = 'tb-primary') // translate-me-ignore
+            ..accentPalette = (PaletteBuilder()
+              ..type = 'tb-accent')) // translate-me-ignore
+      ..helpLinkBaseUrl = 'https://thingsboard.io'
+      ..enableHelpLinks = true
+      ..showNameVersion = false
+      ..platformName = 'ThingsBoard',
   );
 
   static LoginWhiteLabelingParams _createDefaultLoginWlParams() {
     // Build login WL params from default WL params values
     return LoginWhiteLabelingParams(
-      (b) =>
-          b
-            ..logoImageUrl = defaultLogoUrl
-            ..logoImageHeight = 50
-            ..appTitle = 'ThingsBoard'
-            ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
-            ..paletteSettings =
-                (PaletteSettingsBuilder()
-                  ..primaryPalette =
-                      (PaletteBuilder()
-                        ..type = 'tb-primary') // translate-me-ignore
-                  ..accentPalette =
-                      (PaletteBuilder()
-                        ..type = 'tb-accent')) // translate-me-ignore
-            ..helpLinkBaseUrl = 'https://thingsboard.io'
-            ..enableHelpLinks = true
-            ..showNameVersion = false
-            ..platformName = 'ThingsBoard'
-            ..pageBackgroundColor = '#eee'
-            ..darkForeground = false,
+      (b) => b
+        ..logoImageUrl = defaultLogoUrl
+        ..logoImageHeight = 50
+        ..appTitle = 'ThingsBoard'
+        ..favicon = (FaviconBuilder()..url = 'thingsboard.ico')
+        ..paletteSettings =
+            (PaletteSettingsBuilder()
+              ..primaryPalette =
+                  (PaletteBuilder()..type = 'tb-primary') // translate-me-ignore
+              ..accentPalette = (PaletteBuilder()
+                ..type = 'tb-accent')) // translate-me-ignore
+        ..helpLinkBaseUrl = 'https://thingsboard.io'
+        ..enableHelpLinks = true
+        ..showNameVersion = false
+        ..platformName = 'ThingsBoard'
+        ..pageBackgroundColor = '#eee'
+        ..darkForeground = false,
     );
   }
 
@@ -278,31 +268,29 @@ class Wl extends _$Wl {
     final defaultBaseWl = _loginToWlParams(defaultWlParams);
     final mergedBase = _mergeDefaults(baseWl, defaultBaseWl);
     return LoginWhiteLabelingParams(
-      (b) =>
-          b
-            ..logoImageUrl = mergedBase.logoImageUrl
-            ..logoImageHeight = mergedBase.logoImageHeight
-            ..appTitle = mergedBase.appTitle
-            ..favicon = mergedBase.favicon?.toBuilder()
-            ..paletteSettings = mergedBase.paletteSettings?.toBuilder()
-            ..helpLinkBaseUrl = mergedBase.helpLinkBaseUrl
-            ..enableHelpLinks = mergedBase.enableHelpLinks
-            ..showNameVersion = mergedBase.showNameVersion
-            // Left unset, the web login fills these from its own bundle, which
-            // the app cannot; only values the admin typed in are shown.
-            ..platformName = wlParams!.platformName
-            ..platformVersion = wlParams.platformVersion
-            ..pageBackgroundColor =
-                wlParams.pageBackgroundColor ??
-                defaultWlParams.pageBackgroundColor
-            ..darkForeground =
-                wlParams.darkForeground ?? defaultWlParams.darkForeground
-            ..showNameBottom =
-                wlParams.showNameBottom ?? defaultWlParams.showNameBottom
-            ..domainId = wlParams.domainId?.toBuilder()
-            ..baseUrl = wlParams.baseUrl
-            ..prohibitDifferentUrl = wlParams.prohibitDifferentUrl
-            ..adminSettingsId = wlParams.adminSettingsId,
+      (b) => b
+        ..logoImageUrl = mergedBase.logoImageUrl
+        ..logoImageHeight = mergedBase.logoImageHeight
+        ..appTitle = mergedBase.appTitle
+        ..favicon = mergedBase.favicon?.toBuilder()
+        ..paletteSettings = mergedBase.paletteSettings?.toBuilder()
+        ..helpLinkBaseUrl = mergedBase.helpLinkBaseUrl
+        ..enableHelpLinks = mergedBase.enableHelpLinks
+        ..showNameVersion = mergedBase.showNameVersion
+        // Left unset, the web login fills these from its own bundle, which
+        // the app cannot; only values the admin typed in are shown.
+        ..platformName = wlParams!.platformName
+        ..platformVersion = wlParams.platformVersion
+        ..pageBackgroundColor =
+            wlParams.pageBackgroundColor ?? defaultWlParams.pageBackgroundColor
+        ..darkForeground =
+            wlParams.darkForeground ?? defaultWlParams.darkForeground
+        ..showNameBottom =
+            wlParams.showNameBottom ?? defaultWlParams.showNameBottom
+        ..domainId = wlParams.domainId?.toBuilder()
+        ..baseUrl = wlParams.baseUrl
+        ..prohibitDifferentUrl = wlParams.prohibitDifferentUrl
+        ..adminSettingsId = wlParams.adminSettingsId,
     );
   }
 
@@ -357,10 +345,9 @@ class Wl extends _$Wl {
 
   Future<void> loadLoginWhiteLabelingParams({BuildContext? context}) async {
     final fetchId = ++_fetchId;
-    final response =
-        await _tbClient
-            .getWhiteLabelingControllerApi()
-            .getLoginWhiteLabelParams();
+    final response = await _tbClient
+        .getWhiteLabelingControllerApi()
+        .getLoginWhiteLabelParams();
     final loginWlParams = response.data;
     final merged = _mergeLoginDefaults(loginWlParams, _defaultLoginWlParams);
     if (merged == _appliedParams) return;
@@ -391,8 +378,9 @@ class Wl extends _$Wl {
 
   Future<void> _loadUserWhiteLabelingParams() async {
     final fetchId = ++_fetchId;
-    final response =
-        await _tbClient.getWhiteLabelingControllerApi().getWhiteLabelParams();
+    final response = await _tbClient
+        .getWhiteLabelingControllerApi()
+        .getWhiteLabelParams();
     final merged = await _withServerVersion(
       _mergeDefaults(response.data, _defaultWLParams),
     );
@@ -483,8 +471,9 @@ class Wl extends _$Wl {
     final logoImageHeight = (wlParams.logoImageHeight ?? 36).toDouble();
     // The login logo matches the web, where the height is set in px; the app
     // bar logo keeps its smaller scale.
-    final double height =
-        isLogin ? logoImageHeight.clamp(1, 200) : logoImageHeight / 3 * 2;
+    final double height = isLogin
+        ? logoImageHeight.clamp(1, 200)
+        : logoImageHeight / 3 * 2;
     if (wlParams.logoImageUrl == defaultLogoUrl) {
       final region = await getIt<ILocalDatabaseService>().getSelectedRegion();
       return SvgPicture.asset(

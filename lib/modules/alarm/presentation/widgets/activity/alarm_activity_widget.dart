@@ -32,11 +32,10 @@ class AlarmActivityWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BlocProvider<AlarmActivityBloc>(
-      create:
-          (_) => AlarmActivityBloc.create(
-            id: alarmId,
-            user: ref.read(loginProvider).mobileLoginInfo!.user!,
-          )..add(const AlarmActivityFetchEvent()),
+      create: (_) => AlarmActivityBloc.create(
+        id: alarmId,
+        user: ref.read(loginProvider).mobileLoginInfo!.user!,
+      )..add(const AlarmActivityFetchEvent()),
       child: AlarmFilterWidget(
         filterTitle: S.of(context).activity,
         action: GestureDetector(
@@ -72,33 +71,33 @@ class AlarmActivityWidget extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                    child: PaginationListWidget<
-                      AlarmCommentsQuery,
-                      AlarmCommentInfo
-                    >(
-                      pagingController:
-                          getIt<AlarmActivityPaginationRepository>()
-                              .pagingController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (_, activity, _) {
-                          return ActivityBuilderWidget(
-                            activity,
-                            userId:
-                                ref
+                    child:
+                        PaginationListWidget<
+                          AlarmCommentsQuery,
+                          AlarmCommentInfo
+                        >(
+                          pagingController:
+                              getIt<AlarmActivityPaginationRepository>()
+                                  .pagingController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            itemBuilder: (_, activity, _) {
+                              return ActivityBuilderWidget(
+                                activity,
+                                userId: ref
                                     .watch(loginProvider)
                                     .mobileLoginInfo!
                                     .user!
                                     .id!,
-                          );
-                        },
-                        firstPageProgressIndicatorBuilder:
-                            (_) => const FirstPageProgressBuilder(),
-                        newPageProgressIndicatorBuilder:
-                            (_) => const NewPageProgressBuilder(),
-                        noItemsFoundIndicatorBuilder:
-                            (_) => const SizedBox.shrink(),
-                      ),
-                    ),
+                              );
+                            },
+                            firstPageProgressIndicatorBuilder: (_) =>
+                                const FirstPageProgressBuilder(),
+                            newPageProgressIndicatorBuilder: (_) =>
+                                const NewPageProgressBuilder(),
+                            noItemsFoundIndicatorBuilder: (_) =>
+                                const SizedBox.shrink(),
+                          ),
+                        ),
                   );
                 }
 

@@ -47,10 +47,9 @@ class LoginPage extends HookConsumerWidget {
     return Theme(
       data: wl.loginTheme,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value:
-            darkForeground
-                ? SystemUiOverlayStyle.dark
-                : SystemUiOverlayStyle.light,
+        value: darkForeground
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
         child: Scaffold(
           body: Stack(
             children: [

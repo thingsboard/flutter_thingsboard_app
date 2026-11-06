@@ -39,9 +39,8 @@ class ScanListWidget extends StatelessWidget {
         );
       },
       itemCount: items.length,
-      separatorBuilder:
-          (_, _) =>
-              const Divider(height: 1, thickness: .05, color: Colors.black),
+      separatorBuilder: (_, _) =>
+          const Divider(height: 1, thickness: .05, color: Colors.black),
     );
   }
 }

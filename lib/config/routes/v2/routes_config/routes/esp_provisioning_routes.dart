@@ -18,7 +18,8 @@ final espProvisioningRoutes = [
     path: EspProvisioningRoutes.espBleProvisioning,
     builder: (context, state) {
       final deviceName = state.uri.queryParameters['deviceName'] ?? '';
-      final deviceSecretKey = state.uri.queryParameters['deviceSecretKey'] ?? '';
+      final deviceSecretKey =
+          state.uri.queryParameters['deviceSecretKey'] ?? '';
       final name = state.uri.queryParameters['name'] ?? '';
       final pop = state.uri.queryParameters['pop'] ?? '';
 
@@ -30,17 +31,17 @@ final espProvisioningRoutes = [
       );
     },
   ),
-  
+
   GoRoute(
     path: EspProvisioningRoutes.espSoftApProvisioning,
     builder: (context, state) {
       final deviceName = state.uri.queryParameters['deviceName'] ?? '';
-      final deviceSecretKey = state.uri.queryParameters['deviceSecretKey'] ?? '';
+      final deviceSecretKey =
+          state.uri.queryParameters['deviceSecretKey'] ?? '';
       final name = state.uri.queryParameters['name'] ?? '';
       final pop = state.uri.queryParameters['pop'] ?? '';
 
       return EspSoftApView(
-   
         tbDeviceName: deviceName,
         tbDeviceSecretKey: deviceSecretKey,
         name: name,

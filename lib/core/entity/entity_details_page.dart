@@ -22,17 +22,11 @@ abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
     this._appBarElevation,
     super.key,
   });
-  TextStyle get labelTextStyle => const TextStyle(
-    color: Color(0xFF757575),
-    fontSize: 14,
-    height: 20 / 14,
-  );
+  TextStyle get labelTextStyle =>
+      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
-  TextStyle get valueTextStyle => const TextStyle(
-    color: Color(0xFF282828),
-    fontSize: 14,
-    height: 20 / 14,
-  );
+  TextStyle get valueTextStyle =>
+      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
   final String _defaultTitle;
   final String _entityId;
@@ -85,47 +79,43 @@ class _EntityDetailsPageState<T extends Object>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:
-          widget._hideAppBar
-              ? null
-              : TbAppBar(
-                showLoadingIndicator: widget._showLoadingIndicator,
-                elevation: widget._appBarElevation,
-                title: ValueListenableBuilder<String>(
-                  valueListenable: titleValue,
-                  builder: (context, title, _) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+      appBar: widget._hideAppBar
+          ? null
+          : TbAppBar(
+              showLoadingIndicator: widget._showLoadingIndicator,
+              elevation: widget._appBarElevation,
+              title: ValueListenableBuilder<String>(
+                valueListenable: titleValue,
+                builder: (context, title, _) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        customTranslationService.translate(title),
+                        style: widget._subTitle != null
+                            ? Theme.of(context).primaryTextTheme.titleLarge!
+                                  .copyWith(fontSize: 16)
+                            : null,
+                      ),
+                      if (widget._subTitle != null)
                         Text(
-                          customTranslationService.translate(title),
-                          style:
-                              widget._subTitle != null
-                                  ? Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleLarge!
-                                      .copyWith(fontSize: 16)
-                                  : null,
-                        ),
-                        if (widget._subTitle != null)
-                          Text(
-                            widget._subTitle!,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleLarge!
-                                  .color!
-                                  .withAlpha((0.38 * 255).ceil()),
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              height: 16 / 12,
-                            ),
+                          widget._subTitle!,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .titleLarge!
+                                .color!
+                                .withAlpha((0.38 * 255).ceil()),
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            height: 16 / 12,
                           ),
-                      ],
-                    );
-                  },
-                ),
+                        ),
+                    ],
+                  );
+                },
               ),
+            ),
       body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
@@ -169,9 +159,7 @@ abstract class ContactBasedDetailsPage<T extends Object>
         children: [
           Text(S.of(context).title, style: labelTextStyle),
           Text(
-            getIt<ICustomTranslationService>().translate(
-              e.title,
-            ),
+            getIt<ICustomTranslationService>().translate(e.title),
             style: valueTextStyle,
           ),
           const SizedBox(height: 16),

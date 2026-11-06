@@ -266,10 +266,9 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
           settings: LocationStreamSettings(
             accuracy: config.accuracy,
             distanceFilterMeters: config.distanceFilterMeters ?? 0,
-            interval:
-                config.intervalSeconds != null
-                    ? Duration(seconds: config.intervalSeconds!)
-                    : null,
+            interval: config.intervalSeconds != null
+                ? Duration(seconds: config.intervalSeconds!)
+                : null,
             background: backgroundConfig,
           ),
         )
@@ -306,10 +305,9 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
           current.copyWith(
             fixCount: current.fixCount + 1,
             lastFix: position,
-            lastError:
-                current.lastError?.isSaveError ?? false
-                    ? current.lastError
-                    : null,
+            lastError: current.lastError?.isSaveError ?? false
+                ? current.lastError
+                : null,
           ),
         );
         await _saveFix(current.config, position);
@@ -354,10 +352,9 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
         _setSession(
           current.copyWith(
             savedCount: current.savedCount + 1,
-            lastError:
-                current.lastError?.isSaveError ?? false
-                    ? null
-                    : current.lastError,
+            lastError: current.lastError?.isSaveError ?? false
+                ? null
+                : current.lastError,
           ),
         );
       }
@@ -375,10 +372,9 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
         _setSession(
           current.copyWith(
             saveErrorCount: current.saveErrorCount + 1,
-            lastError:
-                keepCurrent
-                    ? current.lastError
-                    : LiveTrackingError.fromSaveException(e),
+            lastError: keepCurrent
+                ? current.lastError
+                : LiveTrackingError.fromSaveException(e),
           ),
         );
       }

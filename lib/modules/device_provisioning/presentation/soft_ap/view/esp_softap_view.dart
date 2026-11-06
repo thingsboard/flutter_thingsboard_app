@@ -44,11 +44,10 @@ class _EspSoftApViewState extends State<EspSoftApView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EspSoftApBloc>(
-      create:
-          (_) => EspSoftApBloc.create(
-            deviceName: widget.name,
-            pop: widget.proofOfPossession,
-          ),
+      create: (_) => EspSoftApBloc.create(
+        deviceName: widget.name,
+        pop: widget.proofOfPossession,
+      ),
       child: BlocBuilder<EspSoftApBloc, EspSoftApState>(
         builder: (context, state) {
           return Scaffold(
@@ -83,11 +82,10 @@ class _EspSoftApViewState extends State<EspSoftApView> {
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  onPressed:
-                      () => showDialog(
-                        context: context,
-                        builder: (_) => const ExitConfirmationDialog(),
-                      ),
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (_) => const ExitConfirmationDialog(),
+                  ),
                 ),
               );
             }(),
@@ -115,8 +113,10 @@ class _EspSoftApViewState extends State<EspSoftApView> {
 
                     case EspSoftApWiFiListState():
                       return WifiList(
-                        wifi:
-                            state.wifiList.map((e) => e.ssid).toSet().toList(),
+                        wifi: state.wifiList
+                            .map((e) => e.ssid)
+                            .toSet()
+                            .toList(),
                       );
 
                     case EspSoftApProvisioningInProgressState():
@@ -126,18 +126,16 @@ class _EspSoftApViewState extends State<EspSoftApView> {
                         ssid: state.ssid,
                         wifiPassword: state.password,
                         mustReconnectToWifiBeforeClaiming: true,
-                        onProvisioningTryAgain:
-                            () => context.read<EspSoftApBloc>().add(
-                              const EspSoftApConnectToDeviceEvent(),
-                            ),
+                        onProvisioningTryAgain: () => context
+                            .read<EspSoftApBloc>()
+                            .add(const EspSoftApConnectToDeviceEvent()),
                       );
 
                     case EspSoftApConnectionErrorState():
                       return EspSoftApConnectionErrorView(
-                        onTryAgain:
-                            () => context.read<EspSoftApBloc>().add(
-                              const EspSoftApConnectToDeviceEvent(),
-                            ),
+                        onTryAgain: () => context.read<EspSoftApBloc>().add(
+                          const EspSoftApConnectToDeviceEvent(),
+                        ),
                         assetPath: ThingsboardImage.mobileConnectionError,
                         message: S
                             .of(context)

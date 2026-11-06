@@ -125,8 +125,8 @@ class DeviceProvisioningBloc
               )
               .timeout(
                 const Duration(seconds: 20),
-                onTimeout:
-                    () => throw Exception('Device claiming timeout reached'),
+                onTimeout: () =>
+                    throw Exception('Device claiming timeout reached'),
               );
 
           final result = response.data?.response;

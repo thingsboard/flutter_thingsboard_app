@@ -12,8 +12,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class DashboardPermissionErrorView extends StatefulWidget {
- const  DashboardPermissionErrorView(
-     {
+  const DashboardPermissionErrorView({
     this.fullScreen = false,
     this.home = false,
     super.key,
@@ -32,10 +31,9 @@ class _DashboardPermissionErrorViewState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        leading:
-            !widget.fullScreen && !widget.home
-                ? BackButton(onPressed: () => Navigator.of(context).pop())
-                : null,
+        leading: !widget.fullScreen && !widget.home
+            ? BackButton(onPressed: () => Navigator.of(context).pop())
+            : null,
         elevation: 1,
         shadowColor: Colors.transparent,
         title: FittedBox(
@@ -43,19 +41,17 @@ class _DashboardPermissionErrorViewState
           alignment: Alignment.centerLeft,
           child: Text(S.of(context).dashboards(1)),
         ),
-        actions:
-            widget.fullScreen && !widget.home
-                ? [
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    // translate-me-ignore-next-line
-                    onPressed:
-                        () => getIt<ThingsboardAppRouter>().navigateTo(
-                          '/profile?fullscreen=true',
-                        ),
+        actions: widget.fullScreen && !widget.home
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  // translate-me-ignore-next-line
+                  onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
+                    '/profile?fullscreen=true',
                   ),
-                ]
-                : null,
+                ),
+              ]
+            : null,
       ),
       backgroundColor: Colors.white,
       body: Padding(

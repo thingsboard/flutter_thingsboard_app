@@ -42,8 +42,8 @@ void main() {
         const Color(0xFFF44336),
         size: 64,
       );
-      final frame =
-          await (await ui.instantiateImageCodec(bytes!)).getNextFrame();
+      final frame = await (await ui.instantiateImageCodec(bytes!))
+          .getNextFrame();
 
       expect(frame.image.width, 64);
       expect(frame.image.height, 64);

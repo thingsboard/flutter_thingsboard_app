@@ -40,12 +40,9 @@ class ThingsboardAppRouter {
     if (mapArgs != null) {
       // Percent-encoded: values can carry '&' and '=' themselves (an app link
       // passed along as `appLinkUriQueryParam` always does).
-      query =
-          Uri(
-            queryParameters: mapArgs.map(
-              (key, value) => MapEntry(key, '$value'),
-            ),
-          ).query;
+      query = Uri(
+        queryParameters: mapArgs.map((key, value) => MapEntry(key, '$value')),
+      ).query;
     }
     final result = await context?.push(
       '$path${query.isEmpty ? query : '?$query'}',

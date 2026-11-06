@@ -117,15 +117,13 @@ void main() {
     liveClient = MockThingsboardClient();
     staleApi = MockWhiteLabelingControllerApi();
     liveApi = MockWhiteLabelingControllerApi();
-    when(
-      () => staleClient.getWhiteLabelingControllerApi(),
-    ).thenReturn(staleApi);
+    when(() => staleClient.getWhiteLabelingControllerApi())
+        .thenReturn(staleApi);
     when(() => liveClient.getWhiteLabelingControllerApi()).thenReturn(liveApi);
     // What HttpInterceptor.onRequest does on a client whose in-memory JWT is
     // null: the request is rejected before it leaves the device (PROD-8879).
-    when(
-      () => staleApi.getWhiteLabelParams(),
-    ).thenThrow(ThingsboardError(message: 'Unauthorized!'));
+    when(() => staleApi.getWhiteLabelParams())
+        .thenThrow(ThingsboardError(message: 'Unauthorized!'));
     // What the server answers when no admin typed a platform version into the
     // white-labeling settings: the field is simply null.
     when(() => liveApi.getWhiteLabelParams()).thenAnswer(
@@ -136,9 +134,8 @@ void main() {
     stubSystemInfo('4.4.0PE');
 
     final localDatabase = MockLocalDatabaseService();
-    when(
-      () => localDatabase.getSelectedRegion(),
-    ).thenAnswer((_) async => Region.europe);
+    when(() => localDatabase.getSelectedRegion())
+        .thenAnswer((_) async => Region.europe);
     clientService = registerTestDependencies(
       tbClient: liveClient,
       localDatabase: localDatabase,
@@ -297,9 +294,8 @@ void main() {
     ) async {
       final container = makeContainer();
       await pumpWlProvider(tester, container);
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenThrow(ThingsboardError(message: 'Network error'));
+      when(() => liveApi.getWhiteLabelParams())
+          .thenThrow(ThingsboardError(message: 'Network error'));
 
       await tester.pump(wlPollInterval);
       await tester.pump(wlPollInterval);
@@ -310,9 +306,8 @@ void main() {
     testWidgets('coming back to the foreground does not start a second '
         'fetch while the previous one is still running', (tester) async {
       final slowResponse = Completer<Response<WhiteLabelingParams>>();
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) => slowResponse.future);
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) => slowResponse.future);
       final container = makeContainer();
       await pumpWlProvider(tester, container);
 
@@ -334,18 +329,16 @@ void main() {
       // What a stalled connection looks like: the client has no receive
       // timeout, so the request neither completes nor fails.
       final hungResponse = Completer<Response<WhiteLabelingParams>>();
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) => hungResponse.future);
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) => hungResponse.future);
       final container = makeContainer();
       await pumpWlProvider(tester, container);
 
       await tester.pump(wlPollInterval);
       verify(() => liveApi.getWhiteLabelParams()).called(1);
 
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) async => wlResponse(wlParams()));
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) async => wlResponse(wlParams()));
       // The hung fetch is given up after wlFetchTimeout, so the next tick
       // fetches again.
       await tester.pump(wlPollInterval);
@@ -359,9 +352,8 @@ void main() {
         staleResponse.future,
         Future.value(wlResponse(wlParams((b) => b.appTitle = 'Fresh'))),
       ];
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) => responses.removeAt(0));
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) => responses.removeAt(0));
       final container = makeContainer();
       await pumpWlProvider(tester, container);
 
@@ -379,12 +371,10 @@ void main() {
     testWidgets('a user response landing after a logout does not replace '
         'the login white-labeling', (tester) async {
       final slowUserResponse = Completer<Response<WhiteLabelingParams>>();
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) => slowUserResponse.future);
-      when(
-        () => liveApi.getLoginWhiteLabelParams(),
-      ).thenAnswer((_) async => loginWlResponse());
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) => slowUserResponse.future);
+      when(() => liveApi.getLoginWhiteLabelParams())
+          .thenAnswer((_) async => loginWlResponse());
       final container = makeContainer();
       await pumpWlProvider(tester, container);
 
@@ -437,10 +427,9 @@ void main() {
       when(() => liveApi.getWhiteLabelParams()).thenAnswer(
         (_) async => wlResponse(
           WhiteLabelingParams(
-            (b) =>
-                b
-                  ..logoImageUrl = defaultLogoUrl
-                  ..platformVersion = 'Custom 1.0',
+            (b) => b
+              ..logoImageUrl = defaultLogoUrl
+              ..platformVersion = 'Custom 1.0',
           ),
         ),
       );
@@ -485,9 +474,8 @@ void main() {
 
     testWidgets('is taken from the running server when the white-label '
         'response has no body', (tester) async {
-      when(
-        () => liveApi.getWhiteLabelParams(),
-      ).thenAnswer((_) async => wlResponse(null));
+      when(() => liveApi.getWhiteLabelParams())
+          .thenAnswer((_) async => wlResponse(null));
       final container = makeContainer();
       final wl = await pumpWlProvider(tester, container);
 
@@ -502,10 +490,9 @@ void main() {
       when(() => liveApi.getWhiteLabelParams()).thenAnswer(
         (_) async => wlResponse(
           WhiteLabelingParams(
-            (b) =>
-                b
-                  ..logoImageUrl = defaultLogoUrl
-                  ..platformVersion = '',
+            (b) => b
+              ..logoImageUrl = defaultLogoUrl
+              ..platformVersion = '',
           ),
         ),
       );
@@ -569,13 +556,11 @@ void main() {
     when(() => liveApi.getLoginWhiteLabelParams()).thenAnswer(
       (_) async => Response(
         data: LoginWhiteLabelingParams(
-          (b) =>
-              b
-                ..logoImageUrl = defaultLogoUrl
-                ..paletteSettings =
-                    (PaletteSettingsBuilder()
-                      ..primaryPalette = (PaletteBuilder()..type = 'indigo')
-                      ..accentPalette = (PaletteBuilder()..type = 'amber')),
+          (b) => b
+            ..logoImageUrl = defaultLogoUrl
+            ..paletteSettings = (PaletteSettingsBuilder()
+              ..primaryPalette = (PaletteBuilder()..type = 'indigo')
+              ..accentPalette = (PaletteBuilder()..type = 'amber')),
         ),
         requestOptions: RequestOptions(),
       ),
@@ -583,13 +568,11 @@ void main() {
     when(() => liveApi.getWhiteLabelParams()).thenAnswer(
       (_) async => wlResponse(
         WhiteLabelingParams(
-          (b) =>
-              b
-                ..logoImageUrl = defaultLogoUrl
-                ..paletteSettings =
-                    (PaletteSettingsBuilder()
-                      ..primaryPalette = (PaletteBuilder()..type = 'red')
-                      ..accentPalette = (PaletteBuilder()..type = 'amber')),
+          (b) => b
+            ..logoImageUrl = defaultLogoUrl
+            ..paletteSettings = (PaletteSettingsBuilder()
+              ..primaryPalette = (PaletteBuilder()..type = 'red')
+              ..accentPalette = (PaletteBuilder()..type = 'amber')),
         ),
       ),
     );

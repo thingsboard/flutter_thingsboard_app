@@ -26,7 +26,6 @@ class PlatformVersionMatcher {
 }
 
 class PlatformVersion {
-
   PlatformVersion({
     required this.major,
     required this.minor,
@@ -75,10 +74,7 @@ class PlatformVersion {
   bool isSnapshot;
 
   int versionInt() {
-    return major * 1000 +
-        minor * 100 +
-        patch * 10 +
-        (minorPatch ?? 0);
+    return major * 1000 + minor * 100 + patch * 10 + (minorPatch ?? 0);
   }
 
   String versionString() {

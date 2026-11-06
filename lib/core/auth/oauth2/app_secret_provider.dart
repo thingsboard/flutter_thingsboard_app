@@ -7,7 +7,6 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_client/thingsboard_client.dart' show PlatformType;
 
 abstract class AppSecretProvider {
-
   factory AppSecretProvider.local() => _LocalAppSecretProvider();
   Future<String> getAppSecret(PlatformType platformType);
 }

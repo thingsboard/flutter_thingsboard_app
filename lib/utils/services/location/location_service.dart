@@ -68,9 +68,8 @@ class LocationService implements ILocationService {
 
     yield* raw.transform(
       StreamTransformer<Position, LocationFix>.fromHandlers(
-        handleData:
-            (position, sink) =>
-                sink.add(LocationSuccess(_toGeoPosition(position))),
+        handleData: (position, sink) =>
+            sink.add(LocationSuccess(_toGeoPosition(position))),
         handleError: (e, s, sink) {
           _log.error('LocationService.positionStream error', e, s);
           sink.add(_fixFromPlatformError(e));
@@ -129,15 +128,14 @@ class LocationService implements ILocationService {
         accuracy: accuracy,
         distanceFilter: settings.distanceFilterMeters,
         intervalDuration: settings.interval,
-        foregroundNotificationConfig:
-            background == null
-                ? null
-                : ForegroundNotificationConfig(
-                  notificationTitle: background.notificationTitle,
-                  notificationText: background.notificationText,
-                  enableWakeLock: true,
-                  setOngoing: true,
-                ),
+        foregroundNotificationConfig: background == null
+            ? null
+            : ForegroundNotificationConfig(
+                notificationTitle: background.notificationTitle,
+                notificationText: background.notificationText,
+                enableWakeLock: true,
+                setOngoing: true,
+              ),
       ),
       TargetPlatform.iOS => AppleSettings(
         accuracy: accuracy,

@@ -25,8 +25,8 @@ ThemeData loginPageTheme(ThemeData base, {required bool darkForeground}) {
   final accent = base.colorScheme.secondary;
   final onAccent =
       ThemeData.estimateBrightnessForColor(accent) == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+      ? Colors.white
+      : Colors.black87;
 
   return base.copyWith(
     scaffoldBackgroundColor: base.primaryColor,
@@ -68,9 +68,8 @@ ThemeData loginPageTheme(ThemeData base, {required bool darkForeground}) {
       ).merge(base.elevatedButtonTheme.style),
     ),
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: primary,
-      ).merge(base.textButtonTheme.style),
+      style: TextButton.styleFrom(foregroundColor: primary)
+          .merge(base.textButtonTheme.style),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(

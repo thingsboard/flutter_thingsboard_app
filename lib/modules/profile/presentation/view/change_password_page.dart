@@ -50,107 +50,103 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 16),
                       ValueListenableBuilder(
                         valueListenable: _showCurrentPasswordNotifier,
-                        builder: (
-                          BuildContext context,
-                          bool showPassword,
-                          child,
-                        ) {
-                          return FormBuilderTextField(
-                            name: 'currentPassword',
-                            obscureText: !showPassword,
-                            autofocus: true,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(
-                                errorText:
-                                    S.of(context).currentPasswordRequireText,
-                              ),
-                            ]),
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  showPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                        builder:
+                            (BuildContext context, bool showPassword, child) {
+                              return FormBuilderTextField(
+                                name: 'currentPassword',
+                                obscureText: !showPassword,
+                                autofocus: true,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(
+                                    errorText: S
+                                        .of(context)
+                                        .currentPasswordRequireText,
+                                  ),
+                                ]),
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      showPassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      _showCurrentPasswordNotifier.value =
+                                          !_showCurrentPasswordNotifier.value;
+                                    },
+                                  ),
+                                  border: const OutlineInputBorder(),
+                                  labelText:
+                                      "${S.of(context).currentPassword} *",
                                 ),
-                                onPressed: () {
-                                  _showCurrentPasswordNotifier.value =
-                                      !_showCurrentPasswordNotifier.value;
-                                },
-                              ),
-                              border: const OutlineInputBorder(),
-                              labelText: "${S.of(context).currentPassword} *",
-                            ),
-                          );
-                        },
+                              );
+                            },
                       ),
                       const SizedBox(height: 24),
                       ValueListenableBuilder(
                         valueListenable: _showNewPasswordNotifier,
-                        builder: (
-                          BuildContext context,
-                          bool showPassword,
-                          child,
-                        ) {
-                          return FormBuilderTextField(
-                            name: 'newPassword',
-                            obscureText: !showPassword,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(
-                                errorText: S.of(context).newPasswordRequireText,
-                              ),
-                            ]),
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  showPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                        builder:
+                            (BuildContext context, bool showPassword, child) {
+                              return FormBuilderTextField(
+                                name: 'newPassword',
+                                obscureText: !showPassword,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(
+                                    errorText: S
+                                        .of(context)
+                                        .newPasswordRequireText,
+                                  ),
+                                ]),
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      showPassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      _showNewPasswordNotifier.value =
+                                          !_showNewPasswordNotifier.value;
+                                    },
+                                  ),
+                                  border: const OutlineInputBorder(),
+                                  labelText: '${S.of(context).newPassword} *',
                                 ),
-                                onPressed: () {
-                                  _showNewPasswordNotifier.value =
-                                      !_showNewPasswordNotifier.value;
-                                },
-                              ),
-                              border: const OutlineInputBorder(),
-                              labelText: '${S.of(context).newPassword} *',
-                            ),
-                          );
-                        },
+                              );
+                            },
                       ),
                       const SizedBox(height: 24),
                       ValueListenableBuilder(
                         valueListenable: _showNewPassword2Notifier,
-                        builder: (
-                          BuildContext context,
-                          bool showPassword,
-                          child,
-                        ) {
-                          return FormBuilderTextField(
-                            name: 'newPassword2',
-                            obscureText: !showPassword,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(
-                                errorText:
-                                    S.of(context).newPassword2RequireText,
-                              ),
-                            ]),
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  showPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                        builder:
+                            (BuildContext context, bool showPassword, child) {
+                              return FormBuilderTextField(
+                                name: 'newPassword2',
+                                obscureText: !showPassword,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(
+                                    errorText: S
+                                        .of(context)
+                                        .newPassword2RequireText,
+                                  ),
+                                ]),
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      showPassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      _showNewPassword2Notifier.value =
+                                          !_showNewPassword2Notifier.value;
+                                    },
+                                  ),
+                                  border: const OutlineInputBorder(),
+                                  labelText: '${S.of(context).newPassword2} *',
                                 ),
-                                onPressed: () {
-                                  _showNewPassword2Notifier.value =
-                                      !_showNewPassword2Notifier.value;
-                                },
-                              ),
-                              border: const OutlineInputBorder(),
-                              labelText: '${S.of(context).newPassword2} *',
-                            ),
-                          );
-                        },
+                              );
+                            },
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(

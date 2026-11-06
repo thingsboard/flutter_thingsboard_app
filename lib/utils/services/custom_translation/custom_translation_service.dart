@@ -15,10 +15,11 @@ class TbCustomTranslationService implements ICustomTranslationService {
 
   @override
   Future<void> load({String? localeCode}) async {
-    final code = (localeCode == null || localeCode.isEmpty) ? 'en_US' : localeCode;
+    final code = (localeCode == null || localeCode.isEmpty)
+        ? 'en_US'
+        : localeCode;
     try {
-      final response = await getIt<ITbClientService>()
-          .client
+      final response = await getIt<ITbClientService>().client
           .get<Map<String, dynamic>>('/api/translation/full/$code');
       _translations = response.data ?? const {};
     } catch (e) {

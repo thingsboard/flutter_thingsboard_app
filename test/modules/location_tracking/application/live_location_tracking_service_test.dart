@@ -142,9 +142,8 @@ void main() {
     failSavesWith = null;
 
     when(() => notifications.clear()).thenAnswer((_) async {});
-    when(
-      () => notifications.showPaused(targetName: any(named: 'targetName')),
-    ).thenAnswer((_) async {});
+    when(() => notifications.showPaused(targetName: any(named: 'targetName')))
+        .thenAnswer((_) async {});
 
     when(() => nameResolver.resolveName(any(), any())).thenAnswer((_) {
       final lookup = Completer<String?>();
@@ -152,13 +151,12 @@ void main() {
       return lookup.future;
     });
 
-    when(
-      () => locationService.positionStream(settings: any(named: 'settings')),
-    ).thenAnswer((_) {
-      final controller = StreamController<LocationFix>();
-      streams.add(controller);
-      return controller.stream;
-    });
+    when(() => locationService.positionStream(settings: any(named: 'settings')))
+        .thenAnswer((_) {
+          final controller = StreamController<LocationFix>();
+          streams.add(controller);
+          return controller.stream;
+        });
 
     when(() => remote.saveAttributes(any(), any())).thenAnswer((invocation) {
       attributeSaves.add(
@@ -168,9 +166,8 @@ void main() {
       );
       return nextSave();
     });
-    when(
-      () => remote.saveTelemetry(any(), any(), any()),
-    ).thenAnswer((_) => nextSave());
+    when(() => remote.saveTelemetry(any(), any(), any()))
+        .thenAnswer((_) => nextSave());
   });
 
   LiveLocationTrackingService buildService() => LiveLocationTrackingService(
@@ -198,11 +195,10 @@ void main() {
   }
 
   /// The `gpsActive` value of each status write, in the order it was sent.
-  List<Object?> gpsActiveWrites() =>
-      attributeSaves
-          .where((save) => save.containsKey('gpsActive'))
-          .map((save) => save['gpsActive'])
-          .toList();
+  List<Object?> gpsActiveWrites() => attributeSaves
+      .where((save) => save.containsKey('gpsActive'))
+      .map((save) => save['gpsActive'])
+      .toList();
 
   group('LiveLocationTrackingService.start', () {
     test('does not subscribe when the session is paused mid-start', () async {

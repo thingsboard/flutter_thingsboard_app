@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-
 import 'package:esp_provisioning_softap/src/proto/dart/constants.pb.dart';
 import 'package:esp_provisioning_softap/src/proto/dart/wifi_config.pb.dart';
 import 'package:esp_provisioning_softap/src/proto/dart/wifi_scan.pb.dart';
@@ -9,7 +8,6 @@ import 'package:esp_provisioning_softap/src/proto/dart/wifi_scan.pb.dart';
 import 'connection_models.dart';
 import 'proto/dart/session.pb.dart';
 import 'security.dart';
-
 
 import 'transport.dart';
 
@@ -139,7 +137,6 @@ class Provisioning {
   }
 
   Future<List<Map<String, dynamic>>?> scan(
-
       {bool blocking = true,
       bool passive = false,
       int groupChannels = 5,
@@ -172,7 +169,8 @@ class Provisioning {
     return null;
   }
 
-  Future<bool> sendWifiConfig({required String ssid, required String password}) async {
+  Future<bool> sendWifiConfig(
+      {required String ssid, required String password}) async {
     var payload = WiFiConfigPayload();
     payload.msg = WiFiConfigMsgType.TypeCmdSetConfig;
 
@@ -237,7 +235,8 @@ class Provisioning {
     );
   }
 
-  Future<Uint8List> sendReceiveCustomData(Uint8List data, {int packageSize = 256, String endpoint = 'custom-data'}) async {
+  Future<Uint8List> sendReceiveCustomData(Uint8List data,
+      {int packageSize = 256, String endpoint = 'custom-data'}) async {
     var i = data.length;
     var offset = 0;
     List<int> ret = [];
@@ -246,7 +245,7 @@ class Provisioning {
       var encrypted = await security.encrypt(needToSend);
       var newData = await transport.sendReceive(endpoint, encrypted);
 
-      if ((newData?.length ?? 0) > 0 ) {
+      if ((newData?.length ?? 0) > 0) {
         var decrypted = await security.decrypt(newData!);
         ret += List.from(decrypted);
       }

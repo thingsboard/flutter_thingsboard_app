@@ -25,7 +25,6 @@ class EspWifiNetworkView extends StatelessWidget {
   final String pop;
   final List<String> networks;
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,19 +41,18 @@ class EspWifiNetworkView extends StatelessWidget {
                   helpMessage: S.of(context).wifiPasswordMessage(network),
                   textFieldLabel: S.of(context).wifiPassword,
                 ),
-                context
-
+                context,
               );
 
               if (networkPass != null && context.mounted) {
                 context.read<EspBleProvisioningBloc>().add(
-                      EspBleProvisionDeviceEvent(
-                        device: device,
-                        pop: pop,
-                        ssid: network,
-                        pass: networkPass,
-                      ),
-                    );
+                  EspBleProvisionDeviceEvent(
+                    device: device,
+                    pop: pop,
+                    ssid: network,
+                    pass: networkPass,
+                  ),
+                );
               }
             },
           ),

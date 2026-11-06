@@ -114,24 +114,23 @@ class EnterACodeWidget extends HookConsumerWidget {
             if (!noResendCodeProviders.contains(providerType))
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child:
-                    !state.resendAvalible
-                        ? Text(
-                          S.of(context).resendCodeWait(currentSeconds),
-                          style: TbTextStyles.labelMedium.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                        )
-                        : TextButton(
-                          style: TextButton.styleFrom(
-                            padding: DesignTokens.paddigZero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            resendCode(ref, form);
-                          },
-                          child: Text(S.of(context).resendCode),
+                child: !state.resendAvalible
+                    ? Text(
+                        S.of(context).resendCodeWait(currentSeconds),
+                        style: TbTextStyles.labelMedium.copyWith(
+                          color: AppColors.textDisabled,
                         ),
+                      )
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                          padding: DesignTokens.paddigZero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          resendCode(ref, form);
+                        },
+                        child: Text(S.of(context).resendCode),
+                      ),
               ),
             Expanded(
               child: Align(

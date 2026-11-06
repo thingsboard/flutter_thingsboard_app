@@ -64,10 +64,9 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
           children: [
             StepChip(
               leading: '1',
-              title:
-                  S
-                      .of(context)
-                      .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
+              title: S
+                  .of(context)
+                  .copy32digitsKeyToYourAuthenticationAppOrScanQrcode,
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 20,

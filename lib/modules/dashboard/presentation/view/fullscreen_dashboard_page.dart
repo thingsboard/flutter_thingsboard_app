@@ -57,7 +57,7 @@ class _FullscreenDashboardPageState
           builder: (context, canGoBack, widget) {
             return TbAppBar(
               leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: _handleBack,
               ),
               elevation: 1,
@@ -76,10 +76,9 @@ class _FullscreenDashboardPageState
                 IconButton(
                   icon: const Icon(Icons.settings),
                   // translate-me-ignore-next-line
-                  onPressed:
-                      () => getIt<ThingsboardAppRouter>().navigateTo(
-                        '/profile?fullscreen=true',
-                      ),
+                  onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
+                    '/profile?fullscreen=true',
+                  ),
                 ),
               ],
               canGoBack: canGoBack,
@@ -91,23 +90,22 @@ class _FullscreenDashboardPageState
         onBack: _handleBack,
         child: ValueListenableBuilder<String?>(
           valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-          builder:
-            (context, _, _) => DashboardWidget(
-              titleCallback: (title) {
-                dashboardTitleValue.value = title;
-              },
-              controllerCallback: (controller, _) {
-                _dashboardController = controller;
+          builder: (context, _, _) => DashboardWidget(
+            titleCallback: (title) {
+              dashboardTitleValue.value = title;
+            },
+            controllerCallback: (controller, _) {
+              _dashboardController = controller;
 
-                controller.canGoBack.addListener(() {
-                  _onCanGoBack(controller.canGoBack.value);
-                });
-                controller.openDashboard(
-                  widget.fullscreenDashboardId,
-                  fullscreen: true,
-                );
-              },
-            ),
+              controller.canGoBack.addListener(() {
+                _onCanGoBack(controller.canGoBack.value);
+              });
+              controller.openDashboard(
+                widget.fullscreenDashboardId,
+                fullscreen: true,
+              );
+            },
+          ),
         ),
       ),
     );
@@ -119,8 +117,9 @@ class _FullscreenDashboardPageState
     diKey = UniqueKey().toString();
     DashboardsDi.init(diKey, tbClient: getIt<ITbClientService>().client);
     dashboardTitleValue = ValueNotifier(
-      getIt<ICustomTranslationService>()
-          .translate(widget._dashboardTitle ?? 'Dashboard'),
+      getIt<ICustomTranslationService>().translate(
+        widget._dashboardTitle ?? 'Dashboard',
+      ),
     );
   }
 

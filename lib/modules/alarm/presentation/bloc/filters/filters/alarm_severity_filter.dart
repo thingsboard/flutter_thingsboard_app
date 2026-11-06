@@ -26,9 +26,7 @@ class AlarmSeverityFilter<T> implements IAlarmFilter<Set<T>> {
 
   @override
   void updateSelectedData(Set<T> data) {
-    logger.debug(
-      'AlarmStatusFilter::updateSelectedData($data)',
-    );
+    logger.debug('AlarmStatusFilter::updateSelectedData($data)');
 
     alarmSeveritySelected
       ..clear()

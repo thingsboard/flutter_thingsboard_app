@@ -15,8 +15,8 @@ abstract class DashboardArgumentsEntity with _$DashboardArgumentsEntity {
     String? title,
     String? state,
     bool? hideToolbar,
-   @Default(true) bool animate,
+    @Default(true) bool animate,
   }) = _DashboardArgumentsEntity;
-    factory DashboardArgumentsEntity.fromJson(Map<String, dynamic> json) =>
+  factory DashboardArgumentsEntity.fromJson(Map<String, dynamic> json) =>
       _$DashboardArgumentsEntityFromJson(json);
 }

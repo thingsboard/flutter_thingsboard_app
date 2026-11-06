@@ -39,10 +39,9 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
         hintText: S.of(context).addCommentMessage,
         suffixIcon: IconButton(
           icon: const Icon(Icons.send_rounded, size: 24),
-          onPressed:
-              textController.text.isNotEmpty
-                  ? () => _submitComment(context)
-                  : null,
+          onPressed: textController.text.isNotEmpty
+              ? () => _submitComment(context)
+              : null,
         ),
         suffixIconConstraints: const BoxConstraints(maxWidth: 34),
       ),

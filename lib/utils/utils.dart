@@ -19,10 +19,9 @@ abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
   static const _imageBase64UrlPrefix = 'data:image/';
   static final _imagesUrlRegexp = RegExp('/api/images/(tenant|system)/(.*)');
-  static final _noImageDataUri =
-      UriData.parse(
-        'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-      ).contentAsBytes();
+  static final _noImageDataUri = UriData.parse(
+    'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+  ).contentAsBytes();
 
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
@@ -182,16 +181,15 @@ abstract class Utils {
       width: width,
       height: height,
       semanticLabel: semanticLabel,
-      errorBuilder:
-          (context, error, stackTrace) => _svgImageFromUrl(
-            context,
-            imageUrl,
-            headers: headers,
-            width: width,
-            height: height,
-            semanticLabel: semanticLabel,
-            onError: onError,
-          ),
+      errorBuilder: (context, error, stackTrace) => _svgImageFromUrl(
+        context,
+        imageUrl,
+        headers: headers,
+        width: width,
+        height: height,
+        semanticLabel: semanticLabel,
+        onError: onError,
+      ),
     );
   }
 
@@ -222,15 +220,14 @@ abstract class Utils {
         width: width,
         height: height,
         semanticLabel: semanticLabel,
-        errorBuilder:
-            (context, error, stackTrace) => _onErrorImage(
-              context,
-              color: color,
-              width: width,
-              height: height,
-              semanticLabel: semanticLabel,
-              onError: onError,
-            ),
+        errorBuilder: (context, error, stackTrace) => _onErrorImage(
+          context,
+          color: color,
+          width: width,
+          height: height,
+          semanticLabel: semanticLabel,
+          onError: onError,
+        ),
       );
     }
   }
@@ -250,15 +247,14 @@ abstract class Utils {
         Uri.parse(imageUrl),
         httpHeaders: headers,
       ),
-      onError:
-          (context) => _onErrorImage(
-            context,
-            color: color,
-            width: width,
-            height: height,
-            semanticLabel: semanticLabel,
-            onError: onError,
-          ),
+      onError: (context) => _onErrorImage(
+        context,
+        color: color,
+        width: width,
+        height: height,
+        semanticLabel: semanticLabel,
+        onError: onError,
+      ),
     );
     if (color != null) {
       final colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
@@ -281,11 +277,11 @@ abstract class Utils {
     return onError != null
         ? onError(context)
         : _emptyImage(
-          color: color,
-          width: width,
-          height: height,
-          semanticLabel: semanticLabel,
-        );
+            color: color,
+            width: width,
+            height: height,
+            semanticLabel: semanticLabel,
+          );
   }
 
   static Widget _emptyImage({

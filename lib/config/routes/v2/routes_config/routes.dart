@@ -52,7 +52,7 @@ List<RouteBase> getRoutes() {
         ...rootRoutes,
         ...moreRoutes,
         ...selectRegionRoutes,
-        ...registerRoutes
+        ...registerRoutes,
       ],
     ),
   ];

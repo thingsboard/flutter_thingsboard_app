@@ -12,9 +12,5 @@ class HomeRoutes {
 
 // Root and home routes
 final homeRoutes = [
-
-      GoRoute(path: HomeRoutes.home,
- 
-       builder: (context, state) => const HomePage()),
- 
+  GoRoute(path: HomeRoutes.home, builder: (context, state) => const HomePage()),
 ];

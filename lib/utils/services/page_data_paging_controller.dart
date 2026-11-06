@@ -8,8 +8,10 @@ import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 /// Loads one page for [pageKey]; [refresh] is true for a pull-to-refresh.
-typedef FetchPageData<P, T> =
-    Future<PageData<T>> Function(P pageKey, {required bool refresh});
+typedef FetchPageData<P, T> = Future<PageData<T>> Function(
+  P pageKey, {
+  required bool refresh,
+});
 
 /// A [PagingController] over the app's [PageKeyController] and
 /// [PageData]-returning fetches.

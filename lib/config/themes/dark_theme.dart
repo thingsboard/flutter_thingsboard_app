@@ -21,14 +21,14 @@ ThemeData tbDarkTheme = ThemeData(
     primary: AppColors.darkPrimaryBlue,
     secondary: Colors.deepOrange,
   ),
-  
+
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,
     floatingLabelBehavior: FloatingLabelBehavior.always,
-    labelStyle: TbTextStyles.bodyLarge.copyWith(
-      color: AppColors.textTertiary,
+    labelStyle: TbTextStyles.bodyLarge.copyWith(color: AppColors.textTertiary),
+    helperStyle: TbTextStyles.labelSmall.copyWith(
+      color: AppColors.textDisabled,
     ),
-    helperStyle: TbTextStyles.labelSmall.copyWith(color: AppColors.textDisabled),
     floatingLabelStyle: WidgetStateTextStyle.resolveWith((
       Set<WidgetState> states,
     ) {
@@ -37,12 +37,8 @@ ThemeData tbDarkTheme = ThemeData(
           : AppColors.textTertiary;
       return TbTextStyles.labelSmall.copyWith(color: color);
     }),
-    hintStyle: TbTextStyles.bodyLarge.copyWith(
-      color: AppColors.textTertiary,
-    ),
-    errorStyle: TbTextStyles.labelSmall.copyWith(
-      color: AppColors.textError,
-    ),
+    hintStyle: TbTextStyles.bodyLarge.copyWith(color: AppColors.textTertiary),
+    errorStyle: TbTextStyles.labelSmall.copyWith(color: AppColors.textError),
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(color: AppColors.darkPrimaryBlue, width: 2),
       borderRadius: BorderRadius.circular(4),
@@ -65,13 +61,13 @@ ThemeData tbDarkTheme = ThemeData(
     ),
     focusColor: AppColors.darkPrimaryBlue,
   ),
-  
+
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: AppColors.darkPrimaryBlue,
     selectionHandleColor: AppColors.darkPrimaryBlue,
     selectionColor: AppColors.darkPrimaryBlue.withValues(alpha: 0.2),
   ),
-  
+
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.black,
     foregroundColor: AppColors.white,
@@ -79,7 +75,7 @@ ThemeData tbDarkTheme = ThemeData(
     elevation: 0,
     centerTitle: false,
   ),
-  
+
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: AppColors.black,
     selectedItemColor: AppColors.darkPrimaryBlue,
@@ -88,42 +84,36 @@ ThemeData tbDarkTheme = ThemeData(
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,
   ),
-  
+
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: AppColors.darkPrimaryBlue,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       textStyle: TbTextStyles.labelMedium,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     ),
   ),
-  
+
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.darkPrimaryBlue,
       side: const BorderSide(color: AppColors.darkPrimaryBlue),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       textStyle: TbTextStyles.labelMedium,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     ),
   ),
-  
+
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(
       backgroundColor: AppColors.darkPrimaryBlue,
       foregroundColor: AppColors.white,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       textStyle: TbTextStyles.labelMedium,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     ),
   ),
-  
+
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: AppColors.darkPrimaryBlue,
@@ -131,12 +121,10 @@ ThemeData tbDarkTheme = ThemeData(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       textStyle: TbTextStyles.labelMedium,
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     ),
   ),
-  
+
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
       TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),

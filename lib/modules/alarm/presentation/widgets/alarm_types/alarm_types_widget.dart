@@ -14,11 +14,7 @@ import 'package:thingsboard_app/utils/services/custom_translation/i_custom_trans
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmTypesWidget extends StatelessWidget {
-  const AlarmTypesWidget({
-
-    required this.onChanged,
-    super.key,
-  });
+  const AlarmTypesWidget({required this.onChanged, super.key});
 
   final VoidCallback onChanged;
 
@@ -43,15 +39,11 @@ class AlarmTypesWidget extends StatelessWidget {
                     UiUtils.showModalBottomSheet(
                       context: context,
                       topControl: const SizedBox.shrink(),
-                      builder:
-                          (context) => AnimatedSize(
-                            curve: Curves.easeInOut,
-                            duration: const Duration(milliseconds: 500),
-                            child: TypesListWidget(
-                           
-                              onChanged: onChanged,
-                            ),
-                          ),
+                      builder: (context) => AnimatedSize(
+                        curve: Curves.easeInOut,
+                        duration: const Duration(milliseconds: 500),
+                        child: TypesListWidget(onChanged: onChanged),
+                      ),
                     );
                   },
                   child: Row(
@@ -139,11 +131,8 @@ class AlarmTypesWidget extends StatelessWidget {
                             UiUtils.showModalBottomSheet(
                               context: context,
                               topControl: const SizedBox.shrink(),
-                              builder:
-                                  (context) => TypesListWidget(
-                            
-                                    onChanged: onChanged,
-                                  ),
+                              builder: (context) =>
+                                  TypesListWidget(onChanged: onChanged),
                             );
                           },
                           child: Text(

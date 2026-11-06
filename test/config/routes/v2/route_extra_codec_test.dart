@@ -34,13 +34,12 @@ void main() {
 
     test('round-trips AuditLog', () {
       final auditLog = AuditLog(
-        (b) =>
-            b
-              ..entityName = 'Pump'
-              ..userName = 'tenant@thingsboard.org'
-              ..actionType = ActionType.ADDED
-              ..actionStatus = ActionStatus.SUCCESS
-              ..createdTime = 1700000000000,
+        (b) => b
+          ..entityName = 'Pump'
+          ..userName = 'tenant@thingsboard.org'
+          ..actionType = ActionType.ADDED
+          ..actionStatus = ActionStatus.SUCCESS
+          ..createdTime = 1700000000000,
       );
       expect(codec.decode(codec.encode(auditLog)), auditLog);
     });

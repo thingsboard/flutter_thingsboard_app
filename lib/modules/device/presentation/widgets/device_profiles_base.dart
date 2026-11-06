@@ -28,8 +28,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   String title(BuildContext context) => S.of(context).devices(2);
 
   @override
-  String noItemsFoundText(BuildContext context) =>
-      S.of(context).noDevicesFound;
+  String noItemsFoundText(BuildContext context) => S.of(context).noDevicesFound;
   final tbClient = getIt<ITbClientService>().client;
   @override
   Future<PageData<DeviceProfileInfo>> fetchEntities(
@@ -209,7 +208,6 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
-                                      
                                       strokeWidth: 2.5,
                                     ),
                                   ),
@@ -257,7 +255,6 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
-                                     
                                       strokeWidth: 2.5,
                                     ),
                                   ),
@@ -308,7 +305,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
   @override
   void didUpdateWidget(DeviceProfileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-      _countDevices();
+    _countDevices();
   }
 
   void _countDevices() {
@@ -386,9 +383,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
                       child: SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                        ),
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
                       ),
                     ),
                   );
@@ -423,9 +418,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
                       child: SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                        ),
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
                       ),
                     ),
                   );
@@ -446,8 +439,9 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
 }
 
 Widget _buildDeviceCount(BuildContext context, bool active, int count) {
-  final Color color =
-      active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
+  final Color color = active
+      ? const Color(0xFF008A00)
+      : const Color(0xFFAFAFAF);
   return Padding(
     padding: const EdgeInsets.all(12),
     child: Row(

@@ -46,17 +46,17 @@ class ManuallyConnectToWifi extends StatelessWidget {
         const SizedBox(height: 16),
         DottedPointWidget(S.of(context).openWifiSettings),
         const SizedBox(height: 16),
-        DottedPointWidget(S.of(context).connectToWifiSimilarToWifiname(wifiName)),
+        DottedPointWidget(
+          S.of(context).connectToWifiSimilarToWifiname(wifiName),
+        ),
         const SizedBox(height: 16),
         DottedPointWidget(S.of(context).returnToTheAppAndTapReadyButton),
         const Spacer(),
         TryAgainButton(
           label: S.of(context).openWifiSettings,
-          onTryAgain:
-              () =>
-                  Platform.isAndroid
-                      ? const OpenSettingsPlusAndroid().wifi()
-                      : const OpenSettingsPlusIOS().wifi(),
+          onTryAgain: () => Platform.isAndroid
+              ? const OpenSettingsPlusAndroid().wifi()
+              : const OpenSettingsPlusIOS().wifi(),
         ),
         const SizedBox(height: 16),
         SizedBox(

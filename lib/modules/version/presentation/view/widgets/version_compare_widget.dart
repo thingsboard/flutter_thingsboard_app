@@ -15,8 +15,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class VersionCompareWidget extends StatefulWidget {
-const   VersionCompareWidget(
- {
+  const VersionCompareWidget({
     required this.minVersion,
     required this.minVersionNotes,
     required this.latestVersion,
@@ -45,12 +44,20 @@ class _VersionCompareWidgetState extends State<VersionCompareWidget>
     return Scaffold(
       appBar: TbAppBar(
         canGoBack: false,
-        title: Text(S.of(context).updateRequired), actions: [ IconButton(
+        title: Text(S.of(context).updateRequired),
+        actions: [
+          IconButton(
             onPressed: () {
               context.push(UiUtilsRoutes.qrCodeScan);
             },
-            icon: SvgPicture.asset(ThingsboardImage.oauth2Logos['qr-code']!, width: 24, height: 24,),
-          ),],),
+            icon: SvgPicture.asset(
+              ThingsboardImage.oauth2Logos['qr-code']!,
+              width: 24,
+              height: 24,
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

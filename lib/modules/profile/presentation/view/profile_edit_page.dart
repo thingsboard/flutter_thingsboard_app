@@ -81,10 +81,9 @@ class ProfileEditPage extends HookConsumerWidget {
         }),
 
         "phone": FormControl<PhoneNumber>(
-          value:
-              (user.phone != null && user.phone.toString().isNotEmpty)
-                  ? PhoneNumber.parse(user.phone!)
-                  : null,
+          value: (user.phone != null && user.phone.toString().isNotEmpty)
+              ? PhoneNumber.parse(user.phone!)
+              : null,
           validators: [PhoneValidators.valid],
         ),
         "countryCode": FormControl<Country>(
@@ -94,8 +93,8 @@ class ProfileEditPage extends HookConsumerWidget {
       }),
     );
     useEffect(() {
-      final String? id =
-          user.additionalInfo?.asMap['homeDashboardId']?.toString();
+      final String? id = user.additionalInfo?.asMap['homeDashboardId']
+          ?.toString();
       getHomeDashboardInfo(id, loading, form);
       return null;
     }, []);
@@ -224,12 +223,11 @@ class ProfileEditPage extends HookConsumerWidget {
                                     Expanded(
                                       child: TbDropDownTextField<Country>(
                                         formControlName: 'countryCode',
-                                        selectedItemBuilder:
-                                            (value) =>
-                                                getCountryDisplayName(value),
+                                        selectedItemBuilder: (value) =>
+                                            getCountryDisplayName(value),
                                         label: S.of(context).country,
-                                        bottomSheetBuilder:
-                                            (_, val) => const TbCountryPicker(),
+                                        bottomSheetBuilder: (_, val) =>
+                                            const TbCountryPicker(),
                                         onSelected: (val) {
                                           phoneController.value = PhoneNumber(
                                             isoCode: IsoCode.fromJson(
@@ -246,32 +244,33 @@ class ProfileEditPage extends HookConsumerWidget {
                                   children: [
                                     const SizedBox(width: 36),
                                     Expanded(
-                                      child: ReactivePhoneFormField<
-                                        PhoneNumber
-                                      >(
-                                        controller: phoneController,
-                                        countryButtonStyle: CountryButtonStyle(
-                                          textStyle: TbTextStyles.bodyLarge,
-                                          showFlag: false,
-                                          showDropdownIcon: false,
-                                        ),
-                                        style: TbTextStyles.bodyLarge,
-                                        decoration: InputDecoration(
-                                          hintText: S.of(context).phone,
-                                          isDense: true,
-                                          border: const OutlineInputBorder(),
-                                          helperText:
-                                              S
+                                      child:
+                                          ReactivePhoneFormField<PhoneNumber>(
+                                            controller: phoneController,
+                                            countryButtonStyle:
+                                                CountryButtonStyle(
+                                                  textStyle:
+                                                      TbTextStyles.bodyLarge,
+                                                  showFlag: false,
+                                                  showDropdownIcon: false,
+                                                ),
+                                            style: TbTextStyles.bodyLarge,
+                                            decoration: InputDecoration(
+                                              hintText: S.of(context).phone,
+                                              isDense: true,
+                                              border:
+                                                  const OutlineInputBorder(),
+                                              helperText: S
                                                   .of(context)
                                                   .phoneNumberHelperText,
-                                        ),
-                                        formControlName: 'phone',
-                                        focusNode: FocusNode(),
-                                        valueAccessor:
-                                            PhoneNumberValueAccessor(),
-                                        isCountryButtonPersistent: true,
-                                        isCountrySelectionEnabled: false,
-                                      ),
+                                            ),
+                                            formControlName: 'phone',
+                                            focusNode: FocusNode(),
+                                            valueAccessor:
+                                                PhoneNumberValueAccessor(),
+                                            isCountryButtonPersistent: true,
+                                            isCountrySelectionEnabled: false,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -292,16 +291,13 @@ class ProfileEditPage extends HookConsumerWidget {
                                               .set(val);
                                           selectedLocale.value = val!;
                                         },
-                                        selectedItemBuilder:
-                                            (val) => getLocalizedLanguageName(
+                                        selectedItemBuilder: (val) =>
+                                            getLocalizedLanguageName(
                                               val!,
                                               context,
                                             ),
-                                        bottomSheetBuilder:
-                                            (
-                                              _,
-                                              val,
-                                            ) => TbBottomSheetBuilder<Locale>(
+                                        bottomSheetBuilder: (_, val) =>
+                                            TbBottomSheetBuilder<Locale>(
                                               allItems: allLanguages,
 
                                               title: S.of(context).language,
@@ -325,10 +321,8 @@ class ProfileEditPage extends HookConsumerWidget {
                                     ),
                                     Expanded(
                                       child: TbDropDownTextField<UnitSystems>(
-                                        bottomSheetBuilder:
-                                            (_, val) => TbBottomSheetBuilder<
-                                              UnitSystems
-                                            >(
+                                        bottomSheetBuilder: (_, val) =>
+                                            TbBottomSheetBuilder<UnitSystems>(
                                               allItems: UnitSystems.values,
 
                                               title: S.of(context).unitSystem,
@@ -341,10 +335,8 @@ class ProfileEditPage extends HookConsumerWidget {
                                         formControlName:
                                             'additionalInfo.unitSystem',
                                         label: S.of(context).unitSystem,
-                                        selectedItemBuilder:
-                                            (value) => value!.getLocalizedName(
-                                              context,
-                                            ),
+                                        selectedItemBuilder: (value) =>
+                                            value!.getLocalizedName(context),
                                       ),
                                     ),
                                   ],
@@ -360,18 +352,13 @@ class ProfileEditPage extends HookConsumerWidget {
                                       child: TbDropDownTextField<DashboardInfo>(
                                         formControlName:
                                             'additionalInfo.homeDashboardId',
-                                        selectedItemBuilder:
-                                            (val) => getIt<
-                                                  ICustomTranslationService
-                                                >()
+                                        selectedItemBuilder: (val) =>
+                                            getIt<ICustomTranslationService>()
                                                 .translate(val?.title),
                                         hint: S.of(context).homeDashboard,
 
-                                        bottomSheetBuilder:
-                                            (
-                                              _,
-                                              val,
-                                            ) => TbAsyncBottomSheetBuilder<
+                                        bottomSheetBuilder: (_, val) =>
+                                            TbAsyncBottomSheetBuilder<
                                               PageLink,
                                               DashboardInfo
                                             >(
@@ -381,10 +368,11 @@ class ProfileEditPage extends HookConsumerWidget {
                                                   getIt<
                                                     DashboardsPaginationRepository
                                                   >(),
-                                              title:
-                                                  S.of(context).homeDashboard,
-                                              listTitleBuilder:
-                                                  (context, item) => getIt<
+                                              title: S
+                                                  .of(context)
+                                                  .homeDashboard,
+                                              listTitleBuilder: (context, item) =>
+                                                  getIt<
                                                         ICustomTranslationService
                                                       >()
                                                       .translate(item.title),
@@ -397,8 +385,7 @@ class ProfileEditPage extends HookConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     ReactiveCheckbox(
-                                      formControlName:
-                                          'additionalInfo.homeDashboardHideToolbar',
+                                      formControlName: 'additionalInfo.homeDashboardHideToolbar',
                                     ),
                                     Text(
                                       S.of(context).hideHomeDashboardToolbar,
@@ -443,15 +430,14 @@ class ProfileEditPage extends HookConsumerWidget {
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: AppColors.borderError,
                               ),
-                              onPressed:
-                                  canPop.value
-                                      ? null
-                                      : () async {
-                                        await onDiscardPressed(
-                                          context,
-                                          localeBeforeEdit,
-                                        );
-                                      },
+                              onPressed: canPop.value
+                                  ? null
+                                  : () async {
+                                      await onDiscardPressed(
+                                        context,
+                                        localeBeforeEdit,
+                                      );
+                                    },
                               child: Text(S.of(context).discardChanges),
                             ),
                           ),
@@ -511,34 +497,29 @@ class ProfileEditPage extends HookConsumerWidget {
     }
     final discard = await showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(
-              titleString,
-              style: TbTextStyles.titleXs.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-            content: Text(
-              S.of(context).thisActionCannotBeUndone,
-              style: TbTextStyles.bodyMedium.copyWith(
-                color: AppColors.textTertiary,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => context.pop(false),
-                child: Text(S.of(context).cancel),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.textError,
-                ),
-                onPressed: () => context.pop(true),
-                child: Text(S.of(context).yesDiscard),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text(
+          titleString,
+          style: TbTextStyles.titleXs.copyWith(color: AppColors.textSecondary),
+        ),
+        content: Text(
+          S.of(context).thisActionCannotBeUndone,
+          style: TbTextStyles.bodyMedium.copyWith(
+            color: AppColors.textTertiary,
           ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(false),
+            child: Text(S.of(context).cancel),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: AppColors.textError),
+            onPressed: () => context.pop(true),
+            child: Text(S.of(context).yesDiscard),
+          ),
+        ],
+      ),
     );
     if (discard == true && context.mounted) {
       _setLanguageAndNavigate(
@@ -568,8 +549,9 @@ Future<void> _saveProfile(
       user.additionalInfo?.asMap ?? <String, dynamic>{};
   final updatedAdditionalInfo =
       Map<String, dynamic>.from(existingAdditionalInfo)
-        ..['homeDashboardHideToolbar'] =
-            additionalInfoForm.control('homeDashboardHideToolbar').value
+        ..['homeDashboardHideToolbar'] = additionalInfoForm
+            .control('homeDashboardHideToolbar')
+            .value
         ..['unitSystem'] =
             (additionalInfoForm.control('unitSystem').value as UnitSystems).name
                 .toUpperCase()
@@ -586,13 +568,12 @@ Future<void> _saveProfile(
   }
 
   final newUser = user.rebuild(
-    (b) =>
-        b
-          ..email = form.control('email').value.toString()
-          ..firstName = form.control('firstName').value?.toString()
-          ..lastName = form.control('lastName').value?.toString()
-          ..phone = (form.control('phone').value as PhoneNumber?)?.international
-          ..additionalInfo = JsonObject(updatedAdditionalInfo),
+    (b) => b
+      ..email = form.control('email').value.toString()
+      ..firstName = form.control('firstName').value?.toString()
+      ..lastName = form.control('lastName').value?.toString()
+      ..phone = (form.control('phone').value as PhoneNumber?)?.international
+      ..additionalInfo = JsonObject(updatedAdditionalInfo),
   );
   isLoading.value = true;
   final overlayService = getIt<IOverlayService>();
@@ -615,12 +596,11 @@ Future<void> _saveProfile(
 
 Future<bool> onCancelEditing(BuildContext context) async {
   final cancel = await getIt<IOverlayService>().showConfirmDialog(
-    content:
-        (_) => DialogContent(
-          title: S.of(context).unsavedChanges,
-          message: S.of(context).youHaveUnsavedChangesAreYouSureYouWantTo,
-          cancel: S.of(context).cancel,
-        ),
+    content: (_) => DialogContent(
+      title: S.of(context).unsavedChanges,
+      message: S.of(context).youHaveUnsavedChangesAreYouSureYouWantTo,
+      cancel: S.of(context).cancel,
+    ),
   );
   return cancel ?? false;
 }
@@ -634,8 +614,8 @@ void _setLanguageAndNavigate(
   Locale? locale,
   VoidCallback navigate,
 ) {
-  ProviderScope.containerOf(context).read(appLocaleProvider.notifier).set(
-    locale,
-  );
+  ProviderScope.containerOf(context)
+      .read(appLocaleProvider.notifier)
+      .set(locale);
   navigate();
 }

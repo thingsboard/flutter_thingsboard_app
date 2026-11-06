@@ -200,10 +200,9 @@ extension ThingsboardErrorTranslationUtils on ThingsboardError {
 }
 
 DialogContent fatalErrorDialogContent(BuildContext context, Object? error) {
-  final message =
-      error is ThingsboardError
-          ? error.getTranslatedMessage(context)
-          : S.of(context).unknownError;
+  final message = error is ThingsboardError
+      ? error.getTranslatedMessage(context)
+      : S.of(context).unknownError;
 
   return DialogContent(
     title: S.of(context).fatalError,

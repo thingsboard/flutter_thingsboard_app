@@ -80,71 +80,60 @@ class NavigationPage extends HookConsumerWidget {
               // hands its body slot a MediaQuery that already has the bottom
               // padding and the keyboard inset removed, and re-providing the
               // data from this method's context would put both back.
-              child:
-                  trackingBarVisible
-                      ? Builder(
-                        builder:
-                            (bodyContext) => MediaQuery.removePadding(
-                              context: bodyContext,
-                              removeTop: true,
-                              child: child,
-                            ),
-                      )
-                      : child,
+              child: trackingBarVisible
+                  ? Builder(
+                      builder: (bodyContext) => MediaQuery.removePadding(
+                        context: bodyContext,
+                        removeTop: true,
+                        child: child,
+                      ),
+                    )
+                  : child,
             ),
           ],
         ),
-        bottomNavigationBar:
-            currentIndex.value == null
-                ? null
-                : TbNavigationBarWidget(
-                  currentIndex: currentIndex.value!,
-                  onTap: (index) {
-                    if (index == currentIndex.value) {
+        bottomNavigationBar: currentIndex.value == null
+            ? null
+            : TbNavigationBarWidget(
+                currentIndex: currentIndex.value!,
+                onTap: (index) {
+                  if (index == currentIndex.value) {
+                    return;
+                  }
+                  if (index < items.length) {
+                    final path = items[index].path;
+                    currentIndex.value = index;
+                    if (TbNavigationType.configured == TbNavigationType.push) {
+                      context.push(path);
                       return;
                     }
-                    if (index < items.length) {
-                      final path = items[index].path;
-                      currentIndex.value = index;
-                      if (TbNavigationType.configured ==
-                          TbNavigationType.push) {
-                        context.push(path);
-                        return;
-                      }
-                      if (path.contains('/home') || path.contains('/url')) {
-                        return context.go(path);
-                      }
-                      context.push(path);
+                    if (path.contains('/home') || path.contains('/url')) {
+                      return context.go(path);
                     }
-                  },
-                  customBottomBarItems:
-                      items
-                          .map(
-                            (item) => TbMainNavigationItem(
-                              title: NavigationHelper.getLocalizedTitle(
-                                context,
-                                item,
-                              ),
-                              icon: item.icon,
-                              path: item.path,
-                              id: item.id,
-                              showAdditionalIcon: item.showNotificationBadge,
-                              additionalIconLarge:
-                                  item.showNotificationBadge
-                                      ? const NavigationBadgeWidget(
-                                        isLarge: false,
-                                      )
-                                      : null,
-                              additionalIconSmall:
-                                  item.showNotificationBadge
-                                      ? const NavigationBadgeWidget(
-                                        isLarge: false,
-                                      )
-                                      : null,
-                            ),
-                          )
-                          .toList(),
-                ),
+                    context.push(path);
+                  }
+                },
+                customBottomBarItems: items
+                    .map(
+                      (item) => TbMainNavigationItem(
+                        title: NavigationHelper.getLocalizedTitle(
+                          context,
+                          item,
+                        ),
+                        icon: item.icon,
+                        path: item.path,
+                        id: item.id,
+                        showAdditionalIcon: item.showNotificationBadge,
+                        additionalIconLarge: item.showNotificationBadge
+                            ? const NavigationBadgeWidget(isLarge: false)
+                            : null,
+                        additionalIconSmall: item.showNotificationBadge
+                            ? const NavigationBadgeWidget(isLarge: false)
+                            : null,
+                      ),
+                    )
+                    .toList(),
+              ),
       ),
     );
   }

@@ -71,35 +71,34 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         title: _getSelectedProviderTitle(data, context, selectedProvider!),
         isLoading: isLoading.value,
         child: config.when(
-          data:
-              (configData) => Column(
-                children: [
-                  Expanded(
-                    child: _buildProviderWidget(
-                      selectedProvider!,
-                      configData,
-                      isLoading,
-                      ref,
-                      context,
+          data: (configData) => Column(
+            children: [
+              Expanded(
+                child: _buildProviderWidget(
+                  selectedProvider!,
+                  configData,
+                  isLoading,
+                  ref,
+                  context,
+                ),
+              ),
+              if (isForce && (providers.value?.length ?? 0) > 1)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        context.push(
+                          '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce',
+                        );
+                      },
+                      child: Text(S.of(context).tryAnotherWay),
                     ),
                   ),
-                  if (isForce && (providers.value?.length ?? 0) > 1)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            context.push(
-                              '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce',
-                            );
-                          },
-                          child: Text(S.of(context).tryAnotherWay),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                ),
+            ],
+          ),
           loading: () => const SizedBox.shrink(),
           error: (error, stack) => Center(child: Text('Error: $error')),
         ),
@@ -110,23 +109,23 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
       isLoading: isLoading.value,
       child:
           providers.value != null &&
-                  !(userConfig.isLoading || userConfig.isRefreshing)
-              ? SelectProviderTypeWidget(
-                defaultProvider: tryParseTwoFaProviderType(
-                  userConfig.value?.configs?.entries
-                      .firstWhereOrNull((e) => e.value.useByDefault ?? false)
-                      ?.key,
-                ),
-                activeProviders:
-                    userConfig.value?.configs?.keys
-                        .map(tryParseTwoFaProviderType)
-                        .whereType<TwoFaProviderType>()
-                        .toList() ??
-                    [],
-                avalibleTypes: providers.value!,
-                type: isForce ? TwoFaViewType.force : TwoFaViewType.setup,
-              )
-              : const SizedBox(),
+              !(userConfig.isLoading || userConfig.isRefreshing)
+          ? SelectProviderTypeWidget(
+              defaultProvider: tryParseTwoFaProviderType(
+                userConfig.value?.configs?.entries
+                    .firstWhereOrNull((e) => e.value.useByDefault ?? false)
+                    ?.key,
+              ),
+              activeProviders:
+                  userConfig.value?.configs?.keys
+                      .map(tryParseTwoFaProviderType)
+                      .whereType<TwoFaProviderType>()
+                      .toList() ??
+                  [],
+              avalibleTypes: providers.value!,
+              type: isForce ? TwoFaViewType.force : TwoFaViewType.setup,
+            )
+          : const SizedBox(),
     );
   }
 

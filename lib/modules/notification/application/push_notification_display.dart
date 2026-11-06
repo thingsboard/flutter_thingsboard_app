@@ -107,9 +107,8 @@ abstract final class PushNotificationDisplay {
     final id = notificationIdFor(message);
     final stopwatch = Stopwatch()..start();
     while (stopwatch.elapsed < timeout) {
-      final active =
-          await (plugin ?? PushNotificationDisplay.plugin)
-              .getActiveNotifications();
+      final active = await (plugin ?? PushNotificationDisplay.plugin)
+          .getActiveNotifications();
       if (active.any((n) => n.tag == tag && n.id == id)) {
         return;
       }
@@ -148,16 +147,13 @@ abstract final class PushNotificationDisplay {
           tag: tag,
           largeIcon: ByteArrayAndroidBitmap(iconBytes),
         ),
-        iOS:
-            Platform.isIOS
-                ? DarwinNotificationDetails(
-                  attachments: [
-                    DarwinNotificationAttachment(
-                      await _saveIconFile(iconBytes),
-                    ),
-                  ],
-                )
-                : null,
+        iOS: Platform.isIOS
+            ? DarwinNotificationDetails(
+                attachments: [
+                  DarwinNotificationAttachment(await _saveIconFile(iconBytes)),
+                ],
+              )
+            : null,
       );
     } catch (e) {
       debugPrint('PushNotificationDisplay::_detailsFor $e');

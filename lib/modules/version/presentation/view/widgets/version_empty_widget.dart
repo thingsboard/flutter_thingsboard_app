@@ -49,9 +49,7 @@ class VersionEmptyWidget extends StatelessWidget {
                             mode: LaunchMode.externalApplication,
                           );
                         },
-                        child: Text(
-                          S.of(context).updateTo(latestVersion),
-                        ),
+                        child: Text(S.of(context).updateTo(latestVersion)),
                       ),
                     ),
                   ),

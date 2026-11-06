@@ -69,8 +69,8 @@ enum LiveTrackingValueType {
 
   static LiveTrackingValueType fromWireValue(String? value) =>
       value == LiveTrackingValueType.timeseries.wireValue
-          ? LiveTrackingValueType.timeseries
-          : LiveTrackingValueType.attribute;
+      ? LiveTrackingValueType.timeseries
+      : LiveTrackingValueType.attribute;
 }
 
 /// One configured value: which location field to save, under which entity key,
@@ -172,12 +172,11 @@ class LiveTrackingConfig {
       );
     }
     final dashboardJson = json['dashboard'];
-    final dashboard =
-        dashboardJson is Map
-            ? LiveTrackingDashboard.fromJson(
-              Map<String, dynamic>.from(dashboardJson),
-            )
-            : null;
+    final dashboard = dashboardJson is Map
+        ? LiveTrackingDashboard.fromJson(
+            Map<String, dynamic>.from(dashboardJson),
+          )
+        : null;
     return LiveTrackingConfig(
       target: LiveTrackingTarget.fromJson(
         Map<String, dynamic>.from(targetJson),

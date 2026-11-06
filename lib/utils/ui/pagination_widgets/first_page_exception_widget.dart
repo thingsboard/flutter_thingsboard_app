@@ -31,35 +31,19 @@ class FirstPageExceptionIndicator extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            if (message != null)
-              const SizedBox(
-                height: 16,
-              ),
-            if (message != null)
-              Text(
-                message,
-                textAlign: TextAlign.center,
-              ),
-            if (onTryAgain != null)
-              const SizedBox(
-                height: 48,
-              ),
+            if (message != null) const SizedBox(height: 16),
+            if (message != null) Text(message, textAlign: TextAlign.center),
+            if (onTryAgain != null) const SizedBox(height: 48),
             if (onTryAgain != null)
               SizedBox(
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: onTryAgain,
-                  icon: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                  ),
+                  icon: const Icon(Icons.refresh, color: Colors.white),
                   label: Text(
                     S.of(context).tryAgain,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),

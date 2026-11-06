@@ -111,18 +111,16 @@ class AlarmFiltersService implements IAlarmFiltersService {
 
     final filters = AlarmFiltersEntity.fromUiFilters(
       typeList: typeFilter.getSelectedFilterData().toList(),
-      status:
-          statusFilter
-              .getSelectedFilterData()
-              .map((e) => e.data)
-              .toList()
-              .cast<AlarmSearchStatus>(),
-      severity:
-          severityFilter
-              .getSelectedFilterData()
-              .map((e) => e.data)
-              .toList()
-              .cast<AlarmSeverity>(),
+      status: statusFilter
+          .getSelectedFilterData()
+          .map((e) => e.data)
+          .toList()
+          .cast<AlarmSearchStatus>(),
+      severity: severityFilter
+          .getSelectedFilterData()
+          .map((e) => e.data)
+          .toList()
+          .cast<AlarmSeverity>(),
       userId: assigneeFilter.getSelectedFilterData(),
     );
 
@@ -133,14 +131,12 @@ class AlarmFiltersService implements IAlarmFiltersService {
   void resetUnCommittedChanges() {
     logger.debug('AlarmFiltersService::resetUnCommittedChanges()');
 
-    final committedStatus =
-        _activeFilters.statusList
-            ?.map((e) => statuses.firstWhere((s) => e == s.data))
-            .toSet();
-    final committedSeverity =
-        _activeFilters.severityList
-            ?.map((e) => severities.firstWhere((s) => e == s.data))
-            .toSet();
+    final committedStatus = _activeFilters.statusList
+        ?.map((e) => statuses.firstWhere((s) => e == s.data))
+        .toSet();
+    final committedSeverity = _activeFilters.severityList
+        ?.map((e) => severities.firstWhere((s) => e == s.data))
+        .toSet();
     final committedAssignee = _activeFilters.assigneeId;
     final committedTypes = _activeFilters.typeList;
 

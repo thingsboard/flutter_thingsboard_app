@@ -38,27 +38,26 @@ class DashboardsGridWidget extends StatelessWidget {
           pagingController:
               getIt<DashboardsPaginationRepository>().pagingController,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder:
-                (context, item, index) => EntityGridCard(
-                  item,
-                  entityCardWidgetBuilder:
-                      (_, dashboard) => DashboardGridCard(dashboard: dashboard),
-                  onEntityTap: (dashboard) {
-                    dashboardPageCtrl.openDashboard(
-                      dashboard.id!.id,
-                      title: getIt<ICustomTranslationService>().translate(
-                        dashboard.title,
-                      ),
-                    );
-                  },
-                  settings: EntityCardSettings(),
-                ),
-            firstPageProgressIndicatorBuilder:
-                (_) => const FirstPageProgressBuilder(),
-            newPageProgressIndicatorBuilder:
-                (_) => const NewPageProgressBuilder(),
-            noItemsFoundIndicatorBuilder:
-                (context) => FirstPageExceptionIndicator(
+            itemBuilder: (context, item, index) => EntityGridCard(
+              item,
+              entityCardWidgetBuilder: (_, dashboard) =>
+                  DashboardGridCard(dashboard: dashboard),
+              onEntityTap: (dashboard) {
+                dashboardPageCtrl.openDashboard(
+                  dashboard.id!.id,
+                  title: getIt<ICustomTranslationService>().translate(
+                    dashboard.title,
+                  ),
+                );
+              },
+              settings: EntityCardSettings(),
+            ),
+            firstPageProgressIndicatorBuilder: (_) =>
+                const FirstPageProgressBuilder(),
+            newPageProgressIndicatorBuilder: (_) =>
+                const NewPageProgressBuilder(),
+            noItemsFoundIndicatorBuilder: (context) =>
+                FirstPageExceptionIndicator(
                   title: S.of(context).noDashboardsFound,
                   message: S.of(context).listIsEmptyText,
                   onTryAgain: () {

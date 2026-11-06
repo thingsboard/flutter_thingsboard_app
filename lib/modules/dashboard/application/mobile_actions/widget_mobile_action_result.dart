@@ -6,18 +6,15 @@
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/mobile_action_result.dart';
 
 class WidgetMobileActionResult<T extends MobileActionResult> {
-
   WidgetMobileActionResult.errorResult(this.error)
-      : hasError = true,
-        hasResult = false;
+    : hasError = true,
+      hasResult = false;
 
   WidgetMobileActionResult.successResult(this.result)
-      : hasError = false,
-        hasResult = true;
+    : hasError = false,
+      hasResult = true;
 
-  WidgetMobileActionResult.emptyResult()
-      : hasError = false,
-        hasResult = false;
+  WidgetMobileActionResult.emptyResult() : hasError = false, hasResult = false;
   T? result;
   bool hasResult = false;
   String? error;

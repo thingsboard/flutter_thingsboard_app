@@ -6,7 +6,6 @@
 import 'package:flutter/cupertino.dart';
 
 class OnAppLifecycleResumeObserver extends WidgetsBindingObserver {
-
   OnAppLifecycleResumeObserver(this.onResumed);
   final VoidCallback onResumed;
 

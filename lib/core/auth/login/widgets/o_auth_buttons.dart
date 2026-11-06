@@ -23,35 +23,34 @@ class OAuthButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return clients.length == 1 && clients.first.name == 'qr'
         ? Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OAuthButton(
-              logo: SvgPicture.asset(
-                ThingsboardImage.oauth2Logos['qr-code-logo']!,
-                colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.primary,
-                  BlendMode.srcIn,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OAuthButton(
+                logo: SvgPicture.asset(
+                  ThingsboardImage.oauth2Logos['qr-code-logo']!,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
+                onTap: () => onButtonPressed(clients.first),
+                title: S.of(context).scanQrCode,
               ),
-              onTap: () => onButtonPressed(clients.first),
-              title: S.of(context).scanQrCode,
-            ),
-          ],
-        )
+            ],
+          )
         : Row(
-          spacing: 10,
-          children:
-              clients
-                  .map(
-                    (e) => Expanded(
-                      child: OAuthButton(
-                        logo: _getOauth2ButtonLogo(context, e),
-                        onTap: () => onButtonPressed(e),
-                      ),
+            spacing: 10,
+            children: clients
+                .map(
+                  (e) => Expanded(
+                    child: OAuthButton(
+                      logo: _getOauth2ButtonLogo(context, e),
+                      onTap: () => onButtonPressed(e),
                     ),
-                  )
-                  .toList(),
-        );
+                  ),
+                )
+                .toList(),
+          );
   }
 }
 
@@ -68,13 +67,12 @@ Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientLoginInfo info) {
       height: 24,
       child: SvgPicture.asset(
         svgPath,
-        colorFilter:
-            _monochromeLogos.contains(info.icon)
-                ? ColorFilter.mode(
-                  Theme.of(context).colorScheme.primary,
-                  BlendMode.srcIn,
-                )
-                : null,
+        colorFilter: _monochromeLogos.contains(info.icon)
+            ? ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              )
+            : null,
       ),
     );
   }

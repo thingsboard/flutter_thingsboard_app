@@ -51,27 +51,24 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
     return Slidable(
       key: ValueKey(widget.notification.id!.id),
-      startActionPane:
-          widget.notification.status == NotificationStatus.READ
-              ? null
-              : ActionPane(
-                extentRatio: 0.3,
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed:
-                        (context) => widget.onReadNotification(
-                          widget.notification.id!.id,
-                        ),
-                    backgroundColor: const Color(0xFF198038),
-                    foregroundColor: Colors.white,
-                    icon: Icons.check_circle_outline,
-                    label: S.of(context).markAsRead,
-                    borderRadius: BorderRadius.circular(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                  ),
-                ],
-              ),
+      startActionPane: widget.notification.status == NotificationStatus.READ
+          ? null
+          : ActionPane(
+              extentRatio: 0.3,
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) =>
+                      widget.onReadNotification(widget.notification.id!.id),
+                  backgroundColor: const Color(0xFF198038),
+                  foregroundColor: Colors.white,
+                  icon: Icons.check_circle_outline,
+                  label: S.of(context).markAsRead,
+                  borderRadius: BorderRadius.circular(8),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                ),
+              ],
+            ),
       endActionPane: ActionPane(
         extentRatio: _endExtentRatio(widget.notification),
         motion: const ScrollMotion(),
@@ -88,13 +85,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: S.of(context).delete,
-            borderRadius:
-                _buildAlarmRelatedButtons(widget.notification).isEmpty
-                    ? BorderRadius.circular(8)
-                    : const BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                    ),
+            borderRadius: _buildAlarmRelatedButtons(widget.notification).isEmpty
+                ? BorderRadius.circular(8)
+                : const BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
           ),
         ],
       ),
@@ -143,13 +139,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
               foregroundColor: Colors.white,
               icon: Icons.clear,
               label: S.of(context).clear,
-              borderRadius:
-                  items.isEmpty
-                      ? const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8),
-                      )
-                      : BorderRadius.zero,
+              borderRadius: items.isEmpty
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                    )
+                  : BorderRadius.zero,
             ),
           );
         }
@@ -161,13 +156,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   Future<void> _ackAlarm(String alarmId, BuildContext context) async {
     final res = await getIt<IOverlayService>().showConfirmDialog(
-      content:
-          (_) => DialogContent(
-            title: S.of(context).alarmAcknowledgeTitle,
-            message: S.of(context).alarmAcknowledgeText,
-            ok: S.of(context).yes,
-            cancel: S.of(context).no,
-          ),
+      content: (_) => DialogContent(
+        title: S.of(context).alarmAcknowledgeTitle,
+        message: S.of(context).alarmAcknowledgeText,
+        ok: S.of(context).yes,
+        cancel: S.of(context).no,
+      ),
     );
 
     if (res != null && res) {
@@ -175,7 +169,9 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
         loading = true;
       });
       try {
-        await widget.thingsboardClient.getAlarmControllerApi().ackAlarm(alarmId: alarmId);
+        await widget.thingsboardClient.getAlarmControllerApi().ackAlarm(
+          alarmId: alarmId,
+        );
       } catch (_) {}
 
       setState(() {
@@ -187,13 +183,12 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
 
   Future<void> _clearAlarm(String alarmId, BuildContext context) async {
     final res = await getIt<IOverlayService>().showConfirmDialog(
-      content:
-          (_) => DialogContent(
-            title: S.of(context).alarmClearTitle,
-            message: S.of(context).alarmClearText,
-            ok: S.of(context).yes,
-            cancel: S.of(context).no,
-          ),
+      content: (_) => DialogContent(
+        title: S.of(context).alarmClearTitle,
+        message: S.of(context).alarmClearText,
+        ok: S.of(context).yes,
+        cancel: S.of(context).no,
+      ),
     );
 
     if (res != null && res) {
@@ -202,7 +197,9 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
       });
 
       try {
-        await widget.thingsboardClient.getAlarmControllerApi().clearAlarm(alarmId: alarmId);
+        await widget.thingsboardClient.getAlarmControllerApi().clearAlarm(
+          alarmId: alarmId,
+        );
       } catch (_) {}
 
       setState(() {

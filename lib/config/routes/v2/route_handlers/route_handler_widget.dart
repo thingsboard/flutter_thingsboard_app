@@ -34,13 +34,20 @@ class RouteHanlderWidget extends HookConsumerWidget {
         }
       },
       canPop: false,
-      child: ReactiveFormConfig(validationMessages: {
-             PhoneValidationMessage.required: (error) => S.of(context).phoneIsRequired,
-      PhoneValidationMessage.invalidCountry: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidFixedLinePhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidMobilePhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidPhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      },child: WlPreloadWidget(child: child),
+      child: ReactiveFormConfig(
+        validationMessages: {
+          PhoneValidationMessage.required: (error) =>
+              S.of(context).phoneIsRequired,
+          PhoneValidationMessage.invalidCountry: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidFixedLinePhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidMobilePhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidPhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+        },
+        child: WlPreloadWidget(child: child),
       ),
     );
   }

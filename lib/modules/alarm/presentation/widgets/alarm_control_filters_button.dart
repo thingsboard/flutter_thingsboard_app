@@ -26,18 +26,12 @@ class AlarmControlFiltersButton extends StatelessWidget {
           onPressed: onResetTap,
           style: ButtonStyle(
             padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
           ),
-          child:  Text(
+          child: Text(
             S.of(context).reset,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
         const Spacer(),
@@ -45,18 +39,12 @@ class AlarmControlFiltersButton extends StatelessWidget {
           onPressed: onCancelTap,
           style: ButtonStyle(
             padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
           ),
-          child:  Text(
+          child: Text(
             S.of(context).cancel,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
         const SizedBox(width: 8),
@@ -70,18 +58,12 @@ class AlarmControlFiltersButton extends StatelessWidget {
               ),
             ),
             padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
           ),
-          child:  Text(
+          child: Text(
             S.of(context).update,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
       ],

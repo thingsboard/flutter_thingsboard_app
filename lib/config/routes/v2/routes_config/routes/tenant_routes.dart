@@ -20,20 +20,18 @@ final tenantRoutes = [
     builder: (context, state) {
       final searchMode = state.uri.queryParameters['search'] == 'true';
 
-      return TenantsPage( searchMode: searchMode);
+      return TenantsPage(searchMode: searchMode);
     },
     routes: [
-  GoRoute(
-    path: '${TenantRoutes.tenant}/:id',
-    parentNavigatorKey: globalNavigatorKey,
-    builder: (context, state) {
-      final id = state.pathParameters['id']!;
+      GoRoute(
+        path: '${TenantRoutes.tenant}/:id',
+        parentNavigatorKey: globalNavigatorKey,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
 
-      return TenantDetailsPage( id);
-    },
+          return TenantDetailsPage(id);
+        },
+      ),
+    ],
   ),
-    ]
-  ),
-  
-
 ];

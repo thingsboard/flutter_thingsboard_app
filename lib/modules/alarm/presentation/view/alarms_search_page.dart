@@ -17,17 +17,16 @@ class AlarmsSearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppSearchBar(
-        onSearch:
-            (searchText) => getIt<AlarmBloc>().add(
-              AlarmSearchTextChanged(searchText: searchText),
-            ),
+        onSearch: (searchText) => getIt<AlarmBloc>().add(
+          AlarmSearchTextChanged(searchText: searchText),
+        ),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             getIt<AlarmBloc>().add(
               const AlarmSearchTextChanged(searchText: null),
             );
-           context.pop();
+            context.pop();
           },
         ),
       ),

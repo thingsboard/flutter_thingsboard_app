@@ -12,12 +12,13 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/wid
 class UnknownAction extends MobileAction {
   @override
   Future<WidgetMobileActionResult<MobileActionResult>> execute(
-      List args, InAppWebViewController controller,) async{
+    List args,
+    InAppWebViewController controller,
+  ) async {
     return WidgetMobileActionResult.errorResult(
       // translate-me-ignore-next-line
       'Unknown actionType: ${args[0]}',
     );
-    
   }
 
   @override

@@ -33,8 +33,8 @@ class _AuditLogsPageState extends State<AuditLogsPage> {
     PreferredSizeWidget appBar;
     if (widget.searchMode) {
       appBar = TbAppSearchBar(
-        onSearch:
-            (searchText) => _timePageLinkController.onSearchText(searchText),
+        onSearch: (searchText) =>
+            _timePageLinkController.onSearchText(searchText),
       );
     } else {
       appBar = TbAppBar(

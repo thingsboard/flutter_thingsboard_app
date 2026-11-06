@@ -8,10 +8,11 @@ import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/modules/customer/presentation/view/customer_details_page.dart';
 import 'package:thingsboard_app/modules/customer/presentation/view/customers_page.dart';
 
-class CustomerRoutes{
+class CustomerRoutes {
   static const customers = '/customers';
   static const customer = '/customer';
 }
+
 // Customer management routes
 final customerRoutes = [
   GoRoute(
@@ -23,7 +24,7 @@ final customerRoutes = [
     },
     routes: [
       GoRoute(
-           parentNavigatorKey: globalNavigatorKey,
+        parentNavigatorKey: globalNavigatorKey,
         path: '${CustomerRoutes.customer}/:id',
         builder: (context, state) {
           final id = state.pathParameters['id']!;

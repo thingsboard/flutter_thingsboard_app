@@ -39,9 +39,8 @@ List<RouteBase> getMainRoutes() {
   return [
     ShellRoute(
       routes: allMainPages,
-      pageBuilder:
-          (context, state, child) =>
-              MaterialPage(child: NavigationPage(child: child)),
+      pageBuilder: (context, state, child) =>
+          MaterialPage(child: NavigationPage(child: child)),
     ),
   ];
 }

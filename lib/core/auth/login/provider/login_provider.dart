@@ -129,12 +129,12 @@ class Login extends _$Login {
         );
     final mobileInfo = MobileBasicInfo.fromUserMobileInfo(mobileResp.data!);
 
-    final userInfo =
-        (await _tbClient.getAuthControllerApi().getUser(extra: extra)).data!;
-    final lang =
-        userInfo.additionalInfo?.isMap == true
-            ? userInfo.additionalInfo?.asMap['lang']
-            : null;
+    final userInfo = (await _tbClient.getAuthControllerApi().getUser(
+      extra: extra,
+    )).data!;
+    final lang = userInfo.additionalInfo?.isMap == true
+        ? userInfo.additionalInfo?.asMap['lang']
+        : null;
     final langStr = lang?.toString();
     ref.read(appLocaleProvider.notifier).set(localeFromTbCode(langStr));
     await getIt<ICustomTranslationService>().load(
@@ -142,8 +142,9 @@ class Login extends _$Login {
     );
     final userPermissions =
         (await _tbClient
-            .getUserPermissionsControllerApi()
-            .getAllowedPermissions(extra: extra)).data!;
+                .getUserPermissionsControllerApi()
+                .getAllowedPermissions(extra: extra))
+            .data!;
     state = state.copyWith(
       isUserLoaded: true,
       user: userInfo,
@@ -179,26 +180,23 @@ class Login extends _$Login {
     }
     // The generated APIs throw a DioException that wraps the error.
     final error = toThingsboardError(e);
-    final choice =
-        Utils.isConnectionError(error)
-            ? await _overlayService.showConnectionErrorRetryDialog(
-              content:
-                  (context) => DialogContent(
-                    title: S.of(context).connectionError,
-                    message: S.of(context).failedToConnectToServer,
-                    ok: S.of(context).retry,
-                    cancel: S.of(context).logout,
-                  ),
-            )
-            : await _overlayService.showConfirmDialog(
-              content:
-                  (context) => DialogContent(
-                    title: S.of(context).somethingWentWrong,
-                    message: error.getTranslatedMessage(context),
-                    ok: S.of(context).retry,
-                    cancel: S.of(context).logout,
-                  ),
-            );
+    final choice = Utils.isConnectionError(error)
+        ? await _overlayService.showConnectionErrorRetryDialog(
+            content: (context) => DialogContent(
+              title: S.of(context).connectionError,
+              message: S.of(context).failedToConnectToServer,
+              ok: S.of(context).retry,
+              cancel: S.of(context).logout,
+            ),
+          )
+        : await _overlayService.showConfirmDialog(
+            content: (context) => DialogContent(
+              title: S.of(context).somethingWentWrong,
+              message: error.getTranslatedMessage(context),
+              ok: S.of(context).retry,
+              cancel: S.of(context).logout,
+            ),
+          );
     if (superseded()) {
       return;
     }

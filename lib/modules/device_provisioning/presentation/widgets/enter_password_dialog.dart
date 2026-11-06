@@ -95,17 +95,15 @@ class _PasswordDialogState extends State<PasswordDialog> {
                       horizontal: 16,
                     ),
                   ),
-                  onPressed:
-                      textCtrl.text.isNotEmpty
-                          ? () => Navigator.of(context).pop(textCtrl.text)
-                          : null,
+                  onPressed: textCtrl.text.isNotEmpty
+                      ? () => Navigator.of(context).pop(textCtrl.text)
+                      : null,
                   child: Text(
                     S.of(context).next,
                     style: TbTextStyles.labelMedium.copyWith(
-                      color:
-                          textCtrl.text.isEmpty
-                              ? Colors.black.withValues(alpha: .38)
-                              : Colors.white,
+                      color: textCtrl.text.isEmpty
+                          ? Colors.black.withValues(alpha: .38)
+                          : Colors.white,
                     ),
                   ),
                 ),

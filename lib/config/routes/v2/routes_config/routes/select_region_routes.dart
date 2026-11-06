@@ -13,7 +13,6 @@ abstract final class SelectRegionRoutes {
   static const chooseRegion = '/chooseRegion';
 }
 
-
 final selectRegionRoutes = [
   GoRoute(
     path: SelectRegionRoutes.selectRegion,
@@ -24,9 +23,11 @@ final selectRegionRoutes = [
   GoRoute(
     path: SelectRegionRoutes.chooseRegion,
     builder: (context, state) {
-      final region = Region.regionFromString(state.uri.queryParameters['region'].toString());
+      final region = Region.regionFromString(
+        state.uri.queryParameters['region'].toString(),
+      );
 
-      return  ChooseRegionScreen(selectedRegion: region,);
+      return ChooseRegionScreen(selectedRegion: region);
     },
   ),
 ];

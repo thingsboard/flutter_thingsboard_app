@@ -17,7 +17,7 @@ class UpdateRequiredHandler extends RouteHandler {
   late final ProviderSubscription<AsyncValue<LoginMobileInfo>> _subscription;
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
-    _subscription = ref.listenManual(oauthProvider, (prev, next) async  {
+    _subscription = ref.listenManual(oauthProvider, (prev, next) async {
       final versionInfo = VersionInfo.fromNullable(next.value?.versionInfo);
       if (versionInfo != null &&
           getIt<IVersionService>().appUpdateRequired(versionInfo)) {

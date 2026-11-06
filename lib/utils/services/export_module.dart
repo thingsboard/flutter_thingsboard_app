@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -27,12 +28,18 @@ class TbDashboardExportModule {
     );
   }
 
-  Future<void> _downloadToDevice(String filename, String base64,
-      [String? mimeType,]) async {
+  Future<void> _downloadToDevice(
+    String filename,
+    String base64, [
+    String? mimeType,
+  ]) async {
     final Uint8List data = await compute(base64Decode, base64);
 
-    String finalFileName = 'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now()) }';
-if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
+    String finalFileName =
+        'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now())}';
+    if (finalFileName.contains('.') &&
+        mimeType != null &&
+        mimeType.isNotEmpty) {
       finalFileName = finalFileName.split('.').first;
     }
     // Enhanced file extension handling
@@ -64,19 +71,22 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     if (csvTypes.contains(mimeType.toLowerCase())) {
       return 'csv';
     }
-    final found =  extensionFromMime(mimeType);
+    final found = extensionFromMime(mimeType);
     if (found == mimeType) {
       return null; // No specific extension found
     }
     return found;
-    
   }
 
- static  Future<void> saveWithFilePicker(String filename, Uint8List bytes) async {
+  static Future<void> saveWithFilePicker(
+    String filename,
+    Uint8List bytes,
+  ) async {
     final Uri? outputFile = await FilePicker.saveFile(
-        dialogTitle: 'Please select an output file:',
-        fileName: filename,
-        bytes: bytes,);
+      dialogTitle: 'Please select an output file:',
+      fileName: filename,
+      bytes: bytes,
+    );
 
     if (outputFile == null) {
       // User canceled the picker
@@ -91,7 +101,8 @@ if(finalFileName.contains('.') && mimeType != null && mimeType.isNotEmpty) {
     final downloadURL = downloadStartRequest.url.toString();
     if (downloadURL.startsWith('blob')) {
       controller.evaluateJavascript(
-        source: '''
+        source:
+            '''
         function flutterBlobToBase64(blob) {
           return new Promise((resolve, reject) => {
             const reader = new FileReader();

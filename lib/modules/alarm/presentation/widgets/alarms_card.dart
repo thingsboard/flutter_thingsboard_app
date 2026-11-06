@@ -126,9 +126,7 @@ class _AlarmCardState extends State<AlarmCard> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          widget.alarm.status.getTranslatedAlarmStatus(
-                                context,
-                              ),
+                          widget.alarm.status.getTranslatedAlarmStatus(context),
                           style: TbTextStyles.bodyMedium.copyWith(
                             color: Colors.black.withValues(alpha: .76),
                           ),
@@ -136,9 +134,8 @@ class _AlarmCardState extends State<AlarmCard> {
                       ),
                       CircleAvatar(
                         radius: 16,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).primaryColor.withValues(alpha: .06),
+                        backgroundColor: Theme.of(context).primaryColor
+                            .withValues(alpha: .06),
                         child: IconButton(
                           icon: Icon(
                             Icons.more_vert,
@@ -146,8 +143,8 @@ class _AlarmCardState extends State<AlarmCard> {
                             color: Theme.of(context).primaryColor,
                           ),
                           padding: const EdgeInsets.all(7.0),
-                          onPressed:
-                              () => getIt<ThingsboardAppRouter>().navigateTo(
+                          onPressed: () =>
+                              getIt<ThingsboardAppRouter>().navigateTo(
                                 // translate-me-ignore-next-line
                                 '/alarms/alarmDetails/${widget.alarm.id?.id}',
                               ),

@@ -11,5 +11,4 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 class CustomersList extends BaseEntitiesWidget<Customer, PageLink>
     with CustomersBase, ContactBasedBase, EntitiesListStateBase {
   CustomersList(super.pageKeyController, {super.key, super.searchMode});
-
 }

@@ -38,12 +38,11 @@ class LastTrackingRecord {
         startedAt: DateTime.fromMillisecondsSinceEpoch(
           (json['startedAt'] as num).toInt(),
         ),
-        endedAt:
-            json['endedAt'] == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(
-                  (json['endedAt'] as num).toInt(),
-                ),
+        endedAt: json['endedAt'] == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+                (json['endedAt'] as num).toInt(),
+              ),
         fixCount: (json['fixCount'] as num?)?.toInt() ?? 0,
         savedCount: (json['savedCount'] as num?)?.toInt() ?? 0,
         saveErrorCount: (json['saveErrorCount'] as num?)?.toInt() ?? 0,

@@ -14,25 +14,24 @@ AllowedPermissionsInfo permissions(
   Map<Resource, Set<Operation>> generic, {
   Set<EntityType> sharedGroups = const {},
   Set<Resource>? allowedResources,
-}) =>
-    standardSerializers.deserializeWith(AllowedPermissionsInfo.serializer, {
-      if (allowedResources != null)
-        'allowedResources': [for (final r in allowedResources) r.name],
-      'userPermissions': {
-        'genericPermissions': {
-          for (final entry in generic.entries)
-            entry.key.name: [for (final op in entry.value) op.name],
+}) => standardSerializers.deserializeWith(AllowedPermissionsInfo.serializer, {
+  if (allowedResources != null)
+    'allowedResources': [for (final r in allowedResources) r.name],
+  'userPermissions': {
+    'genericPermissions': {
+      for (final entry in generic.entries)
+        entry.key.name: [for (final op in entry.value) op.name],
+    },
+    'readGroupPermissions': {
+      for (final type in sharedGroups)
+        type.name: {
+          'entityGroupIds': [
+            {'entityType': 'ENTITY_GROUP', 'id': 'group-1'},
+          ],
         },
-        'readGroupPermissions': {
-          for (final type in sharedGroups)
-            type.name: {
-              'entityGroupIds': [
-                {'entityType': 'ENTITY_GROUP', 'id': 'group-1'},
-              ],
-            },
-        },
-      },
-    })!;
+    },
+  },
+})!;
 
 LoginState loginAs(Authority authority, [AllowedPermissionsInfo? perms]) =>
     LoginState(

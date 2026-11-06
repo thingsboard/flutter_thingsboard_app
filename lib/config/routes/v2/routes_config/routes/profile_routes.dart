@@ -11,7 +11,7 @@ import 'package:thingsboard_app/modules/profile/presentation/view/profile_page.d
 class ProfileRoutes {
   static const profile = '/profile';
   static const changePassword = '/changePassword';
-  static const editeProfile =  '/edit';
+  static const editeProfile = '/edit';
 }
 
 // Profile routes
@@ -23,10 +23,14 @@ final List<GoRoute> profileRoutes = [
       return ProfilePage(fullscreen: fullscreen);
     },
     routes: [
-        GoRoute(path: ProfileRoutes.changePassword,
-       builder: (context, state) => const ChangePasswordPage(),),
-      GoRoute(path: ProfileRoutes.editeProfile,
-       builder: (context, state) => const ProfileEditPage(),)
-    ]
+      GoRoute(
+        path: ProfileRoutes.changePassword,
+        builder: (context, state) => const ChangePasswordPage(),
+      ),
+      GoRoute(
+        path: ProfileRoutes.editeProfile,
+        builder: (context, state) => const ProfileEditPage(),
+      ),
+    ],
   ),
 ];

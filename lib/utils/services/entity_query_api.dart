@@ -8,82 +8,65 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityQueryApi {
   static final activeDeviceKeyFilter = KeyFilter(
-    (b) =>
-        b
-          ..key =
-              EntityKey(
-                (b) =>
-                    b
-                      ..type = EntityKeyType.ATTRIBUTE
-                      ..key = 'active',
-              ).toBuilder()
-          ..valueType = EntityKeyValueType.BOOLEAN
-          ..predicate = BooleanFilterPredicate(
-            (b) =>
-                b
-                  ..operation = BooleanOperation.EQUAL
-                  ..value =
-                      FilterPredicateValueBoolean(
-                        (b) => b..defaultValue = true,
-                      ).toBuilder(),
-          ),
+    (b) => b
+      ..key = EntityKey(
+        (b) => b
+          ..type = EntityKeyType.ATTRIBUTE
+          ..key = 'active',
+      ).toBuilder()
+      ..valueType = EntityKeyValueType.BOOLEAN
+      ..predicate = BooleanFilterPredicate(
+        (b) => b
+          ..operation = BooleanOperation.EQUAL
+          ..value = FilterPredicateValueBoolean((b) => b..defaultValue = true)
+              .toBuilder(),
+      ),
   );
 
   static final inactiveDeviceKeyFilter = KeyFilter(
-    (b) =>
-        b
-          ..key =
-              EntityKey(
-                (b) =>
-                    b
-                      ..type = EntityKeyType.ATTRIBUTE
-                      ..key = 'active',
-              ).toBuilder()
-          ..valueType = EntityKeyValueType.BOOLEAN
-          ..predicate = BooleanFilterPredicate(
-            (b) =>
-                b
-                  ..operation = BooleanOperation.EQUAL
-                  ..value =
-                      FilterPredicateValueBoolean(
-                        (b) => b..defaultValue = false,
-                      ).toBuilder(),
-          ),
+    (b) => b
+      ..key = EntityKey(
+        (b) => b
+          ..type = EntityKeyType.ATTRIBUTE
+          ..key = 'active',
+      ).toBuilder()
+      ..valueType = EntityKeyValueType.BOOLEAN
+      ..predicate = BooleanFilterPredicate(
+        (b) => b
+          ..operation = BooleanOperation.EQUAL
+          ..value = FilterPredicateValueBoolean((b) => b..defaultValue = false)
+              .toBuilder(),
+      ),
   );
 
   static final defaultDeviceFields = BuiltList<EntityKey>([
     EntityKey(
-      (b) =>
-          b
-            ..type = EntityKeyType.ENTITY_FIELD
-            ..key = 'name',
+      (b) => b
+        ..type = EntityKeyType.ENTITY_FIELD
+        ..key = 'name',
     ),
     EntityKey(
-      (b) =>
-          b
-            ..type = EntityKeyType.ENTITY_FIELD
-            ..key = 'type',
+      (b) => b
+        ..type = EntityKeyType.ENTITY_FIELD
+        ..key = 'type',
     ),
     EntityKey(
-      (b) =>
-          b
-            ..type = EntityKeyType.ENTITY_FIELD
-            ..key = 'label',
+      (b) => b
+        ..type = EntityKeyType.ENTITY_FIELD
+        ..key = 'label',
     ),
     EntityKey(
-      (b) =>
-          b
-            ..type = EntityKeyType.ENTITY_FIELD
-            ..key = 'createdTime',
+      (b) => b
+        ..type = EntityKeyType.ENTITY_FIELD
+        ..key = 'createdTime',
     ),
   ]);
 
   static final defaultDeviceAttributes = BuiltList<EntityKey>([
     EntityKey(
-      (b) =>
-          b
-            ..type = EntityKeyType.ATTRIBUTE
-            ..key = 'active',
+      (b) => b
+        ..type = EntityKeyType.ATTRIBUTE
+        ..key = 'active',
     ),
   ]);
 
@@ -92,19 +75,13 @@ abstract class EntityQueryApi {
     String? deviceType,
     bool? active,
   }) async {
-    final EntityFilter deviceFilter =
-        deviceType != null
-            ? DeviceTypeFilter(
-              (b) =>
-                  b
-                    ..deviceTypes = ListBuilder<String>([deviceType])
-                    ..deviceNameFilter = '',
-            )
-            : EntityTypeFilter(
-              (b) =>
-                  b
-                    ..entityType = EntityType.DEVICE,
-            );
+    final EntityFilter deviceFilter = deviceType != null
+        ? DeviceTypeFilter(
+            (b) => b
+              ..deviceTypes = ListBuilder<String>([deviceType])
+              ..deviceNameFilter = '',
+          )
+        : EntityTypeFilter((b) => b..entityType = EntityType.DEVICE);
 
     BuiltList<KeyFilter>? keyFilters;
     if (active != null) {
@@ -114,10 +91,9 @@ abstract class EntityQueryApi {
     }
 
     final deviceCountQuery = EntityCountQuery(
-      (b) =>
-          b
-            ..entityFilter = deviceFilter
-            ..keyFilters = keyFilters?.toBuilder(),
+      (b) => b
+        ..entityFilter = deviceFilter
+        ..keyFilters = keyFilters?.toBuilder(),
     );
 
     final response = await tbClient
@@ -128,29 +104,23 @@ abstract class EntityQueryApi {
 
   static EntityDataQuery createEntityNameQuery(String entityType, String id) {
     return EntityDataQuery(
-      (b) =>
-          b
-            ..entityFilter = SingleEntityFilter(
-              (b) =>
-                  b
-                    ..singleEntity =
-                        AliasEntityId(
-                          (b) =>
-                              b
-                                ..entityType = entityType
-                                ..id = id,
-                        ).toBuilder(),
-            )
-            ..entityFields =
-                BuiltList<EntityKey>([
-                  EntityKey(
-                    (b) =>
-                        b
-                          ..type = EntityKeyType.ENTITY_FIELD
-                          ..key = 'name',
-                  ),
-                ]).toBuilder()
-            ..pageLink = EntityDataPageLink((b) => b..pageSize = 1).toBuilder(),
+      (b) => b
+        ..entityFilter = SingleEntityFilter(
+          (b) => b
+            ..singleEntity = AliasEntityId(
+              (b) => b
+                ..entityType = entityType
+                ..id = id,
+            ).toBuilder(),
+        )
+        ..entityFields = BuiltList<EntityKey>([
+          EntityKey(
+            (b) => b
+              ..type = EntityKeyType.ENTITY_FIELD
+              ..key = 'name',
+          ),
+        ]).toBuilder()
+        ..pageLink = EntityDataPageLink((b) => b..pageSize = 1).toBuilder(),
     );
   }
 
@@ -160,19 +130,13 @@ abstract class EntityQueryApi {
     String? deviceType,
     bool? active,
   }) {
-    final EntityFilter deviceFilter =
-        deviceType != null
-            ? DeviceTypeFilter(
-              (b) =>
-                  b
-                    ..deviceTypes = ListBuilder<String>([deviceType])
-                    ..deviceNameFilter = '',
-            )
-            : EntityTypeFilter(
-              (b) =>
-                  b
-                    ..entityType = EntityType.DEVICE,
-            );
+    final EntityFilter deviceFilter = deviceType != null
+        ? DeviceTypeFilter(
+            (b) => b
+              ..deviceTypes = ListBuilder<String>([deviceType])
+              ..deviceNameFilter = '',
+          )
+        : EntityTypeFilter((b) => b..entityType = EntityType.DEVICE);
 
     BuiltList<KeyFilter>? keyFilters;
     if (active != null) {
@@ -182,33 +146,25 @@ abstract class EntityQueryApi {
     }
 
     return EntityDataQuery(
-      (b) =>
-          b
-            ..entityFilter = deviceFilter
-            ..keyFilters = keyFilters?.toBuilder()
-            ..entityFields = defaultDeviceFields.toBuilder()
-            ..latestValues = defaultDeviceAttributes.toBuilder()
-            ..pageLink =
-                EntityDataPageLink(
-                  (b) =>
-                      b
-                        ..pageSize = pageSize
-                        ..textSearch = searchText
-                        ..sortOrder =
-                            EntityDataSortOrder(
-                              (b) =>
-                                  b
-                                    ..key =
-                                        EntityKey(
-                                          (b) =>
-                                              b
-                                                ..type =
-                                                    EntityKeyType.ENTITY_FIELD
-                                                ..key = 'createdTime',
-                                        ).toBuilder()
-                                    ..direction = Direction.DESC,
-                            ).toBuilder(),
-                ).toBuilder(),
+      (b) => b
+        ..entityFilter = deviceFilter
+        ..keyFilters = keyFilters?.toBuilder()
+        ..entityFields = defaultDeviceFields.toBuilder()
+        ..latestValues = defaultDeviceAttributes.toBuilder()
+        ..pageLink = EntityDataPageLink(
+          (b) => b
+            ..pageSize = pageSize
+            ..textSearch = searchText
+            ..sortOrder = EntityDataSortOrder(
+              (b) => b
+                ..key = EntityKey(
+                  (b) => b
+                    ..type = EntityKeyType.ENTITY_FIELD
+                    ..key = 'createdTime',
+                ).toBuilder()
+                ..direction = Direction.DESC,
+            ).toBuilder(),
+        ).toBuilder(),
     );
   }
 }

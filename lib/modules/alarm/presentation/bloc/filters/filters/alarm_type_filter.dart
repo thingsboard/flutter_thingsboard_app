@@ -27,9 +27,7 @@ class AlarmTypeFilter<T> implements IAlarmFilter<Set<T>> {
 
   @override
   void updateSelectedData(Set<T> data) {
-    logger.debug(
-      'AlarmTypeFilter::updateSelectedData($data)',
-    );
+    logger.debug('AlarmTypeFilter::updateSelectedData($data)');
 
     alarmTypeSelected
       ..clear()

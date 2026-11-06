@@ -24,7 +24,7 @@ class AlarmsDi {
   AlarmsDi._();
 
   static void init(
-    String scopeName,  {
+    String scopeName, {
     required ThingsboardClient tbClient,
     required String typesScopeName,
     required String assigneeScopeName,

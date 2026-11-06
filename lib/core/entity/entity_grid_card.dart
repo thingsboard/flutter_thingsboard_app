@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 
 class EntityGridCard<T> extends StatelessWidget {
-
   const EntityGridCard(
     T entity, {
     super.key,
     this._onEntityTap,
     required this._entityCardWidgetBuilder,
     required this._settings,
-  })  : _entity = entity;
+  }) : _entity = entity;
   final T _entity;
   final EntityTapFunction<T>? _onEntityTap;
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;
@@ -39,9 +38,7 @@ class EntityGridCard<T> extends StatelessWidget {
             : null,
         child: Card(
           margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           elevation: 0,
           child: _entityCardWidgetBuilder(context, _entity),
         ),

@@ -60,10 +60,7 @@ void main() {
       () => Future.error(
         DioException(
           requestOptions: RequestOptions(),
-          response: Response(
-            requestOptions: RequestOptions(),
-            statusCode: 429,
-          ),
+          response: Response(requestOptions: RequestOptions(), statusCode: 429),
         ),
       ),
     );

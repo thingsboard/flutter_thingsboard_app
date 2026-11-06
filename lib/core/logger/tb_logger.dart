@@ -11,11 +11,7 @@ class TbLogger {
   final _logger = Logger(
     filter: TbLogsFilter(),
     printer: PrefixPrinter(
-      PrettyPrinter(
-        methodCount: 0,
-        lineLength: 200,
-        colors: false,
-      ),
+      PrettyPrinter(methodCount: 0, lineLength: 200, colors: false),
     ),
     output: TbLogOutput(),
   );

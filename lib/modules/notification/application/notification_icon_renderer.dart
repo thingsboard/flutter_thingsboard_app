@@ -16,18 +16,17 @@ abstract final class NotificationIconRenderer {
   }) async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
-    final textPainter =
-        TextPainter(textDirection: TextDirection.ltr)
-          ..text = TextSpan(
-            text: String.fromCharCode(icon.codePoint),
-            style: TextStyle(
-              fontSize: size,
-              fontFamily: icon.fontFamily,
-              package: icon.fontPackage,
-              color: color,
-            ),
-          )
-          ..layout();
+    final textPainter = TextPainter(textDirection: TextDirection.ltr)
+      ..text = TextSpan(
+        text: String.fromCharCode(icon.codePoint),
+        style: TextStyle(
+          fontSize: size,
+          fontFamily: icon.fontFamily,
+          package: icon.fontPackage,
+          color: color,
+        ),
+      )
+      ..layout();
     textPainter.paint(
       canvas,
       Offset((size - textPainter.width) / 2, (size - textPainter.height) / 2),

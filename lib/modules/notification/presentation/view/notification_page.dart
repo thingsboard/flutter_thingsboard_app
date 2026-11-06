@@ -56,7 +56,9 @@ class _NotificationPageState extends State<NotificationPage> {
         }
       },
       child: Scaffold(
-        appBar: isSelectionMode ? _buildSelectionAppBar() : _buildNormalAppBar(),
+        appBar: isSelectionMode
+            ? _buildSelectionAppBar()
+            : _buildNormalAppBar(),
         body: RefreshIndicator(
           onRefresh: () => _refresh(),
           child: SafeArea(
@@ -130,8 +132,9 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
           ),
         ),
-        bottomNavigationBar:
-            isSelectionMode ? _buildSelectionActionBar() : null,
+        bottomNavigationBar: isSelectionMode
+            ? _buildSelectionActionBar()
+            : null,
       ),
     );
   }
@@ -209,7 +212,9 @@ class _NotificationPageState extends State<NotificationPage> {
         children: [
           if (isProcessing)
             LinearProgressIndicator(
-              value: totalToProcess > 0 ? processedCount / totalToProcess : null,
+              value: totalToProcess > 0
+                  ? processedCount / totalToProcess
+                  : null,
             ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -217,19 +222,17 @@ class _NotificationPageState extends State<NotificationPage> {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed:
-                        isProcessing || selectedIds.isEmpty
-                            ? null
-                            : _batchDelete,
+                    onPressed: isProcessing || selectedIds.isEmpty
+                        ? null
+                        : _batchDelete,
                     icon: const Icon(Icons.delete_outline),
                     label: Text(S.of(context).delete),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.notificationError,
                       side: BorderSide(
-                        color:
-                            isProcessing || selectedIds.isEmpty
-                                ? Colors.grey.shade300
-                                : AppColors.notificationError,
+                        color: isProcessing || selectedIds.isEmpty
+                            ? Colors.grey.shade300
+                            : AppColors.notificationError,
                       ),
                     ),
                   ),
@@ -238,18 +241,22 @@ class _NotificationPageState extends State<NotificationPage> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed:
-                        isProcessing || selectedIds.isEmpty || !_hasUnreadSelected
-                            ? null
-                            : _batchMarkAsRead,
+                        isProcessing ||
+                            selectedIds.isEmpty ||
+                            !_hasUnreadSelected
+                        ? null
+                        : _batchMarkAsRead,
                     icon: const Icon(Icons.check_circle_outline),
                     label: Text(S.of(context).markAsRead),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.notificationSuccess,
                       side: BorderSide(
                         color:
-                            isProcessing || selectedIds.isEmpty || !_hasUnreadSelected
-                                ? Colors.grey.shade300
-                                : AppColors.notificationSuccess,
+                            isProcessing ||
+                                selectedIds.isEmpty ||
+                                !_hasUnreadSelected
+                            ? Colors.grey.shade300
+                            : AppColors.notificationSuccess,
                       ),
                     ),
                   ),
@@ -313,8 +320,7 @@ class _NotificationPageState extends State<NotificationPage> {
     if (items == null || items.isEmpty) return false;
     return items.any(
       (n) =>
-          selectedIds.contains(n.id!.id) &&
-          n.status != NotificationStatus.READ,
+          selectedIds.contains(n.id!.id) && n.status != NotificationStatus.READ,
     );
   }
 
@@ -331,8 +337,9 @@ class _NotificationPageState extends State<NotificationPage> {
     if (confirmed != true) return;
 
     final items = paginationRepository.pagingController.items ?? [];
-    final toDelete =
-        items.where((n) => selectedIds.contains(n.id!.id)).toList();
+    final toDelete = items
+        .where((n) => selectedIds.contains(n.id!.id))
+        .toList();
 
     setState(() {
       isProcessing = true;
@@ -407,8 +414,9 @@ class _NotificationPageState extends State<NotificationPage> {
     for (final notification in toMark) {
       if (_cancelRequested) break;
       try {
-        await notificationRepository
-            .markNotificationAsRead(notification.id!.id);
+        await notificationRepository.markNotificationAsRead(
+          notification.id!.id,
+        );
         await notificationRepository.decreaseNotificationBadgeCount();
       } catch (_) {
         failCount++;
@@ -454,17 +462,15 @@ class _NotificationPageState extends State<NotificationPage> {
         if (authority == Authority.TENANT_ADMIN ||
             authority == Authority.CUSTOMER_USER) {
           overlayService.showWarnNotification(
-            (context) =>
-                S
-                    .of(context)
-                    .pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator,
+            (context) => S
+                .of(context)
+                .pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator,
           );
         } else if (authority == Authority.SYS_ADMIN) {
           overlayService.showWarnNotification(
-            (context) =>
-                S
-                    .of(context)
-                    .firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase,
+            (context) => S
+                .of(context)
+                .firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase,
           );
         }
       });

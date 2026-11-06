@@ -14,7 +14,7 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class MainDashboardPage extends StatefulWidget {
-const  MainDashboardPage( {required this.controller, super.key});
+  const MainDashboardPage({required this.controller, super.key});
 
   final DashboardPageController controller;
 
@@ -62,8 +62,8 @@ class _MainDashboardPageState extends State<MainDashboardPage>
                 builder: (context, hasRightLayout, widget) {
                   if (hasRightLayout) {
                     return IconButton(
-                      onPressed:
-                          () => _dashboardController?.toggleRightLayout(),
+                      onPressed: () =>
+                          _dashboardController?.toggleRightLayout(),
                       icon: AnimatedIcon(
                         progress: rightLayoutMenuAnimation,
                         icon: AnimatedIcons.menu_close,
@@ -142,5 +142,4 @@ class _MainDashboardPageState extends State<MainDashboardPage>
     rightLayoutMenuController.dispose();
     super.dispose();
   }
-  
 }

@@ -20,10 +20,9 @@ import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_error_widget.da
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_overlay_widget.dart';
 
 Size getCameraSize(Size mediaQuerySize) {
-  final scanArea =
-      (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
-          ? 150.0
-          : 300.0;
+  final scanArea = (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
+      ? 150.0
+      : 300.0;
   return Size(scanArea, scanArea);
 }
 
@@ -177,15 +176,13 @@ class QrCodeScannerPage extends HookWidget {
                       } else if (res == PermissionStatus.permanentlyDenied &&
                           context.mounted) {
                         getIt<IOverlayService>().showAlertDialog(
-                          content:
-                              (_) => DialogContent(
-                                title: S.of(context).unableToUseCamera,
-                                message:
-                                    S
-                                        .of(context)
-                                        .openSettingsAndGrantAccessToCameraToContinue,
-                                ok: S.of(context).cancel,
-                              ),
+                          content: (_) => DialogContent(
+                            title: S.of(context).unableToUseCamera,
+                            message: S
+                                .of(context)
+                                .openSettingsAndGrantAccessToCameraToContinue,
+                            ok: S.of(context).cancel,
+                          ),
                         );
                       }
                       hasPermission.value = false;

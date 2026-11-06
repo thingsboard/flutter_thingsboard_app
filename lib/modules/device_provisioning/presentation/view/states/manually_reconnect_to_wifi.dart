@@ -23,11 +23,11 @@ class ManuallyReconnectToWifi extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-         DottedPointWidget(S.of(context).openWifiSettings),
+        DottedPointWidget(S.of(context).openWifiSettings),
         const SizedBox(height: 16),
-         DottedPointWidget(S.of(context).connectToTheWifiYouUsuallyUse),
+        DottedPointWidget(S.of(context).connectToTheWifiYouUsuallyUse),
         const SizedBox(height: 16),
-         DottedPointWidget(S.of(context).returnToTheAppAndTapReadyButton),
+        DottedPointWidget(S.of(context).returnToTheAppAndTapReadyButton),
       ],
     );
   }

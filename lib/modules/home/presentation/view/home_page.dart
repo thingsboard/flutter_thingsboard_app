@@ -56,7 +56,10 @@ class _HomePageState extends ConsumerState<HomePage>
       return const SizedBox();
     }
     if (homeDashboard != null) {
-      return HomeDashboardPage(homeDashboard,key: ValueKey(homeDashboard.dashboardId?.id), );
+      return HomeDashboardPage(
+        homeDashboard,
+        key: ValueKey(homeDashboard.dashboardId?.id),
+      );
     }
     return _buildDefaultHome(context);
   }

@@ -22,7 +22,9 @@ class ScanAreaClipper extends CustomClipper<Path> {
     final double holeTop = (size.height - areaSize.height) / 2;
 
     final Path holePath = Path();
-    holePath.addRect(Rect.fromLTWH(holeLeft, holeTop, areaSize.width, areaSize.height));
+    holePath.addRect(
+      Rect.fromLTWH(holeLeft, holeTop, areaSize.width, areaSize.height),
+    );
 
     return Path.combine(PathOperation.difference, path, holePath);
   }

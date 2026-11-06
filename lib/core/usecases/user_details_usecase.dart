@@ -7,13 +7,16 @@ import 'package:thingsboard_app/utils/usecase.dart';
 
 class UserDetailsUseCase extends UseCase<UserDetailsOutput, UserDetailsParams> {
   const UserDetailsUseCase();
-String cleanName(String name) {
-  final val = name.trim().replaceAll(RegExp(r'\s+'), ' ');
-  return val;
-}
+  String cleanName(String name) {
+    final val = name.trim().replaceAll(RegExp(r'\s+'), ' ');
+    return val;
+  }
+
   @override
   UserDetailsOutput call(UserDetailsParams params) {
-    final name = cleanName('${params.firstName ?? ''} ${params.lastName ?? ''}') ;
+    final name = cleanName(
+      '${params.firstName ?? ''} ${params.lastName ?? ''}',
+    );
     final displayName = name.length > 1 ? name : params.email;
 
     String shortName = '';
@@ -48,10 +51,7 @@ final class UserDetailsParams {
 }
 
 final class UserDetailsOutput {
-  const UserDetailsOutput({
-    required this.shortName,
-    required this.displayName,
-  });
+  const UserDetailsOutput({required this.shortName, required this.displayName});
 
   final String shortName;
   final String displayName;

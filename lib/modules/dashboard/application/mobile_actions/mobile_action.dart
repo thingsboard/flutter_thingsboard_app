@@ -11,10 +11,12 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/wid
 
 abstract class MobileAction {
   final TbLogger log = TbLogger();
-WidgetMobileActionType get type;
-  Future<WidgetMobileActionResult> execute(  List<dynamic> args,
-    InAppWebViewController controller,);
-     WidgetMobileActionResult handleError(Object e) {
+  WidgetMobileActionType get type;
+  Future<WidgetMobileActionResult> execute(
+    List<dynamic> args,
+    InAppWebViewController controller,
+  );
+  WidgetMobileActionResult handleError(Object e) {
     String error;
     if (e is PlatformException) {
       error = e.message ?? e.code;

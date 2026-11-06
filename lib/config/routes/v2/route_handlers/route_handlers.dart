@@ -8,10 +8,9 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/two_factor_confi
 import 'package:thingsboard_app/config/routes/v2/route_handlers/two_factor_setup_handler.dart';
 import 'package:thingsboard_app/config/routes/v2/route_handlers/update_required_handler.dart';
 
-
 final routeHandlers = [
-UpdateRequiredHandler(),
-TwoFactorConfirmHandler(),
-TwoFactorSetupHandler(),
-HomeHandler(),
+  UpdateRequiredHandler(),
+  TwoFactorConfirmHandler(),
+  TwoFactorSetupHandler(),
+  HomeHandler(),
 ];

@@ -12,15 +12,15 @@ class LoginPageBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: CustomPaint(
-        painter:
-            _LoginPageBackgroundPainter(color: Theme.of(context).primaryColor),
+        painter: _LoginPageBackgroundPainter(
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }
 }
 
 class _LoginPageBackgroundPainter extends CustomPainter {
-
   const _LoginPageBackgroundPainter({required this.color});
   final Color color;
 

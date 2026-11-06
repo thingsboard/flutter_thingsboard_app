@@ -87,11 +87,15 @@ class DesignTokens {
   static const EdgeInsets cardPaddingLarge = EdgeInsets.all(spacing24);
 
   // Common border radius
-  static BorderRadius get borderRadiusSmall => BorderRadius.circular(radiusSmall);
-  static BorderRadius get borderRadiusMedium => BorderRadius.circular(radiusMedium);
-  static BorderRadius get borderRadiusLarge => BorderRadius.circular(radiusLarge);
+  static BorderRadius get borderRadiusSmall =>
+      BorderRadius.circular(radiusSmall);
+  static BorderRadius get borderRadiusMedium =>
+      BorderRadius.circular(radiusMedium);
+  static BorderRadius get borderRadiusLarge =>
+      BorderRadius.circular(radiusLarge);
   static BorderRadius get borderRadiusXl => BorderRadius.circular(radiusXl);
-  static BorderRadius get borderRadiusRound => BorderRadius.circular(radiusRound);
+  static BorderRadius get borderRadiusRound =>
+      BorderRadius.circular(radiusRound);
 
   // Shadows
   static List<BoxShadow> get shadowSmall => [

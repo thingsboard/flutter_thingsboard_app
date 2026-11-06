@@ -17,6 +17,5 @@ final List<GoRoute> moreRoutes = [
     builder: (context, state) {
       return const MorePage();
     },
-    
   ),
 ];

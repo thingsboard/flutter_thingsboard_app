@@ -56,9 +56,8 @@ class LiveTrackingBar extends ConsumerWidget {
                         tracking
                             ? S.of(context).liveTrackingActive
                             : S.of(context).liveTrackingPaused,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: colors.onPrimaryContainer,
-                        ),
+                        style: Theme.of(context).textTheme.labelLarge
+                            ?.copyWith(color: colors.onPrimaryContainer),
                       ),
                       Text(
                         '${S.of(context).liveTrackingFixes}: '
@@ -66,18 +65,16 @@ class LiveTrackingBar extends ConsumerWidget {
                         '${S.of(context).liveTrackingSaved}: '
                         '${session.savedCount}'
                         '${session.saveErrorCount > 0 ? ' · ${S.of(context).liveTrackingErrors}: ${session.saveErrorCount}' : ''}',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: colors.onPrimaryContainer,
-                        ),
+                        style: Theme.of(context).textTheme.labelSmall
+                            ?.copyWith(color: colors.onPrimaryContainer),
                       ),
                     ],
                   ),
                 ),
                 IconButton(
-                  tooltip:
-                      tracking
-                          ? S.of(context).liveTrackingPause
-                          : S.of(context).liveTrackingResume,
+                  tooltip: tracking
+                      ? S.of(context).liveTrackingPause
+                      : S.of(context).liveTrackingResume,
                   icon: Icon(
                     tracking ? Icons.pause : Icons.play_arrow,
                     color: colors.onPrimaryContainer,
@@ -90,8 +87,8 @@ class LiveTrackingBar extends ConsumerWidget {
                 IconButton(
                   tooltip: S.of(context).liveTrackingStop,
                   icon: Icon(Icons.stop, color: colors.onPrimaryContainer),
-                  onPressed:
-                      () => ref.read(liveTrackingProvider.notifier).stop(),
+                  onPressed: () =>
+                      ref.read(liveTrackingProvider.notifier).stop(),
                 ),
                 IconButton(
                   tooltip: S.of(context).liveTrackingHide,
@@ -99,8 +96,8 @@ class LiveTrackingBar extends ConsumerWidget {
                     Icons.expand_less,
                     color: colors.onPrimaryContainer,
                   ),
-                  onPressed:
-                      () => ref.read(liveTrackingProvider.notifier).hide(),
+                  onPressed: () =>
+                      ref.read(liveTrackingProvider.notifier).hide(),
                 ),
               ],
             ),

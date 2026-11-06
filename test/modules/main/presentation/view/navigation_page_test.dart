@@ -74,14 +74,12 @@ void main() {
 
   setUp(() {
     trackingService = MockLiveLocationTrackingService();
-    when(
-      () => trackingService.sessionStream,
-    ).thenAnswer((_) => const Stream<LiveTrackingSession?>.empty());
+    when(() => trackingService.sessionStream)
+        .thenAnswer((_) => const Stream<LiveTrackingSession?>.empty());
 
     final notificationService = MockNotificationService();
-    when(
-      () => notificationService.updateNotificationsCount(),
-    ).thenAnswer((_) async {});
+    when(() => notificationService.updateNotificationsCount())
+        .thenAnswer((_) async {});
 
     getIt
       ..registerLazySingleton<ILiveLocationTrackingService>(
@@ -109,9 +107,8 @@ void main() {
           routes: [
             GoRoute(
               path: '/home',
-              builder:
-                  (context, state) =>
-                      PageInsetsProbe(onBuild: (data) => pageInsets = data),
+              builder: (context, state) =>
+                  PageInsetsProbe(onBuild: (data) => pageInsets = data),
             ),
           ],
         ),

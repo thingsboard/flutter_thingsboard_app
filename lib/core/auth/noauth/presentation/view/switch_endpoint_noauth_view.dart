@@ -73,8 +73,8 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
         // navigates to the home page once the user is fully loaded. A
         // host-only switch (QR without a secret) ends unauthenticated: show
         // the login page of the new host.
-        final authenticated =
-            getIt<ITbClientService>().client.isAuthenticated();
+        final authenticated = getIt<ITbClientService>().client
+            .isAuthenticated();
         if (!context.mounted) {
           return;
         }
@@ -83,8 +83,9 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
         } else if (ref.read(loginProvider).isFullyAuthenticated()) {
           // Already fully logged in (e.g. the same QR was scanned twice):
           // HomeHandler won't see a state transition, navigate ourselves.
-          final homePath =
-              ref.read(navigationProvider.notifier).resolveHomePath();
+          final homePath = ref
+              .read(navigationProvider.notifier)
+              .resolveHomePath();
           context.go(homePath ?? LoginRoutes.login);
         } else {
           userLoadTimer.value?.cancel();
@@ -113,9 +114,8 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
                       Text(
                         _errorMessage(context, noAuth),
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 20),
                       TextButton(
@@ -188,12 +188,10 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     final serverMessage = state.serverMessage;
 
     return switch (state.failure) {
-      NoAuthFailure.connectionFailed => S
-          .of(context)
-          .failedToConnectToHost(host),
-      NoAuthFailure.tokenExchangeFailed => S
-          .of(context)
-          .failedToObtainLoginTokenFromHost(host),
+      NoAuthFailure.connectionFailed =>
+        S.of(context).failedToConnectToHost(host),
+      NoAuthFailure.tokenExchangeFailed =>
+        S.of(context).failedToObtainLoginTokenFromHost(host),
       // The server answers a revoked pair with "Token has expired": hardcoded
       // English, and wrong about the cause.
       NoAuthFailure.sessionInvalid =>

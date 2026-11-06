@@ -85,8 +85,8 @@ class LoginWidget extends HookConsumerWidget {
                                 ),
                               ),
                               OAuthButtons(
-                                onButtonPressed:
-                                    (client) => onOauth2ButtonPressed(
+                                onButtonPressed: (client) =>
+                                    onOauth2ButtonPressed(
                                       client,
                                       context,
                                       loading,
@@ -150,15 +150,15 @@ class LoginWidget extends HookConsumerWidget {
                                     ),
                                     onPressed:
                                         formGroup.invalid && formGroup.touched
-                                            ? null
-                                            : () async {
-                                              await onLoginPressed(
-                                                context,
-                                                form,
-                                                ref,
-                                                loading,
-                                              );
-                                            },
+                                        ? null
+                                        : () async {
+                                            await onLoginPressed(
+                                              context,
+                                              form,
+                                              ref,
+                                              loading,
+                                            );
+                                          },
                                     child: Text(
                                       S.of(context).login,
                                       style: TbTextStyles.labelMedium,

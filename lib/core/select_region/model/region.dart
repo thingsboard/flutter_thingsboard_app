@@ -17,7 +17,7 @@ enum Region {
   @HiveField(2)
   custom;
 
- static  Region regionFromString(String input) {
+  static Region regionFromString(String input) {
     return Region.values.firstWhere((e) => e.name == input);
   }
 }

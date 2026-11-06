@@ -13,7 +13,7 @@ import 'package:thingsboard_app/modules/device_provisioning/presentation/widgets
 import 'package:thingsboard_app/utils/ui/full_screen_dialog.dart';
 
 class WifiList extends StatelessWidget {
-const  WifiList( {required this.wifi, super.key});
+  const WifiList({required this.wifi, super.key});
 
   final List<String> wifi;
 
@@ -38,11 +38,11 @@ const  WifiList( {required this.wifi, super.key});
 
               if (networkPass != null && context.mounted) {
                 context.read<EspSoftApBloc>().add(
-                      EspSoftApStartProvisioningEvent(
-                        ssid: network,
-                        password: networkPass,
-                      ),
-                    );
+                  EspSoftApStartProvisioningEvent(
+                    ssid: network,
+                    password: networkPass,
+                  ),
+                );
               }
             },
           ),

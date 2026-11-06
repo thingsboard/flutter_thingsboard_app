@@ -18,7 +18,7 @@ final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey();
 
 @riverpod
 class Router extends _$Router {
-   final routes = getRoutes();
+  final routes = getRoutes();
 
   GoRouter _getRouter() {
     final listenable = RefreshListenable(ref);
@@ -43,6 +43,7 @@ class Router extends _$Router {
       routes: routes,
     );
   }
+
   @override
   GoRouter build() {
     return _getRouter();

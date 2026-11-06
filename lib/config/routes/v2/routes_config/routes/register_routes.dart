@@ -24,7 +24,7 @@ abstract final class RegisterRoutes {
     RegisterRoutes.register,
     RegisterRoutes.termsOfUse,
     RegisterRoutes.verifyEmail,
-    RegisterRoutes.emailVerified
+    RegisterRoutes.emailVerified,
   };
   static bool isRegisterRoute(String path) => values.contains(path);
 }
@@ -70,7 +70,7 @@ final registerRoutes = [
     builder: (context, state) {
       final emailCode = state.uri.queryParameters['emailCode'].toString();
 
-      return EmailVerifiedPage(emailCode: emailCode,);
+      return EmailVerifiedPage(emailCode: emailCode);
     },
   ),
 ];

@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -11,8 +12,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
 class TbAppSearchBar extends StatefulWidget implements PreferredSizeWidget {
-  TbAppSearchBar(
-     {
+  TbAppSearchBar({
     super.key,
     this.elevation = 8,
     this.shadowColor,

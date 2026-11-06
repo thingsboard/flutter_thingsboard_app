@@ -15,8 +15,7 @@ final notificationRoutes = [
   GoRoute(
     path: NotificationRoutes.notifications,
     builder: (context, state) {
-
-      return const  NotificationPage();
+      return const NotificationPage();
     },
   ),
 ];

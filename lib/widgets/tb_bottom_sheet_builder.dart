@@ -21,7 +21,7 @@ class TbBottomSheetBuilder<T> extends HookWidget {
     this.searchFunction,
     this.listTitleBuilder,
     this.itemBuilder,
-    this.shrinkWrap = true
+    this.shrinkWrap = true,
   });
   final List<T> allItems;
   final String title;
@@ -107,15 +107,13 @@ class TbBottomSheetBuilder<T> extends HookWidget {
                 builder: (context, formGroup, child) {
                   final searchValue = formGroup.control('searchValue').value;
 
-                  final filteredItems =
-                      allItems.where((e) {
-                        if (searchValue == null ||
-                            searchValue.toString().isEmpty) {
-                          return true;
-                        }
-                        final searchTerm = searchValue.toString().toLowerCase();
-                        return searchFunction?.call(searchTerm, e) ?? true;
-                      }).toList();
+                  final filteredItems = allItems.where((e) {
+                    if (searchValue == null || searchValue.toString().isEmpty) {
+                      return true;
+                    }
+                    final searchTerm = searchValue.toString().toLowerCase();
+                    return searchFunction?.call(searchTerm, e) ?? true;
+                  }).toList();
 
                   return ListView.separated(
                     shrinkWrap: shrinkWrap,
@@ -129,18 +127,19 @@ class TbBottomSheetBuilder<T> extends HookWidget {
                           ListTile(
                             onTap: () => context.pop(item),
 
-                            title: Text(
-                              listTitleBuilder?.call(context, item) ??
-                                  item.toString(),
-                            ).boldSubString(
-                              searchValue.toString(),
+                            title:
+                                Text(
+                                  listTitleBuilder?.call(context, item) ??
+                                      item.toString(),
+                                ).boldSubString(
+                                  searchValue.toString(),
 
-                              regularTextStyle: TbTextStyles.bodyLarge,
-                            ),
+                                  regularTextStyle: TbTextStyles.bodyLarge,
+                                ),
                           );
                     },
-                    separatorBuilder:
-                        (context, index) => const Divider(height: 1),
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 1),
                     itemCount: filteredItems.length,
                   );
                 },

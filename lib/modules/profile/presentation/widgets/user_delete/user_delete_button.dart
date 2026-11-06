@@ -52,16 +52,15 @@ Future<void> deleteAccount(
   User user,
 ) async {
   final delete = await getIt<IOverlayService>().showConfirmDialog(
-    content:
-        (_) => DialogContent(
-          title: S.of(context).deleteAccount,
-          message: S
-              .of(context)
-              .accountDeletionDialogBody(
-                getAuthorityName(context, user).toLowerCase(),
-              ),
-          cancel: S.of(context).cancel,
-        ),
+    content: (_) => DialogContent(
+      title: S.of(context).deleteAccount,
+      message: S
+          .of(context)
+          .accountDeletionDialogBody(
+            getAuthorityName(context, user).toLowerCase(),
+          ),
+      cancel: S.of(context).cancel,
+    ),
   );
   if (delete == true) {
     final client = getIt<ITbClientService>().client;

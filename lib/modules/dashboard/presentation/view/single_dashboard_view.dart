@@ -59,11 +59,11 @@ class _SingleDashboardViewState extends ConsumerState<SingleDashboardView>
     return Scaffold(
       appBar: TbAppBar(
         leading: context.canPop()
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: _handleBack,
-            )
-          : null,
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: _handleBack,
+              )
+            : null,
         elevation: 1,
         shadowColor: Colors.transparent,
         title: ValueListenableBuilder<String>(
@@ -157,8 +157,9 @@ class _SingleDashboardViewState extends ConsumerState<SingleDashboardView>
     );
 
     if (widget.title != null) {
-      dashboardTitleValue.value = getIt<ICustomTranslationService>()
-          .translate(widget.title);
+      dashboardTitleValue.value = getIt<ICustomTranslationService>().translate(
+        widget.title,
+      );
     }
   }
 

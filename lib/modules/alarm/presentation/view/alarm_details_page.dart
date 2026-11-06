@@ -39,29 +39,25 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmDetailsBloc>(
-          create:
-              (_) =>
-                  AlarmDetailsBloc.create()
-                    ..add(AlarmDetailsFetchEvent(id: widget.id)),
+          create: (_) =>
+              AlarmDetailsBloc.create()
+                ..add(AlarmDetailsFetchEvent(id: widget.id)),
         ),
         BlocProvider<AlarmAssigneeBloc>(
-          create:
-              (_) =>
-                  AlarmAssigneeBloc.create(id: widget.id)
-                    ..add(const AlarmFetchAssigneeEvent()),
+          create: (_) =>
+              AlarmAssigneeBloc.create(id: widget.id)
+                ..add(const AlarmFetchAssigneeEvent()),
         ),
       ],
       child: BlocBuilder<AlarmDetailsBloc, AlarmDetailsState>(
         builder: (context, state) {
           switch (state) {
             case AlarmDetailsLoadingState():
-              return  const Scaffold(
+              return const Scaffold(
                 body: SizedBox.expand(
                   child: ColoredBox(
                     color: Color(0x99FFFFFF),
-                    child: Center(
-                      child: TbProgressIndicator(size: 50.0),
-                    ),
+                    child: Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 ),
               );
@@ -93,7 +89,8 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
                               children: [
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
-                                 alamDashboardId: state.alarmInfo.detailsDashboardId,
+                                  alamDashboardId:
+                                      state.alarmInfo.detailsDashboardId,
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 12),
