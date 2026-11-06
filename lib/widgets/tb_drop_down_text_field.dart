@@ -35,6 +35,18 @@ class TbDropDownTextField<T> extends HookWidget {
     final form = useMemoized(
       () => FormGroup({"value": FormControl(value: selectedItemBuilder(val))}),
     );
+    // The shown text is built once per value: rebuild it when the app
+    // language changes (the profile previews a newly picked language).
+    final locale = Localizations.localeOf(context);
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final current = topForm?.control(formControlName).value as T?;
+        form
+            .control('value')
+            .updateValue(current == null ? null : selectedItemBuilder(current));
+      });
+      return null;
+    }, [locale]);
     useEffect(() {
       final stream = topForm?.control(formControlName).valueChanges.listen((e) {
         form
