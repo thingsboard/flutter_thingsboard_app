@@ -31,15 +31,16 @@ jobs:
             echo "Missing license header (see CONTRIBUTING.md):"; echo "$missing"; exit 1
           fi
       - run: flutter pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test
       - name: Check generated code is up to date
-        # freezed / json_serializable / riverpod outputs are committed.
+        # build_runner (freezed, json_serializable, riverpod) and gen-l10n
+        # (run by pub get) outputs are committed.
         run: |
           dart run build_runner build --delete-conflicting-outputs
-          git diff --exit-code -- '*.g.dart' '*.freezed.dart'
+          git diff --exit-code -- '*.g.dart' '*.freezed.dart' lib/generated
       - name: Analyze
-        # Errors only for now: the code base still carries warnings and infos
-        # from before 2.0.0. Tighten to --fatal-infos once they are fixed.
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+        run: flutter analyze --fatal-infos
       - name: Test
         run: flutter test
       - name: Build Android

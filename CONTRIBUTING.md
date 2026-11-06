@@ -66,10 +66,13 @@ Translations live in `lib/l10n/intl_<language>.arb`; `flutter gen-l10n` (also ru
 CI runs these on every pull request; run them before pushing:
 
 ```bash
-flutter analyze
+dart format lib test
+flutter analyze        # CI fails on any info, warning or error
 flutter test
 flutter build apk --debug
 ```
+
+The lint rules come from `package:lint` (strict) with the overrides in `analysis_options.yaml`. Fix a lint rather than silencing it; when an `// ignore:` is right, say why on the line above. To keep `git blame` useful across the formatting commit, run `git config blame.ignoreRevsFile .git-blame-ignore-revs` once.
 
 Add a test for a bug fix where the code allows it.
 
