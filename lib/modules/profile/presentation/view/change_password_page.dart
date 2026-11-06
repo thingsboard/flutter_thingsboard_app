@@ -4,9 +4,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
@@ -28,7 +27,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _showNewPasswordNotifier = ValueNotifier<bool>(false);
   final _showNewPassword2Notifier = ValueNotifier<bool>(false);
 
-  final _changePasswordFormKey = GlobalKey<FormBuilderState>();
+  final _form = FormGroup({
+    'currentPassword': FormControl<String>(validators: [Validators.required]),
+    'newPassword': FormControl<String>(validators: [Validators.required]),
+    'newPassword2': FormControl<String>(validators: [Validators.required]),
+  });
+
+  @override
+  void dispose() {
+    _form.dispose();
+    _isLoadingNotifier.dispose();
+    _showCurrentPasswordNotifier.dispose();
+    _showNewPasswordNotifier.dispose();
+    _showNewPassword2Notifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +54,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
-                child: FormBuilder(
-                  key: _changePasswordFormKey,
-                  autovalidateMode: AutovalidateMode.disabled,
+                child: ReactiveForm(
+                  formGroup: _form,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -52,17 +64,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         valueListenable: _showCurrentPasswordNotifier,
                         builder:
                             (BuildContext context, bool showPassword, child) {
-                              return FormBuilderTextField(
-                                name: 'currentPassword',
+                              return ReactiveTextField<String>(
+                                formControlName: 'currentPassword',
                                 obscureText: !showPassword,
                                 autofocus: true,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(
-                                    errorText: S
-                                        .of(context)
-                                        .currentPasswordRequireText,
-                                  ),
-                                ]),
+                                validationMessages: {
+                                  ValidationMessage.required: (_) =>
+                                      S.of(context).currentPasswordRequireText,
+                                },
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                     icon: Icon(
@@ -87,16 +96,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         valueListenable: _showNewPasswordNotifier,
                         builder:
                             (BuildContext context, bool showPassword, child) {
-                              return FormBuilderTextField(
-                                name: 'newPassword',
+                              return ReactiveTextField<String>(
+                                formControlName: 'newPassword',
                                 obscureText: !showPassword,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(
-                                    errorText: S
-                                        .of(context)
-                                        .newPasswordRequireText,
-                                  ),
-                                ]),
+                                validationMessages: {
+                                  ValidationMessage.required: (_) =>
+                                      S.of(context).newPasswordRequireText,
+                                },
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                     icon: Icon(
@@ -120,16 +126,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         valueListenable: _showNewPassword2Notifier,
                         builder:
                             (BuildContext context, bool showPassword, child) {
-                              return FormBuilderTextField(
-                                name: 'newPassword2',
+                              return ReactiveTextField<String>(
+                                formControlName: 'newPassword2',
                                 obscureText: !showPassword,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(
-                                    errorText: S
-                                        .of(context)
-                                        .newPassword2RequireText,
-                                  ),
-                                ]),
+                                validationMessages: {
+                                  ValidationMessage.required: (_) =>
+                                      S.of(context).newPassword2RequireText,
+                                },
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                     icon: Icon(
@@ -189,8 +192,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   Future<void> _changePassword() async {
     FocusScope.of(context).unfocus();
-    if (_changePasswordFormKey.currentState?.saveAndValidate() ?? false) {
-      final formValue = _changePasswordFormKey.currentState!.value;
+    _form.markAllAsTouched();
+    if (_form.valid) {
+      final formValue = _form.value;
       final String currentPassword = formValue['currentPassword'].toString();
       final String newPassword = formValue['newPassword'].toString();
       final String newPassword2 = formValue['newPassword2'].toString();

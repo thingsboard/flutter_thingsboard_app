@@ -4,9 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_client/thingsboard_client.dart'
     show SignUpField, SignUpFieldId;
 
@@ -34,7 +32,6 @@ class SingUpFieldWidget extends StatelessWidget {
       formControlName: field.id.name,
       type: keyboardTypeFromId(),
       suffixIcon: suffixIcon,
-      // validator: validator(context),
       label: labelText(context),
       hint: labelText(context),
     );
@@ -93,29 +90,6 @@ class SingUpFieldWidget extends StatelessWidget {
         return null;
     }
     return null;
-  }
-
-  String fieldIsRequiredText(BuildContext context) {
-    return '${field.label} ${S.of(context).isRequiredText}';
-  }
-
-  FormFieldValidator<String>? validator(BuildContext context) {
-    final validators = <FormFieldValidator>[];
-    if (field.required_ ?? false) {
-      validators.add(
-        FormBuilderValidators.required(errorText: fieldIsRequiredText(context)),
-      );
-    }
-
-    return validators.isNotEmpty
-        ? FormBuilderValidators.compose([
-            ...validators,
-            if (field.id == SignUpFieldId.EMAIL)
-              FormBuilderValidators.email(
-                errorText: S.of(context).emailInvalidText,
-              ),
-          ])
-        : null;
   }
 
   String labelText(BuildContext context) {
