@@ -6,6 +6,22 @@
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>FirebaseMessagingInstallationIdEnabled</key>
 		<true/>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>ar</string>
+			<string>da</string>
+			<string>de</string>
+			<string>el</string>
+			<string>es</string>
+			<string>fr</string>
+			<string>it</string>
+			<string>nl</string>
+			<string>nb</string>
+			<string>vi</string>
+			<string>zh-Hans</string>
+			<string>zh-Hant</string>
+		</array>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
