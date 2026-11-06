@@ -19,14 +19,14 @@ class TwoPageViewController {
 
   Future<bool> open(int index, {bool animate = true}) async {
     if (_state != null) {
-      return _state!._open(index, animate: animate);
+      return await _state!._open(index, animate: animate);
     }
     return false;
   }
 
   Future<bool> close(int index, {bool animate = true}) async {
     if (_state != null) {
-      return _state!._close(index, animate: animate);
+      return await _state!._close(index, animate: animate);
     }
     return false;
   }

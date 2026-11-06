@@ -28,27 +28,22 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
     TimePageLink pageLink, {
     bool refresh = false,
   }) async {
-    try {
-      final r = await tbClient.getAuditLogControllerApi().getAuditLogs(
-        pageSize: pageLink.pageSize,
-        page: pageLink.page,
-        textSearch: pageLink.textSearch,
-        sortProperty: pageLink.sortOrder?.property,
-        sortOrder: pageLink.sortOrder?.direction.name,
-        startTime: pageLink.startTime,
-        endTime: pageLink.endTime,
-      );
-      final p = r.data!;
-      return PageData<AuditLog>(
-        p.data?.toList() ?? [],
-        p.totalPages ?? 0,
-        p.totalElements ?? 0,
-        p.hasNext ?? false,
-      );
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    final r = await tbClient.getAuditLogControllerApi().getAuditLogs(
+      pageSize: pageLink.pageSize,
+      page: pageLink.page,
+      textSearch: pageLink.textSearch,
+      sortProperty: pageLink.sortOrder?.property,
+      sortOrder: pageLink.sortOrder?.direction.name,
+      startTime: pageLink.startTime,
+      endTime: pageLink.endTime,
+    );
+    final p = r.data!;
+    return PageData<AuditLog>(
+      p.data?.toList() ?? [],
+      p.totalPages ?? 0,
+      p.totalElements ?? 0,
+      p.hasNext ?? false,
+    );
   }
 
   @override

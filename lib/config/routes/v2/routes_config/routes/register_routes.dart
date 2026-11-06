@@ -9,9 +9,6 @@ import 'package:thingsboard_app/core/auth/signup/email_verified_page.dart';
 import 'package:thingsboard_app/core/auth/signup/privacy_policy.dart';
 import 'package:thingsboard_app/core/auth/signup/signup_page.dart';
 import 'package:thingsboard_app/core/auth/signup/terms_of_use.dart';
-import 'package:thingsboard_app/core/select_region/choose_region_screen.dart';
-import 'package:thingsboard_app/core/select_region/model/region.dart';
-import 'package:thingsboard_app/core/select_region/select_region_screen.dart';
 import 'package:thingsboard_app/utils/ui/tb_recaptcha.dart';
 
 abstract final class RegisterRoutes {

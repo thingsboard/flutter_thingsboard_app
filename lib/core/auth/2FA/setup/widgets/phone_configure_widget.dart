@@ -146,11 +146,8 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
   Future<bool> _sendCode(FormGroup form) async {
     loading.value = true;
     try {
-      final PhoneNumber? phoneNumber =
+      final PhoneNumber phoneNumber =
           form.control('phone').value as PhoneNumber;
-      if (phoneNumber == null) {
-        throw Exception('Phone number is required');
-      }
 
       final updatedConfig = config.rebuild(
         (b) => b..phoneNumber = phoneNumber.international,

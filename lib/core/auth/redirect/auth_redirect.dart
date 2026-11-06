@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:thingsboard_app/config/routes/v2/redirects/redirect.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
@@ -48,7 +48,7 @@ class AuthRedirect implements Redirect {
     }
     final loginPath = isLoginPath(state);
     if (!login.isUserLoaded && !loginPath) {
-      return '/login${path?.isEmpty == true ? '' : '?redirect=$path'}';
+      return '/login${path.isEmpty == true ? '' : '?redirect=$path'}';
     }
 
     // if (login.isUserLoaded &&

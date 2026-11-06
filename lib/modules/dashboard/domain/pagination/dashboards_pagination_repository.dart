@@ -22,13 +22,13 @@ final class DashboardsPaginationRepository
   }
 }
 
-abstract base class SearchablePaginationRepository<Type, Item>
-    extends PaginationRepository<Type, Item> {
+abstract base class SearchablePaginationRepository<PageKey, Item>
+    extends PaginationRepository<PageKey, Item> {
   SearchablePaginationRepository({
-    required SearchablePageKeyController<Type> queryController,
+    required SearchablePageKeyController<PageKey> queryController,
   }) : _ct = queryController,
        super(pageKeyController: queryController);
-  final SearchablePageKeyController<Type> _ct;
+  final SearchablePageKeyController<PageKey> _ct;
   void search(String? data) {
     return _ct.onSearchText(data);
   }

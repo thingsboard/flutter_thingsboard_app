@@ -294,7 +294,7 @@ class _LastSession extends ConsumerWidget {
     final email = getIt<ITbClientService>().client.getAuthUser()?.sub;
     final config = LiveTrackingConfig.fromJson({
       ...record.configJson,
-      if (email != null) 'trackedBy': email,
+      'trackedBy': ?email,
     });
     await ref.read(liveTrackingProvider.notifier).startConfig(config);
   }

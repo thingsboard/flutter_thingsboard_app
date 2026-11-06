@@ -28,7 +28,7 @@ class Signup extends _$Signup {
   }
 
   void clearRecaptchaResponse() {
-    state = state.copyWith(recaptchaResponse: null);
+    state = state.copyWith();
   }
 
   Future<SignUpResult> signup(SignUpRequest request) async {
@@ -70,7 +70,7 @@ class Signup extends _$Signup {
     await _tbClient.getSignUpControllerApi().resendEmailActivation(
       email: email,
       pkgName: _deviceInfoService.getApplicationId(),
-      platform: _deviceInfoService.getPlatformType()?.name,
+      platform: _deviceInfoService.getPlatformType().name,
     );
   }
 }

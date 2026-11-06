@@ -90,7 +90,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
             onWebViewCreated: (ctrl) {
               webViewController = ctrl;
             },
-            onPermissionRequest: (controller, request) async {
+            onPermissionRequest: (controller, request) {
               return PermissionResponse(
                 resources: request.resources,
                 action: PermissionResponseAction.GRANT,

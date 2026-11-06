@@ -88,7 +88,7 @@ class _HomeDashboardState extends State<HomeDashboardPage> {
                   return;
                 }
                 await controller.openDashboard(
-                  widget.dashboard.dashboardId!.id!,
+                  widget.dashboard.dashboardId!.id,
                   hideToolbar: widget.dashboard.hideDashboardToolbar,
                 );
 

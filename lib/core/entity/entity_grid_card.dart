@@ -12,13 +12,10 @@ class EntityGridCard<T> extends StatelessWidget {
   const EntityGridCard(
     T entity, {
     super.key,
-    EntityTapFunction<T>? onEntityTap,
-    required EntityCardWidgetBuilder<T> entityCardWidgetBuilder,
-    required EntityCardSettings settings,
-  })  : _entity = entity,
-        _onEntityTap = onEntityTap,
-        _entityCardWidgetBuilder = entityCardWidgetBuilder,
-        _settings = settings;
+    this._onEntityTap,
+    required this._entityCardWidgetBuilder,
+    required this._settings,
+  })  : _entity = entity;
   final T _entity;
   final EntityTapFunction<T>? _onEntityTap;
   final EntityCardWidgetBuilder<T> _entityCardWidgetBuilder;

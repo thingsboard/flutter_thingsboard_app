@@ -9,10 +9,14 @@ enum Pages {
   devices,
   customers,
   assets,
+  // The names are the page ids the server sends (AUDIT_LOGS).
+  // ignore: constant_identifier_names
   audit_logs,
   notifications,
+  // ignore: constant_identifier_names
   device_list,
   dashboards,
+  // ignore: constant_identifier_names
   live_location_tracking,
   undefined,
 }
@@ -34,13 +38,6 @@ class PageLayout {
     this.url,
   });
 
-  final Pages? id;
-  final String? label;
-  final String? icon;
-  final String? dashboardId;
-  final String? path;
-  final String? url;
-
   factory PageLayout.fromJson(Map<String, dynamic> json) {
     return PageLayout(
       id: pagesFromString(json['id'] as String?),
@@ -51,4 +48,11 @@ class PageLayout {
       url: json['url'] as String?,
     );
   }
+
+  final Pages? id;
+  final String? label;
+  final String? icon;
+  final String? dashboardId;
+  final String? path;
+  final String? url;
 }

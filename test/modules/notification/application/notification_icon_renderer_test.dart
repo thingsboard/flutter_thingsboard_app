@@ -27,7 +27,7 @@ void main() {
       expect(bytes.sublist(0, pngSignature.length), equals(pngSignature));
     });
 
-    test('renders an MDI glyph from the app\'s icon font', () async {
+    test("renders an MDI glyph from the app's icon font", () async {
       final bytes = await NotificationIconRenderer.renderPng(
         mdiIcons['bell']!,
         const Color(0xFFF44336),

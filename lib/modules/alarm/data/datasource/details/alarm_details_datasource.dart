@@ -21,7 +21,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     final res = await thingsboardClient
         .getAlarmCommentControllerApi()
         .getAlarmComments(
-          alarmId: query.id.id!,
+          alarmId: query.id.id,
           pageSize: query.pageLink.pageSize,
           page: query.pageLink.page,
           sortProperty: query.pageLink.sortOrder?.property,
@@ -34,7 +34,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   @override
   Future<AlarmInfo> acknowledgeAlarm(AlarmId id) async {
     final res = await thingsboardClient.getAlarmControllerApi().ackAlarm(
-      alarmId: id.id!,
+      alarmId: id.id,
     );
     return res.data!;
   }
@@ -42,7 +42,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
   @override
   Future<AlarmInfo> clearAlarm(AlarmId id) async {
     final res = await thingsboardClient.getAlarmControllerApi().clearAlarm(
-      alarmId: id.id!,
+      alarmId: id.id,
     );
     return res.data!;
   }
@@ -60,7 +60,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     );
     final res = await thingsboardClient
         .getAlarmCommentControllerApi()
-        .saveAlarmComment(alarmId: alarmId.id!, alarmComment: body);
+        .saveAlarmComment(alarmId: alarmId.id, alarmComment: body);
     return _alarmCommentToInfo(res.data!);
   }
 
@@ -84,14 +84,14 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     );
     final res = await thingsboardClient
         .getAlarmCommentControllerApi()
-        .saveAlarmComment(alarmId: alarmId.id!, alarmComment: body);
+        .saveAlarmComment(alarmId: alarmId.id, alarmComment: body);
     return _alarmCommentToInfo(res.data!);
   }
 
   @override
   Future<void> deleteComment(AlarmId id, {required String commentId}) async {
     await thingsboardClient.getAlarmCommentControllerApi().deleteAlarmComment(
-      alarmId: id.id!,
+      alarmId: id.id,
       commentId: commentId,
     );
   }
@@ -101,7 +101,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
     final res = await thingsboardClient
         .getUserControllerApi()
         .getUsersForAssign(
-          alarmId: query.id.id!,
+          alarmId: query.id.id,
           pageSize: query.pageLink.pageSize,
           page: query.pageLink.page,
           textSearch: query.pageLink.textSearch,

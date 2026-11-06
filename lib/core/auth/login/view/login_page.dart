@@ -42,6 +42,7 @@ class LoginPage extends HookConsumerWidget {
     }, []);
     useEffect(() {
       handleUserLoading(loginState, isUserLoading);
+      return null;
     }, [loginState]);
     return Theme(
       data: wl.loginTheme,

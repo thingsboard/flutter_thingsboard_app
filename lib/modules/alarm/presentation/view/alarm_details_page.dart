@@ -55,10 +55,10 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
         builder: (context, state) {
           switch (state) {
             case AlarmDetailsLoadingState():
-              return  Scaffold(
+              return  const Scaffold(
                 body: SizedBox.expand(
                   child: ColoredBox(
-                    color: const Color(0x99FFFFFF),
+                    color: Color(0x99FFFFFF),
                     child: Center(
                       child: TbProgressIndicator(size: 50.0),
                     ),

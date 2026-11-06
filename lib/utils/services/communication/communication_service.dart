@@ -18,7 +18,7 @@ class CommunicationService implements ICommunicationService {
   }
 
   @override
-  Stream<CommunicationEvent> on<CommunicationEvent>() {
-    return _eventBus.on<CommunicationEvent>();
+  Stream<T> on<T extends CommunicationEvent>() {
+    return _eventBus.on<T>();
   }
 }

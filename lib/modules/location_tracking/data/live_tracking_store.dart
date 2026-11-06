@@ -12,9 +12,8 @@ import 'package:thingsboard_app/modules/location_tracking/domain/models/last_tra
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LiveTrackingStore implements ILiveTrackingStore {
-  LiveTrackingStore({required TbStorage storage, required TbLogger logger})
-    : _storage = storage,
-      _log = logger;
+  LiveTrackingStore({required this._storage, required TbLogger logger})
+    : _log = logger;
 
   final TbStorage _storage;
   final TbLogger _log;

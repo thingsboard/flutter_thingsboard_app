@@ -100,9 +100,9 @@ class _EspSoftApViewState extends State<EspSoftApView> {
                 child: () {
                   switch (state) {
                     case EspSoftAppLoadingState():
-                      return SizedBox.expand(
+                      return const SizedBox.expand(
                         child: ColoredBox(
-                          color: const Color(0x99FFFFFF),
+                          color: Color(0x99FFFFFF),
                           child: Center(child: TbProgressIndicator(size: 50)),
                         ),
                       );

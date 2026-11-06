@@ -559,50 +559,6 @@ Future<void> _signUp(
   }
 }
 
-bool _validateSignUpRequest(
-  BuildContext context,
-  Map<String, dynamic> formValue,
-  SignUpSelfRegistrationParams signUpParams,
-  String? recaptchaResponse,
-) {
-  if (formValue[SignUpFieldId.PASSWORD.name] !=
-      formValue[SignUpFieldId.REPEAT_PASSWORD.name]) {
-    getIt<IOverlayService>().showErrorNotification(
-      (_) => S.of(context).passwordErrorNotification,
-    );
-    return false;
-  } else if (formValue[SignUpFieldId.PASSWORD.name].toString().length < 6) {
-    getIt<IOverlayService>().showErrorNotification(
-      (_) => S.of(context).invalidPasswordLengthMessage,
-    );
-    return false;
-  }
-
-  if (recaptchaResponse == null || recaptchaResponse.isEmpty) {
-    getIt<IOverlayService>().showErrorNotification(
-      (_) => S.of(context).confirmNotRobotMessage,
-    );
-    return false;
-  }
-  if ((signUpParams.showPrivacyPolicy ?? false) &&
-      formValue['acceptPrivacyPolicy'] != true) {
-    getIt<IOverlayService>().showErrorNotification(
-      (_) => S.of(context).acceptPrivacyPolicyMessage,
-    );
-    return false;
-  }
-
-  if ((signUpParams.showTermsOfUse ?? false) &&
-      formValue['acceptTermsOfUse'] != true) {
-    getIt<IOverlayService>().showErrorNotification(
-      (_) => S.of(context).acceptTermsOfUseMessage,
-    );
-    return false;
-  }
-
-  return true;
-}
-
 Future<void> _promptToResendEmailVerification(
   BuildContext context,
   WidgetRef ref,

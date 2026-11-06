@@ -33,8 +33,8 @@ Map<String, dynamic> iconData({
   String? color = '#F44336',
 }) => {
   'icon.enabled': enabled,
-  if (icon != null) 'icon.icon': icon,
-  if (color != null) 'icon.color': color,
+  'icon.icon': ?icon,
+  'icon.color': ?color,
   'alarmId': 'a1',
 };
 

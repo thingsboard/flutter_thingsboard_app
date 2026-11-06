@@ -87,7 +87,7 @@ Response<LoginWhiteLabelingParams> loginWlResponse() => Response(
 );
 
 Response<Map<String, dynamic>> systemInfoResponse(String? version) => Response(
-  data: {if (version != null) 'version': version, 'type': 'PE'},
+  data: {'version': ?version, 'type': 'PE'},
   requestOptions: RequestOptions(),
 );
 
@@ -174,7 +174,8 @@ void main() {
     // The provider is autoDispose; the app root keeps it alive with a watch,
     // which is what lets it outlive a client re-creation.
     container.listen(wlProvider, (_, _) {});
-    return container.read(wlProvider.notifier);
+    final notifier = container.read(wlProvider.notifier);
+    return notifier;
   }
 
   ProviderContainer makeContainer() {

@@ -14,26 +14,21 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
   const EntityDetailsPage({
-    required String defaultTitle,
-    required String entityId,
-    String? subTitle,
-    bool showLoadingIndicator = true,
-    bool hideAppBar = false,
-    double? appBarElevation,
+    required this._defaultTitle,
+    required this._entityId,
+    this._subTitle,
+    this._showLoadingIndicator = true,
+    this._hideAppBar = false,
+    this._appBarElevation,
     super.key,
-  }) : _defaultTitle = defaultTitle,
-       _entityId = entityId,
-       _subTitle = subTitle,
-       _showLoadingIndicator = showLoadingIndicator,
-       _hideAppBar = hideAppBar,
-       _appBarElevation = appBarElevation;
-  final labelTextStyle = const TextStyle(
+  });
+  TextStyle get labelTextStyle => const TextStyle(
     color: Color(0xFF757575),
     fontSize: 14,
     height: 20 / 14,
   );
 
-  final valueTextStyle = const TextStyle(
+  TextStyle get valueTextStyle => const TextStyle(
     color: Color(0xFF282828),
     fontSize: 14,
     height: 20 / 14,

@@ -62,7 +62,7 @@ class ProfileEditPage extends HookConsumerWidget {
             validators: [],
             value:
                 bool.tryParse(
-                  (user.additionalInfo?.asMap?['homeDashboardHideToolbar'])
+                  (user.additionalInfo?.asMap['homeDashboardHideToolbar'])
                       .toString(),
                 ) ??
                 true,
@@ -70,7 +70,7 @@ class ProfileEditPage extends HookConsumerWidget {
           "unitSystem": FormControl(
             validators: [Validators.required],
             value: UnitSystems.fromString(
-              user.additionalInfo?.asMap?['unitSystem']?.toString(),
+              user.additionalInfo?.asMap['unitSystem']?.toString(),
             ),
           ),
           "lang": FormControl<Locale>(
@@ -95,7 +95,7 @@ class ProfileEditPage extends HookConsumerWidget {
     );
     useEffect(() {
       final String? id =
-          user.additionalInfo?.asMap?['homeDashboardId']?.toString();
+          user.additionalInfo?.asMap['homeDashboardId']?.toString();
       getHomeDashboardInfo(id, loading, form);
       return null;
     }, []);

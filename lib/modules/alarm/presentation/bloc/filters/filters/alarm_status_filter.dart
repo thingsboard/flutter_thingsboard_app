@@ -3,12 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/alarm/domain/entities/filter_data_entity.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmStatusFilter<T> implements IAlarmFilter<Set<T>> {
   AlarmStatusFilter({required this.logger, this.initiallySelected}) {
@@ -20,24 +16,6 @@ class AlarmStatusFilter<T> implements IAlarmFilter<Set<T>> {
   final alarmStatusSelected = <T>{};
   final TbLogger logger;
   T? initiallySelected;
-  static final _alarmStatus = <FilterDataEntity<AlarmSearchStatus>>{
-    FilterDataEntity(
-      data: AlarmSearchStatus.ACTIVE,
-      getLocalizedLabel: (BuildContext context) => S.of(context).active,
-    ),
-    FilterDataEntity(
-      data: AlarmSearchStatus.CLEARED,
-      getLocalizedLabel: (BuildContext context) => S.of(context).cleared,
-    ),
-    FilterDataEntity(
-      data: AlarmSearchStatus.ACK,
-      getLocalizedLabel: (BuildContext context) => S.of(context).acknowledged,
-    ),
-    FilterDataEntity(
-      data: AlarmSearchStatus.UNACK,
-      getLocalizedLabel: (BuildContext context) => S.of(context).unacknowledged,
-    ),
-  };
   @override
   Set<T> getSelectedFilterData() {
     logger.debug(

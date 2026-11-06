@@ -98,7 +98,7 @@ class Login extends _$Login {
 
   Future<bool> login(String email, String password) async {
     try {
-      final res = await _tbClient.login(
+      await _tbClient.login(
         LoginRequest(
           (b) => b
             ..username = email

@@ -23,8 +23,8 @@ class FullscreenDashboardPage extends ConsumerStatefulWidget {
   const FullscreenDashboardPage(
     this.fullscreenDashboardId, {
     super.key,
-    String? dashboardTitle,
-  }) : _dashboardTitle = dashboardTitle;
+    this._dashboardTitle,
+  });
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
 
@@ -46,7 +46,7 @@ class _FullscreenDashboardPageState
       loginProvider.select((s) => s.canReadDashboards),
     );
     if (!havePermission) {
-      return DashboardPermissionErrorView(fullScreen: true);
+      return const DashboardPermissionErrorView(fullScreen: true);
     }
 
     return Scaffold(

@@ -83,6 +83,6 @@ class EndpointService implements IEndpointService {
       await setEndpoint(europeHost);
     }
 
-    return databaseService.saveSelectedRegion(region);
+    return await databaseService.saveSelectedRegion(region);
   }
 }

@@ -37,7 +37,7 @@ enum LiveTrackingKeyType {
   gpsActive('GPS_ACTIVE'),
   gpsTrackedBy('GPS_TRACKED_BY');
 
-  const LiveTrackingKeyType(this.wireValue);
+  LiveTrackingKeyType(this.wireValue);
 
   final String wireValue;
 
@@ -63,7 +63,7 @@ enum LiveTrackingValueType {
   attribute('ATTRIBUTE'),
   timeseries('TIMESERIES');
 
-  const LiveTrackingValueType(this.wireValue);
+  LiveTrackingValueType(this.wireValue);
 
   final String wireValue;
 
@@ -160,9 +160,7 @@ class LiveTrackingConfig {
     final keys = <LiveTrackingKey>[
       for (final entry in keysJson)
         if (entry is Map)
-          if (LiveTrackingKey.tryFromJson(Map<String, dynamic>.from(entry))
-              case final key?)
-            key,
+          ?LiveTrackingKey.tryFromJson(Map<String, dynamic>.from(entry)),
     ];
     // Without a position key every fix would resolve to an empty write: the
     // app would stream GPS (and hold the background service) for the whole

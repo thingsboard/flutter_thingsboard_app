@@ -65,9 +65,9 @@ class _EntitiesGridState<T, P> extends BaseEntitiesState<T, P> {
                   settings: widget.entityGridCardSettings(item),
                 ),
                 firstPageErrorIndicatorBuilder: (context) =>
-                    Text("first page error"),
+                    const Text("first page error"),
                 newPageErrorIndicatorBuilder: (context) =>
-                    Text("new page error"),
+                    const Text("new page error"),
                 firstPageProgressIndicatorBuilder:
                     firstPageProgressIndicatorBuilder,
                 newPageProgressIndicatorBuilder:

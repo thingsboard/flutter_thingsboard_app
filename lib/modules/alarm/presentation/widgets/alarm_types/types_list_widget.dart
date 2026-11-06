@@ -101,7 +101,7 @@ class TypesListWidget extends StatelessWidget {
                           return Container(
                             height: 200,
                             color: const Color(0x99FFFFFF),
-                            child: Center(
+                            child: const Center(
                               child: TbProgressIndicator(size: 50.0),
                             ),
                           );

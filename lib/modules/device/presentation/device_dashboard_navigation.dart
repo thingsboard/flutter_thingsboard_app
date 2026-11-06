@@ -73,7 +73,7 @@ Future<void> openDeviceProfileDashboard(
     animate: false,
   );
   final context = globalNavigatorKey.currentContext;
-  if (context == null) {
+  if (context == null || !context.mounted) {
     return;
   }
   if (replace) {

@@ -3,9 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:go_router/src/state.dart';
-import 'package:riverpod/src/framework.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/v2/redirects/redirect.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/select_region_routes.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';

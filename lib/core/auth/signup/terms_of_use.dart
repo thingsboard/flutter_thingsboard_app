@@ -61,7 +61,7 @@ class _TermsOfUseState extends State<TermsOfUse> {
                           onTapUrl: (link) => Utils.onWebViewLinkPressed(link),
                         );
                       } else {
-                        return Center(child: TbProgressIndicator(size: 50.0));
+                        return const Center(child: TbProgressIndicator(size: 50.0));
                       }
                     },
                   ),

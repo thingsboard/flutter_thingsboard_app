@@ -4,8 +4,6 @@
 // found in the LICENSE file.
 
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/core/auth/oauth2/app_secret_provider.dart';
 import 'package:thingsboard_app/core/auth/oauth2/hmac_base64_algorithm.dart';
@@ -20,11 +18,9 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 class TbOAuth2Client implements IOAuth2Client {
   TbOAuth2Client({
     required TbLogger tbLogger,
-    required IDeviceInfoService deviceInfoService,
-    required AppSecretProvider appSecretProvider,
-  }) : _appSecretProvider = appSecretProvider,
-       _logger = tbLogger,
-       _deviceInfoService = deviceInfoService;
+    required this._deviceInfoService,
+    required this._appSecretProvider,
+  }) : _logger = tbLogger;
   final AppSecretProvider _appSecretProvider;
   final TbLogger _logger;
   final IDeviceInfoService _deviceInfoService;

@@ -11,10 +11,9 @@ import 'package:thingsboard_app/utils/silent_request.dart';
 
 class EntityNameResolver implements IEntityNameResolver {
   EntityNameResolver({
-    required ITbClientService clientService,
+    required this._clientService,
     required TbLogger logger,
-  }) : _clientService = clientService,
-       _log = logger;
+  }) : _log = logger;
 
   final ITbClientService _clientService;
   final TbLogger _log;

@@ -45,7 +45,7 @@ class DashboardsGridWidget extends StatelessWidget {
                       (_, dashboard) => DashboardGridCard(dashboard: dashboard),
                   onEntityTap: (dashboard) {
                     dashboardPageCtrl.openDashboard(
-                      dashboard.id!.id!,
+                      dashboard.id!.id,
                       title: getIt<ICustomTranslationService>().translate(
                         dashboard.title,
                       ),

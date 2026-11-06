@@ -14,9 +14,9 @@ import 'package:thingsboard_app/utils/silent_request.dart';
 
 class LiveTrackingRemote implements ILiveTrackingRemote {
   LiveTrackingRemote({
-    required ITbClientService clientService,
+    required this._clientService,
     this.saveTimeout = const Duration(seconds: 30),
-  }) : _clientService = clientService;
+  });
 
   final ITbClientService _clientService;
 

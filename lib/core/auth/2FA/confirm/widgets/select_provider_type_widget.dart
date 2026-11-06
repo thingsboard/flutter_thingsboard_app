@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thingsboard_app/utils/ui/material_icons.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
@@ -19,6 +18,7 @@ import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart'
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/material_icons.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_bottom_sheet_builder.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -233,8 +233,6 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                                           padding: const EdgeInsets.all(16),
                                           child: Row(
                                             spacing: 16,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
                                             children: [
                                               getIcon(
                                                 data.icon,
@@ -288,7 +286,9 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                                   const Duration(milliseconds: 200),
                                 );
                                 ref.invalidate(acountTwoFactorSettingsProvider);
-                              } catch (e) {}
+                              } catch (_) {
+                                // The global error handler shows the error.
+                              }
                               loading.value = false;
                             }
                           },

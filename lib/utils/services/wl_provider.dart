@@ -177,12 +177,6 @@ class Wl extends _$Wl {
     semanticsLabel: 'ThingsBoard Logo',
   );
 
-  static final _defaultLoginLogo = SvgPicture.asset(
-    ThingsboardImage.thingsBoardWithTitle,
-    height: 50 / 3 * 2,
-    colorFilter: ColorFilter.mode(TbThemeUtils.tbPrimary, BlendMode.srcIn),
-    semanticsLabel: 'ThingsBoard Logo',
-  );
 
   static WhiteLabelingParams _createDefaultWlParams() => WhiteLabelingParams(
     (b) =>
@@ -349,11 +343,6 @@ class Wl extends _$Wl {
     return str == null || str.isEmpty;
   }
 
-  static bool _wlIsEqual<T>(T? current, T target) {
-    if (current == null) return false;
-    return current == target;
-  }
-
   Future<void> updateWhiteLabeling() async {
     final region = await getIt<ILocalDatabaseService>().getSelectedRegion();
     if (region == null && !ThingsboardAppConstants.ignoreRegionSelection) {
@@ -372,8 +361,8 @@ class Wl extends _$Wl {
         await _tbClient
             .getWhiteLabelingControllerApi()
             .getLoginWhiteLabelParams();
-    var loginWlParams = response.data;
-    var merged = _mergeLoginDefaults(loginWlParams, _defaultLoginWlParams);
+    final loginWlParams = response.data;
+    final merged = _mergeLoginDefaults(loginWlParams, _defaultLoginWlParams);
     if (merged == _appliedParams) return;
     final loginThemeData = TbThemeUtils.createTheme(merged.paletteSettings);
     final loginLogo = await _updateImages(

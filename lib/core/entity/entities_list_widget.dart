@@ -50,8 +50,8 @@ abstract class EntitiesListWidget<T, P> extends ConsumerStatefulWidget
   EntitiesListWidget(
      {
     super.key,
-    EntitiesListWidgetController? controller,
-  }) : _controller = controller;
+    this._controller,
+  });
   final EntitiesListWidgetController? _controller;
 
   @override

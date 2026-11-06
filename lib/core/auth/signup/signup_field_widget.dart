@@ -4,9 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_client/thingsboard_client.dart' show SignUpField, SignUpFieldId;
@@ -93,6 +91,7 @@ class SingUpFieldWidget extends StatelessWidget {
       case SignUpFieldId.PASSWORD:
         return null;
     }
+    return null;
   }
 
   String fieldIsRequiredText(BuildContext context) {

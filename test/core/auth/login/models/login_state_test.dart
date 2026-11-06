@@ -20,7 +20,7 @@ LoginState _loginWith({
     userPermissions: standardSerializers.deserializeWith(
       AllowedPermissionsInfo.serializer,
       {
-        if (allowedResources != null) 'allowedResources': allowedResources,
+        'allowedResources': ?allowedResources,
         'userPermissions': {
           'genericPermissions': genericPermissions,
           'readGroupPermissions': readGroupPermissions,

@@ -160,7 +160,7 @@ class _DashboardState extends State<DashboardWidget> {
                       dashboardLoading.value = false;
                     }
                   },
-                  onPermissionRequest: (controller, request) async {
+                  onPermissionRequest: (controller, request) {
                     log.debug(
                       // translate-me-ignore-next-line
                       'onPermissionRequest resources: ${request.resources}',

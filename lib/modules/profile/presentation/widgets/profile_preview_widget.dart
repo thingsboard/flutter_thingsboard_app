@@ -178,7 +178,7 @@ class ProfilePreviewWidget extends HookConsumerWidget {
   }
 
   String getUnitName(BuildContext context) => UnitSystems.fromString(
-    user.additionalInfo?.asMap?['unitSystem']?.toString(),
+    user.additionalInfo?.asMap['unitSystem']?.toString(),
   ).getLocalizedName(context);
 }
 
@@ -198,7 +198,7 @@ String getLocalizedLanguageName(Locale locale, BuildContext context) {
 /// The user's language among the selectable ones, else the shown language.
 Locale getCurrentLocale(BuildContext context, User user) {
   final locale = localeFromTbCode(
-    user.additionalInfo?.asMap?['lang']?.toString(),
+    user.additionalInfo?.asMap['lang']?.toString(),
   );
 
   return locale != null && getAllLanguages(context).contains(locale)

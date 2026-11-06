@@ -79,7 +79,7 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
       child: Row(
         spacing: 12,
         children: [
-          Icon(Icons.group, color: AppColors.iconDisabled),
+          const Icon(Icons.group, color: AppColors.iconDisabled),
           Flexible(
             fit: FlexFit.tight,
             child: Column(

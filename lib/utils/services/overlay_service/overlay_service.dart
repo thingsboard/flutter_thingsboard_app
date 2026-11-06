@@ -123,7 +123,8 @@ class OverlayService implements IOverlayService {
 
   Future<bool?> showTbDialog({required TranslatedDialogBuilder content}) async {
     final context = await _navigatorContext();
-    return _pushDialog(context, content);
+    if (!context.mounted) return null;
+    return await _pushDialog(context, content);
   }
 
   /// What showDialog does, but the route is known once it is pushed, so the
@@ -172,7 +173,7 @@ class OverlayService implements IOverlayService {
     _connectionErrorShown = true;
     _navigatorContext().then((context) {
       // A retry dialog came up while waiting for the navigator.
-      if (_connectionRetryShown) {
+      if (_connectionRetryShown || !context.mounted) {
         _connectionErrorShown = false;
         return;
       }
@@ -197,6 +198,7 @@ class OverlayService implements IOverlayService {
     _connectionRetryShown = true;
     try {
       final context = await _navigatorContext();
+      if (!context.mounted) return null;
       final plainDialog = _connectionErrorRoute;
       if (plainDialog != null && plainDialog.isActive) {
         // A removed route never completes its future: reset here.

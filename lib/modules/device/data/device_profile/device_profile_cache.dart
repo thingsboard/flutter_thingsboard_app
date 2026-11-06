@@ -24,7 +24,7 @@ abstract class DeviceProfileCache {
       final infoR = await tbClient
           .getDeviceProfileControllerApi()
           .getDeviceProfileInfoById(
-            deviceProfileId: device.deviceProfileId!.id!,
+            deviceProfileId: device.deviceProfileId!.id,
           );
       final cache = CachedDeviceProfileInfo(
         activeCount: null,

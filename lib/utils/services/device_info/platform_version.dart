@@ -26,14 +26,6 @@ class PlatformVersionMatcher {
 }
 
 class PlatformVersion {
-  static RegExp versionRegExp = RegExp(r'([\d|.]+)([A-Z]*)(-SNAPSHOT)?');
-
-  int major;
-  int minor;
-  int patch;
-  int? minorPatch;
-  String? versionCode;
-  bool isSnapshot;
 
   PlatformVersion({
     required this.major,
@@ -73,6 +65,14 @@ class PlatformVersion {
     }
     throw ArgumentError('Invalid platform version string: $version');
   }
+  static RegExp versionRegExp = RegExp(r'([\d|.]+)([A-Z]*)(-SNAPSHOT)?');
+
+  int major;
+  int minor;
+  int patch;
+  int? minorPatch;
+  String? versionCode;
+  bool isSnapshot;
 
   int versionInt() {
     return major * 1000 +

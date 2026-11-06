@@ -22,12 +22,12 @@ import 'package:thingsboard_app/utils/services/location/model/location_stream_se
 
 class LiveLocationTrackingService implements ILiveLocationTrackingService {
   LiveLocationTrackingService({
-    required ILocationService locationService,
-    required ILiveTrackingRemote remote,
+    required this._locationService,
+    required this._remote,
     required TbLogger logger,
-    required ILiveTrackingStore store,
-    required IEntityNameResolver nameResolver,
-    required ILiveTrackingNotifications notifications,
+    required this._store,
+    required this._nameResolver,
+    required this._notifications,
     // Android notification strings are OS-level, set once at construction;
     // English defaults are acceptable for v1 (the locator can later pass
     // localized strings without touching this class).
@@ -35,12 +35,7 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
       notificationTitle: 'ThingsBoard',
       notificationText: 'Live location tracking is active',
     ),
-  }) : _locationService = locationService,
-       _remote = remote,
-       _log = logger,
-       _store = store,
-       _nameResolver = nameResolver,
-       _notifications = notifications;
+  }) : _log = logger;
 
   final ILocationService _locationService;
   final ILiveTrackingRemote _remote;

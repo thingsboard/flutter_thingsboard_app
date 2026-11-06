@@ -175,9 +175,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             valueListenable: _isLoadingNotifier,
             builder: (BuildContext context, bool loading, child) {
               if (loading) {
-                return SizedBox.expand(
+                return const SizedBox.expand(
                   child: ColoredBox(
-                    color: const Color(0x99FFFFFF),
+                    color: Color(0x99FFFFFF),
                     child: Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 );

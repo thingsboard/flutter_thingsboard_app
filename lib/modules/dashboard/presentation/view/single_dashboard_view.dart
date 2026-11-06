@@ -53,7 +53,7 @@ class _SingleDashboardViewState extends ConsumerState<SingleDashboardView>
       loginProvider.select((s) => s.canReadDashboards),
     );
     if (!havePermission) {
-      return DashboardPermissionErrorView();
+      return const DashboardPermissionErrorView();
     }
 
     return Scaffold(

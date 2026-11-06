@@ -16,8 +16,7 @@ import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_ser
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class EmailVerificationPage extends StatefulWidget {
-  const EmailVerificationPage({super.key, required String email})
-    : _email = email;
+  const EmailVerificationPage({super.key, required this._email});
   final String _email;
 
   @override
