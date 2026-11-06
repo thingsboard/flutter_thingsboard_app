@@ -2,11 +2,11 @@
 
 ## 2.0.0 (unreleased)
 
-ThingsBoard CE and PE are now one product, and this is its single mobile app. It continues the ThingsBoard PE app (all of its history is kept) and ships under the CE store identity.
+ThingsBoard CE and PE are now one product, and this is its open-source mobile app: use it as is, or as the base of your own branded app. It continues the ThingsBoard PE app (all of its history is kept).
 
 ### Breaking
 
-- The app id is `org.thingsboard.app` on Android and iOS (it was `org.thingsboard.pe.app` for the PE app), and the app is named **ThingsBoard App**.
+- The default app id is `org.thingsboard.app` on Android and iOS (it was `org.thingsboard.pe.app`), and the default name is **ThingsBoard App**. An app that sets its own id (`androidApplicationId`, `iosApplicationId`) keeps it; a build that relied on the old default id gets a new one, which the stores treat as a different app.
 - Requires ThingsBoard 4.4.0 or later. The version is checked on every sign-in (password, two-factor, QR code, OAuth) and at start-up; an older server shows a "Server update required" page with its version and keeps no session.
 - Updating from 1.x signs the user out once and asks for the region or server again: the app data moved to the platform secure storage.
 
