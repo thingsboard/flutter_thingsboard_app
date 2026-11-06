@@ -486,7 +486,7 @@ class Wl extends _$Wl {
     final double height =
         isLogin ? logoImageHeight.clamp(1, 200) : logoImageHeight / 3 * 2;
     if (wlParams.logoImageUrl == defaultLogoUrl) {
-      Region? region;
+      final region = await getIt<ILocalDatabaseService>().getSelectedRegion();
       return SvgPicture.asset(
         region == Region.europe
             ? ThingsboardImage.thingsBoardEUWithTitle

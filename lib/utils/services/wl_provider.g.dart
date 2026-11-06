@@ -40,7 +40,7 @@ final class WlProvider extends $NotifierProvider<Wl, WlState> {
   }
 }
 
-String _$wlHash() => r'f6f23cf0910d82be0ae4d4c47c3ceb0e13c31212';
+String _$wlHash() => r'cb757ae9ec3f7e95fa1d3e5ff1e29e911ff68efd';
 
 abstract class _$Wl extends $Notifier<WlState> {
   WlState build();
