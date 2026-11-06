@@ -70,7 +70,7 @@ dependencies:
   open_settings_plus: ^0.5.1
   plugin_wifi_connect: ^2.0.3
   toastification: ^3.2.2
-  flutter_widget_from_html: ^0.17.4
+  flutter_widget_from_html_core: ^0.17.4
   file_picker: ^13.3.2
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0

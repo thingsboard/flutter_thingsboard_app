@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
