@@ -13,6 +13,7 @@ import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 
@@ -30,7 +31,12 @@ class LoginHeader extends ConsumerWidget {
     final logo = wl.isCustomLogo
         ? wl.logo
         : SvgPicture.asset(
-            ThingsboardImage.thingsBoardWithTitle,
+            // The EU cloud logo for Europe, like the app bar; the cached
+            // endpoint gives the region without waiting a frame.
+            getIt<IEndpointService>().getCachedEndpoint() ==
+                    EndpointService.europeHost
+                ? ThingsboardImage.thingsBoardEUWithTitle
+                : ThingsboardImage.thingsBoardWithTitle,
             height: logoHeight,
             colorFilter: ColorFilter.mode(
               theme.colorScheme.primary,
