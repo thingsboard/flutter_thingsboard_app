@@ -13,6 +13,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 
 /// Shown instead of signing in when the server is older than the app
 /// supports: the user cannot fix it, so it says whom to ask, and the login
@@ -36,67 +37,58 @@ class ServerUpdateRequiredPage extends StatelessWidget {
           children: [
             const LoginPageBackground(),
             SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight - 48,
+              child: FillScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Spacer(),
+                    SvgPicture.asset(
+                      ThingsboardImage.mobileConnectionError,
+                      height: 140,
                     ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Spacer(),
-                          SvgPicture.asset(
-                            ThingsboardImage.mobileConnectionError,
-                            height: 140,
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            S.of(context).serverUpdateRequired,
-                            textAlign: TextAlign.center,
-                            style: TbTextStyles.titleMedium.copyWith(
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          if (error != null) ...[
-                            const SizedBox(height: 8),
-                            Text(
-                              S
-                                  .of(context)
-                                  .serverRequiresVersion(
-                                    displayVersion(error.minVersion),
-                                  ),
-                              textAlign: TextAlign.center,
-                              style: TbTextStyles.bodyLarge.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            _ServerCard(
-                              host: host,
-                              version: displayVersion(error.serverVersion),
-                            ),
-                          ],
-                          const SizedBox(height: 16),
-                          Text(
-                            S.of(context).askAdminToUpdateServer,
-                            textAlign: TextAlign.center,
-                            style: TbTextStyles.bodyMedium.copyWith(
-                              color: AppColors.textTertiary,
-                            ),
-                          ),
-                          const Spacer(flex: 2),
-                          const SizedBox(height: 24),
-                          FilledButton(
-                            onPressed: clientService.clearUnsupportedServer,
-                            child: Text(S.of(context).backToLogin),
-                          ),
-                        ],
+                    const SizedBox(height: 24),
+                    Text(
+                      S.of(context).serverUpdateRequired,
+                      textAlign: TextAlign.center,
+                      style: TbTextStyles.titleMedium.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
-                  ),
+                    if (error != null) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        S
+                            .of(context)
+                            .serverRequiresVersion(
+                              displayVersion(error.minVersion),
+                            ),
+                        textAlign: TextAlign.center,
+                        style: TbTextStyles.bodyLarge.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      _ServerCard(
+                        host: host,
+                        version: displayVersion(error.serverVersion),
+                      ),
+                    ],
+                    const SizedBox(height: 16),
+                    Text(
+                      S.of(context).askAdminToUpdateServer,
+                      textAlign: TextAlign.center,
+                      style: TbTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textTertiary,
+                      ),
+                    ),
+                    const Spacer(flex: 2),
+                    const SizedBox(height: 24),
+                    FilledButton(
+                      onPressed: clientService.clearUnsupportedServer,
+                      child: Text(S.of(context).backToLogin),
+                    ),
+                  ],
                 ),
               ),
             ),

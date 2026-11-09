@@ -23,6 +23,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginWidget extends HookConsumerWidget {
@@ -57,132 +58,115 @@ class LoginWidget extends HookConsumerWidget {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              // At least the screen height, so Log In sits at the bottom; on a
-              // short screen (landscape, large text) the page scrolls.
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
+              child: FillScrollView(
+                child: Column(
+                  spacing: 16,
+                  children: [
+                    const LoginHeader(),
+                    Text(
+                      S.of(context).loginToYourAccount,
+                      style: TbTextStyles.titleMedium,
                     ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        spacing: 16,
-                        children: [
-                          const LoginHeader(),
-                          Text(
-                            S.of(context).loginToYourAccount,
-                            style: TbTextStyles.titleMedium,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 32),
-                            child: AutofillGroup(
-                              child: Column(
-                                spacing: 12,
-                                children: [
-                                  Text(
-                                    S.of(context).loginWith.toUpperCase(),
-                                    style: TbTextStyles.labelMedium.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'Roboto',
-                                      letterSpacing: 0.4,
-                                    ),
-                                  ),
-                                  OAuthButtons(
-                                    onButtonPressed: (client) =>
-                                        onOauth2ButtonPressed(
-                                          client,
-                                          context,
-                                          loading,
-                                          ref,
-                                        ),
-                                    clients:
-                                        providers.value?.oAuth2ClientLoginInfos
-                                            ?.toList() ??
-                                        [],
-                                  ),
-                                  TextDivider(text: S.of(context).or),
-
-                                  Column(
-                                    spacing: 24,
-                                    children: [
-                                      TbTextField(
-                                        formControlName: "email",
-                                        label: S.of(context).email,
-                                        hint: S.of(context).email,
-                                        autoFillHints: const [
-                                          AutofillHints.email,
-                                        ],
-                                      ),
-                                      TbTextField(
-                                        formControlName: "password",
-                                        label: S.of(context).password,
-                                        hint: S.of(context).password,
-                                        obscureText: true,
-                                        autoFillHints: const [
-                                          AutofillHints.password,
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional.centerEnd,
-                                    child: TextButton(
-                                      onPressed: () =>
-                                          onForgotPassword(context),
-                                      child: Text(
-                                        S.of(context).passwordForgotText,
-                                        style: TbTextStyles.labelSmall,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 32),
+                      child: AutofillGroup(
+                        child: Column(
+                          spacing: 12,
+                          children: [
+                            Text(
+                              S.of(context).loginWith.toUpperCase(),
+                              style: TbTextStyles.labelMedium.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Roboto',
+                                letterSpacing: 0.4,
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: ReactiveFormConsumer(
-                              builder: (context, formGroup, child) {
-                                return Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 12,
-                                          ),
-                                        ),
-                                        onPressed:
-                                            formGroup.invalid &&
-                                                formGroup.touched
-                                            ? null
-                                            : () async {
-                                                await onLoginPressed(
-                                                  context,
-                                                  form,
-                                                  ref,
-                                                  loading,
-                                                );
-                                              },
-                                        child: Text(
-                                          S.of(context).login,
-                                          style: TbTextStyles.labelMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    const LoginFooter(),
-                                  ],
-                                );
-                              },
+                            OAuthButtons(
+                              onButtonPressed: (client) =>
+                                  onOauth2ButtonPressed(
+                                    client,
+                                    context,
+                                    loading,
+                                    ref,
+                                  ),
+                              clients:
+                                  providers.value?.oAuth2ClientLoginInfos
+                                      ?.toList() ??
+                                  [],
                             ),
-                          ),
-                        ],
+                            TextDivider(text: S.of(context).or),
+
+                            Column(
+                              spacing: 24,
+                              children: [
+                                TbTextField(
+                                  formControlName: "email",
+                                  label: S.of(context).email,
+                                  hint: S.of(context).email,
+                                  autoFillHints: const [AutofillHints.email],
+                                ),
+                                TbTextField(
+                                  formControlName: "password",
+                                  label: S.of(context).password,
+                                  hint: S.of(context).password,
+                                  obscureText: true,
+                                  autoFillHints: const [AutofillHints.password],
+                                ),
+                              ],
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: TextButton(
+                                onPressed: () => onForgotPassword(context),
+                                child: Text(
+                                  S.of(context).passwordForgotText,
+                                  style: TbTextStyles.labelSmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: ReactiveFormConsumer(
+                        builder: (context, formGroup, child) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  onPressed:
+                                      formGroup.invalid && formGroup.touched
+                                      ? null
+                                      : () async {
+                                          await onLoginPressed(
+                                            context,
+                                            form,
+                                            ref,
+                                            loading,
+                                          );
+                                        },
+                                  child: Text(
+                                    S.of(context).login,
+                                    style: TbTextStyles.labelMedium,
+                                  ),
+                                ),
+                              ),
+                              const LoginFooter(),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

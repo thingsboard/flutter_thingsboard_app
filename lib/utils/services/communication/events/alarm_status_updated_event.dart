@@ -7,10 +7,5 @@ import 'package:thingsboard_app/utils/services/communication/communication_event
 
 /// An alarm was acknowledged or cleared: lists showing its status reload.
 final class AlarmStatusUpdatedEvent extends CommunicationEvent {
-  const AlarmStatusUpdatedEvent(this.id);
-
-  final String id;
-
-  @override
-  List<Object?> get props => [id];
+  const AlarmStatusUpdatedEvent();
 }

@@ -18,6 +18,7 @@ import 'package:thingsboard_app/modules/main/presentation/providers/navigation_p
 import 'package:thingsboard_app/modules/more/presentation/widgets/more_menu_item_widget.dart';
 import 'package:thingsboard_app/modules/more/presentation/widgets/profle_widget.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/more_page_footer.dart';
 
 class MorePage extends HookConsumerWidget {
@@ -59,49 +60,35 @@ class MorePage extends HookConsumerWidget {
       height: 0,
     );
     return SafeArea(
-      // The whole page scrolls on a short screen (landscape, large text);
-      // otherwise the footer stays at the bottom.
-      child: LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: (constraints.maxHeight - 48).clamp(0, double.infinity),
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    spacing: 20,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ProfileWidget(userDetails: userDetails, user: login.user),
-                      if (items.isNotEmpty) ...[
-                        divider,
-                        Column(children: menuItems),
-                      ],
-                      divider,
-                      MoreMenuItemWidget(
-                        TbMainNavigationItem(
-                          title: S.of(context).logout,
-                          icon: Icons.logout,
-                          path: '',
-                        ),
-                        showTrailing: false,
-                        color: AppColors.textError,
-                        onTap: () async {
-                          await ref.read(loginProvider.notifier).logout();
-                        },
-                      ),
-                    ],
+      child: FillScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              spacing: 20,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProfileWidget(userDetails: userDetails, user: login.user),
+                if (items.isNotEmpty) ...[divider, Column(children: menuItems)],
+                divider,
+                MoreMenuItemWidget(
+                  TbMainNavigationItem(
+                    title: S.of(context).logout,
+                    icon: Icons.logout,
+                    path: '',
                   ),
-                  const Spacer(),
-                  const MorePageFooter(),
-                ],
-              ),
+                  showTrailing: false,
+                  color: AppColors.textError,
+                  onTap: () async {
+                    await ref.read(loginProvider.notifier).logout();
+                  },
+                ),
+              ],
             ),
-          ),
+            const Spacer(),
+            const MorePageFooter(),
+          ],
         ),
       ),
     );

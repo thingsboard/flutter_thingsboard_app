@@ -76,7 +76,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         emit(const AlarmDetailsLoadingState());
         try {
           await clearAlarmUseCase(event.id);
-          communicationService.fire(AlarmStatusUpdatedEvent(event.id.id));
+          communicationService.fire(const AlarmStatusUpdatedEvent());
         } finally {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
@@ -85,7 +85,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         emit(const AlarmDetailsLoadingState());
         try {
           await acknowledgeAlarmUseCase(event.id);
-          communicationService.fire(AlarmStatusUpdatedEvent(event.id.id));
+          communicationService.fire(const AlarmStatusUpdatedEvent());
         } finally {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
