@@ -10,7 +10,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/core/auth/login/di/login_di.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_widget.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
@@ -50,14 +49,7 @@ class LoginPage extends HookConsumerWidget {
         value: darkForeground
             ? SystemUiOverlayStyle.dark
             : SystemUiOverlayStyle.light,
-        child: Scaffold(
-          body: Stack(
-            children: [
-              const LoginWidget(),
-              if (isUserLoading.value) const FullScreenLoader(),
-            ],
-          ),
-        ),
+        child: Scaffold(body: LoginWidget(userLoading: isUserLoading.value)),
       ),
     );
   }

@@ -14,12 +14,17 @@ class AnimatedVisibilityWidget extends HookWidget {
     this.duration = const Duration(milliseconds: 200),
     this.curve = Curves.easeInOut,
     this.replacment = const SizedBox.shrink(),
+    this.scale = false,
   });
   final bool show;
   final Widget child;
   final Duration duration;
   final Curve curve;
   final Widget replacment;
+
+  /// Grows the child from 60% while it fades in; not for full-screen
+  /// overlays, which would show as a growing box.
+  final bool scale;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,9 @@ class AnimatedVisibilityWidget extends HookWidget {
 
     return Opacity(
       opacity: animation,
-      child: Transform.scale(scale: 0.6 + (animation * 0.4), child: child),
+      child: scale
+          ? Transform.scale(scale: 0.6 + (animation * 0.4), child: child)
+          : child,
     );
   }
 }

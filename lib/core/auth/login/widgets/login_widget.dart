@@ -26,7 +26,11 @@ import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginWidget extends HookConsumerWidget {
-  const LoginWidget({super.key});
+  const LoginWidget({super.key, this.userLoading = false});
+
+  /// The user of a stored session is loading: keeps one loader up from the
+  /// login request to the home screen.
+  final bool userLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -179,7 +183,7 @@ class LoginWidget extends HookConsumerWidget {
         ),
 
         AnimatedVisibilityWidget(
-          show: loading.value || providers is AsyncLoading,
+          show: loading.value || providers is AsyncLoading || userLoading,
           child: const FullScreenLoader(),
         ),
       ],
@@ -200,8 +204,9 @@ Future<void> onLoginPressed(
   }
   final String username = form.control('email').value.toString();
   final String password = form.control('password').value.toString();
-  // Covers the request only: once a session is stored, LoginPage shows its
-  // own loader until the user loads, and drops it if the session is dropped.
+  // Covers the request only: once a session is stored, LoginPage keeps the
+  // loader up through userLoading until the user loads, and drops it if the
+  // session is dropped.
   try {
     loading.value = true;
     await ref.read(loginProvider.notifier).login(username, password);

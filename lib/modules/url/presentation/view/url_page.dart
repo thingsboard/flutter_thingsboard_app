@@ -58,6 +58,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
           },
         ),
         leading: AnimatedVisibilityWidget(
+          scale: true,
           show: canGoBack,
           child: IconButton(
             icon: const Icon(Icons.arrow_back),
