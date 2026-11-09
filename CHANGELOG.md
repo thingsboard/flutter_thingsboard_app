@@ -40,6 +40,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Two-factor authentication: when sending the code fails, it can be requested again at once.
 - The ThingsBoard EU logo shows for the Europe region, on the login page too.
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
+- Signing in shows one steady loader until the home screen instead of a flickering one.
 - The unread notifications count shows when Notifications is under More.
 - Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
 
