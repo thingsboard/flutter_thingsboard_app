@@ -47,6 +47,8 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
                 entityCardWidgetBuilder: widget.buildEntityListCard,
                 onEntityTap: (i) => widget.onEntityTap(i, ref),
               ),
+              firstPageErrorIndicatorBuilder: firstPageErrorIndicatorBuilder,
+              newPageErrorIndicatorBuilder: newPageErrorIndicatorBuilder,
               firstPageProgressIndicatorBuilder:
                   firstPageProgressIndicatorBuilder,
               newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,

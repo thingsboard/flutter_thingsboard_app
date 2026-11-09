@@ -132,12 +132,20 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
       activeDevicesCount,
       inactiveDevicesCount,
     ]);
-    countsFuture.then((counts) {
-      if (mounted) {
-        _activeDevicesCount.add(counts[0]);
-        _inactiveDevicesCount.add(counts[1]);
-      }
-    });
+    countsFuture
+        .then((counts) {
+          if (mounted) {
+            _activeDevicesCount.add(counts[0]);
+            _inactiveDevicesCount.add(counts[1]);
+          }
+        })
+        .catchError((Object e) {
+          // Stops the spinners; pull to refresh or "Try again" counts again.
+          if (mounted) {
+            _activeDevicesCount.addError(e);
+            _inactiveDevicesCount.addError(e);
+          }
+        });
     return countsFuture;
   }
 
@@ -179,16 +187,17 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                 ),
               ),
               const Divider(height: 1),
-              Padding(
-                padding: EdgeInsets.zero,
+              // Grows with the text scale: the counts must not be clipped.
+              IntrinsicHeight(
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Flexible(
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Container(
-                          height: 40,
+                          constraints: const BoxConstraints(minHeight: 40),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(4),
@@ -196,12 +205,11 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                           child: StreamBuilder<int?>(
                             stream: _activeDevicesCount.stream,
                             builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                final deviceCount = snapshot.data!;
+                              if (snapshot.hasData || snapshot.hasError) {
                                 return _buildDeviceCount(
                                   context,
                                   true,
-                                  deviceCount,
+                                  snapshot.data,
                                 );
                               } else {
                                 return const Center(
@@ -224,18 +232,13 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                         },
                       ),
                     ),
-                    // SizedBox(width: 4),
-                    const SizedBox(
-                      width: 1,
-                      height: 40,
-                      child: VerticalDivider(width: 1),
-                    ),
+                    const VerticalDivider(width: 1),
                     Flexible(
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Container(
-                          height: 40,
+                          constraints: const BoxConstraints(minHeight: 40),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(4),
@@ -243,12 +246,11 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                           child: StreamBuilder<int?>(
                             stream: _inactiveDevicesCount.stream,
                             builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                final deviceCount = snapshot.data!;
+                              if (snapshot.hasData || snapshot.hasError) {
                                 return _buildDeviceCount(
                                   context,
                                   false,
-                                  deviceCount,
+                                  snapshot.data,
                                 );
                               } else {
                                 return const Center(
@@ -376,7 +378,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
                   return _buildDeviceCount(
                     context,
                     true,
-                    deviceCount.activeCount!,
+                    deviceCount.activeCount,
                   );
                 } else {
                   return const SizedBox(
@@ -411,7 +413,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
                   return _buildDeviceCount(
                     context,
                     false,
-                    deviceCount.inactiveCount!,
+                    deviceCount.inactiveCount,
                   );
                 } else {
                   return const SizedBox(
@@ -440,7 +442,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
   }
 }
 
-Widget _buildDeviceCount(BuildContext context, bool active, int count) {
+Widget _buildDeviceCount(BuildContext context, bool active, int? count) {
   final Color color = active
       ? const Color(0xFF008A00)
       : const Color(0xFFAFAFAF);
@@ -473,7 +475,7 @@ Widget _buildDeviceCount(BuildContext context, bool active, int count) {
             ),
             const SizedBox(width: 8.67),
             Text(
-              count.toString(),
+              count?.toString() ?? '–',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,

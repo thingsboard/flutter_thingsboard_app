@@ -259,13 +259,16 @@ abstract class BaseEntitiesState<T, P>
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => Future.wait([
-        widget.onRefresh(),
-        pagingController.reloadFirstPage(refresh: true),
-      ]),
+      onRefresh: _reload,
       child: pagedViewBuilder(context),
     );
   }
+
+  /// Pull to refresh and "Try again": the heading (counts) and the first page.
+  Future<void> _reload() => Future.wait([
+    widget.onRefresh(),
+    pagingController.reloadFirstPage(refresh: true),
+  ]);
 
   Widget pagedViewBuilder(BuildContext context);
 
@@ -289,6 +292,24 @@ abstract class BaseEntitiesState<T, P>
     return const Padding(
       padding: EdgeInsets.only(top: 16, bottom: 16),
       child: Center(child: RefreshProgressIndicator()),
+    );
+  }
+
+  /// The client already reported why the first page failed.
+  Widget firstPageErrorIndicatorBuilder(BuildContext context) {
+    return FirstPageExceptionIndicator(
+      title: S.of(context).somethingWentWrong,
+      onTryAgain: _reload,
+    );
+  }
+
+  Widget newPageErrorIndicatorBuilder(BuildContext context) {
+    return Center(
+      child: TextButton.icon(
+        onPressed: pagingController.fetchNextPage,
+        icon: const Icon(Icons.refresh),
+        label: Text(S.of(context).tryAgain),
+      ),
     );
   }
 

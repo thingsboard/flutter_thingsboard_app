@@ -42,6 +42,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - Signing in shows one steady loader until the home screen instead of a flickering one.
 - The unread notifications count shows when Notifications is under More.
+- Entity lists that fail to load (offline, server error) show a translated error with Try again, and the device counts stop spinning; the counts are no longer clipped at large font sizes.
 - Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.
