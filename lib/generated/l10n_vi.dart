@@ -1148,6 +1148,9 @@ class SVi extends S {
   String get autoUnitSystem => 'Tự động';
 
   @override
+  String get languageAuto => 'Tự động';
+
+  @override
   String get unitSystem => 'Hệ thống đơn vị';
 
   @override

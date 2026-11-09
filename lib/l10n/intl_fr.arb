@@ -361,6 +361,7 @@
   "imperialUnitSystem": "Impérial",
   "hybridUnitSystem": "Hybride",
   "autoUnitSystem": "Auto",
+  "languageAuto": "Auto",
   "unitSystem": "Système d'unités",
   "selectCountry": "Sélectionner le pays",
   "hideHomeDashboardToolbar": "Masquer la barre d'outils du tableau de bord",

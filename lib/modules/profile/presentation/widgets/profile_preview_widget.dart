@@ -39,7 +39,8 @@ class ProfilePreviewWidget extends HookConsumerWidget {
       S.of(context).email: user.email,
       S.of(context).firstName: user.firstName,
       S.of(context).lastName: user.lastName,
-      S.of(context).language: nativeLanguageName(
+      S.of(context).language: languageName(
+        context,
         getCurrentLocale(context, user),
       ),
 
@@ -179,23 +180,37 @@ class ProfilePreviewWidget extends HookConsumerWidget {
   ).getLocalizedName(context);
 }
 
+/// "Auto" (no `additionalInfo.lang`, the device language), as in the web UI;
+/// `und` is the BCP 47 tag for an undetermined language.
+const autoLanguage = Locale('und');
+
 List<Locale> getAllLanguages() {
   final List<Locale> fixedList = List.from(S.supportedLocales);
   fixedList.removeWhere((e) => e.languageCode == 'zh' && e.countryCode == null);
 
-  return fixedList;
+  return [autoLanguage, ...fixedList];
 }
 
-/// The user's language among the selectable ones, else the shown language.
-Locale getCurrentLocale(BuildContext context, User user) {
-  final locale = localeFromTbCode(
-    user.additionalInfo?.asMap['lang']?.toString(),
-  );
-
-  return locale != null && getAllLanguages().contains(locale)
-      ? locale
-      : Localizations.localeOf(context);
+/// The profile language for the ThingsBoard code [lang]: [autoLanguage]
+/// without one, the selectable language for it, else [shown] (the user keeps
+/// a language the app does not translate, such as `uk_UA`).
+Locale profileLanguage(String? lang, Locale shown) {
+  if (lang == null || lang.isEmpty) {
+    return autoLanguage;
+  }
+  final locale = localeFromTbCode(lang);
+  return locale != null && getAllLanguages().contains(locale) ? locale : shown;
 }
+
+Locale getCurrentLocale(BuildContext context, User user) => profileLanguage(
+  user.additionalInfo?.asMap['lang']?.toString(),
+  Localizations.localeOf(context),
+);
+
+String languageName(BuildContext context, Locale locale) =>
+    locale == autoLanguage
+    ? S.of(context).languageAuto
+    : nativeLanguageName(locale);
 
 Future<void> _changePassword(BuildContext context) async {
   final res = await context.push('/profile/changePassword');

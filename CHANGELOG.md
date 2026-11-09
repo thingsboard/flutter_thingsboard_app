@@ -15,6 +15,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Uses `thingsboard_client` 5.0, the single generated Dart client for ThingsBoard, instead of `thingsboard_pe_client`. Built with Flutter 3.47.9 (`.fvmrc`).
 - Push notifications register with the Firebase Installation ID.
 - The language from the user profile also applies to system widgets (date pickers, dialog buttons) and dates; the profile saves it in the ThingsBoard format (`de_DE`). Arabic (`ar_AE`) and Norwegian devices (`nb`) get their translation, country names follow the app language.
+- The profile language can be set to Auto, as in the web UI: the app then follows the device language.
 - The Roboto font is bundled instead of being downloaded from Google at run time.
 - Smaller app: the arm64 Android APK went from 62.5 MB (1.9.1) to 46.7 MB, about 16 MB less installed on iOS.
 - Account deletion (off by default) deletes only the current user, not the whole tenant (from PE 1.9.2).

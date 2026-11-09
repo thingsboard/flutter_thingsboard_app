@@ -284,18 +284,24 @@ class ProfileEditPage extends HookConsumerWidget {
                                         onSelected: (val) {
                                           ref
                                               .read(appLocaleProvider.notifier)
-                                              .set(val);
+                                              .set(
+                                                val == autoLanguage
+                                                    ? null
+                                                    : val,
+                                              );
                                           selectedLocale.value = val!;
                                         },
                                         selectedItemBuilder: (val) =>
-                                            nativeLanguageName(val!),
+                                            languageName(context, val!),
                                         bottomSheetBuilder: (_, val) =>
                                             TbBottomSheetBuilder<Locale>(
                                               allItems: allLanguages,
 
                                               title: S.of(context).language,
-                                              listTitleBuilder: (_, item) =>
-                                                  nativeLanguageName(item),
+                                              listTitleBuilder: (
+                                                context,
+                                                item,
+                                              ) => languageName(context, item),
                                             ),
                                       ),
                                     ),
@@ -556,7 +562,9 @@ Future<void> _saveProfile(
   final lang = additionalInfoForm.control('lang').value as Locale;
   // Keeps a language the app does not translate (uk_UA) unless the user
   // picks another one.
-  if (lang != initialLocale) {
+  if (lang == autoLanguage) {
+    updatedAdditionalInfo.remove('lang');
+  } else if (lang != initialLocale) {
     updatedAdditionalInfo['lang'] = tbLocaleCode(lang);
   }
 

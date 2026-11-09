@@ -361,6 +361,7 @@
   "imperialUnitSystem": "إمبراطوري",
   "hybridUnitSystem": "هجين",
   "autoUnitSystem": "تلقائي",
+  "languageAuto": "تلقائي",
   "unitSystem": "نظام الوحدات",
   "selectCountry": "اختيار البلد",
   "hideHomeDashboardToolbar": "إخفاء شريط أدوات لوحة المعلومات الرئيسية",

@@ -361,6 +361,7 @@
   "imperialUnitSystem": "Hệ đo lường Anh",
   "hybridUnitSystem": "Hệ hỗn hợp",
   "autoUnitSystem": "Tự động",
+  "languageAuto": "Tự động",
   "unitSystem": "Hệ thống đơn vị",
   "selectCountry": "Chọn quốc gia",
   "hideHomeDashboardToolbar": "Ẩn thanh công cụ bảng điều khiển trang chủ",

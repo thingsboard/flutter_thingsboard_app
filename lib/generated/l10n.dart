@@ -2172,6 +2172,12 @@ abstract class S {
   /// **'Auto'**
   String get autoUnitSystem;
 
+  /// No description provided for @languageAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get languageAuto;
+
   /// No description provided for @unitSystem.
   ///
   /// In en, this message translates to:

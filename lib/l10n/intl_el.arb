@@ -361,6 +361,7 @@
   "imperialUnitSystem": "Αγγλοσαξονικό",
   "hybridUnitSystem": "Υβριδικό",
   "autoUnitSystem": "Αυτόματο",
+  "languageAuto": "Αυτόματο",
   "unitSystem": "Σύστημα μονάδων",
   "selectCountry": "Επιλογή χώρας",
   "hideHomeDashboardToolbar": "Απόκρυψη γραμμής εργαλείων πίνακα ελέγχου",

@@ -361,6 +361,7 @@
   "imperialUnitSystem": "Imperiaal",
   "hybridUnitSystem": "Hybride",
   "autoUnitSystem": "Auto",
+  "languageAuto": "Auto",
   "unitSystem": "Eenhedensysteem",
   "selectCountry": "Land selecteren",
   "hideHomeDashboardToolbar": "Dashboard-werkbalk verbergen",

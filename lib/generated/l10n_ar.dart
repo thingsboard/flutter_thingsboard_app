@@ -1143,6 +1143,9 @@ class SAr extends S {
   String get autoUnitSystem => 'تلقائي';
 
   @override
+  String get languageAuto => 'تلقائي';
+
+  @override
   String get unitSystem => 'نظام الوحدات';
 
   @override

@@ -1146,6 +1146,9 @@ class SEn extends S {
   String get autoUnitSystem => 'Auto';
 
   @override
+  String get languageAuto => 'Auto';
+
+  @override
   String get unitSystem => 'Unit system';
 
   @override

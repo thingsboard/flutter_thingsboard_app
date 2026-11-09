@@ -383,6 +383,7 @@
   "imperialUnitSystem": "Imperial",
   "hybridUnitSystem": "Hybrid",
   "autoUnitSystem": "Auto",
+  "languageAuto": "Auto",
   "unitSystem": "Unit system",
   "selectCountry": "Select country",
   "hideHomeDashboardToolbar": "Hide home dashboard toolbar",

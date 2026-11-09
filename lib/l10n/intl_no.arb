@@ -361,6 +361,7 @@
   "imperialUnitSystem": "Imperisk",
   "hybridUnitSystem": "Hybrid",
   "autoUnitSystem": "Auto",
+  "languageAuto": "Auto",
   "unitSystem": "Enhetssystem",
   "selectCountry": "Velg land",
   "hideHomeDashboardToolbar": "Skjul dashbord-verktøylinje",

@@ -1133,6 +1133,9 @@ class SZh extends S {
   String get autoUnitSystem => 'Auto';
 
   @override
+  String get languageAuto => 'Auto';
+
+  @override
   String get unitSystem => 'Unit system';
 
   @override
@@ -2619,6 +2622,9 @@ class SZhCn extends SZh {
   String get autoUnitSystem => '自动';
 
   @override
+  String get languageAuto => '自动';
+
+  @override
   String get unitSystem => '单位制';
 
   @override
@@ -3946,6 +3952,9 @@ class SZhTw extends SZh {
 
   @override
   String get autoUnitSystem => '自動';
+
+  @override
+  String get languageAuto => '自動';
 
   @override
   String get unitSystem => '單位制';

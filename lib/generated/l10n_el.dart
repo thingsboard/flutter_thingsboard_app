@@ -1155,6 +1155,9 @@ class SEl extends S {
   String get autoUnitSystem => 'Αυτόματο';
 
   @override
+  String get languageAuto => 'Αυτόματο';
+
+  @override
   String get unitSystem => 'Σύστημα μονάδων';
 
   @override

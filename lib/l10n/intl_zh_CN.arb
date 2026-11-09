@@ -361,6 +361,7 @@
   "imperialUnitSystem": "英制",
   "hybridUnitSystem": "混合",
   "autoUnitSystem": "自动",
+  "languageAuto": "自动",
   "unitSystem": "单位制",
   "selectCountry": "选择国家",
   "hideHomeDashboardToolbar": "隐藏首页仪表板工具栏",
