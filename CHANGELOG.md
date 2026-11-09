@@ -38,6 +38,8 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Sign-up and email verification go back to the login page instead of stacking new ones.
 - Server errors right after start-up or a QR server switch are shown instead of being hidden for two seconds.
 - Two-factor authentication: when sending the code fails, it can be requested again at once.
-- The ThingsBoard EU logo shows for the Europe region.
+- The ThingsBoard EU logo shows for the Europe region, on the login page too.
+- After choosing a region, the login page shows its OAuth clients and sign-up link.
+- The unread notifications count shows when Notifications is under More.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.

@@ -16,6 +16,15 @@ final class NotificationsLocalService implements INotificationsLocalService {
   static const notificationCounterKey = 'notifications_counter';
   static final notificationsNumberStream = StreamController<int>.broadcast();
 
+  /// The last count sent on [notificationsNumberStream]: a badge built after
+  /// it was sent (the More page) starts from it instead of showing nothing.
+  static int notificationsCount = 0;
+
+  static void _emit(int count) {
+    notificationsCount = count;
+    notificationsNumberStream.add(count);
+  }
+
   late final TbStorage storage;
 
   @override
@@ -25,7 +34,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
     await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
     FlutterNewBadger.setBadge(updatedCounter);
-    notificationsNumberStream.add(updatedCounter);
+    _emit(updatedCounter);
   }
 
   @override
@@ -34,31 +43,31 @@ final class NotificationsLocalService implements INotificationsLocalService {
     final updatedCounter = (int.tryParse(counter.toString()) ?? 0) - 1;
     if (updatedCounter <= 0) {
       FlutterNewBadger.removeBadge();
-      notificationsNumberStream.add(0);
+      _emit(0);
     } else {
       FlutterNewBadger.setBadge(updatedCounter);
       await storage.setItem(notificationCounterKey, updatedCounter.toString());
-      notificationsNumberStream.add(updatedCounter);
+      _emit(updatedCounter);
     }
   }
 
   @override
   Future<void> triggerNotificationCountStream() async {
     final counter = await storage.getItem(notificationCounterKey);
-    notificationsNumberStream.add(int.tryParse(counter.toString()) ?? 0);
+    _emit(int.tryParse(counter.toString()) ?? 0);
   }
 
   @override
   Future<void> clearNotificationBadgeCount() async {
     FlutterNewBadger.removeBadge();
     storage.deleteItem(notificationCounterKey);
-    notificationsNumberStream.add(0);
+    _emit(0);
   }
 
   @override
   Future<void> updateNotificationsCount(int count) async {
     FlutterNewBadger.setBadge(count);
     storage.setItem(notificationCounterKey, count.toString());
-    notificationsNumberStream.add(count);
+    _emit(count);
   }
 }

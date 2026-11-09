@@ -155,7 +155,7 @@ class Navigation extends _$Navigation {
       navState = navState.copyWith(
         morePages: _getMorePages(navState.bottomBarPages),
       );
-      return navState;
+      return _withMoreBadge(navState);
     }
     if (_deviceScreenSize.width < 960) {
       navState = navState.copyWith(
@@ -167,7 +167,7 @@ class Navigation extends _$Navigation {
       navState = navState.copyWith(
         morePages: _getMorePages(navState.bottomBarPages),
       );
-      return navState;
+      return _withMoreBadge(navState);
     }
 
     navState = navState.copyWith(
@@ -178,7 +178,26 @@ class Navigation extends _$Navigation {
     navState = navState.copyWith(
       morePages: _getMorePages(navState.bottomBarPages),
     );
-    return navState;
+    return _withMoreBadge(navState);
+  }
+
+  /// The More (or Profile) item shows the unread notifications badge when
+  /// the Notifications page is one of the pages behind it.
+  NavigationState _withMoreBadge(NavigationState navState) {
+    if (!navState.morePages.any((p) => p.showNotificationBadge)) {
+      return navState;
+    }
+    final pages = [...navState.bottomBarPages];
+    final more = pages.last;
+    pages[pages.length - 1] = NavigationItemData(
+      title: more.title,
+      icon: more.icon,
+      path: more.path,
+      id: more.id,
+      label: more.label,
+      showNotificationBadge: true,
+    );
+    return navState.copyWith(bottomBarPages: pages);
   }
 
   void updatePages() {

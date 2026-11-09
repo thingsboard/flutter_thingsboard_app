@@ -8,17 +8,25 @@ import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/modules/notification/application/notifications_local_service.dart';
 
 class NavigationBadgeWidget extends StatelessWidget {
-  const NavigationBadgeWidget({super.key, required this.isLarge});
+  const NavigationBadgeWidget({
+    super.key,
+    required this.isLarge,
+    this.margin = const EdgeInsets.only(bottom: 10),
+  });
   final bool isLarge;
+
+  /// Lifts the badge to the top of a bottom bar icon; a list row passes zero.
+  final EdgeInsetsGeometry margin;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
       stream: NotificationsLocalService.notificationsNumberStream.stream,
+      initialData: NotificationsLocalService.notificationsCount,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data! > 0) {
           if (isLarge) {
             return Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: margin,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.red,
@@ -37,7 +45,7 @@ class NavigationBadgeWidget extends StatelessWidget {
             );
           } else {
             return Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: margin,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.red,
