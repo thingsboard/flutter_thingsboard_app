@@ -45,7 +45,6 @@ class MoreMenuItemWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               spacing: 8,
               children: [
-                // The unread notifications count, as on the bottom bar.
                 if (menuItem.showAdditionalIcon)
                   const NavigationBadgeWidget(
                     isLarge: true,

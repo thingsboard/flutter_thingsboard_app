@@ -123,8 +123,7 @@ class _AuditLogDetailsPageState extends State<AuditLogDetailsPage> {
             borderRadius: BorderRadius.circular(4),
           ),
           child: SingleChildScrollView(
-            // JSON and server error details read left to right in any
-            // language.
+            // JSON and error details read left to right in any language.
             child: Text(
               content,
               textDirection: TextDirection.ltr,

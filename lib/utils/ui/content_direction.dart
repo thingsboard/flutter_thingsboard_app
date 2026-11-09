@@ -6,10 +6,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' show Bidi;
 
-/// The direction of user content (entity names, titles, alarm types), as the
-/// web UI's `dir="auto"`: the first strong character decides, and text
-/// without one follows the layout. Without it an English name in the Arabic
-/// UI is laid out right to left and the ellipsis cuts its start.
+/// The direction of user content (names, titles), like the web UI's
+/// `dir="auto"`: the first strong character decides, else the layout.
 TextDirection contentDirection(BuildContext context, String? text) {
   if (text != null && Bidi.startsWithRtl(text)) return TextDirection.rtl;
   if (text != null && Bidi.startsWithLtr(text)) return TextDirection.ltr;

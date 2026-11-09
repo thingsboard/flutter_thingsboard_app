@@ -16,12 +16,13 @@ final class NotificationsLocalService implements INotificationsLocalService {
   static const notificationCounterKey = 'notifications_counter';
   static final notificationsNumberStream = StreamController<int>.broadcast();
 
-  /// The last count sent on [notificationsNumberStream]: a badge built after
-  /// it was sent (the More page) starts from it instead of showing nothing.
-  static int notificationsCount = 0;
+  /// The last count sent on [notificationsNumberStream], which does not
+  /// replay it: a badge built later (the More page) starts from it.
+  static int get notificationsCount => _notificationsCount;
+  static int _notificationsCount = 0;
 
   static void _emit(int count) {
-    notificationsCount = count;
+    _notificationsCount = count;
     notificationsNumberStream.add(count);
   }
 

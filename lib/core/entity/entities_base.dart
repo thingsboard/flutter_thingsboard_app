@@ -73,6 +73,7 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
   @override
   Widget buildEntityListCard(BuildContext context, T contact) {
     final info = ContactInfo.of(contact);
+    final title = customTranslationService.translate(info?.title);
     final email = info?.email;
     final address = info?.shortAddress;
     return Container(
@@ -94,11 +95,8 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
                   children: [
                     Expanded(
                       child: Text(
-                        customTranslationService.translate(info?.title),
-                        textDirection: contentDirection(
-                          context,
-                          customTranslationService.translate(info?.title),
-                        ),
+                        title,
+                        textDirection: contentDirection(context, title),
                         textAlign: layoutStart(context),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

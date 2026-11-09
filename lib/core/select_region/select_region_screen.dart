@@ -100,8 +100,8 @@ class SelectRegionScreen extends HookConsumerWidget {
 }
 
 Future<void> onChangeEndpoint(Region region, WidgetRef ref) async {
-  // ChooseRegionScreen calls this from onPopInvoked, so its ref is disposed
-  // before the client re-init completes; the container outlives it.
+  // Called from ChooseRegionScreen's pop, whose ref is disposed before the
+  // re-init completes; the container outlives it.
   final container = ProviderScope.containerOf(ref.context, listen: false);
   await getIt<IEndpointService>().setRegion(region);
   final newEndpoint = await getIt<IEndpointService>().getEndpoint();
@@ -113,12 +113,11 @@ Future<void> onChangeEndpoint(Region region, WidgetRef ref) async {
     );
     await container.read(wlProvider.notifier).updateWhiteLabeling();
   } catch (e, s) {
-    // An unreachable server must not keep the user on this screen: the
-    // client reports the error and the login page shows what it can load.
+    // An unreachable server must not keep the user here: the client shows
+    // the error and the login page what it can load.
     getIt<TbLogger>().error('Region switch: client re-init failed', e, s);
   }
-  // The login info (OAuth clients, cloud self-registration) was fetched for
-  // the previous endpoint, or for none before the first region choice.
+  // The login info was fetched for the previous endpoint, or for none.
   container.invalidate(oauthProvider);
   getIt<ThingsboardAppRouter>().navigateTo('/');
 }
