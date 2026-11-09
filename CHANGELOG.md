@@ -42,6 +42,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - Signing in shows one steady loader until the home screen instead of a flickering one.
 - The login and More pages scroll in landscape instead of cutting off the form and the menu.
+- Back from a device dashboard returns to the device list or search results it was opened from.
 - After acknowledging or clearing an alarm in its details, the alarms list shows the new status without a pull to refresh.
 - Back no longer walks through every visited tab: it closes the pages opened in a tab, then returns to the first tab, then leaves the app, as before 1.6. `--dart-define=navigationType=push` keeps the tab history.
 - The unread notifications count shows when Notifications is under More.

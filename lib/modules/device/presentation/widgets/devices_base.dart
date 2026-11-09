@@ -51,7 +51,6 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
         deviceType: device.field('type')!,
         deviceName: device.field('name'),
         deviceLabel: device.field('label'),
-        replace: true,
       );
 
   @override

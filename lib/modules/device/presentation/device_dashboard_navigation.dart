@@ -24,15 +24,14 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 /// on widget bundles and widget types — and the tenant-admin "no dashboard
 /// configured" warning stay in one place instead of drifting between callers.
 ///
-/// Pass [replace] to swap the current route for the dashboard rather than
-/// pushing on top of it.
+/// The dashboard opens on top of the current page, so Back returns to the
+/// list or search results the device was picked from.
 Future<void> openDeviceProfileDashboard(
   WidgetRef ref, {
   required EntityId? deviceId,
   required String deviceType,
   String? deviceName,
   String? deviceLabel,
-  bool replace = false,
 }) async {
   final tbClient = getIt<ITbClientService>().client;
   final profile = await DeviceProfileCache.getDeviceProfileInfo(
@@ -76,9 +75,5 @@ Future<void> openDeviceProfileDashboard(
   if (context == null || !context.mounted) {
     return;
   }
-  if (replace) {
-    context.pushReplacement(DashboardRoutes.dashboard, extra: arguments);
-  } else {
-    context.push(DashboardRoutes.dashboard, extra: arguments);
-  }
+  context.push(DashboardRoutes.dashboard, extra: arguments);
 }
