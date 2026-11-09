@@ -174,12 +174,16 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      S.of(context).allDevices,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 20 / 14,
+                    Flexible(
+                      child: Text(
+                        S.of(context).allDevices,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          height: 20 / 14,
+                        ),
                       ),
                     ),
                     const Icon(Icons.arrow_forward, size: 18),
@@ -451,39 +455,47 @@ Widget _buildDeviceCount(BuildContext context, bool active, int? count) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Stack(
-              children: [
-                Icon(Icons.devices_other, size: 16, color: color),
-                if (!active)
-                  CustomPaint(
-                    size: const Size.square(16),
-                    painter: StrikeThroughPainter(color: color, offset: 2),
+        // The count always shows; a long label gives way on narrow cells
+        // and large text.
+        Flexible(
+          child: Row(
+            children: [
+              Stack(
+                children: [
+                  Icon(Icons.devices_other, size: 16, color: color),
+                  if (!active)
+                    CustomPaint(
+                      size: const Size.square(16),
+                      painter: StrikeThroughPainter(color: color, offset: 2),
+                    ),
+                ],
+              ),
+              const SizedBox(width: 8.67),
+              Flexible(
+                child: Text(
+                  active ? S.of(context).active : S.of(context).inactive,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    height: 16 / 12,
+                    color: color,
                   ),
-              ],
-            ),
-            const SizedBox(width: 8.67),
-            Text(
-              active ? S.of(context).active : S.of(context).inactive,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                height: 16 / 12,
-                color: color,
+                ),
               ),
-            ),
-            const SizedBox(width: 8.67),
-            Text(
-              count?.toString() ?? '–',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                height: 16 / 12,
-                color: color,
+              const SizedBox(width: 8.67),
+              Text(
+                count?.toString() ?? '–',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  height: 16 / 12,
+                  color: color,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const Icon(Icons.chevron_right, size: 16, color: Color(0xFFACACAC)),
       ],
