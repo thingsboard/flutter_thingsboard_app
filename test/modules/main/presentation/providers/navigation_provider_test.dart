@@ -147,4 +147,43 @@ void main() {
       '/auditLogs',
     ]);
   });
+
+  group('Unread notifications badge', () {
+    NavigationItemData moreItem(NavigationState navigation) =>
+        navigation.bottomBarPages.last;
+
+    test('goes to More when Notifications is one of its pages', () {
+      final navigation = navigationFor(fullAccessTenantAdmin);
+
+      expect(
+        navigation.morePages.map((e) => e.path),
+        contains('/notifications'),
+      );
+      expect(moreItem(navigation).path, morePath);
+      expect(moreItem(navigation).showNotificationBadge, isTrue);
+    });
+
+    test('stays on Notifications when it is in the bottom bar', () {
+      final navigation = navigationFor(
+        fullAccessTenantAdmin.copyWith(
+          mobileLoginInfo: const MobileBasicInfo(
+            pages: [
+              PageLayout(id: Pages.home),
+              PageLayout(id: Pages.notifications),
+              PageLayout(id: Pages.alarms),
+              PageLayout(id: Pages.devices),
+              PageLayout(id: Pages.assets),
+            ],
+          ),
+        ),
+      );
+
+      final notifications = navigation.bottomBarPages.singleWhere(
+        (e) => e.path == '/notifications',
+      );
+      expect(notifications.showNotificationBadge, isTrue);
+      expect(moreItem(navigation).path, morePath);
+      expect(moreItem(navigation).showNotificationBadge, isFalse);
+    });
+  });
 }
