@@ -20,8 +20,13 @@ import 'package:thingsboard_app/modules/main/presentation/widgets/tb_navigation_
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class NavigationPage extends HookConsumerWidget {
-  const NavigationPage({super.key, required this.child});
+  NavigationPage({
+    super.key,
+    required this.child,
+    TbNavigationType? navigationType,
+  }) : navigationType = navigationType ?? TbNavigationType.configured;
   final Widget child;
+  final TbNavigationType navigationType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,9 +63,11 @@ class NavigationPage extends HookConsumerWidget {
 
     return PopScope(
       onPopInvokedWithResult: (didPop, res) {
+        // The router pops the pages opened in a tab; then the first tab,
+        // then exit.
         if (!context.canPop()) {
           if (currentIndex.value != 0) {
-            return context.pushReplacement(items.first.path);
+            return context.go(items.first.path);
           }
           SystemNavigator.pop();
         }
@@ -103,14 +110,11 @@ class NavigationPage extends HookConsumerWidget {
                   if (index < items.length) {
                     final path = items[index].path;
                     currentIndex.value = index;
-                    if (TbNavigationType.configured == TbNavigationType.push) {
+                    if (navigationType.pushesTab(path)) {
                       context.push(path);
-                      return;
+                    } else {
+                      context.go(path);
                     }
-                    if (path.contains('/home') || path.contains('/url')) {
-                      return context.go(path);
-                    }
-                    context.push(path);
                   }
                 },
                 customBottomBarItems: items
