@@ -66,9 +66,10 @@ void main() {
   Future<ProviderContainer> pumpLogin(
     WidgetTester tester, {
     bool userLoading = false,
+    Size screen = const Size(1080, 2400),
   }) async {
     // A phone screen: the login page lays out to the screen height.
-    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.physicalSize = screen;
     tester.view.devicePixelRatio = 2.625;
     addTearDown(tester.view.reset);
     final container = ProviderContainer(
@@ -125,5 +126,20 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(loader(), findsOneWidget);
+  });
+
+  // A phone held sideways: the form is taller than the screen and must
+  // scroll instead of cutting off the password field and Log In.
+  testWidgets('in landscape the whole form can be reached', (tester) async {
+    answers.add(Completer()..complete(loginInfo(['GitHub', 'Google'])));
+    await pumpLogin(tester, screen: const Size(2400, 1080));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final logIn = find.widgetWithText(ElevatedButton, 'Log In');
+    await tester.ensureVisible(logIn);
+    await tester.pumpAndSettle();
+    final screen = tester.getRect(find.byType(Scaffold));
+    expect(tester.getRect(logIn).bottom, lessThanOrEqualTo(screen.bottom));
   });
 }

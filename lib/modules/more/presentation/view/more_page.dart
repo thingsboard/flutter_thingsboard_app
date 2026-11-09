@@ -38,71 +38,70 @@ class MorePage extends HookConsumerWidget {
       getIt<NotificationService>().updateNotificationsCount();
       return null;
     }, []);
+    final menuItems = items
+        .map(
+          (e) => MoreMenuItemWidget(
+            TbMainNavigationItem(
+              title: NavigationHelper.getLocalizedTitle(context, e),
+              icon: e.icon,
+              path: e.path,
+              showAdditionalIcon: e.showNotificationBadge,
+            ),
+            onTap: () {
+              context.push(e.path);
+            },
+          ),
+        )
+        .toList();
+    final divider = Divider(
+      color: Colors.black.withValues(alpha: .05),
+      thickness: 1,
+      height: 0,
+    );
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
+      // The whole page scrolls on a short screen (landscape, large text);
+      // otherwise the footer stays at the bottom.
+      child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: (constraints.maxHeight - 48).clamp(0, double.infinity),
+            ),
+            child: IntrinsicHeight(
               child: Column(
-                spacing: 20,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ProfileWidget(userDetails: userDetails, user: login.user),
-                  if (items.isNotEmpty) ...[
-                    Divider(
-                      color: Colors.black.withValues(alpha: .05),
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    Flexible(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: items
-                              .map(
-                                (e) => MoreMenuItemWidget(
-                                  TbMainNavigationItem(
-                                    title: NavigationHelper.getLocalizedTitle(
-                                      context,
-                                      e,
-                                    ),
-                                    icon: e.icon,
-                                    path: e.path,
-                                    showAdditionalIcon: e.showNotificationBadge,
-                                  ),
-                                  onTap: () {
-                                    context.push(e.path);
-                                  },
-                                ),
-                              )
-                              .toList(),
+                  Column(
+                    spacing: 20,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ProfileWidget(userDetails: userDetails, user: login.user),
+                      if (items.isNotEmpty) ...[
+                        divider,
+                        Column(children: menuItems),
+                      ],
+                      divider,
+                      MoreMenuItemWidget(
+                        TbMainNavigationItem(
+                          title: S.of(context).logout,
+                          icon: Icons.logout,
+                          path: '',
                         ),
+                        showTrailing: false,
+                        color: AppColors.textError,
+                        onTap: () async {
+                          await ref.read(loginProvider.notifier).logout();
+                        },
                       ),
-                    ),
-                  ],
-                  Divider(
-                    color: Colors.black.withValues(alpha: .05),
-                    thickness: 1,
-                    height: 0,
+                    ],
                   ),
-                  MoreMenuItemWidget(
-                    TbMainNavigationItem(
-                      title: S.of(context).logout,
-                      icon: Icons.logout,
-                      path: '',
-                    ),
-                    showTrailing: false,
-                    color: AppColors.textError,
-                    onTap: () async {
-                      await ref.read(loginProvider.notifier).logout();
-                    },
-                  ),
+                  const Spacer(),
+                  const MorePageFooter(),
                 ],
               ),
             ),
-            const MorePageFooter(),
-          ],
+          ),
         ),
       ),
     );
