@@ -23,6 +23,10 @@ enum UnitSystems {
         UnitSystems.auto;
   }
 
+  /// The `additionalInfo.unitSystem` value; the web UI stores [auto] as no
+  /// value and resolves it from the time zone.
+  String? get tbValue => this == auto ? null : name.toUpperCase();
+
   String getLocalizedName(BuildContext context) {
     return switch (this) {
       UnitSystems.auto => S.of(context).autoUnitSystem,

@@ -541,14 +541,18 @@ Future<void> _saveProfile(
         ..['homeDashboardHideToolbar'] = additionalInfoForm
             .control('homeDashboardHideToolbar')
             .value
-        ..['unitSystem'] =
-            (additionalInfoForm.control('unitSystem').value as UnitSystems).name
-                .toUpperCase()
         ..['homeDashboardId'] =
             (additionalInfoForm.control('homeDashboardId').value
                     as DashboardInfo?)
                 ?.id
                 ?.id;
+  final unitSystem =
+      (additionalInfoForm.control('unitSystem').value as UnitSystems).tbValue;
+  if (unitSystem == null) {
+    updatedAdditionalInfo.remove('unitSystem');
+  } else {
+    updatedAdditionalInfo['unitSystem'] = unitSystem;
+  }
   final lang = additionalInfoForm.control('lang').value as Locale;
   // Keeps a language the app does not translate (uk_UA) unless the user
   // picks another one.

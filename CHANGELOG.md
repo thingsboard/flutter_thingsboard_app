@@ -31,6 +31,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
   - Customer and tenant details show the entity title in the app bar.
   - Alarm comment and assignment notifications show the alarm severity; comments stored as plain text show their text.
   - Reset password shows the server's error message once.
+- Saving the profile with the Auto unit system no longer stores `AUTO`, which the web UI and dashboards did not recognise.
 - Dashboard export (CSV, XLS, XLSX) saves the file again on ThingsBoard 4.2.1 and later.
 - App links (email verification, QR code login) open once instead of twice.
 - Sign-up and email verification go back to the login page instead of stacking new ones.
