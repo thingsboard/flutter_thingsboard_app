@@ -45,7 +45,7 @@ class LoginWidget extends HookConsumerWidget {
       }),
     );
     useEffect(() {
-      if (providers is! AsyncLoading) {
+      if (!providers.isLoading) {
         loading.value = false;
       }
       return null;
@@ -183,7 +183,7 @@ class LoginWidget extends HookConsumerWidget {
         ),
 
         AnimatedVisibilityWidget(
-          show: loading.value || providers is AsyncLoading || userLoading,
+          show: loading.value || providers.isLoading || userLoading,
           child: const FullScreenLoader(),
         ),
       ],
