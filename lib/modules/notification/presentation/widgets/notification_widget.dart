@@ -66,7 +66,7 @@ class NotificationWidget extends StatelessWidget {
               children: [
                 if (isSelectionMode)
                   Padding(
-                    padding: const EdgeInsets.only(right: 4),
+                    padding: const EdgeInsetsDirectional.only(end: 4),
                     child: Checkbox(
                       value: isSelected,
                       onChanged: (_) => onToggleSelection?.call(),
@@ -84,7 +84,7 @@ class NotificationWidget extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 7),
+                            padding: const EdgeInsetsDirectional.only(start: 7),
                             child: Text(
                               notification.subject ?? '',
                               style: const TextStyle(

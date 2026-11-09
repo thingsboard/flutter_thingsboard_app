@@ -18,6 +18,7 @@ import 'package:thingsboard_app/modules/device/data/device_profile/device_profil
 import 'package:thingsboard_app/modules/device/data/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -350,6 +351,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
               child: Center(
                 child: AutoSizeText(
                   entity.name ?? '',
+                  textDirection: contentDirection(context, entity.name ?? ''),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

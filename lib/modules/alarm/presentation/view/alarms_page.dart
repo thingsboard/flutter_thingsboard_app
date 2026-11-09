@@ -70,8 +70,8 @@ class _AlarmsPageState extends State<AlarmsPage>
                         BlocBuilder<AlarmBloc, AlarmsState>(
                           builder: (context, state) {
                             if (state is AlarmsFilterActivatedState) {
-                              return Positioned(
-                                right: 13,
+                              return PositionedDirectional(
+                                end: 13,
                                 top: 13,
                                 child: Container(
                                   height: 8,

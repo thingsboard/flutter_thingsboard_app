@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 
 class AlarmDetailsContentWidget extends StatelessWidget {
   const AlarmDetailsContentWidget({
@@ -38,7 +39,8 @@ class AlarmDetailsContentWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 2,
               child: Text(
                 details,
-                textAlign: TextAlign.end,
+                textDirection: contentDirection(context, details),
+                textAlign: layoutEnd(context),
                 style:
                     detailsStyle ??
                     TbTextStyles.bodyLarge.copyWith(

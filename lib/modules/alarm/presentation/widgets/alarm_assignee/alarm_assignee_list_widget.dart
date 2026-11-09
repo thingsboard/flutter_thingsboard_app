@@ -87,7 +87,12 @@ class _AssigneeListWidgetState extends State<AlarmAssigneeListWidget> {
                     color: Colors.black.withValues(alpha: .38),
                   ),
                   hintText: S.of(context).searchUsers(1),
-                  contentPadding: const EdgeInsets.fromLTRB(8, 12, 16, 12),
+                  contentPadding: const EdgeInsetsDirectional.fromSTEB(
+                    8,
+                    12,
+                    16,
+                    12,
+                  ),
                   isDense: true,
                   prefixIcon: Icon(
                     Icons.search,

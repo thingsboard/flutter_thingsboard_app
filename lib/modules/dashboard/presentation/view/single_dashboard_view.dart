@@ -15,6 +15,7 @@ import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class SingleDashboardView extends ConsumerStatefulWidget {
@@ -69,7 +70,13 @@ class _SingleDashboardViewState extends ConsumerState<SingleDashboardView>
         title: ValueListenableBuilder<String>(
           valueListenable: dashboardTitleValue,
           builder: (context, title, widget) {
-            return Text(title, maxLines: 1, overflow: TextOverflow.ellipsis);
+            return Text(
+              title,
+              textDirection: contentDirection(context, title),
+              textAlign: layoutStart(context),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            );
           },
         ),
         actions: [

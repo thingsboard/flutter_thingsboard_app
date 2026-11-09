@@ -26,7 +26,7 @@ class ConnectionStateRow extends StatelessWidget {
         children: [
           if (inProgress)
             const Padding(
-              padding: EdgeInsets.only(left: 4),
+              padding: EdgeInsetsDirectional.only(start: 4),
               child: SizedBox(
                 width: 20,
                 height: 20,
@@ -40,7 +40,7 @@ class ConnectionStateRow extends StatelessWidget {
             ),
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.only(left: 16),
+              padding: const EdgeInsetsDirectional.only(start: 16),
               child: Text(
                 text,
                 style: TbTextStyles.bodyLarge.copyWith(

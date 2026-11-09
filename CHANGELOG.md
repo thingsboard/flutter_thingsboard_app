@@ -41,5 +41,6 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - The ThingsBoard EU logo shows for the Europe region, on the login page too.
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - The unread notifications count shows when Notifications is under More.
+- Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.

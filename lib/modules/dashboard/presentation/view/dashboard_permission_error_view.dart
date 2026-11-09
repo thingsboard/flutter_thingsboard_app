@@ -38,7 +38,7 @@ class _DashboardPermissionErrorViewState
         shadowColor: Colors.transparent,
         title: FittedBox(
           fit: BoxFit.fitWidth,
-          alignment: Alignment.centerLeft,
+          alignment: AlignmentDirectional.centerStart,
           child: Text(S.of(context).dashboards(1)),
         ),
         actions: widget.fullScreen && !widget.home

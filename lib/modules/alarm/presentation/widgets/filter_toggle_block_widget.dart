@@ -81,11 +81,11 @@ class _FilterToggleBlockWidgetState<T>
                 : const Icon(Icons.check),
             style: FilledButton.styleFrom(
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: const EdgeInsets.only(
+              padding: const EdgeInsetsDirectional.only(
                 top: 6,
                 bottom: 6,
-                left: 12,
-                right: 24,
+                start: 12,
+                end: 24,
               ),
               minimumSize: const Size(0, DesignTokens.buttonHeightSmall),
               shape: RoundedRectangleBorder(

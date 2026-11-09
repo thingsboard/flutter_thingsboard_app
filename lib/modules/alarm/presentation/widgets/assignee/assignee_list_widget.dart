@@ -41,7 +41,11 @@ class AssigneeListWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16, top: 12, bottom: 12),
+                padding: const EdgeInsetsDirectional.only(
+                  start: 16,
+                  top: 12,
+                  bottom: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -53,7 +57,7 @@ class AssigneeListWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      alignment: Alignment.centerRight,
+                      alignment: AlignmentDirectional.centerEnd,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: IconButton(
                         onPressed: () {

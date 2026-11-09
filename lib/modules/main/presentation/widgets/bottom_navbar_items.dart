@@ -40,7 +40,7 @@ class BottomNavbarItems extends StatelessWidget {
       left: false,
       right: false,
       child: Padding(
-        padding: const EdgeInsets.only(right: 7),
+        padding: const EdgeInsetsDirectional.only(end: 7),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -63,7 +63,9 @@ class BottomNavbarItems extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: showAdditionalIcon ? 18 : 0),
+                    padding: EdgeInsetsDirectional.only(
+                      start: showAdditionalIcon ? 18 : 0,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

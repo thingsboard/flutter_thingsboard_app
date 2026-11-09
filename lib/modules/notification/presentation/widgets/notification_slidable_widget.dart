@@ -87,10 +87,10 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
             label: S.of(context).delete,
             borderRadius: _buildAlarmRelatedButtons(widget.notification).isEmpty
                 ? BorderRadius.circular(8)
-                : const BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                : const BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(8),
+                    bottomEnd: Radius.circular(8),
+                  ).resolve(Directionality.of(context)),
           ),
         ],
       ),
@@ -120,10 +120,10 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
               icon: Icons.done,
               label: S.of(context).acknowledge,
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-              ),
+              borderRadius: const BorderRadiusDirectional.only(
+                topStart: Radius.circular(8),
+                bottomStart: Radius.circular(8),
+              ).resolve(Directionality.of(context)),
             ),
           );
         }
@@ -140,10 +140,10 @@ class _NotificationSlidableWidget extends State<NotificationSlidableWidget> {
               icon: Icons.clear,
               label: S.of(context).clear,
               borderRadius: items.isEmpty
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                    )
+                  ? const BorderRadiusDirectional.only(
+                      topStart: Radius.circular(8),
+                      bottomStart: Radius.circular(8),
+                    ).resolve(Directionality.of(context))
                   : BorderRadius.zero,
             ),
           );

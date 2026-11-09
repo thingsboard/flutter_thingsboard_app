@@ -20,6 +20,7 @@ import 'package:thingsboard_app/utils/services/custom_translation/i_custom_trans
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -189,16 +190,16 @@ class _DeviceCardState extends State<DeviceCard> {
       children: [
         Positioned.fill(
           child: Container(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Container(
               width: 4,
               decoration: BoxDecoration(
                 color: widget.device.attribute('active') == 'true'
                     ? const Color(0xFF008A00)
                     : const Color(0xFFAFAFAF),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  bottomLeft: Radius.circular(4),
+                borderRadius: const BorderRadiusDirectional.only(
+                  topStart: Radius.circular(4),
+                  bottomStart: Radius.circular(4),
                 ),
               ),
             ),
@@ -278,6 +279,11 @@ class _DeviceCardState extends State<DeviceCard> {
                                         fit: FlexFit.tight,
                                         child: Text(
                                           name,
+                                          textDirection: contentDirection(
+                                            context,
+                                            name,
+                                          ),
+                                          textAlign: layoutStart(context),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
@@ -315,6 +321,11 @@ class _DeviceCardState extends State<DeviceCard> {
                                       padding: const EdgeInsets.only(top: 2),
                                       child: Text(
                                         label,
+                                        textDirection: contentDirection(
+                                          context,
+                                          label,
+                                        ),
+                                        textAlign: layoutStart(context),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
@@ -412,7 +423,9 @@ class _DeviceCardState extends State<DeviceCard> {
             height: 58,
             decoration: const BoxDecoration(
               // color: Color(0xFFEEEEEE),
-              borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
+              borderRadius: BorderRadiusDirectional.horizontal(
+                start: Radius.circular(4),
+              ),
             ),
             child: FutureBuilder<CachedDeviceProfileInfo>(
               future: deviceProfileFuture,
@@ -441,8 +454,8 @@ class _DeviceCardState extends State<DeviceCard> {
                     imageFit = BoxFit.cover;
                   }
                   return ClipRRect(
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(4),
+                    borderRadius: const BorderRadiusDirectional.horizontal(
+                      start: Radius.circular(4),
                     ),
                     child: Stack(
                       children: [
@@ -476,6 +489,8 @@ class _DeviceCardState extends State<DeviceCard> {
                     Flexible(
                       child: Text(
                         name,
+                        textDirection: contentDirection(context, name),
+                        textAlign: layoutStart(context),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -493,6 +508,8 @@ class _DeviceCardState extends State<DeviceCard> {
                     padding: const EdgeInsets.only(top: 2),
                     child: Text(
                       label,
+                      textDirection: contentDirection(context, label),
+                      textAlign: layoutStart(context),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

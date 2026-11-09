@@ -11,6 +11,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmCard extends StatefulWidget {
@@ -29,12 +30,12 @@ class _AlarmCardState extends State<AlarmCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          bottomLeft: Radius.circular(4),
+        borderRadius: const BorderRadiusDirectional.only(
+          topStart: Radius.circular(4),
+          bottomStart: Radius.circular(4),
         ),
-        border: Border(
-          left: BorderSide(color: widget.alarm.severity.toColor(), width: 4),
+        border: BorderDirectional(
+          start: BorderSide(color: widget.alarm.severity.toColor(), width: 4),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -63,6 +64,11 @@ class _AlarmCardState extends State<AlarmCard> {
                                     customTranslationService.translate(
                                       widget.alarm.type,
                                     ),
+                                    textDirection: contentDirection(
+                                      context,
+                                      widget.alarm.type,
+                                    ),
+                                    textAlign: layoutStart(context),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TbTextStyles.labelLarge,

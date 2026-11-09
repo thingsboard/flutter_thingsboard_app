@@ -78,7 +78,7 @@ class _VersionSingleState extends State<VersionSingleWidget>
                 ),
               ),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: AlignmentDirectional.centerEnd,
                 child: Visibility(
                   visible: widget.storeLink?.isNotEmpty == true,
                   child: ElevatedButton(

@@ -67,7 +67,7 @@ class _FullscreenDashboardPageState
                 builder: (context, title, widget) {
                   return FittedBox(
                     fit: BoxFit.fitWidth,
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(title),
                   );
                 },

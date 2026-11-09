@@ -184,7 +184,7 @@ class _NotificationPageState extends State<NotificationPage> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsetsDirectional.only(end: 8),
               child: GestureDetector(
                 onTap: () {
                   if (allSelected) {

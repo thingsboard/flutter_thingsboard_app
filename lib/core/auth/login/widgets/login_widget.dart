@@ -123,7 +123,7 @@ class LoginWidget extends HookConsumerWidget {
                                 ],
                               ),
                               Align(
-                                alignment: Alignment.centerRight,
+                                alignment: AlignmentDirectional.centerEnd,
                                 child: TextButton(
                                   onPressed: () => onForgotPassword(context),
                                   child: Text(

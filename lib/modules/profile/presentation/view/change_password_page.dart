@@ -155,7 +155,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(16),
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                         ),
                         onPressed: () {
                           _changePassword();

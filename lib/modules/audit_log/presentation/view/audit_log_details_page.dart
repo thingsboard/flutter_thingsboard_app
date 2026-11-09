@@ -123,8 +123,11 @@ class _AuditLogDetailsPageState extends State<AuditLogDetailsPage> {
             borderRadius: BorderRadius.circular(4),
           ),
           child: SingleChildScrollView(
+            // JSON and server error details read left to right in any
+            // language.
             child: Text(
               content,
+              textDirection: TextDirection.ltr,
               style: const TextStyle(
                 color: Color(0xFF282828),
                 fontSize: 14,
@@ -133,8 +136,8 @@ class _AuditLogDetailsPageState extends State<AuditLogDetailsPage> {
             ),
           ),
         ),
-        Positioned(
-          left: 16,
+        PositionedDirectional(
+          start: 16,
           top: 0,
           child: Container(
             padding: const EdgeInsets.only(left: 4, right: 4),

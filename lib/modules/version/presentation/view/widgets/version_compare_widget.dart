@@ -87,7 +87,7 @@ class _VersionCompareWidgetState extends State<VersionCompareWidget>
                 ),
               ),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: AlignmentDirectional.centerEnd,
                 child: Visibility(
                   visible: widget.storeLink?.isNotEmpty == true,
                   child: ElevatedButton(

@@ -26,7 +26,7 @@ class EntityListCard<T> extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         margin: _listWidgetCard
-            ? const EdgeInsets.only(right: 8)
+            ? const EdgeInsetsDirectional.only(end: 8)
             : EdgeInsets.zero,
         decoration: _listWidgetCard
             ? BoxDecoration(

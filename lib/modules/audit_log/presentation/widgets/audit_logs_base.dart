@@ -13,6 +13,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
@@ -81,16 +82,16 @@ class _AuditLogCardState extends State<AuditLogCard> {
       children: [
         Positioned.fill(
           child: Container(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Container(
               width: 4,
               decoration: BoxDecoration(
                 color: widget.auditLog.actionStatus == ActionStatus.SUCCESS
                     ? const Color(0xFF008A00)
                     : const Color(0xFFFF0000),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  bottomLeft: Radius.circular(4),
+                borderRadius: const BorderRadiusDirectional.only(
+                  topStart: Radius.circular(4),
+                  bottomStart: Radius.circular(4),
                 ),
               ),
             ),
@@ -120,6 +121,11 @@ class _AuditLogCardState extends State<AuditLogCard> {
                                 Expanded(
                                   child: Text(
                                     widget.auditLog.entityName ?? '',
+                                    textDirection: contentDirection(
+                                      context,
+                                      widget.auditLog.entityName ?? '',
+                                    ),
+                                    textAlign: layoutStart(context),
                                     maxLines: 2,
                                     // minFontSize: 8,
                                     overflow: TextOverflow.ellipsis,

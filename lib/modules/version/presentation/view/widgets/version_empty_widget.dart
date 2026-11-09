@@ -39,7 +39,7 @@ class VersionEmptyWidget extends StatelessWidget {
                   ),
                   const Spacer(),
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment: AlignmentDirectional.centerEnd,
                     child: Visibility(
                       visible: storeLink?.isNotEmpty == true,
                       child: ElevatedButton(

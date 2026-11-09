@@ -10,6 +10,7 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -75,6 +76,10 @@ class _DashboardGridCardState extends State<DashboardGridCard> {
               child: Center(
                 child: AutoSizeText(
                   getIt<ICustomTranslationService>().translate(
+                    widget.dashboard.title,
+                  ),
+                  textDirection: contentDirection(
+                    context,
                     widget.dashboard.title,
                   ),
                   textAlign: TextAlign.center,

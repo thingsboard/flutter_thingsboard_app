@@ -11,6 +11,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 mixin AssetsBase on EntitiesBase<Asset, PageLink> {
@@ -84,6 +85,8 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                           Flexible(
                             child: Text(
                               name,
+                              textDirection: contentDirection(context, name),
+                              textAlign: layoutStart(context),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -114,6 +117,8 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
                             label,
+                            textDirection: contentDirection(context, label),
+                            textAlign: layoutStart(context),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -167,6 +172,8 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                     children: [
                       Text(
                         name,
+                        textDirection: contentDirection(context, name),
+                        textAlign: layoutStart(context),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -181,6 +188,8 @@ mixin AssetsBase on EntitiesBase<Asset, PageLink> {
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
                             label,
+                            textDirection: contentDirection(context, label),
+                            textAlign: layoutStart(context),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
