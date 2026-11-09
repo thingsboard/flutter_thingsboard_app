@@ -382,9 +382,11 @@ class ProfileEditPage extends HookConsumerWidget {
                                     ReactiveCheckbox(
                                       formControlName: 'additionalInfo.homeDashboardHideToolbar',
                                     ),
-                                    Text(
-                                      S.of(context).hideHomeDashboardToolbar,
-                                      style: TbTextStyles.bodyLarge,
+                                    Flexible(
+                                      child: Text(
+                                        S.of(context).hideHomeDashboardToolbar,
+                                        style: TbTextStyles.bodyLarge,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -536,6 +538,7 @@ Future<void> _saveProfile(
   ValueNotifier<bool> canPop,
 ) async {
   FocusScope.of(context).unfocus();
+  form.markAllAsTouched();
   if (form.invalid) {
     return;
   }
