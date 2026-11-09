@@ -3,17 +3,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/bloc.dart';
+import 'package:thingsboard_app/utils/services/communication/communication_service.dart';
+import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 
 import '../../../helpers/test_dependencies.dart';
 
 void main() {
   setUp(() {
-    getIt.registerSingleton<TbLogger>(MockTbLogger());
+    getIt
+      ..registerSingleton<TbLogger>(MockTbLogger())
+      ..registerSingleton<ICommunicationService>(
+        CommunicationService(EventBus()),
+      );
     addTearDown(getIt.reset);
   });
 

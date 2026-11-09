@@ -64,6 +64,7 @@ class AlarmsDi {
             paginationRepository: locator(),
             fetchAlarmsUseCase: locator(),
             queryController: locator(),
+            communicationService: getIt(),
           ),
         );
       },

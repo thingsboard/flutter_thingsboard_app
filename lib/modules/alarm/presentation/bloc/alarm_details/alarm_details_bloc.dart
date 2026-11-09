@@ -9,6 +9,8 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/acknowledge_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/clear_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_details/bloc.dart';
+import 'package:thingsboard_app/utils/services/communication/events/alarm_status_updated_event.dart';
+import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
@@ -16,6 +18,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
     required this.fetchAlarmUseCase,
     required this.acknowledgeAlarmUseCase,
     required this.clearAlarmUseCase,
+    required this.communicationService,
   }) : super(const AlarmDetailsLoadingState()) {
     on(_onEvents);
   }
@@ -25,12 +28,14 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
       fetchAlarmUseCase: getIt(),
       acknowledgeAlarmUseCase: getIt(),
       clearAlarmUseCase: getIt(),
+      communicationService: getIt(),
     );
   }
 
   final FetchAlarmUseCase fetchAlarmUseCase;
   final AcknowledgeAlarmUseCase acknowledgeAlarmUseCase;
   final ClearAlarmUseCase clearAlarmUseCase;
+  final ICommunicationService communicationService;
 
   Future<void> _onEvents(
     AlarmDetailsEvent event,
@@ -71,6 +76,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         emit(const AlarmDetailsLoadingState());
         try {
           await clearAlarmUseCase(event.id);
+          communicationService.fire(AlarmStatusUpdatedEvent(event.id.id));
         } finally {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
@@ -79,6 +85,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         emit(const AlarmDetailsLoadingState());
         try {
           await acknowledgeAlarmUseCase(event.id);
+          communicationService.fire(AlarmStatusUpdatedEvent(event.id.id));
         } finally {
           add(AlarmDetailsFetchEvent(id: event.id.id));
         }
