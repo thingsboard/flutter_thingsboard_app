@@ -232,6 +232,7 @@
   "codeVerificationFailed": "验证码验证失败！",
   "fatalError": "致命错误",
   "unknownError": "未知错误。",
+  "sessionExpired": "会话已过期",
   "fatalApplicationErrorOccurred": "发生致命应用程序错误：",
   "connectionError": "连接错误",
   "failedToConnectToServer": "无法连接到服务器",

@@ -232,6 +232,7 @@
   "codeVerificationFailed": "驗證碼驗證失敗！",
   "fatalError": "致命錯誤",
   "unknownError": "未知錯誤。",
+  "sessionExpired": "工作階段已過期",
   "fatalApplicationErrorOccurred": "發生致命應用程式錯誤：",
   "connectionError": "連線錯誤",
   "failedToConnectToServer": "無法連線至伺服器",

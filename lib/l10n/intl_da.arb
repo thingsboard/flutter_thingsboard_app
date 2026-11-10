@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Kodeverifikation mislykkedes!",
   "fatalError": "Fatal fejl",
   "unknownError": "Ukendt fejl.",
+  "sessionExpired": "Sessionen er udløbet",
   "fatalApplicationErrorOccurred": "Fatal applikationsfejl opstod:",
   "connectionError": "Forbindelsesfejl",
   "failedToConnectToServer": "Kunne ikke oprette forbindelse til serveren",

@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Codeverificatie mislukt!",
   "fatalError": "Fatale fout",
   "unknownError": "Onbekende fout.",
+  "sessionExpired": "Sessie is verlopen",
   "fatalApplicationErrorOccurred": "Fatale applicatiefout opgetreden:",
   "connectionError": "Verbindingsfout",
   "failedToConnectToServer": "Kan geen verbinding maken met de server",

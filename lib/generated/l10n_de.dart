@@ -742,6 +742,9 @@ class SDe extends S {
   String get unknownError => 'Unbekannter Fehler.';
 
   @override
+  String get sessionExpired => 'Sitzung ist abgelaufen';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Schwerwiegender Anwendungsfehler aufgetreten:';
 

@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Η επαλήθευση κωδικού απέτυχε!",
   "fatalError": "Κρίσιμο σφάλμα",
   "unknownError": "Άγνωστο σφάλμα.",
+  "sessionExpired": "Η συνεδρία έληξε",
   "fatalApplicationErrorOccurred": "Παρουσιάστηκε κρίσιμο σφάλμα εφαρμογής:",
   "connectionError": "Σφάλμα σύνδεσης",
   "failedToConnectToServer": "Αποτυχία σύνδεσης στον διακομιστή",

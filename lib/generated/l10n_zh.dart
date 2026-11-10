@@ -722,6 +722,9 @@ class SZh extends S {
   String get unknownError => 'Unknown error.';
 
   @override
+  String get sessionExpired => 'Session has expired';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Fatal application error occurred:';
 
@@ -2218,6 +2221,9 @@ class SZhCn extends SZh {
   String get unknownError => '未知错误。';
 
   @override
+  String get sessionExpired => '会话已过期';
+
+  @override
   String get fatalApplicationErrorOccurred => '发生致命应用程序错误：';
 
   @override
@@ -3548,6 +3554,9 @@ class SZhTw extends SZh {
 
   @override
   String get unknownError => '未知錯誤。';
+
+  @override
+  String get sessionExpired => '工作階段已過期';
 
   @override
   String get fatalApplicationErrorOccurred => '發生致命應用程式錯誤：';

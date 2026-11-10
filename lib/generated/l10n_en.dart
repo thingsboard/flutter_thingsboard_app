@@ -734,6 +734,9 @@ class SEn extends S {
   String get unknownError => 'Unknown error.';
 
   @override
+  String get sessionExpired => 'Session has expired';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Fatal application error occurred:';
 

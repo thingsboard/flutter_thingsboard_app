@@ -741,6 +741,9 @@ class SEl extends S {
   String get unknownError => 'Άγνωστο σφάλμα.';
 
   @override
+  String get sessionExpired => 'Η συνεδρία έληξε';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Παρουσιάστηκε κρίσιμο σφάλμα εφαρμογής:';
 

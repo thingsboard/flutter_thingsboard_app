@@ -731,6 +731,9 @@ class SAr extends S {
   String get unknownError => 'خطأ غير معروف.';
 
   @override
+  String get sessionExpired => 'انتهت صلاحية الجلسة';
+
+  @override
   String get fatalApplicationErrorOccurred => 'حدث خطأ فادح في التطبيق:';
 
   @override

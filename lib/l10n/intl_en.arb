@@ -239,6 +239,7 @@
   "codeVerificationFailed": "Code verification failed!",
   "fatalError": "Fatal error",
   "unknownError": "Unknown error.",
+  "sessionExpired": "Session has expired",
   "fatalApplicationErrorOccurred": "Fatal application error occurred:",
   "connectionError": "Connection error",
   "failedToConnectToServer": "Failed to connect to server",

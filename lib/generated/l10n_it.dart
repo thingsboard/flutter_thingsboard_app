@@ -739,6 +739,9 @@ class SIt extends S {
   String get unknownError => 'Errore sconosciuto.';
 
   @override
+  String get sessionExpired => 'La sessione è scaduta';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Si è verificato un errore fatale dell\'applicazione:';
 

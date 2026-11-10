@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Verifica del codice fallita!",
   "fatalError": "Errore fatale",
   "unknownError": "Errore sconosciuto.",
+  "sessionExpired": "La sessione è scaduta",
   "fatalApplicationErrorOccurred": "Si è verificato un errore fatale dell'applicazione:",
   "connectionError": "Errore di connessione",
   "failedToConnectToServer": "Connessione al server fallita",

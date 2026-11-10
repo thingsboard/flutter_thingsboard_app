@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Xác minh mã thất bại!",
   "fatalError": "Lỗi nghiêm trọng",
   "unknownError": "Lỗi không xác định.",
+  "sessionExpired": "Phiên đăng nhập đã hết hạn",
   "fatalApplicationErrorOccurred": "Đã xảy ra lỗi ứng dụng nghiêm trọng:",
   "connectionError": "Lỗi kết nối",
   "failedToConnectToServer": "Không thể kết nối đến máy chủ",

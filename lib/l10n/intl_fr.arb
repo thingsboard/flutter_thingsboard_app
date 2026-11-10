@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Échec de la vérification du code !",
   "fatalError": "Erreur fatale",
   "unknownError": "Erreur inconnue.",
+  "sessionExpired": "La session a expiré",
   "fatalApplicationErrorOccurred": "Erreur fatale de l'application :",
   "connectionError": "Erreur de connexion",
   "failedToConnectToServer": "Échec de la connexion au serveur",

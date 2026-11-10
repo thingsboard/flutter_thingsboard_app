@@ -1433,6 +1433,12 @@ abstract class S {
   /// **'Unknown error.'**
   String get unknownError;
 
+  /// No description provided for @sessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session has expired'**
+  String get sessionExpired;
+
   /// No description provided for @fatalApplicationErrorOccurred.
   ///
   /// In en, this message translates to:

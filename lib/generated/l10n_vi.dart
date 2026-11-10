@@ -735,6 +735,9 @@ class SVi extends S {
   String get unknownError => 'Lỗi không xác định.';
 
   @override
+  String get sessionExpired => 'Phiên đăng nhập đã hết hạn';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Đã xảy ra lỗi ứng dụng nghiêm trọng:';
 

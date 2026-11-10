@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Code-Verifizierung fehlgeschlagen!",
   "fatalError": "Schwerwiegender Fehler",
   "unknownError": "Unbekannter Fehler.",
+  "sessionExpired": "Sitzung ist abgelaufen",
   "fatalApplicationErrorOccurred": "Schwerwiegender Anwendungsfehler aufgetreten:",
   "connectionError": "Verbindungsfehler",
   "failedToConnectToServer": "Verbindung zum Server fehlgeschlagen",

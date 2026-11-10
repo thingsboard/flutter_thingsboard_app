@@ -740,6 +740,9 @@ class SEs extends S {
   String get unknownError => 'Error desconocido.';
 
   @override
+  String get sessionExpired => 'La sesión ha expirado';
+
+  @override
   String get fatalApplicationErrorOccurred => 'Error fatal de la aplicación:';
 
   @override

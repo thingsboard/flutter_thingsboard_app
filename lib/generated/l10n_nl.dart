@@ -735,6 +735,9 @@ class SNl extends S {
   String get unknownError => 'Onbekende fout.';
 
   @override
+  String get sessionExpired => 'Sessie is verlopen';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Fatale applicatiefout opgetreden:';
 

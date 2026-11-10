@@ -7,6 +7,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
@@ -22,6 +23,21 @@ class TbClientService implements ITbClientService {
   late ThingsboardClient _client;
   @override
   ThingsboardClient get client => _client;
+
+  @visibleForTesting
+  set client(ThingsboardClient client) => _client = client;
+
+  @visibleForTesting
+  DateTime Function() now = DateTime.now;
+
+  bool _authenticated = false;
+
+  /// When a signed-in session ended. The client clears the session before it
+  /// reports the 401s that ended it (a refresh token revoked by a password
+  /// change, then every request that was waiting on that refresh), so they
+  /// read as one expired session, not as the server's "Token is outdated".
+  DateTime? _sessionEndedAt;
+  bool _sessionEndReported = false;
   final IOverlayService _overlayService = getIt();
 
   final _unsupportedServer = ValueNotifier<UnsupportedServerVersionError?>(
@@ -77,6 +93,14 @@ class TbClientService implements ITbClientService {
 
   void onUserLoaded() {
     log('onUser loaded: ${_client.getAuthUser()?.userId}');
+    final authenticated = _client.isAuthenticated();
+    if (_authenticated && !authenticated) {
+      _sessionEndedAt = now();
+      _sessionEndReported = false;
+    } else if (authenticated) {
+      _sessionEndedAt = null;
+    }
+    _authenticated = authenticated;
     getIt<ICommunicationService>().fire(const UserLoadedEvent());
   }
 
@@ -103,13 +127,28 @@ class TbClientService implements ITbClientService {
   // here is the app's to show.
   void onClientError(ThingsboardError e) {
     log('client on error: $e');
+    final sessionExpired = e.isUnauthorized && _sessionJustEnded;
+    if (sessionExpired && _sessionEndReported) {
+      return;
+    }
+    _sessionEndReported |= sessionExpired;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Utils.isConnectionError(e)) {
         _overlayService.showConnectionErrorDialog();
         return;
       }
-      _overlayService.showErrorNotification(e.getTranslatedMessage);
+      _overlayService.showErrorNotification(
+        sessionExpired
+            ? (context) => S.of(context).sessionExpired
+            : e.getTranslatedMessage,
+      );
     });
+  }
+
+  bool get _sessionJustEnded {
+    final endedAt = _sessionEndedAt;
+    return endedAt != null &&
+        now().difference(endedAt) < const Duration(seconds: 5);
   }
 
   static void onLoadFinished() {

@@ -232,6 +232,7 @@
   "codeVerificationFailed": "Kodeverifisering mislyktes!",
   "fatalError": "Fatal feil",
   "unknownError": "Ukjent feil.",
+  "sessionExpired": "Økten er utløpt",
   "fatalApplicationErrorOccurred": "Fatal applikasjonsfeil oppstod:",
   "connectionError": "Tilkoblingsfeil",
   "failedToConnectToServer": "Kunne ikke koble til serveren",

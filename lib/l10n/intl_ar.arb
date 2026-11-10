@@ -232,6 +232,7 @@
   "codeVerificationFailed": "فشل التحقق من الرمز!",
   "fatalError": "خطأ فادح",
   "unknownError": "خطأ غير معروف.",
+  "sessionExpired": "انتهت صلاحية الجلسة",
   "fatalApplicationErrorOccurred": "حدث خطأ فادح في التطبيق:",
   "connectionError": "خطأ في الاتصال",
   "failedToConnectToServer": "فشل الاتصال بالخادم",

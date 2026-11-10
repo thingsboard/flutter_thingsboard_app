@@ -741,6 +741,9 @@ class SFr extends S {
   String get unknownError => 'Erreur inconnue.';
 
   @override
+  String get sessionExpired => 'La session a expiré';
+
+  @override
   String get fatalApplicationErrorOccurred =>
       'Erreur fatale de l\'application :';
 

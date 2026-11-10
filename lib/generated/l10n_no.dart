@@ -733,6 +733,9 @@ class SNo extends S {
   String get unknownError => 'Ukjent feil.';
 
   @override
+  String get sessionExpired => 'Økten er utløpt';
+
+  @override
   String get fatalApplicationErrorOccurred => 'Fatal applikasjonsfeil oppstod:';
 
   @override

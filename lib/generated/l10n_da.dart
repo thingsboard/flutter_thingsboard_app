@@ -733,6 +733,9 @@ class SDa extends S {
   String get unknownError => 'Ukendt fejl.';
 
   @override
+  String get sessionExpired => 'Sessionen er udløbet';
+
+  @override
   String get fatalApplicationErrorOccurred => 'Fatal applikationsfejl opstod:';
 
   @override
