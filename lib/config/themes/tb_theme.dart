@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
@@ -49,7 +50,8 @@ ThemeData tbTheme(
 
 PageTransitionsTheme pageTransitionsTheme = const PageTransitionsTheme(
   builders: {
-    TargetPlatform.iOS: FadeOpenPageTransitionsBuilder(),
+    // The iOS edge swipe back needs the Cupertino transition.
+    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     TargetPlatform.android: FadeOpenPageTransitionsBuilder(),
   },
 );
