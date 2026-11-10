@@ -5,13 +5,12 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:thingsboard_app/utils/services/export_module.dart';
 
 const dashboardLoadErrorHandler = 'tbDashboardLoadErrorHandler';
 
-/// Reports a failed dashboard request (e.g. no permission) to
-/// [dashboardLoadErrorHandler]. iOS reports HTTP errors only for page
-/// navigations, not for the web UI's XHR calls; Android has
-/// `onReceivedHttpError` for them.
+/// Reports a failed dashboard request (e.g. no permission): iOS reports HTTP
+/// errors only for navigations, Android also for XHR (`onReceivedHttpError`).
 final dashboardLoadErrorScript = UserScript(
   injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
   source:
@@ -32,11 +31,7 @@ final dashboardLoadErrorScript = UserScript(
 ''',
 );
 
-/// The scripts a dashboard web view starts with on [platform].
-List<UserScript> dashboardUserScripts(
-  TargetPlatform platform,
-  UserScript blobDownloadScript,
-) => [
-  blobDownloadScript,
+List<UserScript> dashboardUserScripts(TargetPlatform platform) => [
+  TbDashboardExportModule.blobDownloadScript,
   if (platform == TargetPlatform.iOS) dashboardLoadErrorScript,
 ];

@@ -80,10 +80,7 @@ class _DashboardState extends State<DashboardWidget> {
               ? InAppWebView(
                   onDownloadStarting: _exportModule.onDownloadStarting,
                   initialUserScripts: UnmodifiableListView(
-                    dashboardUserScripts(
-                      defaultTargetPlatform,
-                      TbDashboardExportModule.blobDownloadScript,
-                    ),
+                    dashboardUserScripts(defaultTargetPlatform),
                   ),
                   initialUrlRequest: URLRequest(url: _initialUrl),
                   initialSettings: settings,

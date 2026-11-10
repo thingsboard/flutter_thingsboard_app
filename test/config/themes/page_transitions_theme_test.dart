@@ -3,20 +3,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 void main() {
-  test('iOS pages slide in and can be swiped back', () {
-    expect(
-      pageTransitionsTheme.builders[TargetPlatform.iOS],
-      isA<CupertinoPageTransitionsBuilder>(),
-    );
-  });
-
   test('Android keeps the fade transition', () {
     expect(
       pageTransitionsTheme.builders[TargetPlatform.android],

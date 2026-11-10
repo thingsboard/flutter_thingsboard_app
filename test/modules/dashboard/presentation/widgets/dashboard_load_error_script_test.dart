@@ -4,18 +4,15 @@
 // found in the LICENSE file.
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_load_error_script.dart';
+import 'package:thingsboard_app/utils/services/export_module.dart';
 
 void main() {
-  final blob = UserScript(
-    source: 'blob',
-    injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
-  );
+  final blob = TbDashboardExportModule.blobDownloadScript;
 
   test('iOS reports failed dashboard requests from the page', () {
-    expect(dashboardUserScripts(TargetPlatform.iOS, blob), [
+    expect(dashboardUserScripts(TargetPlatform.iOS), [
       blob,
       dashboardLoadErrorScript,
     ]);
@@ -26,6 +23,6 @@ void main() {
   });
 
   test('Android keeps its native HTTP error callback only', () {
-    expect(dashboardUserScripts(TargetPlatform.android, blob), [blob]);
+    expect(dashboardUserScripts(TargetPlatform.android), [blob]);
   });
 }

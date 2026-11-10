@@ -18,8 +18,7 @@ class TbPhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A phone number reads left to right in every language; in Arabic the
-    // field would otherwise reorder its digits and brackets.
+    // Phone numbers read left to right in every language (RTL guidelines).
     return Directionality(
       textDirection: TextDirection.ltr,
       child: ReactivePhoneFormField<PhoneNumber>(
@@ -38,8 +37,6 @@ class TbPhoneField extends StatelessWidget {
         ),
         formControlName: 'phone',
         valueAccessor: PhoneNumberValueAccessor(),
-        // The country is picked separately, so the field takes the number
-        // without its country code.
         autofillHints: const [AutofillHints.telephoneNumberNational],
         isCountryButtonPersistent: true,
         isCountrySelectionEnabled: false,

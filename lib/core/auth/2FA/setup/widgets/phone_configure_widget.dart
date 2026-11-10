@@ -81,7 +81,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
                         }
                       },
                     ),
-                    PhoneTextField(phoneController: phoneController),
+                    TbPhoneField(controller: phoneController),
                   ],
                 ),
               ),
@@ -187,16 +187,5 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     } finally {
       loading.value = false;
     }
-  }
-}
-
-class PhoneTextField extends HookWidget {
-  const PhoneTextField({super.key, required this.phoneController});
-
-  final PhoneController phoneController;
-
-  @override
-  Widget build(BuildContext context) {
-    return TbPhoneField(controller: phoneController);
   }
 }
