@@ -532,5 +532,8 @@
   "twoFaRequiredByAdmin": "L'amministratore richiede l'autenticazione a due fattori per {email}.",
   "recommended": "Consigliato",
   "addBackupCodesHint": "Aggiungi anche i codici di backup per accedere anche se perdi il telefono.",
-  "totpSecretKey": "Chiave segreta"
+  "totpSecretKey": "Chiave segreta",
+  "backupCodesDescription": "Stampa i codici in modo da averli a portata di mano quando ne avrai bisogno per accedere al tuo account. Puoi utilizzare ogni codice di backup una sola volta.",
+  "backupCodesWarning": "Una volta che lasci questa pagina, questi codici non potranno essere mostrati di nuovo. Conservali in modo sicuro utilizzando le opzioni sottostanti.",
+  "downloadTxt": "Scarica (txt)"
 }

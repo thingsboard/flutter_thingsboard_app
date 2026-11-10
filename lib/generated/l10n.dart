@@ -2886,6 +2886,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Secret key'**
   String get totpSecretKey;
+
+  /// No description provided for @backupCodesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.'**
+  String get backupCodesDescription;
+
+  /// No description provided for @backupCodesWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Once you leave this page, these codes cannot be shown again. Store them safely using the options below.'**
+  String get backupCodesWarning;
+
+  /// No description provided for @downloadTxt.
+  ///
+  /// In en, this message translates to:
+  /// **'Download (txt)'**
+  String get downloadTxt;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -1584,4 +1584,15 @@ class SNo extends S {
 
   @override
   String get totpSecretKey => 'Hemmelig nøkkel';
+
+  @override
+  String get backupCodesDescription =>
+      'Skriv ut kodene slik at du har dem tilgjengelig når du trenger dem for å logge inn på kontoen din. Du kan bruke hver reservekode én gang.';
+
+  @override
+  String get backupCodesWarning =>
+      'Når du forlater denne siden, kan disse kodene ikke vises igjen. Oppbevar dem trygt ved å bruke alternativene nedenfor.';
+
+  @override
+  String get downloadTxt => 'Last ned (txt)';
 }

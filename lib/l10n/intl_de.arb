@@ -532,5 +532,8 @@
   "twoFaRequiredByAdmin": "Ihr Administrator verlangt die Zwei-Faktor-Authentifizierung für {email}.",
   "recommended": "Empfohlen",
   "addBackupCodesHint": "Fügen Sie auch Backup-Codes hinzu, damit Sie sich bei Verlust Ihres Telefons weiterhin anmelden können.",
-  "totpSecretKey": "Geheimer Schlüssel"
+  "totpSecretKey": "Geheimer Schlüssel",
+  "backupCodesDescription": "Drucken Sie die Codes aus, um sie griffbereit zu haben, wenn Sie sich bei Ihrem Konto anmelden. Jeder Backup-Code kann einmal verwendet werden.",
+  "backupCodesWarning": "Sobald Sie diese Seite verlassen, können diese Codes nicht erneut angezeigt werden. Bewahren Sie sie sicher auf, indem Sie die folgenden Optionen verwenden.",
+  "downloadTxt": "Herunterladen (txt)"
 }

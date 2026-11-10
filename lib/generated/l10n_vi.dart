@@ -1582,4 +1582,15 @@ class SVi extends S {
 
   @override
   String get totpSecretKey => 'Khóa bí mật';
+
+  @override
+  String get backupCodesDescription =>
+      'Hãy in các mã này để luôn có sẵn khi bạn cần dùng chúng để đăng nhập vào tài khoản. Mỗi mã dự phòng chỉ dùng được một lần.';
+
+  @override
+  String get backupCodesWarning =>
+      'Sau khi rời trang này, các mã này sẽ không thể hiển thị lại. Hãy lưu trữ chúng an toàn bằng các tùy chọn bên dưới.';
+
+  @override
+  String get downloadTxt => 'Tải xuống (txt)';
 }

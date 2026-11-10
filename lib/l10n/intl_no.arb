@@ -532,5 +532,8 @@
   "twoFaRequiredByAdmin": "Administratoren din krever tofaktorautentisering for {email}.",
   "recommended": "Anbefalt",
   "addBackupCodesHint": "Legg også til reservekoder, slik at du kan logge på hvis du mister telefonen.",
-  "totpSecretKey": "Hemmelig nøkkel"
+  "totpSecretKey": "Hemmelig nøkkel",
+  "backupCodesDescription": "Skriv ut kodene slik at du har dem tilgjengelig når du trenger dem for å logge inn på kontoen din. Du kan bruke hver reservekode én gang.",
+  "backupCodesWarning": "Når du forlater denne siden, kan disse kodene ikke vises igjen. Oppbevar dem trygt ved å bruke alternativene nedenfor.",
+  "downloadTxt": "Last ned (txt)"
 }

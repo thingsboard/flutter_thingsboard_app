@@ -532,5 +532,8 @@
   "twoFaRequiredByAdmin": "Su administrador requiere la autenticación de dos factores para {email}.",
   "recommended": "Recomendado",
   "addBackupCodesHint": "Añada también códigos de respaldo para poder iniciar sesión si pierde su teléfono.",
-  "totpSecretKey": "Clave secreta"
+  "totpSecretKey": "Clave secreta",
+  "backupCodesDescription": "Imprime los códigos para tenerlos a mano cuando necesites usarlos para iniciar sesión en tu cuenta. Puedes usar cada código de respaldo una sola vez.",
+  "backupCodesWarning": "Una vez que salgas de esta página, estos códigos no podrán mostrarse de nuevo. Guárdalos de forma segura usando las opciones de abajo.",
+  "downloadTxt": "Descargar (txt)"
 }

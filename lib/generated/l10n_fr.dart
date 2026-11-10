@@ -1602,4 +1602,15 @@ class SFr extends S {
 
   @override
   String get totpSecretKey => 'Clé secrète';
+
+  @override
+  String get backupCodesDescription =>
+      'Imprimez ces codes afin de les avoir à portée de main lorsque vous devrez vous connecter à votre compte. Chaque code de secours ne peut être utilisé qu’une seule fois.';
+
+  @override
+  String get backupCodesWarning =>
+      'Une fois que vous quittez cette page, ces codes ne peuvent plus être affichés. Stockez-les en toute sécurité à l’aide des options ci-dessous.';
+
+  @override
+  String get downloadTxt => 'Télécharger (txt)';
 }

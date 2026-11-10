@@ -1591,4 +1591,15 @@ class SNl extends S {
 
   @override
   String get totpSecretKey => 'Geheime sleutel';
+
+  @override
+  String get backupCodesDescription =>
+      'Print de codes uit, zodat je ze bij de hand hebt wanneer je ze moet gebruiken om in te loggen op je account. U kunt elke back-upcode één keer gebruiken.';
+
+  @override
+  String get backupCodesWarning =>
+      'Zodra u deze pagina verlaat, kunnen deze codes niet meer worden weergegeven. Bewaar ze veilig met behulp van de onderstaande opties.';
+
+  @override
+  String get downloadTxt => 'Downloaden (txt)';
 }

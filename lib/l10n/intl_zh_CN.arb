@@ -531,5 +531,8 @@
   "twoFaRequiredByAdmin": "您的管理员要求 {email} 使用双重身份验证。",
   "recommended": "推荐",
   "addBackupCodesHint": "也请添加备用码，以便在丢失手机时仍能登录。",
-  "totpSecretKey": "密钥"
+  "totpSecretKey": "密钥",
+  "backupCodesDescription": "打印这些验证码，以便在需要登录账户时随时使用。每个备用验证码只能使用一次。",
+  "backupCodesWarning": "离开此页面后，这些验证码将无法再次显示。请使用以下选项安全保存。",
+  "downloadTxt": "下载（txt）"
 }

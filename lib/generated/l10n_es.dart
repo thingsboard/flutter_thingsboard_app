@@ -1598,4 +1598,15 @@ class SEs extends S {
 
   @override
   String get totpSecretKey => 'Clave secreta';
+
+  @override
+  String get backupCodesDescription =>
+      'Imprime los códigos para tenerlos a mano cuando necesites usarlos para iniciar sesión en tu cuenta. Puedes usar cada código de respaldo una sola vez.';
+
+  @override
+  String get backupCodesWarning =>
+      'Una vez que salgas de esta página, estos códigos no podrán mostrarse de nuevo. Guárdalos de forma segura usando las opciones de abajo.';
+
+  @override
+  String get downloadTxt => 'Descargar (txt)';
 }

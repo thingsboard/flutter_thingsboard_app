@@ -61,15 +61,15 @@ class BackupCodeConfigureWidget
             child: Column(
               spacing: 20,
               children: [
-                const Column(
+                Column(
                   spacing: 8,
                   children: [
                     Text(
-                      "Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.",
+                      S.of(context).backupCodesDescription,
                       style: TbTextStyles.bodyMedium,
                     ),
                     Text(
-                      "Once you leave this page, these codes cannot be shown again. Store them safely using the options above.",
+                      S.of(context).backupCodesWarning,
                       style: TbTextStyles.bodyMedium,
                     ),
                   ],
@@ -129,7 +129,7 @@ class BackupCodeConfigureWidget
                           );
                         },
                         icon: const Icon(Icons.download),
-                        label: const Text('Download (txt)'),
+                        label: Text(S.of(context).downloadTxt),
                       ),
                     ),
                   ],

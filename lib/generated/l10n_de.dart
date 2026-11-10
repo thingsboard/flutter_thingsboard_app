@@ -1598,4 +1598,15 @@ class SDe extends S {
 
   @override
   String get totpSecretKey => 'Geheimer Schlüssel';
+
+  @override
+  String get backupCodesDescription =>
+      'Drucken Sie die Codes aus, um sie griffbereit zu haben, wenn Sie sich bei Ihrem Konto anmelden. Jeder Backup-Code kann einmal verwendet werden.';
+
+  @override
+  String get backupCodesWarning =>
+      'Sobald Sie diese Seite verlassen, können diese Codes nicht erneut angezeigt werden. Bewahren Sie sie sicher auf, indem Sie die folgenden Optionen verwenden.';
+
+  @override
+  String get downloadTxt => 'Herunterladen (txt)';
 }

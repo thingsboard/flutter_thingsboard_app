@@ -1575,4 +1575,15 @@ class SAr extends S {
 
   @override
   String get totpSecretKey => 'المفتاح السري';
+
+  @override
+  String get backupCodesDescription =>
+      'قم بطباعة الرموز حتى تتمكن من الوصول إليها عندما تحتاج إلى استخدامها لتسجيل الدخول إلى حسابك. يمكنك استخدام كل رمز احتياطي مرة واحدة.';
+
+  @override
+  String get backupCodesWarning =>
+      'بمجرد مغادرتك لهذه الصفحة، لن يمكن عرض هذه الرموز مرة أخرى. قم بتخزينها بشكل آمن باستخدام الخيارات أدناه.';
+
+  @override
+  String get downloadTxt => 'تنزيل (txt)';
 }

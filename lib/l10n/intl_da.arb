@@ -532,5 +532,8 @@
   "twoFaRequiredByAdmin": "Din administrator kræver totrinsgodkendelse for {email}.",
   "recommended": "Anbefalet",
   "addBackupCodesHint": "Tilføj også backupkoder, så du stadig kan logge ind, hvis du mister din telefon.",
-  "totpSecretKey": "Hemmelig nøgle"
+  "totpSecretKey": "Hemmelig nøgle",
+  "backupCodesDescription": "Udskriv koderne, så du har dem ved hånden, når du skal bruge dem til at logge ind på din konto. Du kan bruge hver backupkode én gang.",
+  "backupCodesWarning": "Når du forlader denne side, kan disse koder ikke vises igen. Opbevar dem sikkert ved hjælp af mulighederne nedenfor.",
+  "downloadTxt": "Download (txt)"
 }

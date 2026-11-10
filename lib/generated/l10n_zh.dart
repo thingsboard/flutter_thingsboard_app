@@ -1571,6 +1571,17 @@ class SZh extends S {
 
   @override
   String get totpSecretKey => 'Secret key';
+
+  @override
+  String get backupCodesDescription =>
+      'Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.';
+
+  @override
+  String get backupCodesWarning =>
+      'Once you leave this page, these codes cannot be shown again. Store them safely using the options below.';
+
+  @override
+  String get downloadTxt => 'Download (txt)';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -3059,6 +3070,15 @@ class SZhCn extends SZh {
 
   @override
   String get totpSecretKey => '密钥';
+
+  @override
+  String get backupCodesDescription => '打印这些验证码，以便在需要登录账户时随时使用。每个备用验证码只能使用一次。';
+
+  @override
+  String get backupCodesWarning => '离开此页面后，这些验证码将无法再次显示。请使用以下选项安全保存。';
+
+  @override
+  String get downloadTxt => '下载（txt）';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4547,4 +4567,13 @@ class SZhTw extends SZh {
 
   @override
   String get totpSecretKey => '金鑰';
+
+  @override
+  String get backupCodesDescription => '請列印這些驗證碼，以便在需要登入帳戶時使用。每個備用驗證碼只能使用一次。';
+
+  @override
+  String get backupCodesWarning => '離開此頁面後，這些驗證碼將無法再次顯示。請使用以下選項安全儲存。';
+
+  @override
+  String get downloadTxt => '下載（txt）';
 }

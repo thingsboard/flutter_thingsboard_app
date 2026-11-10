@@ -1588,4 +1588,15 @@ class SDa extends S {
 
   @override
   String get totpSecretKey => 'Hemmelig nøgle';
+
+  @override
+  String get backupCodesDescription =>
+      'Udskriv koderne, så du har dem ved hånden, når du skal bruge dem til at logge ind på din konto. Du kan bruge hver backupkode én gang.';
+
+  @override
+  String get backupCodesWarning =>
+      'Når du forlader denne side, kan disse koder ikke vises igen. Opbevar dem sikkert ved hjælp af mulighederne nedenfor.';
+
+  @override
+  String get downloadTxt => 'Download (txt)';
 }

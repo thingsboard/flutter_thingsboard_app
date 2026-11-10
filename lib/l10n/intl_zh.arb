@@ -489,5 +489,8 @@
   "twoFaRequiredByAdmin": "Your administrator requires two-factor authentication for {email}.",
   "recommended": "Recommended",
   "addBackupCodesHint": "Add backup codes too, so you can still sign in if you lose your phone.",
-  "totpSecretKey": "Secret key"
+  "totpSecretKey": "Secret key",
+  "backupCodesDescription": "Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.",
+  "backupCodesWarning": "Once you leave this page, these codes cannot be shown again. Store them safely using the options below.",
+  "downloadTxt": "Download (txt)"
 }

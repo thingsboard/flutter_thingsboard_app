@@ -1598,4 +1598,15 @@ class SIt extends S {
 
   @override
   String get totpSecretKey => 'Chiave segreta';
+
+  @override
+  String get backupCodesDescription =>
+      'Stampa i codici in modo da averli a portata di mano quando ne avrai bisogno per accedere al tuo account. Puoi utilizzare ogni codice di backup una sola volta.';
+
+  @override
+  String get backupCodesWarning =>
+      'Una volta che lasci questa pagina, questi codici non potranno essere mostrati di nuovo. Conservali in modo sicuro utilizzando le opzioni sottostanti.';
+
+  @override
+  String get downloadTxt => 'Scarica (txt)';
 }

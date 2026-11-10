@@ -1581,4 +1581,15 @@ class SEn extends S {
 
   @override
   String get totpSecretKey => 'Secret key';
+
+  @override
+  String get backupCodesDescription =>
+      'Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.';
+
+  @override
+  String get backupCodesWarning =>
+      'Once you leave this page, these codes cannot be shown again. Store them safely using the options below.';
+
+  @override
+  String get downloadTxt => 'Download (txt)';
 }
