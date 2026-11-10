@@ -518,5 +518,9 @@
   "liveTrackingEndReason": "Årsag til afslutning",
   "liveTrackingEndReasonManual": "Stoppet manuelt",
   "liveTrackingEndReasonMaxDuration": "Maksimal varighed nået",
-  "liveTrackingEndReasonInterrupted": "Afbrudt"
+  "liveTrackingEndReasonInterrupted": "Afbrudt",
+  "enableAuthenticatorApp": "Aktivér godkendelsesapp",
+  "enableSmsAuthenticator": "Aktivér SMS-godkendelse",
+  "enableEmailAuthenticator": "Aktivér e-mail-godkendelse",
+  "getBackupCode": "Hent backupkode"
 }

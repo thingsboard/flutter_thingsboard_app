@@ -1553,4 +1553,18 @@ class SEl extends S {
   @override
   String get deviceToClaimNotFound =>
       'Η συσκευή δεν βρέθηκε. Επικοινωνήστε με τον πάροχο της συσκευής.';
+
+  @override
+  String get enableAuthenticatorApp =>
+      'Ενεργοποίηση εφαρμογής ελέγχου ταυτότητας';
+
+  @override
+  String get enableSmsAuthenticator => 'Ενεργοποίηση ελέγχου ταυτότητας SMS';
+
+  @override
+  String get enableEmailAuthenticator =>
+      'Ενεργοποίηση ελέγχου ταυτότητας email';
+
+  @override
+  String get getBackupCode => 'Λήψη εφεδρικού κωδικού';
 }

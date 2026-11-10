@@ -1531,4 +1531,16 @@ class SVi extends S {
   @override
   String get deviceToClaimNotFound =>
       'Không tìm thấy thiết bị. Vui lòng liên hệ nhà cung cấp thiết bị.';
+
+  @override
+  String get enableAuthenticatorApp => 'Bật ứng dụng xác thực';
+
+  @override
+  String get enableSmsAuthenticator => 'Bật xác thực qua SMS';
+
+  @override
+  String get enableEmailAuthenticator => 'Bật xác thực qua email';
+
+  @override
+  String get getBackupCode => 'Lấy mã dự phòng';
 }

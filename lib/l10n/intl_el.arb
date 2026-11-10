@@ -518,5 +518,9 @@
   "liveTrackingEndReason": "Αιτία λήξης",
   "liveTrackingEndReasonManual": "Διακόπηκε χειροκίνητα",
   "liveTrackingEndReasonMaxDuration": "Συμπληρώθηκε η μέγιστη διάρκεια",
-  "liveTrackingEndReasonInterrupted": "Διακόπηκε"
+  "liveTrackingEndReasonInterrupted": "Διακόπηκε",
+  "enableAuthenticatorApp": "Ενεργοποίηση εφαρμογής ελέγχου ταυτότητας",
+  "enableSmsAuthenticator": "Ενεργοποίηση ελέγχου ταυτότητας SMS",
+  "enableEmailAuthenticator": "Ενεργοποίηση ελέγχου ταυτότητας email",
+  "getBackupCode": "Λήψη εφεδρικού κωδικού"
 }

@@ -1548,4 +1548,18 @@ class SFr extends S {
   @override
   String get deviceToClaimNotFound =>
       'Appareil introuvable. Veuillez contacter le fournisseur de l\'appareil.';
+
+  @override
+  String get enableAuthenticatorApp =>
+      'Activer l’application d’authentification';
+
+  @override
+  String get enableSmsAuthenticator => 'Activer l’authentification par SMS';
+
+  @override
+  String get enableEmailAuthenticator =>
+      'Activer l’authentification par e-mail';
+
+  @override
+  String get getBackupCode => 'Obtenir un code de secours';
 }

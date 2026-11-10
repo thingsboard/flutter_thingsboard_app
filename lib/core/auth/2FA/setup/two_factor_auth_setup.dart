@@ -9,7 +9,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
-import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_auth_provider_login_data.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/widgets/base_two_factor_layout.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/widgets/select_provider_type_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_account_settings_provider/two_factor_setup_account_settings_provider.dart';
@@ -20,7 +19,6 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widg
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/phone_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_provider_type_parser.dart';
-import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -80,10 +78,8 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         return null;
       }, [config]);
 
-      final data = getTwoFaProviderData(selectedProvider!);
-
       return BaseTwoFactorLayout(
-        title: _getSelectedProviderTitle(data, context, selectedProvider!),
+        title: _getSelectedProviderTitle(context, selectedProvider!),
         isLoading: isLoading.value,
         child: config.when(
           data: (configData) => Column(
@@ -179,16 +175,16 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
   }
 
   String _getSelectedProviderTitle(
-    TwoFactorAuthProviderLoginData data,
     BuildContext context,
     TwoFaProviderType provider,
   ) {
-    if (provider == TwoFaProviderType.BACKUP_CODE) {
-      return 'Get backup code';
-    }
-    final providerName = data.nameFunction(context).toLowerCase();
-    final suffix = provider == TwoFaProviderType.TOTP ? '' : 'authenticator';
-    return 'Enable $providerName $suffix'.trim();
+    final s = S.of(context);
+    return switch (provider) {
+      TwoFaProviderType.TOTP => s.enableAuthenticatorApp,
+      TwoFaProviderType.SMS => s.enableSmsAuthenticator,
+      TwoFaProviderType.EMAIL => s.enableEmailAuthenticator,
+      _ => s.getBackupCode,
+    };
   }
 
   void _onMfaConfigured(

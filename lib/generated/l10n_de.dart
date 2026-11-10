@@ -1548,4 +1548,16 @@ class SDe extends S {
   @override
   String get deviceToClaimNotFound =>
       'Gerät nicht gefunden. Bitte wenden Sie sich an den Geräteanbieter.';
+
+  @override
+  String get enableAuthenticatorApp => 'Authenticator-App aktivieren';
+
+  @override
+  String get enableSmsAuthenticator => 'SMS-Authenticator aktivieren';
+
+  @override
+  String get enableEmailAuthenticator => 'E-Mail-Authenticator aktivieren';
+
+  @override
+  String get getBackupCode => 'Backup-Code abrufen';
 }

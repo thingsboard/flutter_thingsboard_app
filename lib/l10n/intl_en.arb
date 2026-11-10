@@ -536,5 +536,9 @@
   "versionLabel": "Version",
   "askAdminToUpdateServer": "Ask your server administrator to update the server.",
   "deviceClaimFailed": "The device could not be claimed. Please try again.",
-  "deviceToClaimNotFound": "Device not found. Please contact the device provider."
+  "deviceToClaimNotFound": "Device not found. Please contact the device provider.",
+  "enableAuthenticatorApp": "Enable authenticator app",
+  "enableSmsAuthenticator": "Enable SMS authenticator",
+  "enableEmailAuthenticator": "Enable email authenticator",
+  "getBackupCode": "Get backup code"
 }

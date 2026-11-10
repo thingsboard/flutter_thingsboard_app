@@ -1536,4 +1536,16 @@ class SEn extends S {
   @override
   String get deviceToClaimNotFound =>
       'Device not found. Please contact the device provider.';
+
+  @override
+  String get enableAuthenticatorApp => 'Enable authenticator app';
+
+  @override
+  String get enableSmsAuthenticator => 'Enable SMS authenticator';
+
+  @override
+  String get enableEmailAuthenticator => 'Enable email authenticator';
+
+  @override
+  String get getBackupCode => 'Get backup code';
 }

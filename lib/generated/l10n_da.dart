@@ -1537,4 +1537,16 @@ class SDa extends S {
   @override
   String get deviceToClaimNotFound =>
       'Enheden blev ikke fundet. Kontakt enhedens leverandør.';
+
+  @override
+  String get enableAuthenticatorApp => 'Aktivér godkendelsesapp';
+
+  @override
+  String get enableSmsAuthenticator => 'Aktivér SMS-godkendelse';
+
+  @override
+  String get enableEmailAuthenticator => 'Aktivér e-mail-godkendelse';
+
+  @override
+  String get getBackupCode => 'Hent backupkode';
 }

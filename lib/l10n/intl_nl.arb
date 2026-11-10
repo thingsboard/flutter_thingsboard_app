@@ -518,5 +518,9 @@
   "liveTrackingEndReason": "Reden van beëindiging",
   "liveTrackingEndReasonManual": "Handmatig gestopt",
   "liveTrackingEndReasonMaxDuration": "Maximale duur bereikt",
-  "liveTrackingEndReasonInterrupted": "Onderbroken"
+  "liveTrackingEndReasonInterrupted": "Onderbroken",
+  "enableAuthenticatorApp": "Authenticator-app inschakelen",
+  "enableSmsAuthenticator": "SMS-authenticatie inschakelen",
+  "enableEmailAuthenticator": "E-mailauthenticatie inschakelen",
+  "getBackupCode": "Back-upcode ophalen"
 }

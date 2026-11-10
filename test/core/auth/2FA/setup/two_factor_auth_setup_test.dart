@@ -107,4 +107,37 @@ void main() {
     expect(find.text('profile'), findsOneWidget);
     verify(() => overlay.showErrorNotification(any())).called(1);
   });
+
+  testWidgets('the setup title is one translated phrase', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          loginProvider.overrideWith(FakeLogin.new),
+          twoFactorSetupAvalibleProvidersProvider.overrideWith(
+            (_) => Future.value([TwoFaProviderType.SMS]),
+          ),
+          acountTwoFactorSettingsProvider.overrideWith((_) => Future.value()),
+        ],
+        child: MaterialApp.router(
+          locale: const Locale('de'),
+          localizationsDelegates: S.localizationsDelegates,
+          supportedLocales: S.supportedLocales,
+          routerConfig: GoRouter(
+            routes: [
+              GoRoute(
+                path: '/',
+                builder: (_, _) => const TwoFactorAuthSetup(
+                  isForce: false,
+                  selectedProvider: TwoFaProviderType.SMS,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('SMS-Authenticator aktivieren'), findsOneWidget);
+  });
 }

@@ -517,5 +517,9 @@
   "liveTrackingEndReason": "سبب الانتهاء",
   "liveTrackingEndReasonManual": "أُوقف يدويًا",
   "liveTrackingEndReasonMaxDuration": "تم بلوغ المدة القصوى",
-  "liveTrackingEndReasonInterrupted": "انقطع"
+  "liveTrackingEndReasonInterrupted": "انقطع",
+  "enableAuthenticatorApp": "تفعيل تطبيق المصادقة",
+  "enableSmsAuthenticator": "تفعيل المصادقة عبر الرسائل القصيرة",
+  "enableEmailAuthenticator": "تفعيل المصادقة عبر البريد الإلكتروني",
+  "getBackupCode": "الحصول على رمز احتياطي"
 }

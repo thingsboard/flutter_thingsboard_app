@@ -517,5 +517,9 @@
   "liveTrackingEndReason": "结束原因",
   "liveTrackingEndReasonManual": "手动停止",
   "liveTrackingEndReasonMaxDuration": "已达到最长时长",
-  "liveTrackingEndReasonInterrupted": "已中断"
+  "liveTrackingEndReasonInterrupted": "已中断",
+  "enableAuthenticatorApp": "启用身份验证器应用",
+  "enableSmsAuthenticator": "启用短信验证",
+  "enableEmailAuthenticator": "启用邮箱验证",
+  "getBackupCode": "获取备用验证码"
 }

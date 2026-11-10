@@ -518,5 +518,9 @@
   "liveTrackingEndReason": "Motivo della fine",
   "liveTrackingEndReasonManual": "Interrotto manualmente",
   "liveTrackingEndReasonMaxDuration": "Durata massima raggiunta",
-  "liveTrackingEndReasonInterrupted": "Interrotto"
+  "liveTrackingEndReasonInterrupted": "Interrotto",
+  "enableAuthenticatorApp": "Abilita l'app di autenticazione",
+  "enableSmsAuthenticator": "Abilita l'autenticatore SMS",
+  "enableEmailAuthenticator": "Abilita l'autenticatore email",
+  "getBackupCode": "Ottieni codice di backup"
 }

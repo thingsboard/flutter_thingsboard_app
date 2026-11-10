@@ -1547,4 +1547,16 @@ class SIt extends S {
   @override
   String get deviceToClaimNotFound =>
       'Dispositivo non trovato. Contatta il fornitore del dispositivo.';
+
+  @override
+  String get enableAuthenticatorApp => 'Abilita l\'app di autenticazione';
+
+  @override
+  String get enableSmsAuthenticator => 'Abilita l\'autenticatore SMS';
+
+  @override
+  String get enableEmailAuthenticator => 'Abilita l\'autenticatore email';
+
+  @override
+  String get getBackupCode => 'Ottieni codice di backup';
 }

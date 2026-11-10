@@ -1546,4 +1546,16 @@ class SEs extends S {
   @override
   String get deviceToClaimNotFound =>
       'Dispositivo no encontrado. Póngase en contacto con el proveedor del dispositivo.';
+
+  @override
+  String get enableAuthenticatorApp => 'Activar aplicación de autenticación';
+
+  @override
+  String get enableSmsAuthenticator => 'Activar autenticación por SMS';
+
+  @override
+  String get enableEmailAuthenticator => 'Activar autenticación por Email';
+
+  @override
+  String get getBackupCode => 'Obtener código de respaldo';
 }

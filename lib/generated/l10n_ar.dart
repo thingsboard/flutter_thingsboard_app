@@ -1523,4 +1523,16 @@ class SAr extends S {
   @override
   String get deviceToClaimNotFound =>
       'لم يتم العثور على الجهاز. يرجى التواصل مع مزوّد الجهاز.';
+
+  @override
+  String get enableAuthenticatorApp => 'تفعيل تطبيق المصادقة';
+
+  @override
+  String get enableSmsAuthenticator => 'تفعيل المصادقة عبر الرسائل القصيرة';
+
+  @override
+  String get enableEmailAuthenticator => 'تفعيل المصادقة عبر البريد الإلكتروني';
+
+  @override
+  String get getBackupCode => 'الحصول على رمز احتياطي';
 }

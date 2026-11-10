@@ -1520,6 +1520,18 @@ class SZh extends S {
 
   @override
   String get deviceToClaimNotFound => '未找到设备，请联系设备提供商。';
+
+  @override
+  String get enableAuthenticatorApp => 'Enable authenticator app';
+
+  @override
+  String get enableSmsAuthenticator => 'Enable SMS authenticator';
+
+  @override
+  String get enableEmailAuthenticator => 'Enable email authenticator';
+
+  @override
+  String get getBackupCode => 'Get backup code';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -2960,6 +2972,18 @@ class SZhCn extends SZh {
 
   @override
   String get deviceToClaimNotFound => '未找到设备，请联系设备提供商。';
+
+  @override
+  String get enableAuthenticatorApp => '启用身份验证器应用';
+
+  @override
+  String get enableSmsAuthenticator => '启用短信验证';
+
+  @override
+  String get enableEmailAuthenticator => '启用邮箱验证';
+
+  @override
+  String get getBackupCode => '获取备用验证码';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4400,4 +4424,16 @@ class SZhTw extends SZh {
 
   @override
   String get deviceToClaimNotFound => '找不到裝置，請聯絡裝置供應商。';
+
+  @override
+  String get enableAuthenticatorApp => '啟用身分驗證器應用程式';
+
+  @override
+  String get enableSmsAuthenticator => '啟用簡訊驗證';
+
+  @override
+  String get enableEmailAuthenticator => '啟用電子郵件驗證';
+
+  @override
+  String get getBackupCode => '取得備用驗證碼';
 }

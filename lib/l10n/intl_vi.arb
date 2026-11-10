@@ -517,5 +517,9 @@
   "liveTrackingEndReason": "Lý do kết thúc",
   "liveTrackingEndReasonManual": "Đã dừng thủ công",
   "liveTrackingEndReasonMaxDuration": "Đã đạt thời lượng tối đa",
-  "liveTrackingEndReasonInterrupted": "Bị gián đoạn"
+  "liveTrackingEndReasonInterrupted": "Bị gián đoạn",
+  "enableAuthenticatorApp": "Bật ứng dụng xác thực",
+  "enableSmsAuthenticator": "Bật xác thực qua SMS",
+  "enableEmailAuthenticator": "Bật xác thực qua email",
+  "getBackupCode": "Lấy mã dự phòng"
 }

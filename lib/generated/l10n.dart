@@ -2802,6 +2802,30 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Device not found. Please contact the device provider.'**
   String get deviceToClaimNotFound;
+
+  /// No description provided for @enableAuthenticatorApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable authenticator app'**
+  String get enableAuthenticatorApp;
+
+  /// No description provided for @enableSmsAuthenticator.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable SMS authenticator'**
+  String get enableSmsAuthenticator;
+
+  /// No description provided for @enableEmailAuthenticator.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable email authenticator'**
+  String get enableEmailAuthenticator;
+
+  /// No description provided for @getBackupCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Get backup code'**
+  String get getBackupCode;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

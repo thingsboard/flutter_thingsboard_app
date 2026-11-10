@@ -1539,4 +1539,16 @@ class SNl extends S {
   @override
   String get deviceToClaimNotFound =>
       'Apparaat niet gevonden. Neem contact op met de leverancier van het apparaat.';
+
+  @override
+  String get enableAuthenticatorApp => 'Authenticator-app inschakelen';
+
+  @override
+  String get enableSmsAuthenticator => 'SMS-authenticatie inschakelen';
+
+  @override
+  String get enableEmailAuthenticator => 'E-mailauthenticatie inschakelen';
+
+  @override
+  String get getBackupCode => 'Back-upcode ophalen';
 }

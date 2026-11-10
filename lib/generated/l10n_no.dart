@@ -1532,4 +1532,16 @@ class SNo extends S {
   @override
   String get deviceToClaimNotFound =>
       'Fant ikke enheten. Kontakt leverandøren av enheten.';
+
+  @override
+  String get enableAuthenticatorApp => 'Aktiver autentiseringsapp';
+
+  @override
+  String get enableSmsAuthenticator => 'Aktiver SMS-autentisering';
+
+  @override
+  String get enableEmailAuthenticator => 'Aktiver e-postautentisering';
+
+  @override
+  String get getBackupCode => 'Hent reservekode';
 }
