@@ -16,6 +16,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_action_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_load_error_script.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -78,9 +79,12 @@ class _DashboardState extends State<DashboardWidget> {
               snapshot.connectionState == ConnectionState.done
               ? InAppWebView(
                   onDownloadStarting: _exportModule.onDownloadStarting,
-                  initialUserScripts: UnmodifiableListView([
-                    TbDashboardExportModule.blobDownloadScript,
-                  ]),
+                  initialUserScripts: UnmodifiableListView(
+                    dashboardUserScripts(
+                      defaultTargetPlatform,
+                      TbDashboardExportModule.blobDownloadScript,
+                    ),
+                  ),
                   initialUrlRequest: URLRequest(url: _initialUrl),
                   initialSettings: settings,
                   onWebViewCreated: _onWebViewCreated,
@@ -230,6 +234,14 @@ class _DashboardState extends State<DashboardWidget> {
     _exportModule.injectFileDownloadHandler(webViewController);
     _injectTbMobileReadyHandler(webViewController);
     _injectTbMobileDashboardLoadedHandler(webViewController);
+    webViewController.addJavaScriptHandler(
+      handlerName: dashboardLoadErrorHandler,
+      callback: (args) {
+        // translate-me-ignore-next-line
+        log.debug('Dashboard request failed: $args');
+        dashboardLoading.value = false;
+      },
+    );
     _injectTbMobileDashboardLayoutHandler(webViewController);
     _injectTbMobileDashboardStateNameHandler(webViewController);
     _injectTbMobileNavigationHandler(webViewController);
