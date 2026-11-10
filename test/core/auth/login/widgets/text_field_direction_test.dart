@@ -28,8 +28,7 @@ void main() {
         ),
       ),
     );
-    final editable = tester.widget<EditableText>(find.byType(EditableText));
-    return editable.textDirection;
+    return Directionality.of(tester.element(find.byType(EditableText)));
   }
 
   testWidgets(
@@ -63,5 +62,20 @@ void main() {
       ),
       isNot(TextDirection.ltr),
     );
+  });
+
+  testWidgets('an LTR field in an RTL language starts at its left edge', (
+    tester,
+  ) async {
+    await directionInRtl(
+      tester,
+      const TbTextField(
+        formControlName: 'value',
+        autoFillHints: [AutofillHints.email],
+      ),
+    );
+    final field = tester.getRect(find.byType(TbTextField));
+    final text = tester.getRect(find.byType(EditableText));
+    expect(text.left - field.left, lessThan(24));
   });
 }

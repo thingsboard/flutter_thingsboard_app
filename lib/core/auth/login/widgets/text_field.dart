@@ -116,7 +116,7 @@ class TbTextField extends HookWidget {
       return cancel;
     }, [formControl?.statusChanged, formControl?.touchChanges]);
 
-    return ReactiveTextField(
+    final field = ReactiveTextField(
       focusNode: node,
       readOnly: readOnly,
       onTap: (control) {
@@ -136,7 +136,6 @@ class TbTextField extends HookWidget {
       maxLength: counterMaxValue,
       cursorHeight: TbTextStyles.bodyLarge.fontSize,
       obscureText: obscureText && !isVisible.value,
-      textDirection: _leftToRight ? TextDirection.ltr : null,
       keyboardType: type,
       autofillHints: autoFillHints,
       formControlName: formControlName,
@@ -205,5 +204,10 @@ class TbTextField extends HookWidget {
             : null,
       ),
     );
+    // The whole field, not only its text: an RTL layout would put the suffix
+    // before the text and indent it.
+    return _leftToRight
+        ? Directionality(textDirection: TextDirection.ltr, child: field)
+        : field;
   }
 }
