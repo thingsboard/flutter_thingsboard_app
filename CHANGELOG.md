@@ -55,6 +55,8 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Large text: the role under the user name in More no longer breaks mid-word; the server name moves to the next line.
 - Two-factor screens: each method shows a description (authenticator app recommended); the required setup names the account and offers Log Out; TOTP opens the authenticator app directly and shows the key in groups of four; a wrong code says "Verification code is incorrect", clears the field and keeps the focus; the success screen suggests backup codes.
 - Two-factor sign-in opens again after going back to the login page and pressing Log In.
+- The backup codes page is translated and points to the options below the codes.
+- Log Out from the required two-factor setup leaves an empty login form.
 - Live location tracking is translated into every app language (it was English only).
 - Autofill and keyboards: email fields open the email keyboard; change password offers and saves a new password; sign-up suggests a new password instead of a saved one; phone fields take the number from autofill.
 - Profile editing shows the saved phone number and its country instead of an empty US number.
