@@ -48,10 +48,10 @@ void main() {
     getIt.registerSingleton<IOverlayService>(overlay);
   });
 
-  tearDown(() {
+  tearDown(() async {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(_permissions, null);
-    getIt.reset();
+    await getIt.reset();
   });
 
   Future<bool> request(WidgetTester tester) async {

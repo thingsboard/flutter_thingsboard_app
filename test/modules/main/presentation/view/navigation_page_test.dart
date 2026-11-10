@@ -43,7 +43,6 @@ class FakeNavigation extends Navigation {
   );
 }
 
-/// Reports the [MediaQueryData] the shell hands to the page under it.
 class ThreeTabsNavigation extends Navigation {
   @override
   NavigationState build() => const NavigationState(
@@ -71,6 +70,7 @@ class ThreeTabsNavigation extends Navigation {
   );
 }
 
+/// Reports the [MediaQueryData] the shell hands to the page under it.
 class PageInsetsProbe extends StatelessWidget {
   const PageInsetsProbe({super.key, required this.onBuild});
 
@@ -274,7 +274,7 @@ void main() {
     /// The page the user sees: go_router does not report pushed pages in
     /// the route location.
     void expectPage(String name) =>
-        expect(find.text(name), findsOneWidget, reason: 'shows \$name');
+        expect(find.text(name), findsOneWidget, reason: 'shows $name');
 
     Future<void> tapTab(WidgetTester tester, String title) async {
       await tester.tap(find.text(title).last);

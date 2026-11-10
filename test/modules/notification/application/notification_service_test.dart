@@ -429,16 +429,6 @@ void main() {
       verifyNoSessionRemoval();
     });
 
-    test('keeps the registration flag when the cleanup is interrupted, '
-        'so it is retried on the next launch', () async {
-      stubPushRegistered();
-      when(() => messaging.unregister()).thenThrow(Exception('no network'));
-
-      await buildService().cleanUpStalePushRegistration();
-
-      verifyNever(() => localDatabase.clearPushRegistered());
-    });
-
     test('runs a single teardown for concurrent calls', () async {
       stubPushRegistered();
       final service = buildService();

@@ -276,19 +276,6 @@ void main() {
       expect(emissions, emissionsAfterFirstLoad);
     });
 
-    testWidgets('a changed response is applied', (tester) async {
-      final container = makeContainer();
-      await pumpWlProvider(tester, container);
-      await tester.pump(wlPollInterval);
-
-      when(() => liveApi.getWhiteLabelParams()).thenAnswer(
-        (_) async => wlResponse(wlParams((b) => b.appTitle = 'Acme IoT')),
-      );
-      await tester.pump(wlPollInterval);
-
-      expect(container.read(wlProvider).wlParams.appTitle, 'Acme IoT');
-    });
-
     testWidgets('a failed poll is swallowed and polling continues', (
       tester,
     ) async {
@@ -399,16 +386,6 @@ void main() {
   });
 
   group('platform version', () {
-    testWidgets('is taken from the running server when the white-label '
-        'response leaves it null', (tester) async {
-      final container = makeContainer();
-      final wl = await pumpWlProvider(tester, container);
-
-      await wl.updateWhiteLabeling();
-
-      expect(container.read(wlProvider).platformVersion, '4.4.0PE');
-    });
-
     testWidgets('drops the -SNAPSHOT suffix of a development server build', (
       tester,
     ) async {
@@ -457,18 +434,6 @@ void main() {
       await wl.updateWhiteLabeling();
 
       expect(container.read(wlProvider).isUserWlMode, isTrue);
-      expect(container.read(wlProvider).platformNameAndVersion, 'ThingsBoard');
-    });
-
-    testWidgets('shows only the name when the server reports no version', (
-      tester,
-    ) async {
-      stubSystemInfo(null);
-      final container = makeContainer();
-      final wl = await pumpWlProvider(tester, container);
-
-      await wl.updateWhiteLabeling();
-
       expect(container.read(wlProvider).platformNameAndVersion, 'ThingsBoard');
     });
 

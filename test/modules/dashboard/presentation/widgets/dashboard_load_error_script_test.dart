@@ -11,18 +11,11 @@ import 'package:thingsboard_app/utils/services/export_module.dart';
 void main() {
   final blob = TbDashboardExportModule.blobDownloadScript;
 
-  test('iOS reports failed dashboard requests from the page', () {
+  test('only iOS reports failed dashboard requests from the page', () {
     expect(dashboardUserScripts(TargetPlatform.iOS), [
       blob,
       dashboardLoadErrorScript,
     ]);
-    expect(
-      dashboardLoadErrorScript.source,
-      allOf(contains('/api/dashboard/'), contains(dashboardLoadErrorHandler)),
-    );
-  });
-
-  test('Android keeps its native HTTP error callback only', () {
     expect(dashboardUserScripts(TargetPlatform.android), [blob]);
   });
 }

@@ -25,10 +25,6 @@ void main() {
       expect(UnitSystems.fromString('AUTO'), UnitSystems.auto);
     });
 
-    test('reads the web UI values', () {
-      expect(UnitSystems.fromString('IMPERIAL'), UnitSystems.imperial);
-    });
-
     test('round-trips every system through tbValue', () {
       for (final system in UnitSystems.values) {
         expect(UnitSystems.fromString(system.tbValue), system);

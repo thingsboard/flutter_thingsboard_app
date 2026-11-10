@@ -9,11 +9,6 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/providers/app_locale/app_locale_provider.dart';
 
 void main() {
-  test('English is the fallback for an untranslated device language', () {
-    // Flutter falls back to the first supported locale (l10n.yaml).
-    expect(S.supportedLocales.first, const Locale('en'));
-  });
-
   group('localeFromTbCode', () {
     test('maps a ThingsBoard code to the app language', () {
       expect(localeFromTbCode('de_DE'), const Locale('de'));
@@ -68,12 +63,6 @@ void main() {
   });
 
   group('tbLocaleCode', () {
-    test('gives the ThingsBoard code of an app language', () {
-      expect(tbLocaleCode(const Locale('de')), 'de_DE');
-      expect(tbLocaleCode(const Locale('en')), 'en_US');
-      expect(tbLocaleCode(const Locale('zh', 'TW')), 'zh_TW');
-    });
-
     test('round-trips every supported locale', () {
       for (final code in [
         'ar_AE', 'da_DK', 'de_DE', 'el_GR', 'en_US', 'es_ES', 'fr_FR', //

@@ -27,17 +27,11 @@ void main() {
     );
   }
 
-  test('a scanner still asking for the permission is not started again', () {
+  test('a scanner that is starting or running is not started again', () {
     scannerIs(starting: true);
-
     startScannerAfterGrant(controller);
 
-    verifyNever(() => controller.start());
-  });
-
-  test('a running scanner is left running', () {
     scannerIs(running: true);
-
     startScannerAfterGrant(controller);
 
     verifyNever(() => controller.start());

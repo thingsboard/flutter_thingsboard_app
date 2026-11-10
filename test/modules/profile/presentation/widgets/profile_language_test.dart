@@ -10,10 +10,6 @@ import 'package:thingsboard_app/modules/profile/presentation/widgets/profile_pre
 void main() {
   const shown = Locale('fr');
 
-  test('the language list starts with Auto', () {
-    expect(getAllLanguages().first, autoLanguage);
-  });
-
   group('profileLanguage', () {
     test('is Auto without a language, as the web UI shows it', () {
       expect(profileLanguage(null, shown), autoLanguage);

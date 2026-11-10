@@ -17,7 +17,7 @@ class MockTbStorage extends Mock implements TbStorage {}
 void main() {
   late NotificationsLocalService service;
 
-  setUp(() {
+  setUp(() async {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
           const MethodChannel('flutter_new_badger'),
@@ -29,6 +29,8 @@ void main() {
     getIt.registerSingleton<TbStorage>(storage);
     addTearDown(getIt.reset);
     service = NotificationsLocalService();
+    // The count is static, so start every test from a known one.
+    await service.clearNotificationBadgeCount();
   });
 
   Future<void> pumpBadge(WidgetTester tester) => tester.pumpWidget(
@@ -46,7 +48,6 @@ void main() {
   });
 
   testWidgets('follows later counts and hides at zero', (tester) async {
-    await service.updateNotificationsCount(0);
     await pumpBadge(tester);
     expect(find.byType(Text), findsNothing);
 

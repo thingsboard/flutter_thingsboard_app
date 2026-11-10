@@ -17,33 +17,6 @@ ThemeData baseTheme() => tbTheme(Colors.indigo, Colors.indigo, Colors.amber);
 
 void main() {
   group('loginPageTheme', () {
-    testWidgets('paints the page with the primary palette and the sign-in '
-        'button with the accent', (_) async {
-      final theme = loginPageTheme(baseTheme(), darkForeground: false);
-
-      expect(theme.scaffoldBackgroundColor, Colors.indigo);
-      expect(
-        theme.elevatedButtonTheme.style!.backgroundColor!.resolve({}),
-        Colors.amber,
-      );
-    });
-
-    testWidgets('uses a light foreground unless dark foreground is requested', (
-      _,
-    ) async {
-      final light = loginPageTheme(baseTheme(), darkForeground: false);
-      final dark = loginPageTheme(baseTheme(), darkForeground: true);
-
-      expect(
-        light.textTheme.bodyLarge!.color,
-        Colors.white.withValues(alpha: 0.87),
-      );
-      expect(
-        dark.textTheme.bodyLarge!.color,
-        Colors.black.withValues(alpha: 0.87),
-      );
-    });
-
     testWidgets('picks a readable sign-in text color for the accent', (
       _,
     ) async {

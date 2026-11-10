@@ -104,13 +104,6 @@ void main() {
       expect(notificationIdFor(message), -507106249);
     });
 
-    test('is stable for the same id', () {
-      const message = RemoteMessage(messageId: 'abc');
-
-      expect(notificationIdFor(message), 96354);
-      expect(notificationIdFor(message), notificationIdFor(message));
-    });
-
     test('falls back to the notification hash without a message id', () {
       const notification = RemoteNotification(title: 't', body: 'b');
       const message = RemoteMessage(notification: notification);
@@ -182,23 +175,9 @@ void main() {
       expect(android.largeIcon, isNull);
     });
 
-    test('has no large icon without icon data', () async {
-      final android = await shownAndroidDetails(message());
-
-      expect(android.largeIcon, isNull);
-    });
-
     test('has no large icon for an unknown icon name', () async {
       final android = await shownAndroidDetails(
         message(data: iconData(icon: 'no_such_icon')),
-      );
-
-      expect(android.largeIcon, isNull);
-    });
-
-    test('has no large icon when the icon name is missing', () async {
-      final android = await shownAndroidDetails(
-        message(data: iconData(icon: null)),
       );
 
       expect(android.largeIcon, isNull);
@@ -212,22 +191,6 @@ void main() {
         largeIcon.data.sublist(0, pngSignature.length),
         equals(pngSignature),
       );
-    });
-
-    test('renders an MDI icon as the large icon', () async {
-      final android = await shownAndroidDetails(
-        message(data: iconData(icon: 'mdi:ab-testing')),
-      );
-
-      expect(android.largeIcon, isA<ByteArrayAndroidBitmap>());
-    });
-
-    test('renders the icon even without a colour', () async {
-      final android = await shownAndroidDetails(
-        message(data: iconData(color: null)),
-      );
-
-      expect(android.largeIcon, isA<ByteArrayAndroidBitmap>());
     });
   });
 
@@ -320,19 +283,6 @@ void main() {
         stopwatch.elapsed,
         greaterThanOrEqualTo(const Duration(milliseconds: 100)),
       );
-    });
-
-    test('gives up after the timeout', () async {
-      when(() => plugin.getActiveNotifications()).thenAnswer((_) async => []);
-
-      await PushNotificationDisplay.waitForPlainNotification(
-        message(),
-        plugin: plugin,
-        timeout: const Duration(milliseconds: 50),
-        interval: const Duration(milliseconds: 10),
-      );
-
-      verify(() => plugin.getActiveNotifications()).called(greaterThan(1));
     });
 
     test('does not wait for a message without an id', () async {

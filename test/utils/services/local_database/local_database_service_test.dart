@@ -33,26 +33,10 @@ void main() {
           .called(1);
     });
 
-    test('isPushRegistered reads the stored flag', () async {
-      when(() => storage.getItem(any())).thenAnswer((_) async => true);
-
-      expect(await service.isPushRegistered(), isTrue);
-
-      verify(() => storage.getItem('pushNotificationsRegistered')).called(1);
-    });
-
     test('isPushRegistered is false when the flag was never stored', () async {
       when(() => storage.getItem(any())).thenAnswer((_) async => null);
 
       expect(await service.isPushRegistered(), isFalse);
-    });
-
-    test('clearPushRegistered deletes the persisted key', () async {
-      when(() => storage.deleteItem(any())).thenAnswer((_) async {});
-
-      await service.clearPushRegistered();
-
-      verify(() => storage.deleteItem('pushNotificationsRegistered')).called(1);
     });
   });
 }

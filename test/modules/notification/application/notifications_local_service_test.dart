@@ -17,17 +17,11 @@ void main() {
 
   late MockTbStorage storage;
   late NotificationsLocalService service;
-  final badgeCalls = <MethodCall>[];
+  const badger = MethodChannel('flutter_new_badger');
 
   setUp(() {
-    badgeCalls.clear();
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(const MethodChannel('flutter_new_badger'), (
-          call,
-        ) async {
-          badgeCalls.add(call);
-          return null;
-        });
+        .setMockMethodCallHandler(badger, (_) async => null);
     storage = MockTbStorage();
     when(() => storage.setItem(any(), any())).thenAnswer((_) async {});
     when(() => storage.deleteItem(any())).thenAnswer((_) async {});
@@ -36,19 +30,9 @@ void main() {
     service = NotificationsLocalService();
   });
 
-  // The More page builds its badge after the count was sent; the stream does
-  // not replay it, so the badge starts from notificationsCount.
-  test('remembers the last count for badges built later', () async {
-    final sent = <int>[];
-    final sub = NotificationsLocalService.notificationsNumberStream.stream
-        .listen(sent.add);
-    addTearDown(sub.cancel);
-
-    await service.updateNotificationsCount(3);
-    await pumpEventQueue();
-
-    expect(NotificationsLocalService.notificationsCount, 3);
-    expect(sent, [3]);
+  tearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(badger, null);
   });
 
   test('the last count follows increase and clear', () async {

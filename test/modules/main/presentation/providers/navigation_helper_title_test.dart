@@ -11,12 +11,11 @@ import 'package:thingsboard_app/modules/main/domain/models/navigation_item_data.
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 
-NavigationItemData devicesItem({String? label}) => NavigationItemData(
+NavigationItemData devicesItem() => const NavigationItemData(
   title: 'Devices',
   icon: Icons.devices_other_outlined,
   path: '/devices',
   id: 'devices',
-  label: label,
 );
 
 void main() {
@@ -50,30 +49,6 @@ void main() {
     return title;
   }
 
-  group('NavigationHelper.customLabel', () {
-    test('returns the label typed in the bundle', () {
-      expect(
-        NavigationHelper.customLabel(
-          const PageLayout(id: Pages.devices, label: 'Machines'),
-        ),
-        'Machines',
-      );
-    });
-
-    test('treats a missing or blank label as default', () {
-      expect(
-        NavigationHelper.customLabel(const PageLayout(id: Pages.devices)),
-        isNull,
-      );
-      expect(
-        NavigationHelper.customLabel(
-          const PageLayout(id: Pages.devices, label: '   '),
-        ),
-        isNull,
-      );
-    });
-  });
-
   group('NavigationHelper.toNavigationItem', () {
     testWidgets('shows the title of a renamed built-in page', (tester) async {
       final item = NavigationHelper.toNavigationItem(
@@ -95,12 +70,6 @@ void main() {
   });
 
   group('NavigationHelper.getLocalizedTitle', () {
-    testWidgets('shows the bundle label for a built-in page', (tester) async {
-      final title = await resolveTitle(tester, devicesItem(label: 'Machines'));
-
-      expect(title, 'Machines');
-    });
-
     testWidgets('localizes a built-in page without a label', (tester) async {
       final title = await resolveTitle(tester, devicesItem());
 

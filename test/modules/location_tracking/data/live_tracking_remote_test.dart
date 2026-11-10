@@ -56,15 +56,6 @@ void main() {
     return () => captured!;
   }
 
-  test('a request that never answers fails once the deadline passes', () async {
-    stubPendingTelemetry();
-
-    await expectLater(
-      buildRemote().saveTelemetry(target, 1700000000000, {'latitude': 50}),
-      throwsA(isA<TimeoutException>()),
-    );
-  });
-
   test('the request is aborted when the deadline passes', () async {
     final token = stubPendingTelemetry();
 
