@@ -3,9 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
@@ -34,54 +34,12 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: TbAppBar(
-        title: ValueListenableBuilder(
-          valueListenable: titleNotifier,
-          builder: (context, title, _) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: TbTextStyles.labelLarge),
-                ValueListenableBuilder(
-                  valueListenable: subTitleUrlNotifier,
-                  builder: (context, url, _) {
-                    return Text(
-                      url,
-                      style: TbTextStyles.labelSmall.copyWith(
-                        // color: Colors.black.withValues(alpha:.54),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        ),
-        leading: AnimatedVisibilityWidget(
-          scale: true,
-          show: canGoBack,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () async {
-              if (await webViewController?.canGoBack() == true) {
-                webViewController?.goBack();
-              } else if (context.mounted && context.canPop()) {
-                Navigator.of(context).pop();
-              } else if (context.mounted && !context.canPop()) {
-                setState(() => canGoBack = false);
-              }
-            },
-            // },
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              launchUrlString(widget.url, mode: LaunchMode.externalApplication);
-            },
-            icon: const Icon(Icons.open_in_browser),
-          ),
-        ],
+      appBar: UrlPageAppBar(
+        url: widget.url,
+        title: titleNotifier,
+        host: subTitleUrlNotifier,
+        webCanGoBack: canGoBack,
+        onWebBack: () => webViewController?.goBack(),
       ),
       body: Stack(
         children: [
@@ -134,4 +92,62 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+}
+
+/// The page's title and host. While the site has its own history the back
+/// arrow steps through it; otherwise [TbAppBar] shows its usual route back
+/// arrow, so a page opened from More can be left and a tab has none.
+@visibleForTesting
+class UrlPageAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const UrlPageAppBar({
+    required this.url,
+    required this.title,
+    required this.host,
+    required this.webCanGoBack,
+    required this.onWebBack,
+    super.key,
+  });
+
+  final String url;
+  final ValueListenable<String> title;
+  final ValueListenable<String> host;
+  final bool webCanGoBack;
+  final VoidCallback onWebBack;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return TbAppBar(
+      title: ValueListenableBuilder(
+        valueListenable: title,
+        builder: (context, title, _) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: TbTextStyles.labelLarge),
+              ValueListenableBuilder(
+                valueListenable: host,
+                builder: (context, host, _) {
+                  return Text(host, style: TbTextStyles.labelSmall);
+                },
+              ),
+            ],
+          );
+        },
+      ),
+      leading: webCanGoBack
+          ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: onWebBack)
+          : null,
+      actions: [
+        IconButton(
+          onPressed: () {
+            launchUrlString(url, mode: LaunchMode.externalApplication);
+          },
+          icon: const Icon(Icons.open_in_browser),
+        ),
+      ],
+    );
+  }
 }
