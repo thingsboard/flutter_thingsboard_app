@@ -10,7 +10,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/more/presentation/widgets/profle_widget.dart';
+import 'package:thingsboard_app/modules/more/presentation/widgets/profile_widget.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 

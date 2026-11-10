@@ -10,7 +10,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/providers/2fa_confirm_provider/two_factor_confirm_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-import '../../../../../helpers/test_dependencies.dart';
+import '../../../../../../helpers/test_dependencies.dart';
 
 class MockTwoFactorAuthControllerApi extends Mock
     implements TwoFactorAuthControllerApi {}

@@ -16,7 +16,7 @@ import 'package:thingsboard_app/modules/main/domain/models/main_navigation_item.
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/more/presentation/widgets/more_menu_item_widget.dart';
-import 'package:thingsboard_app/modules/more/presentation/widgets/profle_widget.dart';
+import 'package:thingsboard_app/modules/more/presentation/widgets/profile_widget.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/more_page_footer.dart';
