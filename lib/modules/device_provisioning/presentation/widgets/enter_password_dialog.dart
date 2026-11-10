@@ -51,6 +51,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
               TextField(
                 controller: textCtrl,
                 obscureText: obscureText,
+                textDirection: TextDirection.ltr,
                 autofocus: true,
                 autocorrect: false,
                 obscuringCharacter: '*',

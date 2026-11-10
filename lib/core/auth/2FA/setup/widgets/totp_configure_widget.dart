@@ -74,6 +74,7 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
                 children: [
                   TextField(
                     readOnly: true,
+                    textDirection: TextDirection.ltr,
                     decoration: InputDecoration(
                       labelText: S.of(context).digitsCode(32),
                       suffixIcon: TextButton(

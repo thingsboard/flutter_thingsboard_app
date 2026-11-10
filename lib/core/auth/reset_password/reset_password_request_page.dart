@@ -57,6 +57,8 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
                     formControlName: 'email',
                     hint: S.of(context).email,
                     label: S.of(context).email,
+                    type: TextInputType.emailAddress,
+                    autoFillHints: const [AutofillHints.email],
                   ),
 
                   ReactiveFormConsumer(

@@ -65,6 +65,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         builder:
                             (BuildContext context, bool showPassword, child) {
                               return ReactiveTextField<String>(
+                                textDirection: TextDirection.ltr,
                                 formControlName: 'currentPassword',
                                 obscureText: !showPassword,
                                 autofocus: true,
@@ -97,6 +98,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         builder:
                             (BuildContext context, bool showPassword, child) {
                               return ReactiveTextField<String>(
+                                textDirection: TextDirection.ltr,
                                 formControlName: 'newPassword',
                                 obscureText: !showPassword,
                                 validationMessages: {
@@ -127,6 +129,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         builder:
                             (BuildContext context, bool showPassword, child) {
                               return ReactiveTextField<String>(
+                                textDirection: TextDirection.ltr,
                                 formControlName: 'newPassword2',
                                 obscureText: !showPassword,
                                 validationMessages: {

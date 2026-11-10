@@ -46,6 +46,28 @@ class TbTextField extends HookWidget {
   final Widget? suffixIcon;
   final bool readOnly;
 
+  static final _leftToRightTypes = [
+    TextInputType.emailAddress,
+    TextInputType.number,
+    TextInputType.phone,
+    TextInputType.url,
+    TextInputType.visiblePassword,
+  ];
+
+  /// Emails, passwords, codes and numbers read left to right in every
+  /// language, as RTL guidelines ask.
+  bool get _leftToRight =>
+      obscureText ||
+      _leftToRightTypes.contains(type) ||
+      (autoFillHints ?? const <String>[]).any(
+        const {
+          AutofillHints.email,
+          AutofillHints.password,
+          AutofillHints.newPassword,
+          AutofillHints.oneTimeCode,
+        }.contains,
+      );
+
   @override
   Widget build(BuildContext context) {
     final form = ReactiveForm.of(context) as FormControlCollection?;
@@ -114,6 +136,7 @@ class TbTextField extends HookWidget {
       maxLength: counterMaxValue,
       cursorHeight: TbTextStyles.bodyLarge.fontSize,
       obscureText: obscureText && !isVisible.value,
+      textDirection: _leftToRight ? TextDirection.ltr : null,
       keyboardType: type,
       autofillHints: autoFillHints,
       formControlName: formControlName,

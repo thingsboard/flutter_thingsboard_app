@@ -51,7 +51,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - The Live tracking header and the Dashboards page opened from the menu look like the other pages (title, back arrow).
 - iOS: a dashboard the user cannot open shows the web UI's error instead of loading forever.
 - iOS: pages can be closed with the edge swipe back.
-- Arabic: phone numbers read left to right in the profile and two-factor setup.
+- Arabic: phone numbers, emails, passwords and codes read left to right in every form.
 - Large text: the role under the user name in More no longer breaks mid-word; the server name moves to the next line.
 - Live location tracking is translated into every app language (it was English only).
 - The sign-up form shows "Invalid email format" for a malformed email instead of sending it to the server.
