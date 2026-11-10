@@ -24,6 +24,8 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TwoFactorAuthSetup extends HookConsumerWidget {
@@ -31,7 +33,6 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
     super.key,
     required this.isForce,
     this.selectedProvider,
-    //  = TwoFaProviderType.SMS,
   });
   final TwoFaProviderType? selectedProvider;
   final bool isForce;
@@ -41,15 +42,32 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
     final providers = ref.watch(twoFactorSetupAvalibleProvidersProvider);
     final userConfig = ref.watch(acountTwoFactorSettingsProvider);
 
+    // A required setup cannot go on, so it signs the user out; one opened
+    // from the profile goes back with an error. Runs once, after the build.
+    final left = useRef(false);
+    void leaveAfterError() {
+      if (left.value) return;
+      left.value = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+        if (isForce) {
+          ref.read(loginProvider.notifier).logout();
+          context.pushReplacement(LoginRoutes.login);
+          return;
+        }
+        getIt<IOverlayService>().showErrorNotification(
+          (_) => S.of(context).somethingWentWrong,
+        );
+        if (context.canPop()) context.pop();
+      });
+    }
+
     useEffect(() {
       isLoading.value =
           providers.isLoading ||
           userConfig.isLoading ||
           userConfig.isRefreshing;
-      if (providers.hasError || userConfig.hasError) {
-        ref.read(loginProvider.notifier).logout();
-        context.pushReplacement(LoginRoutes.login);
-      }
+      if (providers.hasError || userConfig.hasError) leaveAfterError();
       return null;
     }, [providers, userConfig]);
 
@@ -58,10 +76,7 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
 
       useEffect(() {
         isLoading.value = config.isLoading || config.isRefreshing;
-        if (config.hasError) {
-          ref.read(loginProvider.notifier).logout();
-          context.pushReplacement(LoginRoutes.login);
-        }
+        if (config.hasError) leaveAfterError();
         return null;
       }, [config]);
 
