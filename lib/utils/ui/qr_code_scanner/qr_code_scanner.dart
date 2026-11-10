@@ -166,26 +166,11 @@ class QrCodeScannerPage extends HookWidget {
                   ignoring: false,
                   child: OutlinedButton(
                     onPressed: () async {
-                      final res = await Permission.camera.request();
-                      if (res == PermissionStatus.granted) {
+                      if (await requestCameraAccess(context)) {
                         hasPermission.value = true;
-
                         await controller.stop();
                         await controller.start();
-                        return;
-                      } else if (res == PermissionStatus.permanentlyDenied &&
-                          context.mounted) {
-                        getIt<IOverlayService>().showAlertDialog(
-                          content: (_) => DialogContent(
-                            title: S.of(context).unableToUseCamera,
-                            message: S
-                                .of(context)
-                                .openSettingsAndGrantAccessToCameraToContinue,
-                            ok: S.of(context).cancel,
-                          ),
-                        );
                       }
-                      hasPermission.value = false;
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.all(12),
@@ -204,4 +189,25 @@ class QrCodeScannerPage extends HookWidget {
       ),
     );
   }
+}
+
+/// Asks for the camera. Once the system no longer asks the user, offers the
+/// app settings instead; the page re-checks the permission on resume.
+@visibleForTesting
+Future<bool> requestCameraAccess(BuildContext context) async {
+  final status = await Permission.camera.request();
+  if (status.isGranted) return true;
+  if (status.isPermanentlyDenied && context.mounted) {
+    final s = S.of(context);
+    final openSettings = await getIt<IOverlayService>().showConfirmDialog(
+      content: (_) => DialogContent(
+        title: s.unableToUseCamera,
+        message: s.openSettingsAndGrantAccessToCameraToContinue,
+        cancel: s.cancel,
+        ok: s.openAppSettings,
+      ),
+    );
+    if (openSettings ?? false) await openAppSettings();
+  }
+  return false;
 }
