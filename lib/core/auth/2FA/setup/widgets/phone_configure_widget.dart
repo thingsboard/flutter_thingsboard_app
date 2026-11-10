@@ -18,6 +18,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_country_picker.dart';
 import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
+import 'package:thingsboard_app/widgets/tb_phone_field.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
@@ -196,25 +197,6 @@ class PhoneTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReactivePhoneFormField<PhoneNumber>(
-      controller: phoneController,
-      countryButtonStyle: const CountryButtonStyle(
-        textStyle: TbTextStyles.bodyLarge,
-        showFlag: false,
-        showDropdownIcon: false,
-      ),
-      style: TbTextStyles.bodyLarge,
-      decoration: InputDecoration(
-        hintText: S.of(context).phone,
-        isDense: true,
-        helperText: S.of(context).phoneNumberHelperText,
-      ),
-
-      formControlName: 'phone',
-      focusNode: FocusNode(),
-      valueAccessor: PhoneNumberValueAccessor(),
-      isCountryButtonPersistent: true,
-      isCountrySelectionEnabled: false,
-    );
+    return TbPhoneField(controller: phoneController);
   }
 }

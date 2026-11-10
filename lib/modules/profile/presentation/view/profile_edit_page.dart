@@ -30,6 +30,7 @@ import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_bottom_sheet_builder.dart';
 import 'package:thingsboard_app/widgets/tb_country_picker.dart';
 import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
+import 'package:thingsboard_app/widgets/tb_phone_field.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfileEditPage extends HookConsumerWidget {
@@ -240,33 +241,10 @@ class ProfileEditPage extends HookConsumerWidget {
                                   children: [
                                     const SizedBox(width: 36),
                                     Expanded(
-                                      child:
-                                          ReactivePhoneFormField<PhoneNumber>(
-                                            controller: phoneController,
-                                            countryButtonStyle:
-                                                const CountryButtonStyle(
-                                                  textStyle:
-                                                      TbTextStyles.bodyLarge,
-                                                  showFlag: false,
-                                                  showDropdownIcon: false,
-                                                ),
-                                            style: TbTextStyles.bodyLarge,
-                                            decoration: InputDecoration(
-                                              hintText: S.of(context).phone,
-                                              isDense: true,
-                                              border:
-                                                  const OutlineInputBorder(),
-                                              helperText: S
-                                                  .of(context)
-                                                  .phoneNumberHelperText,
-                                            ),
-                                            formControlName: 'phone',
-                                            focusNode: FocusNode(),
-                                            valueAccessor:
-                                                PhoneNumberValueAccessor(),
-                                            isCountryButtonPersistent: true,
-                                            isCountrySelectionEnabled: false,
-                                          ),
+                                      child: TbPhoneField(
+                                        controller: phoneController,
+                                        border: const OutlineInputBorder(),
+                                      ),
                                     ),
                                   ],
                                 ),
