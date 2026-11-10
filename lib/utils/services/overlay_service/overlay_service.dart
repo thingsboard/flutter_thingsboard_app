@@ -13,6 +13,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/notification_type.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
+import 'package:thingsboard_app/utils/ui/content_direction.dart';
 import 'package:toastification/toastification.dart';
 
 class OverlayService implements IOverlayService {
@@ -63,7 +64,15 @@ class OverlayService implements IOverlayService {
       backgroundColor: Colors.white,
       alignment: Alignment.bottomCenter,
       autoCloseDuration: duration,
-      title: Text(messageData, maxLines: 10, overflow: TextOverflow.ellipsis),
+      // Server messages are often English: in Arabic they keep their own
+      // direction, so a trailing "!" stays at the end.
+      title: Text(
+        messageData,
+        textDirection: contentDirection(context, messageData),
+        textAlign: layoutStart(context),
+        maxLines: 10,
+        overflow: TextOverflow.ellipsis,
+      ),
       closeOnClick: false,
       dragToClose: true,
       showProgressBar: false,
