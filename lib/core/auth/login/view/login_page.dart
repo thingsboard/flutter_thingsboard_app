@@ -26,14 +26,31 @@ class LoginPage extends HookConsumerWidget {
     final wl = ref.watch(wlProvider);
     final darkForeground = wl.loginWhiteLabelingParams.darkForeground ?? false;
     final isUserLoading = useState(false);
+    // A new form after Log Out from a two-factor page, which sits on top of
+    // this one: its email and password would otherwise still be filled in.
+    final formGeneration = useState(0);
+    final inTwoFactor = useRef(false);
+    void onSessionChanged() {
+      final user = getIt<ITbClientService>().client.getAuthUser();
+      final twoFactor =
+          user != null &&
+          (user.isMfaConfigurationToken() || user.isPreVerificationToken());
+      if (inTwoFactor.value && user == null) formGeneration.value++;
+      inTwoFactor.value = twoFactor;
+    }
+
     useEffect(() {
       LoginDi.init();
       handleUserLoading(loginState, isUserLoading);
+      onSessionChanged();
       // The login state doesn't change when a session whose user never loaded
       // is dropped, but the client fires this event for every session change.
       final subscription = getIt<ICommunicationService>()
           .on<UserLoadedEvent>()
-          .listen((_) => handleUserLoading(loginState, isUserLoading));
+          .listen((_) {
+            handleUserLoading(loginState, isUserLoading);
+            onSessionChanged();
+          });
       return () {
         subscription.cancel();
         LoginDi.dispose();
@@ -49,7 +66,12 @@ class LoginPage extends HookConsumerWidget {
         value: darkForeground
             ? SystemUiOverlayStyle.dark
             : SystemUiOverlayStyle.light,
-        child: Scaffold(body: LoginWidget(userLoading: isUserLoading.value)),
+        child: Scaffold(
+          body: LoginWidget(
+            key: ValueKey(formGeneration.value),
+            userLoading: isUserLoading.value,
+          ),
+        ),
       ),
     );
   }
