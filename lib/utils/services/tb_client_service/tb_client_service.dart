@@ -33,9 +33,7 @@ class TbClientService implements ITbClientService {
   bool _authenticated = false;
 
   /// When a signed-in session ended. The client clears the session before it
-  /// reports the 401s that ended it (a refresh token revoked by a password
-  /// change, then every request that was waiting on that refresh), so they
-  /// read as one expired session, not as the server's "Token is outdated".
+  /// reports the 401s that ended it, so they show as one expired session.
   DateTime? _sessionEndedAt;
   bool _sessionEndReported = false;
   final IOverlayService _overlayService = getIt();
