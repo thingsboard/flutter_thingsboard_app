@@ -80,7 +80,6 @@
   "smsAuthDescription": "安全码已发送到您的手机 {contact}。",
   "emailAuthDescription": "安全码已发送到您的邮箱 {contact}。",
   "backupCodeAuthDescription": "请输入您的备份码之一。",
-  "verificationCodeInvalid": "验证码格式无效",
   "toptAuthPlaceholder": "验证码",
   "smsAuthPlaceholder": "短信验证码",
   "emailAuthPlaceholder": "邮箱验证码",
@@ -397,7 +396,7 @@
   },
   "copy": "复制",
   "copiedToClipboard": "已复制到剪贴板",
-  "enter6digitsKeyFromYourAppHere": "在此输入您应用中的6位数密钥：",
+  "enter6digitsKeyFromYourAppHere": "在此输入 6 位验证码",
   "digitsCode": "{count}位数验证码",
   "@digitsCode": {
     "placeholders": {
@@ -521,5 +520,16 @@
   "enableAuthenticatorApp": "启用身份验证器应用",
   "enableSmsAuthenticator": "启用短信验证",
   "enableEmailAuthenticator": "启用邮箱验证",
-  "getBackupCode": "获取备用验证码"
+  "getBackupCode": "获取备用验证码",
+  "twoFaTotpDescription": "使用手机上的 Google Authenticator、Authy 或 Duo 等应用进行认证。它将生成登录所需的安全码。",
+  "twoFaSmsDescription": "使用手机进行认证。登录时我们将通过短信向您发送安全码。",
+  "twoFaEmailDescription": "使用发送到您邮箱的安全码进行认证。",
+  "twoFaBackupCodeDescription": "这些可打印的一次性密码允许您在不方便使用手机时（例如旅行中）登录账户。",
+  "openInAuthenticatorApp": "在身份验证器应用中打开",
+  "noAuthenticatorAppFound": "未找到身份验证器应用。请将密钥复制到您的应用中。",
+  "twoFaProviderEnabled": "{provider} 已启用",
+  "twoFaRequiredByAdmin": "您的管理员要求 {email} 使用双重身份验证。",
+  "recommended": "推荐",
+  "addBackupCodesHint": "也请添加备用码，以便在丢失手机时仍能登录。",
+  "totpSecretKey": "密钥"
 }

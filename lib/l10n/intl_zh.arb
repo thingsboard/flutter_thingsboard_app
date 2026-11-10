@@ -89,7 +89,6 @@
   "smsAuthDescription": "安全码已发送到您的手机 {contact}。",
   "emailAuthDescription": "安全码已发送到您的邮箱 {contact}。",
   "backupCodeAuthDescription": "请输入您的备份码之一。",
-  "verificationCodeInvalid": "验证码格式无效",
   "toptAuthPlaceholder": "验证码",
   "smsAuthPlaceholder": "短信验证码",
   "emailAuthPlaceholder": "邮箱验证码",
@@ -404,7 +403,7 @@
   "sendCode": "Send code",
   "copy": "Copy",
   "copiedToClipboard": "Copied to clipboard",
-  "enter6digitsKeyFromYourAppHere": "Enter 6-digits key from your app here:",
+  "enter6digitsKeyFromYourAppHere": "Enter the 6-digit code here",
   "digitsCode": "{count}-{count, plural, =1{digit} other{digits}} code",
   "@digitsCode": {
     "placeholders": {
@@ -479,5 +478,16 @@
   "enableAuthenticatorApp": "Enable authenticator app",
   "enableSmsAuthenticator": "Enable SMS authenticator",
   "enableEmailAuthenticator": "Enable email authenticator",
-  "getBackupCode": "Get backup code"
+  "getBackupCode": "Get backup code",
+  "twoFaTotpDescription": "Use apps like Google Authenticator, Authy, or Duo on your phone to authenticate. It will generate a security code for logging in.",
+  "twoFaSmsDescription": "Use your phone to authenticate. We'll send you a security code via SMS message when you log in.",
+  "twoFaEmailDescription": "Use a security code sent to your email address to authenticate.",
+  "twoFaBackupCodeDescription": "These printable one-time passcodes allow you to sign in when away from your phone, like when you’re traveling.",
+  "openInAuthenticatorApp": "Open in authenticator app",
+  "noAuthenticatorAppFound": "No authenticator app found. Copy the key into your app instead.",
+  "twoFaProviderEnabled": "{provider} is enabled",
+  "twoFaRequiredByAdmin": "Your administrator requires two-factor authentication for {email}.",
+  "recommended": "Recommended",
+  "addBackupCodesHint": "Add backup codes too, so you can still sign in if you lose your phone.",
+  "totpSecretKey": "Secret key"
 }

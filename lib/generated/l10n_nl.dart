@@ -280,9 +280,6 @@ class SNl extends S {
   String get backupCodeAuthDescription => 'Voer een van uw back-upcodes in.';
 
   @override
-  String get verificationCodeInvalid => 'Ongeldig formaat van verificatiecode';
-
-  @override
   String get toptAuthPlaceholder => 'Code';
 
   @override
@@ -1250,7 +1247,7 @@ class SNl extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Voer de 6-cijferige code uit uw app hier in:';
+      'Vul hier de 6-cijferige code in';
 
   @override
   String digitsCode(int count) {
@@ -1551,4 +1548,47 @@ class SNl extends S {
 
   @override
   String get getBackupCode => 'Back-upcode ophalen';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Gebruik apps zoals Google Authenticator, Authy of Duo op je telefoon om te verifiëren. Het genereert een beveiligingscode om in te loggen.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Gebruik je telefoon om je te authenticeren. We sturen je een beveiligingscode via sms wanneer je inlogt.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Gebruik een beveiligingscode die naar uw e-mailadres is verzonden om u te verifiëren.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Met deze afdrukbare eenmalige toegangscodes kunt u zich aanmelden wanneer u uw telefoon niet bij de hand hebt, bijvoorbeeld wanneer u op reis bent.';
+
+  @override
+  String get openInAuthenticatorApp => 'Openen in authenticator-app';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Geen authenticator-app gevonden. Kopieer de sleutel naar uw app.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider is ingeschakeld';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Uw beheerder vereist tweestapsverificatie voor $email.';
+  }
+
+  @override
+  String get recommended => 'Aanbevolen';
+
+  @override
+  String get addBackupCodesHint =>
+      'Voeg ook back-upcodes toe, zodat u kunt inloggen als u uw telefoon kwijtraakt.';
+
+  @override
+  String get totpSecretKey => 'Geheime sleutel';
 }

@@ -80,7 +80,6 @@
   "smsAuthDescription": "Un codice di sicurezza è stato inviato al tuo telefono al numero {contact}.",
   "emailAuthDescription": "Un codice di sicurezza è stato inviato alla tua email all'indirizzo {contact}.",
   "backupCodeAuthDescription": "Inserisci uno dei tuoi codici di backup.",
-  "verificationCodeInvalid": "Formato del codice di verifica non valido",
   "toptAuthPlaceholder": "Codice",
   "smsAuthPlaceholder": "Codice SMS",
   "emailAuthPlaceholder": "Codice email",
@@ -397,7 +396,7 @@
   },
   "copy": "Copia",
   "copiedToClipboard": "Copiato negli appunti",
-  "enter6digitsKeyFromYourAppHere": "Inserisci il codice a 6 cifre dalla tua app qui:",
+  "enter6digitsKeyFromYourAppHere": "Inserisci qui il codice a 6 cifre",
   "digitsCode": "Codice a {count} {count, plural, =1{cifra} other{cifre}}",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Abilita l'app di autenticazione",
   "enableSmsAuthenticator": "Abilita l'autenticatore SMS",
   "enableEmailAuthenticator": "Abilita l'autenticatore email",
-  "getBackupCode": "Ottieni codice di backup"
+  "getBackupCode": "Ottieni codice di backup",
+  "twoFaTotpDescription": "Usa app come Google Authenticator, Authy o Duo sul tuo telefono per autenticarti. Genereranno un codice di sicurezza per l'accesso.",
+  "twoFaSmsDescription": "Usa il tuo telefono per autenticarti. Ti invieremo un codice di sicurezza via SMS al momento dell'accesso.",
+  "twoFaEmailDescription": "Usa un codice di sicurezza inviato al tuo indirizzo email per autenticarti.",
+  "twoFaBackupCodeDescription": "Questi codici di accesso monouso stampabili ti consentono di accedere quando sei lontano dal telefono, ad esempio durante un viaggio.",
+  "openInAuthenticatorApp": "Apri nell'app di autenticazione",
+  "noAuthenticatorAppFound": "Nessuna app di autenticazione trovata. Copia la chiave nella tua app.",
+  "twoFaProviderEnabled": "{provider} è attivato",
+  "twoFaRequiredByAdmin": "L'amministratore richiede l'autenticazione a due fattori per {email}.",
+  "recommended": "Consigliato",
+  "addBackupCodesHint": "Aggiungi anche i codici di backup per accedere anche se perdi il telefono.",
+  "totpSecretKey": "Chiave segreta"
 }

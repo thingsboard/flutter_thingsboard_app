@@ -80,7 +80,6 @@
   "smsAuthDescription": "Ένας κωδικός ασφαλείας έχει σταλεί στο τηλέφωνό σας στο {contact}.",
   "emailAuthDescription": "Ένας κωδικός ασφαλείας έχει σταλεί στο email σας στη διεύθυνση {contact}.",
   "backupCodeAuthDescription": "Εισαγάγετε έναν από τους εφεδρικούς σας κωδικούς.",
-  "verificationCodeInvalid": "Μη έγκυρη μορφή κωδικού επαλήθευσης",
   "toptAuthPlaceholder": "Κωδικός",
   "smsAuthPlaceholder": "Κωδικός SMS",
   "emailAuthPlaceholder": "Κωδικός email",
@@ -397,7 +396,7 @@
   },
   "copy": "Αντιγραφή",
   "copiedToClipboard": "Αντιγράφηκε στο πρόχειρο",
-  "enter6digitsKeyFromYourAppHere": "Εισαγάγετε τον 6ψήφιο κωδικό από την εφαρμογή σας εδώ:",
+  "enter6digitsKeyFromYourAppHere": "Εισάγετε τον 6-ψήφιο κωδικό εδώ",
   "digitsCode": "{count}-{count, plural, =1{ψήφιος} other{ψήφιος}} κωδικός",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Ενεργοποίηση εφαρμογής ελέγχου ταυτότητας",
   "enableSmsAuthenticator": "Ενεργοποίηση ελέγχου ταυτότητας SMS",
   "enableEmailAuthenticator": "Ενεργοποίηση ελέγχου ταυτότητας email",
-  "getBackupCode": "Λήψη εφεδρικού κωδικού"
+  "getBackupCode": "Λήψη εφεδρικού κωδικού",
+  "twoFaTotpDescription": "Χρησιμοποιήστε εφαρμογές όπως Google Authenticator, Authy ή Duo στο τηλέφωνό σας για έλεγχο ταυτότητας. Θα δημιουργήσει έναν κωδικό ασφαλείας για σύνδεση.",
+  "twoFaSmsDescription": "Χρησιμοποιήστε το τηλέφωνό σας για έλεγχο ταυτότητας. Θα σας στείλουμε έναν κωδικό ασφαλείας μέσω SMS όταν συνδεθείτε.",
+  "twoFaEmailDescription": "Χρησιμοποιήστε έναν κωδικό ασφαλείας που αποστέλλεται στη διεύθυνση email σας για να πραγματοποιήσετε έλεγχο ταυτότητας.",
+  "twoFaBackupCodeDescription": "Αυτοί οι εκτυπώσιμοι κωδικοί μίας χρήσης σάς επιτρέπουν να συνδεθείτε όταν δεν έχετε πρόσβαση στο τηλέφωνό σας, όπως κατά τη διάρκεια ενός ταξιδιού.",
+  "openInAuthenticatorApp": "Άνοιγμα σε εφαρμογή ελέγχου ταυτότητας",
+  "noAuthenticatorAppFound": "Δεν βρέθηκε εφαρμογή ελέγχου ταυτότητας. Αντιγράψτε το κλειδί στην εφαρμογή σας.",
+  "twoFaProviderEnabled": "Το {provider} ενεργοποιήθηκε",
+  "twoFaRequiredByAdmin": "Ο διαχειριστής σας απαιτεί έλεγχο ταυτότητας δύο παραγόντων για το {email}.",
+  "recommended": "Συνιστάται",
+  "addBackupCodesHint": "Προσθέστε και εφεδρικούς κωδικούς, ώστε να μπορείτε να συνδεθείτε αν χάσετε το τηλέφωνό σας.",
+  "totpSecretKey": "Μυστικό κλειδί"
 }

@@ -17,11 +17,15 @@ class TwoFactorAuthProviderLoginData {
     required this.textInputType,
     required this.setupSuccessDescription,
     required this.nameFunction,
+    required this.setupTitleFunction,
+    required this.setupDescriptionFunction,
     required this.descFunction,
     required this.placeholderFunction,
     required this.icon,
   });
   TextFunction nameFunction;
+  final TextFunction setupTitleFunction;
+  final TextFunction setupDescriptionFunction;
   ProviderDescFunction descFunction;
   TextFunction placeholderFunction;
   String icon;

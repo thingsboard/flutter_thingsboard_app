@@ -31,6 +31,14 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
     final data = getTwoFaProviderData(type);
     final platformConfig = ref.watch(twoFactorSetupAvalibleProvidersProvider);
     final userSettings = ref.watch(acountTwoFactorSettingsProvider);
+    final configured = userSettings.value?.configs?.keys ?? const <String>[];
+    final canAddMethod =
+        isForce && configured.length != platformConfig.value?.length;
+    final suggestBackupCodes =
+        type != TwoFaProviderType.BACKUP_CODE &&
+        (platformConfig.value?.contains(TwoFaProviderType.BACKUP_CODE) ??
+            false) &&
+        !configured.contains(TwoFaProviderType.BACKUP_CODE.name);
 
     return Scaffold(
       body: Stack(
@@ -58,7 +66,11 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                '${data.nameFunction(context)} successfully enabled',
+                                S
+                                    .of(context)
+                                    .twoFaProviderEnabled(
+                                      data.nameFunction(context),
+                                    ),
                                 style: TbTextStyles.titleSmallSb,
                                 textAlign: TextAlign.center,
                               ),
@@ -67,6 +79,15 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
                                 style: TbTextStyles.bodyMedium,
                                 textAlign: TextAlign.center,
                               ),
+                              if (suggestBackupCodes)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: Text(
+                                    S.of(context).addBackupCodesHint,
+                                    style: TbTextStyles.bodyMedium,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
                             ],
                           ),
                         ),
@@ -97,12 +118,10 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      if (isForce &&
-                          (userSettings.value?.configs?.length !=
-                              platformConfig.value?.length))
+                      if (canAddMethod)
                         SizedBox(
                           width: double.infinity,
-                          child: FilledButton(
+                          child: OutlinedButton(
                             onPressed: () {
                               context.pushReplacement(
                                 "${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce",

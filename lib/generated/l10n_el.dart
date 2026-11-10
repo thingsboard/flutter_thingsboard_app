@@ -285,9 +285,6 @@ class SEl extends S {
       'Εισαγάγετε έναν από τους εφεδρικούς σας κωδικούς.';
 
   @override
-  String get verificationCodeInvalid => 'Μη έγκυρη μορφή κωδικού επαλήθευσης';
-
-  @override
   String get toptAuthPlaceholder => 'Κωδικός';
 
   @override
@@ -1258,7 +1255,7 @@ class SEl extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Εισαγάγετε τον 6ψήφιο κωδικό από την εφαρμογή σας εδώ:';
+      'Εισάγετε τον 6-ψήφιο κωδικό εδώ';
 
   @override
   String digitsCode(int count) {
@@ -1567,4 +1564,47 @@ class SEl extends S {
 
   @override
   String get getBackupCode => 'Λήψη εφεδρικού κωδικού';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Χρησιμοποιήστε εφαρμογές όπως Google Authenticator, Authy ή Duo στο τηλέφωνό σας για έλεγχο ταυτότητας. Θα δημιουργήσει έναν κωδικό ασφαλείας για σύνδεση.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Χρησιμοποιήστε το τηλέφωνό σας για έλεγχο ταυτότητας. Θα σας στείλουμε έναν κωδικό ασφαλείας μέσω SMS όταν συνδεθείτε.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Χρησιμοποιήστε έναν κωδικό ασφαλείας που αποστέλλεται στη διεύθυνση email σας για να πραγματοποιήσετε έλεγχο ταυτότητας.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Αυτοί οι εκτυπώσιμοι κωδικοί μίας χρήσης σάς επιτρέπουν να συνδεθείτε όταν δεν έχετε πρόσβαση στο τηλέφωνό σας, όπως κατά τη διάρκεια ενός ταξιδιού.';
+
+  @override
+  String get openInAuthenticatorApp => 'Άνοιγμα σε εφαρμογή ελέγχου ταυτότητας';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Δεν βρέθηκε εφαρμογή ελέγχου ταυτότητας. Αντιγράψτε το κλειδί στην εφαρμογή σας.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return 'Το $provider ενεργοποιήθηκε';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Ο διαχειριστής σας απαιτεί έλεγχο ταυτότητας δύο παραγόντων για το $email.';
+  }
+
+  @override
+  String get recommended => 'Συνιστάται';
+
+  @override
+  String get addBackupCodesHint =>
+      'Προσθέστε και εφεδρικούς κωδικούς, ώστε να μπορείτε να συνδεθείτε αν χάσετε το τηλέφωνό σας.';
+
+  @override
+  String get totpSecretKey => 'Μυστικό κλειδί';
 }

@@ -166,7 +166,7 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
           );
       onConfigured();
     } catch (e) {
-      control.setErrors({TbValicationMessages.invalidCode: {}});
+      control.rejectCode(TbValicationMessages.invalidCode);
     } finally {
       loading.value = false;
     }

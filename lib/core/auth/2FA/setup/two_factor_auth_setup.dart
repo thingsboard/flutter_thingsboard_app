@@ -19,6 +19,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widg
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/phone_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_provider_type_parser.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -78,8 +79,10 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         return null;
       }, [config]);
 
+      final data = getTwoFaProviderData(selectedProvider!);
+
       return BaseTwoFactorLayout(
-        title: _getSelectedProviderTitle(context, selectedProvider!),
+        title: data.setupTitleFunction(context),
         isLoading: isLoading.value,
         child: config.when(
           data: (configData) => Column(
@@ -111,7 +114,8 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
             ],
           ),
           loading: () => const SizedBox.shrink(),
-          error: (error, stack) => Center(child: Text('Error: $error')),
+          error: (error, stack) =>
+              Center(child: Text(S.of(context).somethingWentWrong)),
         ),
       );
     }
@@ -171,19 +175,6 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         config: config as BackupCodeTwoFaAccountConfig,
       ),
       _ => const SizedBox.shrink(),
-    };
-  }
-
-  String _getSelectedProviderTitle(
-    BuildContext context,
-    TwoFaProviderType provider,
-  ) {
-    final s = S.of(context);
-    return switch (provider) {
-      TwoFaProviderType.TOTP => s.enableAuthenticatorApp,
-      TwoFaProviderType.SMS => s.enableSmsAuthenticator,
-      TwoFaProviderType.EMAIL => s.enableEmailAuthenticator,
-      _ => s.getBackupCode,
     };
   }
 

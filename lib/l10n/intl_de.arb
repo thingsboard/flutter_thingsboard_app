@@ -80,7 +80,6 @@
   "smsAuthDescription": "Ein Sicherheitscode wurde an Ihr Telefon unter {contact} gesendet.",
   "emailAuthDescription": "Ein Sicherheitscode wurde an Ihre E-Mail-Adresse unter {contact} gesendet.",
   "backupCodeAuthDescription": "Bitte geben Sie einen Ihrer Backup-Codes ein.",
-  "verificationCodeInvalid": "Ungültiges Format des Verifizierungscodes",
   "toptAuthPlaceholder": "Code",
   "smsAuthPlaceholder": "SMS-Code",
   "emailAuthPlaceholder": "E-Mail-Code",
@@ -397,7 +396,7 @@
   },
   "copy": "Kopieren",
   "copiedToClipboard": "In Zwischenablage kopiert",
-  "enter6digitsKeyFromYourAppHere": "Geben Sie den 6-stelligen Code aus Ihrer App ein:",
+  "enter6digitsKeyFromYourAppHere": "6-stelligen Code hier eingeben",
   "digitsCode": "{count}-{count, plural, =1{stelliger} other{stelliger}} Code",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Authenticator-App aktivieren",
   "enableSmsAuthenticator": "SMS-Authenticator aktivieren",
   "enableEmailAuthenticator": "E-Mail-Authenticator aktivieren",
-  "getBackupCode": "Backup-Code abrufen"
+  "getBackupCode": "Backup-Code abrufen",
+  "twoFaTotpDescription": "Verwenden Sie Apps wie Google Authenticator, Authy oder Duo auf Ihrem Telefon zur Authentifizierung. Diese generieren einen Sicherheitscode für die Anmeldung.",
+  "twoFaSmsDescription": "Verwenden Sie Ihr Telefon zur Authentifizierung. Wir senden Ihnen beim Login einen Sicherheitscode per SMS.",
+  "twoFaEmailDescription": "Verwenden Sie einen Sicherheitscode, der an Ihre E-Mail-Adresse gesendet wird, um sich zu authentifizieren.",
+  "twoFaBackupCodeDescription": "Diese druckbaren Einmalcodes ermöglichen die Anmeldung, wenn Sie nicht auf Ihr Telefon zugreifen können, z. B. auf Reisen.",
+  "openInAuthenticatorApp": "In Authenticator-App öffnen",
+  "noAuthenticatorAppFound": "Keine Authenticator-App gefunden. Kopieren Sie stattdessen den Schlüssel in Ihre App.",
+  "twoFaProviderEnabled": "{provider} ist aktiviert",
+  "twoFaRequiredByAdmin": "Ihr Administrator verlangt die Zwei-Faktor-Authentifizierung für {email}.",
+  "recommended": "Empfohlen",
+  "addBackupCodesHint": "Fügen Sie auch Backup-Codes hinzu, damit Sie sich bei Verlust Ihres Telefons weiterhin anmelden können.",
+  "totpSecretKey": "Geheimer Schlüssel"
 }

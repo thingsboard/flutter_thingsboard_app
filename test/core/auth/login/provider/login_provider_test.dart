@@ -39,6 +39,8 @@ class MockNotificationService extends Mock implements NotificationService {}
 class MockMobileAppControllerApi extends Mock
     implements MobileAppControllerApi {}
 
+class MockAuthUser extends Mock implements AuthUser {}
+
 void main() {
   late MockTbClientService clientService;
   late MockThingsboardClient client;
@@ -47,6 +49,13 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(RequestConfig());
+    registerFallbackValue(
+      LoginRequest(
+        (b) => b
+          ..username = ''
+          ..password = '',
+      ),
+    );
   });
 
   setUp(() {
@@ -199,4 +208,38 @@ void main() {
       () => client.logout(requestConfig: any(named: 'requestConfig')),
     );
   });
+
+  test(
+    'logging in again after leaving a forced 2FA setup opens it again',
+    () async {
+      final userLoaded = StreamController<UserLoadedEvent>.broadcast();
+      addTearDown(userLoaded.close);
+      when(() => getIt<ICommunicationService>().on<UserLoadedEvent>())
+          .thenAnswer((_) => userLoaded.stream);
+      final mfaUser = MockAuthUser();
+      when(() => mfaUser.authority)
+          .thenReturn(Authority.MFA_CONFIGURATION_TOKEN);
+      when(mfaUser.isMfaConfigurationToken).thenReturn(true);
+      when(() => client.login(any())).thenAnswer((_) async {
+        when(() => client.getAuthUser()).thenReturn(mfaUser);
+        when(() => client.isMfaConfigurationToken()).thenReturn(true);
+        userLoaded.add(const UserLoadedEvent());
+        return LoginResponse((b) => b..token = '');
+      });
+      when(() => client.isAuthenticated()).thenReturn(false);
+      final container = await buildLogin();
+      var setupOpened = 0;
+      container.listen(loginProvider, (_, next) {
+        if (next.userScope == Authority.MFA_CONFIGURATION_TOKEN) setupOpened++;
+      });
+      when(() => client.isAuthenticated()).thenReturn(true);
+
+      for (var i = 0; i < 2; i++) {
+        await container.read(loginProvider.notifier).login('user', 'secret');
+        await pumpEventQueue();
+      }
+
+      expect(setupOpened, 2);
+    },
+  );
 }

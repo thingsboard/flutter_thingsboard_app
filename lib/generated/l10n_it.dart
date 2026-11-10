@@ -282,10 +282,6 @@ class SIt extends S {
       'Inserisci uno dei tuoi codici di backup.';
 
   @override
-  String get verificationCodeInvalid =>
-      'Formato del codice di verifica non valido';
-
-  @override
   String get toptAuthPlaceholder => 'Codice';
 
   @override
@@ -1255,7 +1251,7 @@ class SIt extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Inserisci il codice a 6 cifre dalla tua app qui:';
+      'Inserisci qui il codice a 6 cifre';
 
   @override
   String digitsCode(int count) {
@@ -1559,4 +1555,47 @@ class SIt extends S {
 
   @override
   String get getBackupCode => 'Ottieni codice di backup';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Usa app come Google Authenticator, Authy o Duo sul tuo telefono per autenticarti. Genereranno un codice di sicurezza per l\'accesso.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Usa il tuo telefono per autenticarti. Ti invieremo un codice di sicurezza via SMS al momento dell\'accesso.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Usa un codice di sicurezza inviato al tuo indirizzo email per autenticarti.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Questi codici di accesso monouso stampabili ti consentono di accedere quando sei lontano dal telefono, ad esempio durante un viaggio.';
+
+  @override
+  String get openInAuthenticatorApp => 'Apri nell\'app di autenticazione';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Nessuna app di autenticazione trovata. Copia la chiave nella tua app.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider è attivato';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'L\'amministratore richiede l\'autenticazione a due fattori per $email.';
+  }
+
+  @override
+  String get recommended => 'Consigliato';
+
+  @override
+  String get addBackupCodesHint =>
+      'Aggiungi anche i codici di backup per accedere anche se perdi il telefono.';
+
+  @override
+  String get totpSecretKey => 'Chiave segreta';
 }

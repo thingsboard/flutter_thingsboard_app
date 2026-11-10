@@ -80,7 +80,6 @@
   "smsAuthDescription": "En sikkerhedskode er blevet sendt til din telefon på {contact}.",
   "emailAuthDescription": "En sikkerhedskode er blevet sendt til din emailadresse på {contact}.",
   "backupCodeAuthDescription": "Indtast en af dine backupkoder.",
-  "verificationCodeInvalid": "Ugyldigt format for verificeringskode",
   "toptAuthPlaceholder": "Kode",
   "smsAuthPlaceholder": "SMS-kode",
   "emailAuthPlaceholder": "Email-kode",
@@ -397,7 +396,7 @@
   },
   "copy": "Kopiér",
   "copiedToClipboard": "Kopieret til udklipsholder",
-  "enter6digitsKeyFromYourAppHere": "Indtast 6-cifret kode fra din app her:",
+  "enter6digitsKeyFromYourAppHere": "Indtast 6-cifret kode her",
   "digitsCode": "{count}-{count, plural, =1{cifret} other{cifre}} kode",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Aktivér godkendelsesapp",
   "enableSmsAuthenticator": "Aktivér SMS-godkendelse",
   "enableEmailAuthenticator": "Aktivér e-mail-godkendelse",
-  "getBackupCode": "Hent backupkode"
+  "getBackupCode": "Hent backupkode",
+  "twoFaTotpDescription": "Brug apps som Google Authenticator, Authy eller Duo til autentificering. De genererer en sikkerhedskode til login.",
+  "twoFaSmsDescription": "Brug din telefon til autentificering. Vi sender dig en sikkerhedskode via SMS, når du logger ind.",
+  "twoFaEmailDescription": "Brug en kode sendt til din e-mail til autentificering.",
+  "twoFaBackupCodeDescription": "Disse udskrivbare engangskoder giver dig mulighed for at logge ind, når du ikke har din telefon.",
+  "openInAuthenticatorApp": "Åbn i godkendelsesapp",
+  "noAuthenticatorAppFound": "Der blev ikke fundet nogen godkendelsesapp. Kopiér nøglen til din app i stedet.",
+  "twoFaProviderEnabled": "{provider} er aktiveret",
+  "twoFaRequiredByAdmin": "Din administrator kræver totrinsgodkendelse for {email}.",
+  "recommended": "Anbefalet",
+  "addBackupCodesHint": "Tilføj også backupkoder, så du stadig kan logge ind, hvis du mister din telefon.",
+  "totpSecretKey": "Hemmelig nøgle"
 }

@@ -80,7 +80,6 @@
   "smsAuthDescription": "Se ha enviado un código de seguridad a tu teléfono en {contact}.",
   "emailAuthDescription": "Se ha enviado un código de seguridad a tu correo electrónico en {contact}.",
   "backupCodeAuthDescription": "Por favor, ingresa uno de tus códigos de respaldo.",
-  "verificationCodeInvalid": "Formato de código de verificación inválido",
   "toptAuthPlaceholder": "Código",
   "smsAuthPlaceholder": "Código SMS",
   "emailAuthPlaceholder": "Código de correo",
@@ -397,7 +396,7 @@
   },
   "copy": "Copiar",
   "copiedToClipboard": "Copiado al portapapeles",
-  "enter6digitsKeyFromYourAppHere": "Ingresa el código de 6 dígitos de tu aplicación aquí:",
+  "enter6digitsKeyFromYourAppHere": "Introduce aquí el código de 6 dígitos",
   "digitsCode": "Código de {count} {count, plural, =1{dígito} other{dígitos}}",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Activar aplicación de autenticación",
   "enableSmsAuthenticator": "Activar autenticación por SMS",
   "enableEmailAuthenticator": "Activar autenticación por Email",
-  "getBackupCode": "Obtener código de respaldo"
+  "getBackupCode": "Obtener código de respaldo",
+  "twoFaTotpDescription": "Usa aplicaciones como Google Authenticator, Authy o Duo en tu teléfono para autenticarte. Generará un código de seguridad para iniciar sesión.",
+  "twoFaSmsDescription": "Usa tu teléfono para autenticarte. Te enviaremos un código de seguridad por mensaje SMS al iniciar sesión.",
+  "twoFaEmailDescription": "Usa un código de seguridad enviado a tu dirección de correo electrónico para autenticarte.",
+  "twoFaBackupCodeDescription": "Estos códigos de un solo uso e imprimibles te permiten iniciar sesión cuando no tienes acceso a tu teléfono, como cuando estás viajando.",
+  "openInAuthenticatorApp": "Abrir en la aplicación de autenticación",
+  "noAuthenticatorAppFound": "No se encontró ninguna aplicación de autenticación. Copie la clave en su aplicación.",
+  "twoFaProviderEnabled": "{provider} está activado",
+  "twoFaRequiredByAdmin": "Su administrador requiere la autenticación de dos factores para {email}.",
+  "recommended": "Recomendado",
+  "addBackupCodesHint": "Añada también códigos de respaldo para poder iniciar sesión si pierde su teléfono.",
+  "totpSecretKey": "Clave secreta"
 }

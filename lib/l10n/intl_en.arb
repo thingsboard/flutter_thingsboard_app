@@ -87,7 +87,6 @@
   "smsAuthDescription": "A security code has been sent to your phone at {contact}.",
   "emailAuthDescription": "A security code has been sent to your email address at {contact}.",
   "backupCodeAuthDescription": "Please enter one of your backup codes.",
-  "verificationCodeInvalid": "Invalid verification code format",
   "toptAuthPlaceholder": "Code",
   "smsAuthPlaceholder": "SMS code",
   "emailAuthPlaceholder": "Email code",
@@ -419,8 +418,8 @@
   },
   "copy": "Copy",
   "copiedToClipboard": "Copied to clipboard",
-  "enter6digitsKeyFromYourAppHere": "Enter 6-digits key from your app here:",
-  "digitsCode": "{count}-{count, plural, =1{digit} other{digits}} code",
+  "enter6digitsKeyFromYourAppHere": "Enter the 6-digit code here",
+  "digitsCode": "{count}-digit code",
   "@digitsCode": {
     "placeholders": {
       "count": {
@@ -428,7 +427,7 @@
       }
     }
   },
-  "copy32digitsKeyToYourAuthenticationAppOrScanQrcode": "Copy 32-digits key to your authentication app or scan QR-code below",
+  "copy32digitsKeyToYourAuthenticationAppOrScanQrcode": "Copy the 32-character key into your authenticator app, or scan the QR code below",
   "applyChanges": "Apply changes",
   "discardChanges": "Discard changes",
   "yesDiscard": "Yes, discard",
@@ -540,5 +539,30 @@
   "enableAuthenticatorApp": "Enable authenticator app",
   "enableSmsAuthenticator": "Enable SMS authenticator",
   "enableEmailAuthenticator": "Enable email authenticator",
-  "getBackupCode": "Get backup code"
+  "getBackupCode": "Get backup code",
+  "twoFaTotpDescription": "Use apps like Google Authenticator, Authy, or Duo on your phone to authenticate. It will generate a security code for logging in.",
+  "twoFaSmsDescription": "Use your phone to authenticate. We'll send you a security code via SMS message when you log in.",
+  "twoFaEmailDescription": "Use a security code sent to your email address to authenticate.",
+  "twoFaBackupCodeDescription": "These printable one-time passcodes allow you to sign in when away from your phone, like when you’re traveling.",
+  "openInAuthenticatorApp": "Open in authenticator app",
+  "noAuthenticatorAppFound": "No authenticator app found. Copy the key into your app instead.",
+  "twoFaProviderEnabled": "{provider} is enabled",
+  "twoFaRequiredByAdmin": "Your administrator requires two-factor authentication for {email}.",
+  "recommended": "Recommended",
+  "addBackupCodesHint": "Add backup codes too, so you can still sign in if you lose your phone.",
+  "totpSecretKey": "Secret key",
+  "@twoFaProviderEnabled": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@twoFaRequiredByAdmin": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -605,12 +605,6 @@ abstract class S {
   /// **'Please enter one of your backup codes.'**
   String get backupCodeAuthDescription;
 
-  /// No description provided for @verificationCodeInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid verification code format'**
-  String get verificationCodeInvalid;
-
   /// No description provided for @toptAuthPlaceholder.
   ///
   /// In en, this message translates to:
@@ -2349,19 +2343,19 @@ abstract class S {
   /// No description provided for @enter6digitsKeyFromYourAppHere.
   ///
   /// In en, this message translates to:
-  /// **'Enter 6-digits key from your app here:'**
+  /// **'Enter the 6-digit code here'**
   String get enter6digitsKeyFromYourAppHere;
 
   /// No description provided for @digitsCode.
   ///
   /// In en, this message translates to:
-  /// **'{count}-{count, plural, =1{digit} other{digits}} code'**
+  /// **'{count}-digit code'**
   String digitsCode(int count);
 
   /// No description provided for @copy32digitsKeyToYourAuthenticationAppOrScanQrcode.
   ///
   /// In en, this message translates to:
-  /// **'Copy 32-digits key to your authentication app or scan QR-code below'**
+  /// **'Copy the 32-character key into your authenticator app, or scan the QR code below'**
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode;
 
   /// No description provided for @applyChanges.
@@ -2826,6 +2820,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Get backup code'**
   String get getBackupCode;
+
+  /// No description provided for @twoFaTotpDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use apps like Google Authenticator, Authy, or Duo on your phone to authenticate. It will generate a security code for logging in.'**
+  String get twoFaTotpDescription;
+
+  /// No description provided for @twoFaSmsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your phone to authenticate. We\'ll send you a security code via SMS message when you log in.'**
+  String get twoFaSmsDescription;
+
+  /// No description provided for @twoFaEmailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a security code sent to your email address to authenticate.'**
+  String get twoFaEmailDescription;
+
+  /// No description provided for @twoFaBackupCodeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'These printable one-time passcodes allow you to sign in when away from your phone, like when you’re traveling.'**
+  String get twoFaBackupCodeDescription;
+
+  /// No description provided for @openInAuthenticatorApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in authenticator app'**
+  String get openInAuthenticatorApp;
+
+  /// No description provided for @noAuthenticatorAppFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No authenticator app found. Copy the key into your app instead.'**
+  String get noAuthenticatorAppFound;
+
+  /// No description provided for @twoFaProviderEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'{provider} is enabled'**
+  String twoFaProviderEnabled(String provider);
+
+  /// No description provided for @twoFaRequiredByAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Your administrator requires two-factor authentication for {email}.'**
+  String twoFaRequiredByAdmin(String email);
+
+  /// No description provided for @recommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get recommended;
+
+  /// No description provided for @addBackupCodesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add backup codes too, so you can still sign in if you lose your phone.'**
+  String get addBackupCodesHint;
+
+  /// No description provided for @totpSecretKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret key'**
+  String get totpSecretKey;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

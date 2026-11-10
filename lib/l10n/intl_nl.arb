@@ -80,7 +80,6 @@
   "smsAuthDescription": "Er is een beveiligingscode verzonden naar uw telefoon op {contact}.",
   "emailAuthDescription": "Er is een beveiligingscode verzonden naar uw e-mailadres op {contact}.",
   "backupCodeAuthDescription": "Voer een van uw back-upcodes in.",
-  "verificationCodeInvalid": "Ongeldig formaat van verificatiecode",
   "toptAuthPlaceholder": "Code",
   "smsAuthPlaceholder": "SMS-code",
   "emailAuthPlaceholder": "E-mailcode",
@@ -397,7 +396,7 @@
   },
   "copy": "Kopiëren",
   "copiedToClipboard": "Gekopieerd naar klembord",
-  "enter6digitsKeyFromYourAppHere": "Voer de 6-cijferige code uit uw app hier in:",
+  "enter6digitsKeyFromYourAppHere": "Vul hier de 6-cijferige code in",
   "digitsCode": "{count}-{count, plural, =1{cijferige} other{cijferige}} code",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Authenticator-app inschakelen",
   "enableSmsAuthenticator": "SMS-authenticatie inschakelen",
   "enableEmailAuthenticator": "E-mailauthenticatie inschakelen",
-  "getBackupCode": "Back-upcode ophalen"
+  "getBackupCode": "Back-upcode ophalen",
+  "twoFaTotpDescription": "Gebruik apps zoals Google Authenticator, Authy of Duo op je telefoon om te verifiëren. Het genereert een beveiligingscode om in te loggen.",
+  "twoFaSmsDescription": "Gebruik je telefoon om je te authenticeren. We sturen je een beveiligingscode via sms wanneer je inlogt.",
+  "twoFaEmailDescription": "Gebruik een beveiligingscode die naar uw e-mailadres is verzonden om u te verifiëren.",
+  "twoFaBackupCodeDescription": "Met deze afdrukbare eenmalige toegangscodes kunt u zich aanmelden wanneer u uw telefoon niet bij de hand hebt, bijvoorbeeld wanneer u op reis bent.",
+  "openInAuthenticatorApp": "Openen in authenticator-app",
+  "noAuthenticatorAppFound": "Geen authenticator-app gevonden. Kopieer de sleutel naar uw app.",
+  "twoFaProviderEnabled": "{provider} is ingeschakeld",
+  "twoFaRequiredByAdmin": "Uw beheerder vereist tweestapsverificatie voor {email}.",
+  "recommended": "Aanbevolen",
+  "addBackupCodesHint": "Voeg ook back-upcodes toe, zodat u kunt inloggen als u uw telefoon kwijtraakt.",
+  "totpSecretKey": "Geheime sleutel"
 }

@@ -278,9 +278,6 @@ class SVi extends S {
       'Vui lòng nhập một trong các mã dự phòng của bạn.';
 
   @override
-  String get verificationCodeInvalid => 'Định dạng mã xác minh không hợp lệ';
-
-  @override
   String get toptAuthPlaceholder => 'Mã';
 
   @override
@@ -1249,8 +1246,7 @@ class SVi extends S {
   String get copiedToClipboard => 'Đã sao chép vào khay nhớ tạm';
 
   @override
-  String get enter6digitsKeyFromYourAppHere =>
-      'Nhập khóa 6 chữ số từ ứng dụng của bạn vào đây:';
+  String get enter6digitsKeyFromYourAppHere => 'Nhập mã 6 chữ số tại đây';
 
   @override
   String digitsCode(int count) {
@@ -1543,4 +1539,47 @@ class SVi extends S {
 
   @override
   String get getBackupCode => 'Lấy mã dự phòng';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Dùng các ứng dụng như Google Authenticator, Authy hoặc Duo trên điện thoại để xác thực. Ứng dụng sẽ tạo mã bảo mật để đăng nhập.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Dùng điện thoại để xác thực. Chúng tôi sẽ gửi mã bảo mật qua SMS khi bạn đăng nhập.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Dùng mã bảo mật được gửi đến địa chỉ email của bạn để xác thực.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Các mã dùng một lần có thể in ra này cho phép bạn đăng nhập khi không có điện thoại, chẳng hạn khi đi du lịch.';
+
+  @override
+  String get openInAuthenticatorApp => 'Mở trong ứng dụng xác thực';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Không tìm thấy ứng dụng xác thực. Hãy sao chép khóa vào ứng dụng của bạn.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return 'Đã bật $provider';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Quản trị viên yêu cầu xác thực hai yếu tố cho $email.';
+  }
+
+  @override
+  String get recommended => 'Khuyên dùng';
+
+  @override
+  String get addBackupCodesHint =>
+      'Hãy thêm cả mã dự phòng để vẫn có thể đăng nhập nếu bạn mất điện thoại.';
+
+  @override
+  String get totpSecretKey => 'Khóa bí mật';
 }

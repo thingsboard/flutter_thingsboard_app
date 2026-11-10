@@ -80,7 +80,6 @@
   "smsAuthDescription": "Un code de sécurité a été envoyé à votre téléphone au {contact}.",
   "emailAuthDescription": "Un code de sécurité a été envoyé à votre adresse email à {contact}.",
   "backupCodeAuthDescription": "Veuillez saisir l’un de vos codes de secours.",
-  "verificationCodeInvalid": "Format du code de vérification invalide",
   "toptAuthPlaceholder": "Code",
   "smsAuthPlaceholder": "Code SMS",
   "emailAuthPlaceholder": "Code email",
@@ -397,7 +396,7 @@
   },
   "copy": "Copier",
   "copiedToClipboard": "Copié dans le presse-papiers",
-  "enter6digitsKeyFromYourAppHere": "Entrez le code à 6 chiffres de votre application ici :",
+  "enter6digitsKeyFromYourAppHere": "Saisissez le code à 6 chiffres ici",
   "digitsCode": "Code à {count} {count, plural, =1{chiffre} other{chiffres}}",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Activer l’application d’authentification",
   "enableSmsAuthenticator": "Activer l’authentification par SMS",
   "enableEmailAuthenticator": "Activer l’authentification par e-mail",
-  "getBackupCode": "Obtenir un code de secours"
+  "getBackupCode": "Obtenir un code de secours",
+  "twoFaTotpDescription": "Utilisez des applications comme Google Authenticator, Authy ou Duo sur votre téléphone pour vous authentifier. Elles génèrent un code de sécurité pour vous connecter.",
+  "twoFaSmsDescription": "Utilisez votre téléphone pour vous authentifier. Nous vous enverrons un code de sécurité par SMS lors de votre connexion.",
+  "twoFaEmailDescription": "Utilisez un code de sécurité envoyé à votre adresse email pour vous authentifier.",
+  "twoFaBackupCodeDescription": "Ces codes d’accès imprimables à usage unique vous permettent de vous connecter lorsque vous n’avez pas votre téléphone, par exemple en voyage.",
+  "openInAuthenticatorApp": "Ouvrir dans l'application d'authentification",
+  "noAuthenticatorAppFound": "Aucune application d'authentification trouvée. Copiez plutôt la clé dans votre application.",
+  "twoFaProviderEnabled": "{provider} est activé",
+  "twoFaRequiredByAdmin": "Votre administrateur exige l'authentification à deux facteurs pour {email}.",
+  "recommended": "Recommandé",
+  "addBackupCodesHint": "Ajoutez aussi des codes de secours pour pouvoir vous connecter si vous perdez votre téléphone.",
+  "totpSecretKey": "Clé secrète"
 }

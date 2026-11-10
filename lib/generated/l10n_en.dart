@@ -279,9 +279,6 @@ class SEn extends S {
       'Please enter one of your backup codes.';
 
   @override
-  String get verificationCodeInvalid => 'Invalid verification code format';
-
-  @override
   String get toptAuthPlaceholder => 'Code';
 
   @override
@@ -1247,23 +1244,16 @@ class SEn extends S {
   String get copiedToClipboard => 'Copied to clipboard';
 
   @override
-  String get enter6digitsKeyFromYourAppHere =>
-      'Enter 6-digits key from your app here:';
+  String get enter6digitsKeyFromYourAppHere => 'Enter the 6-digit code here';
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'digits',
-      one: 'digit',
-    );
-    return '$count-$_temp0 code';
+    return '$count-digit code';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Copy 32-digits key to your authentication app or scan QR-code below';
+      'Copy the 32-character key into your authenticator app, or scan the QR code below';
 
   @override
   String get applyChanges => 'Apply changes';
@@ -1548,4 +1538,47 @@ class SEn extends S {
 
   @override
   String get getBackupCode => 'Get backup code';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Use apps like Google Authenticator, Authy, or Duo on your phone to authenticate. It will generate a security code for logging in.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Use your phone to authenticate. We\'ll send you a security code via SMS message when you log in.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Use a security code sent to your email address to authenticate.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'These printable one-time passcodes allow you to sign in when away from your phone, like when you’re traveling.';
+
+  @override
+  String get openInAuthenticatorApp => 'Open in authenticator app';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'No authenticator app found. Copy the key into your app instead.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider is enabled';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Your administrator requires two-factor authentication for $email.';
+  }
+
+  @override
+  String get recommended => 'Recommended';
+
+  @override
+  String get addBackupCodesHint =>
+      'Add backup codes too, so you can still sign in if you lose your phone.';
+
+  @override
+  String get totpSecretKey => 'Secret key';
 }

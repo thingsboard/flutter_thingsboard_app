@@ -282,10 +282,6 @@ class SFr extends S {
       'Veuillez saisir l’un de vos codes de secours.';
 
   @override
-  String get verificationCodeInvalid =>
-      'Format du code de vérification invalide';
-
-  @override
   String get toptAuthPlaceholder => 'Code';
 
   @override
@@ -1259,7 +1255,7 @@ class SFr extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Entrez le code à 6 chiffres de votre application ici :';
+      'Saisissez le code à 6 chiffres ici';
 
   @override
   String digitsCode(int count) {
@@ -1562,4 +1558,48 @@ class SFr extends S {
 
   @override
   String get getBackupCode => 'Obtenir un code de secours';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Utilisez des applications comme Google Authenticator, Authy ou Duo sur votre téléphone pour vous authentifier. Elles génèrent un code de sécurité pour vous connecter.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Utilisez votre téléphone pour vous authentifier. Nous vous enverrons un code de sécurité par SMS lors de votre connexion.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Utilisez un code de sécurité envoyé à votre adresse email pour vous authentifier.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Ces codes d’accès imprimables à usage unique vous permettent de vous connecter lorsque vous n’avez pas votre téléphone, par exemple en voyage.';
+
+  @override
+  String get openInAuthenticatorApp =>
+      'Ouvrir dans l\'application d\'authentification';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Aucune application d\'authentification trouvée. Copiez plutôt la clé dans votre application.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider est activé';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Votre administrateur exige l\'authentification à deux facteurs pour $email.';
+  }
+
+  @override
+  String get recommended => 'Recommandé';
+
+  @override
+  String get addBackupCodesHint =>
+      'Ajoutez aussi des codes de secours pour pouvoir vous connecter si vous perdez votre téléphone.';
+
+  @override
+  String get totpSecretKey => 'Clé secrète';
 }

@@ -279,9 +279,6 @@ class SDa extends S {
   String get backupCodeAuthDescription => 'Indtast en af dine backupkoder.';
 
   @override
-  String get verificationCodeInvalid => 'Ugyldigt format for verificeringskode';
-
-  @override
   String get toptAuthPlaceholder => 'Kode';
 
   @override
@@ -1248,8 +1245,7 @@ class SDa extends S {
   String get copiedToClipboard => 'Kopieret til udklipsholder';
 
   @override
-  String get enter6digitsKeyFromYourAppHere =>
-      'Indtast 6-cifret kode fra din app her:';
+  String get enter6digitsKeyFromYourAppHere => 'Indtast 6-cifret kode her';
 
   @override
   String digitsCode(int count) {
@@ -1549,4 +1545,47 @@ class SDa extends S {
 
   @override
   String get getBackupCode => 'Hent backupkode';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Brug apps som Google Authenticator, Authy eller Duo til autentificering. De genererer en sikkerhedskode til login.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Brug din telefon til autentificering. Vi sender dig en sikkerhedskode via SMS, når du logger ind.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Brug en kode sendt til din e-mail til autentificering.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Disse udskrivbare engangskoder giver dig mulighed for at logge ind, når du ikke har din telefon.';
+
+  @override
+  String get openInAuthenticatorApp => 'Åbn i godkendelsesapp';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Der blev ikke fundet nogen godkendelsesapp. Kopiér nøglen til din app i stedet.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider er aktiveret';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Din administrator kræver totrinsgodkendelse for $email.';
+  }
+
+  @override
+  String get recommended => 'Anbefalet';
+
+  @override
+  String get addBackupCodesHint =>
+      'Tilføj også backupkoder, så du stadig kan logge ind, hvis du mister din telefon.';
+
+  @override
+  String get totpSecretKey => 'Hemmelig nøgle';
 }

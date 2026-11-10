@@ -183,7 +183,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
           );
       onConfigured();
     } catch (e) {
-      control.setErrors({TbValicationMessages.invalidCode: {}});
+      control.rejectCode(TbValicationMessages.invalidCode);
     } finally {
       loading.value = false;
     }

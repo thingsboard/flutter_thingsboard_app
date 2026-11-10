@@ -80,7 +80,6 @@
   "smsAuthDescription": "En sikkerhetskode har blitt sendt til telefonen din på {contact}.",
   "emailAuthDescription": "En sikkerhetskode har blitt sendt til e-postadressen din på {contact}.",
   "backupCodeAuthDescription": "Vennligst skriv inn en av dine reservekoder.",
-  "verificationCodeInvalid": "Ugyldig format på verifiseringskode",
   "toptAuthPlaceholder": "Kode",
   "smsAuthPlaceholder": "SMS-kode",
   "emailAuthPlaceholder": "E-postkode",
@@ -397,7 +396,7 @@
   },
   "copy": "Kopier",
   "copiedToClipboard": "Kopiert til utklippstavlen",
-  "enter6digitsKeyFromYourAppHere": "Skriv inn 6-sifret kode fra appen din her:",
+  "enter6digitsKeyFromYourAppHere": "Skriv inn den 6-sifrede koden her",
   "digitsCode": "{count}-{count, plural, =1{sifret} other{sifret}} kode",
   "@digitsCode": {
     "placeholders": {
@@ -522,5 +521,16 @@
   "enableAuthenticatorApp": "Aktiver autentiseringsapp",
   "enableSmsAuthenticator": "Aktiver SMS-autentisering",
   "enableEmailAuthenticator": "Aktiver e-postautentisering",
-  "getBackupCode": "Hent reservekode"
+  "getBackupCode": "Hent reservekode",
+  "twoFaTotpDescription": "Bruk apper som Google Authenticator, Authy eller Duo på telefonen din for å autentisere. Den vil generere en sikkerhetskode for innlogging.",
+  "twoFaSmsDescription": "Bruk telefonen din for å autentisere. Vi sender deg en sikkerhetskode via SMS når du logger inn.",
+  "twoFaEmailDescription": "Bruk en sikkerhetskode sendt til e-postadressen din for å autentisere.",
+  "twoFaBackupCodeDescription": "Disse utskrivbare engangskodene lar deg logge inn når du ikke har tilgang til telefonen din, for eksempel når du reiser.",
+  "openInAuthenticatorApp": "Åpne i autentiseringsapp",
+  "noAuthenticatorAppFound": "Fant ingen autentiseringsapp. Kopier nøkkelen til appen din i stedet.",
+  "twoFaProviderEnabled": "{provider} er aktivert",
+  "twoFaRequiredByAdmin": "Administratoren din krever tofaktorautentisering for {email}.",
+  "recommended": "Anbefalt",
+  "addBackupCodesHint": "Legg også til reservekoder, slik at du kan logge på hvis du mister telefonen.",
+  "totpSecretKey": "Hemmelig nøkkel"
 }

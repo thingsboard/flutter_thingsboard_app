@@ -273,9 +273,6 @@ class SZh extends S {
   String get backupCodeAuthDescription => '请输入您的备份码之一。';
 
   @override
-  String get verificationCodeInvalid => '验证码格式无效';
-
-  @override
   String get toptAuthPlaceholder => '验证码';
 
   @override
@@ -1234,8 +1231,7 @@ class SZh extends S {
   String get copiedToClipboard => 'Copied to clipboard';
 
   @override
-  String get enter6digitsKeyFromYourAppHere =>
-      'Enter 6-digits key from your app here:';
+  String get enter6digitsKeyFromYourAppHere => 'Enter the 6-digit code here';
 
   @override
   String digitsCode(int count) {
@@ -1532,6 +1528,49 @@ class SZh extends S {
 
   @override
   String get getBackupCode => 'Get backup code';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Use apps like Google Authenticator, Authy, or Duo on your phone to authenticate. It will generate a security code for logging in.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Use your phone to authenticate. We\'ll send you a security code via SMS message when you log in.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Use a security code sent to your email address to authenticate.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'These printable one-time passcodes allow you to sign in when away from your phone, like when you’re traveling.';
+
+  @override
+  String get openInAuthenticatorApp => 'Open in authenticator app';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'No authenticator app found. Copy the key into your app instead.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider is enabled';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Your administrator requires two-factor authentication for $email.';
+  }
+
+  @override
+  String get recommended => 'Recommended';
+
+  @override
+  String get addBackupCodesHint =>
+      'Add backup codes too, so you can still sign in if you lose your phone.';
+
+  @override
+  String get totpSecretKey => 'Secret key';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1782,9 +1821,6 @@ class SZhCn extends SZh {
 
   @override
   String get backupCodeAuthDescription => '请输入您的备份码之一。';
-
-  @override
-  String get verificationCodeInvalid => '验证码格式无效';
 
   @override
   String get toptAuthPlaceholder => '验证码';
@@ -2728,7 +2764,7 @@ class SZhCn extends SZh {
   String get copiedToClipboard => '已复制到剪贴板';
 
   @override
-  String get enter6digitsKeyFromYourAppHere => '在此输入您应用中的6位数密钥：';
+  String get enter6digitsKeyFromYourAppHere => '在此输入 6 位验证码';
 
   @override
   String digitsCode(int count) {
@@ -2984,6 +3020,45 @@ class SZhCn extends SZh {
 
   @override
   String get getBackupCode => '获取备用验证码';
+
+  @override
+  String get twoFaTotpDescription =>
+      '使用手机上的 Google Authenticator、Authy 或 Duo 等应用进行认证。它将生成登录所需的安全码。';
+
+  @override
+  String get twoFaSmsDescription => '使用手机进行认证。登录时我们将通过短信向您发送安全码。';
+
+  @override
+  String get twoFaEmailDescription => '使用发送到您邮箱的安全码进行认证。';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      '这些可打印的一次性密码允许您在不方便使用手机时（例如旅行中）登录账户。';
+
+  @override
+  String get openInAuthenticatorApp => '在身份验证器应用中打开';
+
+  @override
+  String get noAuthenticatorAppFound => '未找到身份验证器应用。请将密钥复制到您的应用中。';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider 已启用';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return '您的管理员要求 $email 使用双重身份验证。';
+  }
+
+  @override
+  String get recommended => '推荐';
+
+  @override
+  String get addBackupCodesHint => '也请添加备用码，以便在丢失手机时仍能登录。';
+
+  @override
+  String get totpSecretKey => '密钥';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -3234,9 +3309,6 @@ class SZhTw extends SZh {
 
   @override
   String get backupCodeAuthDescription => '請輸入您的備份碼之一。';
-
-  @override
-  String get verificationCodeInvalid => '驗證碼格式無效';
 
   @override
   String get toptAuthPlaceholder => '驗證碼';
@@ -4180,7 +4252,7 @@ class SZhTw extends SZh {
   String get copiedToClipboard => '已複製到剪貼簿';
 
   @override
-  String get enter6digitsKeyFromYourAppHere => '在此輸入您應用程式中的6位數金鑰：';
+  String get enter6digitsKeyFromYourAppHere => '在此輸入 6 位驗證碼';
 
   @override
   String digitsCode(int count) {
@@ -4436,4 +4508,43 @@ class SZhTw extends SZh {
 
   @override
   String get getBackupCode => '取得備用驗證碼';
+
+  @override
+  String get twoFaTotpDescription =>
+      '使用手機上的 Google Authenticator、Authy 或 Duo 等應用程式進行驗證。它將產生登入所需的安全碼。';
+
+  @override
+  String get twoFaSmsDescription => '使用手機進行驗證。登入時我們將透過簡訊向您傳送安全碼。';
+
+  @override
+  String get twoFaEmailDescription => '使用傳送到您電子郵件地址的安全碼進行驗證。';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      '這些可列印的一次性密碼允許您在不方便使用手機時（例如旅行中）登入帳戶。';
+
+  @override
+  String get openInAuthenticatorApp => '在驗證器應用程式中開啟';
+
+  @override
+  String get noAuthenticatorAppFound => '找不到驗證器應用程式。請將金鑰複製到您的應用程式中。';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider 已啟用';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return '您的管理員要求 $email 使用雙重驗證。';
+  }
+
+  @override
+  String get recommended => '建議';
+
+  @override
+  String get addBackupCodesHint => '也請新增備用碼，以便在遺失手機時仍能登入。';
+
+  @override
+  String get totpSecretKey => '金鑰';
 }

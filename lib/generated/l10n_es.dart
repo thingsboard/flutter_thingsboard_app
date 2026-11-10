@@ -281,10 +281,6 @@ class SEs extends S {
       'Por favor, ingresa uno de tus códigos de respaldo.';
 
   @override
-  String get verificationCodeInvalid =>
-      'Formato de código de verificación inválido';
-
-  @override
   String get toptAuthPlaceholder => 'Código';
 
   @override
@@ -1256,7 +1252,7 @@ class SEs extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Ingresa el código de 6 dígitos de tu aplicación aquí:';
+      'Introduce aquí el código de 6 dígitos';
 
   @override
   String digitsCode(int count) {
@@ -1558,4 +1554,48 @@ class SEs extends S {
 
   @override
   String get getBackupCode => 'Obtener código de respaldo';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Usa aplicaciones como Google Authenticator, Authy o Duo en tu teléfono para autenticarte. Generará un código de seguridad para iniciar sesión.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Usa tu teléfono para autenticarte. Te enviaremos un código de seguridad por mensaje SMS al iniciar sesión.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Usa un código de seguridad enviado a tu dirección de correo electrónico para autenticarte.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Estos códigos de un solo uso e imprimibles te permiten iniciar sesión cuando no tienes acceso a tu teléfono, como cuando estás viajando.';
+
+  @override
+  String get openInAuthenticatorApp =>
+      'Abrir en la aplicación de autenticación';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'No se encontró ninguna aplicación de autenticación. Copie la clave en su aplicación.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider está activado';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Su administrador requiere la autenticación de dos factores para $email.';
+  }
+
+  @override
+  String get recommended => 'Recomendado';
+
+  @override
+  String get addBackupCodesHint =>
+      'Añada también códigos de respaldo para poder iniciar sesión si pierde su teléfono.';
+
+  @override
+  String get totpSecretKey => 'Clave secreta';
 }

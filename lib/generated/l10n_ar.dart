@@ -279,9 +279,6 @@ class SAr extends S {
       'يرجى إدخال أحد الرموز الاحتياطية الخاصة بك.';
 
   @override
-  String get verificationCodeInvalid => 'صيغة الرمز غير صالحة';
-
-  @override
   String get toptAuthPlaceholder => 'الرمز';
 
   @override
@@ -1244,7 +1241,7 @@ class SAr extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'أدخل المفتاح المكون من 6 أرقام من تطبيقك هنا:';
+      'أدخل الرمز المكون من 6 أرقام هنا';
 
   @override
   String digitsCode(int count) {
@@ -1535,4 +1532,47 @@ class SAr extends S {
 
   @override
   String get getBackupCode => 'الحصول على رمز احتياطي';
+
+  @override
+  String get twoFaTotpDescription =>
+      'استخدم تطبيقات مثل Google Authenticator، Authy، أو Duo على هاتفك للمصادقة. سيقوم بتوليد رمز أمان لتسجيل الدخول.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'استخدم هاتفك للمصادقة. سنرسل لك رمز أمان عبر رسالة نصية عند تسجيل الدخول.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'استخدم رمز أمان يتم إرساله إلى عنوان بريدك الإلكتروني للمصادقة.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'تتيح لك هذه الرموز القابلة للطباعة استخدامها لتسجيل الدخول عندما تكون بعيدًا عن هاتفك، مثل عند السفر.';
+
+  @override
+  String get openInAuthenticatorApp => 'فتح في تطبيق المصادقة';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'لم يتم العثور على تطبيق مصادقة. انسخ المفتاح إلى تطبيقك بدلاً من ذلك.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return 'تم تفعيل $provider';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'يطلب المسؤول المصادقة الثنائية للحساب $email.';
+  }
+
+  @override
+  String get recommended => 'موصى به';
+
+  @override
+  String get addBackupCodesHint =>
+      'أضف أيضًا رموزًا احتياطية لتتمكن من تسجيل الدخول إذا فقدت هاتفك.';
+
+  @override
+  String get totpSecretKey => 'المفتاح السري';
 }

@@ -283,10 +283,6 @@ class SDe extends S {
       'Bitte geben Sie einen Ihrer Backup-Codes ein.';
 
   @override
-  String get verificationCodeInvalid =>
-      'Ungültiges Format des Verifizierungscodes';
-
-  @override
   String get toptAuthPlaceholder => 'Code';
 
   @override
@@ -1257,8 +1253,7 @@ class SDe extends S {
   String get copiedToClipboard => 'In Zwischenablage kopiert';
 
   @override
-  String get enter6digitsKeyFromYourAppHere =>
-      'Geben Sie den 6-stelligen Code aus Ihrer App ein:';
+  String get enter6digitsKeyFromYourAppHere => '6-stelligen Code hier eingeben';
 
   @override
   String digitsCode(int count) {
@@ -1560,4 +1555,47 @@ class SDe extends S {
 
   @override
   String get getBackupCode => 'Backup-Code abrufen';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Verwenden Sie Apps wie Google Authenticator, Authy oder Duo auf Ihrem Telefon zur Authentifizierung. Diese generieren einen Sicherheitscode für die Anmeldung.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Verwenden Sie Ihr Telefon zur Authentifizierung. Wir senden Ihnen beim Login einen Sicherheitscode per SMS.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Verwenden Sie einen Sicherheitscode, der an Ihre E-Mail-Adresse gesendet wird, um sich zu authentifizieren.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Diese druckbaren Einmalcodes ermöglichen die Anmeldung, wenn Sie nicht auf Ihr Telefon zugreifen können, z. B. auf Reisen.';
+
+  @override
+  String get openInAuthenticatorApp => 'In Authenticator-App öffnen';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Keine Authenticator-App gefunden. Kopieren Sie stattdessen den Schlüssel in Ihre App.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider ist aktiviert';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Ihr Administrator verlangt die Zwei-Faktor-Authentifizierung für $email.';
+  }
+
+  @override
+  String get recommended => 'Empfohlen';
+
+  @override
+  String get addBackupCodesHint =>
+      'Fügen Sie auch Backup-Codes hinzu, damit Sie sich bei Verlust Ihres Telefons weiterhin anmelden können.';
+
+  @override
+  String get totpSecretKey => 'Geheimer Schlüssel';
 }

@@ -279,9 +279,6 @@ class SNo extends S {
       'Vennligst skriv inn en av dine reservekoder.';
 
   @override
-  String get verificationCodeInvalid => 'Ugyldig format på verifiseringskode';
-
-  @override
   String get toptAuthPlaceholder => 'Kode';
 
   @override
@@ -1245,7 +1242,7 @@ class SNo extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Skriv inn 6-sifret kode fra appen din her:';
+      'Skriv inn den 6-sifrede koden her';
 
   @override
   String digitsCode(int count) {
@@ -1544,4 +1541,47 @@ class SNo extends S {
 
   @override
   String get getBackupCode => 'Hent reservekode';
+
+  @override
+  String get twoFaTotpDescription =>
+      'Bruk apper som Google Authenticator, Authy eller Duo på telefonen din for å autentisere. Den vil generere en sikkerhetskode for innlogging.';
+
+  @override
+  String get twoFaSmsDescription =>
+      'Bruk telefonen din for å autentisere. Vi sender deg en sikkerhetskode via SMS når du logger inn.';
+
+  @override
+  String get twoFaEmailDescription =>
+      'Bruk en sikkerhetskode sendt til e-postadressen din for å autentisere.';
+
+  @override
+  String get twoFaBackupCodeDescription =>
+      'Disse utskrivbare engangskodene lar deg logge inn når du ikke har tilgang til telefonen din, for eksempel når du reiser.';
+
+  @override
+  String get openInAuthenticatorApp => 'Åpne i autentiseringsapp';
+
+  @override
+  String get noAuthenticatorAppFound =>
+      'Fant ingen autentiseringsapp. Kopier nøkkelen til appen din i stedet.';
+
+  @override
+  String twoFaProviderEnabled(String provider) {
+    return '$provider er aktivert';
+  }
+
+  @override
+  String twoFaRequiredByAdmin(String email) {
+    return 'Administratoren din krever tofaktorautentisering for $email.';
+  }
+
+  @override
+  String get recommended => 'Anbefalt';
+
+  @override
+  String get addBackupCodesHint =>
+      'Legg også til reservekoder, slik at du kan logge på hvis du mister telefonen.';
+
+  @override
+  String get totpSecretKey => 'Hemmelig nøkkel';
 }

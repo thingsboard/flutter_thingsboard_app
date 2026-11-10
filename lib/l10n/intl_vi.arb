@@ -80,7 +80,6 @@
   "smsAuthDescription": "Mã bảo mật đã được gửi đến điện thoại của bạn tại {contact}.",
   "emailAuthDescription": "Mã bảo mật đã được gửi đến địa chỉ email của bạn tại {contact}.",
   "backupCodeAuthDescription": "Vui lòng nhập một trong các mã dự phòng của bạn.",
-  "verificationCodeInvalid": "Định dạng mã xác minh không hợp lệ",
   "toptAuthPlaceholder": "Mã",
   "smsAuthPlaceholder": "Mã SMS",
   "emailAuthPlaceholder": "Mã email",
@@ -397,7 +396,7 @@
   },
   "copy": "Sao chép",
   "copiedToClipboard": "Đã sao chép vào khay nhớ tạm",
-  "enter6digitsKeyFromYourAppHere": "Nhập khóa 6 chữ số từ ứng dụng của bạn vào đây:",
+  "enter6digitsKeyFromYourAppHere": "Nhập mã 6 chữ số tại đây",
   "digitsCode": "Mã {count} chữ số",
   "@digitsCode": {
     "placeholders": {
@@ -521,5 +520,16 @@
   "enableAuthenticatorApp": "Bật ứng dụng xác thực",
   "enableSmsAuthenticator": "Bật xác thực qua SMS",
   "enableEmailAuthenticator": "Bật xác thực qua email",
-  "getBackupCode": "Lấy mã dự phòng"
+  "getBackupCode": "Lấy mã dự phòng",
+  "twoFaTotpDescription": "Dùng các ứng dụng như Google Authenticator, Authy hoặc Duo trên điện thoại để xác thực. Ứng dụng sẽ tạo mã bảo mật để đăng nhập.",
+  "twoFaSmsDescription": "Dùng điện thoại để xác thực. Chúng tôi sẽ gửi mã bảo mật qua SMS khi bạn đăng nhập.",
+  "twoFaEmailDescription": "Dùng mã bảo mật được gửi đến địa chỉ email của bạn để xác thực.",
+  "twoFaBackupCodeDescription": "Các mã dùng một lần có thể in ra này cho phép bạn đăng nhập khi không có điện thoại, chẳng hạn khi đi du lịch.",
+  "openInAuthenticatorApp": "Mở trong ứng dụng xác thực",
+  "noAuthenticatorAppFound": "Không tìm thấy ứng dụng xác thực. Hãy sao chép khóa vào ứng dụng của bạn.",
+  "twoFaProviderEnabled": "Đã bật {provider}",
+  "twoFaRequiredByAdmin": "Quản trị viên yêu cầu xác thực hai yếu tố cho {email}.",
+  "recommended": "Khuyên dùng",
+  "addBackupCodesHint": "Hãy thêm cả mã dự phòng để vẫn có thể đăng nhập nếu bạn mất điện thoại.",
+  "totpSecretKey": "Khóa bí mật"
 }

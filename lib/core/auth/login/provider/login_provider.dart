@@ -97,6 +97,12 @@ class Login extends _$Login {
   }
 
   Future<bool> login(String email, String password) async {
+    // A 2FA session left by going back to the login page: without this reset
+    // the new one yields an equal state and its 2FA page does not open again.
+    if (_tbClient.isPreVerificationToken() ||
+        _tbClient.isMfaConfigurationToken()) {
+      state = const LoginState(isUserLoaded: false);
+    }
     try {
       await _tbClient.login(
         LoginRequest(

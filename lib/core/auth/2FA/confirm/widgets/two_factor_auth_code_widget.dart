@@ -67,12 +67,13 @@ class EnterACodeWidget extends HookConsumerWidget {
           CodeState.invalid,
           CodeState.tooManyRequests,
         ].contains(next.codeState)) {
-          form.control('code').setErrors({
-            (next.codeState == CodeState.invalid
+          form
+              .control('code')
+              .rejectCode(
+                next.codeState == CodeState.invalid
                     ? TbValicationMessages.invalidCode
-                    : TbValicationMessages.tooManyRequests):
-                {},
-          });
+                    : TbValicationMessages.tooManyRequests,
+              );
         }
       },
     );

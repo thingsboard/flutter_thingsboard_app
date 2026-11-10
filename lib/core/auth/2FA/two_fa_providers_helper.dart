@@ -16,6 +16,9 @@ final twoFactorAuthProvidersLoginData =
             S.of(context).totpSetupSuccessDescription,
         textInputType: TextInputType.number,
         nameFunction: (context) => S.of(context).mfaProviderTopt,
+        setupTitleFunction: (context) => S.of(context).enableAuthenticatorApp,
+        setupDescriptionFunction: (context) =>
+            S.of(context).twoFaTotpDescription,
         descFunction: (context, contact) => S.of(context).totpAuthDescription,
         placeholderFunction: (context) => S.of(context).toptAuthPlaceholder,
         // translate-me-ignore-next-line
@@ -27,6 +30,9 @@ final twoFactorAuthProvidersLoginData =
         textInputType: TextInputType.number,
         codeLength: 6,
         nameFunction: (context) => S.of(context).mfaProviderSms,
+        setupTitleFunction: (context) => S.of(context).enableSmsAuthenticator,
+        setupDescriptionFunction: (context) =>
+            S.of(context).twoFaSmsDescription,
         descFunction: (context, contact) =>
             S.of(context).smsAuthDescription(contact ?? ''),
         placeholderFunction: (context) => S.of(context).smsAuthPlaceholder,
@@ -38,6 +44,9 @@ final twoFactorAuthProvidersLoginData =
         textInputType: TextInputType.number,
         codeLength: 6,
         nameFunction: (context) => S.of(context).mfaProviderEmail,
+        setupTitleFunction: (context) => S.of(context).enableEmailAuthenticator,
+        setupDescriptionFunction: (context) =>
+            S.of(context).twoFaEmailDescription,
         descFunction: (context, contact) =>
             S.of(context).emailAuthDescription(contact ?? ''),
         placeholderFunction: (context) => S.of(context).emailAuthPlaceholder,
@@ -49,6 +58,9 @@ final twoFactorAuthProvidersLoginData =
             S.of(context).backupCodeSetupSuccessDescription,
         textInputType: TextInputType.text,
         nameFunction: (context) => S.of(context).mfaProviderBackupCode,
+        setupTitleFunction: (context) => S.of(context).getBackupCode,
+        setupDescriptionFunction: (context) =>
+            S.of(context).twoFaBackupCodeDescription,
         descFunction: (context, contact) =>
             S.of(context).backupCodeAuthDescription,
         placeholderFunction: (context) =>

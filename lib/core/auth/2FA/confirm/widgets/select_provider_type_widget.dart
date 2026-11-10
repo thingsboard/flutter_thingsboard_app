@@ -109,6 +109,8 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                       final bool isSelected = activeProviders.contains(
                         provider,
                       );
+                      final recommended =
+                          !isSelected && provider == TwoFaProviderType.TOTP;
                       return type == TwoFaViewType.setup
                           ? ListTile(
                               enabled: isEnabled,
@@ -138,7 +140,23 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                                     ? AppColors.iconSecondary
                                     : AppColors.iconDisabled,
                               ),
-                              title: Text(data.nameFunction(context)),
+                              title: _ProviderName(
+                                name: data.nameFunction(context),
+                                recommended: recommended,
+                                style: TbTextStyles.bodyLarge.copyWith(
+                                  color: isEnabled
+                                      ? AppColors.textPrimary
+                                      : AppColors.textDisabled,
+                                ),
+                              ),
+                              subtitle: Text(
+                                data.setupDescriptionFunction(context),
+                                style: TbTextStyles.bodyMedium.copyWith(
+                                  color: isEnabled
+                                      ? AppColors.textTertiary
+                                      : AppColors.textDisabled,
+                                ),
+                              ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 spacing: 8,
@@ -192,8 +210,32 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                                   vertical: 16,
                                   horizontal: 10,
                                 ),
+                                alignment: isForce
+                                    ? AlignmentDirectional.centerStart
+                                    : null,
                               ),
-                              label: Text(data.nameFunction(context)),
+                              label: isForce
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      spacing: 4,
+                                      children: [
+                                        _ProviderName(
+                                          name: data.nameFunction(context),
+                                          recommended: recommended,
+                                        ),
+                                        Text(
+                                          data.setupDescriptionFunction(
+                                            context,
+                                          ),
+                                          style: TbTextStyles.bodyMedium
+                                              .copyWith(
+                                                color: AppColors.textTertiary,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Text(data.nameFunction(context)),
                               icon: getIcon(
                                 data.icon,
                                 context,
@@ -381,6 +423,44 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
       //   (_) => 'Error disabling provider: $e',
       // );
     }
+  }
+}
+
+class _ProviderName extends StatelessWidget {
+  const _ProviderName({
+    required this.name,
+    required this.recommended,
+    this.style,
+  });
+
+  final String name;
+  final bool recommended;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 4,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text(name, style: style),
+        if (recommended)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: AppColors.notificationSuccess.withValues(alpha: .06),
+            ),
+            child: Text(
+              S.of(context).recommended,
+              style: TbTextStyles.labelSmall.copyWith(
+                color: AppColors.notificationSuccess,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
 

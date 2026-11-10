@@ -80,7 +80,6 @@
   "smsAuthDescription": "تم إرسال رمز أمني إلى هاتفك على الرقم {contact}.",
   "emailAuthDescription": "تم إرسال رمز أمني إلى بريدك الإلكتروني على العنوان {contact}.",
   "backupCodeAuthDescription": "يرجى إدخال أحد الرموز الاحتياطية الخاصة بك.",
-  "verificationCodeInvalid": "صيغة الرمز غير صالحة",
   "toptAuthPlaceholder": "الرمز",
   "smsAuthPlaceholder": "رمز SMS",
   "emailAuthPlaceholder": "رمز البريد الإلكتروني",
@@ -397,7 +396,7 @@
   },
   "copy": "نسخ",
   "copiedToClipboard": "تم النسخ إلى الحافظة",
-  "enter6digitsKeyFromYourAppHere": "أدخل المفتاح المكون من 6 أرقام من تطبيقك هنا:",
+  "enter6digitsKeyFromYourAppHere": "أدخل الرمز المكون من 6 أرقام هنا",
   "digitsCode": "رمز من {count} أرقام",
   "@digitsCode": {
     "placeholders": {
@@ -521,5 +520,16 @@
   "enableAuthenticatorApp": "تفعيل تطبيق المصادقة",
   "enableSmsAuthenticator": "تفعيل المصادقة عبر الرسائل القصيرة",
   "enableEmailAuthenticator": "تفعيل المصادقة عبر البريد الإلكتروني",
-  "getBackupCode": "الحصول على رمز احتياطي"
+  "getBackupCode": "الحصول على رمز احتياطي",
+  "twoFaTotpDescription": "استخدم تطبيقات مثل Google Authenticator، Authy، أو Duo على هاتفك للمصادقة. سيقوم بتوليد رمز أمان لتسجيل الدخول.",
+  "twoFaSmsDescription": "استخدم هاتفك للمصادقة. سنرسل لك رمز أمان عبر رسالة نصية عند تسجيل الدخول.",
+  "twoFaEmailDescription": "استخدم رمز أمان يتم إرساله إلى عنوان بريدك الإلكتروني للمصادقة.",
+  "twoFaBackupCodeDescription": "تتيح لك هذه الرموز القابلة للطباعة استخدامها لتسجيل الدخول عندما تكون بعيدًا عن هاتفك، مثل عند السفر.",
+  "openInAuthenticatorApp": "فتح في تطبيق المصادقة",
+  "noAuthenticatorAppFound": "لم يتم العثور على تطبيق مصادقة. انسخ المفتاح إلى تطبيقك بدلاً من ذلك.",
+  "twoFaProviderEnabled": "تم تفعيل {provider}",
+  "twoFaRequiredByAdmin": "يطلب المسؤول المصادقة الثنائية للحساب {email}.",
+  "recommended": "موصى به",
+  "addBackupCodesHint": "أضف أيضًا رموزًا احتياطية لتتمكن من تسجيل الدخول إذا فقدت هاتفك.",
+  "totpSecretKey": "المفتاح السري"
 }

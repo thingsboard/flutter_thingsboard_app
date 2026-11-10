@@ -15,6 +15,17 @@ class TbValicationMessages {
   static const tooManyRequests = 'tooManyRequest';
 }
 
+extension RejectCode on AbstractControl<Object?> {
+  /// Clears a rejected verification code and focuses the field for the next
+  /// one, keeping [reason] (a [TbValicationMessages] key) on screen.
+  void rejectCode(String reason) {
+    value = null;
+    setErrors({reason: {}});
+    markAsTouched();
+    if (this case final FormControl<Object?> control) control.focus();
+  }
+}
+
 class TbTextField extends HookWidget {
   const TbTextField({
     super.key,
@@ -108,13 +119,18 @@ class TbTextField extends HookWidget {
         isTouched.value = e;
         updateState();
       });
+      // Also when the value is set in code, like a cleared rejected code.
+      final values = formControl?.valueChanges.listen((value) {
+        counter.value = value?.toString().length ?? 0;
+      });
       void cancel() {
         touches?.cancel();
         errors?.cancel();
+        values?.cancel();
       }
 
       return cancel;
-    }, [formControl?.statusChanged, formControl?.touchChanges]);
+    }, [formControl]);
 
     final field = ReactiveTextField(
       focusNode: node,
@@ -126,12 +142,14 @@ class TbTextField extends HookWidget {
         }
       },
       onChanged: (control) {
-        counter.value = control.value?.toString().length ?? 0;
-        if (counter.value == counterMaxValue) {
+        if ((control.value?.toString().length ?? 0) == counterMaxValue) {
           onMaxLengthReched?.call();
         }
       },
       autofocus: autoFocus,
+      // Room for the error or counter line under the field when it is
+      // scrolled into view.
+      scrollPadding: const EdgeInsets.fromLTRB(20, 20, 20, 56),
       onSubmitted: (_) => onSubmit?.call(),
       maxLength: counterMaxValue,
       cursorHeight: TbTextStyles.bodyLarge.fontSize,
@@ -155,7 +173,7 @@ class TbTextField extends HookWidget {
         TbValicationMessages.tooManyRequests: (error) =>
             S.of(context).verificationCodeManyRequest,
         TbValicationMessages.invalidCode: (error) =>
-            S.of(context).verificationCodeInvalid,
+            S.of(context).verificationCodeIncorrect,
       },
       style: TbTextStyles.bodyLarge.copyWith(
         color: isErrorState.value ? errorColor : null,
