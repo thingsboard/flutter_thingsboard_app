@@ -51,35 +51,34 @@ class ProfileWidget extends StatelessWidget {
           ],
         ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+        // The server name moves under the user's name when the row is too
+        // narrow (large text), instead of breaking words.
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 10,
+          runSpacing: 8,
           children: [
-            Flexible(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userDetails.displayName,
-                    style: TbTextStyles.labelLarge.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userDetails.displayName,
+                  style: TbTextStyles.labelLarge.copyWith(
+                    color: AppColors.textSecondary,
                   ),
-                  Text(
-                    getAuthorityName(context, user),
-                    style: TbTextStyles.labelSmall.copyWith(
-                      color: AppColors.textDisabled,
-                    ),
+                ),
+                Text(
+                  getAuthorityName(context, user),
+                  style: TbTextStyles.labelSmall.copyWith(
+                    color: AppColors.textDisabled,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(start: 10),
-              child: EndpointNameWidget(
-                endpoint: getIt<IEndpointService>().getCachedEndpoint(),
-              ),
+            EndpointNameWidget(
+              endpoint: getIt<IEndpointService>().getCachedEndpoint(),
             ),
           ],
         ),
