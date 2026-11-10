@@ -17,7 +17,9 @@ import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_ser
 import 'package:thingsboard_app/widgets/two_page_view.dart';
 
 class DashboardsPage extends ConsumerStatefulWidget {
-  const DashboardsPage({super.key});
+  const DashboardsPage({this.title, super.key});
+
+  final String? title;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DashboardsPageState();
@@ -41,6 +43,7 @@ class _DashboardsPageState extends ConsumerState<DashboardsPage> {
     return TwoPageView(
       controller: pageViewCtrl,
       first: DashboardsAppbar(
+        title: widget.title,
         body: DashboardsGridWidget(dashboardPageCtrl: dashboardPageCtrl),
       ),
       second: MainDashboardPage(controller: dashboardPageCtrl),

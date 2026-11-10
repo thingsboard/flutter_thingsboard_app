@@ -18,9 +18,13 @@ class DashboardsAppbar extends ConsumerWidget {
     this.dashboardState = false,
     super.key,
     this.leading,
+    this.title,
   });
 
   final Widget? leading;
+
+  /// The page title; without one the header shows the logo, as on Home.
+  final String? title;
   final Widget body;
   final bool dashboardState;
 
@@ -32,9 +36,12 @@ class DashboardsAppbar extends ConsumerWidget {
         //  canGoBack: leading != null,
         leading: leading,
         elevation: dashboardState ? 0 : 8,
-        title: Center(
-          child: SizedBox(height: kToolbarHeight - 8, child: wlState.logo),
-        ),
+        title: switch (title) {
+          final title? => Text(title),
+          null => Center(
+            child: SizedBox(height: kToolbarHeight - 8, child: wlState.logo),
+          ),
+        },
         actions: [
           if (getIt<ITbClientService>().client.isSystemAdmin())
             IconButton(
@@ -45,7 +52,7 @@ class DashboardsAppbar extends ConsumerWidget {
                 .navigateTo('/tenants?search=true');
               },
             ),
-          if (leading != null) const SizedBox(width: 56),
+          if (leading != null && title == null) const SizedBox(width: 56),
         ],
       ),
       body: body,

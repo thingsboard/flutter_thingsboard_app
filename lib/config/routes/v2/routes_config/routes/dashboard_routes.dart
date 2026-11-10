@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboards_page.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/fullscreen_dashboard_page.dart';
@@ -19,7 +20,8 @@ class DashboardRoutes {
 final dashboardRoutes = [
   GoRoute(
     path: DashboardRoutes.dashboards,
-    builder: (context, state) => const DashboardsPage(),
+    builder: (context, state) =>
+        DashboardsPage(title: S.of(context).dashboards(2)),
   ),
 
   GoRoute(
