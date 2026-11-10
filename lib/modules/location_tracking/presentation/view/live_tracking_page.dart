@@ -22,6 +22,7 @@ import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tra
 import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_session.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/providers/live_tracking_provider.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class LiveTrackingPage extends ConsumerWidget {
   const LiveTrackingPage({super.key});
@@ -30,7 +31,7 @@ class LiveTrackingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(liveTrackingProvider).session;
     return Scaffold(
-      appBar: AppBar(title: Text(S.of(context).liveTrackingSessionTitle)),
+      appBar: TbAppBar(title: Text(S.of(context).liveTrackingSessionTitle)),
       body: session != null ? _ActiveSession(session: session) : _IdleView(),
     );
   }
