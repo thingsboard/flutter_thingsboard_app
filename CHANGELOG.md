@@ -44,7 +44,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - Signing in shows one steady loader until the home screen instead of a flickering one.
 - The login and More pages scroll in landscape instead of cutting off the form and the menu.
-- A web page opened from More has a back arrow.
+- A web page opened from More has a back arrow, which leaves the page after the site's last step back.
 - Empty lists (entities, alarms, dashboards) show their message in the middle, without the "Try again" button of the error state.
 - Granting the camera at the first QR scanner prompt no longer throws.
 - The Live tracking header and the Dashboards page opened from the menu look like the other pages (title, back arrow).

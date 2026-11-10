@@ -23,20 +23,25 @@ void main() {
 
   setUp(() => webBackCalls = 0);
 
-  Widget urlPage({required bool webCanGoBack}) => Scaffold(
-    appBar: UrlPageAppBar(
-      url: 'https://thingsboard.io',
-      title: ValueNotifier('ThingsBoard'),
-      host: ValueNotifier('thingsboard.io'),
-      webCanGoBack: webCanGoBack,
-      onWebBack: () => webBackCalls++,
-    ),
-  );
+  Widget urlPage({required bool webCanGoBack, required bool webHasStep}) =>
+      Scaffold(
+        appBar: UrlPageAppBar(
+          url: 'https://thingsboard.io',
+          title: ValueNotifier('ThingsBoard'),
+          host: ValueNotifier('thingsboard.io'),
+          webCanGoBack: webCanGoBack,
+          onWebBack: () async {
+            webBackCalls++;
+            return webHasStep;
+          },
+        ),
+      );
 
   Future<GoRouter> pump(
     WidgetTester tester, {
     required bool pushedFromMore,
     bool webCanGoBack = false,
+    bool webHasStep = true,
   }) async {
     final router = GoRouter(
       initialLocation: pushedFromMore ? '/more' : '/url',
@@ -47,7 +52,8 @@ void main() {
         ),
         GoRoute(
           path: '/url',
-          builder: (_, _) => urlPage(webCanGoBack: webCanGoBack),
+          builder: (_, _) =>
+              urlPage(webCanGoBack: webCanGoBack, webHasStep: webHasStep),
         ),
       ],
     );
@@ -97,5 +103,25 @@ void main() {
 
     expect(webBackCalls, 1);
     expect(find.text('ThingsBoard'), findsOneWidget);
+  });
+
+  // iOS: the history callback runs before WKWebView updates its back list, so
+  // the page can still think the site has a step back after the last one.
+  testWidgets('the back arrow leads to More once the site has no step left', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      pushedFromMore: true,
+      webCanGoBack: true,
+      webHasStep: false,
+    );
+
+    await tester.tap(backArrow);
+    await tester.pumpAndSettle();
+
+    expect(webBackCalls, 1);
+    expect(find.text('More'), findsOneWidget);
+    expect(find.text('ThingsBoard'), findsNothing);
   });
 }

@@ -6,6 +6,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
@@ -39,7 +40,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
         title: titleNotifier,
         host: subTitleUrlNotifier,
         webCanGoBack: canGoBack,
-        onWebBack: () => webViewController?.goBack(),
+        onWebBack: webBack,
       ),
       body: Stack(
         children: [
@@ -82,6 +83,18 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  /// Asks the web view again: on iOS [canGoBack] can stay true after the last
+  /// step back, as WKWebView updates its back list after the history callback.
+  Future<bool> webBack() async {
+    final ctrl = webViewController;
+    if (ctrl != null && await ctrl.canGoBack()) {
+      await ctrl.goBack();
+      return true;
+    }
+    if (mounted) setState(() => canGoBack = false);
+    return false;
+  }
+
   @override
   void dispose() {
     titleNotifier.dispose();
@@ -111,7 +124,9 @@ class UrlPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ValueListenable<String> title;
   final ValueListenable<String> host;
   final bool webCanGoBack;
-  final VoidCallback onWebBack;
+
+  /// Steps back in the site's history; false when there was no step left.
+  final Future<bool> Function() onWebBack;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -137,7 +152,13 @@ class UrlPageAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       leading: webCanGoBack
-          ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: onWebBack)
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () async {
+                if (await onWebBack() || !context.mounted) return;
+                if (context.canPop()) context.pop();
+              },
+            )
           : null,
       actions: [
         IconButton(
