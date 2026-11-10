@@ -44,6 +44,8 @@ class _NoPagesNavigation extends Navigation {
       const NavigationState(bottomBarPages: [], morePages: []);
 }
 
+String? savedPhone;
+
 class FakeLogin extends Login {
   @override
   LoginState build() => LoginState(
@@ -53,6 +55,7 @@ class FakeLogin extends Login {
       (b) => b
         ..email = 'tenant@thingsboard.org'
         ..firstName = 'Tenant'
+        ..phone = savedPhone
         ..authority = Authority.TENANT_ADMIN
         ..tenantId.id = 'tenant-1'
         ..tenantId.entityType = EntityType.TENANT
@@ -68,6 +71,7 @@ void main() {
   setUpAll(() => registerFallbackValue(FakeUser()));
 
   setUp(() {
+    savedPhone = null;
     final client = MockThingsboardClient();
     users = MockUserApi();
     when(client.getUserControllerApi).thenReturn(users);
@@ -132,5 +136,22 @@ void main() {
 
     verifyNever(() => users.saveUser(user: any(named: 'user')));
     expect(tester.widget<TextField>(phone).decoration?.errorText, isNotNull);
+  });
+
+  testWidgets('shows the saved phone and its country', (tester) async {
+    savedPhone = '+380441234567';
+    final s = await pumpPage(tester);
+
+    final phone = find.byWidgetPredicate(
+      (w) => w is TextField && w.decoration?.hintText == s.phone,
+    );
+    expect(tester.widget<TextField>(phone).controller?.text, contains('44'));
+    expect(find.text('+ 380'), findsOneWidget);
+  });
+
+  test('a phone that does not parse is treated as none', () {
+    expect(savedPhoneNumber('not a phone'), isNull);
+    expect(savedPhoneNumber(''), isNull);
+    expect(savedPhoneNumber(null), isNull);
   });
 }

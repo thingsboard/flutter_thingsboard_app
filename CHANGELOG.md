@@ -55,6 +55,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Large text: the role under the user name in More no longer breaks mid-word; the server name moves to the next line.
 - Live location tracking is translated into every app language (it was English only).
 - Autofill and keyboards: email fields open the email keyboard; change password offers and saves a new password; sign-up suggests a new password instead of a saved one; phone fields take the number from autofill.
+- Profile editing shows the saved phone number and its country instead of an empty US number.
 - The sign-up form shows "Invalid email format" for a malformed email instead of sending it to the server.
 - Saving the profile with an invalid phone number shows why it is not saved instead of doing nothing.
 - Back from a device dashboard returns to the device list or search results it was opened from.

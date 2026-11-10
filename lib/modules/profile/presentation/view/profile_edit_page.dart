@@ -47,6 +47,7 @@ class ProfileEditPage extends HookConsumerWidget {
     final initialLocale = useMemoized(() => getCurrentLocale(context, user));
     final localeBeforeEdit = useMemoized(() => ref.read(appLocaleProvider));
     final selectedLocale = useState<Locale>(initialLocale);
+    final savedPhone = useMemoized(() => savedPhoneNumber(user.phone));
 
     final form = useMemoized(
       () => FormGroup({
@@ -80,14 +81,12 @@ class ProfileEditPage extends HookConsumerWidget {
         }),
 
         "phone": FormControl<PhoneNumber>(
-          value: (user.phone != null && user.phone.toString().isNotEmpty)
-              ? PhoneNumber.parse(user.phone!)
-              : null,
+          value: savedPhone,
           validators: [PhoneValidators.valid],
         ),
         "countryCode": FormControl<IsoCode>(
           validators: [Validators.required],
-          value: IsoCode.US,
+          value: savedPhone?.isoCode ?? IsoCode.US,
         ),
       }),
     );
@@ -107,7 +106,8 @@ class ProfileEditPage extends HookConsumerWidget {
     }, []);
     final phoneController = useMemoized(
       () => PhoneController(
-        initialValue: PhoneNumber(isoCode: IsoCode.fromJson('US'), nsn: ''),
+        initialValue:
+            savedPhone ?? const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
       ),
     );
     return PopScope(
@@ -504,6 +504,17 @@ class ProfileEditPage extends HookConsumerWidget {
         () => context.pushReplacement('/profile/edit'),
       );
     }
+  }
+}
+
+/// The user's saved phone, or null when there is none or it does not parse.
+@visibleForTesting
+PhoneNumber? savedPhoneNumber(String? phone) {
+  if (phone == null || phone.isEmpty) return null;
+  try {
+    return PhoneNumber.parse(phone);
+  } on Exception {
+    return null;
   }
 }
 
