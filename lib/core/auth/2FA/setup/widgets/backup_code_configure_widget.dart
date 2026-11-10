@@ -42,7 +42,9 @@ class BackupCodeConfigureWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final codesText = config.codes.join('\n');
+    // Only a freshly generated config carries its codes.
+    final codes = config.codes?.toList() ?? const <String>[];
+    final codesText = codes.join('\n');
     useEffect(() {
       saveConfig();
       return null;
@@ -85,7 +87,7 @@ class BackupCodeConfigureWidget
                     selectionControls: MaterialTextSelectionControls(),
                     child: Column(
                       spacing: 12,
-                      children: chunkList(config.codes, 2)
+                      children: chunkList(codes, 2)
                           .map(
                             (e) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

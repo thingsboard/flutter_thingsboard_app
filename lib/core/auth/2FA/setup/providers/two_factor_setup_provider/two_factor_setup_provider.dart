@@ -15,11 +15,6 @@ Future<TwoFaAccountConfig> generateConfig(
   Ref ref,
   TwoFaProviderType type,
 ) async {
-  // The server's SMS template is empty, and its null phone does not parse:
-  // the user types the number on the next step.
-  if (type == TwoFaProviderType.SMS) {
-    return SmsTwoFaAccountConfig((b) => b..phoneNumber = '');
-  }
   final tbClient = getIt<ITbClientService>().client;
   final res = await tbClient
       .getTwoFactorAuthConfigControllerApi()

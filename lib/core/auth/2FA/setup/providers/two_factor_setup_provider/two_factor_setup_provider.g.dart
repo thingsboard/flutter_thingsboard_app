@@ -66,7 +66,7 @@ final class GenerateConfigProvider
   }
 }
 
-String _$generateConfigHash() => r'ff6df8ba10ef26140197ebfb9ec9995476269ab2';
+String _$generateConfigHash() => r'421ef736fa840869c566e9ea0655906656c34649';
 
 final class GenerateConfigFamily extends $Family
     with

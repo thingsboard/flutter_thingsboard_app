@@ -56,7 +56,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Live location tracking is translated into every app language (it was English only).
 - Autofill and keyboards: email fields open the email keyboard; change password offers and saves a new password; sign-up suggests a new password instead of a saved one; phone fields take the number from autofill.
 - Profile editing shows the saved phone number and its country instead of an empty US number.
-- Two-factor setup: SMS opens instead of signing the user out, and a setup error opened from the profile goes back with a message instead of signing out.
+- Two-factor setup: SMS opens instead of signing the user out, the settings open for users with backup codes, and a setup error opened from the profile goes back with a message instead of signing out.
 - Two-factor setup titles are fully translated (they mixed English and the provider name).
 - Arabic: an English server message in a toast keeps its punctuation in place.
 - The sign-up form shows "Invalid email format" for a malformed email instead of sending it to the server.
