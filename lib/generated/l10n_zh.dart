@@ -2831,6 +2831,111 @@ class SZhCn extends SZh {
   }
 
   @override
+  String get liveTrackingActive => '实时位置跟踪';
+
+  @override
+  String get liveTrackingPaused => '实时跟踪已暂停';
+
+  @override
+  String get liveTrackingFixes => '定位点';
+
+  @override
+  String get liveTrackingSaved => '已保存';
+
+  @override
+  String get liveTrackingErrors => '错误';
+
+  @override
+  String get liveTrackingStop => '停止';
+
+  @override
+  String get liveTrackingPause => '暂停';
+
+  @override
+  String get liveTrackingResume => '继续';
+
+  @override
+  String get liveTrackingHide => '隐藏';
+
+  @override
+  String get liveTrackingSessionTitle => '实时位置跟踪';
+
+  @override
+  String get liveTrackingTarget => '将位置保存到实体';
+
+  @override
+  String get liveTrackingDashboard => '仪表板';
+
+  @override
+  String get liveTrackingStatus => '状态';
+
+  @override
+  String get liveTrackingStarted => '开始时间';
+
+  @override
+  String get liveTrackingLastFix => '最近定位';
+
+  @override
+  String get liveTrackingLastError => '最近错误';
+
+  @override
+  String get liveTrackingErrorTargetNotFound =>
+      '无法保存到该实体：它已不存在。跟踪仍在继续；请在仪表板动作中更新目标。';
+
+  @override
+  String get liveTrackingErrorNoConnection => '无法连接服务器。这些定位点未保存，恢复联网后将继续保存。';
+
+  @override
+  String get liveTrackingErrorUnauthorized => '您的会话已结束。请重新登录以继续保存位置。';
+
+  @override
+  String get liveTrackingErrorSavePermissionDenied =>
+      '无法保存到该实体：您没有权限。跟踪仍在继续；请联系管理员授予访问权限。';
+
+  @override
+  String get liveTrackingErrorSaveFailed => '无法将此定位点保存到服务器。将在下一个定位点时重试。';
+
+  @override
+  String get liveTrackingErrorServicesDisabled => '此设备已关闭定位服务。';
+
+  @override
+  String get liveTrackingErrorPermissionDenied => '位置权限被拒绝。';
+
+  @override
+  String get liveTrackingErrorPermissionDeniedForever =>
+      '位置权限已被永久拒绝。请在应用设置中开启。';
+
+  @override
+  String get liveTrackingErrorLocation => '无法获取定位。';
+
+  @override
+  String get liveTrackingMenuTitle => '实时位置跟踪';
+
+  @override
+  String get liveTrackingNoRecord => '没有正在进行的跟踪，也没有最近的会话。';
+
+  @override
+  String get liveTrackingLastSession => '上次会话';
+
+  @override
+  String get liveTrackingStartAgain => '重新开始';
+
+  @override
+  String get liveTrackingEnded => '结束时间';
+
+  @override
+  String get liveTrackingEndReason => '结束原因';
+
+  @override
+  String get liveTrackingEndReasonManual => '手动停止';
+
+  @override
+  String get liveTrackingEndReasonMaxDuration => '已达到最长时长';
+
+  @override
+  String get liveTrackingEndReasonInterrupted => '已中断';
+
+  @override
   String get serverUpdateRequired => '需要更新服务器';
 
   @override
@@ -4164,6 +4269,111 @@ class SZhTw extends SZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get liveTrackingActive => '即時位置追蹤';
+
+  @override
+  String get liveTrackingPaused => '即時追蹤已暫停';
+
+  @override
+  String get liveTrackingFixes => '定位點';
+
+  @override
+  String get liveTrackingSaved => '已儲存';
+
+  @override
+  String get liveTrackingErrors => '錯誤';
+
+  @override
+  String get liveTrackingStop => '停止';
+
+  @override
+  String get liveTrackingPause => '暫停';
+
+  @override
+  String get liveTrackingResume => '繼續';
+
+  @override
+  String get liveTrackingHide => '隱藏';
+
+  @override
+  String get liveTrackingSessionTitle => '即時位置追蹤';
+
+  @override
+  String get liveTrackingTarget => '將位置儲存到實體';
+
+  @override
+  String get liveTrackingDashboard => '儀表板';
+
+  @override
+  String get liveTrackingStatus => '狀態';
+
+  @override
+  String get liveTrackingStarted => '開始時間';
+
+  @override
+  String get liveTrackingLastFix => '最近定位';
+
+  @override
+  String get liveTrackingLastError => '最近錯誤';
+
+  @override
+  String get liveTrackingErrorTargetNotFound =>
+      '無法儲存到此實體：它已不存在。追蹤仍在繼續；請在儀表板動作中更新目標。';
+
+  @override
+  String get liveTrackingErrorNoConnection => '無法連線至伺服器。這些定位點未儲存，恢復連線後將繼續儲存。';
+
+  @override
+  String get liveTrackingErrorUnauthorized => '您的工作階段已結束。請重新登入以繼續儲存位置。';
+
+  @override
+  String get liveTrackingErrorSavePermissionDenied =>
+      '無法儲存到此實體：您沒有權限。追蹤仍在繼續；請聯絡管理員授予存取權限。';
+
+  @override
+  String get liveTrackingErrorSaveFailed => '無法將此定位點儲存到伺服器。將在下一個定位點時重試。';
+
+  @override
+  String get liveTrackingErrorServicesDisabled => '此裝置已關閉定位服務。';
+
+  @override
+  String get liveTrackingErrorPermissionDenied => '位置權限遭到拒絕。';
+
+  @override
+  String get liveTrackingErrorPermissionDeniedForever =>
+      '位置權限已被永久拒絕。請在應用程式設定中開啟。';
+
+  @override
+  String get liveTrackingErrorLocation => '無法取得定位。';
+
+  @override
+  String get liveTrackingMenuTitle => '即時位置追蹤';
+
+  @override
+  String get liveTrackingNoRecord => '沒有進行中的追蹤，也沒有最近的工作階段。';
+
+  @override
+  String get liveTrackingLastSession => '上次工作階段';
+
+  @override
+  String get liveTrackingStartAgain => '重新開始';
+
+  @override
+  String get liveTrackingEnded => '結束時間';
+
+  @override
+  String get liveTrackingEndReason => '結束原因';
+
+  @override
+  String get liveTrackingEndReasonManual => '手動停止';
+
+  @override
+  String get liveTrackingEndReasonMaxDuration => '已達最長時間';
+
+  @override
+  String get liveTrackingEndReasonInterrupted => '已中斷';
 
   @override
   String get serverUpdateRequired => '需要更新伺服器';

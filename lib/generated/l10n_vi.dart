@@ -1394,115 +1394,115 @@ class SVi extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
-  String get liveTrackingActive => 'Live location tracking';
+  String get liveTrackingActive => 'Theo dõi vị trí trực tiếp';
 
   @override
-  String get liveTrackingPaused => 'Live tracking paused';
+  String get liveTrackingPaused => 'Đã tạm dừng theo dõi trực tiếp';
 
   @override
-  String get liveTrackingFixes => 'Fixes';
+  String get liveTrackingFixes => 'Vị trí';
 
   @override
-  String get liveTrackingSaved => 'Saved';
+  String get liveTrackingSaved => 'Đã lưu';
 
   @override
-  String get liveTrackingErrors => 'Errors';
+  String get liveTrackingErrors => 'Lỗi';
 
   @override
-  String get liveTrackingStop => 'Stop';
+  String get liveTrackingStop => 'Dừng';
 
   @override
-  String get liveTrackingPause => 'Pause';
+  String get liveTrackingPause => 'Tạm dừng';
 
   @override
-  String get liveTrackingResume => 'Resume';
+  String get liveTrackingResume => 'Tiếp tục';
 
   @override
-  String get liveTrackingHide => 'Hide';
+  String get liveTrackingHide => 'Ẩn';
 
   @override
-  String get liveTrackingSessionTitle => 'Live location tracking';
+  String get liveTrackingSessionTitle => 'Theo dõi vị trí trực tiếp';
 
   @override
-  String get liveTrackingTarget => 'Save location to entity';
+  String get liveTrackingTarget => 'Lưu vị trí vào thực thể';
 
   @override
-  String get liveTrackingDashboard => 'Dashboard';
+  String get liveTrackingDashboard => 'Bảng điều khiển';
 
   @override
-  String get liveTrackingStatus => 'Status';
+  String get liveTrackingStatus => 'Trạng thái';
 
   @override
-  String get liveTrackingStarted => 'Start time';
+  String get liveTrackingStarted => 'Thời gian bắt đầu';
 
   @override
-  String get liveTrackingLastFix => 'Last fix';
+  String get liveTrackingLastFix => 'Vị trí gần nhất';
 
   @override
-  String get liveTrackingLastError => 'Last error';
+  String get liveTrackingLastError => 'Lỗi gần nhất';
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Can\'t save to this entity — it no longer exists. Tracking continues; update the target in the dashboard action.';
+      'Không thể lưu vào thực thể này vì thực thể không còn tồn tại. Việc theo dõi vẫn tiếp tục; hãy cập nhật đích trong hành động của bảng điều khiển.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'No connection to the server. These fixes weren\'t saved — saving resumes when you\'re back online.';
+      'Không có kết nối tới máy chủ. Các vị trí này chưa được lưu; việc lưu sẽ tiếp tục khi bạn trực tuyến trở lại.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Your session ended. Sign in again to keep saving location.';
+      'Phiên của bạn đã kết thúc. Hãy đăng nhập lại để tiếp tục lưu vị trí.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Can\'t save to this entity — you don\'t have permission. Tracking continues; ask your administrator to grant access.';
+      'Không thể lưu vào thực thể này vì bạn không có quyền. Việc theo dõi vẫn tiếp tục; hãy đề nghị quản trị viên cấp quyền.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Couldn\'t save this fix to the server. Saving retries with the next fix.';
+      'Không thể lưu vị trí này lên máy chủ. Sẽ thử lại với vị trí tiếp theo.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Location services are turned off on this device.';
+      'Dịch vụ định vị đang tắt trên thiết bị này.';
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Location permission was denied.';
+      'Quyền truy cập vị trí đã bị từ chối.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Location permission is permanently denied. Enable it in the app settings.';
+      'Quyền truy cập vị trí đã bị từ chối vĩnh viễn. Hãy bật trong phần cài đặt của ứng dụng.';
 
   @override
-  String get liveTrackingErrorLocation => 'Couldn\'t get a location fix.';
+  String get liveTrackingErrorLocation => 'Không thể xác định vị trí.';
 
   @override
-  String get liveTrackingMenuTitle => 'Live location tracking';
+  String get liveTrackingMenuTitle => 'Theo dõi vị trí trực tiếp';
 
   @override
   String get liveTrackingNoRecord =>
-      'No active tracking and no recent session.';
+      'Không có phiên theo dõi đang hoạt động hoặc gần đây.';
 
   @override
-  String get liveTrackingLastSession => 'Last session';
+  String get liveTrackingLastSession => 'Phiên gần nhất';
 
   @override
-  String get liveTrackingStartAgain => 'Start again';
+  String get liveTrackingStartAgain => 'Bắt đầu lại';
 
   @override
-  String get liveTrackingEnded => 'End time';
+  String get liveTrackingEnded => 'Thời gian kết thúc';
 
   @override
-  String get liveTrackingEndReason => 'End reason';
+  String get liveTrackingEndReason => 'Lý do kết thúc';
 
   @override
-  String get liveTrackingEndReasonManual => 'Stopped manually';
+  String get liveTrackingEndReasonManual => 'Đã dừng thủ công';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'Reached max duration';
+  String get liveTrackingEndReasonMaxDuration => 'Đã đạt thời lượng tối đa';
 
   @override
-  String get liveTrackingEndReasonInterrupted => 'Interrupted';
+  String get liveTrackingEndReasonInterrupted => 'Bị gián đoạn';
 
   @override
   String get serverUpdateRequired => 'Cần cập nhật máy chủ';

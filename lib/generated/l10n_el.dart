@@ -1409,115 +1409,121 @@ class SEl extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
-  String get liveTrackingActive => 'Live location tracking';
+  String get liveTrackingActive =>
+      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
 
   @override
-  String get liveTrackingPaused => 'Live tracking paused';
+  String get liveTrackingPaused =>
+      'Η παρακολούθηση σε πραγματικό χρόνο είναι σε παύση';
 
   @override
-  String get liveTrackingFixes => 'Fixes';
+  String get liveTrackingFixes => 'Θέσεις';
 
   @override
-  String get liveTrackingSaved => 'Saved';
+  String get liveTrackingSaved => 'Αποθηκεύτηκαν';
 
   @override
-  String get liveTrackingErrors => 'Errors';
+  String get liveTrackingErrors => 'Σφάλματα';
 
   @override
-  String get liveTrackingStop => 'Stop';
+  String get liveTrackingStop => 'Διακοπή';
 
   @override
-  String get liveTrackingPause => 'Pause';
+  String get liveTrackingPause => 'Παύση';
 
   @override
-  String get liveTrackingResume => 'Resume';
+  String get liveTrackingResume => 'Συνέχεια';
 
   @override
-  String get liveTrackingHide => 'Hide';
+  String get liveTrackingHide => 'Απόκρυψη';
 
   @override
-  String get liveTrackingSessionTitle => 'Live location tracking';
+  String get liveTrackingSessionTitle =>
+      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
 
   @override
-  String get liveTrackingTarget => 'Save location to entity';
+  String get liveTrackingTarget => 'Αποθήκευση τοποθεσίας στην οντότητα';
 
   @override
-  String get liveTrackingDashboard => 'Dashboard';
+  String get liveTrackingDashboard => 'Πίνακας ελέγχου';
 
   @override
-  String get liveTrackingStatus => 'Status';
+  String get liveTrackingStatus => 'Κατάσταση';
 
   @override
-  String get liveTrackingStarted => 'Start time';
+  String get liveTrackingStarted => 'Ώρα έναρξης';
 
   @override
-  String get liveTrackingLastFix => 'Last fix';
+  String get liveTrackingLastFix => 'Τελευταία θέση';
 
   @override
-  String get liveTrackingLastError => 'Last error';
+  String get liveTrackingLastError => 'Τελευταίο σφάλμα';
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Can\'t save to this entity — it no longer exists. Tracking continues; update the target in the dashboard action.';
+      'Δεν είναι δυνατή η αποθήκευση σε αυτήν την οντότητα — δεν υπάρχει πλέον. Η παρακολούθηση συνεχίζεται· ενημερώστε τον στόχο στην ενέργεια του πίνακα ελέγχου.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'No connection to the server. These fixes weren\'t saved — saving resumes when you\'re back online.';
+      'Δεν υπάρχει σύνδεση με τον διακομιστή. Αυτές οι θέσεις δεν αποθηκεύτηκαν — η αποθήκευση θα συνεχιστεί όταν συνδεθείτε ξανά.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Your session ended. Sign in again to keep saving location.';
+      'Η συνεδρία σας έληξε. Συνδεθείτε ξανά για να συνεχιστεί η αποθήκευση της τοποθεσίας.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Can\'t save to this entity — you don\'t have permission. Tracking continues; ask your administrator to grant access.';
+      'Δεν είναι δυνατή η αποθήκευση σε αυτήν την οντότητα — δεν έχετε δικαίωμα. Η παρακολούθηση συνεχίζεται· ζητήστε πρόσβαση από τον διαχειριστή σας.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Couldn\'t save this fix to the server. Saving retries with the next fix.';
+      'Δεν ήταν δυνατή η αποθήκευση αυτής της θέσης στον διακομιστή. Θα γίνει νέα προσπάθεια με την επόμενη θέση.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Location services are turned off on this device.';
+      'Οι υπηρεσίες τοποθεσίας είναι απενεργοποιημένες σε αυτήν τη συσκευή.';
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Location permission was denied.';
+      'Η άδεια τοποθεσίας απορρίφθηκε.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Location permission is permanently denied. Enable it in the app settings.';
+      'Η άδεια τοποθεσίας έχει απορριφθεί οριστικά. Ενεργοποιήστε την στις ρυθμίσεις της εφαρμογής.';
 
   @override
-  String get liveTrackingErrorLocation => 'Couldn\'t get a location fix.';
+  String get liveTrackingErrorLocation =>
+      'Δεν ήταν δυνατός ο προσδιορισμός της θέσης.';
 
   @override
-  String get liveTrackingMenuTitle => 'Live location tracking';
+  String get liveTrackingMenuTitle =>
+      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
 
   @override
   String get liveTrackingNoRecord =>
-      'No active tracking and no recent session.';
+      'Καμία ενεργή παρακολούθηση και καμία πρόσφατη συνεδρία.';
 
   @override
-  String get liveTrackingLastSession => 'Last session';
+  String get liveTrackingLastSession => 'Τελευταία συνεδρία';
 
   @override
-  String get liveTrackingStartAgain => 'Start again';
+  String get liveTrackingStartAgain => 'Νέα έναρξη';
 
   @override
-  String get liveTrackingEnded => 'End time';
+  String get liveTrackingEnded => 'Ώρα λήξης';
 
   @override
-  String get liveTrackingEndReason => 'End reason';
+  String get liveTrackingEndReason => 'Αιτία λήξης';
 
   @override
-  String get liveTrackingEndReasonManual => 'Stopped manually';
+  String get liveTrackingEndReasonManual => 'Διακόπηκε χειροκίνητα';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'Reached max duration';
+  String get liveTrackingEndReasonMaxDuration =>
+      'Συμπληρώθηκε η μέγιστη διάρκεια';
 
   @override
-  String get liveTrackingEndReasonInterrupted => 'Interrupted';
+  String get liveTrackingEndReasonInterrupted => 'Διακόπηκε';
 
   @override
   String get serverUpdateRequired => 'Απαιτείται ενημέρωση διακομιστή';

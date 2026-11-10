@@ -1388,115 +1388,113 @@ class SAr extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
-  String get liveTrackingActive => 'Live location tracking';
+  String get liveTrackingActive => 'تتبع الموقع المباشر';
 
   @override
-  String get liveTrackingPaused => 'Live tracking paused';
+  String get liveTrackingPaused => 'تم إيقاف التتبع المباشر مؤقتًا';
 
   @override
-  String get liveTrackingFixes => 'Fixes';
+  String get liveTrackingFixes => 'المواقع';
 
   @override
-  String get liveTrackingSaved => 'Saved';
+  String get liveTrackingSaved => 'المحفوظة';
 
   @override
-  String get liveTrackingErrors => 'Errors';
+  String get liveTrackingErrors => 'الأخطاء';
 
   @override
-  String get liveTrackingStop => 'Stop';
+  String get liveTrackingStop => 'إيقاف';
 
   @override
-  String get liveTrackingPause => 'Pause';
+  String get liveTrackingPause => 'إيقاف مؤقت';
 
   @override
-  String get liveTrackingResume => 'Resume';
+  String get liveTrackingResume => 'استئناف';
 
   @override
-  String get liveTrackingHide => 'Hide';
+  String get liveTrackingHide => 'إخفاء';
 
   @override
-  String get liveTrackingSessionTitle => 'Live location tracking';
+  String get liveTrackingSessionTitle => 'تتبع الموقع المباشر';
 
   @override
-  String get liveTrackingTarget => 'Save location to entity';
+  String get liveTrackingTarget => 'حفظ الموقع في الكيان';
 
   @override
-  String get liveTrackingDashboard => 'Dashboard';
+  String get liveTrackingDashboard => 'لوحة المعلومات';
 
   @override
-  String get liveTrackingStatus => 'Status';
+  String get liveTrackingStatus => 'الحالة';
 
   @override
-  String get liveTrackingStarted => 'Start time';
+  String get liveTrackingStarted => 'وقت البدء';
 
   @override
-  String get liveTrackingLastFix => 'Last fix';
+  String get liveTrackingLastFix => 'آخر موقع';
 
   @override
-  String get liveTrackingLastError => 'Last error';
+  String get liveTrackingLastError => 'آخر خطأ';
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Can\'t save to this entity — it no longer exists. Tracking continues; update the target in the dashboard action.';
+      'لا يمكن الحفظ في هذا الكيان لأنه لم يعد موجودًا. يستمر التتبع؛ حدّث الهدف في إجراء لوحة المعلومات.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'No connection to the server. These fixes weren\'t saved — saving resumes when you\'re back online.';
+      'لا يوجد اتصال بالخادم. لم يتم حفظ هذه المواقع، وسيُستأنف الحفظ عند عودة الاتصال.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Your session ended. Sign in again to keep saving location.';
+      'انتهت جلستك. سجّل الدخول مجددًا لمواصلة حفظ الموقع.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Can\'t save to this entity — you don\'t have permission. Tracking continues; ask your administrator to grant access.';
+      'لا يمكن الحفظ في هذا الكيان لأنك لا تملك الصلاحية. يستمر التتبع؛ اطلب الوصول من المسؤول.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Couldn\'t save this fix to the server. Saving retries with the next fix.';
+      'تعذّر حفظ هذا الموقع على الخادم. ستتم إعادة المحاولة مع الموقع التالي.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Location services are turned off on this device.';
+      'خدمات الموقع متوقفة على هذا الجهاز.';
 
   @override
-  String get liveTrackingErrorPermissionDenied =>
-      'Location permission was denied.';
+  String get liveTrackingErrorPermissionDenied => 'تم رفض إذن الموقع.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Location permission is permanently denied. Enable it in the app settings.';
+      'تم رفض إذن الموقع بشكل دائم. فعّله من إعدادات التطبيق.';
 
   @override
-  String get liveTrackingErrorLocation => 'Couldn\'t get a location fix.';
+  String get liveTrackingErrorLocation => 'تعذّر تحديد الموقع.';
 
   @override
-  String get liveTrackingMenuTitle => 'Live location tracking';
+  String get liveTrackingMenuTitle => 'تتبع الموقع المباشر';
 
   @override
-  String get liveTrackingNoRecord =>
-      'No active tracking and no recent session.';
+  String get liveTrackingNoRecord => 'لا يوجد تتبع نشط ولا جلسة حديثة.';
 
   @override
-  String get liveTrackingLastSession => 'Last session';
+  String get liveTrackingLastSession => 'آخر جلسة';
 
   @override
-  String get liveTrackingStartAgain => 'Start again';
+  String get liveTrackingStartAgain => 'البدء من جديد';
 
   @override
-  String get liveTrackingEnded => 'End time';
+  String get liveTrackingEnded => 'وقت الانتهاء';
 
   @override
-  String get liveTrackingEndReason => 'End reason';
+  String get liveTrackingEndReason => 'سبب الانتهاء';
 
   @override
-  String get liveTrackingEndReasonManual => 'Stopped manually';
+  String get liveTrackingEndReasonManual => 'أُوقف يدويًا';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'Reached max duration';
+  String get liveTrackingEndReasonMaxDuration => 'تم بلوغ المدة القصوى';
 
   @override
-  String get liveTrackingEndReasonInterrupted => 'Interrupted';
+  String get liveTrackingEndReasonInterrupted => 'انقطع';
 
   @override
   String get serverUpdateRequired => 'يلزم تحديث الخادم';

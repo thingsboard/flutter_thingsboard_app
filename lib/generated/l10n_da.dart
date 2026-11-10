@@ -1399,19 +1399,19 @@ class SDa extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
-  String get liveTrackingActive => 'Live location tracking';
+  String get liveTrackingActive => 'Live-sporing af placering';
 
   @override
-  String get liveTrackingPaused => 'Live tracking paused';
+  String get liveTrackingPaused => 'Live-sporing sat på pause';
 
   @override
-  String get liveTrackingFixes => 'Fixes';
+  String get liveTrackingFixes => 'Positioner';
 
   @override
-  String get liveTrackingSaved => 'Saved';
+  String get liveTrackingSaved => 'Gemt';
 
   @override
-  String get liveTrackingErrors => 'Errors';
+  String get liveTrackingErrors => 'Fejl';
 
   @override
   String get liveTrackingStop => 'Stop';
@@ -1420,16 +1420,16 @@ class SDa extends S {
   String get liveTrackingPause => 'Pause';
 
   @override
-  String get liveTrackingResume => 'Resume';
+  String get liveTrackingResume => 'Genoptag';
 
   @override
-  String get liveTrackingHide => 'Hide';
+  String get liveTrackingHide => 'Skjul';
 
   @override
-  String get liveTrackingSessionTitle => 'Live location tracking';
+  String get liveTrackingSessionTitle => 'Live-sporing af placering';
 
   @override
-  String get liveTrackingTarget => 'Save location to entity';
+  String get liveTrackingTarget => 'Gem placering på enhed';
 
   @override
   String get liveTrackingDashboard => 'Dashboard';
@@ -1438,76 +1438,76 @@ class SDa extends S {
   String get liveTrackingStatus => 'Status';
 
   @override
-  String get liveTrackingStarted => 'Start time';
+  String get liveTrackingStarted => 'Starttidspunkt';
 
   @override
-  String get liveTrackingLastFix => 'Last fix';
+  String get liveTrackingLastFix => 'Seneste position';
 
   @override
-  String get liveTrackingLastError => 'Last error';
+  String get liveTrackingLastError => 'Seneste fejl';
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Can\'t save to this entity — it no longer exists. Tracking continues; update the target in the dashboard action.';
+      'Kan ikke gemme på denne enhed – den findes ikke længere. Sporingen fortsætter; opdater målet i dashboard-handlingen.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'No connection to the server. These fixes weren\'t saved — saving resumes when you\'re back online.';
+      'Ingen forbindelse til serveren. Disse positioner blev ikke gemt – gemningen genoptages, når du er online igen.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Your session ended. Sign in again to keep saving location.';
+      'Din session er udløbet. Log ind igen for at fortsætte med at gemme placeringen.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Can\'t save to this entity — you don\'t have permission. Tracking continues; ask your administrator to grant access.';
+      'Kan ikke gemme på denne enhed – du har ikke tilladelse. Sporingen fortsætter; bed din administrator om adgang.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Couldn\'t save this fix to the server. Saving retries with the next fix.';
+      'Kunne ikke gemme denne position på serveren. Gemningen forsøges igen med den næste position.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Location services are turned off on this device.';
+      'Placeringstjenester er slået fra på denne enhed.';
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Location permission was denied.';
+      'Tilladelse til placering blev afvist.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Location permission is permanently denied. Enable it in the app settings.';
+      'Tilladelse til placering er permanent afvist. Aktivér den i appens indstillinger.';
 
   @override
-  String get liveTrackingErrorLocation => 'Couldn\'t get a location fix.';
+  String get liveTrackingErrorLocation => 'Kunne ikke bestemme placeringen.';
 
   @override
-  String get liveTrackingMenuTitle => 'Live location tracking';
+  String get liveTrackingMenuTitle => 'Live-sporing af placering';
 
   @override
   String get liveTrackingNoRecord =>
-      'No active tracking and no recent session.';
+      'Ingen aktiv sporing og ingen nylig session.';
 
   @override
-  String get liveTrackingLastSession => 'Last session';
+  String get liveTrackingLastSession => 'Seneste session';
 
   @override
-  String get liveTrackingStartAgain => 'Start again';
+  String get liveTrackingStartAgain => 'Start igen';
 
   @override
-  String get liveTrackingEnded => 'End time';
+  String get liveTrackingEnded => 'Sluttidspunkt';
 
   @override
-  String get liveTrackingEndReason => 'End reason';
+  String get liveTrackingEndReason => 'Årsag til afslutning';
 
   @override
-  String get liveTrackingEndReasonManual => 'Stopped manually';
+  String get liveTrackingEndReasonManual => 'Stoppet manuelt';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'Reached max duration';
+  String get liveTrackingEndReasonMaxDuration => 'Maksimal varighed nået';
 
   @override
-  String get liveTrackingEndReasonInterrupted => 'Interrupted';
+  String get liveTrackingEndReasonInterrupted => 'Afbrudt';
 
   @override
   String get serverUpdateRequired => 'Serveropdatering påkrævet';
