@@ -137,6 +137,15 @@ void main() {
 
       expect(find.text('No devices'), findsOneWidget);
       expect(find.text('Try again'), findsNothing);
+      // In the middle of the list area (give or take the list's own
+      // padding), not under the header.
+      final message = tester
+          .getRect(find.text('No devices'))
+          .expandToInclude(
+            tester.getRect(find.text('The list is currently empty.')),
+          );
+      final list = tester.getRect(find.byType(Scrollable).first);
+      expect(message.center.dy, moreOrLessEquals(list.center.dy, epsilon: 16));
 
       server.devices = ['Thermostat'];
       await tester.fling(find.text('No devices'), const Offset(0, 400), 1000);

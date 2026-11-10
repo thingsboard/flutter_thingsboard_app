@@ -25,6 +25,7 @@ class FirstPageExceptionIndicator extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title,
