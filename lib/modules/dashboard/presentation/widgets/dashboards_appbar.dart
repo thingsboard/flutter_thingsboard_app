@@ -33,7 +33,6 @@ class DashboardsAppbar extends ConsumerWidget {
     final wlState = ref.watch(wlProvider);
     return Scaffold(
       appBar: TbAppBar(
-        //  canGoBack: leading != null,
         leading: leading,
         elevation: dashboardState ? 0 : 8,
         title: switch (title) {

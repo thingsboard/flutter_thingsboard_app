@@ -94,9 +94,8 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 }
 
-/// The page's title and host. While the site has its own history the back
-/// arrow steps through it; otherwise [TbAppBar] shows its usual route back
-/// arrow, so a page opened from More can be left and a tab has none.
+/// The page's title and host. The back arrow steps through the site's history;
+/// without one [TbAppBar] shows its usual route back arrow.
 @visibleForTesting
 class UrlPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const UrlPageAppBar({
