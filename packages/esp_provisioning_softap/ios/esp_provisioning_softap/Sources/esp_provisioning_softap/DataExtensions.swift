@@ -19,6 +19,7 @@
 //  Modified by Rhishikesh Joshi on 28/07/18.
 //
 
+import CommonCrypto
 import Foundation
 
 extension Data {

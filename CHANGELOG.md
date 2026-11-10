@@ -14,6 +14,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 
 - Uses `thingsboard_client` 5.0, the single generated Dart client for ThingsBoard, instead of `thingsboard_pe_client`. Built with Flutter 3.47.9 (`.fvmrc`).
 - Push notifications register with the Firebase Installation ID.
+- iOS plugins are integrated through Swift Package Manager (Firebase iOS SDK 13.1.1); building for iOS needs Xcode 26.2 or newer. Only `flutter_esp_ble_prov` and `plugin_wifi_connect` still use CocoaPods.
 - The language from the user profile also applies to system widgets (date pickers, dialog buttons) and dates; the profile saves it in the ThingsBoard format (`de_DE`). Arabic (`ar_AE`) and Norwegian devices (`nb`) get their translation, country names follow the app language.
 - When the camera permission is permanently denied, the QR scanner offers to open the app settings.
 - The profile language can be set to Auto, as in the web UI: the app then follows the device language.

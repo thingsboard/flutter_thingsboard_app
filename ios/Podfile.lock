@@ -1,6 +1,4 @@
 PODS:
-  - esp_provisioning_softap (0.0.1):
-    - Flutter
   - ESPProvision (3.2.0):
     - ESPProvision/Core (= 3.2.0)
   - ESPProvision/Core (3.2.0):
@@ -14,7 +12,6 @@ PODS:
   - SwiftProtobuf (1.22.1)
 
 DEPENDENCIES:
-  - esp_provisioning_softap (from `.symlinks/plugins/esp_provisioning_softap/ios`)
   - Flutter (from `Flutter`)
   - flutter_esp_ble_prov (from `.symlinks/plugins/flutter_esp_ble_prov/ios`)
   - plugin_wifi_connect (from `.symlinks/plugins/plugin_wifi_connect/ios`)
@@ -25,8 +22,6 @@ SPEC REPOS:
     - SwiftProtobuf
 
 EXTERNAL SOURCES:
-  esp_provisioning_softap:
-    :path: ".symlinks/plugins/esp_provisioning_softap/ios"
   Flutter:
     :path: Flutter
   flutter_esp_ble_prov:
@@ -35,7 +30,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/plugin_wifi_connect/ios"
 
 SPEC CHECKSUMS:
-  esp_provisioning_softap: afae2212ada1e46857f83a6c522a3f848f56bd0e
   ESPProvision: 336fdcdee7ea98b24e96e97534db855190ea979f
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   flutter_esp_ble_prov: 6cff8544535225431d58e5577706ba2a1a106303
