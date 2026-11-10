@@ -68,9 +68,7 @@ class QrCodeScannerPage extends HookWidget {
           if (!hasPermission.value && isGranted) {
             // Permission was granted while in settings
             hasPermission.value = true;
-
-            await controller.stop();
-            await controller.start();
+            await startScannerAfterGrant(controller);
           }
         },
       );
@@ -168,8 +166,7 @@ class QrCodeScannerPage extends HookWidget {
                     onPressed: () async {
                       if (await requestCameraAccess(context)) {
                         hasPermission.value = true;
-                        await controller.stop();
-                        await controller.start();
+                        await startScannerAfterGrant(controller);
                       }
                     },
                     style: OutlinedButton.styleFrom(
@@ -210,4 +207,14 @@ Future<bool> requestCameraAccess(BuildContext context) async {
     if (openSettings ?? false) await openAppSettings();
   }
   return false;
+}
+
+/// Starts the camera once the permission is granted. The scanner's own start
+/// asks for the permission and may still be running when the page resumes;
+/// a second start would throw `controllerInitializing`.
+@visibleForTesting
+Future<void> startScannerAfterGrant(MobileScannerController controller) async {
+  final state = controller.value;
+  if (state.isStarting || state.isRunning) return;
+  await controller.start();
 }
