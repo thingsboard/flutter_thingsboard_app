@@ -61,7 +61,7 @@ class SingUpFieldWidget extends StatelessWidget {
         return [AutofillHints.postalCode];
       case SignUpFieldId.REPEAT_PASSWORD:
       case SignUpFieldId.PASSWORD:
-        return [AutofillHints.newPassword, AutofillHints.password];
+        return [AutofillHints.newPassword];
       default:
         return null;
     }

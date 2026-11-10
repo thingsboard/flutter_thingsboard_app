@@ -175,6 +175,7 @@ class ProfileEditPage extends HookConsumerWidget {
                                         formControlName: 'email',
                                         label: S.of(context).email,
                                         hint: S.of(context).email,
+                                        type: TextInputType.emailAddress,
                                         autoFillHints: const [
                                           AutofillHints.email,
                                         ],

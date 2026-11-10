@@ -56,118 +56,130 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               child: SingleChildScrollView(
                 child: ReactiveForm(
                   formGroup: _form,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 16),
-                      ValueListenableBuilder(
-                        valueListenable: _showCurrentPasswordNotifier,
-                        builder:
-                            (BuildContext context, bool showPassword, child) {
-                              return ReactiveTextField<String>(
-                                textDirection: TextDirection.ltr,
-                                formControlName: 'currentPassword',
-                                obscureText: !showPassword,
-                                autofocus: true,
-                                validationMessages: {
-                                  ValidationMessage.required: (_) =>
-                                      S.of(context).currentPasswordRequireText,
-                                },
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      showPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
+                  // Lets the password manager offer and save the new password.
+                  child: AutofillGroup(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 16),
+                        ValueListenableBuilder(
+                          valueListenable: _showCurrentPasswordNotifier,
+                          builder:
+                              (BuildContext context, bool showPassword, child) {
+                                return ReactiveTextField<String>(
+                                  textDirection: TextDirection.ltr,
+                                  formControlName: 'currentPassword',
+                                  autofillHints: const [AutofillHints.password],
+                                  obscureText: !showPassword,
+                                  autofocus: true,
+                                  validationMessages: {
+                                    ValidationMessage.required: (_) => S
+                                        .of(context)
+                                        .currentPasswordRequireText,
+                                  },
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        _showCurrentPasswordNotifier.value =
+                                            !_showCurrentPasswordNotifier.value;
+                                      },
                                     ),
-                                    onPressed: () {
-                                      _showCurrentPasswordNotifier.value =
-                                          !_showCurrentPasswordNotifier.value;
-                                    },
+                                    border: const OutlineInputBorder(),
+                                    labelText:
+                                        "${S.of(context).currentPassword} *",
                                   ),
-                                  border: const OutlineInputBorder(),
-                                  labelText:
-                                      "${S.of(context).currentPassword} *",
-                                ),
-                              );
-                            },
-                      ),
-                      const SizedBox(height: 24),
-                      ValueListenableBuilder(
-                        valueListenable: _showNewPasswordNotifier,
-                        builder:
-                            (BuildContext context, bool showPassword, child) {
-                              return ReactiveTextField<String>(
-                                textDirection: TextDirection.ltr,
-                                formControlName: 'newPassword',
-                                obscureText: !showPassword,
-                                validationMessages: {
-                                  ValidationMessage.required: (_) =>
-                                      S.of(context).newPasswordRequireText,
-                                },
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      showPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      _showNewPasswordNotifier.value =
-                                          !_showNewPasswordNotifier.value;
-                                    },
-                                  ),
-                                  border: const OutlineInputBorder(),
-                                  labelText: '${S.of(context).newPassword} *',
-                                ),
-                              );
-                            },
-                      ),
-                      const SizedBox(height: 24),
-                      ValueListenableBuilder(
-                        valueListenable: _showNewPassword2Notifier,
-                        builder:
-                            (BuildContext context, bool showPassword, child) {
-                              return ReactiveTextField<String>(
-                                textDirection: TextDirection.ltr,
-                                formControlName: 'newPassword2',
-                                obscureText: !showPassword,
-                                validationMessages: {
-                                  ValidationMessage.required: (_) =>
-                                      S.of(context).newPassword2RequireText,
-                                },
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      showPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      _showNewPassword2Notifier.value =
-                                          !_showNewPassword2Notifier.value;
-                                    },
-                                  ),
-                                  border: const OutlineInputBorder(),
-                                  labelText: '${S.of(context).newPassword2} *',
-                                ),
-                              );
-                            },
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(16),
-                          alignment: AlignmentDirectional.centerStart,
+                                );
+                              },
                         ),
-                        onPressed: () {
-                          _changePassword();
-                        },
-                        child: Center(
-                          child: Text(S.of(context).changePassword),
+                        const SizedBox(height: 24),
+                        ValueListenableBuilder(
+                          valueListenable: _showNewPasswordNotifier,
+                          builder:
+                              (BuildContext context, bool showPassword, child) {
+                                return ReactiveTextField<String>(
+                                  textDirection: TextDirection.ltr,
+                                  formControlName: 'newPassword',
+                                  autofillHints: const [
+                                    AutofillHints.newPassword,
+                                  ],
+                                  obscureText: !showPassword,
+                                  validationMessages: {
+                                    ValidationMessage.required: (_) =>
+                                        S.of(context).newPasswordRequireText,
+                                  },
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        _showNewPasswordNotifier.value =
+                                            !_showNewPasswordNotifier.value;
+                                      },
+                                    ),
+                                    border: const OutlineInputBorder(),
+                                    labelText: '${S.of(context).newPassword} *',
+                                  ),
+                                );
+                              },
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 24),
+                        ValueListenableBuilder(
+                          valueListenable: _showNewPassword2Notifier,
+                          builder:
+                              (BuildContext context, bool showPassword, child) {
+                                return ReactiveTextField<String>(
+                                  textDirection: TextDirection.ltr,
+                                  formControlName: 'newPassword2',
+                                  autofillHints: const [
+                                    AutofillHints.newPassword,
+                                  ],
+                                  obscureText: !showPassword,
+                                  validationMessages: {
+                                    ValidationMessage.required: (_) =>
+                                        S.of(context).newPassword2RequireText,
+                                  },
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        _showNewPassword2Notifier.value =
+                                            !_showNewPassword2Notifier.value;
+                                      },
+                                    ),
+                                    border: const OutlineInputBorder(),
+                                    labelText:
+                                        '${S.of(context).newPassword2} *',
+                                  ),
+                                );
+                              },
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(16),
+                            alignment: AlignmentDirectional.centerStart,
+                          ),
+                          onPressed: () {
+                            _changePassword();
+                          },
+                          child: Center(
+                            child: Text(S.of(context).changePassword),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

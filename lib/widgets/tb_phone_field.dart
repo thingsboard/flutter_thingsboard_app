@@ -38,6 +38,9 @@ class TbPhoneField extends StatelessWidget {
         ),
         formControlName: 'phone',
         valueAccessor: PhoneNumberValueAccessor(),
+        // The country is picked separately, so the field takes the number
+        // without its country code.
+        autofillHints: const [AutofillHints.telephoneNumberNational],
         isCountryButtonPersistent: true,
         isCountrySelectionEnabled: false,
       ),
