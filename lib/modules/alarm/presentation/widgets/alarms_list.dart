@@ -46,8 +46,6 @@ class AlarmsList extends StatelessWidget {
               FirstPageExceptionIndicator(
                 title: S.of(context).noAlarmsFound,
                 message: S.of(context).listIsEmptyText,
-                onTryAgain: () =>
-                    getIt<AlarmBloc>().add(const AlarmsRefreshPageEvent()),
               ),
         ),
       ),

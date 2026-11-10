@@ -317,7 +317,6 @@ abstract class BaseEntitiesState<T, P>
     return FirstPageExceptionIndicator(
       title: widget.noItemsFoundText(context),
       message: S.of(context).listIsEmptyText,
-      onTryAgain: widget.searchMode ? null : () => pagingController.refresh(),
     );
   }
 }

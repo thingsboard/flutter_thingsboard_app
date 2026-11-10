@@ -60,10 +60,6 @@ class DashboardsGridWidget extends StatelessWidget {
                 FirstPageExceptionIndicator(
                   title: S.of(context).noDashboardsFound,
                   message: S.of(context).listIsEmptyText,
-                  onTryAgain: () {
-                    getIt<DashboardsPaginationRepository>().pagingController
-                        .refresh();
-                  },
                 ),
           ),
         ),

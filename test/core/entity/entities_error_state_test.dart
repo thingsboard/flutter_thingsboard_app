@@ -24,6 +24,7 @@ class MockTranslations extends Mock implements ICustomTranslationService {}
 /// Fails the first page while [online] is false, like the app offline.
 class Server {
   bool online = false;
+  List<String> devices = ['Thermostat', 'Pump'];
   int headingRefreshes = 0;
 
   Future<PageData<String>> fetch() async {
@@ -33,7 +34,7 @@ class Server {
         reason: 'offline',
       );
     }
-    return PageData(['Thermostat', 'Pump'], 1, 2, false);
+    return PageData(devices, 1, devices.length, false);
   }
 }
 
@@ -124,6 +125,24 @@ void main() {
       expect(find.text('Thermostat'), findsOneWidget);
       // "Try again" reloads the heading (device counts) too.
       expect(server.headingRefreshes, 1);
+    });
+
+    testWidgets('${variant.$1}: an empty page is not shown as a failure', (
+      tester,
+    ) async {
+      final server = Server()
+        ..online = true
+        ..devices = [];
+      await pump(tester, variant.$2(server));
+
+      expect(find.text('No devices'), findsOneWidget);
+      expect(find.text('Try again'), findsNothing);
+
+      server.devices = ['Thermostat'];
+      await tester.fling(find.text('No devices'), const Offset(0, 400), 1000);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Thermostat'), findsOneWidget);
     });
   }
 }
