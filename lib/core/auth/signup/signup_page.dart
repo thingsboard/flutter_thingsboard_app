@@ -95,14 +95,7 @@ class _SignUpPageContent extends HookConsumerWidget {
             signUpFields.map((e) {
               return MapEntry(
                 e.id.name,
-                FormControl(
-                  validators: [
-                    if (e.required_ ?? false) Validators.required,
-                    if (e.id == SignUpFieldId.PASSWORD ||
-                        e.id == SignUpFieldId.REPEAT_PASSWORD)
-                      Validators.minLength(6),
-                  ],
-                ),
+                FormControl(validators: signUpFieldValidators(e)),
               );
             }),
           ),
@@ -542,6 +535,15 @@ Future<void> _signUp(
     }
   }
 }
+
+@visibleForTesting
+List<Validator<dynamic>> signUpFieldValidators(SignUpField field) => [
+  if (field.required_ ?? false) Validators.required,
+  if (field.id == SignUpFieldId.EMAIL) Validators.email,
+  if (field.id == SignUpFieldId.PASSWORD ||
+      field.id == SignUpFieldId.REPEAT_PASSWORD)
+    Validators.minLength(6),
+];
 
 Future<void> _promptToResendEmailVerification(
   BuildContext context,

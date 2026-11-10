@@ -42,6 +42,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - Signing in shows one steady loader until the home screen instead of a flickering one.
 - The login and More pages scroll in landscape instead of cutting off the form and the menu.
+- The sign-up form shows "Invalid email format" for a malformed email instead of sending it to the server.
 - Saving the profile with an invalid phone number shows why it is not saved instead of doing nothing.
 - Back from a device dashboard returns to the device list or search results it was opened from.
 - After acknowledging or clearing an alarm in its details, the alarms list shows the new status without a pull to refresh.
