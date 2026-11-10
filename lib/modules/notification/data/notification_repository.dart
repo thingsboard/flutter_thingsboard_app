@@ -50,12 +50,4 @@ class NotificationRepository implements INotificationQueryRepository {
   Future<void> filterByReadStatus(bool unreadOnly) async {
     notificationQueryCtrl.filterByReadStatus(unreadOnly);
   }
-
-  Future<void> decreaseNotificationBadgeCount() async {
-    localService.decreaseNotificationBadgeCount();
-  }
-
-  Future<void> increaseNotificationBadgeCount() async {
-    localService.increaseNotificationBadgeCount();
-  }
 }

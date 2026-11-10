@@ -51,14 +51,10 @@ void main() {
     expect(sent, [3]);
   });
 
-  test('the last count follows increase, decrease and clear', () async {
+  test('the last count follows increase and clear', () async {
     when(() => storage.getItem(any())).thenAnswer((_) async => '3');
     await service.increaseNotificationBadgeCount();
     expect(NotificationsLocalService.notificationsCount, 4);
-
-    when(() => storage.getItem(any())).thenAnswer((_) async => '1');
-    await service.decreaseNotificationBadgeCount();
-    expect(NotificationsLocalService.notificationsCount, 0);
 
     await service.updateNotificationsCount(5);
     await service.clearNotificationBadgeCount();

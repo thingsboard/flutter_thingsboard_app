@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/data/notification_pagination_repository.dart';
 import 'package:thingsboard_app/modules/notification/data/notification_repository.dart';
@@ -108,8 +109,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       onClearNotification: (id, read) async {
                         await notificationRepository.deleteNotification(id);
                         if (!read) {
-                          await notificationRepository
-                              .decreaseNotificationBadgeCount();
+                          await _syncBadge();
                         }
 
                         if (mounted) {
@@ -118,8 +118,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       },
                       onReadNotification: (id) async {
                         await notificationRepository.markNotificationAsRead(id);
-                        await notificationRepository
-                            .decreaseNotificationBadgeCount();
+                        await _syncBadge();
 
                         if (mounted) {
                           notificationQueryCtrl.refresh();
@@ -362,8 +361,8 @@ class _NotificationPageState extends State<NotificationPage> {
       if (mounted) setState(() => processedCount++);
     }
 
-    for (int i = 0; i < unreadCount; i++) {
-      await notificationRepository.decreaseNotificationBadgeCount();
+    if (unreadCount > 0) {
+      await _syncBadge();
     }
 
     if (mounted) {
@@ -417,12 +416,12 @@ class _NotificationPageState extends State<NotificationPage> {
         await notificationRepository.markNotificationAsRead(
           notification.id!.id,
         );
-        await notificationRepository.decreaseNotificationBadgeCount();
       } catch (_) {
         failCount++;
       }
       if (mounted) setState(() => processedCount++);
     }
+    await _syncBadge();
 
     if (mounted) {
       if (!_cancelRequested) {
@@ -441,6 +440,11 @@ class _NotificationPageState extends State<NotificationPage> {
       }
     }
   }
+
+  /// The unread count comes from the server: a local decrement drifts when
+  /// a notification arrived without a push.
+  Future<void> _syncBadge() =>
+      getIt<NotificationService>().updateNotificationsCount();
 
   @override
   void initState() {
@@ -497,5 +501,6 @@ class _NotificationPageState extends State<NotificationPage> {
     if (mounted) {
       notificationQueryCtrl.refresh();
     }
+    await _syncBadge();
   }
 }
