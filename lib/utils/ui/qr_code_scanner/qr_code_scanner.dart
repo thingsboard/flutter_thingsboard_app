@@ -209,9 +209,8 @@ Future<bool> requestCameraAccess(BuildContext context) async {
   return false;
 }
 
-/// Starts the camera once the permission is granted. The scanner's own start
-/// asks for the permission and may still be running when the page resumes;
-/// a second start would throw `controllerInitializing`.
+/// Starts the camera once the permission is granted, unless the scanner's own
+/// start is still running: a second start throws `controllerInitializing`.
 @visibleForTesting
 Future<void> startScannerAfterGrant(MobileScannerController controller) async {
   final state = controller.value;
