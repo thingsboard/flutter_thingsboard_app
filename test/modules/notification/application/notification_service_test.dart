@@ -124,6 +124,8 @@ void main() {
       when(() => localDatabase.isPushRegistered())
           .thenAnswer((_) async => true);
 
+  late MockNotificationControllerApi notificationApi;
+
   setUp(() {
     messaging = MockFirebaseMessaging();
     installations = MockFirebaseInstallations();
@@ -135,7 +137,7 @@ void main() {
     fidChanges = StreamController<String>.broadcast();
     addTearDown(fidChanges.close);
 
-    final notificationApi = MockNotificationControllerApi();
+    notificationApi = MockNotificationControllerApi();
     final tbClient = MockThingsboardClient();
     when(() => tbClient.getUserControllerApi()).thenReturn(userApi);
     when(() => tbClient.getNotificationControllerApi())
@@ -547,6 +549,31 @@ void main() {
           extra: any(named: 'extra'),
         ),
       ).called(1);
+    });
+  });
+
+  group('NotificationService.updateNotificationsCount', () {
+    void serverAnswers(Future<Response<int>> Function() answer) => when(
+      () => notificationApi.getUnreadNotificationsCount(
+        deliveryMethod: 'MOBILE_APP',
+        extra: any(named: 'extra'),
+      ),
+    ).thenAnswer((_) => answer());
+
+    test('shows the unread count of the server', () async {
+      serverAnswers(() async => response<int>(4));
+
+      await buildService().updateNotificationsCount();
+
+      verify(() => localService.updateNotificationsCount(4)).called(1);
+    });
+
+    test('keeps the badge when the count cannot be fetched', () async {
+      serverAnswers(() => Future.error(Exception('offline')));
+
+      await buildService().updateNotificationsCount();
+
+      verifyNever(() => localService.updateNotificationsCount(any()));
     });
   });
 }

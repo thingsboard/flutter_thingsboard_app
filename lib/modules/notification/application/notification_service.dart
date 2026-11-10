@@ -108,10 +108,13 @@ class NotificationService {
     }
   }
 
+  /// Shows the server's unread count; a failed request (e.g. offline) keeps
+  /// the badge as it was.
   Future<void> updateNotificationsCount() async {
-    await _localService.updateNotificationsCount(
-      await _getNotificationsCountRemote(),
-    );
+    final count = await _getNotificationsCountRemote();
+    if (count != null) {
+      await _localService.updateNotificationsCount(count);
+    }
   }
 
   /// Registers this app instance with FCM and returns its FID, or null when
@@ -419,7 +422,7 @@ class NotificationService {
     }
   }
 
-  Future<int> _getNotificationsCountRemote() async {
+  Future<int?> _getNotificationsCountRemote() async {
     try {
       final resp = await _tbClient
           .getNotificationControllerApi()
@@ -429,7 +432,7 @@ class NotificationService {
           );
       return resp.data ?? 0;
     } catch (_) {
-      return 0;
+      return null;
     }
   }
 }
