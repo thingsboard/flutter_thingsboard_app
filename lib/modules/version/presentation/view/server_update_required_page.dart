@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
@@ -32,67 +33,72 @@ class ServerUpdateRequiredPage extends StatelessWidget {
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) clientService.clearUnsupportedServer();
       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const LoginPageBackground(),
-            SafeArea(
-              child: FillScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Spacer(),
-                    SvgPicture.asset(
-                      ThingsboardImage.mobileConnectionError,
-                      height: 140,
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      S.of(context).serverUpdateRequired,
-                      textAlign: TextAlign.center,
-                      style: TbTextStyles.titleMedium.copyWith(
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    if (error != null) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        S
-                            .of(context)
-                            .serverRequiresVersion(
-                              displayVersion(error.minVersion),
-                            ),
-                        textAlign: TextAlign.center,
-                        style: TbTextStyles.bodyLarge.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
+      // No app bar sets the status bar style here, and the login page under
+      // this one asks for light icons on its dark background.
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: Scaffold(
+          body: Stack(
+            children: [
+              const LoginPageBackground(),
+              SafeArea(
+                child: FillScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Spacer(),
+                      SvgPicture.asset(
+                        ThingsboardImage.mobileConnectionError,
+                        height: 140,
                       ),
                       const SizedBox(height: 24),
-                      _ServerCard(
-                        host: host,
-                        version: displayVersion(error.serverVersion),
+                      Text(
+                        S.of(context).serverUpdateRequired,
+                        textAlign: TextAlign.center,
+                        style: TbTextStyles.titleMedium.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      if (error != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          S
+                              .of(context)
+                              .serverRequiresVersion(
+                                displayVersion(error.minVersion),
+                              ),
+                          textAlign: TextAlign.center,
+                          style: TbTextStyles.bodyLarge.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        _ServerCard(
+                          host: host,
+                          version: displayVersion(error.serverVersion),
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      Text(
+                        S.of(context).askAdminToUpdateServer,
+                        textAlign: TextAlign.center,
+                        style: TbTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textTertiary,
+                        ),
+                      ),
+                      const Spacer(flex: 2),
+                      const SizedBox(height: 24),
+                      FilledButton(
+                        onPressed: clientService.clearUnsupportedServer,
+                        child: Text(S.of(context).backToLogin),
                       ),
                     ],
-                    const SizedBox(height: 16),
-                    Text(
-                      S.of(context).askAdminToUpdateServer,
-                      textAlign: TextAlign.center,
-                      style: TbTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textTertiary,
-                      ),
-                    ),
-                    const Spacer(flex: 2),
-                    const SizedBox(height: 24),
-                    FilledButton(
-                      onPressed: clientService.clearUnsupportedServer,
-                      child: Text(S.of(context).backToLogin),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
