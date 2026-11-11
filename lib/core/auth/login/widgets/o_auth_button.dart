@@ -18,6 +18,19 @@ class OAuthButton extends StatelessWidget {
   final String? title;
   @override
   Widget build(BuildContext context) {
+    final title = this.title;
+    // A button with only a logo shares its row equally with the others. With
+    // many of them it gets narrower than a padded logo, so it has no side
+    // padding to overflow. On a very narrow screen it scales the logo down too.
+    if (title == null) {
+      return OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+        onPressed: onTap,
+        child: FittedBox(fit: BoxFit.scaleDown, child: logo),
+      );
+    }
     return OutlinedButton(
       style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
       onPressed: onTap,
@@ -26,14 +39,13 @@ class OAuthButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           logo,
-          if (title != null)
-            Text(
-              title!,
-              style: TbTextStyles.bodyLarge.copyWith(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                height: 1,
-              ),
+          Text(
+            title,
+            style: TbTextStyles.bodyLarge.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              height: 1,
             ),
+          ),
         ],
       ),
     );

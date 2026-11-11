@@ -13,6 +13,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_widget.dart';
+import 'package:thingsboard_app/core/auth/login/widgets/o_auth_button.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -126,6 +127,41 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(loader(), findsOneWidget);
+  });
+
+  // An iPhone 15 (393 x 852 pt) and a server with five OAuth clients: with the
+  // QR code button that is six, too narrow for the padding they used to have.
+  testWidgets('six sign-in buttons fit the page of a 393 pt wide phone', (
+    tester,
+  ) async {
+    answers.add(
+      Completer()..complete(
+        loginInfo(['GitHub', 'Google', 'Facebook', 'Apple', 'Okta']),
+      ),
+    );
+    await pumpLogin(tester, screen: const Size(393, 852) * 2.625);
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+  });
+
+  // Eight OAuth clients and the QR code button: nine wrap into two rows, which
+  // the page must measure to lay out.
+  testWidgets('nine sign-in buttons wrap on the login page', (tester) async {
+    answers.add(
+      Completer()
+        ..complete(loginInfo(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])),
+    );
+    await pumpLogin(tester, screen: const Size(393, 852) * 2.625);
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final buttons = find.byType(OAuthButton);
+    expect(buttons, findsNWidgets(9));
+    expect(
+      tester.getRect(buttons.at(8)).top,
+      greaterThan(tester.getRect(buttons.at(0)).bottom),
+    );
   });
 
   // A phone held sideways: the form is taller than the screen and must
