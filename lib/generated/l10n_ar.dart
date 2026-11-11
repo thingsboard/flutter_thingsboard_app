@@ -254,10 +254,14 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       time,
       locale: localeName,
-      other: '$time ثواني',
+      other: '$time ثانية',
+      many: '$time ثانية',
+      few: '$time ثوانٍ',
+      two: 'ثانيتين',
       one: 'ثانية واحدة',
+      zero: '$time ثانية',
     );
-    return 'إعادة إرسال الرمز في $_temp0';
+    return 'إعادة إرسال الرمز خلال $_temp0';
   }
 
   @override
@@ -426,16 +430,64 @@ class SAr extends S {
   String get duration => 'المدة';
 
   @override
-  String get days => 'أيام';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value يوم',
+      many: '$value يوم',
+      few: '$value أيام',
+      two: 'يومان',
+      one: 'يوم واحد',
+      zero: '$value يوم',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'ساعات';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ساعة',
+      many: '$value ساعة',
+      few: '$value ساعات',
+      two: 'ساعتان',
+      one: 'ساعة واحدة',
+      zero: '$value ساعة',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'دقائق';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value دقيقة',
+      many: '$value دقيقة',
+      few: '$value دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: '$value دقيقة',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'ثواني';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ثانية',
+      many: '$value ثانية',
+      few: '$value ثوانٍ',
+      two: 'ثانيتان',
+      one: 'ثانية واحدة',
+      zero: '$value ثانية',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'عرض اللوحة';
@@ -1316,7 +1368,7 @@ class SAr extends S {
 
   @override
   String nSelected(int count) {
-    return '$count محدد';
+    return 'تم تحديد $count';
   }
 
   @override
@@ -1327,8 +1379,12 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'فشلت $count عمليات',
+      other: 'فشلت $count عملية',
+      many: 'فشلت $count عملية',
+      few: 'فشلت $count عمليات',
+      two: 'فشلت عمليتان',
       one: 'فشلت عملية واحدة',
+      zero: 'لم تفشل أي عملية',
     );
     return '$_temp0';
   }
@@ -1338,8 +1394,12 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'حذف $count إشعارات؟',
+      other: 'حذف $count إشعار؟',
+      many: 'حذف $count إشعارًا؟',
+      few: 'حذف $count إشعارات؟',
+      two: 'حذف إشعارين؟',
       one: 'حذف إشعار واحد؟',
+      zero: 'حذف $count إشعار؟',
     );
     return '$_temp0';
   }
@@ -1349,8 +1409,12 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'وضع علامة مقروء لـ $count إشعارات؟',
+      other: 'وضع علامة مقروء لـ $count إشعار؟',
+      many: 'وضع علامة مقروء لـ $count إشعارًا؟',
+      few: 'وضع علامة مقروء لـ $count إشعارات؟',
+      two: 'وضع علامة مقروء لإشعارين؟',
       one: 'وضع علامة مقروء لإشعار واحد؟',
+      zero: 'وضع علامة مقروء لـ $count إشعار؟',
     );
     return '$_temp0';
   }

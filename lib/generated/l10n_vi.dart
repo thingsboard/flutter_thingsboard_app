@@ -427,16 +427,44 @@ class SVi extends S {
   String get duration => 'Thời lượng';
 
   @override
-  String get days => 'ngày';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ngày',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'giờ';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value giờ',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'phút';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value phút',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'giây';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value giây',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Xem Bảng điều khiển';

@@ -887,29 +887,29 @@ abstract class S {
   /// **'Duration'**
   String get duration;
 
-  /// No description provided for @days.
+  /// No description provided for @durationDays.
   ///
   /// In en, this message translates to:
-  /// **'days'**
-  String get days;
+  /// **'{count, plural, one{{value} day} other{{value} days}}'**
+  String durationDays(int count, String value);
 
-  /// No description provided for @hours.
+  /// No description provided for @durationHours.
   ///
   /// In en, this message translates to:
-  /// **'hours'**
-  String get hours;
+  /// **'{count, plural, one{{value} hour} other{{value} hours}}'**
+  String durationHours(int count, String value);
 
-  /// No description provided for @minutes.
+  /// No description provided for @durationMinutes.
   ///
   /// In en, this message translates to:
-  /// **'minutes'**
-  String get minutes;
+  /// **'{count, plural, one{{value} minute} other{{value} minutes}}'**
+  String durationMinutes(int count, String value);
 
-  /// No description provided for @seconds.
+  /// No description provided for @durationSeconds.
   ///
   /// In en, this message translates to:
-  /// **'seconds'**
-  String get seconds;
+  /// **'{count, plural, one{{value} second} other{{value} seconds}}'**
+  String durationSeconds(int count, String value);
 
   /// No description provided for @viewDashboard.
   ///

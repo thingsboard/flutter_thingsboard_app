@@ -434,16 +434,48 @@ class SEl extends S {
   String get duration => 'Διάρκεια';
 
   @override
-  String get days => 'ημέρες';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ημέρες',
+      one: '$value ημέρα',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'ώρες';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ώρες',
+      one: '$value ώρα',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'λεπτά';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value λεπτά',
+      one: '$value λεπτό',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'δευτερόλεπτα';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value δευτερόλεπτα',
+      one: '$value δευτερόλεπτο',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Προβολή πίνακα ελέγχου';

@@ -418,16 +418,48 @@ class SZh extends S {
   String get duration => '持续时间';
 
   @override
-  String get days => '天';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value days',
+      one: '$value day',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => '小时';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value hours',
+      one: '$value hour',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => '分钟';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minutes',
+      one: '$value minute',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => '秒';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value seconds',
+      one: '$value second',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => '查看仪表板';
@@ -1979,16 +2011,44 @@ class SZhCn extends SZh {
   String get duration => '持续时间';
 
   @override
-  String get days => '天';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 天',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => '小时';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 小时',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => '分钟';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 分钟',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => '秒';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 秒',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => '查看仪表板';
@@ -3476,16 +3536,44 @@ class SZhTw extends SZh {
   String get duration => '持續時間';
 
   @override
-  String get days => '天';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 天',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => '小時';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 小時',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => '分鐘';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 分鐘',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => '秒';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value 秒',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => '查看儀表板';

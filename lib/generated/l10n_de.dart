@@ -432,16 +432,48 @@ class SDe extends S {
   String get duration => 'Dauer';
 
   @override
-  String get days => 'Tage';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value Tage',
+      one: '$value Tag',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'Stunden';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value Stunden',
+      one: '$value Stunde',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'Minuten';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value Minuten',
+      one: '$value Minute',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'Sekunden';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value Sekunden',
+      one: '$value Sekunde',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Dashboard anzeigen';

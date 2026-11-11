@@ -195,7 +195,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
   );
 }
 
-/// "1 days 2 hours 3 minutes 4 seconds", leaving out leading zero units, with
+/// "1 day 2 hours 3 minutes 4 seconds", leaving out leading zero units, with
 /// the digits of the start time above it.
 @visibleForTesting
 String alarmDurationText(Duration duration, S s) {
@@ -204,11 +204,14 @@ String alarmDurationText(Duration duration, S s) {
   String digits(int n) => zero == null
       ? '$n'
       : String.fromCharCodes('$n'.codeUnits.map((c) => zero + c - 0x30));
+  final days = duration.inDays;
+  final hours = duration.inHours % 24;
+  final minutes = duration.inMinutes % 60;
+  final seconds = duration.inSeconds % 60;
   return [
-    if (duration.inDays > 0) '${digits(duration.inDays)} ${s.days}',
-    if (duration.inHours > 0) '${digits(duration.inHours % 24)} ${s.hours}',
-    if (duration.inMinutes > 0)
-      '${digits(duration.inMinutes % 60)} ${s.minutes}',
-    '${digits(duration.inSeconds % 60)} ${s.seconds}',
+    if (days > 0) s.durationDays(days, digits(days)),
+    if (duration.inHours > 0) s.durationHours(hours, digits(hours)),
+    if (duration.inMinutes > 0) s.durationMinutes(minutes, digits(minutes)),
+    s.durationSeconds(seconds, digits(seconds)),
   ].join(' ');
 }

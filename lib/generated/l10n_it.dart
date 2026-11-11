@@ -430,16 +430,48 @@ class SIt extends S {
   String get duration => 'Durata';
 
   @override
-  String get days => 'giorni';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value giorni',
+      one: '$value giorno',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'ore';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value ore',
+      one: '$value ora',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minuti';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minuti',
+      one: '$value minuto',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'secondi';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value secondi',
+      one: '$value secondo',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Visualizza dashboard';

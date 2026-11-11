@@ -430,16 +430,48 @@ class SEs extends S {
   String get duration => 'Duración';
 
   @override
-  String get days => 'días';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value días',
+      one: '$value día',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'horas';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value horas',
+      one: '$value hora',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minutos';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minutos',
+      one: '$value minuto',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'segundos';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value segundos',
+      one: '$value segundo',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Ver tablero';

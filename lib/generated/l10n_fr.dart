@@ -431,16 +431,48 @@ class SFr extends S {
   String get duration => 'Durée';
 
   @override
-  String get days => 'jours';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value jours',
+      one: '$value jour',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'heures';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value heures',
+      one: '$value heure',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minutes';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minutes',
+      one: '$value minute',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'secondes';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value secondes',
+      one: '$value seconde',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Voir le tableau de bord';

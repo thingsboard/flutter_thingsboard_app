@@ -428,16 +428,48 @@ class SNl extends S {
   String get duration => 'Duur';
 
   @override
-  String get days => 'dagen';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value dagen',
+      one: '$value dag',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'uren';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value uur',
+      one: '$value uur',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minuten';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minuten',
+      one: '$value minuut',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'seconden';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value seconden',
+      one: '$value seconde',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Dashboard bekijken';

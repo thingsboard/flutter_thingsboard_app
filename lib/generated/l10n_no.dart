@@ -427,16 +427,48 @@ class SNo extends S {
   String get duration => 'Varighet';
 
   @override
-  String get days => 'dager';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value dager',
+      one: '$value dag',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'timer';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value timer',
+      one: '$value time',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minutter';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minutter',
+      one: '$value minutt',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'sekunder';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value sekunder',
+      one: '$value sekund',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'Vis dashbord';

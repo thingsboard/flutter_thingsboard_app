@@ -75,7 +75,7 @@
   "verifyYourIdentity": "تحقق من هويتك",
   "continueText": "استمرار",
   "resendCode": "إعادة إرسال الرمز",
-  "resendCodeWait": "إعادة إرسال الرمز في {time, plural, =1{ثانية واحدة} other{{time} ثواني}}",
+  "resendCodeWait": "إعادة إرسال الرمز خلال {time, plural, zero{{time} ثانية} one{ثانية واحدة} two{ثانيتين} few{{time} ثوانٍ} many{{time} ثانية} other{{time} ثانية}}",
   "totpAuthDescription": "يرجى إدخال الرمز الأمني من تطبيق المصادقة الخاص بك.",
   "smsAuthDescription": "تم إرسال رمز أمني إلى هاتفك على الرقم {contact}.",
   "emailAuthDescription": "تم إرسال رمز أمني إلى بريدك الإلكتروني على العنوان {contact}.",
@@ -127,10 +127,10 @@
   "originator": "المصدر",
   "startTime": "وقت البداية",
   "duration": "المدة",
-  "days": "أيام",
-  "hours": "ساعات",
-  "minutes": "دقائق",
-  "seconds": "ثواني",
+  "durationDays": "{count, plural, zero{{value} يوم} one{يوم واحد} two{يومان} few{{value} أيام} many{{value} يوم} other{{value} يوم}}",
+  "durationHours": "{count, plural, zero{{value} ساعة} one{ساعة واحدة} two{ساعتان} few{{value} ساعات} many{{value} ساعة} other{{value} ساعة}}",
+  "durationMinutes": "{count, plural, zero{{value} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{value} دقائق} many{{value} دقيقة} other{{value} دقيقة}}",
+  "durationSeconds": "{count, plural, zero{{value} ثانية} one{ثانية واحدة} two{ثانيتان} few{{value} ثوانٍ} many{{value} ثانية} other{{value} ثانية}}",
   "viewDashboard": "عرض اللوحة",
   "activity": "النشاط",
   "addCommentMessage": "إضافة تعليق...",
@@ -442,7 +442,7 @@
   "youDontHavePermissionsToPerformThisOperation": "ليس لديك صلاحيات لتنفيذ هذه العملية!",
   "imageSavedToGallery": "تم الحفظ في 'معرض الصور'",
   "failedToSaveImage": "فشل في حفظ الصورة",
-  "nSelected": "{count} محدد",
+  "nSelected": "تم تحديد {count}",
   "@nSelected": {
     "placeholders": {
       "count": {
@@ -451,7 +451,7 @@
     }
   },
   "selectAll": "تحديد الكل المحمّل",
-  "failedToPerformOperation": "{count, plural, =1{فشلت عملية واحدة} other{فشلت {count} عمليات}}",
+  "failedToPerformOperation": "{count, plural, zero{لم تفشل أي عملية} one{فشلت عملية واحدة} two{فشلت عمليتان} few{فشلت {count} عمليات} many{فشلت {count} عملية} other{فشلت {count} عملية}}",
   "@failedToPerformOperation": {
     "placeholders": {
       "count": {
@@ -459,7 +459,7 @@
       }
     }
   },
-  "deleteSelectedNotifications": "{count, plural, =1{حذف إشعار واحد؟} other{حذف {count} إشعارات؟}}",
+  "deleteSelectedNotifications": "{count, plural, zero{حذف {count} إشعار؟} one{حذف إشعار واحد؟} two{حذف إشعارين؟} few{حذف {count} إشعارات؟} many{حذف {count} إشعارًا؟} other{حذف {count} إشعار؟}}",
   "@deleteSelectedNotifications": {
     "placeholders": {
       "count": {
@@ -467,7 +467,7 @@
       }
     }
   },
-  "markSelectedNotificationsAsRead": "{count, plural, =1{وضع علامة مقروء لإشعار واحد؟} other{وضع علامة مقروء لـ {count} إشعارات؟}}",
+  "markSelectedNotificationsAsRead": "{count, plural, zero{وضع علامة مقروء لـ {count} إشعار؟} one{وضع علامة مقروء لإشعار واحد؟} two{وضع علامة مقروء لإشعارين؟} few{وضع علامة مقروء لـ {count} إشعارات؟} many{وضع علامة مقروء لـ {count} إشعارًا؟} other{وضع علامة مقروء لـ {count} إشعار؟}}",
   "@markSelectedNotificationsAsRead": {
     "placeholders": {
       "count": {

@@ -427,16 +427,48 @@ class SEn extends S {
   String get duration => 'Duration';
 
   @override
-  String get days => 'days';
+  String durationDays(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value days',
+      one: '$value day',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get hours => 'hours';
+  String durationHours(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value hours',
+      one: '$value hour',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get minutes => 'minutes';
+  String durationMinutes(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value minutes',
+      one: '$value minute',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get seconds => 'seconds';
+  String durationSeconds(int count, String value) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$value seconds',
+      one: '$value second',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get viewDashboard => 'View Dashboard';
