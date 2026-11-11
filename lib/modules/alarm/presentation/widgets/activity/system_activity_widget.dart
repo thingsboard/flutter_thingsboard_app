@@ -6,8 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/thingsboard_client_extensions.dart';
+import 'package:thingsboard_app/utils/ui/time_ago.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class SystemActivityWidget extends StatelessWidget {
   const SystemActivityWidget(this.activity, {super.key});
@@ -24,7 +24,7 @@ class SystemActivityWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          timeago.format(DateTime.now().subtract(diff)),
+          timeAgo(context, DateTime.now().subtract(diff)),
           style: TbTextStyles.labelMedium.copyWith(
             color: Colors.black.withValues(alpha: .38),
           ),

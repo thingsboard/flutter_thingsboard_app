@@ -16,9 +16,9 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_a
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
 import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
+import 'package:thingsboard_app/utils/ui/time_ago.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class UserCommentWidget extends StatefulWidget {
   const UserCommentWidget(this.activity, {required this.userId, super.key});
@@ -164,7 +164,7 @@ class _UserCommentState extends State<UserCommentWidget> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  timeago.format(DateTime.now().subtract(diff)),
+                  timeAgo(context, DateTime.now().subtract(diff)),
                   style: TbTextStyles.bodyMedium.copyWith(
                     color: Colors.black.withValues(alpha: .38),
                   ),

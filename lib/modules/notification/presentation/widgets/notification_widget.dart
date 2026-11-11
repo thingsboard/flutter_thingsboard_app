@@ -11,8 +11,8 @@ import 'package:thingsboard_app/modules/notification/domain/usecases/handle_noti
 import 'package:thingsboard_app/modules/notification/domain/usecases/handle_notification_tap_usecase.dart';
 import 'package:thingsboard_app/modules/notification/presentation/widgets/notification_icon.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
+import 'package:thingsboard_app/utils/ui/time_ago.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {
   const NotificationWidget({
@@ -113,9 +113,10 @@ class NotificationWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      timeago.format(
+                      timeAgo(
+                        context,
                         DateTime.now().subtract(diff),
-                        locale: 'en_short',
+                        short: true,
                       ),
                       textAlign: TextAlign.center,
                     ),
