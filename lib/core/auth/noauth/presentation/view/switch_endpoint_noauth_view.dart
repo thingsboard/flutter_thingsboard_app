@@ -37,12 +37,23 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     final userLoadTimer = useRef<Timer?>(null);
 
     useEffect(() {
-      ref.invalidate(noauthProviderProvider);
-      ref
-          .read(noauthProviderProvider.notifier)
-          .switchEndpoint(SwitchEndpointParams(data: arguments));
+      // An effect runs inside the first build, and Riverpod refreshes a
+      // provider by rebuilding the ProviderScope, which Flutter forbids during
+      // a build: an assertion, so a debug build showed the red error screen
+      // and never started the switch. Start once the build is over.
+      var disposed = false;
+      Future.microtask(() {
+        if (disposed) {
+          return;
+        }
+        ref.invalidate(noauthProviderProvider);
+        ref
+            .read(noauthProviderProvider.notifier)
+            .switchEndpoint(SwitchEndpointParams(data: arguments));
+      });
 
       return () {
+        disposed = true;
         errorExitTimer.value?.cancel();
         userLoadTimer.value?.cancel();
       };
