@@ -46,10 +46,7 @@ class MoreMenuItemWidget extends StatelessWidget {
               spacing: 8,
               children: [
                 if (menuItem.showAdditionalIcon)
-                  const NavigationBadgeWidget(
-                    isLarge: true,
-                    margin: EdgeInsets.zero,
-                  ),
+                  const NavigationBadgeWidget(isLarge: true),
                 Icon(
                   Icons.chevron_right,
                   color: color ?? AppColors.iconDisabled,

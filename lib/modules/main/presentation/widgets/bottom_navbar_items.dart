@@ -62,32 +62,25 @@ class BottomNavbarItems extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.only(
-                      start: showAdditionalIcon ? 18 : 0,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          icon,
-                          size: 26,
-                          color: isSelected
-                              ? bottomTheme.selectedItemColor
-                              : bottomTheme.unselectedItemColor,
+                  // The badge overlaps the icon's corner, so the icon stays
+                  // centred above the label with or without it.
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Icon(
+                        icon,
+                        size: 26,
+                        color: isSelected
+                            ? bottomTheme.selectedItemColor
+                            : bottomTheme.unselectedItemColor,
+                      ),
+                      if (showAdditionalIcon && additionalIcon != null)
+                        PositionedDirectional(
+                          top: 0,
+                          end: -4,
+                          child: additionalIcon!,
                         ),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 30,
-                            maxWidth: 30,
-                          ),
-                          child: Visibility(
-                            visible: showAdditionalIcon,
-                            child: additionalIcon ?? const SizedBox.shrink(),
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Text(
