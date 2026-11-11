@@ -117,7 +117,7 @@ class SAr extends S {
   String get yes => 'نعم';
 
   @override
-  String get title => 'العنوان';
+  String get title => 'الاسم';
 
   @override
   String get country => 'البلد';
@@ -166,6 +166,15 @@ class SAr extends S {
 
   @override
   String get auditLogDetails => 'تفاصيل سجل التدقيق';
+
+  @override
+  String get customerDetails => 'تفاصيل العميل';
+
+  @override
+  String get assetDetails => 'تفاصيل الأصل';
+
+  @override
+  String get tenantDetails => 'تفاصيل المستأجر';
 
   @override
   String get entityType => 'نوع الكيان';

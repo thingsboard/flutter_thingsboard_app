@@ -169,6 +169,15 @@ class SVi extends S {
   String get auditLogDetails => 'Chi tiết nhật ký kiểm toán';
 
   @override
+  String get customerDetails => 'Chi tiết khách hàng';
+
+  @override
+  String get assetDetails => 'Chi tiết tài sản';
+
+  @override
+  String get tenantDetails => 'Chi tiết người thuê';
+
+  @override
   String get entityType => 'Loại thực thể';
 
   @override

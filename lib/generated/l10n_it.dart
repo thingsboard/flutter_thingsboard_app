@@ -169,6 +169,15 @@ class SIt extends S {
   String get auditLogDetails => 'Dettagli log di controllo';
 
   @override
+  String get customerDetails => 'Dettagli cliente';
+
+  @override
+  String get assetDetails => 'Dettagli asset';
+
+  @override
+  String get tenantDetails => 'Dettagli tenant';
+
+  @override
   String get entityType => 'Tipo di entità';
 
   @override

@@ -165,6 +165,15 @@ class SZh extends S {
   String get auditLogDetails => '审计日志详情';
 
   @override
+  String get customerDetails => '客户详情';
+
+  @override
+  String get assetDetails => '资产详情';
+
+  @override
+  String get tenantDetails => '租户详情';
+
+  @override
   String get entityType => '实体类型';
 
   @override
@@ -1758,6 +1767,15 @@ class SZhCn extends SZh {
   String get auditLogDetails => '审计日志详情';
 
   @override
+  String get customerDetails => '客户详情';
+
+  @override
+  String get assetDetails => '资产详情';
+
+  @override
+  String get tenantDetails => '租户详情';
+
+  @override
   String get entityType => '实体类型';
 
   @override
@@ -3281,6 +3299,15 @@ class SZhTw extends SZh {
 
   @override
   String get auditLogDetails => '審計日誌詳情';
+
+  @override
+  String get customerDetails => '客戶詳情';
+
+  @override
+  String get assetDetails => '資產詳情';
+
+  @override
+  String get tenantDetails => '租戶詳情';
 
   @override
   String get entityType => '實體類型';

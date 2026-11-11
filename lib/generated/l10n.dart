@@ -413,6 +413,24 @@ abstract class S {
   /// **'Audit log details'**
   String get auditLogDetails;
 
+  /// No description provided for @customerDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer details'**
+  String get customerDetails;
+
+  /// No description provided for @assetDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset details'**
+  String get assetDetails;
+
+  /// No description provided for @tenantDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant details'**
+  String get tenantDetails;
+
   /// No description provided for @entityType.
   ///
   /// In en, this message translates to:

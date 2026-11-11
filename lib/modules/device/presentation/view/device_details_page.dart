@@ -12,7 +12,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceDetailsPage extends EntityDetailsPage<Device> {
   DeviceDetailsPage(String deviceId, {super.key})
-    : super(entityId: deviceId, defaultTitle: 'Device');
+    : super(entityId: deviceId, defaultTitle: (s) => s.devices(1));
   final tbClient = getIt<ITbClientService>().client;
 
   @override

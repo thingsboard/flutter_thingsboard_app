@@ -12,8 +12,8 @@ class TenantDetailsPage extends ContactBasedDetailsPage<Tenant> {
   TenantDetailsPage(String tenantId, {super.key})
     : super(
         entityId: tenantId,
-        defaultTitle: 'Tenant',
-        subTitle: 'Tenant details',
+        defaultTitle: (s) => s.tenant,
+        subTitle: (s) => s.tenantDetails,
       );
   final tbClient = getIt<ITbClientService>().client;
   @override

@@ -169,6 +169,15 @@ class SEs extends S {
   String get auditLogDetails => 'Detalles del registro de auditoría';
 
   @override
+  String get customerDetails => 'Detalles del cliente';
+
+  @override
+  String get assetDetails => 'Detalles del activo';
+
+  @override
+  String get tenantDetails => 'Detalles del inquilino';
+
+  @override
   String get entityType => 'Tipo de entidad';
 
   @override

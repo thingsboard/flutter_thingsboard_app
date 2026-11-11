@@ -21,4 +21,9 @@ void main() {
     expect(ar((s) => s.failedToPerformOperation(2)), 'فشلت عمليتان');
     expect(ar((s) => s.resendCodeWait(30)), 'إعادة إرسال الرمز خلال 30 ثانية');
   });
+
+  test('a customer title and address have different Arabic labels', () {
+    final s = lookupS(const Locale('ar'));
+    expect(s.title, isNot(s.address));
+  });
 }

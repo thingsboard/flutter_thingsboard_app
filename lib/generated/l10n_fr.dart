@@ -170,6 +170,15 @@ class SFr extends S {
   String get auditLogDetails => 'Détails du journal d\'audit';
 
   @override
+  String get customerDetails => 'Détails du client';
+
+  @override
+  String get assetDetails => 'Détails de l\'actif';
+
+  @override
+  String get tenantDetails => 'Détails du locataire';
+
+  @override
   String get entityType => 'Type d\'entité';
 
   @override

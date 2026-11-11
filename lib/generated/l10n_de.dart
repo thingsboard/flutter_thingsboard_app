@@ -170,6 +170,15 @@ class SDe extends S {
   String get auditLogDetails => 'Details des Prüfprotokolls';
 
   @override
+  String get customerDetails => 'Kundendetails';
+
+  @override
+  String get assetDetails => 'Asset-Details';
+
+  @override
+  String get tenantDetails => 'Mandantendetails';
+
+  @override
   String get entityType => 'Entitätstyp';
 
   @override

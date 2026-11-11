@@ -169,6 +169,15 @@ class SNl extends S {
   String get auditLogDetails => 'Details auditlogboek';
 
   @override
+  String get customerDetails => 'Klantgegevens';
+
+  @override
+  String get assetDetails => 'Assetgegevens';
+
+  @override
+  String get tenantDetails => 'Tenantgegevens';
+
+  @override
   String get entityType => 'Entiteitstype';
 
   @override

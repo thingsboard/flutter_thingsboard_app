@@ -169,6 +169,15 @@ class SEn extends S {
   String get auditLogDetails => 'Audit log details';
 
   @override
+  String get customerDetails => 'Customer details';
+
+  @override
+  String get assetDetails => 'Asset details';
+
+  @override
+  String get tenantDetails => 'Tenant details';
+
+  @override
   String get entityType => 'Entity Type';
 
   @override

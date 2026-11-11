@@ -169,6 +169,15 @@ class SNo extends S {
   String get auditLogDetails => 'Detaljer for revisjonslogg';
 
   @override
+  String get customerDetails => 'Kundedetaljer';
+
+  @override
+  String get assetDetails => 'Ressursdetaljer';
+
+  @override
+  String get tenantDetails => 'Leietakerdetaljer';
+
+  @override
   String get entityType => 'Enhetstype';
 
   @override

@@ -169,6 +169,15 @@ class SDa extends S {
   String get auditLogDetails => 'Revisionslogdetaljer';
 
   @override
+  String get customerDetails => 'Kundedetaljer';
+
+  @override
+  String get assetDetails => 'Aktivdetaljer';
+
+  @override
+  String get tenantDetails => 'Lejerdetaljer';
+
+  @override
   String get entityType => 'Enhedstype';
 
   @override

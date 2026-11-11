@@ -28,9 +28,10 @@ abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
   TextStyle get valueTextStyle =>
       const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
-  final String _defaultTitle;
+  /// Shown until the entity, and with it its name, is loaded.
+  final String Function(S s) _defaultTitle;
   final String _entityId;
-  final String? _subTitle;
+  final String Function(S s)? _subTitle;
   final bool _showLoadingIndicator;
   final bool _hideAppBar;
   final double? _appBarElevation;
@@ -40,39 +41,30 @@ abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
 
   Future<T?> fetchEntity(String id);
 
-  ValueNotifier<String>? detailsTitle() {
-    return null;
-  }
-
   Widget buildEntityDetails(BuildContext context, T entity);
 }
 
 class _EntityDetailsPageState<T extends Object>
     extends State<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
-  late ValueNotifier<String> titleValue;
+  final titleValue = ValueNotifier<String?>(null);
   final ICustomTranslationService customTranslationService = getIt();
 
   @override
   void initState() {
     super.initState();
     entityFuture = widget.fetchEntity(widget._entityId);
-    final ValueNotifier<String>? detailsTitle = widget.detailsTitle();
-    if (detailsTitle == null) {
-      titleValue = ValueNotifier(widget._defaultTitle);
-      entityFuture.then(
-        (value) {
-          final name = _entityName(value);
-          if (name != null) {
-            titleValue.value = name;
-          }
-        },
-        // The FutureBuilder below shows the failure; keep the default title.
-        onError: (_) {},
-      );
-    } else {
-      titleValue = detailsTitle;
-    }
+    entityFuture.then(
+      (value) => titleValue.value = _entityName(value),
+      // The FutureBuilder below shows the failure; keep the default title.
+      onError: (_) {},
+    );
+  }
+
+  @override
+  void dispose() {
+    titleValue.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,14 +76,17 @@ class _EntityDetailsPageState<T extends Object>
           : TbAppBar(
               showLoadingIndicator: widget._showLoadingIndicator,
               elevation: widget._appBarElevation,
-              title: ValueListenableBuilder<String>(
+              title: ValueListenableBuilder<String?>(
                 valueListenable: titleValue,
-                builder: (context, title, _) {
+                builder: (context, name, _) {
+                  final s = S.of(context);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        customTranslationService.translate(title),
+                        name != null
+                            ? customTranslationService.translate(name)
+                            : widget._defaultTitle(s),
                         style: widget._subTitle != null
                             ? Theme.of(context).primaryTextTheme.titleLarge!
                                   .copyWith(fontSize: 16)
@@ -99,7 +94,7 @@ class _EntityDetailsPageState<T extends Object>
                       ),
                       if (widget._subTitle != null)
                         Text(
-                          widget._subTitle!,
+                          widget._subTitle!(s),
                           style: TextStyle(
                             color: Theme.of(context)
                                 .primaryTextTheme
@@ -201,7 +196,12 @@ abstract class ContactBasedDetailsPage<T extends Object>
           Text(e.address2 ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).phone, style: labelTextStyle),
-          Text(e.phone ?? '', style: valueTextStyle),
+          // A phone number reads left to right in any language; without the
+          // isolate its leading plus moves to the end in right-to-left.
+          Text(
+            e.phone == null ? '' : '\u2066${e.phone}\u2069',
+            style: valueTextStyle,
+          ),
           const SizedBox(height: 16),
           Text(S.of(context).email, style: labelTextStyle),
           Text(e.email ?? '', style: valueTextStyle),

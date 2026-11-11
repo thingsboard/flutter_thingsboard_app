@@ -16,8 +16,8 @@ class AssetDetailsPage extends EntityDetailsPage<Asset> {
   AssetDetailsPage(String assetId, {super.key})
     : super(
         entityId: assetId,
-        defaultTitle: 'Asset',
-        subTitle: 'Asset details',
+        defaultTitle: (s) => s.asset,
+        subTitle: (s) => s.assetDetails,
       );
   final tbClient = getIt<ITbClientService>().client;
   @override

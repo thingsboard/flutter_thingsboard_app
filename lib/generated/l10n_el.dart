@@ -170,6 +170,15 @@ class SEl extends S {
   String get auditLogDetails => 'Λεπτομέρειες αρχείου καταγραφής ελέγχου';
 
   @override
+  String get customerDetails => 'Λεπτομέρειες πελάτη';
+
+  @override
+  String get assetDetails => 'Λεπτομέρειες περιουσιακού στοιχείου';
+
+  @override
+  String get tenantDetails => 'Λεπτομέρειες μισθωτή';
+
+  @override
   String get entityType => 'Τύπος οντότητας';
 
   @override

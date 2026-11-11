@@ -12,8 +12,8 @@ class CustomerDetailsPage extends ContactBasedDetailsPage<Customer> {
   CustomerDetailsPage(String customerId, {super.key})
     : super(
         entityId: customerId,
-        defaultTitle: 'Customer',
-        subTitle: 'Customer details',
+        defaultTitle: (s) => s.customer,
+        subTitle: (s) => s.customerDetails,
       );
   final tbClient = getIt<ITbClientService>().client;
   @override
