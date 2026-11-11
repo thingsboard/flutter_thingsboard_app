@@ -74,12 +74,9 @@ class BottomNavbarItems extends StatelessWidget {
                             ? bottomTheme.selectedItemColor
                             : bottomTheme.unselectedItemColor,
                       ),
-                      if (showAdditionalIcon && additionalIcon != null)
-                        PositionedDirectional(
-                          top: 0,
-                          end: -4,
-                          child: additionalIcon!,
-                        ),
+                      if (additionalIcon case final badge?
+                          when showAdditionalIcon)
+                        PositionedDirectional(top: 0, end: -4, child: badge),
                     ],
                   ),
                   const SizedBox(height: 5),
