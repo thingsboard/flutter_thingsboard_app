@@ -18,7 +18,9 @@ class TbPhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Phone numbers read left to right in every language (RTL guidelines).
+    // Phone numbers read left to right in every language (RTL guidelines);
+    // the hint under the field is a sentence and keeps the app's direction.
+    final direction = Directionality.of(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: ReactivePhoneFormField<PhoneNumber>(
@@ -33,7 +35,17 @@ class TbPhoneField extends StatelessWidget {
           hintText: S.of(context).phone,
           isDense: true,
           border: border,
-          helperText: S.of(context).phoneNumberHelperText,
+          helper: Directionality(
+            textDirection: direction,
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              // A helper widget does not get the theme's helper style.
+              child: Text(
+                S.of(context).phoneNumberHelperText,
+                style: _helperStyle(Theme.of(context)),
+              ),
+            ),
+          ),
         ),
         formControlName: 'phone',
         valueAccessor: PhoneNumberValueAccessor(),
@@ -44,3 +56,7 @@ class TbPhoneField extends StatelessWidget {
     );
   }
 }
+
+TextStyle? _helperStyle(ThemeData theme) => theme.textTheme.bodySmall
+    ?.copyWith(color: theme.hintColor)
+    .merge(theme.inputDecorationTheme.helperStyle);

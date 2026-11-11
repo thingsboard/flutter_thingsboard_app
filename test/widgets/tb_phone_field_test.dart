@@ -50,7 +50,7 @@ void main() {
     final hint = lookupS(const Locale('ar')).phoneNumberHelperText;
     final painter = TextPainter(
       text: TextSpan(text: hint),
-      textDirection: TextDirection.ltr,
+      textDirection: TextDirection.rtl,
     )..layout();
     addTearDown(painter.dispose);
 
@@ -61,5 +61,42 @@ void main() {
     final plus = hint.indexOf('+');
 
     expect(leftOf(plus), lessThan(leftOf(plus + 1)));
+  });
+
+  testWidgets('in Arabic the hint under the field reads right to left', (
+    tester,
+  ) async {
+    final number = PhoneNumber.parse('+12025550123');
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('ar'),
+        localizationsDelegates: const [
+          S.delegate,
+          ...PhoneFieldLocalization.delegates,
+        ],
+        supportedLocales: S.supportedLocales,
+        home: Scaffold(
+          body: ReactiveForm(
+            formGroup: FormGroup({
+              'phone': FormControl<PhoneNumber>(value: number),
+            }),
+            child: TbPhoneField(
+              controller: PhoneController(initialValue: number),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final hint = find.textContaining('E.164');
+    expect(Directionality.of(tester.element(hint)), TextDirection.rtl);
+    final field = tester.getRect(find.byType(TbPhoneField));
+    expect(field.right - tester.getRect(hint).right, lessThan(24));
+    final theme = Theme.of(tester.element(hint));
+    expect(
+      tester.widget<Text>(hint).style?.color,
+      theme.inputDecorationTheme.helperStyle?.color ?? theme.hintColor,
+    );
   });
 }
