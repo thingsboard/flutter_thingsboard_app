@@ -365,7 +365,7 @@
   "unitSystem": "نظام الوحدات",
   "selectCountry": "اختيار البلد",
   "hideHomeDashboardToolbar": "إخفاء شريط أدوات لوحة المعلومات الرئيسية",
-  "phoneNumberHelperText": "رقم الهاتف بصيغة E.164، مثال: +1201550123",
+  "phoneNumberHelperText": "رقم الهاتف بصيغة E.164، مثال: \u2066+1201550123\u2069",
   "homeDashboard": "لوحة المعلومات الرئيسية",
   "security": "الأمان",
   "twofactorAuthentication": "المصادقة الثنائية",

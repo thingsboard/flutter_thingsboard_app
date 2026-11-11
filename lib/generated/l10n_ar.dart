@@ -1157,7 +1157,7 @@ class SAr extends S {
 
   @override
   String get phoneNumberHelperText =>
-      'رقم الهاتف بصيغة E.164، مثال: +1201550123';
+      'رقم الهاتف بصيغة E.164، مثال: ⁦+1201550123⁩';
 
   @override
   String get homeDashboard => 'لوحة المعلومات الرئيسية';

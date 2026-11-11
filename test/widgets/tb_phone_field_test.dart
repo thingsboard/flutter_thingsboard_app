@@ -45,4 +45,21 @@ void main() {
     );
     expect(find.text('+ 1'), findsOneWidget);
   });
+
+  test('the Arabic hint shows the example number with its + in front', () {
+    final hint = lookupS(const Locale('ar')).phoneNumberHelperText;
+    final painter = TextPainter(
+      text: TextSpan(text: hint),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    addTearDown(painter.dispose);
+
+    double leftOf(int i) => painter
+        .getBoxesForSelection(TextSelection(baseOffset: i, extentOffset: i + 1))
+        .first
+        .left;
+    final plus = hint.indexOf('+');
+
+    expect(leftOf(plus), lessThan(leftOf(plus + 1)));
+  });
 }
