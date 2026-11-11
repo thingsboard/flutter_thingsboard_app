@@ -187,24 +187,28 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
     super.dispose();
   }
 
-  String _alarmDuration(BuildContext context) {
-    final now = DateTime.now();
-    final startDateTime = DateTime.fromMillisecondsSinceEpoch(
-      widget.alarmInfo.startTs!,
-    );
-    final difference = now.difference(startDateTime);
+  String _alarmDuration(BuildContext context) => alarmDurationText(
+    DateTime.now().difference(
+      DateTime.fromMillisecondsSinceEpoch(widget.alarmInfo.startTs!),
+    ),
+    S.of(context),
+  );
+}
 
-    String result = '';
-    if (difference.inDays > 0) {
-      result += '${difference.inDays} ${S.of(context).days} ';
-    }
-    if (difference.inHours > 0) {
-      result += '${difference.inHours % 24} ${S.of(context).hours} ';
-    }
-    if (difference.inMinutes > 0) {
-      result += '${difference.inMinutes % 60} ${S.of(context).minutes} ';
-    }
-
-    return result += '${difference.inSeconds % 60} ${S.of(context).seconds}';
-  }
+/// "1 days 2 hours 3 minutes 4 seconds", leaving out leading zero units, with
+/// the digits of the start time above it.
+@visibleForTesting
+String alarmDurationText(Duration duration, S s) {
+  // The date symbols' digits, not NumberFormat's: for Arabic they differ.
+  final zero = DateFormat().dateSymbols.ZERODIGIT?.codeUnitAt(0);
+  String digits(int n) => zero == null
+      ? '$n'
+      : String.fromCharCodes('$n'.codeUnits.map((c) => zero + c - 0x30));
+  return [
+    if (duration.inDays > 0) '${digits(duration.inDays)} ${s.days}',
+    if (duration.inHours > 0) '${digits(duration.inHours % 24)} ${s.hours}',
+    if (duration.inMinutes > 0)
+      '${digits(duration.inMinutes % 60)} ${s.minutes}',
+    '${digits(duration.inSeconds % 60)} ${s.seconds}',
+  ].join(' ');
 }

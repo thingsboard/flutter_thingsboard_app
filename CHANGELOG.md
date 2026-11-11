@@ -63,7 +63,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Profile editing shows the saved phone number and its country instead of an empty US number.
 - Two-factor setup: SMS opens instead of signing the user out, the settings open for users with backup codes, and a setup error opened from the profile goes back with a message instead of signing out.
 - Two-factor setup titles are fully translated (they mixed English and the provider name).
-- Arabic: an English server message in a toast keeps its punctuation in place, and the phone hint shows its example number with the + in front.
+- Arabic: an English server message in a toast keeps its punctuation in place, and the phone hint reads right to left with its example number's + in front; alarm durations use the same digits as the start time.
 - The sign-up form shows "Invalid email format" for a malformed email instead of sending it to the server.
 - Saving the profile with an invalid phone number shows why it is not saved instead of doing nothing.
 - Back from a device dashboard returns to the device list or search results it was opened from.
