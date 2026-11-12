@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:go_router/go_router.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/home_routes.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/ble/view/eps_ble_provisioning_view.dart';
 import 'package:thingsboard_app/modules/device_provisioning/presentation/soft_ap/view/esp_softap_view.dart';
 
@@ -12,40 +13,54 @@ class EspProvisioningRoutes {
   static const espSoftApProvisioning = '/espSoftApProvisioning';
 }
 
+/// What a provisioning screen needs, read from the device's QR code by the
+/// dashboard's provisioning action.
+class EspProvisioningArgs {
+  const EspProvisioningArgs({
+    required this.deviceName,
+    required this.deviceSecretKey,
+    required this.name,
+    required this.pop,
+  });
+
+  final String deviceName;
+  final String deviceSecretKey;
+  final String name;
+  final String pop;
+}
+
+/// The screens take their data only from the provisioning action, which
+/// passes it as `extra`: a path from a link or a notification has no extra
+/// and leads home instead of to a screen filled with someone else's values.
+String? _withoutArgsGoHome(GoRouterState state) =>
+    state.extra is EspProvisioningArgs ? null : HomeRoutes.home;
+
 // ESP provisioning routes
 final espProvisioningRoutes = [
   GoRoute(
     path: EspProvisioningRoutes.espBleProvisioning,
+    redirect: (context, state) => _withoutArgsGoHome(state),
     builder: (context, state) {
-      final deviceName = state.uri.queryParameters['deviceName'] ?? '';
-      final deviceSecretKey =
-          state.uri.queryParameters['deviceSecretKey'] ?? '';
-      final name = state.uri.queryParameters['name'] ?? '';
-      final pop = state.uri.queryParameters['pop'] ?? '';
-
+      final args = state.extra! as EspProvisioningArgs;
       return EspBleProvisioningView(
-        tbDeviceName: deviceName,
-        tbDeviceSecretKey: deviceSecretKey,
-        name: name,
-        poofOfPossession: pop,
+        tbDeviceName: args.deviceName,
+        tbDeviceSecretKey: args.deviceSecretKey,
+        name: args.name,
+        poofOfPossession: args.pop,
       );
     },
   ),
 
   GoRoute(
     path: EspProvisioningRoutes.espSoftApProvisioning,
+    redirect: (context, state) => _withoutArgsGoHome(state),
     builder: (context, state) {
-      final deviceName = state.uri.queryParameters['deviceName'] ?? '';
-      final deviceSecretKey =
-          state.uri.queryParameters['deviceSecretKey'] ?? '';
-      final name = state.uri.queryParameters['name'] ?? '';
-      final pop = state.uri.queryParameters['pop'] ?? '';
-
+      final args = state.extra! as EspProvisioningArgs;
       return EspSoftApView(
-        tbDeviceName: deviceName,
-        tbDeviceSecretKey: deviceSecretKey,
-        name: name,
-        proofOfPossession: pop,
+        tbDeviceName: args.deviceName,
+        tbDeviceSecretKey: args.deviceSecretKey,
+        name: args.name,
+        proofOfPossession: args.pop,
       );
     },
   ),

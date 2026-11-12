@@ -51,6 +51,13 @@ class ThingsboardAppRouter {
     return result as T?;
   }
 
+  /// Opens [path] with [extra] as its data instead of query parameters, for
+  /// pages that must not take their data from a link.
+  Future<T?> push<T>(String path, {required Object extra}) async {
+    overlayService.hideNotification();
+    return await context?.push<T>(path, extra: extra);
+  }
+
   Future<void> pop<T>([T? result, BuildContext? context]) async {
     final targetContext = context ?? this.context;
 

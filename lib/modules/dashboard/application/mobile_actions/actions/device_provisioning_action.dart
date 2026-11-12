@@ -46,36 +46,31 @@ class DeviceProvisioningAction extends MobileAction {
             jsonDecode(barcode.rawValue!) as Map<String, dynamic>?;
         final transport = decodedJson?['transport'].toString();
         if (transport != null && decodedJson != null) {
-          final arguments = {
-            'deviceName': decodedJson['tbDeviceName'] ?? decodedJson['name'],
-            'deviceSecretKey': decodedJson['tbSecretKey'] ?? decodedJson['pop'],
-            'name': decodedJson['name'] ?? decodedJson['tbDeviceName'],
-            'pop': decodedJson['pop'] ?? decodedJson['tbSecretKey'],
+          final args = EspProvisioningArgs(
+            deviceName: (decodedJson['tbDeviceName'] ?? decodedJson['name'])
+                .toString(),
+            deviceSecretKey: (decodedJson['tbSecretKey'] ?? decodedJson['pop'])
+                .toString(),
+            name: (decodedJson['name'] ?? decodedJson['tbDeviceName'])
+                .toString(),
+            pop: (decodedJson['pop'] ?? decodedJson['tbSecretKey']).toString(),
+          );
+
+          final route = switch (transport.toLowerCase()) {
+            'ble' => EspProvisioningRoutes.espBleProvisioning,
+            'softap' => EspProvisioningRoutes.espSoftApProvisioning,
+            _ => null,
           };
-
-          bool? provisioningResult;
-
-          switch (transport.toLowerCase()) {
-            case 'ble':
-              provisioningResult = await getIt<ThingsboardAppRouter>()
-                  .navigateTo(
-                    EspProvisioningRoutes.espBleProvisioning,
-                    routeSettings: RouteSettings(arguments: arguments),
-                  );
-
-            case 'softap':
-              provisioningResult = await getIt<ThingsboardAppRouter>()
-                  .navigateTo(
-                    EspProvisioningRoutes.espSoftApProvisioning,
-                    routeSettings: RouteSettings(arguments: arguments),
-                  );
-          }
+          final provisioningResult = route == null
+              ? null
+              : await getIt<ThingsboardAppRouter>().push<bool>(
+                  route,
+                  extra: args,
+                );
 
           if (provisioningResult == true) {
             return WidgetMobileActionResult.successResult(
-              MobileActionResult.provisioning(
-                arguments['deviceName'].toString(),
-              ),
+              MobileActionResult.provisioning(args.deviceName),
             );
           } else {
             return WidgetMobileActionResult.emptyResult();
