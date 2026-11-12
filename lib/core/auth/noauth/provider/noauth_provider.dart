@@ -152,6 +152,20 @@ class NoauthProvider extends _$NoauthProvider {
         isSameOrigin: isSameOrigin,
       );
 
+      if (getIt<ITbClientService>().unsupportedServer.value != null) {
+        // An outdated server is a failed switch. Nobody can sign in there, and
+        // a build with a fixed server has no region switch on the login page,
+        // so staying left a QR code as the only way to another server. The
+        // server update page still explains it; underneath, the app goes back
+        // to the server and the session it had.
+        if (!isSameOrigin) {
+          _logger.debug('SwitchEndpointUseCase: $host is outdated, rollback');
+          await _rollbackTo(previousEndpoint, previousSession);
+        }
+        state = const NoAuthState(isDone: true);
+        return;
+      }
+
       _logger.debug('SwitchEndpointUseCase: switch to $host done');
       state = const NoAuthState(isDone: true);
     } catch (e) {
@@ -258,7 +272,8 @@ class NoauthProvider extends _$NoauthProvider {
       await _switchFirebaseApps(previousEndpoint);
     }
     await _reInitClient(host, logTag: 'switch');
-    // The server update page takes over; the session was not kept.
+    // The server update page takes over and the caller rolls the switch back;
+    // the session was not kept.
     if (getIt<ITbClientService>().unsupportedServer.value != null) return;
 
     final client = getIt<ITbClientService>().client;

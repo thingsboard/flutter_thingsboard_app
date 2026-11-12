@@ -42,6 +42,21 @@ void main() {
     expect(service.unsupportedServer.value, isNull);
   });
 
+  // A QR code switch reports the server it tried, which is not the server
+  // the app ends up on.
+  test('the endpoint of an unsupported server is kept until cleared', () {
+    final error = UnsupportedServerVersionError('4.2.2', '4.4.0');
+
+    service.reportUnsupportedServer(error, endpoint: 'https://old.example');
+    expect(service.unsupportedServerEndpoint, 'https://old.example');
+
+    service.clearUnsupportedServer();
+    expect(service.unsupportedServerEndpoint, isNull);
+
+    service.reportUnsupportedServer(error);
+    expect(service.unsupportedServerEndpoint, isNull);
+  });
+
   test('other errors are left to the caller', () {
     expect(
       service.reportUnsupportedServer(ThingsboardError(message: 'Bad')),

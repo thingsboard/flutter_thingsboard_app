@@ -46,18 +46,28 @@ class TbClientService implements ITbClientService {
   ValueListenable<UnsupportedServerVersionError?> get unsupportedServer =>
       _unsupportedServer;
 
+  String? _unsupportedServerEndpoint;
+
   @override
-  bool reportUnsupportedServer(Object error) {
+  String? get unsupportedServerEndpoint => _unsupportedServerEndpoint;
+
+  @override
+  bool reportUnsupportedServer(Object error, {String? endpoint}) {
     if (error is! UnsupportedServerVersionError) {
       return false;
     }
     log('Unsupported server: $error');
+    // Set before the notifier fires: its listeners build the update page.
+    _unsupportedServerEndpoint = endpoint;
     _unsupportedServer.value = error;
     return true;
   }
 
   @override
-  void clearUnsupportedServer() => _unsupportedServer.value = null;
+  void clearUnsupportedServer() {
+    _unsupportedServerEndpoint = null;
+    _unsupportedServer.value = null;
+  }
 
   ThingsboardClient _createClient(
     String endpoint, {
@@ -176,7 +186,7 @@ class TbClientService implements ITbClientService {
     try {
       await _client.init();
     } catch (e) {
-      if (reportUnsupportedServer(e)) {
+      if (reportUnsupportedServer(e, endpoint: endpoint)) {
         return;
       }
       rethrow;

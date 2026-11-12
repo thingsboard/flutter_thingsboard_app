@@ -25,8 +25,12 @@ class ServerUpdateRequiredPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final clientService = getIt<ITbClientService>();
     final error = clientService.unsupportedServer.value;
-    final host =
-        Uri.tryParse(getIt<IEndpointService>().getCachedEndpoint())?.host ?? '';
+    // A rolled back QR code switch: the app is on its previous server again,
+    // so the outdated one is the endpoint the error was reported with.
+    final endpoint =
+        clientService.unsupportedServerEndpoint ??
+        getIt<IEndpointService>().getCachedEndpoint();
+    final host = Uri.tryParse(endpoint)?.host ?? '';
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
