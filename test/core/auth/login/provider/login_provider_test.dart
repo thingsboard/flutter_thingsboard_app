@@ -18,6 +18,7 @@ import 'package:thingsboard_app/utils/services/communication/i_communication_ser
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../../../helpers/test_dependencies.dart';
@@ -41,11 +42,14 @@ class MockMobileAppControllerApi extends Mock
 
 class MockAuthUser extends Mock implements AuthUser {}
 
+class MockWebViewDataService extends Mock implements IWebViewDataService {}
+
 void main() {
   late MockTbClientService clientService;
   late MockThingsboardClient client;
   late MockMobileAppControllerApi mobileApi;
   late MockOverlayService overlay;
+  late MockWebViewDataService webViewData;
 
   setUpAll(() {
     registerFallbackValue(RequestConfig());
@@ -77,6 +81,8 @@ void main() {
     final notifications = MockNotificationService();
     when(() => notifications.cleanUpStalePushRegistration())
         .thenAnswer((_) async {});
+    webViewData = MockWebViewDataService();
+    when(() => webViewData.clear()).thenAnswer((_) async {});
     final liveLocation = MockLiveLocationTrackingService();
     when(() => liveLocation.teardownForLogout()).thenAnswer((_) async {});
     getIt
@@ -87,7 +93,8 @@ void main() {
       ..registerLazySingleton<NotificationService>(() => notifications)
       ..registerLazySingleton<ICustomTranslationService>(
         () => MockCustomTranslationService(),
-      );
+      )
+      ..registerLazySingleton<IWebViewDataService>(() => webViewData);
 
     // A fully authenticated session whose user can't be loaded.
     when(() => client.isAuthenticated()).thenReturn(true);
@@ -242,4 +249,27 @@ void main() {
       expect(setupOpened, 2);
     },
   );
+
+  group('logout', () {
+    test('clears what web pages keep after the server session ends', () async {
+      final container = await buildLogin();
+
+      await container.read(loginProvider.notifier).logout();
+
+      verifyInOrder([
+        () => client.logout(requestConfig: any(named: 'requestConfig')),
+        () => webViewData.clear(),
+      ]);
+    });
+
+    test('finishes when clearing web page data fails', () async {
+      when(() => webViewData.clear()).thenThrow(Exception('platform'));
+      final container = await buildLogin();
+
+      await container.read(loginProvider.notifier).logout();
+
+      verify(() => client.logout(requestConfig: any(named: 'requestConfig')))
+          .called(1);
+    });
+  });
 }

@@ -21,6 +21,7 @@ import 'package:thingsboard_app/utils/services/custom_translation/i_custom_trans
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
@@ -69,6 +70,14 @@ class Login extends _$Login {
     }
     getIt<ICustomTranslationService>().clear();
     await _tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
+    // The dashboard pages keep the session in their local storage: it must
+    // not outlive the logout on the device. A platform error here does not
+    // undo the logout itself.
+    try {
+      await getIt<IWebViewDataService>().clear();
+    } catch (e) {
+      log('clearing web view data failed: $e');
+    }
   }
 
   Future<void> handleUserLoaded() async {
