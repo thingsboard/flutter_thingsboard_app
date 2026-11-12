@@ -8,19 +8,15 @@ on:
 permissions:
   contents: read
 
+# The jobs run in parallel. There is no Android build: it took most of the time
+# and checked only Gradle, plugins and native code; those are checked by
+# building the app locally when they change.
 jobs:
-  check:
-    name: Analyze, test, build
+  checks:
+    name: Analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Free disk space
-        # The runner image leaves too little room for the Android build;
-        # none of these toolsets is used here.
-        run: |
-          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
-            /opt/hostedtoolcache/CodeQL /usr/local/share/boost
-          df -h /
       - name: Read the Flutter version from .fvmrc
         id: fvm
         run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
@@ -48,7 +44,20 @@ jobs:
           git diff --exit-code -- '*.g.dart' '*.freezed.dart' lib/generated
       - name: Analyze
         run: flutter analyze --fatal-infos
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the Flutter version from .fvmrc
+        id: fvm
+        run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.flutter }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
       - name: Test
         run: flutter test
-      - name: Build Android
-        run: flutter build apk --debug

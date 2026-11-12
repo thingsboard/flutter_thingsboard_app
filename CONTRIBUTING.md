@@ -69,6 +69,11 @@ CI runs these on every pull request; run them before pushing:
 dart format lib test
 flutter analyze        # CI fails on any info, warning or error
 flutter test
+```
+
+CI does not build the app. After changing `android/`, the local `packages/`, the dependencies in `pubspec.yaml` or the Flutter version, also build it once:
+
+```bash
 flutter build apk --debug
 ```
 
