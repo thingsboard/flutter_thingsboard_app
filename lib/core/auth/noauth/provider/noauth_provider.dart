@@ -14,6 +14,7 @@ import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
@@ -200,6 +201,7 @@ class NoauthProvider extends _$NoauthProvider {
             state = const NoAuthState(isCancelled: true);
             return;
           }
+          await _stopLiveTracking();
           await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
           if (_isServerOutdated) {
             await _rollBackFromOutdated(
@@ -227,6 +229,7 @@ class NoauthProvider extends _$NoauthProvider {
         return;
       }
 
+      await _stopLiveTracking();
       state = NoAuthState(
         step: isSameOrigin ? NoAuthStep.loggingIn : NoAuthStep.switchingHost,
         host: host,
@@ -254,6 +257,13 @@ class NoauthProvider extends _$NoauthProvider {
       state = _failureState(e, host: host);
     }
   }
+
+  /// Live tracking sends to the server and the account it was started for.
+  /// Stopped before the switch writes anything, while the current client can
+  /// still mark it inactive there; otherwise its fixes would go on to the new
+  /// server or account.
+  Future<void> _stopLiveTracking() =>
+      getIt<ILiveLocationTrackingService>().teardownForLogout();
 
   bool get _isServerOutdated =>
       getIt<ITbClientService>().unsupportedServer.value != null;

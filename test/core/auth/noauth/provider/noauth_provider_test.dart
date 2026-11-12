@@ -14,6 +14,7 @@ import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -117,6 +118,8 @@ class FakeClientService implements ITbClientService {
   }
 }
 
+class MockLiveTracking extends Mock implements ILiveLocationTrackingService {}
+
 void main() {
   group('resolveSwitchHost', () {
     const previousEndpoint = 'https://previous';
@@ -186,6 +189,8 @@ void main() {
         ),
       );
       when(client.isAuthenticated).thenReturn(true);
+      final liveTracking = MockLiveTracking();
+      when(liveTracking.teardownForLogout).thenAnswer((_) async {});
       final firebase = MockFirebaseService();
       when(firebase.clearApps).thenAnswer((_) async {});
 
@@ -193,7 +198,8 @@ void main() {
         ..registerLazySingleton<TbLogger>(MockTbLogger.new)
         ..registerSingleton<IEndpointService>(endpoints)
         ..registerSingleton<TbStorage>(storage)
-        ..registerSingleton<IFirebaseService>(firebase);
+        ..registerSingleton<IFirebaseService>(firebase)
+        ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
       addTearDown(getIt.reset);
     });
 

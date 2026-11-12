@@ -14,6 +14,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -22,6 +23,8 @@ import '../../../../helpers/test_dependencies.dart';
 class MockEndpointService extends Mock implements IEndpointService {}
 
 class MockStorage extends Mock implements TbStorage<dynamic> {}
+
+class MockLiveTracking extends Mock implements ILiveLocationTrackingService {}
 
 /// The target host's answer to `/api/auth/user`: the account of the pair.
 class _UserAdapter implements HttpClientAdapter {
@@ -50,6 +53,7 @@ void main() {
   late MockTbClientService clientService;
   late MockEndpointService endpoint;
   late MockStorage storage;
+  late MockLiveTracking liveTracking;
   late ProviderContainer container;
 
   setUp(() {
@@ -93,9 +97,13 @@ void main() {
     when(() => storage.setItem(any(), any())).thenAnswer((_) async {});
     when(() => storage.deleteItem(any())).thenAnswer((_) async {});
 
+    liveTracking = MockLiveTracking();
+    when(liveTracking.teardownForLogout).thenAnswer((_) async {});
+
     getIt
       ..registerSingleton<IEndpointService>(endpoint)
-      ..registerSingleton<TbStorage>(storage);
+      ..registerSingleton<TbStorage>(storage)
+      ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
 
     NoauthProvider.hostAdapterForTesting = _UserAdapter.new;
     addTearDown(() => NoauthProvider.hostAdapterForTesting = null);
@@ -146,6 +154,7 @@ void main() {
       expect(state().isCancelled, isTrue);
       verifyNever(() => endpoint.setEndpoint(any()));
       verifyNever(() => client.setUserFromJwtToken(any(), any(), any()));
+      verifyNever(liveTracking.teardownForLogout);
     });
 
     test('changes nothing when the screen closes without an answer', () async {
@@ -165,6 +174,19 @@ void main() {
       await switching;
 
       verify(() => endpoint.setEndpoint(_other)).called(greaterThan(0));
+    });
+
+    test('stops live tracking before it leaves the server', () async {
+      await startAndSettle(host: _other);
+
+      notifier().answerConfirmation(accepted: true);
+      await switching;
+
+      verifyInOrder([
+        liveTracking.teardownForLogout,
+        () => client.setUserFromJwtToken(null, null, false),
+        () => endpoint.setEndpoint(_other),
+      ]);
     });
   });
 
@@ -212,6 +234,21 @@ void main() {
 
       expect(state().isDone, isTrue);
       verify(() => storage.setItem('jwt_token', 'access')).called(1);
+    });
+
+    test('stops live tracking before it signs in to another account', () async {
+      when(client.isAuthenticated).thenReturn(true);
+      await startAndSettle(host: _other, secret: 'one-time');
+
+      verifyNever(liveTracking.teardownForLogout);
+      notifier().answerConfirmation(accepted: true);
+      await switching;
+
+      verifyInOrder([
+        liveTracking.teardownForLogout,
+        () => storage.setItem('jwt_token', 'access'),
+        () => endpoint.setEndpoint(_other),
+      ]);
     });
   });
 }
