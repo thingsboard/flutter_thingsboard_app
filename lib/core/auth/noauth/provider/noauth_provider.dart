@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -37,7 +39,15 @@ final class SwitchEndpointParams {
 
 /// The step the switch is currently on. The view resolves it to localized
 /// copy: the provider has no BuildContext.
-enum NoAuthStep { fetchingSession, loggingIn, switchingHost }
+enum NoAuthStep {
+  fetchingSession,
+
+  /// Waiting for the user to confirm where the link takes them; nothing has
+  /// changed yet. See [NoauthProvider.answerConfirmation].
+  confirming,
+  loggingIn,
+  switchingHost,
+}
 
 /// What went wrong. The view resolves it to localized copy and falls back to
 /// the server's message only for [unknown].
@@ -46,6 +56,9 @@ enum NoAuthFailure {
   connectionFailed,
   tokenExchangeFailed,
   sessionInvalid,
+
+  /// The app is built for one server and the link points to another.
+  otherServerNotAllowed,
   unknown,
 }
 
@@ -102,9 +115,42 @@ typedef _ExchangedSession = ({String token, String? refreshToken});
 @riverpod
 class NoauthProvider extends _$NoauthProvider {
   final _logger = getIt<TbLogger>();
+  Completer<bool>? _confirmation;
+
   @override
   NoAuthState build() {
+    // A view that goes away without an answer counts as a refusal.
+    ref.onDispose(() => _answer(false));
     return const NoAuthState();
+  }
+
+  /// The user's answer to [NoAuthStep.confirming].
+  void answerConfirmation({required bool accepted}) => _answer(accepted);
+
+  void _answer(bool accepted) {
+    final confirmation = _confirmation;
+    _confirmation = null;
+    if (confirmation != null && !confirmation.isCompleted) {
+      confirmation.complete(accepted);
+    }
+  }
+
+  /// Shows where the link leads and waits for the user. Called before
+  /// anything is written, so a refusal leaves the app as it was.
+  Future<bool> _confirm({
+    required String host,
+    required bool signsIn,
+    String? email,
+  }) {
+    final confirmation = Completer<bool>();
+    _confirmation = confirmation;
+    state = NoAuthState(
+      step: NoAuthStep.confirming,
+      host: host,
+      signsIn: signsIn,
+      email: email,
+    );
+    return confirmation.future;
   }
 
   Future<void> switchEndpoint(SwitchEndpointParams params) async {
@@ -120,6 +166,21 @@ class NoauthProvider extends _$NoauthProvider {
     try {
       host = resolveSwitchHost(params.data, previousEndpoint);
       final isSameOrigin = _isSameOrigin(host, previousEndpoint);
+      // An app built for one server (`thingsboardApiEndpoint` set at build
+      // time) still follows links to other servers after the confirmation
+      // below, as it may serve more than one domain. To keep such an app on
+      // its own server only, uncomment this check (and import
+      // `package:thingsboard_app/constants/app_constants.dart`): a link to any
+      // other server then ends on an error and nothing changes.
+      //
+      // if (ThingsboardAppConstants.ignoreRegionSelection &&
+      //     !_isSameOrigin(host, ThingsboardAppConstants.thingsBoardApiEndpoint)) {
+      //   state = NoAuthState(
+      //     host: host,
+      //     failure: NoAuthFailure.otherServerNotAllowed,
+      //   );
+      //   return;
+      // }
 
       _logger.debug(
         'SwitchEndpointUseCase: host=$host previousEndpoint=$previousEndpoint '
@@ -131,6 +192,13 @@ class NoauthProvider extends _$NoauthProvider {
         // login page) cannot log the user in: just switch to the target host
         // and let the login page of that host take over.
         if (!isSameOrigin) {
+          final accepted = await _confirm(host: host, signsIn: false);
+          // The view went away without an answer: nothing to report to.
+          if (!ref.mounted) return;
+          if (!accepted) {
+            state = const NoAuthState(isCancelled: true);
+            return;
+          }
           await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
           if (_isServerOutdated) {
             await _rollBackFromOutdated(
@@ -146,7 +214,24 @@ class NoauthProvider extends _$NoauthProvider {
 
       state = NoAuthState(step: NoAuthStep.fetchingSession, host: host);
       final session = await _exchangeSecret(host: host, secret: secret);
-      await _verifySession(host: host, token: session.token);
+      final email = await _verifySession(host: host, token: session.token);
+
+      // Signing in from the login page with a code of the same server is
+      // what the code is for; anything else replaces a session or a server,
+      // so the user sees where the link leads first.
+      final signedIn = getIt<ITbClientService>().client.isAuthenticated();
+      if (!isSameOrigin || signedIn) {
+        final accepted = await _confirm(
+          host: host,
+          signsIn: true,
+          email: email,
+        );
+        if (!ref.mounted) return;
+        if (!accepted) {
+          state = const NoAuthState(isCancelled: true);
+          return;
+        }
+      }
 
       state = NoAuthState(
         step: isSameOrigin ? NoAuthStep.loggingIn : NoAuthStep.switchingHost,
@@ -260,15 +345,19 @@ class NoauthProvider extends _$NoauthProvider {
   /// issued before the logout watermark ('Token is outdated'). Verify against
   /// the target host BEFORE switching, otherwise the new client would enter a
   /// login/refresh loop it can never win.
-  Future<void> _verifySession({
+  ///
+  /// Returns the e-mail of the account the pair belongs to.
+  Future<String?> _verifySession({
     required String host,
     required String token,
   }) async {
     try {
-      await _hostClient(host).get(
+      final response = await _hostClient(host).get<Object?>(
         '/api/auth/user',
         options: Options(headers: {'X-Authorization': 'Bearer $token'}),
       );
+      final user = response.data;
+      return user is Map ? user['email'] as String? : null;
     } on DioException catch (e) {
       throw _asFailure(e, rejectedAs: NoAuthFailure.sessionInvalid);
     }
@@ -386,13 +475,25 @@ class NoauthProvider extends _$NoauthProvider {
     );
   }
 
-  Dio _hostClient(String host) => Dio(
-    BaseOptions(
-      baseUrl: host,
-      connectTimeout: _hostRequestTimeout,
-      receiveTimeout: _hostRequestTimeout,
-    ),
-  );
+  Dio _hostClient(String host) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: host,
+        connectTimeout: _hostRequestTimeout,
+        receiveTimeout: _hostRequestTimeout,
+      ),
+    );
+    final adapter = hostAdapterForTesting?.call();
+    if (adapter != null) {
+      dio.httpClientAdapter = adapter;
+    }
+    return dio;
+  }
+
+  /// [HttpClientAdapter] for the requests to the target host. Leave it `null`
+  /// in the app.
+  @visibleForTesting
+  static HttpClientAdapter Function()? hostAdapterForTesting;
 
   Future<_Session> _readStoredSession() async {
     final storage = getIt<TbStorage>();
@@ -471,15 +572,28 @@ class NoauthProvider extends _$NoauthProvider {
 class NoAuthState {
   const NoAuthState({
     this.isDone = false,
+    this.isCancelled = false,
+    this.signsIn = false,
     this.step,
     this.host,
+    this.email,
     this.failure,
     this.serverMessage,
   });
 
   final bool isDone;
+
+  /// The user declined the link; the app is as it was.
+  final bool isCancelled;
+
+  /// Whether the link being confirmed signs in, or only opens the sign-in
+  /// page of another server.
+  final bool signsIn;
   final NoAuthStep? step;
   final String? host;
+
+  /// The account a login link signs in to, shown for confirmation.
+  final String? email;
   final NoAuthFailure? failure;
 
   /// Message returned by the server, if any. It is hardcoded English on the

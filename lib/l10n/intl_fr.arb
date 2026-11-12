@@ -538,5 +538,11 @@
   "totpSecretKey": "Clé secrète",
   "backupCodesDescription": "Imprimez ces codes afin de les avoir à portée de main lorsque vous devrez vous connecter à votre compte. Chaque code de secours ne peut être utilisé qu’une seule fois.",
   "backupCodesWarning": "Une fois que vous quittez cette page, ces codes ne peuvent plus être affichés. Stockez-les en toute sécurité à l’aide des options ci-dessous.",
-  "downloadTxt": "Télécharger (txt)"
+  "downloadTxt": "Télécharger (txt)",
+  "openThisLinkTitle": "Ouvrir ce lien ?",
+  "linkOpensSignInPage": "Ce lien ouvre la page de connexion de ce serveur. Vous serez déconnecté de votre serveur actuel.",
+  "linkSignsInAs": "Ce lien vous connecte à ce serveur en tant que {email}.",
+  "linkSignsIn": "Ce lien vous connecte à ce serveur.",
+  "serverConnectionNotSecure": "Ce serveur n'utilise pas de connexion sécurisée.",
+  "linkToOtherServerNotAllowed": "Cette application ne fonctionne qu'avec son propre serveur et ne peut pas ouvrir ce lien."
 }

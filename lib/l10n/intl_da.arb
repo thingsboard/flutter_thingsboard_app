@@ -538,5 +538,11 @@
   "totpSecretKey": "Hemmelig nøgle",
   "backupCodesDescription": "Udskriv koderne, så du har dem ved hånden, når du skal bruge dem til at logge ind på din konto. Du kan bruge hver backupkode én gang.",
   "backupCodesWarning": "Når du forlader denne side, kan disse koder ikke vises igen. Opbevar dem sikkert ved hjælp af mulighederne nedenfor.",
-  "downloadTxt": "Download (txt)"
+  "downloadTxt": "Download (txt)",
+  "openThisLinkTitle": "Åbn dette link?",
+  "linkOpensSignInPage": "Dette link åbner login-siden for denne server. Du bliver logget ud af din nuværende server.",
+  "linkSignsInAs": "Dette link logger dig ind på denne server som {email}.",
+  "linkSignsIn": "Dette link logger dig ind på denne server.",
+  "serverConnectionNotSecure": "Denne server bruger ikke en sikker forbindelse.",
+  "linkToOtherServerNotAllowed": "Denne app virker kun med sin egen server og kan ikke åbne dette link."
 }

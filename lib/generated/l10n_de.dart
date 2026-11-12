@@ -1445,6 +1445,29 @@ class SDe extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Diesen Link öffnen?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Dieser Link öffnet die Anmeldeseite dieses Servers. Sie werden von Ihrem aktuellen Server abgemeldet.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Dieser Link meldet Sie bei diesem Server als $email an.';
+  }
+
+  @override
+  String get linkSignsIn => 'Dieser Link meldet Sie bei diesem Server an.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Dieser Server verwendet keine sichere Verbindung.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Diese App funktioniert nur mit ihrem eigenen Server und kann diesen Link nicht öffnen.';
+
+  @override
   String get liveTrackingActive => 'Live-Standortverfolgung';
 
   @override

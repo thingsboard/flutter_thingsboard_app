@@ -204,7 +204,14 @@ void main() {
     Future<void> switchTo(String host, {String? secret = 'secret'}) {
       container = ProviderContainer();
       addTearDown(container.dispose);
-      container.listen(noauthProviderProvider, (previous, next) {});
+      // The user confirms where the link leads.
+      container.listen(noauthProviderProvider, (previous, next) {
+        if (next.step == NoAuthStep.confirming) {
+          container
+              .read(noauthProviderProvider.notifier)
+              .answerConfirmation(accepted: true);
+        }
+      });
       final query = secret == null ? '' : '?secret=$secret';
       return container
           .read(noauthProviderProvider.notifier)

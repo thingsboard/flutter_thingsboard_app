@@ -1433,6 +1433,29 @@ class SNo extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Åpne denne lenken?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Denne lenken åpner påloggingssiden til denne serveren. Du blir logget ut av den nåværende serveren.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Denne lenken logger deg på denne serveren som $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Denne lenken logger deg på denne serveren.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Denne serveren bruker ikke en sikker tilkobling.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Denne appen fungerer bare med sin egen server og kan ikke åpne denne lenken.';
+
+  @override
   String get liveTrackingActive => 'Sanntidssporing av posisjon';
 
   @override

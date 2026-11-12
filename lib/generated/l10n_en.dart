@@ -1429,6 +1429,29 @@ class SEn extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Open this link?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'This link opens the sign-in page of this server. You will be signed out of your current server.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'This link signs you in to this server as $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'This link signs you in to this server.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'This server does not use a secure connection.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'This app works only with its own server and cannot open this link.';
+
+  @override
   String get liveTrackingActive => 'Live location tracking';
 
   @override

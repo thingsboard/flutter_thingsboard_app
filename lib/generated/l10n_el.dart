@@ -1447,6 +1447,30 @@ class SEl extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Άνοιγμα αυτού του συνδέσμου;';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Αυτός ο σύνδεσμος ανοίγει τη σελίδα σύνδεσης αυτού του διακομιστή. Θα αποσυνδεθείτε από τον τρέχοντα διακομιστή.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Αυτός ο σύνδεσμος σας συνδέει σε αυτόν τον διακομιστή ως $email.';
+  }
+
+  @override
+  String get linkSignsIn =>
+      'Αυτός ο σύνδεσμος σας συνδέει σε αυτόν τον διακομιστή.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Αυτός ο διακομιστής δεν χρησιμοποιεί ασφαλή σύνδεση.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Αυτή η εφαρμογή λειτουργεί μόνο με τον δικό της διακομιστή και δεν μπορεί να ανοίξει αυτόν τον σύνδεσμο.';
+
+  @override
   String get liveTrackingActive =>
       'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
 

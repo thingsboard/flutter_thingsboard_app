@@ -538,5 +538,11 @@
   "totpSecretKey": "Clave secreta",
   "backupCodesDescription": "Imprime los códigos para tenerlos a mano cuando necesites usarlos para iniciar sesión en tu cuenta. Puedes usar cada código de respaldo una sola vez.",
   "backupCodesWarning": "Una vez que salgas de esta página, estos códigos no podrán mostrarse de nuevo. Guárdalos de forma segura usando las opciones de abajo.",
-  "downloadTxt": "Descargar (txt)"
+  "downloadTxt": "Descargar (txt)",
+  "openThisLinkTitle": "¿Abrir este enlace?",
+  "linkOpensSignInPage": "Este enlace abre la página de inicio de sesión de este servidor. Se cerrará tu sesión en el servidor actual.",
+  "linkSignsInAs": "Este enlace inicia tu sesión en este servidor como {email}.",
+  "linkSignsIn": "Este enlace inicia tu sesión en este servidor.",
+  "serverConnectionNotSecure": "Este servidor no usa una conexión segura.",
+  "linkToOtherServerNotAllowed": "Esta aplicación solo funciona con su propio servidor y no puede abrir este enlace."
 }

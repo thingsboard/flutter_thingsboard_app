@@ -2563,6 +2563,42 @@ abstract class S {
   /// **'The QR code session is no longer valid. Please refresh the QR code and scan again.'**
   String get qrCodeSessionIsNoLongerValid;
 
+  /// No description provided for @openThisLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open this link?'**
+  String get openThisLinkTitle;
+
+  /// No description provided for @linkOpensSignInPage.
+  ///
+  /// In en, this message translates to:
+  /// **'This link opens the sign-in page of this server. You will be signed out of your current server.'**
+  String get linkOpensSignInPage;
+
+  /// No description provided for @linkSignsInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'This link signs you in to this server as {email}.'**
+  String linkSignsInAs(Object email);
+
+  /// No description provided for @linkSignsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'This link signs you in to this server.'**
+  String get linkSignsIn;
+
+  /// No description provided for @serverConnectionNotSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'This server does not use a secure connection.'**
+  String get serverConnectionNotSecure;
+
+  /// No description provided for @linkToOtherServerNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This app works only with its own server and cannot open this link.'**
+  String get linkToOtherServerNotAllowed;
+
   /// No description provided for @liveTrackingActive.
   ///
   /// In en, this message translates to:

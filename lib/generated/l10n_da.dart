@@ -1436,6 +1436,29 @@ class SDa extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Åbn dette link?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Dette link åbner login-siden for denne server. Du bliver logget ud af din nuværende server.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Dette link logger dig ind på denne server som $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Dette link logger dig ind på denne server.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Denne server bruger ikke en sikker forbindelse.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Denne app virker kun med sin egen server og kan ikke åbne dette link.';
+
+  @override
   String get liveTrackingActive => 'Live-sporing af placering';
 
   @override

@@ -495,5 +495,11 @@
   "totpSecretKey": "Secret key",
   "backupCodesDescription": "Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.",
   "backupCodesWarning": "Once you leave this page, these codes cannot be shown again. Store them safely using the options below.",
-  "downloadTxt": "Download (txt)"
+  "downloadTxt": "Download (txt)",
+  "openThisLinkTitle": "打开此链接？",
+  "linkOpensSignInPage": "此链接将打开此服务器的登录页面。你将从当前服务器退出登录。",
+  "linkSignsInAs": "此链接将以 {email} 身份登录此服务器。",
+  "linkSignsIn": "此链接将登录此服务器。",
+  "serverConnectionNotSecure": "此服务器未使用安全连接。",
+  "linkToOtherServerNotAllowed": "此应用仅适用于其自己的服务器，无法打开此链接。"
 }

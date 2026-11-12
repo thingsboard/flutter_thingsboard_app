@@ -1447,6 +1447,29 @@ class SFr extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Ouvrir ce lien ?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Ce lien ouvre la page de connexion de ce serveur. Vous serez déconnecté de votre serveur actuel.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Ce lien vous connecte à ce serveur en tant que $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Ce lien vous connecte à ce serveur.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Ce serveur n\'utilise pas de connexion sécurisée.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Cette application ne fonctionne qu\'avec son propre serveur et ne peut pas ouvrir ce lien.';
+
+  @override
   String get liveTrackingActive => 'Suivi de position en direct';
 
   @override

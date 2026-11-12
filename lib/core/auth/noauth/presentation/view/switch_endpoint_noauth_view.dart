@@ -7,10 +7,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
+import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loading_widget.dart';
@@ -68,6 +70,10 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     });
 
     ref.listen(noauthProviderProvider, (prev, next) {
+      if (next.isCancelled) {
+        _leaveScreen(context);
+        return;
+      }
       if (next.failure != null) {
         userLoadTimer.value?.cancel();
         errorExitTimer.value?.cancel();
@@ -142,6 +148,17 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
               );
             }
 
+            if (noAuth.step == NoAuthStep.confirming) {
+              return _LinkConfirmation(
+                host: noAuth.host ?? '',
+                signsIn: noAuth.signsIn,
+                email: noAuth.email,
+                onAnswer: (accepted) => ref
+                    .read(noauthProviderProvider.notifier)
+                    .answerConfirmation(accepted: accepted),
+              );
+            }
+
             return Stack(
               alignment: AlignmentDirectional.center,
               children: [
@@ -190,7 +207,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
       NoAuthStep.fetchingSession => S.of(context).gettingDataFromHost(host),
       NoAuthStep.loggingIn => S.of(context).loggingYouIntoHost(host),
       NoAuthStep.switchingHost => S.of(context).switchingToNewHost(host),
-      null => '',
+      NoAuthStep.confirming || null => '',
     };
   }
 
@@ -207,6 +224,8 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
       // English, and wrong about the cause.
       NoAuthFailure.sessionInvalid =>
         S.of(context).qrCodeSessionIsNoLongerValid,
+      NoAuthFailure.otherServerNotAllowed =>
+        S.of(context).linkToOtherServerNotAllowed,
       // Server messages are hardcoded English: the last resort, not the first
       // choice.
       NoAuthFailure.unknown || null =>
@@ -214,5 +233,130 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
             ? serverMessage
             : S.of(context).somethingWentWrong,
     };
+  }
+}
+
+/// Where the link leads, before anything changes: the server, and the account
+/// when the link signs in. Nothing is switched until the user continues.
+/// Laid out like the other full-screen decisions of the login flow.
+class _LinkConfirmation extends StatelessWidget {
+  const _LinkConfirmation({
+    required this.host,
+    required this.signsIn,
+    required this.email,
+    required this.onAnswer,
+  });
+
+  final String host;
+  final bool signsIn;
+  final String? email;
+  final void Function(bool accepted) onAnswer;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    final insecure = Uri.tryParse(host)?.isScheme('http') ?? false;
+
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 24,
+                children: [
+                  SvgPicture.asset(
+                    ThingsboardImage.connectMobile,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).primaryColor,
+                      BlendMode.srcIn,
+                    ),
+                    width: 140,
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 8,
+                    children: [
+                      Text(
+                        s.openThisLinkTitle,
+                        style: TbTextStyles.titleSmallSb,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 4),
+                      _HostBox(host: host),
+                      const SizedBox(height: 4),
+                      Text(
+                        switch ((signsIn, email)) {
+                          (false, _) => s.linkOpensSignInPage,
+                          (true, final String email) => s.linkSignsInAs(email),
+                          (true, null) => s.linkSignsIn,
+                        },
+                        style: TbTextStyles.bodyMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      if (insecure)
+                        Text(
+                          s.serverConnectionNotSecure,
+                          style: TbTextStyles.bodyMedium.copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            spacing: 8,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FilledButton(
+                onPressed: () => onAnswer(true),
+                child: Text(s.continueText),
+              ),
+              TextButton(
+                onPressed: () => onAnswer(false),
+                child: Text(s.cancel),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// The server the link leads to, on its own so it can be read and checked.
+class _HostBox extends StatelessWidget {
+  const _HostBox({required this.host});
+
+  final String host;
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: primary.withAlpha(20),
+        border: Border.all(color: primary.withAlpha(80)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      // An address reads left to right in any language.
+      child: SelectableText(
+        host,
+        textAlign: TextAlign.center,
+        textDirection: TextDirection.ltr,
+        style: TbTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.w600),
+      ),
+    );
   }
 }

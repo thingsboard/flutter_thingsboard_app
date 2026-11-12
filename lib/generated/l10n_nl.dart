@@ -1439,6 +1439,29 @@ class SNl extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Deze link openen?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Deze link opent de inlogpagina van deze server. Je wordt afgemeld bij je huidige server.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Deze link meldt je aan bij deze server als $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Deze link meldt je aan bij deze server.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Deze server gebruikt geen beveiligde verbinding.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Deze app werkt alleen met de eigen server en kan deze link niet openen.';
+
+  @override
   String get liveTrackingActive => 'Live locatietracking';
 
   @override

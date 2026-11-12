@@ -1422,6 +1422,26 @@ class SZh extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => '打开此链接？';
+
+  @override
+  String get linkOpensSignInPage => '此链接将打开此服务器的登录页面。你将从当前服务器退出登录。';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return '此链接将以 $email 身份登录此服务器。';
+  }
+
+  @override
+  String get linkSignsIn => '此链接将登录此服务器。';
+
+  @override
+  String get serverConnectionNotSecure => '此服务器未使用安全连接。';
+
+  @override
+  String get linkToOtherServerNotAllowed => '此应用仅适用于其自己的服务器，无法打开此链接。';
+
+  @override
   String get liveTrackingActive => 'Live location tracking';
 
   @override
@@ -2968,6 +2988,26 @@ class SZhCn extends SZh {
   }
 
   @override
+  String get openThisLinkTitle => '打开此链接？';
+
+  @override
+  String get linkOpensSignInPage => '此链接将打开此服务器的登录页面。你将从当前服务器退出登录。';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return '此链接将以 $email 身份登录此服务器。';
+  }
+
+  @override
+  String get linkSignsIn => '此链接将登录此服务器。';
+
+  @override
+  String get serverConnectionNotSecure => '此服务器未使用安全连接。';
+
+  @override
+  String get linkToOtherServerNotAllowed => '此应用仅适用于其自己的服务器，无法打开此链接。';
+
+  @override
   String get liveTrackingActive => '实时位置跟踪';
 
   @override
@@ -4500,6 +4540,26 @@ class SZhTw extends SZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openThisLinkTitle => '開啟此連結？';
+
+  @override
+  String get linkOpensSignInPage => '此連結將開啟此伺服器的登入頁面。你將從目前的伺服器登出。';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return '此連結將以 $email 身分登入此伺服器。';
+  }
+
+  @override
+  String get linkSignsIn => '此連結將登入此伺服器。';
+
+  @override
+  String get serverConnectionNotSecure => '此伺服器未使用安全連線。';
+
+  @override
+  String get linkToOtherServerNotAllowed => '此應用程式僅適用於其自己的伺服器，無法開啟此連結。';
 
   @override
   String get liveTrackingActive => '即時位置追蹤';

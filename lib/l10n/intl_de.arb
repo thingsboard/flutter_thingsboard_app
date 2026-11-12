@@ -538,5 +538,11 @@
   "totpSecretKey": "Geheimer Schlüssel",
   "backupCodesDescription": "Drucken Sie die Codes aus, um sie griffbereit zu haben, wenn Sie sich bei Ihrem Konto anmelden. Jeder Backup-Code kann einmal verwendet werden.",
   "backupCodesWarning": "Sobald Sie diese Seite verlassen, können diese Codes nicht erneut angezeigt werden. Bewahren Sie sie sicher auf, indem Sie die folgenden Optionen verwenden.",
-  "downloadTxt": "Herunterladen (txt)"
+  "downloadTxt": "Herunterladen (txt)",
+  "openThisLinkTitle": "Diesen Link öffnen?",
+  "linkOpensSignInPage": "Dieser Link öffnet die Anmeldeseite dieses Servers. Sie werden von Ihrem aktuellen Server abgemeldet.",
+  "linkSignsInAs": "Dieser Link meldet Sie bei diesem Server als {email} an.",
+  "linkSignsIn": "Dieser Link meldet Sie bei diesem Server an.",
+  "serverConnectionNotSecure": "Dieser Server verwendet keine sichere Verbindung.",
+  "linkToOtherServerNotAllowed": "Diese App funktioniert nur mit ihrem eigenen Server und kann diesen Link nicht öffnen."
 }

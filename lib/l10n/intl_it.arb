@@ -538,5 +538,11 @@
   "totpSecretKey": "Chiave segreta",
   "backupCodesDescription": "Stampa i codici in modo da averli a portata di mano quando ne avrai bisogno per accedere al tuo account. Puoi utilizzare ogni codice di backup una sola volta.",
   "backupCodesWarning": "Una volta che lasci questa pagina, questi codici non potranno essere mostrati di nuovo. Conservali in modo sicuro utilizzando le opzioni sottostanti.",
-  "downloadTxt": "Scarica (txt)"
+  "downloadTxt": "Scarica (txt)",
+  "openThisLinkTitle": "Aprire questo link?",
+  "linkOpensSignInPage": "Questo link apre la pagina di accesso di questo server. Verrai disconnesso dal server attuale.",
+  "linkSignsInAs": "Questo link ti fa accedere a questo server come {email}.",
+  "linkSignsIn": "Questo link ti fa accedere a questo server.",
+  "serverConnectionNotSecure": "Questo server non usa una connessione sicura.",
+  "linkToOtherServerNotAllowed": "Questa app funziona solo con il proprio server e non può aprire questo link."
 }

@@ -537,5 +537,11 @@
   "totpSecretKey": "Khóa bí mật",
   "backupCodesDescription": "Hãy in các mã này để luôn có sẵn khi bạn cần dùng chúng để đăng nhập vào tài khoản. Mỗi mã dự phòng chỉ dùng được một lần.",
   "backupCodesWarning": "Sau khi rời trang này, các mã này sẽ không thể hiển thị lại. Hãy lưu trữ chúng an toàn bằng các tùy chọn bên dưới.",
-  "downloadTxt": "Tải xuống (txt)"
+  "downloadTxt": "Tải xuống (txt)",
+  "openThisLinkTitle": "Mở liên kết này?",
+  "linkOpensSignInPage": "Liên kết này mở trang đăng nhập của máy chủ này. Bạn sẽ bị đăng xuất khỏi máy chủ hiện tại.",
+  "linkSignsInAs": "Liên kết này đăng nhập bạn vào máy chủ này với tài khoản {email}.",
+  "linkSignsIn": "Liên kết này đăng nhập bạn vào máy chủ này.",
+  "serverConnectionNotSecure": "Máy chủ này không dùng kết nối bảo mật.",
+  "linkToOtherServerNotAllowed": "Ứng dụng này chỉ hoạt động với máy chủ của nó và không thể mở liên kết này."
 }

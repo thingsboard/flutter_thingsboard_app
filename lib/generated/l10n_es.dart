@@ -1443,6 +1443,29 @@ class SEs extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => '¿Abrir este enlace?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Este enlace abre la página de inicio de sesión de este servidor. Se cerrará tu sesión en el servidor actual.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Este enlace inicia tu sesión en este servidor como $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Este enlace inicia tu sesión en este servidor.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Este servidor no usa una conexión segura.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Esta aplicación solo funciona con su propio servidor y no puede abrir este enlace.';
+
+  @override
   String get liveTrackingActive => 'Seguimiento de ubicación en tiempo real';
 
   @override

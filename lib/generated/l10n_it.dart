@@ -1443,6 +1443,29 @@ class SIt extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Aprire questo link?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Questo link apre la pagina di accesso di questo server. Verrai disconnesso dal server attuale.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Questo link ti fa accedere a questo server come $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Questo link ti fa accedere a questo server.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Questo server non usa una connessione sicura.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Questa app funziona solo con il proprio server e non può aprire questo link.';
+
+  @override
   String get liveTrackingActive =>
       'Tracciamento della posizione in tempo reale';
 

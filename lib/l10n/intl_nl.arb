@@ -538,5 +538,11 @@
   "totpSecretKey": "Geheime sleutel",
   "backupCodesDescription": "Print de codes uit, zodat je ze bij de hand hebt wanneer je ze moet gebruiken om in te loggen op je account. U kunt elke back-upcode één keer gebruiken.",
   "backupCodesWarning": "Zodra u deze pagina verlaat, kunnen deze codes niet meer worden weergegeven. Bewaar ze veilig met behulp van de onderstaande opties.",
-  "downloadTxt": "Downloaden (txt)"
+  "downloadTxt": "Downloaden (txt)",
+  "openThisLinkTitle": "Deze link openen?",
+  "linkOpensSignInPage": "Deze link opent de inlogpagina van deze server. Je wordt afgemeld bij je huidige server.",
+  "linkSignsInAs": "Deze link meldt je aan bij deze server als {email}.",
+  "linkSignsIn": "Deze link meldt je aan bij deze server.",
+  "serverConnectionNotSecure": "Deze server gebruikt geen beveiligde verbinding.",
+  "linkToOtherServerNotAllowed": "Deze app werkt alleen met de eigen server en kan deze link niet openen."
 }

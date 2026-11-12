@@ -1458,6 +1458,28 @@ class SAr extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'فتح هذا الرابط؟';
+
+  @override
+  String get linkOpensSignInPage =>
+      'يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم. سيتم تسجيل خروجك من الخادم الحالي.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'يسجّل هذا الرابط دخولك إلى هذا الخادم باسم $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'يسجّل هذا الرابط دخولك إلى هذا الخادم.';
+
+  @override
+  String get serverConnectionNotSecure => 'لا يستخدم هذا الخادم اتصالًا آمنًا.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'يعمل هذا التطبيق مع خادمه فقط ولا يمكنه فتح هذا الرابط.';
+
+  @override
   String get liveTrackingActive => 'تتبع الموقع المباشر';
 
   @override

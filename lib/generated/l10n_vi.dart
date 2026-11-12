@@ -1427,6 +1427,29 @@ class SVi extends S {
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 
   @override
+  String get openThisLinkTitle => 'Mở liên kết này?';
+
+  @override
+  String get linkOpensSignInPage =>
+      'Liên kết này mở trang đăng nhập của máy chủ này. Bạn sẽ bị đăng xuất khỏi máy chủ hiện tại.';
+
+  @override
+  String linkSignsInAs(Object email) {
+    return 'Liên kết này đăng nhập bạn vào máy chủ này với tài khoản $email.';
+  }
+
+  @override
+  String get linkSignsIn => 'Liên kết này đăng nhập bạn vào máy chủ này.';
+
+  @override
+  String get serverConnectionNotSecure =>
+      'Máy chủ này không dùng kết nối bảo mật.';
+
+  @override
+  String get linkToOtherServerNotAllowed =>
+      'Ứng dụng này chỉ hoạt động với máy chủ của nó và không thể mở liên kết này.';
+
+  @override
   String get liveTrackingActive => 'Theo dõi vị trí trực tiếp';
 
   @override

@@ -537,5 +537,11 @@
   "totpSecretKey": "密钥",
   "backupCodesDescription": "打印这些验证码，以便在需要登录账户时随时使用。每个备用验证码只能使用一次。",
   "backupCodesWarning": "离开此页面后，这些验证码将无法再次显示。请使用以下选项安全保存。",
-  "downloadTxt": "下载（txt）"
+  "downloadTxt": "下载（txt）",
+  "openThisLinkTitle": "打开此链接？",
+  "linkOpensSignInPage": "此链接将打开此服务器的登录页面。你将从当前服务器退出登录。",
+  "linkSignsInAs": "此链接将以 {email} 身份登录此服务器。",
+  "linkSignsIn": "此链接将登录此服务器。",
+  "serverConnectionNotSecure": "此服务器未使用安全连接。",
+  "linkToOtherServerNotAllowed": "此应用仅适用于其自己的服务器，无法打开此链接。"
 }
