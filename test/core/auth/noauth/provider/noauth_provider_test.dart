@@ -199,19 +199,21 @@ void main() {
 
     late ProviderContainer container;
 
-    /// Runs the switch a scanned QR code of [host] starts.
-    Future<void> switchTo(String host) {
+    /// Runs the switch a scanned QR code of [host] starts. Without a
+    /// [secret] it is a link that only opens the login page of [host].
+    Future<void> switchTo(String host, {String? secret = 'secret'}) {
       container = ProviderContainer();
       addTearDown(container.dispose);
       container.listen(noauthProviderProvider, (previous, next) {});
+      final query = secret == null ? '' : '?secret=$secret';
       return container
           .read(noauthProviderProvider.notifier)
           .switchEndpoint(
             SwitchEndpointParams(
               data: SwitchEndpointArgs(
-                secret: 'secret',
+                secret: secret,
                 host: host,
-                uri: Uri.parse('$host/api/noauth/qr?secret=secret'),
+                uri: Uri.parse('$host/api/noauth/qr$query'),
               ),
             ),
           );
@@ -249,6 +251,25 @@ void main() {
       // The server update page still explains what happened, and names the
       // outdated server, not the one the app went back to.
       expect(clientService.unsupportedServer.value, isNotNull);
+      expect(clientService.unsupportedServerEndpoint, host);
+      expect(state.isDone, isTrue);
+      expect(state.failure, isNull);
+    });
+
+    test('a link without a login secret to an outdated server goes back to '
+        'the server and the session it had too', () async {
+      when(() => client.setUserFromJwtToken(any(), any(), any()))
+          .thenAnswer((_) async {});
+      final clientService = FakeClientService(client, outdatedHost: host);
+      getIt.registerSingleton<ITbClientService>(clientService);
+
+      await switchTo(host, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, [host, previousEndpoint]);
       expect(clientService.unsupportedServerEndpoint, host);
       expect(state.isDone, isTrue);
       expect(state.failure, isNull);
