@@ -2,7 +2,15 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url ("https://jitpack.io/") }
+        // Only the ESP provisioning library (flutter_esp_ble_prov) and its
+        // QR scanner come from JitPack.
+        maven {
+            url ("https://jitpack.io/")
+            content {
+                includeGroup "com.github.espressif"
+                includeGroup "com.github.yuriy-budiyev"
+            }
+        }
     }
 }
 
