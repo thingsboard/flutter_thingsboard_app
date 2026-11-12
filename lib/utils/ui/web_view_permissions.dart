@@ -8,21 +8,31 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 /// Answers a web page's request for the camera, microphone or similar: only
 /// pages of the ThingsBoard server at [endpoint] get them, any other page is
 /// refused.
+///
+/// An `http` endpoint on the default port also covers the same host over
+/// `https` on the default port: a server that redirects to HTTPS is still the
+/// same server, and the camera only works on HTTPS pages anyway.
 PermissionResponse endpointOnlyPermission(
   PermissionRequest request,
   String endpoint,
 ) {
   final server = Uri.tryParse(endpoint);
   final origin = request.origin;
-  final sameOrigin =
+  final sameServer =
       server != null &&
-      origin.scheme == server.scheme &&
       origin.host == server.host &&
-      origin.port == server.port;
+      ((origin.scheme == server.scheme && origin.port == server.port) ||
+          _isHttpsUpgrade(server, origin));
   return PermissionResponse(
     resources: request.resources,
-    action: sameOrigin
+    action: sameServer
         ? PermissionResponseAction.GRANT
         : PermissionResponseAction.DENY,
   );
 }
+
+bool _isHttpsUpgrade(Uri server, Uri origin) =>
+    server.scheme == 'http' &&
+    server.port == 80 &&
+    origin.scheme == 'https' &&
+    origin.port == 443;
