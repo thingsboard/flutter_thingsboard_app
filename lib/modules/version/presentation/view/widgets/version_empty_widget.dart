@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 
 class VersionEmptyWidget extends StatelessWidget {
   const VersionEmptyWidget({
@@ -44,10 +44,7 @@ class VersionEmptyWidget extends StatelessWidget {
                       visible: storeLink?.isNotEmpty == true,
                       child: ElevatedButton(
                         onPressed: () {
-                          launchUrlString(
-                            storeLink!,
-                            mode: LaunchMode.externalApplication,
-                          );
+                          Utils.openStoreLink(storeLink!);
                         },
                         child: Text(S.of(context).updateTo(latestVersion)),
                       ),

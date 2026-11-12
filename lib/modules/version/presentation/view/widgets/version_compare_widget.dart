@@ -12,7 +12,6 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class VersionCompareWidget extends StatefulWidget {
   const VersionCompareWidget({
@@ -83,7 +82,7 @@ class _VersionCompareWidgetState extends State<VersionCompareWidget>
               Expanded(
                 child: HtmlWidget(
                   releaseNotes,
-                  onTapUrl: (link) => Utils.onWebViewLinkPressed(link),
+                  onTapUrl: Utils.openReleaseNotesLink,
                 ),
               ),
               Align(
@@ -92,10 +91,7 @@ class _VersionCompareWidgetState extends State<VersionCompareWidget>
                   visible: widget.storeLink?.isNotEmpty == true,
                   child: ElevatedButton(
                     onPressed: () {
-                      launchUrlString(
-                        widget.storeLink!,
-                        mode: LaunchMode.externalApplication,
-                      );
+                      Utils.openStoreLink(widget.storeLink!);
                     },
                     child: Text(S.of(context).updateTo(widget.latestVersion)),
                   ),

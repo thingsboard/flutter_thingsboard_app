@@ -26,16 +26,55 @@ abstract class Utils {
 
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
+
+  /// What a link in text from the server (release notes, terms, privacy
+  /// policy) may open: web pages, e-mail and phone. Other schemes, such as
+  /// an Android `intent:`, could start any app and are refused.
+  static const linkSchemes = {'https', 'http', 'mailto', 'tel'};
+
+  /// What a store link from the server may open: the store page on the web,
+  /// or the Google Play and App Store apps.
+  static const storeLinkSchemes = {'https', 'market', 'itms-apps'};
+
   static Future<bool> onWebViewLinkPressed(String link) async {
-    final canLaunch = await canLaunchUrlString(link);
-    if (canLaunch) {
+    if (_hasScheme(link, linkSchemes) && await canLaunchUrlString(link)) {
       await launchUrlString(link);
     } else {
-      getIt<IOverlayService>().showErrorNotification(
-        (context) => S.of(context).cantLaunchUrlLink(link),
-      );
+      _cantOpen(link);
     }
     return true;
+  }
+
+  /// Opens a store link from the server outside the app. Not checked with
+  /// `canLaunchUrlString`: Android answers it only for schemes the manifest
+  /// declares, and `market:` is not one of them.
+  static Future<void> openStoreLink(String link) async {
+    if (!_hasScheme(link, storeLinkSchemes)) {
+      _cantOpen(link);
+      return;
+    }
+    await launchUrlString(link, mode: LaunchMode.externalApplication);
+  }
+
+  /// Opens a link from release notes outside the app.
+  static Future<bool> openReleaseNotesLink(String link) async {
+    if (_hasScheme(link, linkSchemes)) {
+      await launchUrlString(link, mode: LaunchMode.externalApplication);
+    } else {
+      _cantOpen(link);
+    }
+    return true;
+  }
+
+  static bool _hasScheme(String link, Set<String> schemes) {
+    final scheme = Uri.tryParse(link.trim())?.scheme.toLowerCase();
+    return scheme != null && schemes.contains(scheme);
+  }
+
+  static void _cantOpen(String link) {
+    getIt<IOverlayService>().showErrorNotification(
+      (context) => S.of(context).cantLaunchUrlLink(link),
+    );
   }
 
   static String createDashboardEntityState(

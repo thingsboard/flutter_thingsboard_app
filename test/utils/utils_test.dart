@@ -4,15 +4,19 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
 import '../helpers/test_dependencies.dart';
 
 class MockEndpointService extends Mock implements IEndpointService {}
+
+class MockOverlayService extends Mock implements IOverlayService {}
 
 const _endpoint = 'https://tb.example.com:8443';
 const _token = 'access-token';
@@ -102,5 +106,69 @@ void main() {
     final images = await requestedImages(tester, '/api/images/tenant/logo.png');
 
     expect(images.single.url, '$_endpoint/api/images/tenant/logo.png');
+  });
+
+  group('links from the server', () {
+    const channel = MethodChannel('plugins.flutter.io/url_launcher');
+    late List<String> opened;
+    late MockOverlayService overlay;
+
+    setUp(() {
+      opened = [];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (call) async {
+            final url = (call.arguments as Map)['url'] as String;
+            if (call.method == 'launch') opened.add(url);
+            return true;
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, null),
+      );
+      overlay = MockOverlayService();
+      getIt.registerSingleton<IOverlayService>(overlay);
+    });
+
+    for (final link in [
+      'https://play.google.com/store/apps/details?id=org.example',
+      'market://details?id=org.example',
+      'itms-apps://apps.apple.com/app/id1',
+    ]) {
+      test('a store link opens the store: $link', () async {
+        await Utils.openStoreLink(link);
+
+        expect(opened, [link]);
+      });
+    }
+
+    for (final link in [
+      'https://example.com/notes',
+      'mailto:support@example.com',
+    ]) {
+      test('a link in server text opens: $link', () async {
+        await Utils.onWebViewLinkPressed(link);
+        await Utils.openReleaseNotesLink(link);
+
+        expect(opened, [link, link]);
+      });
+    }
+
+    for (final link in [
+      'intent://scan/#Intent;scheme=zxing;package=com.example;end',
+      'file:///data/data/org.example/secret',
+      'javascript:alert(1)',
+    ]) {
+      test(
+        'a link that could start another app is not opened: $link',
+        () async {
+          await Utils.openStoreLink(link);
+          await Utils.onWebViewLinkPressed(link);
+          await Utils.openReleaseNotesLink(link);
+
+          expect(opened, isEmpty);
+          verify(() => overlay.showErrorNotification(any())).called(3);
+        },
+      );
+    }
   });
 }

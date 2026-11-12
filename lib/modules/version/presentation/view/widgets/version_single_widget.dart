@@ -10,8 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class VersionSingleWidget extends StatefulWidget {
   const VersionSingleWidget({
@@ -70,10 +70,7 @@ class _VersionSingleState extends State<VersionSingleWidget>
                   padding: const EdgeInsets.all(8),
                   child: HtmlWidget(
                     widget.notes,
-                    onTapUrl: (link) => launchUrlString(
-                      link,
-                      mode: LaunchMode.externalApplication,
-                    ),
+                    onTapUrl: Utils.openReleaseNotesLink,
                   ),
                 ),
               ),
@@ -83,10 +80,7 @@ class _VersionSingleState extends State<VersionSingleWidget>
                   visible: widget.storeLink?.isNotEmpty == true,
                   child: ElevatedButton(
                     onPressed: () {
-                      launchUrlString(
-                        widget.storeLink!,
-                        mode: LaunchMode.externalApplication,
-                      );
+                      Utils.openStoreLink(widget.storeLink!);
                     },
                     child: Text(S.of(context).updateTo(widget.latestVersion)),
                   ),
