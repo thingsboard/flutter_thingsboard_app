@@ -18,7 +18,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
   static const _imageBase64UrlPrefix = 'data:image/';
-  static final _imagesUrlRegexp = RegExp('/api/images/(tenant|system)/(.*)');
+  // Anchored: a value is a server image only when it is a path on the server.
+  static final _imagesUrlRegexp = RegExp('^/api/images/(tenant|system)/.+');
   static final _noImageDataUri = UriData.parse(
     'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
   ).contentAsBytes();
@@ -115,8 +116,9 @@ abstract class Utils {
           }
           parts[parts.length - 1] = key;
           final encodedUrl = parts.join('/');
-          imageLink =
-              getIt<IEndpointService>().getCachedEndpoint() + encodedUrl;
+          // The client's own endpoint, so the token only goes to the server
+          // that issued it, even while the app is switching servers.
+          imageLink = tbClient.apiEndpoint + encodedUrl;
           headers = {_authHeaderName: _authScheme + jwtToken};
         }
         return _networkImage(
