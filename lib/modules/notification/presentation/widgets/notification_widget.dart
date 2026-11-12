@@ -102,6 +102,15 @@ class NotificationWidget extends StatelessWidget {
                               notification.text ?? '',
                               // Links were not tappable with flutter_html.
                               onTapUrl: (_) => true,
+                              customWidgetBuilder: (element) =>
+                                  _isRemoteImage(
+                                    element.localName,
+                                    element.attributes['src'],
+                                  )
+                                  ? const InlineCustomWidget(
+                                      child: SizedBox.shrink(),
+                                    )
+                                  : null,
                             ),
                           ),
                         ),
@@ -188,3 +197,9 @@ AlarmSeverity? notificationAlarmSeverity(NotificationInfo? info) =>
       AlarmAssignmentNotificationInfo(:final alarmSeverity) => alarmSeverity,
       _ => null,
     };
+
+/// A notification can come from any rule on the server. An image in its text
+/// that is loaded from a host would tell that host when and where the user
+/// read it, so only images carried in the text itself (`data:`) are shown.
+bool _isRemoteImage(String? tag, String? src) =>
+    tag == 'img' && !(src?.trim().toLowerCase().startsWith('data:') ?? false);
