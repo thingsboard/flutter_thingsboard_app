@@ -11,7 +11,10 @@ import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_app/utils/ui/web_view_permissions.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -50,12 +53,11 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
             onWebViewCreated: (ctrl) {
               webViewController = ctrl;
             },
-            onPermissionRequest: (controller, request) {
-              return PermissionResponse(
-                resources: request.resources,
-                action: PermissionResponseAction.GRANT,
-              );
-            },
+            onPermissionRequest: (controller, request) =>
+                endpointOnlyPermission(
+                  request,
+                  getIt<IEndpointService>().getCachedEndpoint(),
+                ),
             onTitleChanged: (_, title) {
               titleNotifier.value = title ?? S.of(context).url;
             },

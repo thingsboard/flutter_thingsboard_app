@@ -6,6 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/noauth_routes.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/register_routes.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
@@ -15,6 +18,12 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 /// Query parameter [ThingsboardAppRouter.navigateByAppLink] adds to carry the
 /// whole scanned link; routes read it back from `state.uri.queryParameters`.
 const appLinkUriQueryParam = 'uri';
+
+const _appLinkPaths = {
+  noAuthPath,
+  LoginRoutes.login,
+  RegisterRoutes.emailVerified,
+};
 
 class ThingsboardAppRouter {
   ThingsboardAppRouter({required this.overlayService});
@@ -65,11 +74,18 @@ class ThingsboardAppRouter {
     );
   }
 
-  //TODO: &&  !link.contains('signuprified') is merge conflict, need to refactor
+  /// Opens a link from outside the app (an app link, or a code scanned with
+  /// the in-app QR scanner). Only the pages such links are made for are
+  /// opened: QR login, the login page and the sign-up confirmation. Anything
+  /// else is ignored; pages inside the app use [navigateTo].
   Future<void> navigateByAppLink(String? link) async {
     if (link != null) {
       final uri = Uri.parse(link);
       await getIt<ILocalDatabaseService>().deleteInitialAppLink();
+      if (!_appLinkPaths.contains(uri.path)) {
+        log.debug('TbContext: app link to ${uri.path} ignored');
+        return;
+      }
       log.debug('TbContext: navigate by appLink $uri');
       navigateTo(
         uri.path,

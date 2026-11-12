@@ -20,6 +20,7 @@ import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/ui/web_view_permissions.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -171,9 +172,9 @@ class _DashboardState extends State<DashboardWidget> {
                       'onPermissionRequest resources: ${request.resources}',
                     );
 
-                    return PermissionResponse(
-                      action: PermissionResponseAction.GRANT,
-                      resources: request.resources,
+                    return endpointOnlyPermission(
+                      request,
+                      getIt<IEndpointService>().getCachedEndpoint(),
                     );
                   },
                 )
