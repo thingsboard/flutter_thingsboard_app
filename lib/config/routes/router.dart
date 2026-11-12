@@ -12,8 +12,10 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/register_r
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 /// Query parameter [ThingsboardAppRouter.navigateByAppLink] adds to carry the
 /// whole scanned link; routes read it back from `state.uri.queryParameters`.
@@ -86,6 +88,12 @@ class ThingsboardAppRouter {
         log.debug('TbContext: app link to ${uri.path} ignored');
         return;
       }
+      // A signed-in user has nothing to do on the login page: it would only
+      // wait for a sign-in that already happened.
+      if (uri.path == LoginRoutes.login && _hasFullSession()) {
+        log.debug('TbContext: app link to ${uri.path} ignored, signed in');
+        return;
+      }
       log.debug('TbContext: navigate by appLink $uri');
       navigateTo(
         uri.path,
@@ -95,4 +103,7 @@ class ThingsboardAppRouter {
       );
     }
   }
+
+  bool _hasFullSession() =>
+      getIt<ITbClientService>().client.getAuthUser()?.isFullSession() ?? false;
 }

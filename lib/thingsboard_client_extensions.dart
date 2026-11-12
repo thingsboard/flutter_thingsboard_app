@@ -99,3 +99,10 @@ extension AlarmInfoExt on AlarmInfo {
     return value.asMap['dashboardId']?.toString();
   }
 }
+
+extension AuthUserExt on AuthUser {
+  /// A session past the two-factor steps: the user is, or is about to be,
+  /// on the home screen.
+  bool isFullSession() =>
+      !isMfaConfigurationToken() && !isPreVerificationToken();
+}

@@ -12,21 +12,26 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../helpers/test_dependencies.dart';
 
 class MockOverlayService extends Mock implements IOverlayService {}
 
+class MockAuthUser extends Mock implements AuthUser {}
+
 Widget _page(String name) => Scaffold(body: Text(name));
 
 void main() {
   late ThingsboardAppRouter router;
+  late MockThingsboardClient client;
 
   setUp(() {
+    client = MockThingsboardClient();
     final localDatabase = MockLocalDatabaseService();
     when(localDatabase.deleteInitialAppLink).thenAnswer((_) async {});
     registerTestDependencies(
-      tbClient: MockThingsboardClient(),
+      tbClient: client,
       localDatabase: localDatabase,
       firebaseService: MockFirebaseService(),
     );
@@ -107,5 +112,49 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('devices'), findsOneWidget);
+  });
+
+  /// A signed-in user, or one still on a two-factor step when [mfa] is set.
+  void signIn({bool mfa = false}) {
+    final user = MockAuthUser();
+    when(user.isMfaConfigurationToken).thenReturn(false);
+    when(user.isPreVerificationToken).thenReturn(mfa);
+    when(client.getAuthUser).thenReturn(user);
+  }
+
+  testWidgets('a login link is ignored for a signed-in user', (tester) async {
+    signIn();
+    await pumpApp(tester);
+
+    unawaited(router.navigateByAppLink('tbscheme://app.example/login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('home'), findsOneWidget);
+  });
+
+  testWidgets('a login link still opens during a two-factor step', (
+    tester,
+  ) async {
+    signIn(mfa: true);
+    await pumpApp(tester);
+
+    unawaited(router.navigateByAppLink('tbscheme://app.example/login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('login'), findsOneWidget);
+  });
+
+  testWidgets('QR login still opens for a signed-in user', (tester) async {
+    signIn();
+    await pumpApp(tester);
+
+    unawaited(
+      router.navigateByAppLink(
+        'https://app.example/api/noauth/qr?secret=abc&ttl=60',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('qr login'), findsOneWidget);
   });
 }

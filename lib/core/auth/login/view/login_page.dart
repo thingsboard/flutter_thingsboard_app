@@ -12,6 +12,7 @@ import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_widget.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/communication/events/user_loaded_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -84,9 +85,6 @@ class LoginPage extends HookConsumerWidget {
     final user = client.getAuthUser();
 
     // Only a full session is on its way to the home screen.
-    isUserLoading.value =
-        user != null &&
-        !user.isMfaConfigurationToken() &&
-        !user.isPreVerificationToken();
+    isUserLoading.value = user?.isFullSession() ?? false;
   }
 }
