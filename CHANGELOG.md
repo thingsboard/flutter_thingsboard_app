@@ -37,6 +37,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Saving the profile with the Auto unit system no longer stores `AUTO`, which the web UI and dashboards did not recognise.
 - Dashboard export (CSV, XLS, XLSX) saves the file again on ThingsBoard 4.2.1 and later.
 - App links (email verification, QR code login) open once instead of twice.
+- iOS: the email verification link opens the app again in release builds (TestFlight, App Store); the release `Info.plist` did not register the registration redirect scheme.
 - Sign-up and email verification go back to the login page instead of stacking new ones.
 - A session revoked elsewhere (e.g. a password change) shows one translated "Session has expired" instead of the server's "Token is outdated" and a toast per waiting request.
 - Server errors right after start-up or a QR server switch are shown instead of being hidden for two seconds.
