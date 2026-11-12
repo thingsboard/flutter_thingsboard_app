@@ -132,6 +132,13 @@ class NoauthProvider extends _$NoauthProvider {
         // and let the login page of that host take over.
         if (!isSameOrigin) {
           await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
+          if (_isServerOutdated) {
+            await _rollBackFromOutdated(
+              host,
+              previousEndpoint,
+              previousSession,
+            );
+          }
         }
         state = const NoAuthState(isDone: true);
         return;
@@ -152,6 +159,14 @@ class NoauthProvider extends _$NoauthProvider {
         isSameOrigin: isSameOrigin,
       );
 
+      if (_isServerOutdated) {
+        if (!isSameOrigin) {
+          await _rollBackFromOutdated(host, previousEndpoint, previousSession);
+        }
+        state = const NoAuthState(isDone: true);
+        return;
+      }
+
       _logger.debug('SwitchEndpointUseCase: switch to $host done');
       state = const NoAuthState(isDone: true);
     } catch (e) {
@@ -159,6 +174,23 @@ class NoauthProvider extends _$NoauthProvider {
       await _rollbackTo(previousEndpoint, previousSession);
       state = _failureState(e, host: host);
     }
+  }
+
+  bool get _isServerOutdated =>
+      getIt<ITbClientService>().unsupportedServer.value != null;
+
+  /// An outdated server is a failed switch, with or without a login secret.
+  /// Nobody can sign in there, and a build with a fixed server has no region
+  /// switch on the login page, so staying left a QR code as the only way to
+  /// another server. The server update page still explains it; underneath,
+  /// the app goes back to the server and the session it had.
+  Future<void> _rollBackFromOutdated(
+    String host,
+    String previousEndpoint,
+    _Session previousSession,
+  ) async {
+    _logger.debug('SwitchEndpointUseCase: $host is outdated, rollback');
+    await _rollbackTo(previousEndpoint, previousSession);
   }
 
   /// Scheme and port are part of the identity: `http://acme.local:8080` and
@@ -258,7 +290,8 @@ class NoauthProvider extends _$NoauthProvider {
       await _switchFirebaseApps(previousEndpoint);
     }
     await _reInitClient(host, logTag: 'switch');
-    // The server update page takes over; the session was not kept.
+    // The server update page takes over and the caller rolls the switch back;
+    // the session was not kept.
     if (getIt<ITbClientService>().unsupportedServer.value != null) return;
 
     final client = getIt<ITbClientService>().client;
