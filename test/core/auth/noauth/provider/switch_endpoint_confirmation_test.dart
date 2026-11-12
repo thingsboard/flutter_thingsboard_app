@@ -18,6 +18,7 @@ import 'package:thingsboard_app/modules/location_tracking/application/i_live_loc
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/previous_session_mocks.dart';
 import '../../../../helpers/test_dependencies.dart';
 
 class MockEndpointService extends Mock implements IEndpointService {}
@@ -54,6 +55,7 @@ void main() {
   late MockEndpointService endpoint;
   late MockStorage storage;
   late MockLiveTracking liveTracking;
+  late PreviousSessionMocks previous;
   late ProviderContainer container;
 
   setUp(() {
@@ -104,6 +106,7 @@ void main() {
       ..registerSingleton<IEndpointService>(endpoint)
       ..registerSingleton<TbStorage>(storage)
       ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
+    previous = PreviousSessionMocks(client);
 
     NoauthProvider.hostAdapterForTesting = _UserAdapter.new;
     addTearDown(() => NoauthProvider.hostAdapterForTesting = null);
@@ -184,7 +187,7 @@ void main() {
 
       verifyInOrder([
         liveTracking.teardownForLogout,
-        () => client.setUserFromJwtToken(null, null, false),
+        () => storage.deleteItem('jwt_token'),
         () => endpoint.setEndpoint(_other),
       ]);
     });
@@ -249,6 +252,82 @@ void main() {
         () => storage.setItem('jwt_token', 'access'),
         () => endpoint.setEndpoint(_other),
       ]);
+    });
+  });
+
+  group('the session the user had before a switch', () {
+    setUp(() => when(client.isAuthenticated).thenReturn(true));
+
+    Future<void> continueSwitch({String? secret}) async {
+      await startAndSettle(host: _other, secret: secret);
+      notifier().answerConfirmation(accepted: true);
+      await switching;
+    }
+
+    test('ends on its server after a switch to another server', () async {
+      await continueSwitch();
+
+      verifyInOrder([
+        () => previous.users.removeMobileSession(
+          xMobileToken: PreviousSessionMocks.pushToken,
+          extra: any(named: 'extra'),
+        ),
+        client.close,
+        () => storage.deleteItem('jwt_token'),
+        () => endpoint.setEndpoint(_other),
+        () => previous.auth.logout(extra: any(named: 'extra')),
+        previous.webData.clear,
+      ]);
+    });
+
+    // Before the new session registers the same device.
+    test('drops its push registration before a login code signs in, and '
+        'logs out after', () async {
+      await continueSwitch(secret: 'one-time');
+
+      verifyInOrder([
+        () => previous.users.removeMobileSession(
+          xMobileToken: PreviousSessionMocks.pushToken,
+          extra: any(named: 'extra'),
+        ),
+        client.close,
+        () => storage.setItem('jwt_token', 'access'),
+        () => previous.auth.logout(extra: any(named: 'extra')),
+      ]);
+    });
+
+    test('is kept when the user cancels', () async {
+      await startAndSettle(host: _other);
+      notifier().answerConfirmation(accepted: false);
+      await switching;
+
+      verifyNever(client.close);
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+      verifyNever(
+        () => previous.users.removeMobileSession(
+          xMobileToken: any(named: 'xMobileToken'),
+          extra: any(named: 'extra'),
+        ),
+      );
+    });
+
+    test('is kept when the other server is outdated', () async {
+      when(
+        () => clientService.unsupportedServer,
+      ).thenReturn(ValueNotifier(UnsupportedServerVersionError('4.2', '4.4')));
+
+      await continueSwitch();
+
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+    });
+
+    test('nothing is ended for a signed-out user', () async {
+      when(client.isAuthenticated).thenReturn(false);
+
+      await continueSwitch();
+
+      verifyNever(client.close);
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
     });
   });
 }

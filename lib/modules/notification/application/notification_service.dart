@@ -53,6 +53,8 @@ class NotificationService {
   /// the server stores it as the mobile session token (`X-Mobile-Token`).
   String? _fid;
 
+  String? get mobileToken => _fid;
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   /// Resolved lazily: `FirebaseMessaging.instance` needs an initialized

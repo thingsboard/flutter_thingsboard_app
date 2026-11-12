@@ -15,10 +15,13 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 part 'noauth_provider.g.dart';
@@ -195,6 +198,7 @@ class NoauthProvider extends _$NoauthProvider {
             return;
           }
           await _stopLiveTracking();
+          final previous = await _holdSignedInClient();
           await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
           if (_isServerOutdated) {
             await _rollBackFromOutdated(
@@ -202,6 +206,8 @@ class NoauthProvider extends _$NoauthProvider {
               previousEndpoint,
               previousSession,
             );
+          } else {
+            await _endSession(previous);
           }
         }
         state = const NoAuthState(isDone: true);
@@ -221,6 +227,7 @@ class NoauthProvider extends _$NoauthProvider {
       }
 
       await _stopLiveTracking();
+      final previous = await _holdSignedInClient();
       state = NoAuthState(
         step: isSameOrigin ? NoAuthStep.loggingIn : NoAuthStep.switchingHost,
         host: host,
@@ -240,6 +247,7 @@ class NoauthProvider extends _$NoauthProvider {
         return;
       }
 
+      await _endSession(previous);
       _logger.debug('SwitchEndpointUseCase: switch to $host done');
       state = const NoAuthState(isDone: true);
     } catch (e) {
@@ -253,6 +261,46 @@ class NoauthProvider extends _$NoauthProvider {
   /// mark tracking inactive on its server.
   Future<void> _stopLiveTracking() =>
       getIt<ILiveLocationTrackingService>().teardownForLogout();
+
+  /// Drops the push registration now: the server removes a device token for
+  /// every user of the tenant, so later it could drop the new session's. Then
+  /// closes the client so it stops writing the shared token storage; its
+  /// token stays in memory for [_endSession].
+  Future<ThingsboardClient?> _holdSignedInClient() async {
+    final client = getIt<ITbClientService>().client;
+    if (!client.isAuthenticated()) return null;
+    final mobileToken = getIt<NotificationService>().mobileToken;
+    if (mobileToken != null) {
+      await _bestEffort(
+        'removeMobileSession',
+        () => client.getUserControllerApi().removeMobileSession(
+          xMobileToken: mobileToken,
+          extra: silentRequestExtra(),
+        ),
+      );
+    }
+    await client.close();
+    return client;
+  }
+
+  /// Only after a successful switch, so a rollback keeps the session. Best
+  /// effort: an unreachable server leaves it to expire.
+  Future<void> _endSession(ThingsboardClient? previous) async {
+    if (previous == null) return;
+    await _bestEffort(
+      'logout',
+      () => previous.getAuthControllerApi().logout(extra: silentRequestExtra()),
+    );
+    await _bestEffort('clear web data', getIt<IWebViewDataService>().clear);
+  }
+
+  Future<void> _bestEffort(String step, Future<Object?> Function() run) async {
+    try {
+      await run();
+    } catch (e) {
+      _logger.warn('SwitchEndpointUseCase: previous session $step failed: $e');
+    }
+  }
 
   bool get _isServerOutdated =>
       getIt<ITbClientService>().unsupportedServer.value != null;
@@ -396,12 +444,9 @@ class NoauthProvider extends _$NoauthProvider {
   }) async {
     state = NoAuthState(step: NoAuthStep.switchingHost, host: host);
     // A host switch without a login secret ends on the login page of the new
-    // host: the previous host's session tokens are meaningless there.
-    await getIt<ITbClientService>().client.setUserFromJwtToken(
-      null,
-      null,
-      false,
-    );
+    // host: the previous host's session tokens are meaningless there. Cleared
+    // in the storage, as the previous client may already be closed.
+    await _writeStoredSession((token: null, refreshToken: null));
     await getIt<IEndpointService>().setEndpoint(host);
     await _switchFirebaseApps(previousEndpoint);
     await _reInitClient(host, logTag: 'hostOnly');

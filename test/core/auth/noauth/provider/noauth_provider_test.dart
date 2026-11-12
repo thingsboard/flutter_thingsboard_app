@@ -20,6 +20,7 @@ import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart'
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/previous_session_mocks.dart';
 import '../../../../helpers/test_dependencies.dart';
 
 class FakeEndpointService implements IEndpointService {
@@ -157,6 +158,7 @@ void main() {
     late FakeEndpointService endpoints;
     late MemoryStorage storage;
     late MockThingsboardClient client;
+    late PreviousSessionMocks previous;
 
     setUp(() async {
       // The target host: the switch verifies the exchanged session there.
@@ -201,6 +203,7 @@ void main() {
         ..registerSingleton<IFirebaseService>(firebase)
         ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
       addTearDown(getIt.reset);
+      previous = PreviousSessionMocks(client);
     });
 
     late ProviderContainer container;
@@ -245,6 +248,9 @@ void main() {
       expect(storage.items['jwt_token'], 'scanned-token');
       expect(storage.items['refresh_token'], 'scanned-refresh');
       expect(clientService.reInits, [host]);
+      // The session it replaced is ended on its own server, and the new one
+      // stays in the storage.
+      verify(() => previous.auth.logout(extra: any(named: 'extra'))).called(1);
     });
 
     // In a build with a fixed server the login page has no region switch, so
@@ -267,6 +273,8 @@ void main() {
       expect(clientService.unsupportedServerEndpoint, host);
       expect(state.isDone, isTrue);
       expect(state.failure, isNull);
+      // The session the app goes back to is still valid on its server.
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
     });
 
     test('a link without a login secret to an outdated server goes back to '
