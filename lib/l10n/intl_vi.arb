@@ -540,6 +540,7 @@
   "downloadTxt": "Tải xuống (txt)",
   "openThisLinkTitle": "Mở liên kết này?",
   "linkOpensSignInPage": "Liên kết này mở trang đăng nhập của máy chủ này. Bạn sẽ bị đăng xuất khỏi máy chủ hiện tại.",
+  "linkOpensSignInPageOnly": "Liên kết này mở trang đăng nhập của máy chủ này.",
   "linkSignsInAs": "Liên kết này đăng nhập bạn vào máy chủ này với tài khoản {email}.",
   "linkSignsIn": "Liên kết này đăng nhập bạn vào máy chủ này.",
   "serverConnectionNotSecure": "Máy chủ này không dùng kết nối bảo mật.",

@@ -183,24 +183,35 @@ void main() {
     );
 
     test(
-      'of the current server signs a signed-out user in without asking',
+      'of the current server shows the account to a signed-out user',
       () async {
         await startAndSettle(host: _current, secret: 'one-time');
-        await switching;
 
-        expect(state().isDone, isTrue);
-        verify(() => storage.setItem('jwt_token', 'access')).called(1);
+        expect(state().step, NoAuthStep.confirming);
+        expect(state().email, 'user@other.example');
+        expect(state().signedIn, isFalse);
+        verifyNever(() => storage.setItem(any(), any()));
       },
     );
 
-    test('of the current server asks a signed-in user first', () async {
+    test('of the current server asks a signed-in user too', () async {
       when(client.isAuthenticated).thenReturn(true);
 
       await startAndSettle(host: _current, secret: 'one-time');
 
       expect(state().step, NoAuthStep.confirming);
-      expect(state().email, 'user@other.example');
+      expect(state().signedIn, isTrue);
       verifyNever(() => storage.setItem(any(), any()));
+    });
+
+    test('signs in once the user continues', () async {
+      await startAndSettle(host: _current, secret: 'one-time');
+
+      notifier().answerConfirmation(accepted: true);
+      await switching;
+
+      expect(state().isDone, isTrue);
+      verify(() => storage.setItem('jwt_token', 'access')).called(1);
     });
   });
 }

@@ -1443,6 +1443,10 @@ class SDa extends S {
       'Dette link åbner login-siden for denne server. Du bliver logget ud af din nuværende server.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Dette link åbner login-siden for denne server.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Dette link logger dig ind på denne server som $email.';
   }

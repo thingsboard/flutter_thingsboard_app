@@ -1454,6 +1454,10 @@ class SFr extends S {
       'Ce lien ouvre la page de connexion de ce serveur. Vous serez déconnecté de votre serveur actuel.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Ce lien ouvre la page de connexion de ce serveur.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Ce lien vous connecte à ce serveur en tant que $email.';
   }

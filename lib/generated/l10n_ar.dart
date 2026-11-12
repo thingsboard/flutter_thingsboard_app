@@ -1465,6 +1465,10 @@ class SAr extends S {
       'يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم. سيتم تسجيل خروجك من الخادم الحالي.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'يسجّل هذا الرابط دخولك إلى هذا الخادم باسم $email.';
   }

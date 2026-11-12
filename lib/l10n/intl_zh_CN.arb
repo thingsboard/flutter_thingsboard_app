@@ -540,6 +540,7 @@
   "downloadTxt": "下载（txt）",
   "openThisLinkTitle": "打开此链接？",
   "linkOpensSignInPage": "此链接将打开此服务器的登录页面。你将从当前服务器退出登录。",
+  "linkOpensSignInPageOnly": "此链接将打开此服务器的登录页面。",
   "linkSignsInAs": "此链接将以 {email} 身份登录此服务器。",
   "linkSignsIn": "此链接将登录此服务器。",
   "serverConnectionNotSecure": "此服务器未使用安全连接。",

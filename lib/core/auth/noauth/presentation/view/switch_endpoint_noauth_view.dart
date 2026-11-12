@@ -152,6 +152,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
               return _LinkConfirmation(
                 host: noAuth.host ?? '',
                 signsIn: noAuth.signsIn,
+                signedIn: noAuth.signedIn,
                 email: noAuth.email,
                 onAnswer: (accepted) => ref
                     .read(noauthProviderProvider.notifier)
@@ -243,12 +244,14 @@ class _LinkConfirmation extends StatelessWidget {
   const _LinkConfirmation({
     required this.host,
     required this.signsIn,
+    required this.signedIn,
     required this.email,
     required this.onAnswer,
   });
 
   final String host;
   final bool signsIn;
+  final bool signedIn;
   final String? email;
   final void Function(bool accepted) onAnswer;
 
@@ -289,7 +292,8 @@ class _LinkConfirmation extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         switch ((signsIn, email)) {
-                          (false, _) => s.linkOpensSignInPage,
+                          (false, _) when signedIn => s.linkOpensSignInPage,
+                          (false, _) => s.linkOpensSignInPageOnly,
                           (true, final String email) => s.linkSignsInAs(email),
                           (true, null) => s.linkSignsIn,
                         },

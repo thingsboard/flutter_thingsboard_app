@@ -1440,6 +1440,10 @@ class SNo extends S {
       'Denne lenken åpner påloggingssiden til denne serveren. Du blir logget ut av den nåværende serveren.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Denne lenken åpner påloggingssiden til denne serveren.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Denne lenken logger deg på denne serveren som $email.';
   }

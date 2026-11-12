@@ -2575,6 +2575,12 @@ abstract class S {
   /// **'This link opens the sign-in page of this server. You will be signed out of your current server.'**
   String get linkOpensSignInPage;
 
+  /// No description provided for @linkOpensSignInPageOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This link opens the sign-in page of this server.'**
+  String get linkOpensSignInPageOnly;
+
   /// No description provided for @linkSignsInAs.
   ///
   /// In en, this message translates to:

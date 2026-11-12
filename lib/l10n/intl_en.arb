@@ -496,6 +496,7 @@
   "qrCodeSessionIsNoLongerValid": "The QR code session is no longer valid. Please refresh the QR code and scan again.",
   "openThisLinkTitle": "Open this link?",
   "linkOpensSignInPage": "This link opens the sign-in page of this server. You will be signed out of your current server.",
+  "linkOpensSignInPageOnly": "This link opens the sign-in page of this server.",
   "linkSignsInAs": "This link signs you in to this server as {email}.",
   "linkSignsIn": "This link signs you in to this server.",
   "serverConnectionNotSecure": "This server does not use a secure connection.",

@@ -1452,6 +1452,10 @@ class SDe extends S {
       'Dieser Link öffnet die Anmeldeseite dieses Servers. Sie werden von Ihrem aktuellen Server abgemeldet.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Dieser Link öffnet die Anmeldeseite dieses Servers.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Dieser Link meldet Sie bei diesem Server als $email an.';
   }

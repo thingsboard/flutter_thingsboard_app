@@ -1428,6 +1428,9 @@ class SZh extends S {
   String get linkOpensSignInPage => '此链接将打开此服务器的登录页面。你将从当前服务器退出登录。';
 
   @override
+  String get linkOpensSignInPageOnly => '此链接将打开此服务器的登录页面。';
+
+  @override
   String linkSignsInAs(Object email) {
     return '此链接将以 $email 身份登录此服务器。';
   }
@@ -2994,6 +2997,9 @@ class SZhCn extends SZh {
   String get linkOpensSignInPage => '此链接将打开此服务器的登录页面。你将从当前服务器退出登录。';
 
   @override
+  String get linkOpensSignInPageOnly => '此链接将打开此服务器的登录页面。';
+
+  @override
   String linkSignsInAs(Object email) {
     return '此链接将以 $email 身份登录此服务器。';
   }
@@ -4546,6 +4552,9 @@ class SZhTw extends SZh {
 
   @override
   String get linkOpensSignInPage => '此連結將開啟此伺服器的登入頁面。你將從目前的伺服器登出。';
+
+  @override
+  String get linkOpensSignInPageOnly => '此連結將開啟此伺服器的登入頁面。';
 
   @override
   String linkSignsInAs(Object email) {

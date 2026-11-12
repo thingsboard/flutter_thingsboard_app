@@ -541,6 +541,7 @@
   "downloadTxt": "Download (txt)",
   "openThisLinkTitle": "Åbn dette link?",
   "linkOpensSignInPage": "Dette link åbner login-siden for denne server. Du bliver logget ud af din nuværende server.",
+  "linkOpensSignInPageOnly": "Dette link åbner login-siden for denne server.",
   "linkSignsInAs": "Dette link logger dig ind på denne server som {email}.",
   "linkSignsIn": "Dette link logger dig ind på denne server.",
   "serverConnectionNotSecure": "Denne server bruger ikke en sikker forbindelse.",

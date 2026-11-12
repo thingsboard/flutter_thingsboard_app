@@ -1450,6 +1450,10 @@ class SIt extends S {
       'Questo link apre la pagina di accesso di questo server. Verrai disconnesso dal server attuale.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Questo link apre la pagina di accesso di questo server.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Questo link ti fa accedere a questo server come $email.';
   }

@@ -541,6 +541,7 @@
   "downloadTxt": "Downloaden (txt)",
   "openThisLinkTitle": "Deze link openen?",
   "linkOpensSignInPage": "Deze link opent de inlogpagina van deze server. Je wordt afgemeld bij je huidige server.",
+  "linkOpensSignInPageOnly": "Deze link opent de inlogpagina van deze server.",
   "linkSignsInAs": "Deze link meldt je aan bij deze server als {email}.",
   "linkSignsIn": "Deze link meldt je aan bij deze server.",
   "serverConnectionNotSecure": "Deze server gebruikt geen beveiligde verbinding.",

@@ -1436,6 +1436,10 @@ class SEn extends S {
       'This link opens the sign-in page of this server. You will be signed out of your current server.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'This link opens the sign-in page of this server.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'This link signs you in to this server as $email.';
   }

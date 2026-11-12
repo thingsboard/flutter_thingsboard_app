@@ -1446,6 +1446,10 @@ class SNl extends S {
       'Deze link opent de inlogpagina van deze server. Je wordt afgemeld bij je huidige server.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Deze link opent de inlogpagina van deze server.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Deze link meldt je aan bij deze server als $email.';
   }

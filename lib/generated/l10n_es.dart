@@ -1450,6 +1450,10 @@ class SEs extends S {
       'Este enlace abre la página de inicio de sesión de este servidor. Se cerrará tu sesión en el servidor actual.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Este enlace abre la página de inicio de sesión de este servidor.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Este enlace inicia tu sesión en este servidor como $email.';
   }

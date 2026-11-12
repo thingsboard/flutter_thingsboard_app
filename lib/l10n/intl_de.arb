@@ -541,6 +541,7 @@
   "downloadTxt": "Herunterladen (txt)",
   "openThisLinkTitle": "Diesen Link öffnen?",
   "linkOpensSignInPage": "Dieser Link öffnet die Anmeldeseite dieses Servers. Sie werden von Ihrem aktuellen Server abgemeldet.",
+  "linkOpensSignInPageOnly": "Dieser Link öffnet die Anmeldeseite dieses Servers.",
   "linkSignsInAs": "Dieser Link meldet Sie bei diesem Server als {email} an.",
   "linkSignsIn": "Dieser Link meldet Sie bei diesem Server an.",
   "serverConnectionNotSecure": "Dieser Server verwendet keine sichere Verbindung.",

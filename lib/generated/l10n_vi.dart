@@ -1434,6 +1434,10 @@ class SVi extends S {
       'Liên kết này mở trang đăng nhập của máy chủ này. Bạn sẽ bị đăng xuất khỏi máy chủ hiện tại.';
 
   @override
+  String get linkOpensSignInPageOnly =>
+      'Liên kết này mở trang đăng nhập của máy chủ này.';
+
+  @override
   String linkSignsInAs(Object email) {
     return 'Liên kết này đăng nhập bạn vào máy chủ này với tài khoản $email.';
   }

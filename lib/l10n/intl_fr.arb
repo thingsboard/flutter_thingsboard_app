@@ -541,6 +541,7 @@
   "downloadTxt": "Télécharger (txt)",
   "openThisLinkTitle": "Ouvrir ce lien ?",
   "linkOpensSignInPage": "Ce lien ouvre la page de connexion de ce serveur. Vous serez déconnecté de votre serveur actuel.",
+  "linkOpensSignInPageOnly": "Ce lien ouvre la page de connexion de ce serveur.",
   "linkSignsInAs": "Ce lien vous connecte à ce serveur en tant que {email}.",
   "linkSignsIn": "Ce lien vous connecte à ce serveur.",
   "serverConnectionNotSecure": "Ce serveur n'utilise pas de connexion sécurisée.",

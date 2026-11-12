@@ -148,6 +148,7 @@ class NoauthProvider extends _$NoauthProvider {
       step: NoAuthStep.confirming,
       host: host,
       signsIn: signsIn,
+      signedIn: getIt<ITbClientService>().client.isAuthenticated(),
       email: email,
     );
     return confirmation.future;
@@ -216,21 +217,14 @@ class NoauthProvider extends _$NoauthProvider {
       final session = await _exchangeSecret(host: host, secret: secret);
       final email = await _verifySession(host: host, token: session.token);
 
-      // Signing in from the login page with a code of the same server is
-      // what the code is for; anything else replaces a session or a server,
-      // so the user sees where the link leads first.
-      final signedIn = getIt<ITbClientService>().client.isAuthenticated();
-      if (!isSameOrigin || signedIn) {
-        final accepted = await _confirm(
-          host: host,
-          signsIn: true,
-          email: email,
-        );
-        if (!ref.mounted) return;
-        if (!accepted) {
-          state = const NoAuthState(isCancelled: true);
-          return;
-        }
+      // The account is shown even for a code of the current server on the
+      // login page: the code may come from someone else, and signing in to
+      // their account would hand them what the user does next.
+      final accepted = await _confirm(host: host, signsIn: true, email: email);
+      if (!ref.mounted) return;
+      if (!accepted) {
+        state = const NoAuthState(isCancelled: true);
+        return;
       }
 
       state = NoAuthState(
@@ -574,6 +568,7 @@ class NoAuthState {
     this.isDone = false,
     this.isCancelled = false,
     this.signsIn = false,
+    this.signedIn = false,
     this.step,
     this.host,
     this.email,
@@ -589,6 +584,9 @@ class NoAuthState {
   /// Whether the link being confirmed signs in, or only opens the sign-in
   /// page of another server.
   final bool signsIn;
+
+  /// Whether the user has a session the link would end.
+  final bool signedIn;
   final NoAuthStep? step;
   final String? host;
 

@@ -42,10 +42,11 @@ class FakeNoauth extends NoauthProvider {
 
 /// Stops at the confirmation the provider asks for and records the answer.
 class ConfirmingNoauth extends NoauthProvider {
-  ConfirmingNoauth(this.answers, {this.email});
+  ConfirmingNoauth(this.answers, {this.email, this.signedIn = true});
 
   final List<bool> answers;
   final String? email;
+  final bool signedIn;
 
   @override
   Future<void> switchEndpoint(SwitchEndpointParams params) async {
@@ -53,6 +54,7 @@ class ConfirmingNoauth extends NoauthProvider {
       step: NoAuthStep.confirming,
       host: 'https://other.example',
       signsIn: email != null,
+      signedIn: signedIn,
       email: email,
     );
   }
@@ -110,6 +112,7 @@ void main() {
       WidgetTester tester,
       List<bool> answers, {
       String? email,
+      bool signedIn = true,
     }) async {
       await tester.pumpWidget(
         ProviderScope(
@@ -117,7 +120,7 @@ void main() {
             loginProvider.overrideWith(FakeLogin.new),
             wlProvider.overrideWith(FakeWl.new),
             noauthProviderProvider.overrideWith(
-              () => ConfirmingNoauth(answers, email: email),
+              () => ConfirmingNoauth(answers, email: email, signedIn: signedIn),
             ),
           ],
           child: MaterialApp(
@@ -141,6 +144,15 @@ void main() {
 
       expect(find.text('https://other.example'), findsOneWidget);
       expect(find.text(s.linkOpensSignInPage), findsOneWidget);
+    });
+
+    testWidgets('does not warn about a sign-out when there is no session', (
+      tester,
+    ) async {
+      await pumpConfirmation(tester, [], signedIn: false);
+
+      expect(find.text(s.linkOpensSignInPageOnly), findsOneWidget);
+      expect(find.text(s.linkOpensSignInPage), findsNothing);
     });
 
     testWidgets('names the account a login link signs in to', (tester) async {

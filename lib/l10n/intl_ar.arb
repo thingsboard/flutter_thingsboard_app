@@ -540,6 +540,7 @@
   "downloadTxt": "تنزيل (txt)",
   "openThisLinkTitle": "فتح هذا الرابط؟",
   "linkOpensSignInPage": "يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم. سيتم تسجيل خروجك من الخادم الحالي.",
+  "linkOpensSignInPageOnly": "يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم.",
   "linkSignsInAs": "يسجّل هذا الرابط دخولك إلى هذا الخادم باسم {email}.",
   "linkSignsIn": "يسجّل هذا الرابط دخولك إلى هذا الخادم.",
   "serverConnectionNotSecure": "لا يستخدم هذا الخادم اتصالًا آمنًا.",

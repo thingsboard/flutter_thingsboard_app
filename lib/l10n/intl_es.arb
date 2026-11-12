@@ -541,6 +541,7 @@
   "downloadTxt": "Descargar (txt)",
   "openThisLinkTitle": "¿Abrir este enlace?",
   "linkOpensSignInPage": "Este enlace abre la página de inicio de sesión de este servidor. Se cerrará tu sesión en el servidor actual.",
+  "linkOpensSignInPageOnly": "Este enlace abre la página de inicio de sesión de este servidor.",
   "linkSignsInAs": "Este enlace inicia tu sesión en este servidor como {email}.",
   "linkSignsIn": "Este enlace inicia tu sesión en este servidor.",
   "serverConnectionNotSecure": "Este servidor no usa una conexión segura.",
