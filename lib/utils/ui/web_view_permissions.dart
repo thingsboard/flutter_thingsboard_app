@@ -5,13 +5,9 @@
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-/// Answers a web page's request for the camera, microphone or similar: only
-/// pages of the ThingsBoard server at [endpoint] get them, any other page is
-/// refused.
-///
-/// An `http` endpoint on the default port also covers the same host over
-/// `https` on the default port: a server that redirects to HTTPS is still the
-/// same server, and the camera only works on HTTPS pages anyway.
+/// Camera, microphone and similar only for pages of the server at [endpoint].
+/// An `http` endpoint on the default port also covers its host over `https`,
+/// for servers that redirect to HTTPS.
 PermissionResponse endpointOnlyPermission(
   PermissionRequest request,
   String endpoint,

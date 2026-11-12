@@ -13,8 +13,7 @@ class EspProvisioningRoutes {
   static const espSoftApProvisioning = '/espSoftApProvisioning';
 }
 
-/// What a provisioning screen needs, read from the device's QR code by the
-/// dashboard's provisioning action.
+/// Read from the device's QR code by the provisioning action.
 class EspProvisioningArgs {
   const EspProvisioningArgs({
     required this.deviceName,
@@ -29,9 +28,8 @@ class EspProvisioningArgs {
   final String pop;
 }
 
-/// The screens take their data only from the provisioning action, which
-/// passes it as `extra`: a path from a link or a notification has no extra
-/// and leads home instead of to a screen filled with someone else's values.
+/// Only the provisioning action passes [EspProvisioningArgs] as `extra`; any
+/// other way to these paths leads home.
 String? _withoutArgsGoHome(GoRouterState state) =>
     state.extra is EspProvisioningArgs ? null : HomeRoutes.home;
 

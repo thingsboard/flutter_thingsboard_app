@@ -51,8 +51,7 @@ class ThingsboardAppRouter {
     return result as T?;
   }
 
-  /// Opens [path] with [extra] as its data instead of query parameters, for
-  /// pages that must not take their data from a link.
+  /// For pages that must not take their data from a link's query.
   Future<T?> push<T>(String path, {required Object extra}) async {
     overlayService.hideNotification();
     return await context?.push<T>(path, extra: extra);
@@ -83,10 +82,8 @@ class ThingsboardAppRouter {
     );
   }
 
-  /// Opens a link from outside the app (an app link, or a code scanned with
-  /// the in-app QR scanner). Only the pages such links are made for are
-  /// opened: QR login, the login page and the sign-up confirmation. Anything
-  /// else is ignored; pages inside the app use [navigateTo].
+  /// A link from outside the app or the in-app QR scanner: only the pages in
+  /// [_appLinkPaths] open, anything else is ignored.
   Future<void> navigateByAppLink(String? link) async {
     if (link != null) {
       final uri = Uri.parse(link);
@@ -95,8 +92,7 @@ class ThingsboardAppRouter {
         log.debug('TbContext: app link to ${uri.path} ignored');
         return;
       }
-      // A signed-in user has nothing to do on the login page: it would only
-      // wait for a sign-in that already happened.
+      // The login page would wait for a sign-in that already happened.
       if (uri.path == LoginRoutes.login && _hasFullSession()) {
         log.debug('TbContext: app link to ${uri.path} ignored, signed in');
         return;

@@ -237,9 +237,8 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
   }
 }
 
-/// Where the link leads, before anything changes: the server, and the account
-/// when the link signs in. Nothing is switched until the user continues.
-/// Laid out like the other full-screen decisions of the login flow.
+/// The server, and the account for a login code, before the link switches
+/// anything.
 class _LinkConfirmation extends StatelessWidget {
   const _LinkConfirmation({
     required this.host,
@@ -337,7 +336,6 @@ class _LinkConfirmation extends StatelessWidget {
   }
 }
 
-/// The server the link leads to, on its own so it can be read and checked.
 class _HostBox extends StatelessWidget {
   const _HostBox({required this.host});
 

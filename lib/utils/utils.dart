@@ -18,7 +18,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 abstract class Utils {
   static const _tbImagePrefix = 'tb-image;';
   static const _imageBase64UrlPrefix = 'data:image/';
-  // Anchored: a value is a server image only when it is a path on the server.
+  // Anchored: only a path on the server is a server image.
   static final _imagesUrlRegexp = RegExp('^/api/images/(tenant|system)/.+');
   static final _noImageDataUri = UriData.parse(
     'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
@@ -27,17 +27,13 @@ abstract class Utils {
   static const _authScheme = 'Bearer ';
   static const _authHeaderName = 'X-Authorization';
 
-  /// What a link in text from the server (release notes, terms, privacy
-  /// policy) may open: web pages, e-mail and phone. Other schemes, such as
-  /// an Android `intent:`, could start any app and are refused.
-  static const linkSchemes = {'https', 'http', 'mailto', 'tel'};
+  /// For links in server text: release notes, terms, privacy policy.
+  static const _linkSchemes = {'https', 'http', 'mailto', 'tel'};
 
-  /// What a store link from the server may open: the store page on the web,
-  /// or the Google Play and App Store apps.
-  static const storeLinkSchemes = {'https', 'market', 'itms-apps'};
+  static const _storeLinkSchemes = {'https', 'market', 'itms-apps'};
 
   static Future<bool> onWebViewLinkPressed(String link) async {
-    if (_hasScheme(link, linkSchemes) && await canLaunchUrlString(link)) {
+    if (_hasScheme(link, _linkSchemes) && await canLaunchUrlString(link)) {
       await launchUrlString(link);
     } else {
       _cantOpen(link);
@@ -49,16 +45,15 @@ abstract class Utils {
   /// `canLaunchUrlString`: Android answers it only for schemes the manifest
   /// declares, and `market:` is not one of them.
   static Future<void> openStoreLink(String link) async {
-    if (!_hasScheme(link, storeLinkSchemes)) {
+    if (!_hasScheme(link, _storeLinkSchemes)) {
       _cantOpen(link);
       return;
     }
     await launchUrlString(link, mode: LaunchMode.externalApplication);
   }
 
-  /// Opens a link from release notes outside the app.
   static Future<bool> openReleaseNotesLink(String link) async {
-    if (_hasScheme(link, linkSchemes)) {
+    if (_hasScheme(link, _linkSchemes)) {
       await launchUrlString(link, mode: LaunchMode.externalApplication);
     } else {
       _cantOpen(link);
@@ -155,8 +150,7 @@ abstract class Utils {
           }
           parts[parts.length - 1] = key;
           final encodedUrl = parts.join('/');
-          // The client's own endpoint, so the token only goes to the server
-          // that issued it, even while the app is switching servers.
+          // The endpoint of the client whose token is sent, also mid-switch.
           imageLink = tbClient.apiEndpoint + encodedUrl;
           headers = {_authHeaderName: _authScheme + jwtToken};
         }

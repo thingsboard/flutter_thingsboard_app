@@ -19,8 +19,7 @@ const _secretKeys =
     'accessToken|refreshToken|appToken|token|secret|emailCode|activateToken'
     '|resetToken|code';
 
-/// `key=value` in a URL or form, and `key: value` / `"key": "value"` in a
-/// map or JSON.
+/// `key=value`, `key: value` and `"key": "value"`.
 final _secretValue = RegExp(
   '(\\b(?:$_secretKeys)\\b"?\\s*[=:]\\s*"?)([^&\\s",}\\]#]+)',
   caseSensitive: false,
@@ -28,8 +27,7 @@ final _secretValue = RegExp(
 final _bearer = RegExp(r'(Bearer\s+)[^\s",}]+', caseSensitive: false);
 final _jwt = RegExp(r'eyJ[\w-]+\.[\w-]+\.[\w-]+');
 
-/// Log lines go to the device log, which other tools can read: tokens, login
-/// codes and one-time secrets in them are replaced with `***`.
+/// The device log can be read by other apps and tools.
 String _redactSecrets(String line) => line
     .replaceAllMapped(_secretValue, (m) => '${m[1]}***')
     .replaceAllMapped(_bearer, (m) => '${m[1]}***')

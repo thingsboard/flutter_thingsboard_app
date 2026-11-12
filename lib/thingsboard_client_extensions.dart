@@ -101,8 +101,7 @@ extension AlarmInfoExt on AlarmInfo {
 }
 
 extension AuthUserExt on AuthUser {
-  /// A session past the two-factor steps: the user is, or is about to be,
-  /// on the home screen.
+  /// Past the two-factor steps.
   bool isFullSession() =>
       !isMfaConfigurationToken() && !isPreVerificationToken();
 }

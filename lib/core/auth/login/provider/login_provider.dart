@@ -70,9 +70,8 @@ class Login extends _$Login {
     }
     getIt<ICustomTranslationService>().clear();
     await _tbClient.logout(requestConfig: RequestConfig(ignoreErrors: true));
-    // The dashboard pages keep the session in their local storage: it must
-    // not outlive the logout on the device. A platform error here does not
-    // undo the logout itself.
+    // Dashboard pages keep the session in web storage. A failure here must
+    // not undo the logout.
     try {
       await getIt<IWebViewDataService>().clear();
     } catch (e) {

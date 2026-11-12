@@ -43,8 +43,7 @@ final class SwitchEndpointParams {
 enum NoAuthStep {
   fetchingSession,
 
-  /// Waiting for the user to confirm where the link takes them; nothing has
-  /// changed yet. See [NoauthProvider.answerConfirmation].
+  /// Waiting for [NoauthProvider.answerConfirmation]; nothing changed yet.
   confirming,
   loggingIn,
   switchingHost,
@@ -125,7 +124,6 @@ class NoauthProvider extends _$NoauthProvider {
     return const NoAuthState();
   }
 
-  /// The user's answer to [NoAuthStep.confirming].
   void answerConfirmation({required bool accepted}) => _answer(accepted);
 
   void _answer(bool accepted) {
@@ -136,8 +134,7 @@ class NoauthProvider extends _$NoauthProvider {
     }
   }
 
-  /// Shows where the link leads and waits for the user. Called before
-  /// anything is written, so a refusal leaves the app as it was.
+  /// Called before anything is written, so a refusal changes nothing.
   Future<bool> _confirm({
     required String host,
     required bool signsIn,
@@ -168,12 +165,9 @@ class NoauthProvider extends _$NoauthProvider {
     try {
       host = resolveSwitchHost(params.data, previousEndpoint);
       final isSameOrigin = _isSameOrigin(host, previousEndpoint);
-      // An app built for one server (`thingsboardApiEndpoint` set at build
-      // time) still follows links to other servers after the confirmation
-      // below, as it may serve more than one domain. To keep such an app on
-      // its own server only, uncomment this check (and import
-      // `package:thingsboard_app/constants/app_constants.dart`): a link to any
-      // other server then ends on an error and nothing changes.
+      // To keep an app built for one server (`thingsboardApiEndpoint`) on
+      // that server, uncomment this check and import
+      // `package:thingsboard_app/constants/app_constants.dart`.
       //
       // if (ThingsboardAppConstants.ignoreRegionSelection &&
       //     !_isSameOrigin(host, ThingsboardAppConstants.thingsBoardApiEndpoint)) {
@@ -195,7 +189,6 @@ class NoauthProvider extends _$NoauthProvider {
         // and let the login page of that host take over.
         if (!isSameOrigin) {
           final accepted = await _confirm(host: host, signsIn: false);
-          // The view went away without an answer: nothing to report to.
           if (!ref.mounted) return;
           if (!accepted) {
             state = const NoAuthState(isCancelled: true);
@@ -219,9 +212,7 @@ class NoauthProvider extends _$NoauthProvider {
       final session = await _exchangeSecret(host: host, secret: secret);
       final email = await _verifySession(host: host, token: session.token);
 
-      // The account is shown even for a code of the current server on the
-      // login page: the code may come from someone else, and signing in to
-      // their account would hand them what the user does next.
+      // Asked for every login code, the current server's too.
       final accepted = await _confirm(host: host, signsIn: true, email: email);
       if (!ref.mounted) return;
       if (!accepted) {
@@ -258,10 +249,8 @@ class NoauthProvider extends _$NoauthProvider {
     }
   }
 
-  /// Live tracking sends to the server and the account it was started for.
-  /// Stopped before the switch writes anything, while the current client can
-  /// still mark it inactive there; otherwise its fixes would go on to the new
-  /// server or account.
+  /// Before the switch writes anything, while the current client can still
+  /// mark tracking inactive on its server.
   Future<void> _stopLiveTracking() =>
       getIt<ILiveLocationTrackingService>().teardownForLogout();
 
@@ -494,8 +483,6 @@ class NoauthProvider extends _$NoauthProvider {
     return dio;
   }
 
-  /// [HttpClientAdapter] for the requests to the target host. Leave it `null`
-  /// in the app.
   @visibleForTesting
   static HttpClientAdapter Function()? hostAdapterForTesting;
 
@@ -588,11 +575,9 @@ class NoAuthState {
 
   final bool isDone;
 
-  /// The user declined the link; the app is as it was.
   final bool isCancelled;
 
-  /// Whether the link being confirmed signs in, or only opens the sign-in
-  /// page of another server.
+  /// Whether the link signs in, or only opens the sign-in page.
   final bool signsIn;
 
   /// Whether the user has a session the link would end.
@@ -600,7 +585,6 @@ class NoAuthState {
   final NoAuthStep? step;
   final String? host;
 
-  /// The account a login link signs in to, shown for confirmation.
   final String? email;
   final NoAuthFailure? failure;
 

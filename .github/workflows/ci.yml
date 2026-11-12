@@ -8,9 +8,7 @@ on:
 permissions:
   contents: read
 
-# The jobs run in parallel. There is no Android build: it took most of the time
-# and checked only Gradle, plugins and native code; those are checked by
-# building the app locally when they change.
+# No Android build here: build locally after native changes (see CONTRIBUTING).
 jobs:
   checks:
     name: Analyze

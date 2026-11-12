@@ -78,8 +78,7 @@ void main() {
     ) async {
       await pumpApp(tester);
 
-      // Not awaited, as in the app: the push completes only when the page
-      // is closed.
+      // Not awaited: the push completes only when the page closes.
       unawaited(router.navigateByAppLink(link));
       await tester.pumpAndSettle();
 
@@ -96,8 +95,7 @@ void main() {
     ) async {
       await pumpApp(tester);
 
-      // Not awaited, as in the app: the push completes only when the page
-      // is closed.
+      // Not awaited: the push completes only when the page closes.
       unawaited(router.navigateByAppLink(link));
       await tester.pumpAndSettle();
 

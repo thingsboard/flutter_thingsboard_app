@@ -198,8 +198,6 @@ AlarmSeverity? notificationAlarmSeverity(NotificationInfo? info) =>
       _ => null,
     };
 
-/// A notification can come from any rule on the server. An image in its text
-/// that is loaded from a host would tell that host when and where the user
-/// read it, so only images carried in the text itself (`data:`) are shown.
+/// Only images carried in the text itself (`data:`) are shown.
 bool _isRemoteImage(String? tag, String? src) =>
     tag == 'img' && !(src?.trim().toLowerCase().startsWith('data:') ?? false);
