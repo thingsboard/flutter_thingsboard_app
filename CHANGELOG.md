@@ -73,6 +73,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Back from a device dashboard returns to the device list or search results it was opened from.
 - After acknowledging or clearing an alarm in its details, the alarms list shows the new status without a pull to refresh.
 - Pulling to refresh the alarm filters shows the selected assignee's new name after the user is renamed.
+- Long alarm comments wrap inside the Activity block instead of running past the screen edge; a long author name ends with "…" and keeps the time visible.
 - Back no longer walks through every visited tab: it closes the pages opened in a tab, then returns to the first tab, then leaves the app, as before 1.6. `--dart-define=navigationType=push` keeps the tab history.
 - The unread notifications count shows when Notifications is under More, and follows the server's count after reading, deleting or refreshing notifications.
 - A bottom bar tab that can show the unread badge (Notifications) keeps its icon centred over its label.
