@@ -18,8 +18,6 @@ void main() {
     addTearDown(getIt.reset);
   });
 
-  // MOB-13: a long comment ran past the right edge of the Activity block
-  // instead of wrapping.
   testWidgets('a long comment and a long name stay on the screen', (
     tester,
   ) async {

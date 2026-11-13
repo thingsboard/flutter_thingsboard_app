@@ -150,8 +150,6 @@ class _UserCommentState extends State<UserCommentWidget> {
           color: UiUtils.colorFromString(userInfo.displayName),
         ),
         const SizedBox(width: 8),
-        // Takes the width left of the avatar, so the comment wraps instead of
-        // running past the screen edge.
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
