@@ -55,7 +55,22 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         queryCtrl.onSearchText(null);
 
       case AssigneeRefreshEvent():
-        paginationRepository.refresh();
+        await paginationRepository.refresh();
+
+        // Show the selected user as the refreshed list has them, e.g. renamed.
+        final current = state;
+        if (current is AssigneeSelectedState) {
+          final refreshed = paginationRepository.pagingController.items
+              ?.where(
+                (assignee) =>
+                    assignee.userInfo.id?.id ==
+                    current.assignee.userInfo.id?.id,
+              )
+              .firstOrNull;
+          if (refreshed != null) {
+            emit(AssigneeSelectedState(assignee: refreshed));
+          }
+        }
 
       case AssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);
