@@ -1,3 +1,7 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'dashboard_arguments.freezed.dart';
@@ -11,8 +15,8 @@ abstract class DashboardArgumentsEntity with _$DashboardArgumentsEntity {
     String? title,
     String? state,
     bool? hideToolbar,
-   @Default(true) bool animate,
+    @Default(true) bool animate,
   }) = _DashboardArgumentsEntity;
-    factory DashboardArgumentsEntity.fromJson(Map<String, dynamic> json) =>
+  factory DashboardArgumentsEntity.fromJson(Map<String, dynamic> json) =>
       _$DashboardArgumentsEntityFromJson(json);
 }

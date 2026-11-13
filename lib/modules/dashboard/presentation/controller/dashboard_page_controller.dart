@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -12,7 +17,9 @@ class DashboardPageController {
   final TwoPageViewController pageCtrl;
 
   void setDashboardController(DashboardController controller) {
-    dashboardController.complete(controller);
+    if (!dashboardController.isCompleted) {
+      dashboardController.complete(controller);
+    }
   }
 
   void setDashboardTitleNotifier(ValueNotifier<String> notifier) {
@@ -24,7 +31,7 @@ class DashboardPageController {
     String? title,
     String? state,
     bool? hideToolbar,
-  })  {
+  }) {
     if (title != null) {
       dashboardTitleValue.value = title;
     }
@@ -40,7 +47,7 @@ class DashboardPageController {
     return pageCtrl.open(1);
   }
 
-  Future<bool> closeDashboard()  {
+  Future<bool> closeDashboard() {
     return pageCtrl.close(1);
   }
 }

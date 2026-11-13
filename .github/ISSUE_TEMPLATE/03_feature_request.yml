@@ -9,7 +9,7 @@ body:
         If you are looking for support, please check out our documentation:
 
           - https://thingsboard.io/docs/mobile/
-          - https://thingsboard.io/docs/
+          - https://thingsboard.io/docs/pe/
 
         If you have an idea for a new feature that would improve the ThingsBoard app,
         please fill out the template below.
@@ -32,8 +32,7 @@ body:
       description: What type of ThingsBoard platform are you using?
       options:
         - Self-hosted ThingsBoard
-        - ThingsBoard Demo cloud
-        - ThingsBoard CE cloud
+        - ThingsBoard Cloud
     validations:
       required: true
   - type: textarea
@@ -60,7 +59,7 @@ body:
     attributes:
       label: Proposal
       description: |
-        Briefly but precisely describe what you would like the ThingsBoard app to be able to do.
+        Briefly but precisely describe what you would like the ThingsBoard  app to be able to do.
 
         Consider attaching something showing what you are imagining:
          * mockups or wireframes

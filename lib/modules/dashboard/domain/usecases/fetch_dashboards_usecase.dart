@@ -1,5 +1,11 @@
-import 'package:thingsboard_app/thingsboard_client.dart';
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class FetchDashboardsUseCase
     extends UseCase<Future<PageData<DashboardInfo>>, PageLink> {
@@ -8,19 +14,23 @@ class FetchDashboardsUseCase
   final ThingsboardClient tbClient;
 
   @override
-  Future<PageData<DashboardInfo>> call(PageLink params) {
-   
-    if (tbClient.isTenantAdmin()) {
-      return tbClient.getDashboardService().getTenantDashboards(
-        params,
-        mobile: true,
-      );
-    } else {
-      return tbClient.getDashboardService().getCustomerDashboards(
-        tbClient.getAuthUser()!.customerId!,
-        params,
-        mobile: true,
-      );
-    }
+  Future<PageData<DashboardInfo>> call(PageLink params) async {
+    final response = await tbClient
+        .getDashboardControllerApi()
+        .getUserDashboards(
+          pageSize: params.pageSize,
+          page: params.page,
+          textSearch: params.textSearch,
+          sortProperty: params.sortOrder?.property,
+          sortOrder: params.sortOrder?.direction.name,
+          mobile: true,
+        );
+    final page = response.data!;
+    return toPageData(
+      page.data,
+      page.totalPages,
+      page.totalElements,
+      page.hasNext,
+    );
   }
 }

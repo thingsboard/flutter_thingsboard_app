@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
@@ -7,11 +12,12 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/pagination/dashboards_pagination_repository.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_grid_card.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_exception_widget.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/first_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/new_page_progress_builder.dart';
 import 'package:thingsboard_app/utils/ui/pagination_widgets/pagination_grid_widget.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DashboardsGridWidget extends StatelessWidget {
   const DashboardsGridWidget({required this.dashboardPageCtrl, super.key});
@@ -32,31 +38,28 @@ class DashboardsGridWidget extends StatelessWidget {
           pagingController:
               getIt<DashboardsPaginationRepository>().pagingController,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder:
-                (context, item, index) => EntityGridCard(
-                  item,
-                  entityCardWidgetBuilder:
-                      (_, dashboard) => DashboardGridCard(dashboard: dashboard),
-                  onEntityTap: (dashboard) {
-                    dashboardPageCtrl.openDashboard(
-                      dashboard.id!.id!,
-                      title: dashboard.title,
-                    );
-                  },
-                  settings: EntityCardSettings(),
-                ),
-            firstPageProgressIndicatorBuilder:
-                (_) => const FirstPageProgressBuilder(),
-            newPageProgressIndicatorBuilder:
-                (_) => const NewPageProgressBuilder(),
-            noItemsFoundIndicatorBuilder:
-                (context) => FirstPageExceptionIndicator(
+            itemBuilder: (context, item, index) => EntityGridCard(
+              item,
+              entityCardWidgetBuilder: (_, dashboard) =>
+                  DashboardGridCard(dashboard: dashboard),
+              onEntityTap: (dashboard) {
+                dashboardPageCtrl.openDashboard(
+                  dashboard.id!.id,
+                  title: getIt<ICustomTranslationService>().translate(
+                    dashboard.title,
+                  ),
+                );
+              },
+              settings: EntityCardSettings(),
+            ),
+            firstPageProgressIndicatorBuilder: (_) =>
+                const FirstPageProgressBuilder(),
+            newPageProgressIndicatorBuilder: (_) =>
+                const NewPageProgressBuilder(),
+            noItemsFoundIndicatorBuilder: (context) =>
+                FirstPageExceptionIndicator(
                   title: S.of(context).noDashboardsFound,
                   message: S.of(context).listIsEmptyText,
-                  onTryAgain: () {
-                    getIt<DashboardsPaginationRepository>().pagingController
-                        .refresh();
-                  },
                 ),
           ),
         ),

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -6,10 +11,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:reactive_phone_form_field/reactive_phone_form_field.dart';
 import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handlers.dart';
+import 'package:thingsboard_app/config/themes/wl_preload_widget.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
 class RouteHanlderWidget extends HookConsumerWidget {
   const RouteHanlderWidget({super.key, required this.child});
@@ -24,29 +28,26 @@ class RouteHanlderWidget extends HookConsumerWidget {
       return () => disposeHandlers();
     }, []);
     return PopScope(
-      onPopInvokedWithResult: (didPop, res) async {
+      onPopInvokedWithResult: (didPop, res) {
         if (!context.canPop()) {
-          final confirm = await getIt<IOverlayService>().showConfirmDialog(
-            content:
-                (_) => DialogContent(
-                  title: S.of(context).areYouSureYouWantToExit,
-                  message: S.of(context).confirmToCloseTheApp,
-                  cancel: S.of(context).cancel,
-                ),
-          );
-          if (confirm == true && context.mounted) {
-            SystemNavigator.pop();
-          }
+          SystemNavigator.pop();
         }
       },
       canPop: false,
-      child: ReactiveFormConfig(validationMessages: {
-             PhoneValidationMessage.required: (error) => S.of(context).phoneIsRequired,
-      PhoneValidationMessage.invalidCountry: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidFixedLinePhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidMobilePhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      PhoneValidationMessage.invalidPhoneNumber: (error) => S.of(context).phoneIsInvalid,
-      },child: child,
+      child: ReactiveFormConfig(
+        validationMessages: {
+          PhoneValidationMessage.required: (error) =>
+              S.of(context).phoneIsRequired,
+          PhoneValidationMessage.invalidCountry: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidFixedLinePhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidMobilePhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+          PhoneValidationMessage.invalidPhoneNumber: (error) =>
+              S.of(context).phoneIsInvalid,
+        },
+        child: WlPreloadWidget(child: child),
       ),
     );
   }

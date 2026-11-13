@@ -1,4 +1,8 @@
-import 'package:fluro/fluro.dart';
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -18,11 +22,16 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class LoginWidget extends HookConsumerWidget {
-  const LoginWidget({super.key});
+  const LoginWidget({super.key, required this.userLoading});
+
+  /// The user of a stored session is loading: keeps one loader up from the
+  /// login request to the home screen.
+  final bool userLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,12 +46,11 @@ class LoginWidget extends HookConsumerWidget {
       }),
     );
     useEffect(() {
-      if (providers is! AsyncLoading) {
+      if (!providers.isLoading) {
         loading.value = false;
       }
       return null;
     }, [providers]);
-    final mediaQuery = MediaQuery.of(context);
     return Stack(
       children: [
         ReactiveForm(
@@ -50,121 +58,116 @@ class LoginWidget extends HookConsumerWidget {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  height:
-                      mediaQuery.size.height -
-                      mediaQuery.padding.top -
-                      mediaQuery.padding.bottom -
-                      kToolbarHeight,
-                  child: Column(
-                    spacing: 16,
-                    children: [
-                      const LoginHeader(),
-                      Text(
-                        S.of(context).loginToYourAccount,
-                        style: TbTextStyles.titleMedium,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 32),
-                        child: AutofillGroup(
-                          child: Column(
-                            spacing: 12,
-                            children: [
-                              Text(
-                                S.of(context).loginWith.toUpperCase(),
-                                style: TbTextStyles.labelMedium.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Roboto',
-                                  letterSpacing: 0.4,
-                                ),
+              child: FillScrollView(
+                child: Column(
+                  spacing: 16,
+                  children: [
+                    const LoginHeader(),
+                    Text(
+                      S.of(context).loginToYourAccount,
+                      style: TbTextStyles.titleMedium,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 32),
+                      child: AutofillGroup(
+                        child: Column(
+                          spacing: 12,
+                          children: [
+                            Text(
+                              S.of(context).loginWith.toUpperCase(),
+                              style: TbTextStyles.labelMedium.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Roboto',
+                                letterSpacing: 0.4,
                               ),
-                              OAuthButtons(
-                                onButtonPressed:
-                                    (client) => onOauth2ButtonPressed(
-                                      client,
-                                      context,
-                                      loading,
-                                      ref,
-                                    ),
-                                clients: providers.value?.oAuth2Clients ?? [],
-                              ),
-                              TextDivider(text: S.of(context).or),
+                            ),
+                            OAuthButtons(
+                              onButtonPressed: (client) =>
+                                  onOauth2ButtonPressed(
+                                    client,
+                                    context,
+                                    loading,
+                                    ref,
+                                  ),
+                              clients:
+                                  providers.value?.oAuth2ClientLoginInfos
+                                      ?.toList() ??
+                                  [],
+                            ),
+                            TextDivider(text: S.of(context).or),
 
-                              Column(
-                                spacing: 24,
-                                children: [
-                                  TbTextField(
-                                    formControlName: "email",
-                                    label: S.of(context).email,
-                                    hint: S.of(context).email,
-                                    autoFillHints: const [AutofillHints.email],
-                                  ),
-                                  TbTextField(
-                                    formControlName: "password",
-                                    label: S.of(context).password,
-                                    hint: S.of(context).password,
-                                    obscureText: true,
-                                    autoFillHints: const [
-                                      AutofillHints.password,
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () => onForgotPassword(context),
-                                  child: Text(
-                                    S.of(context).passwordForgotText,
-                                    style: TbTextStyles.labelSmall,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ReactiveFormConsumer(
-                          builder: (context, formGroup, child) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            Column(
+                              spacing: 24,
                               children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                      ),
-                                    ),
-                                    onPressed:
-                                        formGroup.invalid && formGroup.touched
-                                            ? null
-                                            : () async {
-                                              await onLoginPressed(
-                                                context,
-                                                form,
-                                                ref,
-                                                loading
-                                              );
-                                            },
-                                    child: Text(
-                                      S.of(context).login,
-                                      style: TbTextStyles.labelMedium,
-                                    ),
-                                  ),
+                                TbTextField(
+                                  formControlName: "email",
+                                  label: S.of(context).email,
+                                  hint: S.of(context).email,
+                                  type: TextInputType.emailAddress,
+                                  autoFillHints: const [AutofillHints.email],
                                 ),
-                                const LoginFooter(),
+                                TbTextField(
+                                  formControlName: "password",
+                                  label: S.of(context).password,
+                                  hint: S.of(context).password,
+                                  obscureText: true,
+                                  autoFillHints: const [AutofillHints.password],
+                                ),
                               ],
-                            );
-                          },
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: TextButton(
+                                onPressed: () => onForgotPassword(context),
+                                child: Text(
+                                  S.of(context).passwordForgotText,
+                                  style: TbTextStyles.labelSmall,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      child: ReactiveFormConsumer(
+                        builder: (context, formGroup, child) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  onPressed:
+                                      formGroup.invalid && formGroup.touched
+                                      ? null
+                                      : () async {
+                                          await onLoginPressed(
+                                            context,
+                                            form,
+                                            ref,
+                                            loading,
+                                          );
+                                        },
+                                  child: Text(
+                                    S.of(context).login,
+                                    style: TbTextStyles.labelMedium,
+                                  ),
+                                ),
+                              ),
+                              const LoginFooter(),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -172,7 +175,7 @@ class LoginWidget extends HookConsumerWidget {
         ),
 
         AnimatedVisibilityWidget(
-          show: loading.value || providers is AsyncLoading,
+          show: loading.value || providers.isLoading || userLoading,
           child: const FullScreenLoader(),
         ),
       ],
@@ -193,13 +196,15 @@ Future<void> onLoginPressed(
   }
   final String username = form.control('email').value.toString();
   final String password = form.control('password').value.toString();
+  // Covers the request only: then [LoginWidget.userLoading] keeps the loader
+  // up until the user loads or the session is dropped.
   try {
     loading.value = true;
-  final res =   await ref.read(loginProvider.notifier).login(username, password);
-    
-    loading.value = res;
+    await ref.read(loginProvider.notifier).login(username, password);
   } catch (e) {
     form.setErrors({"err": {}});
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -207,7 +212,6 @@ Future<void> onLoginWithBarcode(BuildContext context) async {
   try {
     final Barcode? barcode = await getIt<ThingsboardAppRouter>().navigateTo(
       '/qrCodeScan',
-      transition: TransitionType.nativeModal,
     );
 
     if (barcode != null && barcode.rawValue != null) {
@@ -219,7 +223,7 @@ Future<void> onLoginWithBarcode(BuildContext context) async {
 }
 
 Future<void> onOauth2ButtonPressed(
-  OAuth2ClientInfo client,
+  OAuth2ClientLoginInfo client,
   BuildContext context,
   ValueNotifier<bool> loading,
   WidgetRef ref,
@@ -230,8 +234,8 @@ Future<void> onOauth2ButtonPressed(
     return;
   }
   loading.value = true;
-final res =  await  ref.read(loginProvider.notifier).oauthLogin(client.url);
-  loading.value = res;
+  await ref.read(loginProvider.notifier).oauthLogin(client.url ?? '');
+  loading.value = false;
 }
 
 Future<void> onForgotPassword(BuildContext context) async {

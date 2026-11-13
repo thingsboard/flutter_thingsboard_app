@@ -2,10 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- tools:remove strips any maxSdkVersion a dependency's manifest imposes;
+         live GPS tracking needs FINE location on all API levels, including 36+. -->
     <uses-permission
         android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="35"
-        tools:replace="android:maxSdkVersion" />
+        tools:remove="android:maxSdkVersion" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -15,6 +16,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Live GPS tracking in background (geolocator foreground service) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
     <!-- Permissions options for the provisioning -->
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
@@ -22,6 +27,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- plugin_wifi_connect joins the device access point with
+         WifiManager.addNetwork/enableNetwork below Android 10. -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-feature android:name="android.hardware.wifi" />
     <uses-feature
@@ -58,6 +66,11 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_foreground" />
 
+        <!-- firebase_messaging register() delivers the Firebase Installation ID
+             the server sends pushes to; FCM requires opting in. -->
+        <meta-data
+            android:name="firebase_messaging_installation_id_enabled"
+            android:value="true" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -73,6 +86,8 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <!-- App links go through app_links; Flutter's own deep linking
+                 would open every link a second time. -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
@@ -86,6 +101,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="${redirectURLHost}"
+                    android:scheme="${redirectURLScheme}" />
+            </intent-filter>
             <!-- App Links -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -97,7 +120,6 @@
                     android:scheme="${appLinksUrlScheme}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".TbWebCallbackActivity"
             android:exported="true">
@@ -110,6 +132,18 @@
                 <data android:scheme="${authScheme}" />
             </intent-filter>
         </activity>
+
+        <!-- Takes priority over the firebase_messaging plugin's service to
+             suppress the FCM SDK's default (icon-less) tray notification;
+             messages are rendered on the Dart side instead. See
+             TbFirebaseMessagingService. -->
+        <service
+            android:name=".TbFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter android:priority="1">
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

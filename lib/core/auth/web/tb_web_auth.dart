@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
@@ -9,8 +14,8 @@ class TbWebAuth {
 
   static final OnAppLifecycleResumeObserver _resumedObserver =
       OnAppLifecycleResumeObserver(() {
-    _cleanUpDanglingCalls();
-  });
+        _cleanUpDanglingCalls();
+      });
 
   static Future<String> authenticate({
     required String url,

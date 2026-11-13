@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -10,11 +15,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmAssigneeFilterWidget extends StatelessWidget {
-  const AlarmAssigneeFilterWidget({
-
-    required this.onChanged,
-    super.key,
-  });
+  const AlarmAssigneeFilterWidget({required this.onChanged, super.key});
   final VoidCallback onChanged;
 
   @override
@@ -26,15 +27,11 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
           await UiUtils.showModalBottomSheet(
             context: context,
             topControl: const SizedBox.shrink(),
-            builder:
-                (context) => AnimatedSize(
-                  curve: Curves.easeInOut,
-                  duration: const Duration(milliseconds: 500),
-                  child: AssigneeListWidget(
-              
-                    onChanged: onChanged,
-                  ),
-                ),
+            builder: (context) => AnimatedSize(
+              curve: Curves.easeInOut,
+              duration: const Duration(milliseconds: 500),
+              child: AssigneeListWidget(onChanged: onChanged),
+            ),
           );
           getIt<AssigneeBloc>().add(const AssigneeResetSearchTextEvent());
         },
@@ -68,16 +65,15 @@ class AlarmAssigneeFilterWidget extends StatelessWidget {
                   );
                 case AssigneeSelectedState():
                   return UserInfoWidget(
-                    id: state.assignee.userInfo.id.id ?? '',
+                    id: state.assignee.userInfo.id?.id ?? '',
                     avatar: UserInfoAvatarWidget(
                       shortName: state.assignee.shortName,
-                      color:
-                          HSLColor.fromAHSL(
-                            1,
-                            state.assignee.displayName.hashCode % 360,
-                            40 / 100,
-                            60 / 100,
-                          ).toColor(),
+                      color: HSLColor.fromAHSL(
+                        1,
+                        state.assignee.displayName.hashCode % 360,
+                        40 / 100,
+                        60 / 100,
+                      ).toColor(),
                     ),
                     name: state.assignee.displayName,
                   );

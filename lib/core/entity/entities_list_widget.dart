@@ -1,13 +1,18 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entity_list_card.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
 class EntitiesListWidgetController {
   final List<_EntitiesListWidgetState> states = [];
 
@@ -34,7 +39,7 @@ class EntitiesListWidgetController {
 
 abstract class EntitiesListPageLinkWidget<T>
     extends EntitiesListWidget<T, PageLink> {
-  EntitiesListPageLinkWidget( {super.controller, super.key});
+  EntitiesListPageLinkWidget({super.controller, super.key});
 
   @override
   PageKeyController<PageLink> createPageKeyController() =>
@@ -43,15 +48,12 @@ abstract class EntitiesListPageLinkWidget<T>
 
 abstract class EntitiesListWidget<T, P> extends ConsumerStatefulWidget
     with EntitiesBase<T, P> {
-  EntitiesListWidget(
-     {
-    super.key,
-    EntitiesListWidgetController? controller,
-  }) : _controller = controller;
+  EntitiesListWidget({super.key, this._controller});
   final EntitiesListWidgetController? _controller;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _EntitiesListWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _EntitiesListWidgetState();
 
   PageKeyController<P> createPageKeyController();
 
@@ -177,9 +179,7 @@ class _EntitiesListWidgetState<T, P>
                       return Center(
                         child: RefreshProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Theme.of(
-                              context
-                            ).colorScheme.primary,
+                            Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       );
@@ -216,17 +216,16 @@ class _EntitiesListWidgetState<T, P>
       child: ListView(
         scrollDirection: Axis.horizontal,
         controller: ScrollController(),
-        children:
-            entities
-                .map(
-                  (entity) => EntityListCard<T>(
-                    entity,
-                    entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
-                    onEntityTap: (i) => widget.onEntityTap(i, ref),
-                    listWidgetCard: true,
-                  ),
-                )
-                .toList(),
+        children: entities
+            .map(
+              (entity) => EntityListCard<T>(
+                entity,
+                entityCardWidgetBuilder: widget.buildEntityListWidgetCard,
+                onEntityTap: (i) => widget.onEntityTap(i, ref),
+                listWidgetCard: true,
+              ),
+            )
+            .toList(),
       ),
     );
   }

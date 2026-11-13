@@ -4,8 +4,26 @@
 	<dict>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>FirebaseMessagingInstallationIdEnabled</key>
+		<true/>
 		<key>FlutterDeepLinkingEnabled</key>
 		<false/>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>ar</string>
+			<string>da</string>
+			<string>de</string>
+			<string>el</string>
+			<string>es</string>
+			<string>fr</string>
+			<string>it</string>
+			<string>nl</string>
+			<string>nb</string>
+			<string>vi</string>
+			<string>zh-Hans</string>
+			<string>zh-Hant</string>
+		</array>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -22,6 +40,19 @@
 		<string>$(FLUTTER_BUILD_NAME)</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>$(REGISTRATIONREDIRECTURLHOST)</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>$(REGISTRATIONREDIRECTURLSCHEME)</string>
+				</array>
+			</dict>
+		</array>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>FirebaseAppDelegateProxyEnabled</key>
@@ -58,9 +89,9 @@
 		<key>NSLocalNetworkUsageDescription</key>
 		<string>Allow flutter tools on your computer to connect and debug your application.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Get location to place the device on a map.</string>
+		<string>Keep sharing your location while a live location tracking session is running, so it is saved to the selected entity even when the app is in the background. Also used to place the device on a map.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>Get location to place the device on a map.</string>
+		<string>Keep sharing your location while a live location tracking session is running, so it is saved to the selected entity even when the app is in the background. Also used to place the device on a map.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Get location to place the device on a map.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
@@ -68,6 +99,7 @@
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
+			<string>location</string>
 			<string>remote-notification</string>
 		</array>
 		<key>UILaunchStoryboardName</key>

@@ -1,0 +1,15 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:image_picker/image_picker.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/actions/take_picture_from_gallery_action.dart';
+import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_mobile_action_type.dart';
+
+class TakePhotoAction extends TakePictureFromGalleryAction {
+  @override
+  ImageSource get imageSource => ImageSource.camera;
+  @override
+  WidgetMobileActionType get type => WidgetMobileActionType.takePhoto;
+}

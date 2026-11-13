@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +17,7 @@ import 'package:thingsboard_app/core/auth/2FA/confirm/providers/2fa_confirm_prov
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 const noResendCodeProviders = {
   TwoFaProviderType.BACKUP_CODE,
@@ -25,7 +30,8 @@ class EnterACodeWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = getTwoFaProviderData(selectedProvider.type);
+    final providerType = selectedProvider.type!;
+    final data = getTwoFaProviderData(providerType);
     final timerDuration = selectedProvider.minVerificationCodeSendPeriod ?? 0;
     final form = useMemoized(
       () => FormGroup({
@@ -43,13 +49,13 @@ class EnterACodeWidget extends HookConsumerWidget {
     )..forward();
     final state = ref.watch(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
     );
     ref.listen(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
       (prev, next) {
@@ -61,12 +67,13 @@ class EnterACodeWidget extends HookConsumerWidget {
           CodeState.invalid,
           CodeState.tooManyRequests,
         ].contains(next.codeState)) {
-          form.control('code').setErrors({
-            (next.codeState == CodeState.invalid
+          form
+              .control('code')
+              .rejectCode(
+                next.codeState == CodeState.invalid
                     ? TbValicationMessages.invalidCode
-                    : TbValicationMessages.tooManyRequests):
-                {},
-          });
+                    : TbValicationMessages.tooManyRequests,
+              );
         }
       },
     );
@@ -105,27 +112,26 @@ class EnterACodeWidget extends HookConsumerWidget {
               type: data.textInputType,
               autoFillHints: const [AutofillHints.oneTimeCode],
             ),
-            if (!noResendCodeProviders.contains(selectedProvider.type))
+            if (!noResendCodeProviders.contains(providerType))
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child:
-                    !state.resendAvalible
-                        ? Text(
-                          S.of(context).resendCodeWait(currentSeconds),
-                          style: TbTextStyles.labelMedium.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                        )
-                        : TextButton(
-                          style: TextButton.styleFrom(
-                            padding: DesignTokens.paddigZero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            resendCode(ref, form);
-                          },
-                          child: Text(S.of(context).resendCode),
+                child: !state.resendAvalible
+                    ? Text(
+                        S.of(context).resendCodeWait(currentSeconds),
+                        style: TbTextStyles.labelMedium.copyWith(
+                          color: AppColors.textDisabled,
                         ),
+                      )
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                          padding: DesignTokens.paddigZero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          resendCode(ref, form);
+                        },
+                        child: Text(S.of(context).resendCode),
+                      ),
               ),
             Expanded(
               child: Align(
@@ -167,7 +173,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     await ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )
@@ -178,7 +184,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )

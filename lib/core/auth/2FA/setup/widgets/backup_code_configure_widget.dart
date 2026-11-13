@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,10 +16,10 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/dashboard/domain/export_module.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class BackupCodeConfigureWidget
     extends TwoFaConfigWidget<BackupCodeTwoFaAccountConfig> {
@@ -26,8 +31,8 @@ class BackupCodeConfigureWidget
   Future<void> saveConfig() async {
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .verifyAndSaveTwoFaAccountConfig(config);
+          .getTwoFactorAuthConfigControllerApi()
+          .verifyAndSaveTwoFaAccountConfig(twoFaAccountConfig: config);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error saving codes: $e",
@@ -37,7 +42,9 @@ class BackupCodeConfigureWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final codesText = config.codes.join('\n');
+    // Only a freshly generated config carries its codes.
+    final codes = config.codes?.toList() ?? const <String>[];
+    final codesText = codes.join('\n');
     useEffect(() {
       saveConfig();
       return null;
@@ -58,11 +65,11 @@ class BackupCodeConfigureWidget
                   spacing: 8,
                   children: [
                     Text(
-                      "Print out the codes so you have them handy when you need to use them to log in to your account. You can use each backup code once.",
+                      S.of(context).backupCodesDescription,
                       style: TbTextStyles.bodyMedium,
                     ),
                     Text(
-                      "Once you leave this page, these codes cannot be shown again. Store them safely using the options above.",
+                      S.of(context).backupCodesWarning,
                       style: TbTextStyles.bodyMedium,
                     ),
                   ],
@@ -80,7 +87,7 @@ class BackupCodeConfigureWidget
                     selectionControls: MaterialTextSelectionControls(),
                     child: Column(
                       spacing: 12,
-                      children: chunkList(config.codes, 2)
+                      children: chunkList(codes, 2)
                           .map(
                             (e) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,7 +129,7 @@ class BackupCodeConfigureWidget
                           );
                         },
                         icon: const Icon(Icons.download),
-                        label: const Text('Download (txt)'),
+                        label: Text(S.of(context).downloadTxt),
                       ),
                     ),
                   ],
@@ -146,8 +153,8 @@ class BackupCodeConfigureWidget
     loading.value = true;
     try {
       await getIt<ITbClientService>().client
-          .getTwoFactorAuthService()
-          .generateTwoFaAccountConfig(config.getProviderType());
+          .getTwoFactorAuthConfigControllerApi()
+          .generateTwoFaAccountConfig(providerType: config.providerType);
     } catch (e) {
       // getIt<IOverlayService>().showErrorNotification(
       //   (ctx) => "Error sending code: $e",

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,8 +16,10 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ResetPasswordRequestPage extends HookConsumerWidget {
   const ResetPasswordRequestPage({super.key});
@@ -50,6 +57,8 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
                     formControlName: 'email',
                     hint: S.of(context).email,
                     label: S.of(context).email,
+                    type: TextInputType.emailAddress,
+                    autoFillHints: const [AutofillHints.email],
                   ),
 
                   ReactiveFormConsumer(
@@ -66,17 +75,16 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
                                     vertical: 12,
                                   ),
                                 ),
-                                onPressed:
-                                    form.invalid && form.touched
-                                        ? null
-                                        : () {
-                                          _requestPasswordReset(
-                                            context,
-                                            form,
-                                            ref,
-                                            isLoading,
-                                          );
-                                        },
+                                onPressed: form.invalid && form.touched
+                                    ? null
+                                    : () {
+                                        _requestPasswordReset(
+                                          context,
+                                          form,
+                                          ref,
+                                          isLoading,
+                                        );
+                                      },
                                 child: Text(S.of(context).requestPasswordReset),
                               ),
                             ),
@@ -112,14 +120,23 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
     isLoading.value = true;
     final formValue = form.control('email').value.toString();
     try {
-      await getIt<ITbClientService>().client.sendResetPasswordLink(formValue);
+      await getIt<ITbClientService>().client
+          .getAuthControllerApi()
+          .requestResetPasswordByEmail(
+            resetPasswordEmailRequest: ResetPasswordEmailRequest(
+              (b) => b..email = formValue,
+            ),
+            // The error is shown below, once.
+            extra: InterceptorConfig(ignoreErrors: true).toExtra(),
+          );
       getIt<IOverlayService>().showSuccessNotification(
         (_) => S.of(context).emailVerificationSentText,
       );
     } catch (e) {
       getIt<TbLogger>().error(e);
-        getIt<IOverlayService>().showErrorNotification(
-        (_) => "${S.of(context).fatalError}: $e",
+      final error = toThingsboardError(e);
+      getIt<IOverlayService>().showErrorNotification(
+        (context) => error.getTranslatedMessage(context),
       );
     }
     isLoading.value = false;

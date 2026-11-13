@@ -1,10 +1,16 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmEditCommentTextField extends StatefulWidget {
   const AlarmEditCommentTextField(
@@ -16,7 +22,7 @@ class AlarmEditCommentTextField extends StatefulWidget {
 
   final AlarmId alarmId;
   final String commentId;
-  final AlarmComment commentToEdit;
+  final AlarmCommentInfo commentToEdit;
 
   @override
   State<StatefulWidget> createState() => _AlarmEditCommentState();
@@ -54,15 +60,13 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
               icon: Icon(
                 Icons.check,
                 size: 24,
-                color:
-                    textController.text.isNotEmpty
-                        ? const Color(0xff00695C)
-                        : Theme.of(context).disabledColor,
+                color: textController.text.isNotEmpty
+                    ? const Color(0xff00695C)
+                    : Theme.of(context).disabledColor,
               ),
-              onPressed:
-                  textController.text.isNotEmpty
-                      ? () => _submitComment(context)
-                      : null,
+              onPressed: textController.text.isNotEmpty
+                  ? () => _submitComment(context)
+                  : null,
             ),
           ],
         ),
@@ -78,7 +82,7 @@ class _AlarmEditCommentState extends State<AlarmEditCommentTextField> {
 
   @override
   void initState() {
-    textController.text = (widget.commentToEdit.comment as AlarmCommentJsonNode).text;
+    textController.text = widget.commentToEdit.commentText ?? '';
     super.initState();
   }
 

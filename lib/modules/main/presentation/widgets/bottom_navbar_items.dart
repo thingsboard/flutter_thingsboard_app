@@ -1,0 +1,97 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/material.dart';
+
+class BottomNavbarItems extends StatelessWidget {
+  const BottomNavbarItems({
+    required this.label,
+    required this.icon,
+    required this.selectedTextStyle,
+    required this.unSelectedTextStyle,
+    required this.onTap,
+    required this.index,
+    this.currentIndex,
+    this.lineIndicatorWidth = 3,
+    this.showAdditionalIcon = false,
+    this.additionalIcon,
+    super.key,
+  });
+
+  final String label;
+  final IconData icon;
+  final int? currentIndex;
+  final int index;
+  final Function(int) onTap;
+  final double lineIndicatorWidth;
+  final TextStyle selectedTextStyle;
+  final TextStyle unSelectedTextStyle;
+  final bool showAdditionalIcon;
+  final Widget? additionalIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomTheme = BottomNavigationBarTheme.of(context);
+    final isSelected = currentIndex == index;
+
+    return SafeArea(
+      left: false,
+      right: false,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.only(end: 7),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Theme.of(context).primaryColor.withValues(alpha: .10),
+            onTap: () => onTap(index),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: isSelected
+                        ? bottomTheme.selectedItemColor!
+                        : Colors.transparent,
+                    width: isSelected ? lineIndicatorWidth : 0,
+                  ),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 7),
+              child: Column(
+                children: [
+                  // The badge overlaps the icon's corner, so the icon stays
+                  // centred above the label with or without it.
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Icon(
+                        icon,
+                        size: 26,
+                        color: isSelected
+                            ? bottomTheme.selectedItemColor
+                            : bottomTheme.unselectedItemColor,
+                      ),
+                      if (additionalIcon case final badge?
+                          when showAdditionalIcon)
+                        PositionedDirectional(top: 0, end: -4, child: badge),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: isSelected ? selectedTextStyle : unSelectedTextStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

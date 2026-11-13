@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math';
 
 import 'package:expandable/expandable.dart';
@@ -7,11 +12,12 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_base.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_base.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_content_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmDetailsWidget extends StatefulWidget {
   AlarmDetailsWidget({
@@ -80,15 +86,15 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                 children: [
                   AlarmDetailsContentWidget(
                     title: S.of(context).status,
-                    details:
-                        widget.alarmInfo.status?.getTranslatedAlarmStatus(
-                          context,
-                        ) ??
-                        '',
+                    details: widget.alarmInfo.status.getTranslatedAlarmStatus(
+                      context,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).type,
-                    details: widget.alarmInfo.type,
+                    details: getIt<ICustomTranslationService>().translate(
+                      widget.alarmInfo.type,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).severity,
@@ -100,7 +106,9 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).originator,
-                    details: widget.alarmInfo.originatorName ?? '',
+                    details: getIt<ICustomTranslationService>().translate(
+                      widget.alarmInfo.originatorName,
+                    ),
                   ),
                   AlarmDetailsContentWidget(
                     title: S.of(context).startTime,
@@ -131,9 +139,8 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                           );
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).primaryColor.withValues(alpha: .1),
+                          backgroundColor: Theme.of(context).primaryColor
+                              .withValues(alpha: .1),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(
@@ -180,24 +187,31 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
     super.dispose();
   }
 
-  String _alarmDuration(BuildContext context) {
-    final now = DateTime.now();
-    final startDateTime = DateTime.fromMillisecondsSinceEpoch(
-      widget.alarmInfo.startTs!,
-    );
-    final difference = now.difference(startDateTime);
+  String _alarmDuration(BuildContext context) => alarmDurationText(
+    DateTime.now().difference(
+      DateTime.fromMillisecondsSinceEpoch(widget.alarmInfo.startTs!),
+    ),
+    S.of(context),
+  );
+}
 
-    String result = '';
-    if (difference.inDays > 0) {
-      result += '${difference.inDays} ${S.of(context).days} ';
-    }
-    if (difference.inHours > 0) {
-      result += '${difference.inHours % 24} ${S.of(context).hours} ';
-    }
-    if (difference.inMinutes > 0) {
-      result += '${difference.inMinutes % 60} ${S.of(context).minutes} ';
-    }
-
-    return result += '${difference.inSeconds % 60} ${S.of(context).seconds}';
-  }
+/// "1 day 2 hours 3 minutes 4 seconds", leaving out leading zero units, with
+/// the digits of the start time above it.
+@visibleForTesting
+String alarmDurationText(Duration duration, S s) {
+  // The date symbols' digits, not NumberFormat's: for Arabic they differ.
+  final zero = DateFormat().dateSymbols.ZERODIGIT?.codeUnitAt(0);
+  String digits(int n) => zero == null
+      ? '$n'
+      : String.fromCharCodes('$n'.codeUnits.map((c) => zero + c - 0x30));
+  final days = duration.inDays;
+  final hours = duration.inHours % 24;
+  final minutes = duration.inMinutes % 60;
+  final seconds = duration.inSeconds % 60;
+  return [
+    if (days > 0) s.durationDays(days, digits(days)),
+    if (duration.inHours > 0) s.durationHours(hours, digits(hours)),
+    if (duration.inMinutes > 0) s.durationMinutes(minutes, digits(minutes)),
+    s.durationSeconds(seconds, digits(seconds)),
+  ].join(' ');
 }

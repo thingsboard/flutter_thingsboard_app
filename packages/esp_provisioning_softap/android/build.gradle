@@ -1,0 +1,41 @@
+group 'de.petersen.nico.esp_provisioning_softap'
+version '1.0-SNAPSHOT'
+
+// The Android Gradle and Kotlin plugins come from the app's build
+// (android/settings.gradle).
+apply plugin: 'com.android.library'
+
+// AGP 9 compiles Kotlin itself unless the app opts out with
+// android.builtInKotlin=false; older AGP needs the Kotlin plugin.
+def agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0] as int
+def builtInKotlinProperty = project.findProperty('android.builtInKotlin')
+def builtInKotlin = agpMajor >= 9 &&
+        (builtInKotlinProperty == null || builtInKotlinProperty.toString().toBoolean())
+if (!builtInKotlin) {
+    apply plugin: 'kotlin-android'
+}
+
+android {
+    namespace "de.petersen.nico.esp_provisioning_softap"
+    compileSdk 36
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdk 24
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}

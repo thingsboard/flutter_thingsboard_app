@@ -1,6 +1,11 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/core/entity/entities_base.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 final class DashboardsPaginationRepository
     extends SearchablePaginationRepository<PageLink, DashboardInfo> {
@@ -17,13 +22,13 @@ final class DashboardsPaginationRepository
   }
 }
 
-abstract base class SearchablePaginationRepository<Type, Item>
-    extends PaginationRepository<Type, Item> {
+abstract base class SearchablePaginationRepository<PageKey, Item>
+    extends PaginationRepository<PageKey, Item> {
   SearchablePaginationRepository({
-    required SearchablePageKeyController<Type> queryController,
+    required SearchablePageKeyController<PageKey> queryController,
   }) : _ct = queryController,
        super(pageKeyController: queryController);
-  final SearchablePageKeyController<Type> _ct;
+  final SearchablePageKeyController<PageKey> _ct;
   void search(String? data) {
     return _ct.onSearchText(data);
   }

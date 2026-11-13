@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
@@ -12,10 +17,12 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_assigne
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_cotroll_buttons.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/details/alarm_details_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/tb_error_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmDetailsPage extends StatefulWidget {
   const AlarmDetailsPage({required this.id, super.key});
@@ -32,16 +39,14 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AlarmDetailsBloc>(
-          create:
-              (_) =>
-                  AlarmDetailsBloc.create()
-                    ..add(AlarmDetailsFetchEvent(id: widget.id)),
+          create: (_) =>
+              AlarmDetailsBloc.create()
+                ..add(AlarmDetailsFetchEvent(id: widget.id)),
         ),
         BlocProvider<AlarmAssigneeBloc>(
-          create:
-              (_) =>
-                  AlarmAssigneeBloc.create(id: widget.id)
-                    ..add(const AlarmFetchAssigneeEvent()),
+          create: (_) =>
+              AlarmAssigneeBloc.create(id: widget.id)
+                ..add(const AlarmFetchAssigneeEvent()),
         ),
       ],
       child: BlocBuilder<AlarmDetailsBloc, AlarmDetailsState>(
@@ -61,7 +66,9 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
               return Scaffold(
                 appBar: TbAppBar(
                   title: Text(
-                    state.alarmInfo.type,
+                    getIt<ICustomTranslationService>().translate(
+                      state.alarmInfo.type,
+                    ),
                     style: TbTextStyles.titleXs.copyWith(
                       color: Colors.black.withValues(alpha: .87),
                     ),
@@ -82,8 +89,8 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
                               children: [
                                 AlarmDetailsWidget(
                                   alarmInfo: state.alarmInfo,
-                                 alamDashboardId: (state.alarmInfo.details is Map<String,dynamic>) ? 
-                                      (state.alarmInfo.details as Map<String, dynamic>)['dashboardId']?.toString() : null,
+                                  alamDashboardId:
+                                      state.alarmInfo.detailsDashboardId,
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 12),
@@ -126,7 +133,10 @@ class _AlarmDetailsPageState extends State<AlarmDetailsPage> {
 
   @override
   void initState() {
-    AlarmDetailsDi.init(getIt<ITbClientService>().client, id: AlarmId(widget.id));
+    AlarmDetailsDi.init(
+      getIt<ITbClientService>().client,
+      id: AlarmId((b) => b..id = widget.id),
+    );
     super.initState();
   }
 

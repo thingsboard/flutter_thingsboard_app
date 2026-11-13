@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,20 +34,26 @@ class _EntitiesListState<T, P> extends BaseEntitiesState<T, P> {
     slivers.add(
       SliverPadding(
         padding: const EdgeInsets.all(16),
-        sliver: PagedSliverList.separated(
-          pagingController: pagingController,
-          separatorBuilder: (context, index) => const SizedBox(height: 8),
-          builderDelegate: PagedChildBuilderDelegate<T>(
-            itemBuilder: (context, item, index) => EntityListCard<T>(
-              item,
-              key: widget.getKey(item),
-              entityCardWidgetBuilder: widget.buildEntityListCard,
-              onEntityTap: (i)=> widget.onEntityTap(i, ref),
+        sliver: PagingListener(
+          controller: pagingController,
+          builder: (context, state, fetchNextPage) => PagedSliverList.separated(
+            state: state,
+            fetchNextPage: fetchNextPage,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            builderDelegate: PagedChildBuilderDelegate<T>(
+              itemBuilder: (context, item, index) => EntityListCard<T>(
+                item,
+                key: widget.getKey(item),
+                entityCardWidgetBuilder: widget.buildEntityListCard,
+                onEntityTap: (i) => widget.onEntityTap(i, ref),
+              ),
+              firstPageErrorIndicatorBuilder: firstPageErrorIndicatorBuilder,
+              newPageErrorIndicatorBuilder: newPageErrorIndicatorBuilder,
+              firstPageProgressIndicatorBuilder:
+                  firstPageProgressIndicatorBuilder,
+              newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
+              noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
             ),
-            firstPageProgressIndicatorBuilder:
-                firstPageProgressIndicatorBuilder,
-            newPageProgressIndicatorBuilder: newPageProgressIndicatorBuilder,
-            noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
           ),
         ),
       ),

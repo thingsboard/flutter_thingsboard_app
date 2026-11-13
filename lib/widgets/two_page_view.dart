@@ -1,32 +1,44 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 class TwoPageViewController {
   _TwoPageViewState? _state;
+  final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
 
- void  setTransitionIndexedStackState(_TwoPageViewState state) {
+  ValueListenable<int> get currentIndex => _currentIndex;
+
+  void setTransitionIndexedStackState(_TwoPageViewState state) {
     _state = state;
   }
 
   Future<bool> open(int index, {bool animate = true}) async {
     if (_state != null) {
-      return _state!._open(index, animate: animate);
+      return await _state!._open(index, animate: animate);
     }
     return false;
   }
 
   Future<bool> close(int index, {bool animate = true}) async {
     if (_state != null) {
-      return _state!._close(index, animate: animate);
+      return await _state!._close(index, animate: animate);
     }
     return false;
   }
 
   int? get index => _state?._selectedIndex;
+
+  void dispose() {
+    _currentIndex.dispose();
+  }
 }
 
 class TwoPageView extends StatefulWidget {
-
   const TwoPageView({
     super.key,
     required this.first,
@@ -65,6 +77,7 @@ class _TwoPageViewState extends State<TwoPageView> {
   Future<bool> _open(int index, {bool animate = true}) async {
     if (_selectedIndex != index) {
       _selectedIndex = index;
+      widget.controller?._currentIndex.value = _selectedIndex;
       if (index == 0) {
         setState(() {
           _reverse = true;
@@ -83,6 +96,7 @@ class _TwoPageViewState extends State<TwoPageView> {
   Future<bool> _close(int index, {bool animate = true}) async {
     if (_selectedIndex == index) {
       _selectedIndex = index == 1 ? 0 : 1;
+      widget.controller?._currentIndex.value = _selectedIndex;
       await _pageController.animateToPage(
         _selectedIndex,
         duration: widget.duration,
@@ -111,6 +125,7 @@ class _TwoPageViewState extends State<TwoPageView> {
       reverse: _reverse,
       onPageChanged: (int position) {
         _selectedIndex = position;
+        widget.controller?._currentIndex.value = _selectedIndex;
       },
       preloadPagesCount: 2,
       controller: _pageController,

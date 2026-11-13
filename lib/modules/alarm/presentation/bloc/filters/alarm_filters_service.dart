@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -8,7 +13,7 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_status_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/alarm_type_filter.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 ///TODO: Refactor this
 class AlarmFiltersService implements IAlarmFiltersService {
@@ -106,18 +111,16 @@ class AlarmFiltersService implements IAlarmFiltersService {
 
     final filters = AlarmFiltersEntity.fromUiFilters(
       typeList: typeFilter.getSelectedFilterData().toList(),
-      status:
-          statusFilter
-              .getSelectedFilterData()
-              .map((e) => e.data)
-              .toList()
-              .cast<AlarmSearchStatus>(),
-      severity:
-          severityFilter
-              .getSelectedFilterData()
-              .map((e) => e.data)
-              .toList()
-              .cast<AlarmSeverity>(),
+      status: statusFilter
+          .getSelectedFilterData()
+          .map((e) => e.data)
+          .toList()
+          .cast<AlarmSearchStatus>(),
+      severity: severityFilter
+          .getSelectedFilterData()
+          .map((e) => e.data)
+          .toList()
+          .cast<AlarmSeverity>(),
       userId: assigneeFilter.getSelectedFilterData(),
     );
 
@@ -128,14 +131,12 @@ class AlarmFiltersService implements IAlarmFiltersService {
   void resetUnCommittedChanges() {
     logger.debug('AlarmFiltersService::resetUnCommittedChanges()');
 
-    final committedStatus =
-        _activeFilters.statusList
-            ?.map((e) => statuses.firstWhere((s) => e == s.data))
-            .toSet();
-    final committedSeverity =
-        _activeFilters.severityList
-            ?.map((e) => severities.firstWhere((s) => e == s.data))
-            .toSet();
+    final committedStatus = _activeFilters.statusList
+        ?.map((e) => statuses.firstWhere((s) => e == s.data))
+        .toSet();
+    final committedSeverity = _activeFilters.severityList
+        ?.map((e) => severities.firstWhere((s) => e == s.data))
+        .toSet();
     final committedAssignee = _activeFilters.assigneeId;
     final committedTypes = _activeFilters.typeList;
 

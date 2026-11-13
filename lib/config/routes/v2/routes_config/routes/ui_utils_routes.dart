@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/qr_code_scanner.dart';
 
@@ -7,7 +12,6 @@ class UiUtilsRoutes {
 
 // UI utility routes
 final uiUtilsRoutes = [
-  
   GoRoute(
     path: UiUtilsRoutes.qrCodeScan,
     builder: (context, state) {

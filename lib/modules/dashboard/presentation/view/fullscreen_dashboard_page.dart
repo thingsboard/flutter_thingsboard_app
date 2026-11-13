@@ -1,27 +1,40 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/di/dashboards_di.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboard_permission_error_view.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_back_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class FullscreenDashboardPage extends StatefulWidget {
+class FullscreenDashboardPage extends ConsumerStatefulWidget {
   const FullscreenDashboardPage(
     this.fullscreenDashboardId, {
     super.key,
-    String? dashboardTitle,
-  }) : _dashboardTitle = dashboardTitle;
+    this._dashboardTitle,
+  });
   final String fullscreenDashboardId;
   final String? _dashboardTitle;
 
   @override
-  State<StatefulWidget> createState() => _FullscreenDashboardPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _FullscreenDashboardPageState();
 }
 
-class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
+class _FullscreenDashboardPageState
+    extends ConsumerState<FullscreenDashboardPage> {
   late ValueNotifier<String> dashboardTitleValue;
   final showBackValue = ValueNotifier<bool>(false);
   late final String diKey;
@@ -29,6 +42,13 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final havePermission = ref.watch(
+      loginProvider.select((s) => s.canReadDashboards),
+    );
+    if (!havePermission) {
+      return const DashboardPermissionErrorView(fullScreen: true);
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -37,18 +57,8 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
           builder: (context, canGoBack, widget) {
             return TbAppBar(
               leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-                onPressed: () async {
-                  if (_dashboardController?.rightLayoutOpened.value == true) {
-                    await _dashboardController?.toggleRightLayout();
-                    return;
-                  }
-
-                  final controller = _dashboardController?.controller;
-                  if (await controller?.canGoBack() == true) {
-                    await controller?.goBack();
-                  }
-                },
+                icon: const Icon(Icons.arrow_back),
+                onPressed: _handleBack,
               ),
               elevation: 1,
               shadowColor: Colors.transparent,
@@ -57,7 +67,7 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
                 builder: (context, title, widget) {
                   return FittedBox(
                     fit: BoxFit.fitWidth,
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(title),
                   );
                 },
@@ -66,10 +76,9 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
                 IconButton(
                   icon: const Icon(Icons.settings),
                   // translate-me-ignore-next-line
-                  onPressed:
-                      () => getIt<ThingsboardAppRouter>().navigateTo(
-                        '/profile?fullscreen=true',
-                      ),
+                  onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
+                    '/profile?fullscreen=true',
+                  ),
                 ),
               ],
               canGoBack: canGoBack,
@@ -77,25 +86,27 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
           },
         ),
       ),
-      body: ValueListenableBuilder<String?>(
-        valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-        builder:
-            (context, _, _) => DashboardWidget(
-              titleCallback: (title) {
-                dashboardTitleValue.value = title;
-              },
-              controllerCallback: (controller, _) {
-                _dashboardController = controller;
+      body: DashboardBackHandler(
+        onBack: _handleBack,
+        child: ValueListenableBuilder<String?>(
+          valueListenable: getIt<IEndpointService>().listenEndpointChanges,
+          builder: (context, _, _) => DashboardWidget(
+            titleCallback: (title) {
+              dashboardTitleValue.value = title;
+            },
+            controllerCallback: (controller, _) {
+              _dashboardController = controller;
 
-                controller.canGoBack.addListener(() {
-                  _onCanGoBack(controller.canGoBack.value);
-                });
-                controller.openDashboard(
-                  widget.fullscreenDashboardId,
-                  fullscreen: true,
-                );
-              },
-            ),
+              controller.canGoBack.addListener(() {
+                _onCanGoBack(controller.canGoBack.value);
+              });
+              controller.openDashboard(
+                widget.fullscreenDashboardId,
+                fullscreen: true,
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -105,7 +116,11 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
     super.initState();
     diKey = UniqueKey().toString();
     DashboardsDi.init(diKey, tbClient: getIt<ITbClientService>().client);
-    dashboardTitleValue = ValueNotifier(widget._dashboardTitle ?? 'Dashboard');
+    dashboardTitleValue = ValueNotifier(
+      getIt<ICustomTranslationService>().translate(
+        widget._dashboardTitle ?? 'Dashboard',
+      ),
+    );
   }
 
   @override
@@ -118,5 +133,14 @@ class _FullscreenDashboardPageState extends State<FullscreenDashboardPage> {
 
   void _onCanGoBack(bool canGoBack) {
     showBackValue.value = canGoBack;
+  }
+
+  Future<void> _handleBack() async {
+    if (await DashboardBackHandler.tryNavigateBack(_dashboardController)) {
+      return;
+    }
+    if (mounted && context.canPop()) {
+      Navigator.of(context).pop();
+    }
   }
 }

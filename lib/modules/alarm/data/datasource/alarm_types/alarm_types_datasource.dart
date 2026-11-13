@@ -1,5 +1,11 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarm_types/i_alarm_types_datasource.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmTypesDatasource implements IAlarmTypesDatasource {
   const AlarmTypesDatasource({required this.tbClient});
@@ -7,7 +13,19 @@ class AlarmTypesDatasource implements IAlarmTypesDatasource {
   final ThingsboardClient tbClient;
 
   @override
-  Future<PageData<AlarmType>> fetchAlarmTypes(PageLink pageKey) {
-    return tbClient.getAlarmService().getAlarmTypes(pageKey);
+  Future<PageData<EntitySubtype>> fetchAlarmTypes(PageLink pageKey) async {
+    final response = await tbClient.getAlarmControllerApi().getAlarmTypes(
+      pageSize: pageKey.pageSize,
+      page: pageKey.page,
+      textSearch: pageKey.textSearch,
+      sortOrder: pageKey.sortOrder?.direction.name,
+    );
+    final page = response.data!;
+    return toPageData(
+      page.data,
+      page.totalPages,
+      page.totalElements,
+      page.hasNext,
+    );
   }
 }

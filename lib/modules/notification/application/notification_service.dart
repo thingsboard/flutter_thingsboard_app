@@ -1,0 +1,452 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:firebase_app_installations/firebase_app_installations.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
+import 'package:thingsboard_app/modules/notification/application/notifications_local_service.dart';
+import 'package:thingsboard_app/modules/notification/application/push_notification_display.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+class NotificationService {
+  NotificationService({
+    FirebaseMessaging? messaging,
+    FirebaseInstallations? installations,
+    FlutterLocalNotificationsPlugin? localNotificationsPlugin,
+    INotificationsLocalService? localService,
+  }) : _injectedMessaging = messaging,
+       _injectedInstallations = installations,
+       flutterLocalNotificationsPlugin =
+           localNotificationsPlugin ?? PushNotificationDisplay.plugin,
+       _localService = localService ?? NotificationsLocalService();
+
+  final FirebaseMessaging? _injectedMessaging;
+  final FirebaseInstallations? _injectedInstallations;
+  final TbLogger _log = getIt();
+  // Read the live client on every access: a QR-code endpoint switch re-creates
+  // the client (ITbClientService.reInit), so a reference captured at
+  // construction would keep pointing at the old host (PROD-8200).
+  ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
+
+  final ILocalDatabaseService _localDatabase = getIt();
+  final INotificationsLocalService _localService;
+  StreamSubscription? _foregroundMessageSubscription;
+  StreamSubscription? _onMessageOpenedAppSubscription;
+  StreamSubscription? _onRegisteredSubscription;
+  Future<void>? _staleCleanup;
+
+  /// The Firebase Installation ID this device is registered with FCM under;
+  /// the server stores it as the mobile session token (`X-Mobile-Token`).
+  String? _fid;
+
+  String? get mobileToken => _fid;
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  /// Resolved lazily: `FirebaseMessaging.instance` needs an initialized
+  /// Firebase app, and the locator constructs this service before `main()`
+  /// initializes Firebase.
+  FirebaseMessaging get _messaging =>
+      _injectedMessaging ?? FirebaseMessaging.instance;
+
+  FirebaseInstallations get _installations =>
+      _injectedInstallations ?? FirebaseInstallations.instance;
+
+  bool get _isFirebaseConfigured => getIt<IFirebaseService>().apps.isNotEmpty;
+
+  Future<void> init() async {
+    if (!_isFirebaseConfigured) {
+      return;
+    }
+    // A stale cleanup started while unauthenticated may still be unregistering
+    // from FCM; registering concurrently would undo the new registration.
+    // This relies on the service being a locator singleton: the login
+    // provider started that cleanup on this same instance.
+    await _staleCleanup;
+
+    _log.debug('NotificationService::init()');
+
+    final message = await _messaging.getInitialMessage();
+    if (message != null) {
+      NotificationService.handleClickOnNotification(message.data);
+    }
+
+    await _handleLocalNotificationAppLaunch();
+
+    _onMessageOpenedAppSubscription = FirebaseMessaging.onMessageOpenedApp
+        .listen((message) {
+          NotificationService.handleClickOnNotification(message.data);
+        });
+
+    final settings = await _messaging.requestPermission(provisional: true);
+    _log.debug(
+      'Notification authorizationStatus: ${settings.authorizationStatus}',
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional) {
+      // The server sends to the FID through the `token` target, which FCM
+      // accepts during its migration off registration tokens.
+      _onRegisteredSubscription = _messaging.onRegistered.listen(_onFidChanged);
+      await _registerAndSave();
+
+      await _initFlutterLocalNotificationsPlugin();
+      await _configFirebaseMessaging();
+      _subscribeOnForegroundMessage();
+      await updateNotificationsCount();
+    }
+  }
+
+  /// Shows the server's unread count; a failed request (e.g. offline) keeps
+  /// the badge as it was.
+  Future<void> updateNotificationsCount() async {
+    final count = await _getNotificationsCountRemote();
+    if (count != null) {
+      await _localService.updateNotificationsCount(count);
+    }
+  }
+
+  /// Registers this app instance with FCM and returns its FID, or null when
+  /// that fails (e.g. offline).
+  Future<String?> registerWithFcm() async {
+    try {
+      await _messaging.register();
+      return _fid = await _installations.getId();
+    } catch (e) {
+      _log.warn('NotificationService: FCM registration failed: $e');
+      return null;
+    }
+  }
+
+  Future<RemoteMessage?> initialMessage() {
+    return _messaging.getInitialMessage();
+  }
+
+  Future<void> logout() async {
+    if (!_isFirebaseConfigured) {
+      return;
+    }
+
+    _log.debug('NotificationService::logout()');
+    if (_fid != null) {
+      _log.debug('NotificationService::logout() removeMobileSession');
+      try {
+        await _tbClient.getUserControllerApi().removeMobileSession(
+          xMobileToken: _fid!,
+          extra: silentRequestExtra(),
+        );
+      } catch (e) {
+        // Best effort: the session may already be invalid (e.g. expired JWT).
+        // Unregistering from FCM below still stops the notifications.
+        _log.warn(
+          'NotificationService::logout() removeMobileSession failed: $e',
+        );
+      }
+    }
+
+    await _tearDownLocalPushState();
+  }
+
+  /// Cleans up a stale push registration left by a session that ended
+  /// without an explicit logout (e.g. the refresh token expired while the
+  /// app was closed, #304). The JWT is already invalid at this point, so the
+  /// server-side mobile session usually can't be removed here; unregistering
+  /// from FCM makes further pushes bounce, and the platform purges the session
+  /// on the next delivery attempt.
+  ///
+  /// Idempotent, never throws, and safe to call whenever the client is
+  /// unauthenticated. Concurrent calls share a single run, and [init] waits
+  /// for a run that is already in flight. The reverse direction is not
+  /// ordered: a cleanup that starts while [init] is mid-flight can unregister
+  /// the registration [init] just made, which only costs pushes until the
+  /// next launch registers again.
+  Future<void> cleanUpStalePushRegistration() async {
+    if (!_isFirebaseConfigured) {
+      return;
+    }
+    _staleCleanup ??= _tearDownIfRegistered().whenComplete(
+      () => _staleCleanup = null,
+    );
+    await _staleCleanup;
+  }
+
+  Future<void> _tearDownIfRegistered() async {
+    try {
+      // The flag keeps this a no-op on devices that never registered, so a
+      // fresh install sitting on the login screen never calls into FCM:
+      // unregister() is an unconditional platform round trip either way.
+      if (!await _localDatabase.isPushRegistered()) {
+        return;
+      }
+      _log.debug('NotificationService::_tearDownIfRegistered()');
+      await _tearDownLocalPushState();
+    } catch (e) {
+      _log.warn('NotificationService::_tearDownIfRegistered() failed: $e');
+    }
+  }
+
+  /// Unregistering from FCM is what stops delivery; the rest drops the local
+  /// push state. Failures are swallowed so a logout still completes offline:
+  /// the registration flag is cleared last, so an interrupted teardown is
+  /// retried by [cleanUpStalePushRegistration] on the next launch.
+  Future<void> _tearDownLocalPushState() async {
+    try {
+      await _foregroundMessageSubscription?.cancel();
+      await _onMessageOpenedAppSubscription?.cancel();
+      await _onRegisteredSubscription?.cancel();
+      await _messaging.unregister();
+      _fid = null;
+      await _messaging.setAutoInitEnabled(false);
+      await flutterLocalNotificationsPlugin.cancelAll();
+      await _localService.clearNotificationBadgeCount();
+      await _localDatabase.clearPushRegistered();
+    } catch (e) {
+      _log.warn('NotificationService: push teardown failed: $e');
+    }
+  }
+
+  Future<void> _configFirebaseMessaging() async {
+    await _messaging.setAutoInitEnabled(true);
+  }
+
+  Future<void> _initFlutterLocalNotificationsPlugin() {
+    return PushNotificationDisplay.initialize(
+      plugin: flutterLocalNotificationsPlugin,
+      onDidReceiveNotificationResponse: (response) {
+        if (response.notificationResponseType ==
+            NotificationResponseType.selectedNotification) {
+          final data =
+              json.decode(response.payload ?? '') as Map<String, dynamic>;
+          handleClickOnNotification(data);
+        }
+      },
+    );
+  }
+
+  bool _launchNotificationHandled = false;
+
+  /// Handles a tap on a locally shown notification that started the app from
+  /// the terminated state: such taps don't go through FCM, so
+  /// [FirebaseMessaging.getInitialMessage] doesn't see them. Unlike that call,
+  /// reading the launch details does not consume them, and `init()` runs again
+  /// on every login, so they are handled once per process.
+  Future<void> _handleLocalNotificationAppLaunch() async {
+    if (_launchNotificationHandled) {
+      return;
+    }
+    _launchNotificationHandled = true;
+    final launchDetails = await flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
+    final payload = launchDetails?.notificationResponse?.payload;
+    if (launchDetails?.didNotificationLaunchApp == true && payload != null) {
+      try {
+        handleClickOnNotification(json.decode(payload) as Map<String, dynamic>);
+      } catch (e) {
+        _log.error('NotificationService::_handleLocalNotificationAppLaunch $e');
+      }
+    }
+  }
+
+  Future<void> _registerAndSave() async {
+    final fid = await registerWithFcm();
+    _log.debug('FCM installation ID: $fid');
+
+    try {
+      await _syncMobileSession(fid);
+    } catch (e) {
+      // The server may reject the session for an unknown mobile package:
+      // push notifications simply stay off, nothing else should break.
+      _log.error('NotificationService: failed to sync mobile session $e');
+    }
+  }
+
+  /// FCM reports a (possibly new) FID on routine syncs and when it changes:
+  /// move the server-side mobile session to it.
+  Future<void> _onFidChanged(String fid) async {
+    final previous = _fid;
+    _fid = fid;
+    if (previous == fid) {
+      return;
+    }
+    if (previous != null) {
+      try {
+        await _tbClient.getUserControllerApi().removeMobileSession(
+          xMobileToken: previous,
+          extra: silentRequestExtra(),
+        );
+      } catch (e) {
+        _log.warn(
+          'NotificationService: failed to remove the mobile session of '
+          'the previous installation ID: $e',
+        );
+      }
+    }
+    try {
+      await _saveToken(fid);
+    } catch (e) {
+      _log.warn(
+        'NotificationService: failed to save the new installation ID: $e',
+      );
+    }
+  }
+
+  Future<void> _syncMobileSession(String? fid) async {
+    if (fid == null) {
+      return;
+    }
+
+    final mobileInfo = (await _tbClient.getUserControllerApi().getMobileSession(
+      xMobileToken: fid,
+      extra: silentRequestExtra(),
+    )).data;
+    // The FID does not rotate: a stale session only needs its timestamp
+    // refreshed.
+    final age =
+        DateTime.now().millisecondsSinceEpoch -
+        (mobileInfo?.fcmTokenTimestamp ?? 0);
+    if (mobileInfo == null || age > const Duration(days: 30).inMilliseconds) {
+      await _saveToken(fid);
+      return;
+    }
+
+    await _localDatabase.setPushRegistered();
+  }
+
+  Future<void> _saveToken(String token) async {
+    await _tbClient.getUserControllerApi().saveMobileSession(
+      xMobileToken: token,
+      mobileSessionInfo: MobileSessionInfo(
+        (b) => b..fcmTokenTimestamp = DateTime.now().millisecondsSinceEpoch,
+      ),
+      extra: silentRequestExtra(),
+    );
+    await _localDatabase.setPushRegistered();
+  }
+
+  Future<void> showNotification(RemoteMessage message) async {
+    if (message.notification != null) {
+      await PushNotificationDisplay.show(
+        message,
+        plugin: flutterLocalNotificationsPlugin,
+      );
+      _localService.increaseNotificationBadgeCount();
+    }
+  }
+
+  void _subscribeOnForegroundMessage() {
+    _foregroundMessageSubscription = FirebaseMessaging.onMessage.listen((
+      message,
+    ) {
+      _log.debug('Message ${message.messageId}: ${message.data}');
+      if (message.sentTime == null) {
+        final map = message.toMap();
+        map['sentTime'] = DateTime.now().millisecondsSinceEpoch;
+        showNotification(RemoteMessage.fromMap(map));
+      } else {
+        showNotification(message);
+      }
+    });
+  }
+
+  static void handleClickOnNotification(
+    Map<String, dynamic> data, {
+    bool isOnNotificationsScreenAlready = false,
+  }) {
+    if (data['enabled'] == true || data['onClick.enabled'] == 'true') {
+      switch (data['linkType'] ?? data['onClick.linkType']) {
+        case 'DASHBOARD':
+          String? dashboardId;
+          if ((data['dashboardId'] ?? data['onClick.dashboardId']) != null) {
+            dashboardId = (data['dashboardId'] ?? data['onClick.dashboardId'])
+                .toString();
+          }
+          EntityId? entityId;
+          final rawEntityId =
+              data['stateEntityId'] ?? data['onClick.stateEntityId'];
+          final entityType = _tryParseEntityType(
+            (data['stateEntityType'] ?? data['onClick.stateEntityType'])
+                ?.toString(),
+          );
+          if (rawEntityId != null && entityType != null) {
+            entityId = $EntityId(
+              (b) => b
+                ..entityType = entityType
+                ..id = rawEntityId.toString(),
+            );
+          }
+
+          final state = Utils.createDashboardEntityState(
+            entityId,
+            stateId: (data['dashboardState'] ?? data['onClick.dashboardState'])
+                .toString(),
+          );
+
+          if (dashboardId != null) {
+            getIt<ThingsboardAppRouter>().navigateToDashboard(
+              dashboardId,
+              state: state,
+            );
+          }
+
+        case 'LINK':
+          final rawLink = data['link'] ?? data['onClick.link'];
+          if (rawLink != null) {
+            final link = (data['link'] ?? data['onClick.link']).toString();
+            if (Uri.parse(link).isAbsolute) {
+              getIt<ThingsboardAppRouter>().navigateTo(
+                '/url/${Uri.encodeComponent(link)}',
+              );
+            } else if (link == '/notifications' &&
+                !isOnNotificationsScreenAlready) {
+              getIt<ThingsboardAppRouter>().navigateTo(link);
+            } else {
+              getIt<ThingsboardAppRouter>().navigateTo(link);
+            }
+          }
+      }
+    } else {
+      if (!isOnNotificationsScreenAlready) {
+        getIt<ThingsboardAppRouter>().navigateTo('/notifications');
+      }
+    }
+  }
+
+  Future<int?> _getNotificationsCountRemote() async {
+    try {
+      final resp = await _tbClient
+          .getNotificationControllerApi()
+          .getUnreadNotificationsCount(
+            deliveryMethod: 'MOBILE_APP',
+            extra: silentRequestExtra(),
+          );
+      return resp.data ?? 0;
+    } catch (_) {
+      return null;
+    }
+  }
+}
+
+/// [EntityType.valueOf] throws on an unknown name, so tolerate server-sent
+/// entity types this client's enum doesn't know: the tapped notification just
+/// resolves without an entity target instead of crashing.
+EntityType? _tryParseEntityType(String? name) {
+  if (name == null) return null;
+  try {
+    return EntityType.valueOf(name);
+  } catch (_) {
+    return null;
+  }
+}

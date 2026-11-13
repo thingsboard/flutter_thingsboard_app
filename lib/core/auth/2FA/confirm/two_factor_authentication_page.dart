@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,8 +16,9 @@ import 'package:thingsboard_app/core/auth/2FA/confirm/widgets/base_two_factor_la
 import 'package:thingsboard_app/core/auth/2FA/confirm/widgets/select_provider_type_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/widgets/two_factor_auth_code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TwoFactorAuthenticationPage extends HookConsumerWidget {
   const TwoFactorAuthenticationPage({
@@ -25,6 +31,13 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
+    // The session was dropped (Log Out after a failed user load): there is
+    // nothing left to verify.
+    ref.listen(loginProvider, (_, next) {
+      if (!next.isUserLoaded) {
+        context.go(LoginRoutes.login);
+      }
+    });
 
     final providers = ref.watch(twoFaConfirmAvalibleProvidersProvider);
     useEffect(() {
@@ -35,16 +48,16 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
         }
         if (providers.value?.length == 1) {
           context.pushReplacement(
-            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${providers.value!.first.type.toShortString()}',
+            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${providers.value!.first.type?.name}',
           );
           return;
         }
         final defaultProvider = providers.value?.firstWhereOrNull(
-          (e) => e.isDefault,
+          (e) => e.default_ ?? false,
         );
         if (defaultProvider != null) {
           context.pushReplacement(
-             '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${defaultProvider.type.toShortString()}',
+            '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?selectedProvider=${defaultProvider.type?.name}',
           );
           return;
         }
@@ -59,9 +72,10 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
       final info = providers.value!.firstWhere(
         (e) => e.type == selectedProvider,
       );
+      if (info.type == null) return const SizedBox();
       final codeLoading = ref.watch(
         twoFactorConfirmProvider(
-          info.type,
+          info.type!,
           info.minVerificationCodeSendPeriod,
         ).select((state) => state.loading),
       );
@@ -84,7 +98,10 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
       child: providers.value != null
           ? SelectProviderTypeWidget(
               activeProviders: const [],
-              avalibleTypes: providers.value!.map((e) => e.type).toList(),
+              avalibleTypes: providers.value!
+                  .where((e) => e.type != null)
+                  .map((e) => e.type!)
+                  .toList(),
               type: TwoFaViewType.confirm,
             )
           : const SizedBox(),
@@ -96,11 +113,12 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     WidgetRef ref,
     TwoFaProviderInfo info,
   ) async {
+    if (info.type == null) return;
     isLoading.value = true;
     await ref
         .read(
           twoFactorConfirmProvider(
-            info.type,
+            info.type!,
             info.minVerificationCodeSendPeriod,
           ).notifier,
         )

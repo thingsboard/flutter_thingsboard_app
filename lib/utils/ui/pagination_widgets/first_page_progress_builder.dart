@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 class FirstPageProgressBuilder extends StatelessWidget {
@@ -13,9 +18,7 @@ class FirstPageProgressBuilder extends StatelessWidget {
           right: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RefreshProgressIndicator(),
-            ],
+            children: [RefreshProgressIndicator()],
           ),
         ),
       ],

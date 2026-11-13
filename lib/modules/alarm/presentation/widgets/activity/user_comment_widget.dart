@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -9,10 +14,11 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/activity/alarm_activity_events.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/user_info_avatar_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/ui/tb_alert_dialog.dart';
+import 'package:thingsboard_app/utils/ui/time_ago.dart';
 import 'package:thingsboard_app/utils/ui/ui_utils.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class UserCommentWidget extends StatefulWidget {
   const UserCommentWidget(this.activity, {required this.userId, super.key});
@@ -59,14 +65,14 @@ class _UserCommentState extends State<UserCommentWidget> {
             color: Colors.black.withValues(alpha: .54),
           ),
           onPressed: () {
-            if(widget.activity.id != null) {
+            if (widget.activity.id != null) {
               context.read<AlarmActivityBloc>().add(
-              AlarmEditCommentEvent(
-                widget.activity.id! ,
-                alarmId: widget.activity.alarmId,
-                comment: widget.activity,
-              ),
-            );
+                AlarmEditCommentEvent(
+                  widget.activity.id!.id,
+                  alarmId: widget.activity.alarmId!,
+                  comment: widget.activity,
+                ),
+              );
             }
           },
         ),
@@ -117,11 +123,13 @@ class _UserCommentState extends State<UserCommentWidget> {
               },
             );
 
-            if (delete == true && context.mounted && widget.activity.id != null) {
+            if (delete == true &&
+                context.mounted &&
+                widget.activity.id != null) {
               context.read<AlarmActivityBloc>().add(
                 DeleteAlarmCommentEvent(
-                  alarmId: widget.activity.alarmId,
-                  commentId: widget.activity.id!,
+                  alarmId: widget.activity.alarmId!,
+                  commentId: widget.activity.id!.id,
                 ),
               );
             }
@@ -142,44 +150,50 @@ class _UserCommentState extends State<UserCommentWidget> {
           color: UiUtils.colorFromString(userInfo.displayName),
         ),
         const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '${widget.activity.firstName ?? ''} ${widget.activity.lastName ?? ''}',
-                  style: TbTextStyles.labelLarge.copyWith(
-                    color: Colors.black.withValues(alpha: .76),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      '${widget.activity.firstName ?? ''} ${widget.activity.lastName ?? ''}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TbTextStyles.labelLarge.copyWith(
+                        color: Colors.black.withValues(alpha: .76),
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  timeago.format(DateTime.now().subtract(diff)),
-                  style: TbTextStyles.bodyMedium.copyWith(
-                    color: Colors.black.withValues(alpha: .38),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Visibility(
-                  visible: (widget.activity.comment as AlarmCommentJsonNode).edited,
-                  child: Text(
-                    ' ${S.of(context).edited}',
+                  const SizedBox(width: 4),
+                  Text(
+                    timeAgo(context, DateTime.now().subtract(diff)),
                     style: TbTextStyles.bodyMedium.copyWith(
                       color: Colors.black.withValues(alpha: .38),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Text(
-              (widget.activity.comment as AlarmCommentJsonNode).text,
-              style: TbTextStyles.bodyLarge.copyWith(
-                color: Colors.black.withValues(alpha: .54),
+                  const SizedBox(width: 4),
+                  Visibility(
+                    visible: widget.activity.commentEdited,
+                    child: Text(
+                      ' ${S.of(context).edited}',
+                      style: TbTextStyles.bodyMedium.copyWith(
+                        color: Colors.black.withValues(alpha: .38),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              Text(
+                widget.activity.commentText ?? '',
+                style: TbTextStyles.bodyLarge.copyWith(
+                  color: Colors.black.withValues(alpha: .54),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

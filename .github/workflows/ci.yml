@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+# No Android build here: build locally after native changes (see CONTRIBUTING).
+jobs:
+  checks:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the Flutter version from .fvmrc
+        id: fvm
+        run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.flutter }}
+          channel: stable
+          cache: true
+      - name: Check license headers
+        run: |
+          missing=$(git ls-files 'lib/*.dart' 'test/*.dart' \
+            | grep -vE '\.g\.dart$|\.freezed\.dart$|^lib/generated/|^lib/firebase_options\.dart$' \
+            | xargs grep -L '^// Copyright © 2021-2026 ThingsBoard, Inc\.' || true)
+          if [ -n "$missing" ]; then
+            echo "Missing license header (see CONTRIBUTING.md):"; echo "$missing"; exit 1
+          fi
+      - run: flutter pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Check generated code is up to date
+        # build_runner (freezed, json_serializable, riverpod) and gen-l10n
+        # (run by pub get) outputs are committed.
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          git diff --exit-code -- '*.g.dart' '*.freezed.dart' lib/generated
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the Flutter version from .fvmrc
+        id: fvm
+        run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.flutter }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Test
+        run: flutter test

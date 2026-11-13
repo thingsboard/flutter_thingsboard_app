@@ -11,7 +11,7 @@ body:
         If you are looking for support, please check out our documentation:
 
           - https://thingsboard.io/docs/mobile/
-          - https://thingsboard.io/docs/
+          - https://thingsboard.io/docs/pe/
 
         If you have found a bug or if our documentation doesn't have an answer
         to what you're looking for, then fill out the template below.
@@ -44,8 +44,7 @@ body:
       description: What type of ThingsBoard platform are you using?
       options:
         - Self-hosted ThingsBoard
-        - ThingsBoard Demo cloud
-        - ThingsBoard CE cloud
+        - ThingsBoard Cloud
     validations:
       required: true
   - type: input
@@ -61,7 +60,7 @@ body:
       description: What app do you use?
       options:
         - Custom build app
-        - ThingsBoard Demo app
+        - ThingsBoard Cloud app
     validations:
       required: true
   - type: textarea

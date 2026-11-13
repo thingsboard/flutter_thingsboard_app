@@ -6,19 +6,56 @@ part of 'router_2.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'9c2191b710ee87d439a3cab856ffe04e80244273';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [Router].
 @ProviderFor(Router)
-final routerProvider = AutoDisposeNotifierProvider<Router, GoRouter>.internal(
-  Router.new,
-  name: r'routerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final routerProvider = RouterProvider._();
 
-typedef _$Router = AutoDisposeNotifier<GoRouter>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class RouterProvider extends $NotifierProvider<Router, GoRouter> {
+  RouterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'routerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$routerHash();
+
+  @$internal
+  @override
+  Router create() => Router();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GoRouter value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GoRouter>(value),
+    );
+  }
+}
+
+String _$routerHash() => r'ba7f50631ede5e2b60ffbaa50eb94d133e8ef501';
+
+abstract class _$Router extends $Notifier<GoRouter> {
+  GoRouter build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<GoRouter, GoRouter>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<GoRouter, GoRouter>,
+              GoRouter,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

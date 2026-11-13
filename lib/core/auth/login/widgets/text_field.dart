@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -8,6 +13,17 @@ import 'package:thingsboard_app/generated/l10n.dart';
 class TbValicationMessages {
   static const invalidCode = 'invalidCode';
   static const tooManyRequests = 'tooManyRequest';
+}
+
+extension RejectCode on AbstractControl<Object?> {
+  /// Clears a rejected verification code and focuses the field for the next
+  /// one, keeping [reason] (a [TbValicationMessages] key) on screen.
+  void rejectCode(String reason) {
+    value = null;
+    setErrors({reason: {}});
+    markAsTouched();
+    if (this case final FormControl<Object?> control) control.focus();
+  }
 }
 
 class TbTextField extends HookWidget {
@@ -41,6 +57,28 @@ class TbTextField extends HookWidget {
   final Widget? suffixIcon;
   final bool readOnly;
 
+  static final _leftToRightTypes = [
+    TextInputType.emailAddress,
+    TextInputType.number,
+    TextInputType.phone,
+    TextInputType.url,
+    TextInputType.visiblePassword,
+  ];
+
+  /// Emails, passwords, codes and numbers read left to right in every
+  /// language, as RTL guidelines ask.
+  bool get _leftToRight =>
+      obscureText ||
+      _leftToRightTypes.contains(type) ||
+      (autoFillHints ?? const <String>[]).any(
+        const {
+          AutofillHints.email,
+          AutofillHints.password,
+          AutofillHints.newPassword,
+          AutofillHints.oneTimeCode,
+        }.contains,
+      );
+
   @override
   Widget build(BuildContext context) {
     final form = ReactiveForm.of(context) as FormControlCollection?;
@@ -61,6 +99,9 @@ class TbTextField extends HookWidget {
     final isErrorState = useState(false);
     // final theme = Theme.of(context);
     final counter = useState(0);
+    final errorColor =
+        Theme.of(context).inputDecorationTheme.errorStyle?.color ??
+        AppColors.textError;
     //  final iconStateColor = isErrorState.value ? AppColors.textError : null;
 
     useEffect(() {
@@ -78,31 +119,37 @@ class TbTextField extends HookWidget {
         isTouched.value = e;
         updateState();
       });
+      // Also when the value is set in code, like a cleared rejected code.
+      final values = formControl?.valueChanges.listen((value) {
+        counter.value = value?.toString().length ?? 0;
+      });
       void cancel() {
         touches?.cancel();
         errors?.cancel();
+        values?.cancel();
       }
 
       return cancel;
-    }, [formControl?.statusChanged, formControl?.touchChanges]);
+    }, [formControl]);
 
-    return ReactiveTextField(
+    final field = ReactiveTextField(
       focusNode: node,
       readOnly: readOnly,
       onTap: (control) {
-        if(onPressed != null) {
-        onPressed?.call();
-        node.unfocus();
+        if (onPressed != null) {
+          onPressed?.call();
+          node.unfocus();
         }
-
       },
       onChanged: (control) {
-        counter.value = control.value?.toString().length ?? 0;
-        if (counter.value == counterMaxValue) {
+        if ((control.value?.toString().length ?? 0) == counterMaxValue) {
           onMaxLengthReched?.call();
         }
       },
       autofocus: autoFocus,
+      // Room for the error or counter line under the field when it is
+      // scrolled into view.
+      scrollPadding: const EdgeInsets.fromLTRB(20, 20, 20, 56),
       onSubmitted: (_) => onSubmit?.call(),
       maxLength: counterMaxValue,
       cursorHeight: TbTextStyles.bodyLarge.fontSize,
@@ -111,8 +158,8 @@ class TbTextField extends HookWidget {
       autofillHints: autoFillHints,
       formControlName: formControlName,
       validationMessages: {
-        ValidationMessage.required:
-            (error) => '$label ${S.of(context).isRequiredText}',
+        ValidationMessage.required: (error) =>
+            '$label ${S.of(context).isRequiredText}',
         ValidationMessage.email: (error) => S.of(context).emailInvalidText,
         ValidationMessage.mustMatch: (error) => 'Fields must match',
         ValidationMessage.minLength: (error) {
@@ -123,56 +170,62 @@ class TbTextField extends HookWidget {
           final desc = error as Map;
           return '$label is too long, required lenght is ${desc['requiredLength']}';
         },
-        TbValicationMessages.tooManyRequests:
-            (error) => S.of(context).verificationCodeManyRequest,
-        TbValicationMessages.invalidCode:
-            (error) => S.of(context).verificationCodeInvalid,
+        TbValicationMessages.tooManyRequests: (error) =>
+            S.of(context).verificationCodeManyRequest,
+        TbValicationMessages.invalidCode: (error) =>
+            S.of(context).verificationCodeIncorrect,
       },
       style: TbTextStyles.bodyLarge.copyWith(
-        color: isErrorState.value ? AppColors.textError : null,
+        color: isErrorState.value ? errorColor : null,
       ),
       decoration: InputDecoration(
-        counterText:
-            maxLengthValidator != null
-                ? '${counter.value}/$counterMaxValue'
-                : null,
+        counterText: maxLengthValidator != null
+            ? '${counter.value}/$counterMaxValue'
+            : null,
         suffixIcon:
             suffixIcon ??
             (obscureText
                 ? IconButton(
-                  splashRadius: 10,
+                    splashRadius: 10,
 
-                  icon: Icon(
-                    !isVisible.value ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.iconDisabled,
-                    size: 24,
-                  ),
+                    icon: Icon(
+                      !isVisible.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color:
+                          Theme.of(context)
+                              .inputDecorationTheme
+                              .suffixIconColor ??
+                          AppColors.iconDisabled,
+                      size: 24,
+                    ),
 
-                  onPressed: () {
-                    isVisible.value = !isVisible.value;
-                  },
-                )
+                    onPressed: () {
+                      isVisible.value = !isVisible.value;
+                    },
+                  )
                 : const SizedBox(width: 24)),
         prefixIcon: prefixIcon,
         labelText: isRequired ? '$label*' : label,
         hintText: hint,
-        
+
         isDense: true,
         border: const OutlineInputBorder(),
         // Override theme styles when there's an error state
-        labelStyle:
-            isErrorState.value
-                ? TbTextStyles.bodyLarge.copyWith(color: AppColors.textError)
-                : null,
-        floatingLabelStyle:
-            isErrorState.value
-                ? WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
-                  return TbTextStyles.labelSmall.copyWith(
-                    color: AppColors.textError,
-                  );
-                })
-                : null,
+        labelStyle: isErrorState.value
+            ? TbTextStyles.bodyLarge.copyWith(color: errorColor)
+            : null,
+        floatingLabelStyle: isErrorState.value
+            ? WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
+                return TbTextStyles.labelSmall.copyWith(color: errorColor);
+              })
+            : null,
       ),
     );
+    // The whole field, not only its text: an RTL layout would put the suffix
+    // before the text and indent it.
+    return _leftToRight
+        ? Directionality(textDirection: TextDirection.ltr, child: field)
+        : field;
   }
 }

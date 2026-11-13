@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -15,10 +20,9 @@ import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_error_widget.da
 import 'package:thingsboard_app/utils/ui/qr_code_scanner/scanner_overlay_widget.dart';
 
 Size getCameraSize(Size mediaQuerySize) {
-  final scanArea =
-      (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
-          ? 150.0
-          : 300.0;
+  final scanArea = (mediaQuerySize.width < 400 || mediaQuerySize.height < 400)
+      ? 150.0
+      : 300.0;
   return Size(scanArea, scanArea);
 }
 
@@ -36,6 +40,9 @@ class QrCodeScannerPage extends HookWidget {
     final isBackCameraActive = useState(true);
 
     final controller = useMemoized(() => MobileScannerController());
+    // The scanner keeps detecting the same code on every frame: pop with the
+    // first result only, or GoRouter throws "There is nothing to pop".
+    final detectionHandled = useRef(false);
 
     // Check camera permission initially
     useEffect(() {
@@ -61,9 +68,7 @@ class QrCodeScannerPage extends HookWidget {
           if (!hasPermission.value && isGranted) {
             // Permission was granted while in settings
             hasPermission.value = true;
-
-            await controller.stop();
-            await controller.start();
+            await startScannerAfterGrant(controller);
           }
         },
       );
@@ -91,13 +96,13 @@ class QrCodeScannerPage extends HookWidget {
             errorBuilder: (p0, p1) => const ScannerErrorWidget(),
             controller: controller,
             onDetect: (barcodes) {
-              if (barcodes.barcodes.isNotEmpty) {
-                if (context.mounted) {
-             context.pop(
-                    barcodes.barcodes.first,
-                   
-                  );
-                }
+              if (barcodes.barcodes.isNotEmpty &&
+                  !detectionHandled.value &&
+                  context.mounted &&
+                  context.canPop()) {
+                detectionHandled.value = true;
+                unawaited(controller.stop());
+                context.pop(barcodes.barcodes.first);
               }
             },
           ),
@@ -159,28 +164,10 @@ class QrCodeScannerPage extends HookWidget {
                   ignoring: false,
                   child: OutlinedButton(
                     onPressed: () async {
-                      final res = await Permission.camera.request();
-                      if (res == PermissionStatus.granted) {
+                      if (await requestCameraAccess(context)) {
                         hasPermission.value = true;
-
-                        await controller.stop();
-                        await controller.start();
-                        return;
-                      } else if (res == PermissionStatus.permanentlyDenied &&
-                          context.mounted) {
-                        getIt<IOverlayService>().showAlertDialog(
-                          content:
-                              (_) => DialogContent(
-                                title: S.of(context).unableToUseCamera,
-                                message:
-                                    S
-                                        .of(context)
-                                        .openSettingsAndGrantAccessToCameraToContinue,
-                                ok: S.of(context).cancel,
-                              ),
-                        );
+                        await startScannerAfterGrant(controller);
                       }
-                      hasPermission.value = false;
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.all(12),
@@ -199,4 +186,34 @@ class QrCodeScannerPage extends HookWidget {
       ),
     );
   }
+}
+
+/// Asks for the camera. Once the system no longer asks the user, offers the
+/// app settings instead; the page re-checks the permission on resume.
+@visibleForTesting
+Future<bool> requestCameraAccess(BuildContext context) async {
+  final status = await Permission.camera.request();
+  if (status.isGranted) return true;
+  if (status.isPermanentlyDenied && context.mounted) {
+    final s = S.of(context);
+    final openSettings = await getIt<IOverlayService>().showConfirmDialog(
+      content: (_) => DialogContent(
+        title: s.unableToUseCamera,
+        message: s.openSettingsAndGrantAccessToCameraToContinue,
+        cancel: s.cancel,
+        ok: s.openAppSettings,
+      ),
+    );
+    if (openSettings ?? false) await openAppSettings();
+  }
+  return false;
+}
+
+/// Starts the camera once the permission is granted, unless the scanner's own
+/// start is still running: a second start throws `controllerInitializing`.
+@visibleForTesting
+Future<void> startScannerAfterGrant(MobileScannerController controller) async {
+  final state = controller.value;
+  if (state.isStarting || state.isRunning) return;
+  await controller.start();
 }

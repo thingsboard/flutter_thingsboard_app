@@ -1,12 +1,22 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 abstract class ThingsboardImage {
   static const thingsBoardWithTitle =
       'assets/images/thingsboard_with_title.svg';
-  static const thingsboard = 'assets/images/thingsboard.svg';
+  static const thingsBoardEUWithTitle =
+      'assets/images/logo_title_white_EU_cloud.svg';
   static const thingsboardOuter = 'assets/images/thingsboard_outer.svg';
   static const thingsboardCenter = 'assets/images/thingsboard_center.svg';
   static const dashboardPlaceholder = 'assets/images/dashboard-placeholder.svg';
   static const deviceProfilePlaceholder =
       'assets/images/device-placeholder.svg';
+  static const emailVerification = 'assets/images/email-verification.svg';
+  static const emailVerified = 'assets/images/email-verified.svg';
+  static const dashboardPermissionError =
+      'assets/images/dashboard_permission_error.svg';
   static const noDataImage = 'assets/images/no-data.svg';
   static const thingsboardBigLogo = 'assets/images/thingsboard_big_logo.svg';
   static const deviceProvisioning = 'assets/images/provisioning.svg';
@@ -18,8 +28,8 @@ abstract class ThingsboardImage {
   static const connectMobile = 'assets/images/connect_mobile.svg';
   static const mobileConnectionError =
       'assets/images/mobile-connection-error.svg';
-static const twoFaSetup = 'assets/images/2FA_setup.svg';
-static const twoFaConfigured = 'assets/images/2FA_configured.svg';
+  static const twoFaSetup = 'assets/images/2FA_setup.svg';
+  static const twoFaConfigured = 'assets/images/2FA_configured.svg';
   static final oauth2Logos = <String, String>{
     'google-logo': 'assets/images/google-logo.svg',
     'github-logo': 'assets/images/github-logo.svg',

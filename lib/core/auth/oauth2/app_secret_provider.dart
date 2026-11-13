@@ -1,8 +1,12 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/constants/app_constants.dart';
-import 'package:thingsboard_app/thingsboard_client.dart' show PlatformType;
+import 'package:thingsboard_client/thingsboard_client.dart' show PlatformType;
 
 abstract class AppSecretProvider {
-
   factory AppSecretProvider.local() => _LocalAppSecretProvider();
   Future<String> getAppSecret(PlatformType platformType);
 }

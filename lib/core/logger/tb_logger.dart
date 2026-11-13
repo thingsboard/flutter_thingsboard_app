@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:logger/logger.dart';
 import 'package:thingsboard_app/core/logger/tb_log_output.dart';
 import 'package:thingsboard_app/core/logger/tb_logs_filter.dart';
@@ -6,11 +11,7 @@ class TbLogger {
   final _logger = Logger(
     filter: TbLogsFilter(),
     printer: PrefixPrinter(
-      PrettyPrinter(
-        methodCount: 0,
-        lineLength: 200,
-        colors: false,
-      ),
+      PrettyPrinter(methodCount: 0, lineLength: 200, colors: false),
     ),
     output: TbLogOutput(),
   );
