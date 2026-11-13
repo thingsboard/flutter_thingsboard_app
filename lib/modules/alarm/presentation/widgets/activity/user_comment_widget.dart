@@ -150,44 +150,52 @@ class _UserCommentState extends State<UserCommentWidget> {
           color: UiUtils.colorFromString(userInfo.displayName),
         ),
         const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '${widget.activity.firstName ?? ''} ${widget.activity.lastName ?? ''}',
-                  style: TbTextStyles.labelLarge.copyWith(
-                    color: Colors.black.withValues(alpha: .76),
+        // Takes the width left of the avatar, so the comment wraps instead of
+        // running past the screen edge.
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      '${widget.activity.firstName ?? ''} ${widget.activity.lastName ?? ''}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TbTextStyles.labelLarge.copyWith(
+                        color: Colors.black.withValues(alpha: .76),
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  timeAgo(context, DateTime.now().subtract(diff)),
-                  style: TbTextStyles.bodyMedium.copyWith(
-                    color: Colors.black.withValues(alpha: .38),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Visibility(
-                  visible: widget.activity.commentEdited,
-                  child: Text(
-                    ' ${S.of(context).edited}',
+                  const SizedBox(width: 4),
+                  Text(
+                    timeAgo(context, DateTime.now().subtract(diff)),
                     style: TbTextStyles.bodyMedium.copyWith(
                       color: Colors.black.withValues(alpha: .38),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Text(
-              widget.activity.commentText ?? '',
-              style: TbTextStyles.bodyLarge.copyWith(
-                color: Colors.black.withValues(alpha: .54),
+                  const SizedBox(width: 4),
+                  Visibility(
+                    visible: widget.activity.commentEdited,
+                    child: Text(
+                      ' ${S.of(context).edited}',
+                      style: TbTextStyles.bodyMedium.copyWith(
+                        color: Colors.black.withValues(alpha: .38),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              Text(
+                widget.activity.commentText ?? '',
+                style: TbTextStyles.bodyLarge.copyWith(
+                  color: Colors.black.withValues(alpha: .54),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
