@@ -117,8 +117,7 @@ class _EntityDetailsPageState<T extends Object>
           if (snapshot.connectionState == ConnectionState.done) {
             final entity = snapshot.data;
             if (entity != null) {
-              // Long details, large text or landscape can exceed the screen;
-              // in landscape the display cutout covers the sides.
+              // SafeArea: in landscape the display cutout covers the sides.
               return SingleChildScrollView(
                 child: SafeArea(
                   child: widget.buildEntityDetails(context, entity),

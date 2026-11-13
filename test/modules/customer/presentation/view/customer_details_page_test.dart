@@ -127,7 +127,6 @@ void main() {
     expect(find.text('\u2066+380501234567\u2069'), findsOneWidget);
   });
 
-  // MOB-12: details that did not fit on the screen were cut off.
   testWidgets('long details scroll to the last field', (tester) async {
     tester.view.physicalSize = const Size(400, 600);
     tester.view.devicePixelRatio = 1;
@@ -152,7 +151,6 @@ void main() {
     expect(find.text('last@example.com').hitTestable(), findsOneWidget);
   });
 
-  // In landscape the Dynamic Island covered the start of the labels.
   testWidgets('the details keep clear of a landscape display cutout', (
     tester,
   ) async {

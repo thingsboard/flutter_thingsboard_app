@@ -112,8 +112,6 @@ void main() {
     await tester.pump();
   }
 
-  // MOB-12: a long address filled the whole Customers list; the full
-  // details are on the customer page.
   testWidgets('a contact card shows at most two lines per field', (
     tester,
   ) async {

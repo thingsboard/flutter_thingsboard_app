@@ -119,7 +119,6 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
                   ],
                 ),
 
-                // The card stays short; the details page shows everything.
                 if (email != null)
                   Text(
                     email,
