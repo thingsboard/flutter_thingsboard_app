@@ -11,6 +11,8 @@ import 'package:super_tooltip/super_tooltip.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/main/domain/models/navigation_item_data.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 
@@ -44,22 +46,24 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final morePages = ref.watch(
-      navigationProvider.select((n) => n.bottomBarPages),
-    );
-    final isMainPage = morePages
-        .where((e) => GoRouterState.of(context).path?.contains(e.path) ?? false)
-        .isNotEmpty;
+    final navigation = ref.watch(navigationProvider);
+    final path = GoRouterState.of(context).path;
+    bool isAt(NavigationItemData page) => path?.contains(page.path) ?? false;
+    final isMainPage = navigation.bottomBarPages.any(isAt);
+    // A page opened as a landscape tab has nothing below it; back in
+    // portrait it is behind More again, so it goes back there.
+    final isMorePage = navigation.morePages.any(isAt);
 
     return Column(
       children: [
         AppBar(
           automaticallyImplyLeading: false,
-          leadingWidth: getLeading(context, isMainPage) is EmptyLeading
+          leadingWidth:
+              getLeading(context, isMainPage, isMorePage) is EmptyLeading
               ? 20
               : 40,
           titleSpacing: 4,
-          leading: getLeading(context, isMainPage),
+          leading: getLeading(context, isMainPage, isMorePage),
           title: buildTitle(context),
           actions: actions,
           elevation: elevation ?? 8,
@@ -81,14 +85,22 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget? getLeading(BuildContext context, bool isMainPage) {
+  Widget? getLeading(BuildContext context, bool isMainPage, bool isMorePage) {
     if (leading != null) return leading;
 
-    if (canGoBack && context.canPop() && !isMainPage) {
-      return IconButton(
-        icon: backIcon ?? const Icon(Icons.arrow_back),
-        onPressed: context.pop,
-      );
+    if (canGoBack && !isMainPage) {
+      if (context.canPop()) {
+        return IconButton(
+          icon: backIcon ?? const Icon(Icons.arrow_back),
+          onPressed: context.pop,
+        );
+      }
+      if (isMorePage) {
+        return IconButton(
+          icon: backIcon ?? const Icon(Icons.arrow_back),
+          onPressed: () => context.go(morePath),
+        );
+      }
     }
     return const EmptyLeading();
   }

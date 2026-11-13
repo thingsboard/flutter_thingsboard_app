@@ -32,6 +32,17 @@ class NavigationPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<int?> currentIndex = useState(0);
     final items = ref.watch(navigationProvider).bottomBarPages;
+    // The tabs depend on the width. Report it after the frame: a provider
+    // must not change while the tree is building.
+    final screenSize = MediaQuery.sizeOf(context);
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          ref.read(navigationProvider.notifier).setScreenSize(screenSize);
+        }
+      });
+      return null;
+    }, [screenSize]);
     final trackingBarVisible = ref.watch(liveTrackingProvider).session != null;
     // Handle app lifecycle for notifications
     useOnAppLifecycleStateChange((prev, next) {

@@ -70,6 +70,14 @@ class ThreeTabsNavigation extends Navigation {
   );
 }
 
+/// Records the screen sizes the shell reports.
+class SizeRecordingNavigation extends FakeNavigation {
+  final sizes = <Size>[];
+
+  @override
+  void setScreenSize(Size size) => sizes.add(size);
+}
+
 /// Reports the [MediaQueryData] the shell hands to the page under it.
 class PageInsetsProbe extends StatelessWidget {
   const PageInsetsProbe({super.key, required this.onBuild});
@@ -166,6 +174,49 @@ void main() {
     await tester.pumpAndSettle();
     return pageInsets;
   }
+
+  testWidgets('reports its size to the tabs whenever the screen turns', (
+    tester,
+  ) async {
+    when(() => trackingService.session).thenReturn(null);
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(874, 402);
+    addTearDown(tester.view.reset);
+    final navigation = SizeRecordingNavigation();
+    final router = GoRouter(
+      initialLocation: '/home',
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) => NavigationPage(child: child),
+          routes: [GoRoute(path: '/home', builder: (_, _) => const SizedBox())],
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [navigationProvider.overrideWith(() => navigation)],
+        child: MaterialApp.router(
+          routerConfig: router,
+          theme: ThemeData(
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.grey,
+            ),
+          ),
+          localizationsDelegates: const [S.delegate],
+          supportedLocales: S.supportedLocales,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(navigation.sizes.last, const Size(874, 402));
+
+    tester.view.physicalSize = const Size(402, 874);
+    await tester.pumpAndSettle();
+    expect(navigation.sizes.last, const Size(402, 874));
+  });
 
   group('NavigationPage insets', () {
     testWidgets('leaves the page untouched when no session is running', (

@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/services.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
@@ -42,11 +42,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockStreamHandler(
-          const EventChannel('native_device_orientation_events'),
-          MockStreamHandler.inline(onListen: (_, _) {}),
-        );
     getIt
       ..registerLazySingleton<IOverlayService>(() => MockOverlayService())
       ..registerLazySingleton<IDeviceInfoService>(
@@ -69,6 +64,34 @@ void main() {
     container.read(navigationProvider.notifier).resolveHomePath();
     return navigation.read();
   }
+
+  // The tabs followed the screen one second after a native orientation
+  // event, so they lagged behind the rotation and missed size changes
+  // without one.
+  test('the tabs follow the screen size at once', () {
+    final container = containerFor(FakeLogin(fullAccessTenantAdmin));
+    final navigation = container.listen(navigationProvider, (_, _) {});
+    final notifier = container.read(navigationProvider.notifier)
+      ..resolveHomePath();
+
+    notifier.setScreenSize(const Size(874, 402));
+    expect(pathsOf(navigation.read().bottomBarPages), [
+      '/home',
+      '/alarms',
+      '/devices',
+      '/customers',
+      '/assets',
+      '/more',
+    ]);
+
+    notifier.setScreenSize(const Size(402, 874));
+    expect(pathsOf(navigation.read().bottomBarPages), [
+      '/home',
+      '/alarms',
+      '/devices',
+      '/more',
+    ]);
+  });
 
   group('Navigation default layout', () {
     test('sysadmin without a mobile bundle gets the allowlisted pages', () {
