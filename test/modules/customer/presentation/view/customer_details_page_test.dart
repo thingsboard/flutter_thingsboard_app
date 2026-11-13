@@ -126,4 +126,52 @@ void main() {
 
     expect(find.text('\u2066+380501234567\u2069'), findsOneWidget);
   });
+
+  // MOB-12: details that did not fit on the screen were cut off.
+  testWidgets('long details scroll to the last field', (tester) async {
+    tester.view.physicalSize = const Size(400, 600);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpPage(tester);
+    response.complete(
+      Response(
+        requestOptions: RequestOptions(),
+        data: Customer(
+          (b) => b
+            ..title = 'Acme'
+            ..address = List.filled(40, 'Long address line').join('\n')
+            ..email = 'last@example.com',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    await tester.scrollUntilVisible(find.text('last@example.com'), 200);
+    expect(find.text('last@example.com').hitTestable(), findsOneWidget);
+  });
+
+  // In landscape the Dynamic Island covered the start of the labels.
+  testWidgets('the details keep clear of a landscape display cutout', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(874, 402);
+    tester.view.devicePixelRatio = 1;
+    tester.view.padding = const FakeViewPadding(left: 62, right: 62);
+    addTearDown(tester.view.reset);
+
+    await pumpPage(tester);
+    response.complete(
+      Response(
+        requestOptions: RequestOptions(),
+        data: Customer((b) => b..title = 'Acme'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final label = find.text(lookupS(_arabic).country);
+    expect(tester.getTopLeft(label).dx, greaterThanOrEqualTo(62));
+    expect(tester.getTopRight(label).dx, lessThanOrEqualTo(874 - 62));
+  });
 }

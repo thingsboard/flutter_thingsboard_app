@@ -119,9 +119,12 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
                   ],
                 ),
 
+                // The card stays short; the details page shows everything.
                 if (email != null)
                   Text(
                     email,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TbTextStyles.labelSmall.copyWith(
                       color: AppColors.textTertiary,
                     ),
@@ -129,6 +132,8 @@ mixin ContactBasedBase<T, P> on EntitiesBase<T, P> {
                 if (address != null)
                   Text(
                     address,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TbTextStyles.labelSmall.copyWith(
                       color: AppColors.textTertiary,
                     ),
