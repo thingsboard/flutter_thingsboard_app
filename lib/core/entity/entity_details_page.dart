@@ -117,7 +117,12 @@ class _EntityDetailsPageState<T extends Object>
           if (snapshot.connectionState == ConnectionState.done) {
             final entity = snapshot.data;
             if (entity != null) {
-              return widget.buildEntityDetails(context, entity);
+              // SafeArea: in landscape the display cutout covers the sides.
+              return SingleChildScrollView(
+                child: SafeArea(
+                  child: widget.buildEntityDetails(context, entity),
+                ),
+              );
             } else {
               return Center(
                 child: Text(S.of(context).requestedEntityDoesNotExists),

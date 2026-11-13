@@ -8,14 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/core/entity/entities_grid.dart';
 import 'package:thingsboard_app/core/entity/entities_list.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/customer/presentation/widgets/customers_list.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+
+import '../../helpers/test_dependencies.dart';
 
 class MockOverlayService extends Mock implements IOverlayService {}
 
@@ -106,6 +111,41 @@ void main() {
     await tester.pump();
     await tester.pump();
   }
+
+  testWidgets('a contact card shows at most two lines per field', (
+    tester,
+  ) async {
+    final long = List.filled(30, 'long contact text').join(' ');
+    final customer = Customer(
+      (b) => b
+        ..title = 'Acme'
+        ..createdTime = 0
+        ..email = '$long@example.com'
+        ..address = long,
+    );
+    final tbClientService = MockTbClientService();
+    when(() => tbClientService.client).thenReturn(MockThingsboardClient());
+    getIt.registerSingleton<ITbClientService>(tbClientService);
+    final list = CustomersList(PageLinkController());
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => list.buildEntityListCard(context, customer),
+          ),
+        ),
+      ),
+    );
+
+    for (final text in [
+      customer.email!,
+      ContactInfo.of(customer)!.shortAddress!,
+    ]) {
+      final widget = tester.widget<Text>(find.text(text));
+      expect(widget.maxLines, 2, reason: text);
+      expect(widget.overflow, TextOverflow.ellipsis, reason: text);
+    }
+  });
 
   for (final variant in [('list', TestList.new), ('grid', TestGrid.new)]) {
     testWidgets('${variant.$1}: a failed first page offers to try again', (
