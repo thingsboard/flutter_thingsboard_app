@@ -13,14 +13,8 @@ import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class _FiltersService extends Fake implements IAlarmFiltersService {
-  final _selected = <Filters, Object?>{};
-
   @override
-  T getSelectedFilter<T>(Filters type) => _selected[type] as T;
-
-  @override
-  void setSelectedFilter<T>(Filters type, {required T data}) =>
-      _selected[type] = data;
+  void setSelectedFilter<T>(Filters type, {required T data}) {}
 }
 
 AssigneeEntity _assignee(String id, String firstName, String lastName) =>
@@ -64,8 +58,6 @@ void main() {
     await pumpEventQueue();
   });
 
-  // MOB-7: the Assignee field on the Filters screen kept the old name after
-  // the user was renamed and the screen was pulled to refresh.
   test('a refresh shows the selected assignee under the new name', () async {
     expect(
       (bloc.state as AssigneeSelectedState).assignee.displayName,
