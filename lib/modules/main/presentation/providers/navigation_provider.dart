@@ -3,13 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:thingsboard_app/config/routes/v2/router_2.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
@@ -27,28 +23,16 @@ class Navigation extends _$Navigation {
   Size _deviceScreenSize = Size.zero;
   final _logger = TbLogger();
   List<NavigationItemData> _allPages = [];
-  late final StreamSubscription<NativeDeviceOrientation>
-  _orientationSubscription;
   @override
   NavigationState build() {
     final login = ref.read(loginProvider);
 
-    // `ref.listen` rather than `ref.watch`: rebuilding this provider on every
-    // login emission would tear down and re-create `_orientationSubscription`.
+    // `ref.listen` rather than `ref.watch`: the pages are rebuilt by
+    // [onLoggedIn], and a rebuild would forget the reported screen size.
     ref.listen(loginProvider, (prev, next) {
       onLoggedIn();
     });
 
-    _orientationSubscription = NativeDeviceOrientationCommunicator()
-        .onOrientationChanged()
-        .listen((e) async {
-          await Future.delayed(const Duration(seconds: 1));
-          _updateScreenSize();
-          updatePages();
-        });
-    ref.onDispose(() {
-      _orientationSubscription.cancel();
-    });
     if (!login.isUserLoaded || login.mobileLoginInfo == null) {
       return const NavigationState(bottomBarPages: [], morePages: []);
     }
@@ -210,10 +194,14 @@ class Navigation extends _$Navigation {
     return allItems.difference(bottomBarElements).toList();
   }
 
-  void _updateScreenSize() {
-    if (globalNavigatorKey.currentContext != null) {
-      final q = MediaQuery.of(globalNavigatorKey.currentContext!);
-      _deviceScreenSize = q.size;
+  /// Reported by [NavigationPage]; the number of tabs depends on the width.
+  void setScreenSize(Size size) {
+    if (size == _deviceScreenSize) {
+      return;
+    }
+    _deviceScreenSize = size;
+    if (_pagesLayout.isNotEmpty) {
+      updatePages();
     }
   }
 }
