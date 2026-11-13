@@ -74,7 +74,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - After acknowledging or clearing an alarm in its details, the alarms list shows the new status without a pull to refresh.
 - Back no longer walks through every visited tab: it closes the pages opened in a tab, then returns to the first tab, then leaves the app, as before 1.6. `--dart-define=navigationType=push` keeps the tab history.
 - A page opened as a landscape tab (e.g. Customers) has a back arrow to More after rotating to portrait, instead of no way back.
-- The bottom bar tabs follow the screen size in the same frame as a rotation (they changed a second later), also for split view and window resizes, and an app started in landscape gets the landscape tabs from the start.
+- The bottom bar tabs follow the screen size on the next frame after a rotation (they changed a second later), also for split view and window resizes, and an app started in landscape no longer keeps the portrait tabs until the first rotation.
 - The unread notifications count shows when Notifications is under More, and follows the server's count after reading, deleting or refreshing notifications.
 - A bottom bar tab that can show the unread badge (Notifications) keeps its icon centred over its label.
 - Entity lists that fail to load (offline, server error) show a translated error with Try again, and the device counts stop spinning; the counts are no longer clipped at large font sizes.

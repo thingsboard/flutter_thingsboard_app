@@ -26,8 +26,8 @@ class MockLiveLocationTrackingService extends Mock
 
 class MockNotificationService extends Mock implements NotificationService {}
 
-/// The real notifier subscribes to device orientation and reads the login
-/// state; the shell only needs a page whose path matches the route.
+/// The real notifier reads the login state; the shell only needs a page whose
+/// path matches the route.
 class FakeNavigation extends Navigation {
   @override
   NavigationState build() => const NavigationState(
@@ -70,7 +70,6 @@ class ThreeTabsNavigation extends Navigation {
   );
 }
 
-/// Records the screen sizes the shell reports.
 class SizeRecordingNavigation extends FakeNavigation {
   final sizes = <Size>[];
 
@@ -128,9 +127,13 @@ void main() {
 
   /// Pumps the shell with a system status bar, a gesture inset and an open
   /// keyboard, and returns the insets the page below the shell receives.
-  Future<MediaQueryData> pumpShell(WidgetTester tester) async {
+  Future<MediaQueryData> pumpShell(
+    WidgetTester tester, {
+    Navigation Function() navigation = FakeNavigation.new,
+    Size size = const Size(400, 800),
+  }) async {
     tester.view.devicePixelRatio = 1;
-    tester.view.physicalSize = const Size(400, 800);
+    tester.view.physicalSize = size;
     tester.view.padding = const FakeViewPadding(top: 40, bottom: 30);
     tester.view.viewInsets = const FakeViewPadding(bottom: 300);
     addTearDown(tester.view.reset);
@@ -155,7 +158,7 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [navigationProvider.overrideWith(FakeNavigation.new)],
+        overrides: [navigationProvider.overrideWith(navigation)],
         child: MaterialApp.router(
           routerConfig: router,
           // BottomNavbarItems reads selectedItemColor non-null, the way the
@@ -179,38 +182,13 @@ void main() {
     tester,
   ) async {
     when(() => trackingService.session).thenReturn(null);
-    tester.view.devicePixelRatio = 1;
-    tester.view.physicalSize = const Size(874, 402);
-    addTearDown(tester.view.reset);
     final navigation = SizeRecordingNavigation();
-    final router = GoRouter(
-      initialLocation: '/home',
-      routes: [
-        ShellRoute(
-          builder: (context, state, child) => NavigationPage(child: child),
-          routes: [GoRoute(path: '/home', builder: (_, _) => const SizedBox())],
-        ),
-      ],
-    );
-    addTearDown(router.dispose);
 
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [navigationProvider.overrideWith(() => navigation)],
-        child: MaterialApp.router(
-          routerConfig: router,
-          theme: ThemeData(
-            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              selectedItemColor: Colors.blue,
-              unselectedItemColor: Colors.grey,
-            ),
-          ),
-          localizationsDelegates: const [S.delegate],
-          supportedLocales: S.supportedLocales,
-        ),
-      ),
+    await pumpShell(
+      tester,
+      navigation: () => navigation,
+      size: const Size(874, 402),
     );
-    await tester.pumpAndSettle();
     expect(navigation.sizes.last, const Size(874, 402));
 
     tester.view.physicalSize = const Size(402, 874);

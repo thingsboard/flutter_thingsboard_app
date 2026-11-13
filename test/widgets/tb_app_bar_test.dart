@@ -62,9 +62,6 @@ Future<void> _pump(WidgetTester tester, String location) async {
 }
 
 void main() {
-  // Customers was opened as a landscape tab, which leaves nothing to go back
-  // to; after rotating to portrait it is a More page again, with no tab bar
-  // and, before the fix, no back arrow either.
   testWidgets('a More page with nothing below it goes back to More', (
     tester,
   ) async {

@@ -65,9 +65,6 @@ void main() {
     return navigation.read();
   }
 
-  // The tabs followed the screen one second after a native orientation
-  // event, so they lagged behind the rotation and missed size changes
-  // without one.
   test('the tabs follow the screen size at once', () {
     final container = containerFor(FakeLogin(fullAccessTenantAdmin));
     final navigation = container.listen(navigationProvider, (_, _) {});

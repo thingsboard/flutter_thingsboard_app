@@ -88,19 +88,11 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   Widget? getLeading(BuildContext context, bool isMainPage, bool isMorePage) {
     if (leading != null) return leading;
 
-    if (canGoBack && !isMainPage) {
-      if (context.canPop()) {
-        return IconButton(
-          icon: backIcon ?? const Icon(Icons.arrow_back),
-          onPressed: context.pop,
-        );
-      }
-      if (isMorePage) {
-        return IconButton(
-          icon: backIcon ?? const Icon(Icons.arrow_back),
-          onPressed: () => context.go(morePath),
-        );
-      }
+    if (canGoBack && !isMainPage && (context.canPop() || isMorePage)) {
+      return IconButton(
+        icon: backIcon ?? const Icon(Icons.arrow_back),
+        onPressed: context.canPop() ? context.pop : () => context.go(morePath),
+      );
     }
     return const EmptyLeading();
   }

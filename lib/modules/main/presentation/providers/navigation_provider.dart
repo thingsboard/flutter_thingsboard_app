@@ -194,9 +194,7 @@ class Navigation extends _$Navigation {
     return allItems.difference(bottomBarElements).toList();
   }
 
-  /// The number of tabs depends on the screen width. [NavigationPage] reports
-  /// its size from the layout, so the tabs change in the same frame as a
-  /// rotation, a split view or a window resize.
+  /// Reported by [NavigationPage]; the number of tabs depends on the width.
   void setScreenSize(Size size) {
     if (size == _deviceScreenSize) {
       return;
