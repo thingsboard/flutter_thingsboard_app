@@ -82,7 +82,7 @@ class NotificationService {
 
     final message = await _messaging.getInitialMessage();
     if (message != null) {
-      NotificationService.handleClickOnNotification(message.data);
+      _openLaunchTarget(message.data);
     }
 
     await _handleLocalNotificationAppLaunch();
@@ -236,6 +236,29 @@ class NotificationService {
     );
   }
 
+  bool _homeShown = false;
+  Map<String, dynamic>? _launchTarget;
+
+  /// Opens the notification that launched the app, which [init] holds back
+  /// until then: the move to Home after a sign-in replaces every page below
+  /// it.
+  void onHomeShown() {
+    _homeShown = true;
+    final target = _launchTarget;
+    _launchTarget = null;
+    if (target != null) {
+      handleClickOnNotification(target);
+    }
+  }
+
+  void _openLaunchTarget(Map<String, dynamic> data) {
+    if (_homeShown) {
+      handleClickOnNotification(data);
+    } else {
+      _launchTarget = data;
+    }
+  }
+
   bool _launchNotificationHandled = false;
 
   /// Handles a tap on a locally shown notification that started the app from
@@ -253,7 +276,7 @@ class NotificationService {
     final payload = launchDetails?.notificationResponse?.payload;
     if (launchDetails?.didNotificationLaunchApp == true && payload != null) {
       try {
-        handleClickOnNotification(json.decode(payload) as Map<String, dynamic>);
+        _openLaunchTarget(json.decode(payload) as Map<String, dynamic>);
       } catch (e) {
         _log.error('NotificationService::_handleLocalNotificationAppLaunch $e');
       }

@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
@@ -11,6 +12,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:thingsboard_app/config/routes/router.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart'
@@ -32,6 +35,14 @@ class MockUserControllerApi extends Mock implements UserControllerApi {}
 
 class MockNotificationControllerApi extends Mock
     implements NotificationControllerApi {}
+
+class MockThingsboardAppRouter extends Mock implements ThingsboardAppRouter {}
+
+const dashboardPush = <String, dynamic>{
+  'onClick.enabled': 'true',
+  'onClick.linkType': 'DASHBOARD',
+  'onClick.dashboardId': 'dashboard-1',
+};
 
 const installationId = 'installation-id';
 const newInstallationId = 'new-installation-id';
@@ -222,6 +233,78 @@ void main() {
 
       verify(() => localNotificationsPlugin.getNotificationAppLaunchDetails())
           .called(1);
+    });
+
+    group('the push that launched the app', () {
+      late MockThingsboardAppRouter router;
+
+      setUp(() {
+        router = MockThingsboardAppRouter();
+        when(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        ).thenAnswer((_) async {});
+        getIt.registerLazySingleton<ThingsboardAppRouter>(() => router);
+        when(() => messaging.getInitialMessage())
+            .thenAnswer((_) async => const RemoteMessage(data: dashboardPush));
+      });
+
+      void verifyDashboardOpened(int times) => verify(
+        () => router.navigateToDashboard(
+          'dashboard-1',
+          state: any(named: 'state'),
+        ),
+      ).called(times);
+
+      test('opens only once Home is shown, as the move to Home replaces '
+          'the pages below it', () async {
+        final service = buildService();
+
+        await service.init();
+        verifyNever(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        );
+
+        service.onHomeShown();
+        verifyDashboardOpened(1);
+
+        service.onHomeShown();
+        verifyNever(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        );
+      });
+
+      test('opens right away when Home is already shown', () async {
+        final service = buildService()..onHomeShown();
+
+        await service.init();
+
+        verifyDashboardOpened(1);
+      });
+
+      test('a locally shown notification that launched the app also waits '
+          'for Home', () async {
+        when(() => messaging.getInitialMessage()).thenAnswer((_) async => null);
+        when(() => localNotificationsPlugin.getNotificationAppLaunchDetails())
+            .thenAnswer(
+              (_) async => NotificationAppLaunchDetails(
+                true,
+                notificationResponse: NotificationResponse(
+                  notificationResponseType:
+                      NotificationResponseType.selectedNotification,
+                  payload: jsonEncode(dashboardPush),
+                ),
+              ),
+            );
+        final service = buildService();
+
+        await service.init();
+        verifyNever(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        );
+
+        service.onHomeShown();
+        verifyDashboardOpened(1);
+      });
     });
 
     test('skips entirely when Firebase is not configured', () async {

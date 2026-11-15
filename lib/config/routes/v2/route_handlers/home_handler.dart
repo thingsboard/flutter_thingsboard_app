@@ -13,7 +13,9 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;
@@ -32,10 +34,31 @@ class HomeHandler extends RouteHandler {
           return;
         }
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          scheduleMicrotask(() => context.go(homePath));
+          scheduleMicrotask(() {
+            final router = GoRouter.of(context)..go(homePath);
+            _whenAt(router, homePath, getIt<NotificationService>().onHomeShown);
+          });
         });
       }
     });
+  }
+
+  /// `go` lands later when a redirect is asynchronous, right away otherwise.
+  void _whenAt(GoRouter router, String path, VoidCallback onShown) {
+    bool isAt() => router.state.uri.path == Uri.parse(path).path;
+    if (isAt()) {
+      onShown();
+      return;
+    }
+    late final VoidCallback listener;
+    listener = () {
+      if (!isAt()) {
+        return;
+      }
+      router.routerDelegate.removeListener(listener);
+      onShown();
+    };
+    router.routerDelegate.addListener(listener);
   }
 
   @override
