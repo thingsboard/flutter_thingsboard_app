@@ -8,8 +8,10 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 part 'two_factor_confirm_provider.g.dart';
@@ -82,9 +84,15 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
         () => _activateResend(),
       );
       sent = true;
-    } catch (_) {
-      // The request is silent; without a sent code the resend timer never
+    } catch (e) {
+      // The request is silent, so the reason is shown here (e.g. the server
+      // cannot send email); without a sent code the resend timer never
       // starts, so the user can request the code again right away.
+      if (!getIt<ITbClientService>().reportUnsupportedServer(e)) {
+        getIt<IOverlayService>().showErrorNotification(
+          toThingsboardError(e).getTranslatedMessage,
+        );
+      }
     }
     state = state.copyWith(
       codeSent: true,
