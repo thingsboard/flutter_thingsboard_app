@@ -12,12 +12,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
+import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
@@ -44,6 +45,9 @@ final class SwitchEndpointParams {
 /// The step the switch is currently on. The view resolves it to localized
 /// copy: the provider has no BuildContext.
 enum NoAuthStep {
+  /// A link without a login secret: whether the target is a ThingsBoard
+  /// server at all, before anything changes.
+  checkingServer,
   fetchingSession,
 
   /// Waiting for [NoauthProvider.answerConfirmation]; nothing changed yet.
@@ -57,6 +61,9 @@ enum NoAuthStep {
 enum NoAuthFailure {
   /// No HTTP answer from the target host at all (timeout, refused, DNS).
   connectionFailed,
+
+  /// The target host answers, but not as a ThingsBoard server.
+  notThingsBoard,
   tokenExchangeFailed,
   sessionInvalid,
 
@@ -191,6 +198,8 @@ class NoauthProvider extends _$NoauthProvider {
         // login page) cannot log the user in: just switch to the target host
         // and let the login page of that host take over.
         if (!isSameOrigin) {
+          state = NoAuthState(step: NoAuthStep.checkingServer, host: host);
+          await _checkServer(host);
           final accepted = await _confirm(host: host, signsIn: false);
           if (!ref.mounted) return;
           if (!accepted) {
@@ -339,6 +348,39 @@ class NoauthProvider extends _$NoauthProvider {
     return target == previous.origin;
   }
 
+  /// Without a login secret nothing else reaches the target before the
+  /// switch, and the app has no way back from a server nobody can sign in
+  /// to when it is built for one server. The login info request is public
+  /// and always answered with a JSON object.
+  Future<void> _checkServer(String host) async {
+    final deviceInfo = getIt<IDeviceInfoService>();
+    final Response<Object?> response;
+    try {
+      response = await _hostClient(host).get<Object?>(
+        '/api/noauth/mobile',
+        queryParameters: {
+          'pkgName': deviceInfo.getApplicationId(),
+          'platform': deviceInfo.getPlatformType().name,
+        },
+      );
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      throw SwitchEndpointFailure(
+        status == null
+            ? NoAuthFailure.connectionFailed
+            : NoAuthFailure.notThingsBoard,
+        status: status,
+        cause: e.type,
+      );
+    }
+    if (response.data is! Map) {
+      throw SwitchEndpointFailure(
+        NoAuthFailure.notThingsBoard,
+        status: response.statusCode,
+      );
+    }
+  }
+
   /// Exchanges the one-time QR secret for a JWT pair on the TARGET host,
   /// which can differ from the current client's endpoint. Does not touch the
   /// current session: the pair is verified and staged below.
@@ -463,20 +505,7 @@ class NoauthProvider extends _$NoauthProvider {
     // If we revert to the original host configured in the app_constants
     final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
     if (!isCustom) {
-      await _initDefaultFbApp();
-    }
-  }
-
-  Future<void> _initDefaultFbApp() async {
-    try {
-      await getIt<IFirebaseService>().initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-    } catch (e) {
-      //Ignore this error if fcm is not configured
-      if (e is! UnsupportedError) {
-        rethrow;
-      }
+      await initDefaultFirebaseApp();
     }
   }
 
@@ -492,7 +521,7 @@ class NoauthProvider extends _$NoauthProvider {
       await getIt<IFirebaseService>().clearApps();
       final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
       if (!isCustom) {
-        await _initDefaultFbApp();
+        await initDefaultFirebaseApp();
       }
       await _reInitClient(previousEndpoint, logTag: 'rollback');
     } catch (e) {

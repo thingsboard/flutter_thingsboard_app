@@ -15,6 +15,7 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -121,6 +122,8 @@ class FakeClientService implements ITbClientService {
 
 class MockLiveTracking extends Mock implements ILiveLocationTrackingService {}
 
+class MockDeviceInfo extends Mock implements IDeviceInfoService {}
+
 void main() {
   group('resolveSwitchHost', () {
     const previousEndpoint = 'https://previous';
@@ -195,22 +198,28 @@ void main() {
       when(liveTracking.teardownForLogout).thenAnswer((_) async {});
       final firebase = MockFirebaseService();
       when(firebase.clearApps).thenAnswer((_) async {});
+      final deviceInfo = MockDeviceInfo();
+      when(deviceInfo.getApplicationId).thenReturn('org.thingsboard.app');
+      when(deviceInfo.getPlatformType).thenReturn(PlatformType.IOS);
 
       getIt
         ..registerLazySingleton<TbLogger>(MockTbLogger.new)
         ..registerSingleton<IEndpointService>(endpoints)
         ..registerSingleton<TbStorage>(storage)
         ..registerSingleton<IFirebaseService>(firebase)
-        ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
+        ..registerSingleton<ILiveLocationTrackingService>(liveTracking)
+        ..registerSingleton<IDeviceInfoService>(deviceInfo);
       addTearDown(getIt.reset);
       previous = PreviousSessionMocks(client);
     });
 
     late ProviderContainer container;
+    var asked = false;
 
     /// Runs the switch a scanned QR code of [host] starts. Without a
     /// [secret] it is a link that only opens the login page of [host].
     Future<void> switchTo(String host, {String? secret = 'secret'}) {
+      asked = false;
       container = ProviderContainer();
       addTearDown(container.dispose);
       // The user confirms where the link leads.
@@ -222,6 +231,9 @@ void main() {
         }
       });
       final query = secret == null ? '' : '?secret=$secret';
+      container.listen(noauthProviderProvider, (_, next) {
+        if (next.step == NoAuthStep.confirming) asked = true;
+      });
       return container
           .read(noauthProviderProvider.notifier)
           .switchEndpoint(
@@ -294,6 +306,82 @@ void main() {
       expect(clientService.unsupportedServerEndpoint, host);
       expect(state.isDone, isTrue);
       expect(state.failure, isNull);
+    });
+
+    /// A target that answers every request with [status] and [body].
+    Future<String> serve(int status, String body, ContentType type) async {
+      final other = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      other.listen((request) {
+        request.response
+          ..statusCode = status
+          ..headers.contentType = type
+          ..write(body)
+          ..close();
+      });
+      addTearDown(() => other.close(force: true));
+      return 'http://127.0.0.1:${other.port}';
+    }
+
+    void expectNothingChanged(FakeClientService clientService) {
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, isNot(contains(isNot(previousEndpoint))));
+      expect(asked, isFalse);
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+    }
+
+    test('a link without a login secret to a server that does not answer '
+        'changes nothing', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final closed = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      final unreachable = 'http://127.0.0.1:${closed.port}';
+      await closed.close(force: true);
+
+      await switchTo(unreachable, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(state.failure, NoAuthFailure.connectionFailed);
+      expect(state.host, unreachable);
+      expectNothingChanged(clientService);
+    });
+
+    test('a link without a login secret to a site that is not ThingsBoard '
+        'changes nothing', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final site = await serve(
+        HttpStatus.notFound,
+        '<html>Not found</html>',
+        ContentType.html,
+      );
+
+      await switchTo(site, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(state.failure, NoAuthFailure.notThingsBoard);
+      expect(state.host, site);
+      expectNothingChanged(clientService);
+    });
+
+    test('a site that answers the login info request with a web page is not '
+        'ThingsBoard either', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final portal = await serve(
+        HttpStatus.ok,
+        '<html>Sign in to the Wi-Fi</html>',
+        ContentType.html,
+      );
+
+      await switchTo(portal, secret: null);
+
+      expect(
+        container.read(noauthProviderProvider).failure,
+        NoAuthFailure.notThingsBoard,
+      );
+      expectNothingChanged(clientService);
     });
   });
 }

@@ -1430,7 +1430,7 @@ class SAr extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'جارٍ الحصول على البيانات من الخادم $host';
   }
 
   @override
@@ -1450,7 +1450,12 @@ class SAr extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'تعذّر الاتصال بـ $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host ليس خادم ThingsBoard';
   }
 
   @override

@@ -1415,7 +1415,7 @@ class SEs extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Obteniendo datos del servidor $host';
   }
 
   @override
@@ -1435,7 +1435,12 @@ class SEs extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'No se pudo conectar a $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host no es un servidor de ThingsBoard';
   }
 
   @override
