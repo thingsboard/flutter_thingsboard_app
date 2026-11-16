@@ -16,8 +16,12 @@ class BaseTwoFactorLayout extends ConsumerWidget {
     required this.child,
 
     required this.isLoading,
+    this.onPopped,
   });
   final bool isLoading;
+
+  /// Called after Back has closed the page.
+  final VoidCallback? onPopped;
   final Widget child;
   final String title;
 
@@ -27,17 +31,18 @@ class BaseTwoFactorLayout extends ConsumerWidget {
       children: [
         PopScope(
           onPopInvokedWithResult: (didPop, result) {
-            // if (didPop) {
-            //   if(!ref.read(loginProvider).isFullyAuthenticated()) {
-            //     ref.read(loginProvider.notifier).logout();
-            //   }
-            // }
+            if (didPop) onPopped?.call();
           },
           child: Scaffold(
             appBar: TbAppBar(title: Text(title)),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-              child: child,
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
+                child: child,
+              ),
             ),
           ),
         ),

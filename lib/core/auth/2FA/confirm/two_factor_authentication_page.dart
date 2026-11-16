@@ -31,6 +31,7 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
+    final onPopped = _dropUnfinishedSignInOnLeave(context);
     // The session was dropped (Log Out after a failed user load): there is
     // nothing left to verify.
     ref.listen(loginProvider, (_, next) {
@@ -88,6 +89,7 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
       return BaseTwoFactorLayout(
         title: S.of(context).verifyYourIdentity,
         isLoading: codeLoading,
+        onPopped: onPopped,
         child: EnterACodeWidget(selectedProvider: info),
       );
     }
@@ -95,6 +97,7 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     return BaseTwoFactorLayout(
       title: S.of(context).verifyYourIdentity,
       isLoading: isLoading.value,
+      onPopped: onPopped,
       child: providers.value != null
           ? SelectProviderTypeWidget(
               activeProviders: const [],
@@ -106,6 +109,23 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
             )
           : const SizedBox(),
     );
+  }
+
+  /// Back that lands on the login page cancels the sign-in, as on the web;
+  /// otherwise the unfinished one would bring the user back here, with a new
+  /// code, on the next start. Back to another verification page ("Try another
+  /// way") keeps it.
+  VoidCallback _dropUnfinishedSignInOnLeave(BuildContext context) {
+    final router = GoRouter.of(context);
+    final container = ProviderScope.containerOf(context, listen: false);
+    return () => WidgetsBinding.instance.addPostFrameCallback((_) {
+      final login = container.read(loginProvider);
+      if (router.state.uri.path == LoginRoutes.login &&
+          login.isUserLoaded &&
+          !login.isFullyAuthenticated()) {
+        container.read(loginProvider.notifier).logout();
+      }
+    });
   }
 
   Future<void> sendCode(
