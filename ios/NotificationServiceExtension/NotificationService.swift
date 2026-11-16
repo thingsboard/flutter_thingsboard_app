@@ -122,8 +122,14 @@ private struct Glyph {
         }
     }
 
+    /// The glyph's share of the image, as NotificationIconRenderer.defaultGlyphScale
+    /// on the Dart side: iOS stretches the attachment to fill its thumbnail.
+    private static let glyphScale: CGFloat = 0.6
+
     func render(color: UIColor, size: CGFloat) -> UIImage? {
-        guard let scalar = Unicode.Scalar(codepoint), let font = loadFont(size: size) else {
+        guard let scalar = Unicode.Scalar(codepoint),
+              let font = loadFont(size: size * Glyph.glyphScale)
+        else {
             return nil
         }
 
