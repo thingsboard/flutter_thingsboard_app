@@ -83,5 +83,6 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - A bottom bar tab that can show the unread badge (Notifications) keeps its icon centred over its label.
 - Entity lists that fail to load (offline, server error) show a translated error with Try again, and the device counts stop spinning; the counts are no longer clipped at large font sizes.
 - Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
+- A dashboard or web page whose web content the system ended to free memory (mostly while the app is in the background) opens again, signed in, instead of staying blank until the app is restarted; dashboards opened afterwards load too. A page ended in the background reopens when the app comes back, and one that ends again within 15 seconds of reopening is not reopened again.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.

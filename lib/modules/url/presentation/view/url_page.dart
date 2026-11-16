@@ -15,6 +15,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/utils/ui/web_view_permissions.dart';
+import 'package:thingsboard_app/utils/ui/web_view_reopen_policy.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -33,6 +34,24 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   bool canGoBack = false;
   bool ready = false;
   InAppWebViewController? webViewController;
+  Key _webViewKey = UniqueKey();
+  InAppWebViewKeepAlive _keepAlive = InAppWebViewKeepAlive();
+  late WebUri _openUrl = WebUri(widget.url);
+
+  /// The page the web view shows, reopened when its process is gone.
+  WebUri? _currentUrl;
+  final _reopenPolicy = WebViewReopenPolicy();
+  late final AppLifecycleListener _appLifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    _appLifecycle = AppLifecycleListener(
+      onResume: () {
+        if (_reopenPolicy.onResumed()) _reopenPage();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +67,10 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
       body: Stack(
         children: [
           InAppWebView(
-            keepAlive: InAppWebViewKeepAlive(),
-            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+            key: _webViewKey,
+            keepAlive: _keepAlive,
+            initialSettings: InAppWebViewSettings(useOnRenderProcessGone: true),
+            initialUrlRequest: URLRequest(url: _openUrl),
             onWebViewCreated: (ctrl) {
               webViewController = ctrl;
             },
@@ -67,7 +88,10 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
               setState(() {});
             },
 
+            onWebContentProcessDidTerminate: (_) => _onProcessGone(),
+            onRenderProcessGone: (_, _) => _onProcessGone(),
             onUpdateVisitedHistory: (ctrl, url, _) async {
+              _currentUrl = url;
               subTitleUrlNotifier.value = url?.host ?? widget.url;
               canGoBack = await ctrl.canGoBack();
               setState(() {});
@@ -85,6 +109,29 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  /// The system ends a web view's page process to free memory, mostly while
+  /// the app is in the background, and the view stays blank; Android cannot
+  /// reuse it at all.
+  void _onProcessGone() {
+    final inForeground =
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+    if (_reopenPolicy.onProcessGone(inForeground: inForeground)) {
+      _reopenPage();
+    }
+  }
+
+  void _reopenPage() {
+    if (!mounted) return;
+    final gone = _keepAlive;
+    setState(() {
+      _openUrl = _currentUrl ?? _openUrl;
+      _keepAlive = InAppWebViewKeepAlive();
+      _webViewKey = UniqueKey();
+      ready = false;
+    });
+    InAppWebViewController.disposeKeepAlive(gone);
+  }
+
   /// Asks the web view again: on iOS [canGoBack] can stay true after the last
   /// step back, as WKWebView updates its back list after the history callback.
   Future<bool> webBack() async {
@@ -99,6 +146,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
+    _appLifecycle.dispose();
     titleNotifier.dispose();
     subTitleUrlNotifier.dispose();
     webViewController?.dispose();

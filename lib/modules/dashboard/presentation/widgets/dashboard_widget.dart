@@ -21,6 +21,7 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/ui/web_view_permissions.dart';
+import 'package:thingsboard_app/utils/ui/web_view_reopen_policy.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -55,6 +56,20 @@ class _DashboardState extends State<DashboardWidget> {
   final ThingsboardClient client = getIt<ITbClientService>().client;
   late final DashboardController dashboardController;
   late WebUri _initialUrl;
+  Key _webViewKey = UniqueKey();
+
+  /// The page the web view shows; its dashboard state is kept when the web
+  /// view reopens after its process is gone.
+  WebUri? _currentUrl;
+
+  /// Set while a reopened web view starts. Once the web app is ready, the
+  /// dashboard that was open is sent again ([_reopenDashboard]), in this
+  /// dashboard state.
+  bool _reopening = false;
+  bool _reopenDashboard = false;
+  String? _reopenState;
+  final _reopenPolicy = WebViewReopenPolicy();
+  late final AppLifecycleListener _appLifecycle;
   final _exportModule = TbDashboardExportModule();
   final settings = InAppWebViewSettings(
     isInspectable: kDebugMode || EnvironmentVariables.verbose,
@@ -66,6 +81,7 @@ class _DashboardState extends State<DashboardWidget> {
     // Android defaults to 8px, so TB widgets that shrink text in an unbounded
     // loop (LED indicator, knob, round switch) never exit and freeze the page.
     minimumFontSize: 0,
+    useOnRenderProcessGone: true,
   );
 
   @override
@@ -79,6 +95,7 @@ class _DashboardState extends State<DashboardWidget> {
           builder: (context, snapshot) =>
               snapshot.connectionState == ConnectionState.done
               ? InAppWebView(
+                  key: _webViewKey,
                   onDownloadStarting: _exportModule.onDownloadStarting,
                   initialUserScripts: UnmodifiableListView(
                     dashboardUserScripts(defaultTargetPlatform),
@@ -132,6 +149,7 @@ class _DashboardState extends State<DashboardWidget> {
                   onUpdateVisitedHistory: (controller, url, androidIsReload) {
                     // translate-me-ignore-next-line
                     log.debug('onUpdateVisitedHistory: $url');
+                    _currentUrl = url;
                     dashboardController.onHistoryUpdated(
                       controller.canGoBack(),
                     );
@@ -166,6 +184,8 @@ class _DashboardState extends State<DashboardWidget> {
                       dashboardLoading.value = false;
                     }
                   },
+                  onWebContentProcessDidTerminate: (_) => _onProcessGone(),
+                  onRenderProcessGone: (_, _) => _onProcessGone(),
                   onPermissionRequest: (controller, request) {
                     log.debug(
                       // translate-me-ignore-next-line
@@ -209,17 +229,65 @@ class _DashboardState extends State<DashboardWidget> {
   void initState() {
     super.initState();
 
-    _initialUrl = WebUri(
-      '${getIt<IEndpointService>().getCachedEndpoint()}'
-      '?accessToken=${client.getJwtToken()!}'
-      '&refreshToken=${client.getRefreshToken()!}',
-    );
+    _initialUrl = _signedInUrl(client.getJwtToken()!);
 
     dashboardController = DashboardController();
+    _appLifecycle = AppLifecycleListener(
+      onResume: () {
+        if (_reopenPolicy.onResumed()) _reopenPage();
+      },
+    );
+  }
+
+  WebUri _signedInUrl(String token) => WebUri(
+    '${getIt<IEndpointService>().getCachedEndpoint()}'
+    '?accessToken=$token'
+    '&refreshToken=${client.getRefreshToken()!}',
+  );
+
+  /// The system ends a web view's page process to free memory, mostly while
+  /// the app is in the background, and the view stays blank; Android cannot
+  /// reuse it at all.
+  void _onProcessGone() {
+    final inForeground =
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+    final reopen = _reopenPolicy.onProcessGone(inForeground: inForeground);
+    // translate-me-ignore-next-line
+    log.debug(
+      'Dashboard web view process gone '
+      '(foreground: $inForeground, reopen now: $reopen)',
+    );
+    if (reopen) {
+      _reopenPage();
+    } else if (inForeground) {
+      // The dashboard keeps failing to load. The web view also opens every
+      // other dashboard of the page, so it starts again without this one.
+      _reopenPage(openDashboard: false);
+    }
+  }
+
+  /// A new web view starts like the first one, with the current tokens (the
+  /// ones it was opened with may have expired), and then opens the dashboard
+  /// that was open.
+  void _reopenPage({bool openDashboard = true}) {
+    final token = client.getJwtToken();
+    // translate-me-ignore-next-line
+    log.debug('Dashboard web view reopening $_currentUrl');
+    if (!mounted || token == null) return;
+    setState(() {
+      _reopening = true;
+      _reopenDashboard = openDashboard;
+      _reopenState = _currentUrl?.queryParameters['state'];
+      _initialUrl = _signedInUrl(token);
+      _webViewKey = UniqueKey();
+    });
+    dashboardLoading.value =
+        openDashboard && dashboardController.hasOpenedDashboard;
   }
 
   @override
   void dispose() {
+    _appLifecycle.dispose();
     dashboardLoading.dispose();
     dashboardController.dispose();
     super.dispose();
@@ -362,6 +430,14 @@ class _DashboardState extends State<DashboardWidget> {
         log.debug('Invoked tbMobileReadyHandler');
 
         dashboardController.setWebViewController(webViewController);
+        // The page is already set up with this controller.
+        if (_reopening) {
+          _reopening = false;
+          if (_reopenDashboard) {
+            dashboardController.reopenDashboard(state: _reopenState);
+          }
+          return;
+        }
         widget.controllerCallback(dashboardController, dashboardLoading);
       },
     );
