@@ -13,7 +13,7 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/home_after_sign_in.dart';
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;
@@ -25,14 +25,8 @@ class HomeHandler extends RouteHandler {
       if (next.isFullyAuthenticated() &&
           prev?.isFullyAuthenticated() == false &&
           path != LoginRoutes.login + LoginRoutes.updateRequired) {
-        final homePath = ref
-            .read(navigationProvider.notifier)
-            .resolveHomePath();
-        if (homePath == null) {
-          return;
-        }
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          scheduleMicrotask(() => context.go(homePath));
+          scheduleMicrotask(() => openHomeAfterSignIn(context, ref));
         });
       }
     });

@@ -19,7 +19,7 @@ import 'package:thingsboard_app/core/auth/noauth/presentation/widgets/noauth_loa
 import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/main/presentation/home_after_sign_in.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class SwitchEndpointNoAuthView extends HookConsumerWidget {
@@ -100,10 +100,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
         } else if (ref.read(loginProvider).isFullyAuthenticated()) {
           // Already fully logged in (e.g. the same QR was scanned twice):
           // HomeHandler won't see a state transition, navigate ourselves.
-          final homePath = ref
-              .read(navigationProvider.notifier)
-              .resolveHomePath();
-          context.go(homePath ?? LoginRoutes.login);
+          openHomeAfterSignIn(context, ref);
         } else {
           userLoadTimer.value?.cancel();
           userLoadTimer.value = Timer(_userLoadTimeout, () {
