@@ -15,6 +15,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/utils/ui/web_view_permissions.dart';
+import 'package:thingsboard_app/utils/ui/web_view_reopen_policy.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -33,6 +34,17 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   bool canGoBack = false;
   bool ready = false;
   InAppWebViewController? webViewController;
+  Key _webViewKey = UniqueKey();
+  InAppWebViewKeepAlive _keepAlive = InAppWebViewKeepAlive();
+  late WebUri _url = WebUri(widget.url);
+  bool _showWebView = true;
+  late final WebViewReopenPolicy _reopenPolicy;
+
+  @override
+  void initState() {
+    super.initState();
+    _reopenPolicy = WebViewReopenPolicy(onReopen: _reopenPage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,32 +59,40 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
       ),
       body: Stack(
         children: [
-          InAppWebView(
-            keepAlive: InAppWebViewKeepAlive(),
-            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-            onWebViewCreated: (ctrl) {
-              webViewController = ctrl;
-            },
-            onPermissionRequest: (controller, request) =>
-                endpointOnlyPermission(
-                  request,
-                  getIt<IEndpointService>().getCachedEndpoint(),
-                ),
-            onTitleChanged: (_, title) {
-              titleNotifier.value = title ?? S.of(context).url;
-            },
-            onLoadStop: (controller, url) async {
-              canGoBack = await controller.canGoBack();
-              ready = true;
-              setState(() {});
-            },
+          if (_showWebView)
+            InAppWebView(
+              key: _webViewKey,
+              keepAlive: _keepAlive,
+              initialSettings: InAppWebViewSettings(
+                useOnRenderProcessGone: true,
+              ),
+              initialUrlRequest: URLRequest(url: _url),
+              onWebViewCreated: (ctrl) {
+                webViewController = ctrl;
+              },
+              onPermissionRequest: (controller, request) =>
+                  endpointOnlyPermission(
+                    request,
+                    getIt<IEndpointService>().getCachedEndpoint(),
+                  ),
+              onTitleChanged: (_, title) {
+                titleNotifier.value = title ?? S.of(context).url;
+              },
+              onLoadStop: (controller, url) async {
+                canGoBack = await controller.canGoBack();
+                ready = true;
+                setState(() {});
+              },
 
-            onUpdateVisitedHistory: (ctrl, url, _) async {
-              subTitleUrlNotifier.value = url?.host ?? widget.url;
-              canGoBack = await ctrl.canGoBack();
-              setState(() {});
-            },
-          ),
+              onWebContentProcessDidTerminate: (_) => _onProcessGone(),
+              onRenderProcessGone: (_, _) => _onProcessGone(),
+              onUpdateVisitedHistory: (ctrl, url, _) async {
+                if (url != null) _url = url;
+                subTitleUrlNotifier.value = url?.host ?? widget.url;
+                canGoBack = await ctrl.canGoBack();
+                setState(() {});
+              },
+            ),
           AnimatedVisibilityWidget(
             show: !ready,
             child: const ColoredBox(
@@ -83,6 +103,26 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
         ],
       ),
     );
+  }
+
+  /// See [WebViewReopenPolicy].
+  void _onProcessGone() => _reopenPolicy.onProcessGone();
+
+  /// Replaces the web view whose process is gone. A page that keeps failing to
+  /// load ([WebViewReopen.withoutPage]) gets no new web view: the page stays
+  /// blank, and Back closes it.
+  void _reopenPage(WebViewReopen reopen) {
+    if (!mounted) return;
+    final gone = _keepAlive;
+    setState(() {
+      _keepAlive = InAppWebViewKeepAlive();
+      _webViewKey = UniqueKey();
+      webViewController = null;
+      canGoBack = false;
+      _showWebView = reopen == WebViewReopen.page;
+      ready = !_showWebView;
+    });
+    InAppWebViewController.disposeKeepAlive(gone);
   }
 
   /// Asks the web view again: on iOS [canGoBack] can stay true after the last
@@ -99,9 +139,11 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
+    _reopenPolicy.dispose();
     titleNotifier.dispose();
     subTitleUrlNotifier.dispose();
     webViewController?.dispose();
+    InAppWebViewController.disposeKeepAlive(_keepAlive);
     super.dispose();
   }
 
