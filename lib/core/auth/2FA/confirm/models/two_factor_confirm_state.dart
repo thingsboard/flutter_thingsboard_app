@@ -7,7 +7,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'two_factor_confirm_state.freezed.dart';
 
-enum CodeState { valid, invalid, tooManyRequests, empty }
+enum CodeState {
+  valid,
+  invalid,
+  tooManyRequests,
+
+  /// Not accepted for another reason, given in
+  /// [TwoFactorConfirmState.rejectionMessage].
+  rejected,
+  empty,
+}
 
 @freezed
 abstract class TwoFactorConfirmState with _$TwoFactorConfirmState {
@@ -16,5 +25,6 @@ abstract class TwoFactorConfirmState with _$TwoFactorConfirmState {
     required bool loading,
     required bool codeSent,
     required CodeState codeState,
+    String? rejectionMessage,
   }) = _TwoFactorConfirmState;
 }
