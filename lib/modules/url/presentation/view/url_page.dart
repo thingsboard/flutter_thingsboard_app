@@ -37,6 +37,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   Key _webViewKey = UniqueKey();
   InAppWebViewKeepAlive _keepAlive = InAppWebViewKeepAlive();
   late WebUri _url = WebUri(widget.url);
+  bool _showWebView = true;
   late final WebViewReopenPolicy _reopenPolicy;
 
   @override
@@ -58,37 +59,40 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
       ),
       body: Stack(
         children: [
-          InAppWebView(
-            key: _webViewKey,
-            keepAlive: _keepAlive,
-            initialSettings: InAppWebViewSettings(useOnRenderProcessGone: true),
-            initialUrlRequest: URLRequest(url: _url),
-            onWebViewCreated: (ctrl) {
-              webViewController = ctrl;
-            },
-            onPermissionRequest: (controller, request) =>
-                endpointOnlyPermission(
-                  request,
-                  getIt<IEndpointService>().getCachedEndpoint(),
-                ),
-            onTitleChanged: (_, title) {
-              titleNotifier.value = title ?? S.of(context).url;
-            },
-            onLoadStop: (controller, url) async {
-              canGoBack = await controller.canGoBack();
-              ready = true;
-              setState(() {});
-            },
+          if (_showWebView)
+            InAppWebView(
+              key: _webViewKey,
+              keepAlive: _keepAlive,
+              initialSettings: InAppWebViewSettings(
+                useOnRenderProcessGone: true,
+              ),
+              initialUrlRequest: URLRequest(url: _url),
+              onWebViewCreated: (ctrl) {
+                webViewController = ctrl;
+              },
+              onPermissionRequest: (controller, request) =>
+                  endpointOnlyPermission(
+                    request,
+                    getIt<IEndpointService>().getCachedEndpoint(),
+                  ),
+              onTitleChanged: (_, title) {
+                titleNotifier.value = title ?? S.of(context).url;
+              },
+              onLoadStop: (controller, url) async {
+                canGoBack = await controller.canGoBack();
+                ready = true;
+                setState(() {});
+              },
 
-            onWebContentProcessDidTerminate: (_) => _onProcessGone(),
-            onRenderProcessGone: (_, _) => _onProcessGone(),
-            onUpdateVisitedHistory: (ctrl, url, _) async {
-              if (url != null) _url = url;
-              subTitleUrlNotifier.value = url?.host ?? widget.url;
-              canGoBack = await ctrl.canGoBack();
-              setState(() {});
-            },
-          ),
+              onWebContentProcessDidTerminate: (_) => _onProcessGone(),
+              onRenderProcessGone: (_, _) => _onProcessGone(),
+              onUpdateVisitedHistory: (ctrl, url, _) async {
+                if (url != null) _url = url;
+                subTitleUrlNotifier.value = url?.host ?? widget.url;
+                canGoBack = await ctrl.canGoBack();
+                setState(() {});
+              },
+            ),
           AnimatedVisibilityWidget(
             show: !ready,
             child: const ColoredBox(
@@ -104,15 +108,19 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   /// See [WebViewReopenPolicy].
   void _onProcessGone() => _reopenPolicy.onProcessGone();
 
-  /// A page that keeps failing to load ([WebViewReopen.withoutPage]) is left
-  /// as it is.
+  /// Replaces the web view whose process is gone. A page that keeps failing to
+  /// load ([WebViewReopen.withoutPage]) gets no new web view: the page stays
+  /// blank, and Back closes it.
   void _reopenPage(WebViewReopen reopen) {
-    if (!mounted || reopen != WebViewReopen.page) return;
+    if (!mounted) return;
     final gone = _keepAlive;
     setState(() {
       _keepAlive = InAppWebViewKeepAlive();
       _webViewKey = UniqueKey();
-      ready = false;
+      webViewController = null;
+      canGoBack = false;
+      _showWebView = reopen == WebViewReopen.page;
+      ready = !_showWebView;
     });
     InAppWebViewController.disposeKeepAlive(gone);
   }
