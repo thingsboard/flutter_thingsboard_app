@@ -385,6 +385,9 @@ abstract class Utils {
 
   /// Whether [e] is a request that got no answer from the server: the
   /// connection failed or timed out.
+  ///
+  /// Mirrors the branches in which the client's `convertToThingsboardError`
+  /// builds its "Unable to connect" error: the two must change together.
   static bool isConnectionError(dynamic e) {
     if (e is! ThingsboardError || e.status != null) {
       return false;

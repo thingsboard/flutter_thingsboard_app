@@ -20,6 +20,28 @@ void main() {
     );
   });
 
+  test('a session whose verification time ran out', () {
+    expect(
+      TwoFaCodeRejection.of(
+        ThingsboardError(
+          message: 'Session expired!',
+          errorCode: ThingsBoardErrorCode.jwtTokenExpired,
+        ),
+      ),
+      TwoFaCodeRejection.sessionExpired,
+    );
+    expect(
+      TwoFaCodeRejection.of(
+        ThingsboardError(
+          message: 'Token has expired',
+          errorCode: ThingsBoardErrorCode.jwtTokenExpired,
+          status: 401,
+        ),
+      ),
+      TwoFaCodeRejection.sessionExpired,
+    );
+  });
+
   test('a wrong code', () {
     expect(
       TwoFaCodeRejection.of(answer(400, 'Verification code is incorrect')),

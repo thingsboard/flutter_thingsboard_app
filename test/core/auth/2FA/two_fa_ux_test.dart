@@ -145,13 +145,17 @@ void main() {
   });
 
   group('TOTP setup', () {
+    late FakeLogin login;
+
     Future<List<String>> pumpTotp(
       WidgetTester tester, {
       bool appOpens = true,
     }) async {
       final opened = <String>[];
+      login = FakeLogin();
       await tester.pumpWidget(
         _app(
+          overrides: [loginProvider.overrideWith(() => login)],
           TotpConfigureWidget(
             config: TotpTwoFaAccountConfig((b) => b..authUrl = _authUrl),
             loading: ValueNotifier(false),
@@ -277,18 +281,30 @@ void main() {
       },
     );
 
-    testWidgets('an outdated server is reported once, not in the field', (
+    testWidgets('an expired session is reported and signed out', (
       tester,
     ) async {
-      final error = ThingsboardError(message: 'Not found', status: 404);
-      when(() => clientService.reportUnsupportedServer(error)).thenReturn(true);
-      answerCheck(error);
+      answerCheck(
+        ThingsboardError(
+          message: 'Session expired!',
+          errorCode: ThingsBoardErrorCode.jwtTokenExpired,
+        ),
+      );
       await pumpTotp(tester);
 
       await submit(tester, '123456');
 
-      expect(find.text('Not found'), findsNothing);
-      verifyNever(overlay.showConnectionErrorDialog);
+      final message =
+          verify(() => overlay.showErrorNotification(captureAny()))
+                  .captured
+                  .single
+              as String Function(BuildContext);
+      expect(
+        message(tester.element(find.byType(TotpConfigureWidget))),
+        s.sessionExpired,
+      );
+      expect(login.logouts, 1);
+      expect(find.text('Session expired!'), findsNothing);
     });
 
     testWidgets('the code is checked without the global error toast', (
@@ -326,6 +342,7 @@ void main() {
       ).thenThrow(ThingsboardError(message: 'Too many requests', status: 429));
       await tester.pumpWidget(
         _app(
+          overrides: [loginProvider.overrideWith(FakeLogin.new)],
           EmailConfigureWidget(
             config: EmailTwoFaAccountConfig((b) => b..email = 'a@example.com'),
             loading: ValueNotifier(false),

@@ -12,6 +12,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -104,7 +105,11 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
       },
       data: providerData,
       onSubmnit: (control) async {
-        await _onCodeSubmit(control, form);
+        await _onCodeSubmit(
+          control,
+          form,
+          ref.read(loginProvider.notifier).logout,
+        );
       },
       title: providerData.descFunction(
         context,
@@ -146,19 +151,20 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
   Future<void> _onCodeSubmit(
     AbstractControl<dynamic> control,
     FormGroup form,
+    Future<void> Function() logout,
   ) async {
     final code = control.value?.toString();
     if (code == null || code.isEmpty) {
       return;
     }
 
+    final email = form.control('email').value?.toString();
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     loading.value = true;
     try {
-      final email = form.control('email').value?.toString();
-      if (email == null || email.isEmpty) {
-        throw Exception('Email is required');
-      }
-
       final updatedConfig = config.rebuild((b) => b..email = email);
       await getIt<ITbClientService>().client
           .getTwoFactorAuthConfigControllerApi()
@@ -169,7 +175,7 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
           );
       onConfigured();
     } catch (e) {
-      control.showCodeRejection(e);
+      control.showCodeRejection(e, logout: logout);
     } finally {
       loading.value = false;
     }

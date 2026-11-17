@@ -13,6 +13,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/widgets/code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -121,7 +122,11 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
       },
       data: providerData,
       onSubmnit: (control) async {
-        await _onCodeSubmit(control, form);
+        await _onCodeSubmit(
+          control,
+          form,
+          ref.read(loginProvider.notifier).logout,
+        );
       },
       title: providerData.descFunction(context, phoneNumber.international),
       resendTimeoutSeconds: 30,
@@ -151,9 +156,6 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
           .submitTwoFaAccountConfig(twoFaAccountConfig: updatedConfig);
       return true;
     } catch (e) {
-      // getIt<IOverlayService>().showErrorNotification(
-      //   (ctx) => S.of(ctx).errorSendingCode(e.toString()),
-      // );
       return false;
     } finally {
       loading.value = false;
@@ -163,6 +165,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
   Future<void> _onCodeSubmit(
     AbstractControl<dynamic> control,
     FormGroup form,
+    Future<void> Function() logout,
   ) async {
     final code = control.value?.toString();
     if (code == null || code.isEmpty) {
@@ -185,7 +188,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
           );
       onConfigured();
     } catch (e) {
-      control.showCodeRejection(e);
+      control.showCodeRejection(e, logout: logout);
     } finally {
       loading.value = false;
     }
