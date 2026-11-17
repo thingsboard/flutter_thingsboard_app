@@ -36,21 +36,13 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
   InAppWebViewController? webViewController;
   Key _webViewKey = UniqueKey();
   InAppWebViewKeepAlive _keepAlive = InAppWebViewKeepAlive();
-  late WebUri _openUrl = WebUri(widget.url);
-
-  /// The page the web view shows, reopened when its process is gone.
-  WebUri? _currentUrl;
-  final _reopenPolicy = WebViewReopenPolicy();
-  late final AppLifecycleListener _appLifecycle;
+  late WebUri _url = WebUri(widget.url);
+  late final WebViewReopenPolicy _reopenPolicy;
 
   @override
   void initState() {
     super.initState();
-    _appLifecycle = AppLifecycleListener(
-      onResume: () {
-        if (_reopenPolicy.onResumed()) _reopenPage();
-      },
-    );
+    _reopenPolicy = WebViewReopenPolicy(onReopen: _reopenPage);
   }
 
   @override
@@ -70,7 +62,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
             key: _webViewKey,
             keepAlive: _keepAlive,
             initialSettings: InAppWebViewSettings(useOnRenderProcessGone: true),
-            initialUrlRequest: URLRequest(url: _openUrl),
+            initialUrlRequest: URLRequest(url: _url),
             onWebViewCreated: (ctrl) {
               webViewController = ctrl;
             },
@@ -91,7 +83,7 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
             onWebContentProcessDidTerminate: (_) => _onProcessGone(),
             onRenderProcessGone: (_, _) => _onProcessGone(),
             onUpdateVisitedHistory: (ctrl, url, _) async {
-              _currentUrl = url;
+              if (url != null) _url = url;
               subTitleUrlNotifier.value = url?.host ?? widget.url;
               canGoBack = await ctrl.canGoBack();
               setState(() {});
@@ -109,22 +101,15 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  /// The system ends a web view's page process to free memory, mostly while
-  /// the app is in the background, and the view stays blank; Android cannot
-  /// reuse it at all.
-  void _onProcessGone() {
-    final inForeground =
-        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
-    if (_reopenPolicy.onProcessGone(inForeground: inForeground)) {
-      _reopenPage();
-    }
-  }
+  /// See [WebViewReopenPolicy].
+  void _onProcessGone() => _reopenPolicy.onProcessGone();
 
-  void _reopenPage() {
-    if (!mounted) return;
+  /// A page that keeps failing to load ([WebViewReopen.withoutPage]) is left
+  /// as it is.
+  void _reopenPage(WebViewReopen reopen) {
+    if (!mounted || reopen != WebViewReopen.page) return;
     final gone = _keepAlive;
     setState(() {
-      _openUrl = _currentUrl ?? _openUrl;
       _keepAlive = InAppWebViewKeepAlive();
       _webViewKey = UniqueKey();
       ready = false;
@@ -146,10 +131,11 @@ class _UrlPageState extends State<UrlPage> with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
-    _appLifecycle.dispose();
+    _reopenPolicy.dispose();
     titleNotifier.dispose();
     subTitleUrlNotifier.dispose();
     webViewController?.dispose();
+    InAppWebViewController.disposeKeepAlive(_keepAlive);
     super.dispose();
   }
 

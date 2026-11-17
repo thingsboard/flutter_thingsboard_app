@@ -62,14 +62,10 @@ class _DashboardState extends State<DashboardWidget> {
   /// view reopens after its process is gone.
   WebUri? _currentUrl;
 
-  /// Set while a reopened web view starts. Once the web app is ready, the
-  /// dashboard that was open is sent again ([_reopenDashboard]), in this
-  /// dashboard state.
-  bool _reopening = false;
-  bool _reopenDashboard = false;
-  String? _reopenState;
-  final _reopenPolicy = WebViewReopenPolicy();
-  late final AppLifecycleListener _appLifecycle;
+  /// Set while a reopened web view starts; sent once the web app is ready.
+  ({bool openDashboard, String? state})? _pendingReopen;
+  bool _controllerCallbackRan = false;
+  late final WebViewReopenPolicy _reopenPolicy;
   final _exportModule = TbDashboardExportModule();
   final settings = InAppWebViewSettings(
     isInspectable: kDebugMode || EnvironmentVariables.verbose,
@@ -232,11 +228,7 @@ class _DashboardState extends State<DashboardWidget> {
     _initialUrl = _signedInUrl(client.getJwtToken()!);
 
     dashboardController = DashboardController();
-    _appLifecycle = AppLifecycleListener(
-      onResume: () {
-        if (_reopenPolicy.onResumed()) _reopenPage();
-      },
-    );
+    _reopenPolicy = WebViewReopenPolicy(onReopen: _reopenPage);
   }
 
   WebUri _signedInUrl(String token) => WebUri(
@@ -245,49 +237,43 @@ class _DashboardState extends State<DashboardWidget> {
     '&refreshToken=${client.getRefreshToken()!}',
   );
 
-  /// The system ends a web view's page process to free memory, mostly while
-  /// the app is in the background, and the view stays blank; Android cannot
-  /// reuse it at all.
+  /// See [WebViewReopenPolicy].
   void _onProcessGone() {
-    final inForeground =
-        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
-    final reopen = _reopenPolicy.onProcessGone(inForeground: inForeground);
     // translate-me-ignore-next-line
-    log.debug(
-      'Dashboard web view process gone '
-      '(foreground: $inForeground, reopen now: $reopen)',
-    );
-    if (reopen) {
-      _reopenPage();
-    } else if (inForeground) {
-      // The dashboard keeps failing to load. The web view also opens every
-      // other dashboard of the page, so it starts again without this one.
-      _reopenPage(openDashboard: false);
-    }
+    log.debug('Dashboard web view process gone');
+    _reopenPolicy.onProcessGone();
   }
 
   /// A new web view starts like the first one, with the current tokens (the
   /// ones it was opened with may have expired), and then opens the dashboard
-  /// that was open.
-  void _reopenPage({bool openDashboard = true}) {
+  /// that was open, unless [reopen] is [WebViewReopen.withoutPage]. The web
+  /// view also opens every other dashboard of the page, so it starts again
+  /// even then.
+  void _reopenPage(WebViewReopen reopen) {
     final token = client.getJwtToken();
     // translate-me-ignore-next-line
-    log.debug('Dashboard web view reopening $_currentUrl');
+    log.debug('Dashboard web view reopening (${reopen.name}) $_currentUrl');
     if (!mounted || token == null) return;
+    final openDashboard = reopen == WebViewReopen.page;
     setState(() {
-      _reopening = true;
-      _reopenDashboard = openDashboard;
-      _reopenState = _currentUrl?.queryParameters['state'];
+      _pendingReopen = (
+        openDashboard: openDashboard,
+        state: _currentUrl?.queryParameters['state'],
+      );
       _initialUrl = _signedInUrl(token);
       _webViewKey = UniqueKey();
     });
-    dashboardLoading.value =
-        openDashboard && dashboardController.hasOpenedDashboard;
+    // Before the first ready call the page has not opened anything yet: the
+    // first load's spinner stays as it is.
+    if (_controllerCallbackRan) {
+      dashboardLoading.value =
+          openDashboard && dashboardController.hasOpenedDashboard;
+    }
   }
 
   @override
   void dispose() {
-    _appLifecycle.dispose();
+    _reopenPolicy.dispose();
     dashboardLoading.dispose();
     dashboardController.dispose();
     super.dispose();
@@ -430,14 +416,17 @@ class _DashboardState extends State<DashboardWidget> {
         log.debug('Invoked tbMobileReadyHandler');
 
         dashboardController.setWebViewController(webViewController);
-        // The page is already set up with this controller.
-        if (_reopening) {
-          _reopening = false;
-          if (_reopenDashboard) {
-            dashboardController.reopenDashboard(state: _reopenState);
+        final reopen = _pendingReopen;
+        _pendingReopen = null;
+        // controllerCallback already ran for this controller; calling it again
+        // would add its listeners twice.
+        if (reopen != null && _controllerCallbackRan) {
+          if (reopen.openDashboard) {
+            dashboardController.reopenDashboard(state: reopen.state);
           }
           return;
         }
+        _controllerCallbackRan = true;
         widget.controllerCallback(dashboardController, dashboardLoading);
       },
     );
