@@ -1405,7 +1405,7 @@ class SNo extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Henter data fra serveren $host';
   }
 
   @override
@@ -1425,7 +1425,12 @@ class SNo extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'Kunne ikke koble til $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host er ikke en ThingsBoard-server';
   }
 
   @override

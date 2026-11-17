@@ -5,21 +5,54 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
+import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/version/application/leave_outdated_server.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 
 /// Shown instead of signing in when the server is older than the app
-/// supports: the user cannot fix it, so it says whom to ask, and the login
-/// page (QR code, region) is the way to another server.
-class ServerUpdateRequiredPage extends StatelessWidget {
-  const ServerUpdateRequiredPage({super.key});
+/// supports: the user cannot fix it, so it says whom to ask. Back leads to
+/// the login page, of the build's own server when it has one (see
+/// [leaveOutdatedServer]).
+class ServerUpdateRequiredPage extends StatefulWidget {
+  const ServerUpdateRequiredPage({
+    super.key,
+    this.ownServer = ThingsboardAppConstants.thingsBoardApiEndpoint,
+  });
+
+  /// See [leaveOutdatedServer].
+  final String ownServer;
+
+  @override
+  State<ServerUpdateRequiredPage> createState() =>
+      _ServerUpdateRequiredPageState();
+}
+
+class _ServerUpdateRequiredPageState extends State<ServerUpdateRequiredPage> {
+  bool _leaving = false;
+
+  Future<void> _backToLogin() async {
+    if (_leaving) return;
+    setState(() => _leaving = true);
+    final container = ProviderScope.containerOf(context, listen: false);
+    try {
+      await leaveOutdatedServer(
+        ownServer: widget.ownServer,
+        reloadLoginInfo: () => container.invalidate(oauthProvider),
+      );
+    } finally {
+      if (mounted) setState(() => _leaving = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +67,7 @@ class ServerUpdateRequiredPage extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) clientService.clearUnsupportedServer();
+        if (!didPop) _backToLogin();
       },
       child: Scaffold(
         body: Stack(
@@ -89,8 +122,13 @@ class ServerUpdateRequiredPage extends StatelessWidget {
                     const Spacer(flex: 2),
                     const SizedBox(height: 24),
                     FilledButton(
-                      onPressed: clientService.clearUnsupportedServer,
-                      child: Text(S.of(context).backToLogin),
+                      onPressed: _leaving ? null : _backToLogin,
+                      child: _leaving
+                          ? const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(S.of(context).backToLogin),
                     ),
                   ],
                 ),

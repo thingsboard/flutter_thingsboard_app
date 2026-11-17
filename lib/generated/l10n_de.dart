@@ -1417,7 +1417,7 @@ class SDe extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Daten werden vom Server $host abgerufen';
   }
 
   @override
@@ -1437,7 +1437,12 @@ class SDe extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'Verbindung zu $host fehlgeschlagen';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host ist kein ThingsBoard-Server';
   }
 
   @override

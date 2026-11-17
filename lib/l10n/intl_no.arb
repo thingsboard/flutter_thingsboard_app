@@ -545,5 +545,8 @@
   "linkSignsInAs": "Denne lenken logger deg på denne serveren som {email}.",
   "linkSignsIn": "Denne lenken logger deg på denne serveren.",
   "serverConnectionNotSecure": "Denne serveren bruker ikke en sikker tilkobling.",
-  "linkToOtherServerNotAllowed": "Denne appen fungerer bare med sin egen server og kan ikke åpne denne lenken."
+  "linkToOtherServerNotAllowed": "Denne appen fungerer bare med sin egen server og kan ikke åpne denne lenken.",
+  "failedToConnectToHost": "Kunne ikke koble til {host}",
+  "gettingDataFromHost": "Henter data fra serveren {host}",
+  "hostIsNotThingsBoard": "{host} er ikke en ThingsBoard-server"
 }

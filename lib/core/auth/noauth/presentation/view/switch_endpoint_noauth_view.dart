@@ -205,6 +205,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     final host = state.host ?? '';
 
     return switch (state.step) {
+      NoAuthStep.checkingServer ||
       NoAuthStep.fetchingSession => S.of(context).gettingDataFromHost(host),
       NoAuthStep.loggingIn => S.of(context).loggingYouIntoHost(host),
       NoAuthStep.switchingHost => S.of(context).switchingToNewHost(host),
@@ -219,6 +220,7 @@ class SwitchEndpointNoAuthView extends HookConsumerWidget {
     return switch (state.failure) {
       NoAuthFailure.connectionFailed =>
         S.of(context).failedToConnectToHost(host),
+      NoAuthFailure.notThingsBoard => S.of(context).hostIsNotThingsBoard(host),
       NoAuthFailure.tokenExchangeFailed =>
         S.of(context).failedToObtainLoginTokenFromHost(host),
       // The server answers a revoked pair with "Token has expired": hardcoded

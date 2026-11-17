@@ -1415,7 +1415,7 @@ class SIt extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Recupero dei dati dal server $host';
   }
 
   @override
@@ -1435,7 +1435,12 @@ class SIt extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'Impossibile connettersi a $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host non è un server ThingsBoard';
   }
 
   @override
