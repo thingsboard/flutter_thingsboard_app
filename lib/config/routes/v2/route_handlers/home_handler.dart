@@ -13,17 +13,23 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;
+  VoidCallback? _stopWaitingForHome;
 
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
     _sub = ref.listenManual(loginProvider, (prev, next) {
+      if (!next.isFullyAuthenticated()) {
+        _cancelWaitForHome();
+        return;
+      }
       final path = GoRouterState.of(context).fullPath;
-      if (next.isFullyAuthenticated() &&
-          prev?.isFullyAuthenticated() == false &&
+      if (prev?.isFullyAuthenticated() == false &&
           path != LoginRoutes.login + LoginRoutes.updateRequired) {
         final homePath = ref
             .read(navigationProvider.notifier)
@@ -32,14 +38,44 @@ class HomeHandler extends RouteHandler {
           return;
         }
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          scheduleMicrotask(() => context.go(homePath));
+          scheduleMicrotask(() {
+            final router = GoRouter.of(context)..go(homePath);
+            _whenAt(router, homePath, getIt<NotificationService>().onHomeShown);
+          });
         });
       }
     });
   }
 
+  /// `go` lands later when a redirect is asynchronous, right away otherwise.
+  /// A redirect may send the sign-in elsewhere (e.g. update required), so the
+  /// wait also ends with the session or with the next sign-in.
+  void _whenAt(GoRouter router, String path, VoidCallback onShown) {
+    _cancelWaitForHome();
+    bool isAt() => router.state.uri.path == Uri.parse(path).path;
+    if (isAt()) {
+      onShown();
+      return;
+    }
+    void listener() {
+      if (isAt()) {
+        _cancelWaitForHome();
+        onShown();
+      }
+    }
+
+    router.routerDelegate.addListener(listener);
+    _stopWaitingForHome = () => router.routerDelegate.removeListener(listener);
+  }
+
+  void _cancelWaitForHome() {
+    _stopWaitingForHome?.call();
+    _stopWaitingForHome = null;
+  }
+
   @override
   void dispose() {
+    _cancelWaitForHome();
     _sub.close();
   }
 }
