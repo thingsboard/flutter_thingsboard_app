@@ -83,6 +83,6 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - A bottom bar tab that can show the unread badge (Notifications) keeps its icon centred over its label.
 - Entity lists that fail to load (offline, server error) show a translated error with Try again, and the device counts stop spinning; the counts are no longer clipped at large font sizes.
 - Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
-- A QR code without a login code no longer switches the app to a server that does not answer or is not a ThingsBoard server: it shows why and stays on the current server. In a build for one server, Back to login on "Server update required" returns to that server instead of the outdated one the QR code led to. The QR code connection messages are translated.
+- A QR code without a login code no longer switches the app to a server that does not answer or is not a ThingsBoard server: it shows why and stays on the current server. In a build for one server, Back to login on "Server update required" returns to that server instead of the outdated one the QR code led to. After a QR code login to an outdated server is undone, Back to login opens the app signed in to the server it went back to, instead of a login page that keeps loading. The QR code connection messages are translated.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
+import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
@@ -22,14 +23,35 @@ import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 /// supports: the user cannot fix it, so it says whom to ask. Back leads to
 /// the login page, of the build's own server when it has one (see
 /// [leaveOutdatedServer]).
-class ServerUpdateRequiredPage extends StatelessWidget {
-  const ServerUpdateRequiredPage({super.key});
+class ServerUpdateRequiredPage extends StatefulWidget {
+  const ServerUpdateRequiredPage({
+    super.key,
+    this.ownServer = ThingsboardAppConstants.thingsBoardApiEndpoint,
+  });
 
-  void _backToLogin(BuildContext context) {
+  /// See [leaveOutdatedServer].
+  final String ownServer;
+
+  @override
+  State<ServerUpdateRequiredPage> createState() =>
+      _ServerUpdateRequiredPageState();
+}
+
+class _ServerUpdateRequiredPageState extends State<ServerUpdateRequiredPage> {
+  bool _leaving = false;
+
+  Future<void> _backToLogin() async {
+    if (_leaving) return;
+    setState(() => _leaving = true);
     final container = ProviderScope.containerOf(context, listen: false);
-    leaveOutdatedServer(
-      reloadLoginInfo: () => container.invalidate(oauthProvider),
-    );
+    try {
+      await leaveOutdatedServer(
+        ownServer: widget.ownServer,
+        reloadLoginInfo: () => container.invalidate(oauthProvider),
+      );
+    } finally {
+      if (mounted) setState(() => _leaving = false);
+    }
   }
 
   @override
@@ -45,7 +67,7 @@ class ServerUpdateRequiredPage extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) _backToLogin(context);
+        if (!didPop) _backToLogin();
       },
       child: Scaffold(
         body: Stack(
@@ -100,8 +122,13 @@ class ServerUpdateRequiredPage extends StatelessWidget {
                     const Spacer(flex: 2),
                     const SizedBox(height: 24),
                     FilledButton(
-                      onPressed: () => _backToLogin(context),
-                      child: Text(S.of(context).backToLogin),
+                      onPressed: _leaving ? null : _backToLogin,
+                      child: _leaving
+                          ? const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(S.of(context).backToLogin),
                     ),
                   ],
                 ),

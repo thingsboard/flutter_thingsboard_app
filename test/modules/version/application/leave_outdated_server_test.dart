@@ -19,6 +19,7 @@ class MockEndpointService extends Mock implements IEndpointService {}
 void main() {
   const own = 'https://own.example';
   const outdated = 'https://outdated.example';
+  const supported = 'https://supported.example';
 
   late MockTbClientService clientService;
   late MockEndpointService endpoints;
@@ -89,6 +90,36 @@ void main() {
     );
     verify(clientService.clearUnsupportedServer).called(1);
   });
+
+  test('a build for one server goes back to it from the outdated server the '
+      'error was reported for', () async {
+    when(() => clientService.unsupportedServerEndpoint).thenReturn(outdated);
+
+    await leave(on: outdated, ownServer: own);
+
+    verify(() => endpoints.setEndpoint(own)).called(1);
+    verify(clientService.clearUnsupportedServer).called(1);
+  });
+
+  test(
+    'a rolled back switch stays on the supported server it went back to',
+    () async {
+      when(() => clientService.unsupportedServerEndpoint).thenReturn(outdated);
+
+      await leave(on: supported, ownServer: own);
+
+      verifyNever(() => endpoints.setEndpoint(any()));
+      verifyNever(firebase.clearApps);
+      verifyNever(
+        () => clientService.reInit(
+          endpoint: any(named: 'endpoint'),
+          onDone: any(named: 'onDone'),
+          onAuthError: any(named: 'onAuthError'),
+        ),
+      );
+      verify(clientService.clearUnsupportedServer).called(1);
+    },
+  );
 
   test(
     'a build with regions stays: its login page can switch the region',

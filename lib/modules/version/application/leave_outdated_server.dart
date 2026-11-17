@@ -9,36 +9,32 @@ import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
-import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/endpoint/point_app_at.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 /// Leaves the "Server update required" page for the login page.
 ///
 /// A build for one server ([ownServer] set) has no region switch on its login
-/// page, so when a QR code moved it to an outdated server it goes back to its
-/// own server first; otherwise that server's login page would be the only one
-/// left. A build with regions stays: its login page can switch the region.
+/// page, so when the app is on another server and that server is the outdated
+/// one, it goes back to its own server first. It stays when a rolled back QR
+/// code switch already left it on another, supported server, and in a build
+/// with regions, whose login page can switch the region.
 Future<void> leaveOutdatedServer({
   required VoidCallback reloadLoginInfo,
   String ownServer = ThingsboardAppConstants.thingsBoardApiEndpoint,
 }) async {
   final clientService = getIt<ITbClientService>();
-  final endpoints = getIt<IEndpointService>();
+  final current = normalizeEndpoint(
+    await getIt<IEndpointService>().getEndpoint(),
+  );
+  final outdated = clientService.unsupportedServerEndpoint;
+  final onOutdatedServer =
+      outdated == null || normalizeEndpoint(outdated) == current;
   if (ownServer.isNotEmpty &&
-      normalizeEndpoint(await endpoints.getEndpoint()) !=
-          normalizeEndpoint(ownServer)) {
+      onOutdatedServer &&
+      current != normalizeEndpoint(ownServer)) {
     try {
-      await endpoints.setEndpoint(ownServer);
-      await getIt<IFirebaseService>().clearApps();
-      if (!await endpoints.isCustomEndpoint()) {
-        await initDefaultFirebaseApp();
-      }
-      await clientService.reInit(
-        endpoint: ownServer,
-        onDone: reloadLoginInfo,
-        onAuthError: (_) {},
-      );
+      await pointAppAt(ownServer, onDone: reloadLoginInfo, onAuthError: (_) {});
     } catch (e, s) {
       // The login page still opens and shows what it can load.
       getIt<TbLogger>().error('Return to own server failed', e, s);
