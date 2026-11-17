@@ -9,6 +9,12 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 abstract final class NotificationIconRenderer {
+  static const glyphScale = 0.6;
+
+  /// Renders [icon] centred on a transparent square of [size] pixels, its
+  /// glyph [glyphScale] of that size. Android and iOS stretch the bitmap to
+  /// fill their notification icon slot, so the margin sets how big the glyph
+  /// looks there.
   static Future<Uint8List?> renderPng(
     IconData icon,
     Color color, {
@@ -20,7 +26,7 @@ abstract final class NotificationIconRenderer {
       ..text = TextSpan(
         text: String.fromCharCode(icon.codePoint),
         style: TextStyle(
-          fontSize: size,
+          fontSize: size * glyphScale,
           fontFamily: icon.fontFamily,
           package: icon.fontPackage,
           color: color,
