@@ -1411,7 +1411,7 @@ class SNl extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Gegevens ophalen van de server $host';
   }
 
   @override
@@ -1431,7 +1431,12 @@ class SNl extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'Kan geen verbinding maken met $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host is geen ThingsBoard-server';
   }
 
   @override

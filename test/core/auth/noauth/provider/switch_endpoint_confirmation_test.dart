@@ -15,6 +15,7 @@ import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args
 import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -26,6 +27,8 @@ class MockEndpointService extends Mock implements IEndpointService {}
 class MockStorage extends Mock implements TbStorage<dynamic> {}
 
 class MockLiveTracking extends Mock implements ILiveLocationTrackingService {}
+
+class MockDeviceInfo extends Mock implements IDeviceInfoService {}
 
 /// The target host's answer to `/api/auth/user`: the account of the pair.
 class _UserAdapter implements HttpClientAdapter {
@@ -101,11 +104,15 @@ void main() {
 
     liveTracking = MockLiveTracking();
     when(liveTracking.teardownForLogout).thenAnswer((_) async {});
+    final deviceInfo = MockDeviceInfo();
+    when(deviceInfo.getApplicationId).thenReturn('org.thingsboard.app');
+    when(deviceInfo.getPlatformType).thenReturn(PlatformType.IOS);
 
     getIt
       ..registerSingleton<IEndpointService>(endpoint)
       ..registerSingleton<TbStorage>(storage)
-      ..registerSingleton<ILiveLocationTrackingService>(liveTracking);
+      ..registerSingleton<ILiveLocationTrackingService>(liveTracking)
+      ..registerSingleton<IDeviceInfoService>(deviceInfo);
     previous = PreviousSessionMocks(client);
 
     NoauthProvider.hostAdapterForTesting = _UserAdapter.new;

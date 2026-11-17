@@ -544,5 +544,8 @@
   "linkSignsInAs": "Liên kết này đăng nhập bạn vào máy chủ này với tài khoản {email}.",
   "linkSignsIn": "Liên kết này đăng nhập bạn vào máy chủ này.",
   "serverConnectionNotSecure": "Máy chủ này không dùng kết nối bảo mật.",
-  "linkToOtherServerNotAllowed": "Ứng dụng này chỉ hoạt động với máy chủ của nó và không thể mở liên kết này."
+  "linkToOtherServerNotAllowed": "Ứng dụng này chỉ hoạt động với máy chủ của nó và không thể mở liên kết này.",
+  "failedToConnectToHost": "Không thể kết nối tới {host}",
+  "gettingDataFromHost": "Đang lấy dữ liệu từ máy chủ {host}",
+  "hostIsNotThingsBoard": "{host} không phải là máy chủ ThingsBoard"
 }

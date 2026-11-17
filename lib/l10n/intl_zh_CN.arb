@@ -544,5 +544,8 @@
   "linkSignsInAs": "此链接将以 {email} 身份登录此服务器。",
   "linkSignsIn": "此链接将登录此服务器。",
   "serverConnectionNotSecure": "此服务器未使用安全连接。",
-  "linkToOtherServerNotAllowed": "此应用仅适用于其自己的服务器，无法打开此链接。"
+  "linkToOtherServerNotAllowed": "此应用仅适用于其自己的服务器，无法打开此链接。",
+  "failedToConnectToHost": "无法连接到 {host}",
+  "gettingDataFromHost": "正在从服务器 {host} 获取数据",
+  "hostIsNotThingsBoard": "{host} 不是 ThingsBoard 服务器"
 }

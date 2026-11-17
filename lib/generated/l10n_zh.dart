@@ -1394,7 +1394,7 @@ class SZh extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return '正在从服务器 $host 获取数据';
   }
 
   @override
@@ -1414,7 +1414,12 @@ class SZh extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return '无法连接到 $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host 不是 ThingsBoard 服务器';
   }
 
   @override
@@ -2991,6 +2996,21 @@ class SZhCn extends SZh {
   }
 
   @override
+  String gettingDataFromHost(Object host) {
+    return '正在从服务器 $host 获取数据';
+  }
+
+  @override
+  String failedToConnectToHost(Object host) {
+    return '无法连接到 $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host 不是 ThingsBoard 服务器';
+  }
+
+  @override
   String get openThisLinkTitle => '打开此链接？';
 
   @override
@@ -4545,6 +4565,21 @@ class SZhTw extends SZh {
       one: '將 1 則通知標記為已讀？',
     );
     return '$_temp0';
+  }
+
+  @override
+  String gettingDataFromHost(Object host) {
+    return '正在從伺服器 $host 取得資料';
+  }
+
+  @override
+  String failedToConnectToHost(Object host) {
+    return '無法連線到 $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host 不是 ThingsBoard 伺服器';
   }
 
   @override
