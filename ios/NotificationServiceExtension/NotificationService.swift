@@ -4,7 +4,7 @@ import UserNotifications
 
 /// Attaches the icon configured in the ThingsBoard notification template
 /// (`icon.icon` + `icon.color` data keys) to incoming pushes before iOS
-/// displays them (PROD-7932). Runs only when the APNs payload carries
+/// displays them. Runs only when the APNs payload carries
 /// `mutable-content: 1`.
 ///
 /// The glyph is drawn from the Flutter icon fonts bundled in the containing
@@ -122,8 +122,14 @@ private struct Glyph {
         }
     }
 
+    /// The glyph's share of the image, as NotificationIconRenderer.glyphScale
+    /// on the Dart side: iOS stretches the attachment to fill its thumbnail.
+    private static let glyphScale: CGFloat = 0.6
+
     func render(color: UIColor, size: CGFloat) -> UIImage? {
-        guard let scalar = Unicode.Scalar(codepoint), let font = loadFont(size: size) else {
+        guard let scalar = Unicode.Scalar(codepoint),
+              let font = loadFont(size: size * Glyph.glyphScale)
+        else {
             return nil
         }
 
