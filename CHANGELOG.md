@@ -83,6 +83,7 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - A bottom bar tab that can show the unread badge (Notifications) keeps its icon centred over its label.
 - Entity lists that fail to load (offline, server error) show a translated error with Try again, and the device counts stop spinning; the counts are no longer clipped at large font sizes.
 - Arabic: the layout is mirrored (status bars, paddings, alignments), audit log JSON reads left to right, and Latin names keep their own direction.
+- The icon from the notification template is drawn smaller in push notifications, with a margin around it, instead of filling the Android large-icon slot or the iOS thumbnail.
 - Tapping a push notification while the app is closed opens its dashboard or link on top of Home, instead of only Home.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.
