@@ -55,7 +55,6 @@ void main() {
         const IconData(0x41, fontFamily: 'FlutterTest'),
         const Color(0xFFF44336),
         size: 100,
-        glyphScale: 0.5,
       );
       final image = (await (await ui.instantiateImageCodec(
         bytes!,
@@ -81,7 +80,7 @@ void main() {
       expect(match, isNotNull);
       expect(
         double.parse(match!.group(1)!),
-        NotificationIconRenderer.defaultGlyphScale,
+        NotificationIconRenderer.glyphScale,
       );
     });
   });

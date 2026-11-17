@@ -9,7 +9,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 abstract final class NotificationIconRenderer {
-  static const defaultGlyphScale = 0.6;
+  static const glyphScale = 0.6;
 
   /// Renders [icon] centred on a transparent square of [size] pixels, its
   /// glyph [glyphScale] of that size. Android and iOS stretch the bitmap to
@@ -19,7 +19,6 @@ abstract final class NotificationIconRenderer {
     IconData icon,
     Color color, {
     double size = 256,
-    double glyphScale = defaultGlyphScale,
   }) async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
