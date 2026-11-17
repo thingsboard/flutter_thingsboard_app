@@ -305,6 +305,32 @@ void main() {
         service.onHomeShown();
         verifyDashboardOpened(1);
       });
+
+      test('is dropped on logout, so the next session does not open it '
+          'when it reaches Home', () async {
+        final service = buildService();
+        await service.init();
+
+        await service.logout();
+        service.onHomeShown();
+
+        verifyNever(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        );
+      });
+
+      test('waits for Home again after a logout', () async {
+        final service = buildService()..onHomeShown();
+        await service.logout();
+
+        await service.init();
+        verifyNever(
+          () => router.navigateToDashboard(any(), state: any(named: 'state')),
+        );
+
+        service.onHomeShown();
+        verifyDashboardOpened(1);
+      });
     });
 
     test('skips entirely when Firebase is not configured', () async {

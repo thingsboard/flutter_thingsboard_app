@@ -33,6 +33,8 @@ class FakeLogin extends Login {
     isUserLoaded: true,
     userScope: Authority.TENANT_ADMIN,
   );
+
+  void signOut() => state = const LoginState(isUserLoaded: false);
 }
 
 class FakeNavigation extends Navigation {
@@ -74,18 +76,33 @@ class _HandlerHostState extends ConsumerState<HandlerHost> {
 }
 
 void main() {
-  testWidgets('tells the notification service once the sign-in has moved '
-      'to Home', (tester) async {
-    final notifications = MockNotificationService();
+  late MockNotificationService notifications;
+  late GoRouter router;
+  late FakeLogin login;
+  late List<String> shownAt;
+
+  setUp(() {
+    notifications = MockNotificationService();
     getIt
       ..registerSingleton<NotificationService>(notifications)
       ..registerSingleton<IOverlayService>(MockOverlayService())
       ..registerSingleton<IDeviceInfoService>(MockDeviceInfoService());
-    addTearDown(getIt.reset);
+    shownAt = [];
+    when(notifications.onHomeShown)
+        .thenAnswer((_) => shownAt.add(router.state.uri.path));
+    login = FakeLogin();
+  });
 
+  tearDown(getIt.reset);
+
+  Future<void> pumpApp(
+    WidgetTester tester, {
+    required GoRouterRedirect redirect,
+  }) async {
     final handler = HomeHandler();
-    final router = GoRouter(
+    router = GoRouter(
       initialLocation: '/login',
+      redirect: redirect,
       routes: [
         ShellRoute(
           builder: (context, state, child) =>
@@ -93,16 +110,12 @@ void main() {
           routes: [
             GoRoute(path: '/login', builder: (_, _) => const Text('login')),
             GoRoute(path: '/home', builder: (_, _) => const Text('home')),
+            GoRoute(path: '/update', builder: (_, _) => const Text('update')),
           ],
         ),
       ],
     );
     addTearDown(router.dispose);
-    final shownAt = <String>[];
-    when(notifications.onHomeShown)
-        .thenAnswer((_) => shownAt.add(router.state.uri.path));
-
-    final login = FakeLogin();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -113,8 +126,55 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+  }
+
+  testWidgets('tells the notification service once the sign-in has moved '
+      'to Home', (tester) async {
+    await pumpApp(tester, redirect: (_, _) => null);
     expect(shownAt, isEmpty);
 
+    login.signIn();
+    await tester.pumpAndSettle();
+
+    expect(find.text('home'), findsOneWidget);
+    expect(shownAt, ['/home']);
+  });
+
+  testWidgets('waits for an asynchronous redirect to land on Home, and '
+      'only once', (tester) async {
+    // The app's top-level redirect is async, so `go` never lands right away.
+    await pumpApp(tester, redirect: (_, _) => Future.value());
+
+    login.signIn();
+    await tester.pumpAndSettle();
+    expect(find.text('home'), findsOneWidget);
+    expect(shownAt, ['/home']);
+
+    router.go('/login');
+    await tester.pumpAndSettle();
+    router.go('/home');
+    await tester.pumpAndSettle();
+    expect(shownAt, ['/home']);
+  });
+
+  testWidgets('a sign-in redirected away from Home leaves nothing waiting '
+      'for a later session', (tester) async {
+    var updateRequired = true;
+    await pumpApp(
+      tester,
+      redirect: (_, state) => Future.value(
+        updateRequired && state.uri.path == '/home' ? '/update' : null,
+      ),
+    );
+
+    login.signIn();
+    await tester.pumpAndSettle();
+    expect(find.text('update'), findsOneWidget);
+    expect(shownAt, isEmpty);
+
+    login.signOut();
+    await tester.pumpAndSettle();
+    updateRequired = false;
     login.signIn();
     await tester.pumpAndSettle();
 

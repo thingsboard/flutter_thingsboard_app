@@ -19,10 +19,15 @@ import 'package:thingsboard_app/modules/notification/application/notification_se
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;
+  VoidCallback? _stopWaitingForHome;
 
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
     _sub = ref.listenManual(loginProvider, (prev, next) {
+      if (!next.isFullyAuthenticated()) {
+        _cancelWaitForHome();
+        return;
+      }
       final path = GoRouterState.of(context).fullPath;
       if (next.isFullyAuthenticated() &&
           prev?.isFullyAuthenticated() == false &&
@@ -44,25 +49,34 @@ class HomeHandler extends RouteHandler {
   }
 
   /// `go` lands later when a redirect is asynchronous, right away otherwise.
+  /// A redirect may send the sign-in elsewhere (e.g. update required), so the
+  /// wait also ends with the session or with the next sign-in.
   void _whenAt(GoRouter router, String path, VoidCallback onShown) {
+    _cancelWaitForHome();
     bool isAt() => router.state.uri.path == Uri.parse(path).path;
     if (isAt()) {
       onShown();
       return;
     }
-    late final VoidCallback listener;
-    listener = () {
-      if (!isAt()) {
-        return;
+    void listener() {
+      if (isAt()) {
+        _cancelWaitForHome();
+        onShown();
       }
-      router.routerDelegate.removeListener(listener);
-      onShown();
-    };
+    }
+
     router.routerDelegate.addListener(listener);
+    _stopWaitingForHome = () => router.routerDelegate.removeListener(listener);
+  }
+
+  void _cancelWaitForHome() {
+    _stopWaitingForHome?.call();
+    _stopWaitingForHome = null;
   }
 
   @override
   void dispose() {
+    _cancelWaitForHome();
     _sub.close();
   }
 }

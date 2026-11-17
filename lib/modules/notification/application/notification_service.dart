@@ -131,10 +131,6 @@ class NotificationService {
     }
   }
 
-  Future<RemoteMessage?> initialMessage() {
-    return _messaging.getInitialMessage();
-  }
-
   Future<void> logout() async {
     if (!_isFirebaseConfigured) {
       return;
@@ -203,6 +199,10 @@ class NotificationService {
   /// the registration flag is cleared last, so an interrupted teardown is
   /// retried by [cleanUpStalePushRegistration] on the next launch.
   Future<void> _tearDownLocalPushState() async {
+    // The next session, possibly another account or server, must neither
+    // open this session's launch target nor treat its Home as shown.
+    _launchTarget = null;
+    _homeShown = false;
     try {
       await _foregroundMessageSubscription?.cancel();
       await _onMessageOpenedAppSubscription?.cancel();
@@ -252,10 +252,9 @@ class NotificationService {
   }
 
   void _openLaunchTarget(Map<String, dynamic> data) {
+    _launchTarget = data;
     if (_homeShown) {
-      handleClickOnNotification(data);
-    } else {
-      _launchTarget = data;
+      onHomeShown();
     }
   }
 
