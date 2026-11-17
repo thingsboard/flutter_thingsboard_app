@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -14,7 +15,6 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 part 'two_factor_confirm_provider.g.dart';
@@ -76,15 +76,21 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
       ref.read(loginProvider.notifier).logout();
       return;
     }
-    if (Utils.isConnectionError(error)) {
+    final rejection = TwoFaCodeRejection.of(error);
+    if (rejection == TwoFaCodeRejection.noConnection) {
       getIt<IOverlayService>().showConnectionErrorDialog();
-      state = state.copyWith(codeState: CodeState.empty);
-      return;
     }
-    state = switch (error.status) {
-      400 => state.copyWith(codeState: CodeState.invalid),
-      429 => state.copyWith(codeState: CodeState.tooManyRequests),
-      _ => state.copyWith(
+    state = switch (rejection) {
+      TwoFaCodeRejection.noConnection => state.copyWith(
+        codeState: CodeState.empty,
+      ),
+      TwoFaCodeRejection.invalid => state.copyWith(
+        codeState: CodeState.invalid,
+      ),
+      TwoFaCodeRejection.tooManyRequests => state.copyWith(
+        codeState: CodeState.tooManyRequests,
+      ),
+      TwoFaCodeRejection.other => state.copyWith(
         codeState: CodeState.rejected,
         rejectionMessage: error.message,
       ),

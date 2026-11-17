@@ -4,8 +4,10 @@
 // found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -381,10 +383,17 @@ abstract class Utils {
     return url.startsWith(_imageBase64UrlPrefix);
   }
 
+  /// Whether [e] is a request that got no answer from the server: the
+  /// connection failed or timed out.
   static bool isConnectionError(dynamic e) {
-    return e is ThingsboardError &&
-        e.errorCode == ThingsBoardErrorCode.general &&
-        e.message == 'Unable to connect';
+    if (e is! ThingsboardError || e.status != null) {
+      return false;
+    }
+    final cause = e.error;
+    return cause is DioException &&
+        (cause.type == DioExceptionType.connectionError ||
+            cause.type == DioExceptionType.connectionTimeout ||
+            cause.error is SocketException);
   }
 
   static ColorFilter toColorFilter(Color color) {

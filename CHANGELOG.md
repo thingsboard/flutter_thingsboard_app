@@ -89,5 +89,6 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
   - A code that is not accepted shows why instead of always "incorrect": the connection error dialog when the server cannot be reached, "Session has expired" and the login page when the time allowed for verification ran out, and the server's own message for any other reason.
   - Back from the verification to the login page cancels the sign-in, as on the web; the verification no longer comes back, with a new code, on the next start.
   - In landscape the code field is no longer hidden behind the camera cutout.
+- Two-factor setup (email, SMS, authenticator app) says why a code was not accepted, as the sign-in verification does, instead of "incorrect" next to a toast with the real reason. The "Verification required" and "enabled" setup pages stay clear of the camera cutout and the home indicator and scroll in landscape, where they were cut off.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.

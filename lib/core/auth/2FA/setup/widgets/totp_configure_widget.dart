@@ -11,11 +11,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/step_chip.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -170,12 +172,11 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
           .verifyAndSaveTwoFaAccountConfig(
             twoFaAccountConfig: config,
             verificationCode: verificationCode,
+            extra: silentRequestExtra(),
           );
       onConfigured();
     } catch (e) {
-      form
-          .control('verificationCode')
-          .rejectCode(TbValicationMessages.invalidCode);
+      form.control('verificationCode').showCodeRejection(e);
     } finally {
       loading.value = false;
     }
