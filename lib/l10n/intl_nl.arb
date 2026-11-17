@@ -545,5 +545,8 @@
   "linkSignsInAs": "Deze link meldt je aan bij deze server als {email}.",
   "linkSignsIn": "Deze link meldt je aan bij deze server.",
   "serverConnectionNotSecure": "Deze server gebruikt geen beveiligde verbinding.",
-  "linkToOtherServerNotAllowed": "Deze app werkt alleen met de eigen server en kan deze link niet openen."
+  "linkToOtherServerNotAllowed": "Deze app werkt alleen met de eigen server en kan deze link niet openen.",
+  "failedToConnectToHost": "Kan geen verbinding maken met {host}",
+  "gettingDataFromHost": "Gegevens ophalen van de server {host}",
+  "hostIsNotThingsBoard": "{host} is geen ThingsBoard-server"
 }

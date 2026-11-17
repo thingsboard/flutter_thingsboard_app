@@ -1425,6 +1425,11 @@ class SEn extends S {
   }
 
   @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host is not a ThingsBoard server';
+  }
+
+  @override
   String get qrCodeSessionIsNoLongerValid =>
       'The QR code session is no longer valid. Please refresh the QR code and scan again.';
 

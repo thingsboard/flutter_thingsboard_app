@@ -1399,7 +1399,7 @@ class SVi extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Getting data from your host $host';
+    return 'Đang lấy dữ liệu từ máy chủ $host';
   }
 
   @override
@@ -1419,7 +1419,12 @@ class SVi extends S {
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Failed to connect to $host';
+    return 'Không thể kết nối tới $host';
+  }
+
+  @override
+  String hostIsNotThingsBoard(Object host) {
+    return '$host không phải là máy chủ ThingsBoard';
   }
 
   @override
