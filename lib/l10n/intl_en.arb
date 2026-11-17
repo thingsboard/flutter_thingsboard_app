@@ -493,6 +493,7 @@
   "switchingToNewHost": "Switching you to the new host {host}",
   "failedToObtainLoginTokenFromHost": "Failed to obtain a login token from {host}. Please scan a new QR code.",
   "failedToConnectToHost": "Failed to connect to {host}",
+  "hostIsNotThingsBoard": "{host} is not a ThingsBoard server",
   "qrCodeSessionIsNoLongerValid": "The QR code session is no longer valid. Please refresh the QR code and scan again.",
   "openThisLinkTitle": "Open this link?",
   "linkOpensSignInPage": "This link opens the sign-in page of this server. You will be signed out of your current server.",

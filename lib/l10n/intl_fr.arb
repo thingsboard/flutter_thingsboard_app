@@ -545,5 +545,8 @@
   "linkSignsInAs": "Ce lien vous connecte à ce serveur en tant que {email}.",
   "linkSignsIn": "Ce lien vous connecte à ce serveur.",
   "serverConnectionNotSecure": "Ce serveur n'utilise pas de connexion sécurisée.",
-  "linkToOtherServerNotAllowed": "Cette application ne fonctionne qu'avec son propre serveur et ne peut pas ouvrir ce lien."
+  "linkToOtherServerNotAllowed": "Cette application ne fonctionne qu'avec son propre serveur et ne peut pas ouvrir ce lien.",
+  "failedToConnectToHost": "Impossible de se connecter à {host}",
+  "gettingDataFromHost": "Récupération des données du serveur {host}",
+  "hostIsNotThingsBoard": "{host} n'est pas un serveur ThingsBoard"
 }

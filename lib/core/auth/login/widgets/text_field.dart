@@ -13,14 +13,19 @@ import 'package:thingsboard_app/generated/l10n.dart';
 class TbValicationMessages {
   static const invalidCode = 'invalidCode';
   static const tooManyRequests = 'tooManyRequest';
+
+  /// Carries the server's own message as `{'message': ...}`.
+  static const rejected = 'rejected';
 }
 
 extension RejectCode on AbstractControl<Object?> {
   /// Clears a rejected verification code and focuses the field for the next
   /// one, keeping [reason] (a [TbValicationMessages] key) on screen.
-  void rejectCode(String reason) {
+  void rejectCode(String reason, {String? message}) {
     value = null;
-    setErrors({reason: {}});
+    setErrors({
+      reason: {'message': ?message},
+    });
     markAsTouched();
     if (this case final FormControl<Object?> control) control.focus();
   }
@@ -174,6 +179,8 @@ class TbTextField extends HookWidget {
             S.of(context).verificationCodeManyRequest,
         TbValicationMessages.invalidCode: (error) =>
             S.of(context).verificationCodeIncorrect,
+        TbValicationMessages.rejected: (error) =>
+            (error as Map)['message'] as String? ?? S.of(context).unknownError,
       },
       style: TbTextStyles.bodyLarge.copyWith(
         color: isErrorState.value ? errorColor : null,

@@ -2557,6 +2557,12 @@ abstract class S {
   /// **'Failed to connect to {host}'**
   String failedToConnectToHost(Object host);
 
+  /// No description provided for @hostIsNotThingsBoard.
+  ///
+  /// In en, this message translates to:
+  /// **'{host} is not a ThingsBoard server'**
+  String hostIsNotThingsBoard(Object host);
+
   /// No description provided for @qrCodeSessionIsNoLongerValid.
   ///
   /// In en, this message translates to:
