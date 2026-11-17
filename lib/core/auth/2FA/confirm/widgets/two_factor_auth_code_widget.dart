@@ -69,7 +69,7 @@ class EnterACodeWidget extends HookConsumerWidget {
           CodeState.rejected => TbValicationMessages.rejected,
           CodeState.valid || CodeState.empty => null,
         };
-        if (reason != null) {
+        if (reason != null && prev?.codeState != next.codeState) {
           form
               .control('code')
               .rejectCode(reason, message: next.rejectionMessage);

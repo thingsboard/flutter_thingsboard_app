@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -209,16 +211,50 @@ void main() {
     });
 
     test('for another reason shows what the server says', () async {
+      const locked =
+          'User account was locked due to exceeded 2FA verification attempts';
       await check(
         ThingsboardError(
-          message: '2FA provider is not configured',
-          errorCode: ThingsBoardErrorCode.badRequestParams,
-          status: 500,
+          message: locked,
+          errorCode: ThingsBoardErrorCode.authentication,
+          status: 401,
         ),
       );
 
       expect(state().codeState, CodeState.rejected);
-      expect(state().rejectionMessage, '2FA provider is not configured');
+      expect(state().rejectionMessage, locked);
+    });
+
+    test('is forgotten when the next code is checked', () async {
+      await check(
+        ThingsboardError(
+          message: 'Account is locked',
+          errorCode: ThingsBoardErrorCode.authentication,
+          status: 401,
+        ),
+      );
+      final answer = Completer<LoginResponse>();
+      when(
+        () => client.checkTwoFaVerificationCode(
+          any(),
+          any(),
+          requestConfig: any(named: 'requestConfig'),
+        ),
+      ).thenAnswer((_) => answer.future);
+
+      final next = container.read(provider.notifier).verifyCode('654321');
+
+      expect(state().loading, isTrue);
+      expect(state().codeState, CodeState.empty);
+      expect(state().rejectionMessage, isNull);
+      answer.completeError(
+        ThingsboardError(
+          message: 'Unable to connect',
+          errorCode: ThingsBoardErrorCode.general,
+        ),
+      );
+      await next;
+      expect(state().codeState, CodeState.empty);
     });
   });
 }

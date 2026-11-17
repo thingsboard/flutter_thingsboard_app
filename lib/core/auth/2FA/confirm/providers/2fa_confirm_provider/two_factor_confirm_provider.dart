@@ -44,10 +44,14 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   }
 
   Future<void> verifyCode(String code) async {
-    state = state.copyWith(loading: true);
+    state = state.copyWith(
+      loading: true,
+      codeState: CodeState.empty,
+      rejectionMessage: null,
+    );
     try {
-      // Stores the session and loads the user; errors (e.g. 429) are handled
-      // in-widget below instead of the global error overlay.
+      // Stores the session and loads the user. Silent request:
+      // _showRejection decides how each failure is shown.
       await _tbClient.checkTwoFaVerificationCode(
         type,
         code,

@@ -111,10 +111,8 @@ class TwoFactorAuthenticationPage extends HookConsumerWidget {
     );
   }
 
-  /// Back that lands on the login page cancels the sign-in, as on the web;
-  /// otherwise the unfinished one would bring the user back here, with a new
-  /// code, on the next start. Back to another verification page ("Try another
-  /// way") keeps it.
+  /// Back to the login page cancels the unfinished sign-in; Back to another
+  /// verification page ("Try another way") keeps it.
   VoidCallback _dropUnfinishedSignInOnLeave(BuildContext context) {
     final router = GoRouter.of(context);
     final container = ProviderScope.containerOf(context, listen: false);

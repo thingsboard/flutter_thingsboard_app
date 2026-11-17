@@ -58,7 +58,7 @@ final class TwoFactorConfirmProvider
   }
 }
 
-String _$twoFactorConfirmHash() => r'74c61c12c71d12f5f36ae6ce9671437714a96ce7';
+String _$twoFactorConfirmHash() => r'b30d70bb9e78611c5155f77b93979b55c1ee677c';
 
 final class TwoFactorConfirmFamily extends $Family
     with

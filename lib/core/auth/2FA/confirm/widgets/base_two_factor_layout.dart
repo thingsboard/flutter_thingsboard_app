@@ -4,12 +4,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class BaseTwoFactorLayout extends ConsumerWidget {
+class BaseTwoFactorLayout extends StatelessWidget {
   const BaseTwoFactorLayout({
     super.key,
     required this.title,
@@ -26,7 +25,7 @@ class BaseTwoFactorLayout extends ConsumerWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         PopScope(
