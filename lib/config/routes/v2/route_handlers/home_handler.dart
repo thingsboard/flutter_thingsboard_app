@@ -29,8 +29,7 @@ class HomeHandler extends RouteHandler {
         return;
       }
       final path = GoRouterState.of(context).fullPath;
-      if (next.isFullyAuthenticated() &&
-          prev?.isFullyAuthenticated() == false &&
+      if (prev?.isFullyAuthenticated() == false &&
           path != LoginRoutes.login + LoginRoutes.updateRequired) {
         final homePath = ref
             .read(navigationProvider.notifier)

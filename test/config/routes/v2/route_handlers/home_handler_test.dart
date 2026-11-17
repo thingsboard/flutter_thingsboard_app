@@ -157,8 +157,8 @@ void main() {
     expect(shownAt, ['/home']);
   });
 
-  testWidgets('a sign-in redirected away from Home leaves nothing waiting '
-      'for a later session', (tester) async {
+  testWidgets('a sign-in redirected away from Home stops waiting for Home '
+      'at sign-out', (tester) async {
     var updateRequired = true;
     await pumpApp(
       tester,
@@ -175,6 +175,10 @@ void main() {
     login.signOut();
     await tester.pumpAndSettle();
     updateRequired = false;
+    router.go('/home');
+    await tester.pumpAndSettle();
+    expect(shownAt, isEmpty);
+
     login.signIn();
     await tester.pumpAndSettle();
 
