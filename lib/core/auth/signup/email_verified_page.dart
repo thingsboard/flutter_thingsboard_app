@@ -16,6 +16,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -90,89 +91,85 @@ class EmailVerifiedPage extends HookConsumerWidget {
           SizedBox.expand(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              body: Stack(
-                children: [
-                  SizedBox.expand(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 36),
-                          Text(
-                            isActivating.value
-                                ? S.of(context).activatingAccount
-                                : S.of(context).accountActivated,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 24,
-                              height: 32 / 24,
-                            ),
-                          ),
-                          const SizedBox(height: 78),
-                          if (isActivating.value)
-                            const TbProgressIndicator(size: 72),
-                          if (!isActivating.value)
-                            SvgPicture.asset(
-                              ThingsboardImage.emailVerified,
-                              height: 85,
-                              colorFilter: ColorFilter.mode(
-                                Theme.of(context).primaryColor,
-                                BlendMode.srcIn,
-                              ),
-                              semanticsLabel: S.of(context).emailVerified,
-                            ),
-                          const SizedBox(height: 77),
-                          if (isActivating.value)
-                            Text(
-                              S.of(context).activatingAccountText,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                height: 24 / 14,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFFAFAFAF),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          if (!isActivating.value)
-                            Text(
-                              S
-                                  .of(context)
-                                  .accountActivatedText(
-                                    wlState.wlParams.appTitle ?? '',
-                                  ),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                height: 24 / 14,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFFAFAFAF),
-                              ),
-                            ),
-                          const Spacer(),
-                          if (!isActivating.value)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 16,
-                                    ),
-                                  ),
-                                  onPressed: () => handleLogin(
-                                    context,
-                                    loginResponse,
-                                    tbClientService,
-                                  ),
-                                  child: Text(S.of(context).login),
-                                ),
-                              ],
-                            ),
-                        ],
+              body: SafeArea(
+                child: FillScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 36),
+                      Text(
+                        isActivating.value
+                            ? S.of(context).activatingAccount
+                            : S.of(context).accountActivated,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 24,
+                          height: 32 / 24,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 78),
+                      if (isActivating.value)
+                        const TbProgressIndicator(size: 72),
+                      if (!isActivating.value)
+                        SvgPicture.asset(
+                          ThingsboardImage.emailVerified,
+                          height: 85,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).primaryColor,
+                            BlendMode.srcIn,
+                          ),
+                          semanticsLabel: S.of(context).emailVerified,
+                        ),
+                      const SizedBox(height: 77),
+                      if (isActivating.value)
+                        Text(
+                          S.of(context).activatingAccountText,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            height: 24 / 14,
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xFFAFAFAF),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      if (!isActivating.value)
+                        Text(
+                          S
+                              .of(context)
+                              .accountActivatedText(
+                                wlState.wlParams.appTitle ?? '',
+                              ),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            height: 24 / 14,
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xFFAFAFAF),
+                          ),
+                        ),
+                      const Spacer(),
+                      if (!isActivating.value)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                              ),
+                              onPressed: () => handleLogin(
+                                context,
+                                loginResponse,
+                                tbClientService,
+                              ),
+                              child: Text(S.of(context).login),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
