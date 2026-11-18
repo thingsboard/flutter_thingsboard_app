@@ -16,6 +16,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -92,8 +93,8 @@ class EmailVerifiedPage extends HookConsumerWidget {
               backgroundColor: Colors.transparent,
               body: Stack(
                 children: [
-                  SizedBox.expand(
-                    child: Padding(
+                  SafeArea(
+                    child: FillScrollView(
                       padding: const EdgeInsets.all(24),
                       child: Column(
                         children: [

@@ -18,6 +18,7 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -38,62 +39,66 @@ class ResetPasswordRequestPage extends HookConsumerWidget {
       appBar: TbAppBar(title: Text(S.of(context).passwordReset)),
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: ReactiveForm(
-              formGroup: form,
-              child: Column(
-                spacing: 20,
-                children: [
-                  Text(
-                    S.of(context).passwordResetText,
-                    textAlign: TextAlign.center,
-                    style: TbTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
+          SafeArea(
+            child: FillScrollView(
+              padding: const EdgeInsets.all(24),
+              child: ReactiveForm(
+                formGroup: form,
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    Text(
+                      S.of(context).passwordResetText,
+                      textAlign: TextAlign.center,
+                      style: TbTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
 
-                  TbTextField(
-                    formControlName: 'email',
-                    hint: S.of(context).email,
-                    label: S.of(context).email,
-                    type: TextInputType.emailAddress,
-                    autoFillHints: const [AutofillHints.email],
-                  ),
+                    TbTextField(
+                      formControlName: 'email',
+                      hint: S.of(context).email,
+                      label: S.of(context).email,
+                      type: TextInputType.emailAddress,
+                      autoFillHints: const [AutofillHints.email],
+                    ),
 
-                  ReactiveFormConsumer(
-                    builder: (context, form, _) {
-                      return Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
+                    ReactiveFormConsumer(
+                      builder: (context, form, _) {
+                        return Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  onPressed: form.invalid && form.touched
+                                      ? null
+                                      : () {
+                                          _requestPasswordReset(
+                                            context,
+                                            form,
+                                            ref,
+                                            isLoading,
+                                          );
+                                        },
+                                  child: Text(
+                                    S.of(context).requestPasswordReset,
                                   ),
                                 ),
-                                onPressed: form.invalid && form.touched
-                                    ? null
-                                    : () {
-                                        _requestPasswordReset(
-                                          context,
-                                          form,
-                                          ref,
-                                          isLoading,
-                                        );
-                                      },
-                                child: Text(S.of(context).requestPasswordReset),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
