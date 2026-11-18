@@ -34,8 +34,6 @@ class MockLoadingService extends Mock implements ILoadingService {}
 
 class MockDeviceInfoService extends Mock implements IDeviceInfoService {}
 
-class MockDio extends Mock implements Dio {}
-
 class MockSignUpApi extends Mock implements SignUpControllerApi {}
 
 final s = lookupS(const Locale('en'));
@@ -60,7 +58,7 @@ Future<void> _pump(WidgetTester tester, Widget page) async {
 
 Finder _button(String text) => find.ancestor(
   of: find.text(text),
-  matching: find.byWidgetPredicate((w) => w is ButtonStyleButton),
+  matching: find.bySubtype<ButtonStyleButton>(),
 );
 
 void main() {
@@ -80,18 +78,6 @@ void main() {
       ..registerSingleton<ILoadingService>(loading)
       ..registerSingleton<IDeviceInfoService>(deviceInfo);
 
-    // The account is activated without tokens, whichever API the build uses.
-    final dio = MockDio();
-    when(() => client.dio).thenReturn(dio);
-    when(
-      () => dio.post<Map<String, dynamic>>(
-        any(),
-        queryParameters: any(named: 'queryParameters'),
-      ),
-    ).thenAnswer(
-      (_) async =>
-          Response(requestOptions: RequestOptions(), data: <String, dynamic>{}),
-    );
     final signUpApi = MockSignUpApi();
     when(client.getSignUpControllerApi).thenReturn(signUpApi);
     when(
