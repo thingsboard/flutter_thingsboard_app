@@ -98,6 +98,7 @@ dev_dependencies:
   riverpod_generator: ^4.0.9
   json_serializable: ^6.15.2
   freezed: ^4.0.3
+  patrol: ^4.11.0
 
 flutter:
   uses-material-design: true
@@ -149,3 +150,9 @@ flutter_launcher_icons:
   # liquid_glass_translucency_ios: 0.3
   # liquid_glass_shadow_opacity_ios: 0.3
   ###
+
+# E2E tests (patrol_test/), run with `patrol test`. See CONTRIBUTING.md.
+patrol:
+  app_name: ThingsBoard App
+  android:
+    package_name: org.thingsboard.app

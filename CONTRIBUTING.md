@@ -81,6 +81,35 @@ The lint rules come from `package:lint` (strict) with the overrides in `analysis
 
 Add a test for a bug fix where the code allows it.
 
+## E2E tests
+
+End-to-end tests drive the app on an emulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite (`smoke/`). They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
+
+The `E2E` workflow runs them on an Android emulator after every merge into `develop/**`, on pull requests labeled `e2e:android` and from the Run workflow button. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
+
+It needs, in the repository settings:
+
+- variable `E2E_SERVER_URL`, the server (for example `https://tbqa.cloud`);
+- secrets `E2E_TENANT_EMAIL` and `E2E_TENANT_PASSWORD`, a tenant administrator on that server without two-factor login.
+
+Until they are set, the workflow skips E2E with a warning. The tests sign in that account once per run and stop on failure without retrying, so a wrong password cannot lock the account.
+
+To run them locally, install the Patrol CLI once (`dart pub global activate patrol_cli 4.9.0`), start an Android emulator and put the same values in a file outside the repository, for example `~/e2e_defines.json`:
+
+```json
+{
+  "thingsboardApiEndpoint": "https://tbqa.cloud",
+  "E2E_TENANT_EMAIL": "…",
+  "E2E_TENANT_PASSWORD": "…"
+}
+```
+
+```bash
+patrol test --target patrol_test/smoke --dart-define-from-file=$HOME/e2e_defines.json
+```
+
+The dashboard is a web view, so a test checks it by waiting for the text of its widget (`e2e-ready`) through the native accessibility tree (`$.platform.mobile.waitUntilVisible`).
+
 ## ThingsBoard client
 
 The app talks to the server through [`thingsboard_client`](https://github.com/thingsboard/dart_thingsboard_client), the generated Dart client. Import it directly:

@@ -1,0 +1,19 @@
+name: Set up Flutter
+description: Installs the Flutter version pinned in .fvmrc and gets the packages.
+
+runs:
+  using: composite
+  steps:
+    - name: Read the Flutter version from .fvmrc
+      id: fvm
+      shell: bash
+      run: echo "flutter=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+    - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+      with:
+        flutter-version: ${{ steps.fvm.outputs.flutter }}
+        channel: stable
+        cache: true
+    - name: Get packages
+      # Also runs gen-l10n.
+      shell: bash
+      run: flutter pub get
