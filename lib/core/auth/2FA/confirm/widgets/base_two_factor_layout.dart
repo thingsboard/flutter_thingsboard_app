@@ -4,40 +4,44 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class BaseTwoFactorLayout extends ConsumerWidget {
+class BaseTwoFactorLayout extends StatelessWidget {
   const BaseTwoFactorLayout({
     super.key,
     required this.title,
     required this.child,
 
     required this.isLoading,
+    this.onPopped,
   });
   final bool isLoading;
+
+  /// Called after Back has closed the page.
+  final VoidCallback? onPopped;
   final Widget child;
   final String title;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         PopScope(
           onPopInvokedWithResult: (didPop, result) {
-            // if (didPop) {
-            //   if(!ref.read(loginProvider).isFullyAuthenticated()) {
-            //     ref.read(loginProvider.notifier).logout();
-            //   }
-            // }
+            if (didPop) onPopped?.call();
           },
           child: Scaffold(
             appBar: TbAppBar(title: Text(title)),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-              child: child,
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
+                child: child,
+              ),
             ),
           ),
         ),

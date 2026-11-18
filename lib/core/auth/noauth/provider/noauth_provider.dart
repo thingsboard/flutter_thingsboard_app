@@ -12,12 +12,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
-import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
+import 'package:thingsboard_app/utils/services/endpoint/point_app_at.dart';
+import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
@@ -44,6 +46,9 @@ final class SwitchEndpointParams {
 /// The step the switch is currently on. The view resolves it to localized
 /// copy: the provider has no BuildContext.
 enum NoAuthStep {
+  /// A link without a login secret: whether the target is a ThingsBoard
+  /// server at all, before anything changes.
+  checkingServer,
   fetchingSession,
 
   /// Waiting for [NoauthProvider.answerConfirmation]; nothing changed yet.
@@ -57,6 +62,9 @@ enum NoAuthStep {
 enum NoAuthFailure {
   /// No HTTP answer from the target host at all (timeout, refused, DNS).
   connectionFailed,
+
+  /// The target host answers, but not as a ThingsBoard server.
+  notThingsBoard,
   tokenExchangeFailed,
   sessionInvalid,
 
@@ -164,6 +172,8 @@ class NoauthProvider extends _$NoauthProvider {
     // Resolved inside the try: a malformed link has to end on the error screen
     // like any other failure instead of leaving the view on the spinner.
     String? host;
+    // Set once the user accepts: a failure before that has nothing to undo.
+    var changed = false;
 
     try {
       host = resolveSwitchHost(params.data, previousEndpoint);
@@ -191,12 +201,16 @@ class NoauthProvider extends _$NoauthProvider {
         // login page) cannot log the user in: just switch to the target host
         // and let the login page of that host take over.
         if (!isSameOrigin) {
+          state = NoAuthState(step: NoAuthStep.checkingServer, host: host);
+          await _checkServer(host);
+          if (!ref.mounted) return;
           final accepted = await _confirm(host: host, signsIn: false);
           if (!ref.mounted) return;
           if (!accepted) {
             state = const NoAuthState(isCancelled: true);
             return;
           }
+          changed = true;
           await _stopLiveTracking();
           final previous = await _holdSignedInClient();
           await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
@@ -210,13 +224,14 @@ class NoauthProvider extends _$NoauthProvider {
             await _endSession(previous);
           }
         }
-        state = const NoAuthState(isDone: true);
+        _emit(const NoAuthState(isDone: true));
         return;
       }
 
       state = NoAuthState(step: NoAuthStep.fetchingSession, host: host);
       final session = await _exchangeSecret(host: host, secret: secret);
       final email = await _verifySession(host: host, token: session.token);
+      if (!ref.mounted) return;
 
       // Asked for every login code, the current server's too.
       final accepted = await _confirm(host: host, signsIn: true, email: email);
@@ -226,11 +241,14 @@ class NoauthProvider extends _$NoauthProvider {
         return;
       }
 
+      changed = true;
       await _stopLiveTracking();
       final previous = await _holdSignedInClient();
-      state = NoAuthState(
-        step: isSameOrigin ? NoAuthStep.loggingIn : NoAuthStep.switchingHost,
-        host: host,
+      _emit(
+        NoAuthState(
+          step: isSameOrigin ? NoAuthStep.loggingIn : NoAuthStep.switchingHost,
+          host: host,
+        ),
       );
       await _installSession(
         session,
@@ -243,17 +261,19 @@ class NoauthProvider extends _$NoauthProvider {
         if (!isSameOrigin) {
           await _rollBackFromOutdated(host, previousEndpoint, previousSession);
         }
-        state = const NoAuthState(isDone: true);
+        _emit(const NoAuthState(isDone: true));
         return;
       }
 
       await _endSession(previous);
       _logger.debug('SwitchEndpointUseCase: switch to $host done');
-      state = const NoAuthState(isDone: true);
+      _emit(const NoAuthState(isDone: true));
     } catch (e) {
       _logger.error('SwitchEndpointUseCase:catch $e', e);
-      await _rollbackTo(previousEndpoint, previousSession);
-      state = _failureState(e, host: host);
+      if (changed) {
+        await _rollbackTo(previousEndpoint, previousSession);
+      }
+      _emit(_failureState(e, host: host));
     }
   }
 
@@ -338,6 +358,43 @@ class NoauthProvider extends _$NoauthProvider {
 
     return target == previous.origin;
   }
+
+  /// Rejects a target that does not answer the public login info request
+  /// with a JSON object, as every ThingsBoard server from 3.9 on does. An
+  /// older server answers 404 and is reported as not ThingsBoard.
+  Future<void> _checkServer(String host) async {
+    final deviceInfo = getIt<IDeviceInfoService>();
+    final Response<Object?> response;
+    try {
+      response = await _hostClient(host).get<Object?>(
+        '/api/noauth/mobile',
+        queryParameters: {
+          'pkgName': deviceInfo.getApplicationId(),
+          'platform': deviceInfo.getPlatformType().name,
+        },
+      );
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      throw SwitchEndpointFailure(
+        _isUnavailable(status)
+            ? NoAuthFailure.connectionFailed
+            : NoAuthFailure.notThingsBoard,
+        status: status,
+        cause: e.type,
+      );
+    }
+    if (response.data is! Map) {
+      throw SwitchEndpointFailure(
+        NoAuthFailure.notThingsBoard,
+        status: response.statusCode,
+      );
+    }
+  }
+
+  /// No answer, or one a reverse proxy gives while the server restarts or
+  /// sheds load: the server may be fine a moment later.
+  static bool _isUnavailable(int? status) =>
+      status == null || status >= 500 || status == 408 || status == 429;
 
   /// Exchanges the one-time QR secret for a JWT pair on the TARGET host,
   /// which can differ from the current client's endpoint. Does not touch the
@@ -442,7 +499,7 @@ class NoauthProvider extends _$NoauthProvider {
     required String host,
     required String previousEndpoint,
   }) async {
-    state = NoAuthState(step: NoAuthStep.switchingHost, host: host);
+    _emit(NoAuthState(step: NoAuthStep.switchingHost, host: host));
     // A host switch without a login secret ends on the login page of the new
     // host: the previous host's session tokens are meaningless there. Cleared
     // in the storage, as the previous client may already be closed.
@@ -463,20 +520,7 @@ class NoauthProvider extends _$NoauthProvider {
     // If we revert to the original host configured in the app_constants
     final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
     if (!isCustom) {
-      await _initDefaultFbApp();
-    }
-  }
-
-  Future<void> _initDefaultFbApp() async {
-    try {
-      await getIt<IFirebaseService>().initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-    } catch (e) {
-      //Ignore this error if fcm is not configured
-      if (e is! UnsupportedError) {
-        rethrow;
-      }
+      await initDefaultFirebaseApp();
     }
   }
 
@@ -488,13 +532,11 @@ class NoauthProvider extends _$NoauthProvider {
   ) async {
     try {
       await _writeStoredSession(previousSession);
-      await getIt<IEndpointService>().setEndpoint(previousEndpoint);
-      await getIt<IFirebaseService>().clearApps();
-      final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
-      if (!isCustom) {
-        await _initDefaultFbApp();
-      }
-      await _reInitClient(previousEndpoint, logTag: 'rollback');
+      await pointAppAt(
+        previousEndpoint,
+        onDone: _reloadLoginInfo,
+        onAuthError: _logAuthError('rollback'),
+      );
     } catch (e) {
       _logger.error('SwitchEndpointUseCaseRollback:onError $e');
     }
@@ -503,15 +545,26 @@ class NoauthProvider extends _$NoauthProvider {
   Future<void> _reInitClient(String endpoint, {required String logTag}) {
     return getIt<ITbClientService>().reInit(
       endpoint: endpoint,
-      onDone: () => ref.invalidate(oauthProvider),
-      onAuthError: (e) {
-        // Client-level errors are surfaced by the client service itself;
-        // throwing here would escape the callback as an unhandled zone error
-        // and leak a raw stacktrace to the UI (PROD-8200).
-        _logger.error('SwitchEndpointUseCase:$logTag onAuthError $e');
-      },
+      onDone: _reloadLoginInfo,
+      onAuthError: _logAuthError(logTag),
     );
   }
+
+  void _reloadLoginInfo() {
+    if (ref.mounted) ref.invalidate(oauthProvider);
+  }
+
+  /// The view can go away while the switch runs, e.g. when the server update
+  /// page replaces it; the switch still finishes or rolls back.
+  void _emit(NoAuthState next) {
+    if (ref.mounted) state = next;
+  }
+
+  // Client-level errors are surfaced by the client service itself; throwing
+  // here would escape the callback as an unhandled zone error and leak a raw
+  // stacktrace to the UI.
+  ErrorCallback _logAuthError(String logTag) =>
+      (e) => _logger.error('SwitchEndpointUseCase:$logTag onAuthError $e');
 
   Dio _hostClient(String host) {
     final dio = Dio(

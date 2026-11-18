@@ -8,56 +8,34 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/dashboard_routes.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
-/// The page the app opens after sign-in.
-@immutable
-class HomeAfterSignIn {
-  const HomeAfterSignIn({required this.path, this.dashboardOnTop});
+/// [path] is where the app goes; [dashboardOnTop] opens over it, so Back
+/// leads to the main screen.
+typedef HomeAfterSignIn = ({String path, String? dashboardOnTop});
 
-  /// Where the app goes.
-  final String path;
+const _dashboardCheckTimeout = Duration(seconds: 5);
 
-  /// A dashboard opened over [path], so Back leads to the main screen.
-  final String? dashboardOnTop;
-
-  @override
-  bool operator ==(Object other) =>
-      other is HomeAfterSignIn &&
-      other.path == path &&
-      other.dashboardOnTop == dashboardOnTop;
-
-  @override
-  int get hashCode => Object.hash(path, dashboardOnTop);
-
-  @override
-  String toString() =>
-      'HomeAfterSignIn(path: $path, dashboardOnTop: $dashboardOnTop)';
-}
-
-/// Resolves the page to open after sign-in from the user's "Default
-/// dashboard" and "Always fullscreen" settings (`defaultDashboardId`,
-/// `defaultDashboardFullscreen` in the user's [additionalInfo]), as the web UI
-/// does.
-///
-/// A public user always gets the default dashboard fullscreen. A default
-/// dashboard that [canOpenDashboard] rejects is skipped. Without a default
-/// dashboard the first tab ([homePath]) opens; returns null when there is
+/// Picks the page to open after sign-in from the user's `defaultDashboardId`
+/// and `defaultDashboardFullscreen`, as the web UI does; null when there is
 /// nothing to open.
 Future<HomeAfterSignIn?> resolveHomeAfterSignIn({
   required String? homePath,
   required Map<String, Object?>? additionalInfo,
-  required bool isPublic,
   required bool canReadDashboards,
   required Future<bool> Function(String dashboardId) canOpenDashboard,
 }) async {
-  final home = homePath == null ? null : HomeAfterSignIn(path: homePath);
+  final HomeAfterSignIn? home = homePath == null
+      ? null
+      : (path: homePath, dashboardOnTop: null);
   final dashboardId = additionalInfo?['defaultDashboardId']?.toString();
   if (dashboardId == null ||
       dashboardId.isEmpty ||
@@ -65,51 +43,126 @@ Future<HomeAfterSignIn?> resolveHomeAfterSignIn({
       !await canOpenDashboard(dashboardId)) {
     return home;
   }
-  if (isPublic || additionalInfo?['defaultDashboardFullscreen'] == true) {
-    return HomeAfterSignIn(
+  if (additionalInfo?['defaultDashboardFullscreen'] == true) {
+    return (
       path: '${DashboardRoutes.fullscreenDashboard}/$dashboardId',
+      dashboardOnTop: null,
     );
   }
   if (homePath == null) {
     return null;
   }
-  return HomeAfterSignIn(path: homePath, dashboardOnTop: dashboardId);
+  return (path: homePath, dashboardOnTop: dashboardId);
 }
 
-/// Opens the page [resolveHomeAfterSignIn] picks for the signed-in user.
-Future<void> openHomeAfterSignIn(BuildContext context, WidgetRef ref) async {
+int _openRun = 0;
+
+/// Stops an [openHomeAfterSignIn] that has not finished, e.g. at sign-out.
+void cancelOpenHomeAfterSignIn() => _openRun++;
+
+/// Opens the page [resolveHomeAfterSignIn] picks and calls [onShown] once it
+/// is in place, the dashboard over it included. Returns false when there is
+/// nothing to open.
+Future<bool> openHomeAfterSignIn(
+  BuildContext context,
+  WidgetRef ref, {
+  VoidCallback? onShown,
+}) async {
+  final run = ++_openRun;
   final login = ref.read(loginProvider);
   final info = login.user?.additionalInfo;
-  final client = getIt<ITbClientService>().client;
   final target = await resolveHomeAfterSignIn(
     homePath: ref.read(navigationProvider.notifier).resolveHomePath(),
     additionalInfo: info != null && info.isMap
         ? info.asMap.cast<String, Object?>()
         : null,
-    isPublic: client.getAuthUser()?.isPublic ?? false,
     canReadDashboards: login.canReadDashboards,
     canOpenDashboard: _canOpenDashboard,
   );
-  if (target == null ||
-      !context.mounted ||
-      !ref.read(loginProvider).isFullyAuthenticated()) {
-    return;
+  if (target == null) {
+    return false;
   }
-  final router = GoRouter.of(context);
-  router.go(target.path);
-  final dashboardId = target.dashboardOnTop;
-  if (dashboardId == null) {
-    return;
-  }
-  // A push made before the redirects of go() have run would replace it.
-  if (await _arrivedAt(router, target.path)) {
-    getIt<ThingsboardAppRouter>().navigateToDashboard(
-      dashboardId,
-      animate: false,
+  if (run == _openRun &&
+      context.mounted &&
+      ref.read(loginProvider).isFullyAuthenticated()) {
+    await showHomeAfterSignIn(
+      GoRouter.of(context),
+      target,
+      isCurrent: () => run == _openRun,
+      onShown: onShown,
     );
   }
+  return true;
 }
 
+/// Goes to [target] and calls [onShown] once it is in place. Stops when
+/// [isCurrent] turns false before that.
+@visibleForTesting
+Future<void> showHomeAfterSignIn(
+  GoRouter router,
+  HomeAfterSignIn target, {
+  required bool Function() isCurrent,
+  VoidCallback? onShown,
+}) async {
+  router.go(target.path);
+  // A redirect may be asynchronous, and a push made before go() lands is
+  // based on the old stack, which then replaces the new one.
+  if (!await whenRouterAt(router, target.path, isCurrent: isCurrent)) {
+    return;
+  }
+  final dashboardId = target.dashboardOnTop;
+  if (dashboardId != null) {
+    router.push(
+      DashboardRoutes.dashboard,
+      extra: DashboardArgumentsEntity(id: dashboardId, animate: false),
+    );
+    if (!await whenRouterAt(
+      router,
+      DashboardRoutes.dashboard,
+      isCurrent: isCurrent,
+    )) {
+      return;
+    }
+  }
+  onShown?.call();
+}
+
+/// Completes with true once [router] is at [path], or with false once
+/// [isCurrent] is false at a route change before that.
+@visibleForTesting
+Future<bool> whenRouterAt(
+  GoRouter router,
+  String path, {
+  required bool Function() isCurrent,
+}) {
+  final target = Uri.parse(path).path;
+  bool isAt() => router.state.uri.path == target;
+  if (!isCurrent()) {
+    return Future.value(false);
+  }
+  if (isAt()) {
+    return Future.value(true);
+  }
+  final arrived = Completer<bool>();
+  void onChange() {
+    if (arrived.isCompleted) {
+      return;
+    }
+    if (!isCurrent()) {
+      arrived.complete(false);
+    } else if (isAt()) {
+      arrived.complete(true);
+    }
+  }
+
+  router.routerDelegate.addListener(onChange);
+  return arrived.future.whenComplete(
+    () => router.routerDelegate.removeListener(onChange),
+  );
+}
+
+/// Only a dashboard the server reports as missing or forbidden is skipped:
+/// after any other failure the dashboard opens and shows its own error.
 Future<bool> _canOpenDashboard(String dashboardId) async {
   try {
     await getIt<ITbClientService>().client
@@ -117,34 +170,23 @@ Future<bool> _canOpenDashboard(String dashboardId) async {
         .getDashboardInfoById(
           dashboardId: dashboardId,
           extra: silentRequestExtra(),
-        );
+        )
+        .timeout(_dashboardCheckTimeout);
     return true;
-  } catch (_) {
-    return false;
-  }
-}
-
-Future<bool> _arrivedAt(GoRouter router, String path) async {
-  final delegate = router.routerDelegate;
-  final target = Uri.parse(path).path;
-  bool arrived() => delegate.currentConfiguration.uri.path == target;
-  if (arrived()) {
-    return true;
-  }
-  final done = Completer<bool>();
-  void onChange() {
-    if (arrived() && !done.isCompleted) {
-      done.complete(true);
+  } catch (e) {
+    if (e is! TimeoutException) {
+      final error = toThingsboardError(e);
+      if (error.status == 403 ||
+          error.status == 404 ||
+          error.errorCode == ThingsBoardErrorCode.permissionDenied ||
+          error.errorCode == ThingsBoardErrorCode.itemNotFound) {
+        return false;
+      }
     }
-  }
-
-  delegate.addListener(onChange);
-  try {
-    return await done.future.timeout(
-      const Duration(seconds: 5),
-      onTimeout: () => false,
+    getIt<TbLogger>().warn(
+      'Could not check the default dashboard $dashboardId, opening it anyway',
+      e,
     );
-  } finally {
-    delegate.removeListener(onChange);
+    return true;
   }
 }

@@ -13,7 +13,9 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/route_handler.da
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/presentation/home_after_sign_in.dart';
+import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 
 class HomeHandler extends RouteHandler {
   late final ProviderSubscription<LoginState> _sub;
@@ -21,12 +23,21 @@ class HomeHandler extends RouteHandler {
   @override
   void subscribe(BuildContext context, WidgetRef ref) {
     _sub = ref.listenManual(loginProvider, (prev, next) {
+      if (!next.isFullyAuthenticated()) {
+        cancelOpenHomeAfterSignIn();
+        return;
+      }
       final path = GoRouterState.of(context).fullPath;
-      if (next.isFullyAuthenticated() &&
-          prev?.isFullyAuthenticated() == false &&
+      if (prev?.isFullyAuthenticated() == false &&
           path != LoginRoutes.login + LoginRoutes.updateRequired) {
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          scheduleMicrotask(() => openHomeAfterSignIn(context, ref));
+          scheduleMicrotask(
+            () => openHomeAfterSignIn(
+              context,
+              ref,
+              onShown: getIt<NotificationService>().onHomeShown,
+            ),
+          );
         });
       }
     });
@@ -34,6 +45,7 @@ class HomeHandler extends RouteHandler {
 
   @override
   void dispose() {
+    cancelOpenHomeAfterSignIn();
     _sub.close();
   }
 }

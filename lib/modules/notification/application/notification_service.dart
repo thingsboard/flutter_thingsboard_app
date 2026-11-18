@@ -82,7 +82,7 @@ class NotificationService {
 
     final message = await _messaging.getInitialMessage();
     if (message != null) {
-      NotificationService.handleClickOnNotification(message.data);
+      _openLaunchTarget(message.data);
     }
 
     await _handleLocalNotificationAppLaunch();
@@ -129,10 +129,6 @@ class NotificationService {
       _log.warn('NotificationService: FCM registration failed: $e');
       return null;
     }
-  }
-
-  Future<RemoteMessage?> initialMessage() {
-    return _messaging.getInitialMessage();
   }
 
   Future<void> logout() async {
@@ -203,6 +199,10 @@ class NotificationService {
   /// the registration flag is cleared last, so an interrupted teardown is
   /// retried by [cleanUpStalePushRegistration] on the next launch.
   Future<void> _tearDownLocalPushState() async {
+    // The next session, possibly another account or server, must neither
+    // open this session's launch target nor treat its Home as shown.
+    _launchTarget = null;
+    _homeShown = false;
     try {
       await _foregroundMessageSubscription?.cancel();
       await _onMessageOpenedAppSubscription?.cancel();
@@ -236,6 +236,28 @@ class NotificationService {
     );
   }
 
+  bool _homeShown = false;
+  Map<String, dynamic>? _launchTarget;
+
+  /// Opens the notification that launched the app, which [init] holds back
+  /// until then: the move to Home after a sign-in replaces every page below
+  /// it.
+  void onHomeShown() {
+    _homeShown = true;
+    final target = _launchTarget;
+    _launchTarget = null;
+    if (target != null) {
+      handleClickOnNotification(target);
+    }
+  }
+
+  void _openLaunchTarget(Map<String, dynamic> data) {
+    _launchTarget = data;
+    if (_homeShown) {
+      onHomeShown();
+    }
+  }
+
   bool _launchNotificationHandled = false;
 
   /// Handles a tap on a locally shown notification that started the app from
@@ -253,7 +275,7 @@ class NotificationService {
     final payload = launchDetails?.notificationResponse?.payload;
     if (launchDetails?.didNotificationLaunchApp == true && payload != null) {
       try {
-        handleClickOnNotification(json.decode(payload) as Map<String, dynamic>);
+        _openLaunchTarget(json.decode(payload) as Map<String, dynamic>);
       } catch (e) {
         _log.error('NotificationService::_handleLocalNotificationAppLaunch $e');
       }
