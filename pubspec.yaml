@@ -156,3 +156,5 @@ patrol:
   app_name: ThingsBoard App
   android:
     package_name: org.thingsboard.app
+  ios:
+    bundle_id: org.thingsboard.app

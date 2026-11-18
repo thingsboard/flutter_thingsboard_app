@@ -83,9 +83,9 @@ Add a test for a bug fix where the code allows it.
 
 ## E2E tests
 
-End-to-end tests drive the app on an emulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite (`smoke/`). They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
+End-to-end tests drive the app on an Android emulator or an iOS simulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite (`smoke/`). They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
 
-The `E2E` workflow runs them on an Android emulator after every merge into `develop/**`, on pull requests labeled `e2e:android` and from the Run workflow button. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
+The `E2E` workflow runs them on an Android emulator and an iOS simulator after every merge into `develop/**`, on pull requests labeled `e2e:android` or `e2e:ios` (each label runs its platform) and from the Run workflow button, where the `platform` input picks Android (the default), iOS or both. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
 
 It needs, in the repository settings:
 
@@ -107,6 +107,14 @@ To run them locally, install the Patrol CLI once (`dart pub global activate patr
 ```bash
 patrol test --target patrol_test/smoke --dart-define-from-file=$HOME/e2e_defines.json
 ```
+
+On iOS the tests run on a simulator through the `RunnerUITests` target. Boot a simulator and pass its name or identifier, and its iOS version unless it is the newest one installed:
+
+```bash
+patrol test --target patrol_test/smoke --dart-define-from-file=$HOME/e2e_defines.json --device "iPhone 17" --ios 26.5
+```
+
+Patrol starts the app by the bundle id in the `patrol:` section of `pubspec.yaml`, the default `org.thingsboard.app`, so leave `iosApplicationId` out of the file.
 
 The dashboard is a web view, so a test checks it by waiting for the text of its widget (`e2e-ready`) through the native accessibility tree (`$.platform.mobile.waitUntilVisible`).
 

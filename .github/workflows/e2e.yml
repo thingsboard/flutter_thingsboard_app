@@ -1,8 +1,9 @@
 name: E2E
 
 # Patrol tests against the E2E server (CONTRIBUTING.md, "E2E tests").
-# Runs after every merge, on pull requests labeled `e2e:android`, and from the
-# Run workflow button. Not a required check yet.
+# Runs after every merge, on pull requests labeled `e2e:android` or `e2e:ios`
+# (one job per label), and from the Run workflow button. Not a required check
+# yet.
 on:
   push:
     branches: ['develop/**']
@@ -16,8 +17,13 @@ on:
         type: choice
         options: [smoke]
         default: smoke
+      platform:
+        description: Platform
+        type: choice
+        options: [android, ios, both]
+        default: android
       os:
-        description: Android version
+        description: OS version (latest is Android 16 and iOS 26, oldest is Android 13 and iOS 17)
         type: choice
         options: [latest, oldest]
         default: latest
@@ -39,7 +45,10 @@ jobs:
         github.event_name != 'pull_request' || (
           github.event.pull_request.head.repo.full_name == github.repository &&
           (github.event.action != 'labeled' || startsWith(github.event.label.name, 'e2e:')) &&
-          contains(github.event.pull_request.labels.*.name, 'e2e:android')
+          (
+            contains(github.event.pull_request.labels.*.name, 'e2e:android') ||
+            contains(github.event.pull_request.labels.*.name, 'e2e:ios')
+          )
         )
       )
     runs-on: ubuntu-latest
@@ -64,8 +73,10 @@ jobs:
   android:
     name: E2E Android
     needs: settings
+    # `inputs.platform` is empty unless the run was started by hand, so a merge
+    # runs both platforms.
     if: >-
-      needs.settings.outputs.ready == 'true' && (
+      needs.settings.outputs.ready == 'true' && inputs.platform != 'ios' && (
         github.event_name != 'pull_request' ||
         contains(github.event.pull_request.labels.*.name, 'e2e:android')
       )
@@ -145,4 +156,91 @@ jobs:
           path: |
             build/app/outputs/androidTest-results
             build/app/reports/androidTests
+          retention-days: 7
+
+  ios:
+    name: E2E iOS
+    needs: settings
+    if: >-
+      needs.settings.outputs.ready == 'true' && inputs.platform != 'android' && (
+        github.event_name != 'pull_request' ||
+        contains(github.event.pull_request.labels.*.name, 'e2e:ios')
+      )
+    # A new push to the pull request cancels the iOS run in progress.
+    concurrency:
+      group: e2e-ios-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    # Xcode 26 with iOS 26 simulators; the default Xcode of the image is used.
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      # iOS 26 and iOS 17, the newest and the oldest version the app is tested on.
+      IOS_VERSION: ${{ inputs.os == 'oldest' && '17' || '26' }}
+      DEVICE_TYPE: ${{ inputs.os == 'oldest' && 'iPhone 15' || 'iPhone 17' }}
+      SUITE: ${{ inputs.suite || 'smoke' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: ./.github/actions/setup-flutter
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          # The plugins without Swift Package Manager support.
+          path: ios/Pods
+          key: pods-${{ runner.os }}-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}
+          restore-keys: pods-${{ runner.os }}-
+      - name: Install Patrol CLI
+        # patrol_cli 4.7+ works with the patrol 4.9+ package in pubspec.yaml.
+        run: |
+          dart pub global activate patrol_cli 4.9.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Write the test settings
+        # A file rather than --dart-define arguments, so the password is not
+        # on a command line and needs no shell quoting.
+        env:
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+          E2E_TENANT_EMAIL: ${{ secrets.E2E_TENANT_EMAIL }}
+          E2E_TENANT_PASSWORD: ${{ secrets.E2E_TENANT_PASSWORD }}
+          E2E_RUN_ID: gh${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          jq -n '{
+            thingsboardApiEndpoint: env.E2E_SERVER_URL,
+            E2E_TENANT_EMAIL: env.E2E_TENANT_EMAIL,
+            E2E_TENANT_PASSWORD: env.E2E_TENANT_PASSWORD,
+            E2E_RUN_ID: env.E2E_RUN_ID
+          }' > "$RUNNER_TEMP/e2e_defines.json"
+      - name: Download the iOS 17 simulator runtime
+        # The image has only iOS 26 runtimes.
+        if: inputs.os == 'oldest'
+        run: xcodebuild -downloadPlatform iOS -buildVersion 17.5
+      - name: Boot an iOS ${{ env.IOS_VERSION }} simulator
+        id: simulator
+        run: |
+          xcodebuild -version
+          # The newest installed runtime of that iOS version.
+          runtime=$(xcrun simctl list runtimes --json | jq -c --arg major "$IOS_VERSION" '
+            [.runtimes[] | select(.platform == "iOS" and .isAvailable and (.version | startswith($major + ".")))]
+            | sort_by(.version | split(".") | map(tonumber)) | last')
+          if [ "$runtime" = "null" ]; then
+            echo "::error::No iOS $IOS_VERSION simulator runtime on this image."
+            xcrun simctl list runtimes
+            exit 1
+          fi
+          udid=$(xcrun simctl create e2e "$DEVICE_TYPE" "$(jq -r .identifier <<< "$runtime")")
+          xcrun simctl bootstatus "$udid" -b
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+          echo "version=$(jq -r .version <<< "$runtime")" >> "$GITHUB_OUTPUT"
+      - name: Run the ${{ env.SUITE }} suite on iOS ${{ steps.simulator.outputs.version }}
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+          SIMULATOR_VERSION: ${{ steps.simulator.outputs.version }}
+        run: |
+          patrol test --target "patrol_test/$SUITE" \
+            --dart-define-from-file="$RUNNER_TEMP/e2e_defines.json" \
+            --device "$SIMULATOR_UDID" --ios "$SIMULATOR_VERSION"
+      - name: Upload the test results
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-ios-${{ steps.simulator.outputs.version || env.IOS_VERSION }}-results
+          # Open the .xcresult in Xcode for the log and screenshots of each test.
+          path: build/ios_results_*.xcresult
           retention-days: 7
