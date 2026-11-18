@@ -3,6 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +14,9 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../helpers/connection_error.dart';
 import '../helpers/test_dependencies.dart';
 
 class MockEndpointService extends Mock implements IEndpointService {}
@@ -170,5 +175,61 @@ void main() {
         },
       );
     }
+  });
+
+  group('connection errors', () {
+    test('a refused connection or a connect timeout', () {
+      expect(Utils.isConnectionError(connectionError()), isTrue);
+      expect(
+        Utils.isConnectionError(
+          connectionError(type: DioExceptionType.connectionTimeout),
+        ),
+        isTrue,
+      );
+    });
+
+    test('a socket error while the request was under way', () {
+      final error = toThingsboardError(
+        DioException(
+          requestOptions: RequestOptions(),
+          error: const SocketException('Connection reset by peer'),
+        ),
+      );
+
+      expect(Utils.isConnectionError(error), isTrue);
+    });
+
+    test('not an answer from the server, whatever its message', () {
+      expect(
+        Utils.isConnectionError(
+          ThingsboardError(
+            message: 'Unable to connect',
+            errorCode: ThingsBoardErrorCode.general,
+            status: 500,
+          ),
+        ),
+        isFalse,
+      );
+      expect(
+        Utils.isConnectionError(
+          ThingsboardError(
+            message: 'Unable to connect',
+            errorCode: ThingsBoardErrorCode.general,
+          ),
+        ),
+        isFalse,
+      );
+      expect(
+        Utils.isConnectionError(
+          toThingsboardError(
+            DioException(
+              requestOptions: RequestOptions(),
+              type: DioExceptionType.receiveTimeout,
+            ),
+          ),
+        ),
+        isFalse,
+      );
+    });
   });
 }

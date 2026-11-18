@@ -7,14 +7,13 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_confirm_state.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
-import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 part 'two_factor_confirm_provider.g.dart';
@@ -68,27 +67,22 @@ class TwoFactorConfirm extends _$TwoFactorConfirm {
   }
 
   void _showRejection(ThingsboardError error) {
-    if (error.errorCode == ThingsBoardErrorCode.jwtTokenExpired) {
-      // The time allowed for verification ran out: only a new sign-in helps.
-      getIt<IOverlayService>().showErrorNotification(
-        (context) => S.of(context).sessionExpired,
-      );
-      ref.read(loginProvider.notifier).logout();
-      return;
+    switch (TwoFaCodeRejection.of(error)) {
+      case TwoFaCodeRejection.sessionExpired:
+        reportSessionExpired(ref.read(loginProvider.notifier).logout);
+      case TwoFaCodeRejection.noConnection:
+        getIt<IOverlayService>().showConnectionErrorDialog();
+        state = state.copyWith(codeState: CodeState.empty);
+      case TwoFaCodeRejection.invalid:
+        state = state.copyWith(codeState: CodeState.invalid);
+      case TwoFaCodeRejection.tooManyRequests:
+        state = state.copyWith(codeState: CodeState.tooManyRequests);
+      case TwoFaCodeRejection.other:
+        state = state.copyWith(
+          codeState: CodeState.rejected,
+          rejectionMessage: error.message,
+        );
     }
-    if (Utils.isConnectionError(error)) {
-      getIt<IOverlayService>().showConnectionErrorDialog();
-      state = state.copyWith(codeState: CodeState.empty);
-      return;
-    }
-    state = switch (error.status) {
-      400 => state.copyWith(codeState: CodeState.invalid),
-      429 => state.copyWith(codeState: CodeState.tooManyRequests),
-      _ => state.copyWith(
-        codeState: CodeState.rejected,
-        rejectionMessage: error.message,
-      ),
-    };
   }
 
   Future<void> sendCode() async {

@@ -12,6 +12,7 @@ import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 /// The 2FA setup an administrator requires: the session can only set up a
@@ -25,75 +26,77 @@ class TwoFactorAuthForceDescription extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final email = this.email;
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
+      body: SafeArea(
+        child: FillScrollView(
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 24,
+                    children: [
+                      SvgPicture.asset(
+                        ThingsboardImage.twoFaSetup,
+                        colorFilter: ColorFilter.mode(
+                          Theme.of(context).primaryColor,
+                          BlendMode.srcIn,
+                        ),
+                        width: 140,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 8,
+                          children: [
+                            Text(
+                              S.of(context).twofactorAuthenticationIsRequired,
+                              style: TbTextStyles.titleSmallSb,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              email != null
+                                  ? S.of(context).twoFaRequiredByAdmin(email)
+                                  : S
+                                        .of(context)
+                                        .setUpAVerificationMethodToContinueWithYourLogin,
+                              style: TbTextStyles.bodyMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 24,
+                  spacing: 8,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SvgPicture.asset(
-                      ThingsboardImage.twoFaSetup,
-                      colorFilter: ColorFilter.mode(
-                        Theme.of(context).primaryColor,
-                        BlendMode.srcIn,
-                      ),
-                      width: 140,
+                    FilledButton(
+                      onPressed: () {
+                        context.pushReplacement(
+                          '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=true',
+                        );
+                      },
+                      child: Text(S.of(context).setUpAVerificationMethod),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: 8,
-                        children: [
-                          Text(
-                            S.of(context).twofactorAuthenticationIsRequired,
-                            style: TbTextStyles.titleSmallSb,
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            email != null
-                                ? S.of(context).twoFaRequiredByAdmin(email)
-                                : S
-                                      .of(context)
-                                      .setUpAVerificationMethodToContinueWithYourLogin,
-                            style: TbTextStyles.bodyMedium,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                    TextButton(
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).logout();
+                        context.go(LoginRoutes.login);
+                      },
+                      child: Text(S.of(context).logout),
                     ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                spacing: 8,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  FilledButton(
-                    onPressed: () {
-                      context.pushReplacement(
-                        '${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=true',
-                      );
-                    },
-                    child: Text(S.of(context).setUpAVerificationMethod),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      ref.read(loginProvider.notifier).logout();
-                      context.go(LoginRoutes.login);
-                    },
-                    child: Text(S.of(context).logout),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       appBar: TbAppBar(
