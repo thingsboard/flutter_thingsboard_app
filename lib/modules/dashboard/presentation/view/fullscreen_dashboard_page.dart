@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
@@ -56,10 +57,12 @@ class _FullscreenDashboardPageState
           valueListenable: showBackValue,
           builder: (context, canGoBack, widget) {
             return TbAppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: _handleBack,
-              ),
+              leading: canGoBack || context.canPop()
+                  ? IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: _handleBack,
+                    )
+                  : null,
               elevation: 1,
               shadowColor: Colors.transparent,
               title: ValueListenableBuilder<String>(
@@ -88,23 +91,25 @@ class _FullscreenDashboardPageState
       ),
       body: DashboardBackHandler(
         onBack: _handleBack,
-        child: ValueListenableBuilder<String?>(
-          valueListenable: getIt<IEndpointService>().listenEndpointChanges,
-          builder: (context, _, _) => DashboardWidget(
-            titleCallback: (title) {
-              dashboardTitleValue.value = title;
-            },
-            controllerCallback: (controller, _) {
-              _dashboardController = controller;
+        child: SafeArea(
+          child: ValueListenableBuilder<String?>(
+            valueListenable: getIt<IEndpointService>().listenEndpointChanges,
+            builder: (context, _, _) => DashboardWidget(
+              titleCallback: (title) {
+                dashboardTitleValue.value = title;
+              },
+              controllerCallback: (controller, _) {
+                _dashboardController = controller;
 
-              controller.canGoBack.addListener(() {
-                _onCanGoBack(controller.canGoBack.value);
-              });
-              controller.openDashboard(
-                widget.fullscreenDashboardId,
-                fullscreen: true,
-              );
-            },
+                controller.canGoBack.addListener(() {
+                  _onCanGoBack(controller.canGoBack.value);
+                });
+                controller.openDashboard(
+                  widget.fullscreenDashboardId,
+                  fullscreen: true,
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -139,8 +144,13 @@ class _FullscreenDashboardPageState
     if (await DashboardBackHandler.tryNavigateBack(_dashboardController)) {
       return;
     }
-    if (mounted && context.canPop()) {
+    if (!mounted) {
+      return;
+    }
+    if (context.canPop()) {
       Navigator.of(context).pop();
+    } else {
+      await SystemNavigator.pop();
     }
   }
 }
