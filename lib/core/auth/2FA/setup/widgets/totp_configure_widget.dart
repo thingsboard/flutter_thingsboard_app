@@ -11,11 +11,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/step_chip.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -129,7 +132,11 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
                 formControlName: 'verificationCode',
                 label: S.of(context).digitsCode(6),
                 hint: S.of(context).digitsCode(6),
-                onMaxLengthReched: () => _handleCodeSubmit(context, form),
+                onMaxLengthReched: () => _handleCodeSubmit(
+                  context,
+                  form,
+                  ref.read(loginProvider.notifier).logout,
+                ),
               ),
             ),
           ],
@@ -155,7 +162,11 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
     );
   }
 
-  Future<void> _handleCodeSubmit(BuildContext context, FormGroup form) async {
+  Future<void> _handleCodeSubmit(
+    BuildContext context,
+    FormGroup form,
+    Future<void> Function() logout,
+  ) async {
     FocusScope.of(context).unfocus();
     final verificationCode = form.control('verificationCode').value?.toString();
 
@@ -170,12 +181,11 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
           .verifyAndSaveTwoFaAccountConfig(
             twoFaAccountConfig: config,
             verificationCode: verificationCode,
+            extra: silentRequestExtra(),
           );
       onConfigured();
     } catch (e) {
-      form
-          .control('verificationCode')
-          .rejectCode(TbValicationMessages.invalidCode);
+      form.control('verificationCode').showCodeRejection(e, logout: logout);
     } finally {
       loading.value = false;
     }

@@ -16,6 +16,7 @@ import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/widgets/fill_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class TwoFactorAuthConfigSuccess extends ConsumerWidget {
@@ -43,97 +44,99 @@ class TwoFactorAuthConfigSuccess extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 24,
-                      children: [
-                        SvgPicture.asset(
-                          ThingsboardImage.twoFaConfigured,
-                          colorFilter: ColorFilter.mode(
-                            Theme.of(context).primaryColor,
-                            BlendMode.srcIn,
+          SafeArea(
+            child: FillScrollView(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 24,
+                        children: [
+                          SvgPicture.asset(
+                            ThingsboardImage.twoFaConfigured,
+                            colorFilter: ColorFilter.mode(
+                              Theme.of(context).primaryColor,
+                              BlendMode.srcIn,
+                            ),
+                            width: 140,
                           ),
-                          width: 140,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                S
-                                    .of(context)
-                                    .twoFaProviderEnabled(
-                                      data.nameFunction(context),
-                                    ),
-                                style: TbTextStyles.titleSmallSb,
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                data.setupSuccessDescription(context),
-                                style: TbTextStyles.bodyMedium,
-                                textAlign: TextAlign.center,
-                              ),
-                              if (suggestBackupCodes)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: Text(
-                                    S.of(context).addBackupCodesHint,
-                                    style: TbTextStyles.bodyMedium,
-                                    textAlign: TextAlign.center,
-                                  ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  S
+                                      .of(context)
+                                      .twoFaProviderEnabled(
+                                        data.nameFunction(context),
+                                      ),
+                                  style: TbTextStyles.titleSmallSb,
+                                  textAlign: TextAlign.center,
                                 ),
-                            ],
+                                Text(
+                                  data.setupSuccessDescription(context),
+                                  style: TbTextStyles.bodyMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+                                if (suggestBackupCodes)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: Text(
+                                      S.of(context).addBackupCodesHint,
+                                      style: TbTextStyles.bodyMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      spacing: 8,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: () {
+                              if (isForce) {
+                                ref.read(loginProvider.notifier).logout();
+                                context.pushReplacement(LoginRoutes.login);
+                                return;
+                              }
+                              context.pop();
+                            },
+                            child: Text(
+                              isForce
+                                  ? S.of(context).loginToApp
+                                  : S.of(context).done,
+                            ),
                           ),
                         ),
+                        if (canAddMethod)
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                context.pushReplacement(
+                                  "${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce",
+                                );
+                              },
+                              child: Text(S.of(context).addVerificationMethod),
+                            ),
+                          ),
                       ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    spacing: 8,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () {
-                            if (isForce) {
-                              ref.read(loginProvider.notifier).logout();
-                              context.pushReplacement(LoginRoutes.login);
-                              return;
-                            }
-                            context.pop();
-                          },
-                          child: Text(
-                            isForce
-                                ? S.of(context).loginToApp
-                                : S.of(context).done,
-                          ),
-                        ),
-                      ),
-                      if (canAddMethod)
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              context.pushReplacement(
-                                "${LoginRoutes.login}${LoginRoutes.mfaConfigure}?force=$isForce",
-                              );
-                            },
-                            child: Text(S.of(context).addVerificationMethod),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           if (platformConfig.isLoading || userSettings.isLoading)
