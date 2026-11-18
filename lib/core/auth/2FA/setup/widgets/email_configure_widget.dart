@@ -10,11 +10,14 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_code_rejection.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
+import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
@@ -102,7 +105,11 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
       },
       data: providerData,
       onSubmnit: (control) async {
-        await _onCodeSubmit(control, form);
+        await _onCodeSubmit(
+          control,
+          form,
+          ref.read(loginProvider.notifier).logout,
+        );
       },
       title: providerData.descFunction(
         context,
@@ -144,29 +151,31 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
   Future<void> _onCodeSubmit(
     AbstractControl<dynamic> control,
     FormGroup form,
+    Future<void> Function() logout,
   ) async {
     final code = control.value?.toString();
     if (code == null || code.isEmpty) {
       return;
     }
 
+    final email = form.control('email').value?.toString();
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     loading.value = true;
     try {
-      final email = form.control('email').value?.toString();
-      if (email == null || email.isEmpty) {
-        throw Exception('Email is required');
-      }
-
       final updatedConfig = config.rebuild((b) => b..email = email);
       await getIt<ITbClientService>().client
           .getTwoFactorAuthConfigControllerApi()
           .verifyAndSaveTwoFaAccountConfig(
             twoFaAccountConfig: updatedConfig,
             verificationCode: code,
+            extra: silentRequestExtra(),
           );
       onConfigured();
     } catch (e) {
-      control.rejectCode(TbValicationMessages.invalidCode);
+      control.showCodeRejection(e, logout: logout);
     } finally {
       loading.value = false;
     }

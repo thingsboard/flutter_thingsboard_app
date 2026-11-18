@@ -5,7 +5,6 @@
 
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
@@ -21,6 +20,7 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/connection_error.dart';
 import '../../../../helpers/test_dependencies.dart';
 
 class MockCommunicationService extends Mock implements ICommunicationService {}
@@ -140,22 +140,13 @@ void main() {
 
   test('an unreachable server offers retry in the connection-error dialog, '
       'which replaces the plain one', () async {
-    // What the generated APIs throw for a refused connection.
     when(
       () => mobileApi.getUserMobileInfo(
         pkgName: any(named: 'pkgName'),
         platform: any(named: 'platform'),
         extra: any(named: 'extra'),
       ),
-    ).thenThrow(
-      DioException(
-        requestOptions: RequestOptions(),
-        error: ThingsboardError(
-          message: 'Unable to connect',
-          errorCode: ThingsBoardErrorCode.general,
-        ),
-      ),
-    );
+    ).thenThrow(unreachableServer());
     when(
       () => overlay.showConnectionErrorRetryDialog(
         content: any(named: 'content'),

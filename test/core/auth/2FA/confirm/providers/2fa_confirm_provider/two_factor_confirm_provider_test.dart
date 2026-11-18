@@ -19,6 +19,7 @@ import 'package:thingsboard_app/utils/services/device_info/i_device_info_service
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../../../helpers/connection_error.dart';
 import '../../../../../../helpers/test_dependencies.dart';
 
 class MockTwoFactorAuthControllerApi extends Mock
@@ -198,12 +199,7 @@ void main() {
     });
 
     test('could not reach the server: the code can be sent again', () async {
-      await check(
-        ThingsboardError(
-          message: 'Unable to connect',
-          errorCode: ThingsBoardErrorCode.general,
-        ),
-      );
+      await check(connectionError());
 
       expect(state().codeState, CodeState.empty);
       verify(overlay.showConnectionErrorDialog).called(1);
@@ -247,12 +243,7 @@ void main() {
       expect(state().loading, isTrue);
       expect(state().codeState, CodeState.empty);
       expect(state().rejectionMessage, isNull);
-      answer.completeError(
-        ThingsboardError(
-          message: 'Unable to connect',
-          errorCode: ThingsBoardErrorCode.general,
-        ),
-      );
+      answer.completeError(connectionError());
       await next;
       expect(state().codeState, CodeState.empty);
     });

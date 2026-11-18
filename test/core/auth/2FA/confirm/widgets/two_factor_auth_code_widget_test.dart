@@ -16,6 +16,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../../helpers/connection_error.dart';
 import '../../../../../helpers/test_dependencies.dart';
 
 class MockTwoFactorAuthControllerApi extends Mock
@@ -107,12 +108,7 @@ void main() {
 
       await submit(tester, '222222');
       expect(find.text(_incorrect), findsNothing);
-      answer.completeError(
-        ThingsboardError(
-          message: 'Unable to connect',
-          errorCode: ThingsBoardErrorCode.general,
-        ),
-      );
+      answer.completeError(connectionError());
       await tester.pumpAndSettle();
 
       expect(find.text(_incorrect), findsNothing);
