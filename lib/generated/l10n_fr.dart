@@ -1402,7 +1402,7 @@ class SFr extends S {
   }
 
   @override
-  String get selectAll => 'Tout sélectionner (chargées)';
+  String get selectAll => 'Tout sélectionner';
 
   @override
   String failedToPerformOperation(int count) {

@@ -472,7 +472,7 @@
       }
     }
   },
-  "selectAll": "Selectează toate cele încărcate",
+  "selectAll": "Selectează toate",
   "failedToPerformOperation": "{count, plural, one{{count} operațiune eșuată} few{{count} operațiuni eșuate} other{{count} de operațiuni eșuate}}",
   "@failedToPerformOperation": {
     "placeholders": {

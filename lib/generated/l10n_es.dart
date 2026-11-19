@@ -1404,7 +1404,7 @@ class SEs extends S {
   }
 
   @override
-  String get selectAll => 'Seleccionar todas las cargadas';
+  String get selectAll => 'Seleccionar todas';
 
   @override
   String failedToPerformOperation(int count) {

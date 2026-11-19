@@ -1406,7 +1406,7 @@ class SCa extends S {
   }
 
   @override
-  String get selectAll => 'Selecciona totes les carregades';
+  String get selectAll => 'Selecciona totes';
 
   @override
   String failedToPerformOperation(int count) {

@@ -1408,7 +1408,7 @@ class SRo extends S {
   }
 
   @override
-  String get selectAll => 'Selectează toate cele încărcate';
+  String get selectAll => 'Selectează toate';
 
   @override
   String failedToPerformOperation(int count) {

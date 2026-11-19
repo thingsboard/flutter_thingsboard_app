@@ -472,7 +472,7 @@
       }
     }
   },
-  "selectAll": "ყველა ჩატვირთულის არჩევა",
+  "selectAll": "ყველას არჩევა",
   "failedToPerformOperation": "{count, plural, =1{1 ოპერაცია ვერ შესრულდა} other{{count} ოპერაცია ვერ შესრულდა}}",
   "@failedToPerformOperation": {
     "placeholders": {

@@ -472,7 +472,7 @@
       }
     }
   },
-  "selectAll": "Zaznacz wszystkie załadowane",
+  "selectAll": "Zaznacz wszystkie",
   "failedToPerformOperation": "{count, plural, one{{count} operacja nie powiodła się} few{{count} operacje nie powiodły się} other{{count} operacji nie powiodło się}}",
   "@failedToPerformOperation": {
     "placeholders": {

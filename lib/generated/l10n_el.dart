@@ -1407,7 +1407,7 @@ class SEl extends S {
   }
 
   @override
-  String get selectAll => 'Επιλογή όλων των φορτωμένων';
+  String get selectAll => 'Επιλογή όλων';
 
   @override
   String failedToPerformOperation(int count) {

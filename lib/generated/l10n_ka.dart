@@ -1401,7 +1401,7 @@ class SKa extends S {
   }
 
   @override
-  String get selectAll => 'ყველა ჩატვირთულის არჩევა';
+  String get selectAll => 'ყველას არჩევა';
 
   @override
   String failedToPerformOperation(int count) {

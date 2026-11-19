@@ -1403,7 +1403,7 @@ class SPt extends S {
   }
 
   @override
-  String get selectAll => 'Selecionar todas as carregadas';
+  String get selectAll => 'Selecionar todas';
 
   @override
   String failedToPerformOperation(int count) {

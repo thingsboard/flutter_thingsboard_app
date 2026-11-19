@@ -472,7 +472,7 @@
       }
     }
   },
-  "selectAll": "Seleccionar todas las cargadas",
+  "selectAll": "Seleccionar todas",
   "failedToPerformOperation": "{count, plural, =1{Falló 1 operación} other{Fallaron {count} operaciones}}",
   "@failedToPerformOperation": {
     "placeholders": {

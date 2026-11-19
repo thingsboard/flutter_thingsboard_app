@@ -1411,7 +1411,7 @@ class SPl extends S {
   }
 
   @override
-  String get selectAll => 'Zaznacz wszystkie załadowane';
+  String get selectAll => 'Zaznacz wszystkie';
 
   @override
   String failedToPerformOperation(int count) {
