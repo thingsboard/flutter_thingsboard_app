@@ -224,10 +224,28 @@ jobs:
             xcrun simctl list runtimes
             exit 1
           fi
+          # Patrol gives xcodebuild 1 second to find the simulator; keep only
+          # the test simulator so Xcode has one device to load, not dozens.
+          xcrun simctl delete all
           udid=$(xcrun simctl create e2e "$DEVICE_TYPE" "$(jq -r .identifier <<< "$runtime")")
           xcrun simctl bootstatus "$udid" -b
           echo "udid=$udid" >> "$GITHUB_OUTPUT"
           echo "version=$(jq -r .version <<< "$runtime")" >> "$GITHUB_OUTPUT"
+      - name: Wait for Xcode to list the simulator
+        # Right after boot, Xcode's device list can still be loading.
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          for attempt in $(seq 1 30); do
+            if xcrun xctrace list devices 2>/dev/null | grep -q "$SIMULATOR_UDID"; then
+              echo "Xcode lists the simulator (attempt $attempt)."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Xcode does not list the simulator $SIMULATOR_UDID after 5 minutes."
+          xcrun xctrace list devices
+          exit 1
       - name: Run the ${{ env.SUITE }} suite on iOS ${{ steps.simulator.outputs.version }}
         env:
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
