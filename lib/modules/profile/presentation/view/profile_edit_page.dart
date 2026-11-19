@@ -553,7 +553,7 @@ Future<void> _saveProfile(
     updatedAdditionalInfo['unitSystem'] = unitSystem;
   }
   final lang = additionalInfoForm.control('lang').value as Locale;
-  // Keeps a language the app does not translate (uk_UA) unless the user
+  // Keeps a language the app does not translate (sv_SE) unless the user
   // picks another one.
   if (lang == autoLanguage) {
     updatedAdditionalInfo.remove('lang');

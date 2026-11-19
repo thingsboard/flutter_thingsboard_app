@@ -20,7 +20,8 @@ void main() {
     test('keeps the Chinese regions apart', () {
       expect(localeFromTbCode('zh_CN'), const Locale('zh', 'CN'));
       expect(localeFromTbCode('zh_TW'), const Locale('zh', 'TW'));
-      expect(localeFromTbCode('zh_HK'), const Locale('zh'));
+      expect(localeFromTbCode('zh_HK'), const Locale('zh', 'TW'));
+      expect(localeFromTbCode('zh_SG'), const Locale('zh'));
     });
 
     test('accepts language-only and BCP 47 codes', () {
@@ -29,7 +30,7 @@ void main() {
     });
 
     test('returns null for a language the app does not translate', () {
-      expect(localeFromTbCode('uk_UA'), isNull);
+      expect(localeFromTbCode('sv_SE'), isNull);
       expect(localeFromTbCode(''), isNull);
       expect(localeFromTbCode(null), isNull);
     });
@@ -46,12 +47,33 @@ void main() {
       const Locale('no'),
     );
     expect(
-      resolveAppLocale(const [Locale('uk', 'UA')], S.supportedLocales),
+      resolveAppLocale(const [Locale('sv', 'SE')], S.supportedLocales),
       const Locale('en'),
     );
     expect(
       resolveAppLocale(const [Locale('zh', 'TW')], S.supportedLocales),
       const Locale('zh', 'TW'),
+    );
+  });
+
+  test('a Traditional Chinese device gets the Taiwan translation', () {
+    expect(
+      resolveAppLocale(const [
+        Locale.fromSubtags(
+          languageCode: 'zh',
+          scriptCode: 'Hant',
+          countryCode: 'HK',
+        ),
+      ], S.supportedLocales),
+      const Locale('zh', 'TW'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('zh', 'MO')], S.supportedLocales),
+      const Locale('zh', 'TW'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('zh', 'SG')], S.supportedLocales),
+      const Locale('zh'),
     );
   });
 
@@ -65,8 +87,10 @@ void main() {
   group('tbLocaleCode', () {
     test('round-trips every supported locale', () {
       for (final code in [
-        'ar_AE', 'da_DK', 'de_DE', 'el_GR', 'en_US', 'es_ES', 'fr_FR', //
-        'it_IT', 'nl_NL', 'no_NO', 'vi_VN', 'zh_CN', 'zh_TW',
+        'ar_AE', 'ca_ES', 'cs_CZ', 'da_DK', 'de_DE', 'el_GR', 'en_US', //
+        'es_ES', 'fr_FR', 'hi_IN', 'it_IT', 'ja_JP', 'ka_GE', 'ko_KR', //
+        'lt_LT', 'lv_LV', 'nl_BE', 'nl_NL', 'no_NO', 'pl_PL', 'pt_BR', //
+        'ro_RO', 'sl_SI', 'tr_TR', 'uk_UA', 'vi_VN', 'zh_CN', 'zh_TW',
       ]) {
         expect(tbLocaleCode(localeFromTbCode(code)!), code);
       }

@@ -19,10 +19,25 @@
 			<string>fr</string>
 			<string>it</string>
 			<string>nl</string>
+			<string>nl-BE</string>
 			<string>nb</string>
 			<string>vi</string>
 			<string>zh-Hans</string>
 			<string>zh-Hant</string>
+			<string>ca</string>
+			<string>cs</string>
+			<string>hi</string>
+			<string>ja</string>
+			<string>ka</string>
+			<string>ko</string>
+			<string>lt</string>
+			<string>lv</string>
+			<string>pl</string>
+			<string>pt-BR</string>
+			<string>ro</string>
+			<string>sl</string>
+			<string>tr</string>
+			<string>uk</string>
 		</array>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>

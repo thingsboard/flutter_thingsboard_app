@@ -50,8 +50,9 @@ void main() {
     );
   });
 
-  testWidgets('English where the app is in English', (tester) async {
-    // The plain `zh` translation of the app is English.
-    expect(await format(tester, const Locale('zh')), '5 minutes ago');
+  testWidgets('the new languages and plain Chinese', (tester) async {
+    expect(await format(tester, const Locale('uk')), '5 хвилин тому');
+    expect(await format(tester, const Locale('pt')), 'há 5 minutos');
+    expect(await format(tester, const Locale('zh')), '5 分 前');
   });
 }

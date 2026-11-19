@@ -6,15 +6,29 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'l10n_ar.dart';
+import 'l10n_ca.dart';
+import 'l10n_cs.dart';
 import 'l10n_da.dart';
 import 'l10n_de.dart';
 import 'l10n_el.dart';
 import 'l10n_en.dart';
 import 'l10n_es.dart';
 import 'l10n_fr.dart';
+import 'l10n_hi.dart';
 import 'l10n_it.dart';
+import 'l10n_ja.dart';
+import 'l10n_ka.dart';
+import 'l10n_ko.dart';
+import 'l10n_lt.dart';
+import 'l10n_lv.dart';
 import 'l10n_nl.dart';
 import 'l10n_no.dart';
+import 'l10n_pl.dart';
+import 'l10n_pt.dart';
+import 'l10n_ro.dart';
+import 'l10n_sl.dart';
+import 'l10n_tr.dart';
+import 'l10n_uk.dart';
 import 'l10n_vi.dart';
 import 'l10n_zh.dart';
 
@@ -105,14 +119,29 @@ abstract class S {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ar'),
+    Locale('ca'),
+    Locale('cs'),
     Locale('da'),
     Locale('de'),
     Locale('el'),
     Locale('es'),
     Locale('fr'),
+    Locale('hi'),
     Locale('it'),
+    Locale('ja'),
+    Locale('ka'),
+    Locale('ko'),
+    Locale('lt'),
+    Locale('lv'),
     Locale('nl'),
+    Locale('nl', 'BE'),
     Locale('no'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('ro'),
+    Locale('sl'),
+    Locale('tr'),
+    Locale('uk'),
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
@@ -3025,15 +3054,29 @@ class _SDelegate extends LocalizationsDelegate<S> {
   @override
   bool isSupported(Locale locale) => <String>[
     'ar',
+    'ca',
+    'cs',
     'da',
     'de',
     'el',
     'en',
     'es',
     'fr',
+    'hi',
     'it',
+    'ja',
+    'ka',
+    'ko',
+    'lt',
+    'lv',
     'nl',
     'no',
+    'pl',
+    'pt',
+    'ro',
+    'sl',
+    'tr',
+    'uk',
     'vi',
     'zh',
   ].contains(locale.languageCode);
@@ -3045,6 +3088,14 @@ class _SDelegate extends LocalizationsDelegate<S> {
 S lookupS(Locale locale) {
   // Lookup logic when language+country codes are specified.
   switch (locale.languageCode) {
+    case 'nl':
+      {
+        switch (locale.countryCode) {
+          case 'BE':
+            return SNlBe();
+        }
+        break;
+      }
     case 'zh':
       {
         switch (locale.countryCode) {
@@ -3061,6 +3112,10 @@ S lookupS(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return SAr();
+    case 'ca':
+      return SCa();
+    case 'cs':
+      return SCs();
     case 'da':
       return SDa();
     case 'de':
@@ -3073,12 +3128,36 @@ S lookupS(Locale locale) {
       return SEs();
     case 'fr':
       return SFr();
+    case 'hi':
+      return SHi();
     case 'it':
       return SIt();
+    case 'ja':
+      return SJa();
+    case 'ka':
+      return SKa();
+    case 'ko':
+      return SKo();
+    case 'lt':
+      return SLt();
+    case 'lv':
+      return SLv();
     case 'nl':
       return SNl();
     case 'no':
       return SNo();
+    case 'pl':
+      return SPl();
+    case 'pt':
+      return SPt();
+    case 'ro':
+      return SRo();
+    case 'sl':
+      return SSl();
+    case 'tr':
+      return STr();
+    case 'uk':
+      return SUk();
     case 'vi':
       return SVi();
     case 'zh':
