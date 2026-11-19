@@ -34,18 +34,19 @@ extension AppSteps on PatrolIntegrationTester {
   Future<void> expectHome() async {
     await this(s.home).waitUntilVisible();
     await this(s.more).waitUntilVisible();
-    await _dismissNotificationsPrompt();
+    await _allowNotifications();
   }
 
   /// The app asks for notification permission after sign-in. Flutter finders
   /// work behind the system prompt, but native ones such as
   /// [expectDashboardText] see only the prompt, and it stays up into the
-  /// next test.
-  Future<void> _dismissNotificationsPrompt() async {
+  /// next test. Allow, not deny: without the permission the iOS app icon
+  /// badge call throws an unhandled error, which fails the test.
+  Future<void> _allowNotifications() async {
     if (await platform.mobile.isPermissionDialogVisible(
       timeout: const Duration(seconds: 10),
     )) {
-      await platform.mobile.denyPermission();
+      await platform.mobile.grantPermissionWhenInUse();
     }
   }
 
