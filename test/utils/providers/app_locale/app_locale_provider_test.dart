@@ -74,6 +74,27 @@ void main() {
     expect(
       resolveAppLocale(const [Locale('zh', 'SG')], S.supportedLocales),
       const Locale('zh'),
+    ); // An explicit script wins over the region.
+    expect(
+      resolveAppLocale(const [
+        Locale.fromSubtags(
+          languageCode: 'zh',
+          scriptCode: 'Hans',
+          countryCode: 'HK',
+        ),
+      ], S.supportedLocales),
+      const Locale('zh'),
+    );
+  });
+
+  test('an untranslated language falls back to English, not by region', () {
+    expect(
+      resolveAppLocale(const [Locale('sv', 'BE')], S.supportedLocales),
+      const Locale('en'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('nl', 'BE')], S.supportedLocales),
+      const Locale('nl', 'BE'),
     );
   });
 
@@ -85,14 +106,21 @@ void main() {
   });
 
   group('tbLocaleCode', () {
+    // Walks S.supportedLocales, so a new ARB without a _tbLocaleCodes entry
+    // fails here instead of saving a bare `ll` code to the user's profile.
     test('round-trips every supported locale', () {
-      for (final code in [
-        'ar_AE', 'ca_ES', 'cs_CZ', 'da_DK', 'de_DE', 'el_GR', 'en_US', //
-        'es_ES', 'fr_FR', 'hi_IN', 'it_IT', 'ja_JP', 'ka_GE', 'ko_KR', //
-        'lt_LT', 'lv_LV', 'nl_BE', 'nl_NL', 'no_NO', 'pl_PL', 'pt_BR', //
-        'ro_RO', 'sl_SI', 'tr_TR', 'uk_UA', 'vi_VN', 'zh_CN', 'zh_TW',
-      ]) {
-        expect(tbLocaleCode(localeFromTbCode(code)!), code);
+      for (final locale in S.supportedLocales) {
+        final code = tbLocaleCode(locale);
+        expect(
+          code,
+          matches(RegExp(r'^[a-z]{2}_[A-Z]{2}$')),
+          reason: '$locale',
+        );
+        // Plain zh is stored as zh_CN, which resolves to the zh_CN locale.
+        final back = locale == const Locale('zh')
+            ? const Locale('zh', 'CN')
+            : locale;
+        expect(localeFromTbCode(code), back, reason: '$locale');
       }
     });
   });

@@ -118,26 +118,35 @@ String _languageAlias(String language) =>
 String _traditionalChinese(String code) =>
     code == 'zh_HK' || code == 'zh_MO' ? 'zh_TW' : code;
 
+/// An explicit script wins: `zh-Hans-HK` stays Simplified.
 bool _isTraditionalChinese(Locale l) =>
     l.languageCode == 'zh' &&
-    (l.scriptCode == 'Hant' || l.countryCode == 'HK' || l.countryCode == 'MO');
+    (l.scriptCode == 'Hant' ||
+        (l.scriptCode == null &&
+            (l.countryCode == 'HK' || l.countryCode == 'MO')));
 
 /// MaterialApp.localeListResolutionCallback: Flutter's default resolution
 /// with the language aliases applied and Traditional Chinese sent to `zh_TW`.
+///
+/// A language the app does not translate loses its region and script first:
+/// otherwise Flutter matches the region alone, and `sv_BE` would get Belgian
+/// Dutch instead of the English fallback.
 Locale resolveAppLocale(
   List<Locale>? locales,
   Iterable<Locale> supportedLocales,
-) => basicLocaleListResolution(
-  locales
-      ?.map(
-        (l) => _isTraditionalChinese(l)
-            ? const Locale('zh', 'TW')
-            : Locale.fromSubtags(
-                languageCode: _languageAlias(l.languageCode),
-                scriptCode: l.scriptCode,
-                countryCode: l.countryCode,
-              ),
-      )
-      .toList(),
-  supportedLocales,
-);
+) {
+  final languages = supportedLocales.map((l) => l.languageCode).toSet();
+  return basicLocaleListResolution(
+    locales?.map((l) {
+      if (_isTraditionalChinese(l)) return const Locale('zh', 'TW');
+      final language = _languageAlias(l.languageCode);
+      if (!languages.contains(language)) return Locale(language);
+      return Locale.fromSubtags(
+        languageCode: language,
+        scriptCode: l.scriptCode,
+        countryCode: l.countryCode,
+      );
+    }).toList(),
+    supportedLocales,
+  );
+}
