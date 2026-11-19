@@ -20,51 +20,72 @@ class AlarmControlFiltersButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Reset gives way first: on a 360dp phone, or with a larger system font,
+    // the three labels can be wider than the row in some languages (de).
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(
-          onPressed: onResetTap,
-          style: ButtonStyle(
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            ),
-          ),
-          child: Text(
-            S.of(context).reset,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-          ),
-        ),
-        const Spacer(),
-        TextButton(
-          onPressed: onCancelTap,
-          style: ButtonStyle(
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            ),
-          ),
-          child: Text(
-            S.of(context).cancel,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-          ),
-        ),
-        const SizedBox(width: 8),
-        FilledButton(
-          onPressed: onUpdateTap,
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all(
-              RoundedRectangleBorder(
-                // Change your radius here
-                borderRadius: BorderRadius.circular(4),
+        Flexible(
+          child: TextButton(
+            onPressed: onResetTap,
+            style: ButtonStyle(
+              padding: WidgetStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                S.of(context).reset,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
-          child: Text(
-            S.of(context).update,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: onCancelTap,
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+              ),
+              child: Text(
+                S.of(context).cancel,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilledButton(
+              onPressed: onUpdateTap,
+              style: ButtonStyle(
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    // Change your radius here
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                padding: WidgetStateProperty.all(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+              ),
+              child: Text(
+                S.of(context).update,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
