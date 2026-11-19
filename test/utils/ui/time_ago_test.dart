@@ -50,6 +50,19 @@ void main() {
     );
   });
 
+  testWidgets('every app language but the ones timeago lacks', (tester) async {
+    final english = await format(tester, const Locale('en'));
+    const withoutMessages = {'en', 'ka', 'lt', 'sl'};
+    for (final locale in S.supportedLocales) {
+      final text = await format(tester, locale);
+      if (withoutMessages.contains(locale.languageCode)) {
+        expect(text, english, reason: '$locale');
+      } else {
+        expect(text, isNot(english), reason: '$locale');
+      }
+    }
+  });
+
   testWidgets('the new languages and plain Chinese', (tester) async {
     expect(await format(tester, const Locale('uk')), '5 хвилин тому');
     expect(await format(tester, const Locale('pt')), 'há 5 minutos');

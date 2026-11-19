@@ -7,7 +7,9 @@ import 'package:flutter/widgets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 /// [time] relative to now ("5 minutes ago", or "5m" when [short]) in the
-/// app's language, or in English for one timeago has no messages for.
+/// app's language, or in English for one timeago has no messages for:
+/// Georgian (ka), Lithuanian (lt) and Slovenian (sl) as of timeago 3.7.1.
+/// A new app language needs a case here; time_ago_test checks every one.
 String timeAgo(BuildContext context, DateTime time, {bool short = false}) {
   final locale = Localizations.localeOf(context);
   final messages = _messages(locale, short);
