@@ -192,6 +192,27 @@ class SZh extends S {
   String get inactive => '失活';
 
   @override
+  String get activeDevices => '活跃';
+
+  @override
+  String get inactiveDevices => '不活跃';
+
+  @override
+  String get alarmStatusActiveAcknowledged => '活动已确认';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => '活动未确认';
+
+  @override
+  String get alarmStatusClearedAcknowledged => '已清除已确认';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => '已清除未确认';
+
+  @override
+  String get alarmStatusFilterActive => '活动';
+
+  @override
   String get systemAdministrator => '系统管理员';
 
   @override
@@ -1822,6 +1843,27 @@ class SZhCn extends SZh {
   String get inactive => '失活';
 
   @override
+  String get activeDevices => '活跃';
+
+  @override
+  String get inactiveDevices => '不活跃';
+
+  @override
+  String get alarmStatusActiveAcknowledged => '活动已确认';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => '活动未确认';
+
+  @override
+  String get alarmStatusClearedAcknowledged => '已清除已确认';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => '已清除未确认';
+
+  @override
+  String get alarmStatusFilterActive => '活动';
+
+  @override
   String get systemAdministrator => '系统管理员';
 
   @override
@@ -3392,6 +3434,27 @@ class SZhTw extends SZh {
 
   @override
   String get inactive => '停用';
+
+  @override
+  String get activeDevices => '活躍';
+
+  @override
+  String get inactiveDevices => '不活躍';
+
+  @override
+  String get alarmStatusActiveAcknowledged => '未清除、已確認';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => '未清除、未確認';
+
+  @override
+  String get alarmStatusClearedAcknowledged => '已清除、已確認';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => '已清除、未確認';
+
+  @override
+  String get alarmStatusFilterActive => '未清除';
 
   @override
   String get systemAdministrator => '系統管理員';

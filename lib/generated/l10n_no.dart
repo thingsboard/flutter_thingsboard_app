@@ -196,6 +196,27 @@ class SNo extends S {
   String get inactive => 'Inaktiv';
 
   @override
+  String get activeDevices => 'Aktiv';
+
+  @override
+  String get inactiveDevices => 'Inaktiv';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Aktiv – kvittert';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Aktiv – ikke kvittert';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Nullstilt – kvittert';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Nullstilt – ikke kvittert';
+
+  @override
+  String get alarmStatusFilterActive => 'Aktiv';
+
+  @override
   String get systemAdministrator => 'Systemadministrator';
 
   @override

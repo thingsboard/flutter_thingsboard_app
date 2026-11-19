@@ -197,6 +197,28 @@ class SEl extends S {
   String get inactive => 'Ανενεργό';
 
   @override
+  String get activeDevices => 'Ενεργές';
+
+  @override
+  String get inactiveDevices => 'Ανενεργές';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Ενεργός αναγνωρισμένος';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Ενεργός μη αναγνωρισμένος';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Εκκαθαρισμένος αναγνωρισμένος';
+
+  @override
+  String get alarmStatusClearedUnacknowledged =>
+      'Εκκαθαρισμένος μη αναγνωρισμένος';
+
+  @override
+  String get alarmStatusFilterActive => 'Ενεργός';
+
+  @override
   String get systemAdministrator => 'Διαχειριστής συστήματος';
 
   @override

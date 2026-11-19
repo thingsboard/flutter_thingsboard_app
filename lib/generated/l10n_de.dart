@@ -197,6 +197,28 @@ class SDe extends S {
   String get inactive => 'Inaktiv';
 
   @override
+  String get activeDevices => 'Aktiv';
+
+  @override
+  String get inactiveDevices => 'Inaktiv';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Aktiv bestätigt';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Aktiv nicht bestätigt';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Zurückgesetzt bestätigt';
+
+  @override
+  String get alarmStatusClearedUnacknowledged =>
+      'Zurückgesetzt nicht bestätigt';
+
+  @override
+  String get alarmStatusFilterActive => 'Aktiv';
+
+  @override
   String get systemAdministrator => 'Systemadministrator';
 
   @override

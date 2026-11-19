@@ -197,6 +197,27 @@ class SFr extends S {
   String get inactive => 'Inactif';
 
   @override
+  String get activeDevices => 'Actif';
+
+  @override
+  String get inactiveDevices => 'Inactif';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Active acquittée';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Active non acquittée';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Réinitialisée acquittée';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Réinitialisée non acquittée';
+
+  @override
+  String get alarmStatusFilterActive => 'Active';
+
+  @override
   String get systemAdministrator => 'Administrateur système';
 
   @override

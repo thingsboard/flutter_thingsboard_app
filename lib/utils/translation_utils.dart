@@ -89,14 +89,11 @@ extension EntityTypeTranslationUtils on EntityType {
 extension AlarmStatusTranslationUtils on AlarmStatus {
   String getTranslatedAlarmStatus(BuildContext context) {
     return switch (this) {
-      AlarmStatus.ACTIVE_ACK =>
-        '${S.of(context).active} ${S.of(context).acknowledged}',
-      AlarmStatus.ACTIVE_UNACK =>
-        '${S.of(context).active} ${S.of(context).unacknowledged}',
-      AlarmStatus.CLEARED_ACK =>
-        '${S.of(context).cleared} ${S.of(context).acknowledged}',
+      AlarmStatus.ACTIVE_ACK => S.of(context).alarmStatusActiveAcknowledged,
+      AlarmStatus.ACTIVE_UNACK => S.of(context).alarmStatusActiveUnacknowledged,
+      AlarmStatus.CLEARED_ACK => S.of(context).alarmStatusClearedAcknowledged,
       AlarmStatus.CLEARED_UNACK =>
-        '${S.of(context).cleared} ${S.of(context).unacknowledged}',
+        S.of(context).alarmStatusClearedUnacknowledged,
       _ => '',
     };
   }

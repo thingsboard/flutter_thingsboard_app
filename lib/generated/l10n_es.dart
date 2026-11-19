@@ -196,6 +196,27 @@ class SEs extends S {
   String get inactive => 'Inactivo';
 
   @override
+  String get activeDevices => 'Activo';
+
+  @override
+  String get inactiveDevices => 'Inactivo';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Activa reconocida';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Activa no reconocida';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Resuelta reconocida';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Resuelta no reconocida';
+
+  @override
+  String get alarmStatusFilterActive => 'Activa';
+
+  @override
   String get systemAdministrator => 'Administrador del sistema';
 
   @override

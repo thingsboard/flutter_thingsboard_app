@@ -62,8 +62,8 @@ class _DevicesListPageState extends State<DevicesListPage>
       String? subTitleText;
       if (widget.active != null) {
         subTitleText = widget.active == true
-            ? S.of(context).active
-            : S.of(context).inactive;
+            ? S.of(context).activeDevices
+            : S.of(context).inactiveDevices;
       }
       final Column title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,

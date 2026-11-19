@@ -196,6 +196,27 @@ class SDa extends S {
   String get inactive => 'Inaktiv';
 
   @override
+  String get activeDevices => 'Aktiv';
+
+  @override
+  String get inactiveDevices => 'Inaktiv';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Aktiv - kvitteret';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Aktiv - ikke kvitteret';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Ryddet - kvitteret';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Ryddet - ikke kvitteret';
+
+  @override
+  String get alarmStatusFilterActive => 'Aktiv';
+
+  @override
   String get systemAdministrator => 'Systemadministrator';
 
   @override

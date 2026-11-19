@@ -195,6 +195,27 @@ class SAr extends S {
   String get inactive => 'غير نشط';
 
   @override
+  String get activeDevices => 'نشط';
+
+  @override
+  String get inactiveDevices => 'غير نشط';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'نشط، تم الإقرار';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'نشط، لم يتم الإقرار';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'تم المسح، تم الإقرار';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'تم المسح، لم يتم الإقرار';
+
+  @override
+  String get alarmStatusFilterActive => 'نشط';
+
+  @override
   String get systemAdministrator => 'مسؤول النظام';
 
   @override

@@ -196,6 +196,27 @@ class SNl extends S {
   String get inactive => 'Inactief';
 
   @override
+  String get activeDevices => 'Actief';
+
+  @override
+  String get inactiveDevices => 'Inactief';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Actief bevestigd';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Actief niet bevestigd';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Opgeheven, bevestigd';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Opgeheven, niet bevestigd';
+
+  @override
+  String get alarmStatusFilterActive => 'Actief';
+
+  @override
   String get systemAdministrator => 'Systeembeheerder';
 
   @override

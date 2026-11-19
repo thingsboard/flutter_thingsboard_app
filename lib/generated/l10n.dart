@@ -467,6 +467,48 @@ abstract class S {
   /// **'Inactive'**
   String get inactive;
 
+  /// No description provided for @activeDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeDevices;
+
+  /// No description provided for @inactiveDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get inactiveDevices;
+
+  /// No description provided for @alarmStatusActiveAcknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Acknowledged'**
+  String get alarmStatusActiveAcknowledged;
+
+  /// No description provided for @alarmStatusActiveUnacknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Unacknowledged'**
+  String get alarmStatusActiveUnacknowledged;
+
+  /// No description provided for @alarmStatusClearedAcknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleared Acknowledged'**
+  String get alarmStatusClearedAcknowledged;
+
+  /// No description provided for @alarmStatusClearedUnacknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleared Unacknowledged'**
+  String get alarmStatusClearedUnacknowledged;
+
+  /// No description provided for @alarmStatusFilterActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get alarmStatusFilterActive;
+
   /// No description provided for @systemAdministrator.
   ///
   /// In en, this message translates to:

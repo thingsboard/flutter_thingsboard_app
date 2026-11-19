@@ -196,6 +196,27 @@ class SVi extends S {
   String get inactive => 'Không hoạt động';
 
   @override
+  String get activeDevices => 'Hoạt động';
+
+  @override
+  String get inactiveDevices => 'Không hoạt động';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Hoạt động Đã xác nhận';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Hoạt động Chưa xác nhận';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Đã xóa Đã xác nhận';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Đã xóa Chưa xác nhận';
+
+  @override
+  String get alarmStatusFilterActive => 'Hoạt động';
+
+  @override
   String get systemAdministrator => 'Quản trị viên hệ thống';
 
   @override

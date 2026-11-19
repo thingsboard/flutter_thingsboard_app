@@ -196,6 +196,27 @@ class SIt extends S {
   String get inactive => 'Inattivo';
 
   @override
+  String get activeDevices => 'Attivo';
+
+  @override
+  String get inactiveDevices => 'Inattivo';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Attivo confermato';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Attivo non confermato';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Risolto confermato';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Risolto non confermato';
+
+  @override
+  String get alarmStatusFilterActive => 'Attivo';
+
+  @override
   String get systemAdministrator => 'Amministratore di sistema';
 
   @override

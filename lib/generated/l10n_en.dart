@@ -196,6 +196,27 @@ class SEn extends S {
   String get inactive => 'Inactive';
 
   @override
+  String get activeDevices => 'Active';
+
+  @override
+  String get inactiveDevices => 'Inactive';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Active Acknowledged';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Active Unacknowledged';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Cleared Acknowledged';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Cleared Unacknowledged';
+
+  @override
+  String get alarmStatusFilterActive => 'Active';
+
+  @override
   String get systemAdministrator => 'System Administrator';
 
   @override
