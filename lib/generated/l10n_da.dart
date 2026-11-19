@@ -777,6 +777,9 @@ class SDa extends S {
   String get all => 'Alle';
 
   @override
+  String get allNotifications => 'Alle';
+
+  @override
   String get unread => 'Ulæst';
 
   @override

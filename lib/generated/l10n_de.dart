@@ -360,7 +360,7 @@ class SDe extends S {
 
   @override
   String get emailVerificationSentText =>
-      'Eine E-Mail mit Bestätigungsdetails wurde an die angegebene E-Mail-Adresse gesendet';
+      'Eine E-Mail mit Bestätigungsdetails wurde an die angegebene E-Mail-Adresse gesendet ';
 
   @override
   String get emailVerificationInstructionsText =>
@@ -770,7 +770,7 @@ class SDe extends S {
   String get reset => 'Zurücksetzen';
 
   @override
-  String get update => 'Speichern';
+  String get update => 'Anwenden';
 
   @override
   String get alarmTypeList => 'Liste der Alarmtypen';
@@ -783,6 +783,9 @@ class SDe extends S {
 
   @override
   String get all => 'Alle';
+
+  @override
+  String get allNotifications => 'Alle';
 
   @override
   String get unread => 'Ungelesen';

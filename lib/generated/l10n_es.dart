@@ -769,7 +769,7 @@ class SEs extends S {
   String get reset => 'Restablecer';
 
   @override
-  String get update => 'Guardar cambios';
+  String get update => 'Aplicar';
 
   @override
   String get alarmTypeList => 'Lista de tipos de alarma';
@@ -784,7 +784,10 @@ class SEs extends S {
   String get all => 'Todos';
 
   @override
-  String get unread => 'No leído';
+  String get allNotifications => 'Todas';
+
+  @override
+  String get unread => 'No leídas';
 
   @override
   String get close => 'Cerrar';

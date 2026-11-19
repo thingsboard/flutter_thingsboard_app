@@ -789,7 +789,10 @@ class SAr extends S {
   String get all => 'الكل';
 
   @override
-  String get unread => 'غير مقروء';
+  String get allNotifications => 'الكل';
+
+  @override
+  String get unread => 'غير المقروءة';
 
   @override
   String get close => 'إغلاق';

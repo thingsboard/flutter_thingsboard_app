@@ -247,6 +247,7 @@
   "anyType": "Alle typer",
   "plusAlarmType": "+ Alarmtype",
   "all": "Alle",
+  "allNotifications": "Alle",
   "unread": "Ulest",
   "close": "Lukk",
   "codeVerificationFailed": "Kodeverifisering mislyktes!",

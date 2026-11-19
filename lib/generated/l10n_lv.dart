@@ -777,7 +777,10 @@ class SLv extends S {
   String get all => 'Visi';
 
   @override
-  String get unread => 'Nelasīts';
+  String get allNotifications => 'Visi';
+
+  @override
+  String get unread => 'Nelasītie';
 
   @override
   String get close => 'Aizvērt';

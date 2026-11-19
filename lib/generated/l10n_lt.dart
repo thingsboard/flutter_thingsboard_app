@@ -785,7 +785,10 @@ class SLt extends S {
   String get all => 'Visi';
 
   @override
-  String get unread => 'Neskaitytas';
+  String get allNotifications => 'Visi';
+
+  @override
+  String get unread => 'Neskaityti';
 
   @override
   String get close => 'Uždaryti';
@@ -968,7 +971,7 @@ class SLt extends S {
   String get widgetsBundle => 'Valdiklių rinkinys';
 
   @override
-  String get widgetType => 'Tipas';
+  String get widgetType => 'Valdiklio tipas';
 
   @override
   String get apiUsageState => 'API naudojimo būsena';

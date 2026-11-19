@@ -247,6 +247,7 @@
   "anyType": "Qualsevol tipus",
   "plusAlarmType": "+ Tipus d'alarma",
   "all": "Tots",
+  "allNotifications": "Totes",
   "unread": "No llegides",
   "close": "Tanca",
   "codeVerificationFailed": "La verificació del codi ha fallat!",

@@ -778,6 +778,9 @@ class SEn extends S {
   String get all => 'All';
 
   @override
+  String get allNotifications => 'All';
+
+  @override
   String get unread => 'Unread';
 
   @override

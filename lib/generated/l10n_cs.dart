@@ -788,7 +788,10 @@ class SCs extends S {
   String get all => 'Vše';
 
   @override
-  String get unread => 'Nepřečtené';
+  String get allNotifications => 'Všechna';
+
+  @override
+  String get unread => 'Nepřečtená';
 
   @override
   String get close => 'Zavřít';
@@ -1397,7 +1400,7 @@ class SCs extends S {
   }
 
   @override
-  String get selectAll => 'Vybrat všechny načtené';
+  String get selectAll => 'Vybrat všechna načtená';
 
   @override
   String failedToPerformOperation(int count) {

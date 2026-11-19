@@ -247,6 +247,7 @@
   "anyType": "任意類型",
   "plusAlarmType": "+ 警報類型",
   "all": "全部",
+  "allNotifications": "全部",
   "unread": "未讀",
   "close": "關閉",
   "codeVerificationFailed": "驗證碼驗證失敗！",

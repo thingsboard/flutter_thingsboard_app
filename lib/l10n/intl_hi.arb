@@ -177,8 +177,8 @@
   "selectRegion": "क्षेत्र चुनें",
   "northAmerica": "उत्तरी अमेरिका",
   "europe": "यूरोप",
-  "northAmericaRegionShort": "N. Virginia",
-  "europeRegionShort": "Frankfurt",
+  "northAmericaRegionShort": "उत्तरी वर्जीनिया",
+  "europeRegionShort": "फ़्रैंकफ़र्ट",
   "deviceList": "डिवाइस सूची",
   "dashboards": "{count, plural, =1{डैशबोर्ड} other{डैशबोर्ड}}",
   "@dashboards": {
@@ -247,6 +247,7 @@
   "anyType": "कोई भी प्रकार",
   "plusAlarmType": "+ अलार्म प्रकार",
   "all": "सभी",
+  "allNotifications": "सभी",
   "unread": "अपठित",
   "close": "बंद करें",
   "codeVerificationFailed": "कोड सत्यापन विफल!",

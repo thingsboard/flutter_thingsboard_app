@@ -783,6 +783,9 @@ class SFr extends S {
   String get all => 'Tout';
 
   @override
+  String get allNotifications => 'Toutes';
+
+  @override
   String get unread => 'Non lues';
 
   @override
@@ -1396,7 +1399,7 @@ class SFr extends S {
   }
 
   @override
-  String get selectAll => 'Tout sélectionner (chargés)';
+  String get selectAll => 'Tout sélectionner (chargées)';
 
   @override
   String failedToPerformOperation(int count) {

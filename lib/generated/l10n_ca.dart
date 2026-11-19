@@ -786,6 +786,9 @@ class SCa extends S {
   String get all => 'Tots';
 
   @override
+  String get allNotifications => 'Totes';
+
+  @override
   String get unread => 'No llegides';
 
   @override

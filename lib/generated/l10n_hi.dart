@@ -581,10 +581,10 @@ class SHi extends S {
   String get europe => 'यूरोप';
 
   @override
-  String get northAmericaRegionShort => 'N. Virginia';
+  String get northAmericaRegionShort => 'उत्तरी वर्जीनिया';
 
   @override
-  String get europeRegionShort => 'Frankfurt';
+  String get europeRegionShort => 'फ़्रैंकफ़र्ट';
 
   @override
   String get deviceList => 'डिवाइस सूची';
@@ -779,6 +779,9 @@ class SHi extends S {
 
   @override
   String get all => 'सभी';
+
+  @override
+  String get allNotifications => 'सभी';
 
   @override
   String get unread => 'अपठित';

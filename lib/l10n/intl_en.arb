@@ -247,6 +247,7 @@
   "anyType": "Any type",
   "plusAlarmType": "+ Alarm type",
   "all": "All",
+  "allNotifications": "All",
   "unread": "Unread",
   "close": "Close",
   "codeVerificationFailed": "Code verification failed!",

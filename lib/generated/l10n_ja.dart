@@ -639,13 +639,13 @@ class SJa extends S {
   }
 
   @override
-  String get claimingDevice => 'デバイスをクレーム中';
+  String get claimingDevice => 'デバイスを登録中';
 
   @override
-  String get claimingDeviceDone => 'デバイスのクレームが完了しました';
+  String get claimingDeviceDone => 'デバイスの登録が完了しました';
 
   @override
-  String get claimingMessageSuccess => 'デバイスは正常に\nクレームされました';
+  String get claimingMessageSuccess => 'デバイスは正常に\n登録されました';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
@@ -763,6 +763,9 @@ class SJa extends S {
 
   @override
   String get all => 'すべて';
+
+  @override
+  String get allNotifications => 'すべて';
 
   @override
   String get unread => '未読';
@@ -1582,7 +1585,7 @@ class SJa extends S {
   String get askAdminToUpdateServer => 'サーバー管理者にサーバーの更新を依頼してください。';
 
   @override
-  String get deviceClaimFailed => 'デバイスをクレームできませんでした。もう一度お試しください。';
+  String get deviceClaimFailed => 'デバイスを登録できませんでした。もう一度お試しください。';
 
   @override
   String get deviceToClaimNotFound => 'デバイスが見つかりません。デバイス提供者にお問い合わせください。';

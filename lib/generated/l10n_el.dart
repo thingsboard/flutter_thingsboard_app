@@ -786,7 +786,10 @@ class SEl extends S {
   String get all => 'Όλα';
 
   @override
-  String get unread => 'Μη αναγνωσμένα';
+  String get allNotifications => 'Όλες';
+
+  @override
+  String get unread => 'Μη αναγνωσμένες';
 
   @override
   String get close => 'Κλείσιμο';

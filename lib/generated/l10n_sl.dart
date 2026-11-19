@@ -117,7 +117,7 @@ class SSl extends S {
   String get yes => 'Da';
 
   @override
-  String get title => 'Naslov';
+  String get title => 'Naziv';
 
   @override
   String get country => 'Država';
@@ -786,6 +786,9 @@ class SSl extends S {
 
   @override
   String get all => 'Vse';
+
+  @override
+  String get allNotifications => 'Vse';
 
   @override
   String get unread => 'Neprebrano';

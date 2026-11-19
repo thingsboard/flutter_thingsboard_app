@@ -242,6 +242,7 @@
   "anyType": "Bất kỳ loại nào",
   "plusAlarmType": "+ Loại cảnh báo",
   "all": "Tất cả",
+  "allNotifications": "Tất cả",
   "unread": "Chưa đọc",
   "close": "Đóng",
   "codeVerificationFailed": "Xác minh mã thất bại!",

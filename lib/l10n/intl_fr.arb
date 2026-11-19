@@ -247,6 +247,7 @@
   "anyType": "Tout type",
   "plusAlarmType": "+ Type d’alarme",
   "all": "Tout",
+  "allNotifications": "Toutes",
   "unread": "Non lues",
   "close": "Fermer",
   "codeVerificationFailed": "Échec de la vérification du code !",
@@ -470,7 +471,7 @@
       }
     }
   },
-  "selectAll": "Tout sélectionner (chargés)",
+  "selectAll": "Tout sélectionner (chargées)",
   "failedToPerformOperation": "{count, plural, =1{1 opération a échoué} other{{count} opérations ont échoué}}",
   "@failedToPerformOperation": {
     "placeholders": {

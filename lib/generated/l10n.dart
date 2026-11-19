@@ -1486,6 +1486,12 @@ abstract class S {
   /// **'All'**
   String get all;
 
+  /// No description provided for @allNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allNotifications;
+
   /// No description provided for @unread.
   ///
   /// In en, this message translates to:

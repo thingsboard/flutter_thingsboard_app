@@ -247,6 +247,7 @@
   "anyType": "Enhver type",
   "plusAlarmType": "+ Alarmtype",
   "all": "Alle",
+  "allNotifications": "Alle",
   "unread": "Ulæst",
   "close": "Luk",
   "codeVerificationFailed": "Kodeverifikation mislykkedes!",

@@ -784,7 +784,10 @@ class SUk extends S {
   String get all => 'Усі';
 
   @override
-  String get unread => 'Непрочитано';
+  String get allNotifications => 'Усі';
+
+  @override
+  String get unread => 'Непрочитані';
 
   @override
   String get close => 'Закрити';
@@ -869,7 +872,7 @@ class SUk extends S {
   String get selectWifiNetwork => 'Виберіть мережу Wi-Fi';
 
   @override
-  String get deviceProvisioning => 'Постачання пристрою';
+  String get deviceProvisioning => 'Підготовка пристрою';
 
   @override
   String get permissions => 'Дозволи';
@@ -904,7 +907,7 @@ class SUk extends S {
   String get ready => 'Готово';
 
   @override
-  String get exitDeviceProvisioning => 'Вийти з налаштування пристрою';
+  String get exitDeviceProvisioning => 'Вийти з підготовки пристрою';
 
   @override
   String get noNotificationsFound => 'Сповіщень не знайдено';

@@ -781,6 +781,9 @@ class SKa extends S {
   String get all => 'ყველა';
 
   @override
+  String get allNotifications => 'ყველა';
+
+  @override
   String get unread => 'წაუკითხავი';
 
   @override
@@ -1333,7 +1336,7 @@ class SKa extends S {
   String get discardChanges => 'ცვლილებების გაუქმება';
 
   @override
-  String get yesDiscard => 'დიახ, გაუქმება';
+  String get yesDiscard => 'დიახ, უგულებელყოფა';
 
   @override
   String get thisActionCannotBeUndone => 'ამ ქმედების დაბრუნება შეუძლებელია';

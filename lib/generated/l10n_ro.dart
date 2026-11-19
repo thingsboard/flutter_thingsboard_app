@@ -787,6 +787,9 @@ class SRo extends S {
   String get all => 'Toate';
 
   @override
+  String get allNotifications => 'Toate';
+
+  @override
   String get unread => 'Necitite';
 
   @override
@@ -1520,7 +1523,7 @@ class SRo extends S {
   String get liveTrackingStop => 'Oprește';
 
   @override
-  String get liveTrackingPause => 'Întrerupe';
+  String get liveTrackingPause => 'Pauză';
 
   @override
   String get liveTrackingResume => 'Reia';

@@ -778,6 +778,9 @@ class STr extends S {
   String get all => 'Tümü';
 
   @override
+  String get allNotifications => 'Tümü';
+
+  @override
   String get unread => 'Okunmamış';
 
   @override
@@ -1322,10 +1325,10 @@ class STr extends S {
   String get applyChanges => 'Değişiklikleri uygula';
 
   @override
-  String get discardChanges => 'Değişiklikleri iptal et';
+  String get discardChanges => 'Değişiklikleri at';
 
   @override
-  String get yesDiscard => 'Evet, iptal et';
+  String get yesDiscard => 'Evet, at';
 
   @override
   String get thisActionCannotBeUndone => 'Bu işlem geri alınamaz';

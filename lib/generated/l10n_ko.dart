@@ -352,7 +352,7 @@ class SKo extends S {
 
   @override
   String get emailVerificationSentText =>
-      '지정한 이메일 주소로 인증 세부 정보가 포함된 이메일을 전송했습니다. ';
+      '인증 세부 정보가 포함된 이메일을 지정한 이메일 주소로 전송했습니다 ';
 
   @override
   String get emailVerificationInstructionsText =>
@@ -765,6 +765,9 @@ class SKo extends S {
 
   @override
   String get all => '모두';
+
+  @override
+  String get allNotifications => '모두';
 
   @override
   String get unread => '읽지 않음';
@@ -1302,7 +1305,7 @@ class SKo extends S {
   String get discardChanges => '변경 취소';
 
   @override
-  String get yesDiscard => '예, 변경 취소';
+  String get yesDiscard => '예, 버리기';
 
   @override
   String get thisActionCannotBeUndone => '이 작업은 실행 취소할 수 없습니다.';

@@ -782,7 +782,10 @@ class SPt extends S {
   String get all => 'Todos';
 
   @override
-  String get unread => 'Não lida';
+  String get allNotifications => 'Todas';
+
+  @override
+  String get unread => 'Não lidas';
 
   @override
   String get close => 'Fechar';

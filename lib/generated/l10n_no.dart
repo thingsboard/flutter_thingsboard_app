@@ -776,6 +776,9 @@ class SNo extends S {
   String get all => 'Alle';
 
   @override
+  String get allNotifications => 'Alle';
+
+  @override
   String get unread => 'Ulest';
 
   @override

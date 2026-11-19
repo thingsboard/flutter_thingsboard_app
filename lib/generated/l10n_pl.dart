@@ -793,6 +793,9 @@ class SPl extends S {
   String get all => 'Wszystkie';
 
   @override
+  String get allNotifications => 'Wszystkie';
+
+  @override
   String get unread => 'Nieprzeczytane';
 
   @override

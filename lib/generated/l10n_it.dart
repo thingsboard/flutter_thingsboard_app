@@ -768,7 +768,7 @@ class SIt extends S {
   String get reset => 'Resetta';
 
   @override
-  String get update => 'Salva modifiche';
+  String get update => 'Applica';
 
   @override
   String get alarmTypeList => 'Elenco tipi di allarme';
@@ -783,7 +783,10 @@ class SIt extends S {
   String get all => 'Tutti';
 
   @override
-  String get unread => 'Non letti';
+  String get allNotifications => 'Tutte';
+
+  @override
+  String get unread => 'Non lette';
 
   @override
   String get close => 'Chiudi';
@@ -1396,7 +1399,7 @@ class SIt extends S {
   }
 
   @override
-  String get selectAll => 'Seleziona tutti gli elementi caricati';
+  String get selectAll => 'Seleziona tutte';
 
   @override
   String failedToPerformOperation(int count) {

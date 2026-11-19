@@ -775,6 +775,9 @@ class SVi extends S {
   String get all => 'Tất cả';
 
   @override
+  String get allNotifications => 'Tất cả';
+
+  @override
   String get unread => 'Chưa đọc';
 
   @override

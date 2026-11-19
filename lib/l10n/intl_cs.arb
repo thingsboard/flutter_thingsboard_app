@@ -247,7 +247,8 @@
   "anyType": "Všechny typy",
   "plusAlarmType": "+ Typ alarmu",
   "all": "Vše",
-  "unread": "Nepřečtené",
+  "allNotifications": "Všechna",
+  "unread": "Nepřečtená",
   "close": "Zavřít",
   "codeVerificationFailed": "Ověření kódu se nezdařilo!",
   "fatalError": "Kritická chyba",
@@ -470,7 +471,7 @@
       }
     }
   },
-  "selectAll": "Vybrat všechny načtené",
+  "selectAll": "Vybrat všechna načtená",
   "failedToPerformOperation": "{count, plural, =1{1 operace selhala} few{{count} operace selhaly} many{{count} operace selhalo} other{{count} operací selhalo}}",
   "@failedToPerformOperation": {
     "placeholders": {

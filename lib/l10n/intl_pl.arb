@@ -247,6 +247,7 @@
   "anyType": "Dowolny typ",
   "plusAlarmType": "+ Typ alarmu",
   "all": "Wszystkie",
+  "allNotifications": "Wszystkie",
   "unread": "Nieprzeczytane",
   "close": "Zamknij",
   "codeVerificationFailed": "Weryfikacja kodu nie powiodła się!",

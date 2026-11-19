@@ -242,12 +242,13 @@
     }
   },
   "reset": "Resetta",
-  "update": "Salva modifiche",
+  "update": "Applica",
   "alarmTypeList": "Elenco tipi di allarme",
   "anyType": "Qualsiasi tipo",
   "plusAlarmType": "+ Tipo di allarme",
   "all": "Tutti",
-  "unread": "Non letti",
+  "allNotifications": "Tutte",
+  "unread": "Non lette",
   "close": "Chiudi",
   "codeVerificationFailed": "Verifica del codice non riuscita!",
   "fatalError": "Errore irreversibile",
@@ -470,7 +471,7 @@
       }
     }
   },
-  "selectAll": "Seleziona tutti gli elementi caricati",
+  "selectAll": "Seleziona tutte",
   "failedToPerformOperation": "{count, plural, one{{count} operazione non riuscita} other{{count} operazioni non riuscite}}",
   "@failedToPerformOperation": {
     "placeholders": {

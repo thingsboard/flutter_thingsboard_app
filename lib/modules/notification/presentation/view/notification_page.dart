@@ -92,7 +92,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           value: NotificationsFilter.unread,
                         ),
                         FilterSegments(
-                          label: S.of(context).all,
+                          label: S.of(context).allNotifications,
                           value: NotificationsFilter.all,
                         ),
                       ],
