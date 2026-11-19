@@ -12,7 +12,13 @@
   "more": "Thêm",
   "customers": "Khách hàng",
   "assets": "Tài sản",
+  "tenants": "Người thuê",
   "auditLogs": "Nhật ký kiểm toán",
+  "noCustomersFound": "Không tìm thấy khách hàng nào",
+  "noAssetsFound": "Không tìm thấy tài sản nào",
+  "noTenantsFound": "Không tìm thấy người thuê nào",
+  "noDevicesFound": "Không tìm thấy thiết bị nào",
+  "noAuditLogsFound": "Không tìm thấy nhật ký kiểm toán nào",
   "logout": "Đăng xuất",
   "login": "Đăng nhập",
   "logoDefaultValue": "Logo ThingsBoard",
@@ -554,5 +560,9 @@
   "linkToOtherServerNotAllowed": "Ứng dụng này chỉ hoạt động với máy chủ của nó và không thể mở liên kết này.",
   "failedToConnectToHost": "Không thể kết nối tới {host}",
   "gettingDataFromHost": "Đang lấy dữ liệu từ máy chủ {host}",
-  "hostIsNotThingsBoard": "{host} không phải là máy chủ ThingsBoard"
+  "loggingYouIntoHost": "Đang đăng nhập vào máy chủ {host}",
+  "switchingToNewHost": "Đang chuyển sang máy chủ mới {host}",
+  "failedToObtainLoginTokenFromHost": "Không thể lấy mã đăng nhập từ {host}. Vui lòng quét mã QR mới.",
+  "hostIsNotThingsBoard": "{host} không phải là máy chủ ThingsBoard",
+  "qrCodeSessionIsNoLongerValid": "Phiên mã QR không còn hợp lệ. Vui lòng làm mới mã QR và quét lại."
 }

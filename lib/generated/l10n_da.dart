@@ -36,25 +36,25 @@ class SDa extends S {
   String get assets => 'Aktiver';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Lejere';
 
   @override
-  String get auditLogs => 'Revisionslogfiler';
+  String get auditLogs => 'Revisionslogge';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Ingen kunder fundet';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Ingen aktiver fundet';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Ingen lejere fundet';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Ingen enheder fundet';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Ingen revisionslogge fundet';
 
   @override
   String get logout => 'Log ud';
@@ -69,13 +69,13 @@ class SDa extends S {
   String get loginToYourAccount => 'Log ind på din konto';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-mail';
 
   @override
-  String get emailRequireText => 'Email er påkrævet.';
+  String get emailRequireText => 'E-mail er påkrævet.';
 
   @override
-  String get emailInvalidText => 'Ugyldigt emailformat.';
+  String get emailInvalidText => 'Ugyldigt e-mailformat.';
 
   @override
   String get username => 'brugernavn';
@@ -94,18 +94,18 @@ class SDa extends S {
 
   @override
   String get passwordResetText =>
-      'Indtast den email, der er tilknyttet din konto, og vi sender en email med link til nulstilling af adgangskode';
+      'Indtast den e-mail, der er knyttet til din konto, så sender vi en e-mail med et link til nulstilling af adgangskoden';
 
   @override
   String get requestPasswordReset => 'Anmod om nulstilling af adgangskode';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
-      'Link til nulstilling af adgangskode blev sendt med succes!';
+      'Linket til nulstilling af adgangskode blev sendt!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'E-mailbekræftelseslinket blev sendt!';
+      'Linket til e-mailbekræftelse blev sendt!';
 
   @override
   String get or => 'ELLER';
@@ -147,11 +147,11 @@ class SDa extends S {
   String get alarmClearText => 'Er du sikker på, at du vil rydde alarmen?';
 
   @override
-  String get alarmAcknowledgeTitle => 'Bekræft alarm';
+  String get alarmAcknowledgeTitle => 'Kvittér alarm';
 
   @override
   String get alarmAcknowledgeText =>
-      'Er du sikker på, at du vil bekræfte alarmen?';
+      'Er du sikker på, at du vil kvittere alarmen?';
 
   @override
   String get assetName => 'Aktivnavn';
@@ -166,7 +166,7 @@ class SDa extends S {
   String get assignedToCustomer => 'Tildelt kunde';
 
   @override
-  String get auditLogDetails => 'Revisionslogdetaljer';
+  String get auditLogDetails => 'Detaljer for revisionslog';
 
   @override
   String get customerDetails => 'Kundedetaljer';
@@ -178,7 +178,7 @@ class SDa extends S {
   String get tenantDetails => 'Lejerdetaljer';
 
   @override
-  String get entityType => 'Enhedstype';
+  String get entityType => 'Entitetstype';
 
   @override
   String get actionData => 'Handlingsdata';
@@ -241,14 +241,14 @@ class SDa extends S {
   String get newPassword => 'Ny adgangskode';
 
   @override
-  String get newPassword2RequireText => 'Bekræft ny adgangskode er påkrævet.';
+  String get newPassword2RequireText => 'Ny adgangskode igen er påkrævet.';
 
   @override
   String get newPassword2 => 'Bekræft ny adgangskode';
 
   @override
   String get passwordErrorNotification =>
-      'Indtastede adgangskoder skal være ens!';
+      'De indtastede adgangskoder skal være ens!';
 
   @override
   String get firstNameUpper => 'Fornavn';
@@ -257,16 +257,16 @@ class SDa extends S {
   String get lastNameUpper => 'Efternavn';
 
   @override
-  String get profileSuccessNotification => 'Profilen blev opdateret';
+  String get profileSuccessNotification => 'Profilen er opdateret';
 
   @override
-  String get passwordSuccessNotification => 'Adgangskoden blev ændret';
+  String get passwordSuccessNotification => 'Adgangskoden er ændret';
 
   @override
   String get notImplemented => 'Ikke implementeret!';
 
   @override
-  String get listIsEmptyText => 'Listen er i øjeblikket tom.';
+  String get listIsEmptyText => 'Listen er tom i øjeblikket.';
 
   @override
   String get tryAgain => 'Prøv igen';
@@ -288,21 +288,21 @@ class SDa extends S {
       other: '$time sekunder',
       one: '1 sekund',
     );
-    return 'Send kode igen om $_temp0';
+    return 'Send koden igen om $_temp0';
   }
 
   @override
   String get totpAuthDescription =>
-      'Indtast sikkerhedskoden fra din autentifikatorapp.';
+      'Indtast sikkerhedskoden fra din autentifikator-app.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'En sikkerhedskode er blevet sendt til din telefon på $contact.';
+    return 'En sikkerhedskode er sendt til din telefon på $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'En sikkerhedskode er blevet sendt til din emailadresse på $contact.';
+    return 'En sikkerhedskode er sendt til din e-mailadresse på $contact.';
   }
 
   @override
@@ -315,7 +315,7 @@ class SDa extends S {
   String get smsAuthPlaceholder => 'SMS-kode';
 
   @override
-  String get emailAuthPlaceholder => 'Email-kode';
+  String get emailAuthPlaceholder => 'E-mail-kode';
 
   @override
   String get backupCodeAuthPlaceholder => 'Backupkode';
@@ -325,22 +325,22 @@ class SDa extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'For mange forespørgsler, kontroller verifikationskoden';
+      'For mange anmodninger om at kontrollere verifikationskoden';
 
   @override
   String get tryAnotherWay => 'Prøv en anden metode';
 
   @override
-  String get selectWayToVerify => 'Vælg en metode til verifikation';
+  String get selectWayToVerify => 'Vælg en metode til bekræftelse';
 
   @override
-  String get mfaProviderTopt => 'Autentifikatorapp';
+  String get mfaProviderTopt => 'Autentificeringsapp';
 
   @override
   String get mfaProviderSms => 'SMS';
 
   @override
-  String get mfaProviderEmail => 'Email';
+  String get mfaProviderEmail => 'E-mail';
 
   @override
   String get mfaProviderBackupCode => 'Backupkode';
@@ -352,27 +352,27 @@ class SDa extends S {
   String get createAccount => 'Opret konto';
 
   @override
-  String get emailVerification => 'Email-verifikation';
+  String get emailVerification => 'Bekræftelse af e-mail';
 
   @override
   String get emailVerificationSentText =>
-      'En email med verifikationsdetaljer er sendt til den angivne emailadresse';
+      'En e-mail med bekræftelsesoplysninger er sendt til den angivne e-mailadresse ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Følg venligst instruktionerne i emailen for at fuldføre din registrering. Bemærk: Hvis du ikke har set emailen i et stykke tid, så tjek din \'spam\'-mappe eller prøv at gensende emailen ved at klikke på \'Gensend\'-knappen.';
+      'Følg instruktionerne i e-mailen for at fuldføre din tilmelding. Bemærk: hvis du ikke har set e-mailen i et stykke tid, så tjek din \'spam\'-mappe eller prøv at sende e-mailen igen ved at klikke på knappen \'Send igen\'.';
 
   @override
-  String get resend => 'Gensend';
+  String get resend => 'Send igen';
 
   @override
   String get activatingAccount => 'Aktiverer konto...';
 
   @override
-  String get accountActivated => 'Kontoen blev aktiveret!';
+  String get accountActivated => 'Kontoen er aktiveret!';
 
   @override
-  String get emailVerified => 'Email verificeret';
+  String get emailVerified => 'E-mail bekræftet';
 
   @override
   String get activatingAccountText =>
@@ -380,14 +380,14 @@ class SDa extends S {
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'Tillykke!\nDin $appTitle-konto er blevet aktiveret.\nDu kan nu logge ind på din $appTitle-platform.';
+    return 'Tillykke!\nDin $appTitle-konto er blevet aktiveret.\nNu kan du logge ind på dit $appTitle-område.';
   }
 
   @override
   String get privacyPolicy => 'Privatlivspolitik';
 
   @override
-  String get cancel => 'Annuller';
+  String get cancel => 'Annullér';
 
   @override
   String get accept => 'Acceptér';
@@ -426,14 +426,14 @@ class SDa extends S {
   String get signIn => 'Log ind';
 
   @override
-  String get inactiveUserAlreadyExists => 'Inaktiv bruger findes allerede';
+  String get inactiveUserAlreadyExists => 'Inaktiv bruger eksisterer allerede';
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Der er allerede en registreret bruger med en ikke-verificeret emailadresse.\nKlik på \'Gensend\'-knappen, hvis du ønsker at gensende verifikationsmailen.';
+      'Der er allerede en registreret bruger med en ubekræftet e-mailadresse.\nKlik på knappen \'Send igen\', hvis du vil sende bekræftelses-e-mailen igen.';
 
   @override
-  String get assignee => 'Tildelt';
+  String get assignee => 'Tildelt person';
 
   @override
   String get alarmTypes => 'Alarmtyper';
@@ -448,7 +448,7 @@ class SDa extends S {
   String get severity => 'Alvorlighed';
 
   @override
-  String get originator => 'Oprindelse';
+  String get originator => 'Afsender';
 
   @override
   String get startTime => 'Starttidspunkt';
@@ -501,7 +501,7 @@ class SDa extends S {
   }
 
   @override
-  String get viewDashboard => 'Vis Dashboard';
+  String get viewDashboard => 'Vis dashboard';
 
   @override
   String get activity => 'Aktivitet';
@@ -519,10 +519,10 @@ class SDa extends S {
   String get clear => 'Ryd';
 
   @override
-  String get acknowledge => 'Bekræft';
+  String get acknowledge => 'Kvittér';
 
   @override
-  String get edit => 'Rediger';
+  String get edit => 'Redigér';
 
   @override
   String get delete => 'Slet';
@@ -540,16 +540,16 @@ class SDa extends S {
   String get noResultsFound => 'Ingen resultater fundet';
 
   @override
-  String get tryRefiningYourQuery => 'Prøv venligst at forfine din søgning';
+  String get tryRefiningYourQuery => 'Prøv at præcisere din forespørgsel';
 
   @override
   String get failedToLoadTheList => 'Kunne ikke indlæse listen';
 
   @override
-  String get tryRefreshing => 'Prøv venligst at opdatere';
+  String get tryRefreshing => 'Prøv at opdatere';
 
   @override
-  String get refresh => 'Opdater';
+  String get refresh => 'Opdatér';
 
   @override
   String get users => 'Brugere';
@@ -600,7 +600,7 @@ class SDa extends S {
 
   @override
   String updateTo(Object version) {
-    return 'Opdater til $version';
+    return 'Opdatér til $version';
   }
 
   @override
@@ -610,25 +610,25 @@ class SDa extends S {
   String get confirmation => 'Bekræftelse';
 
   @override
-  String get wifiPassword => 'Wi-Fi adgangskode';
+  String get wifiPassword => 'Wi-Fi-adgangskode';
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'For at fortsætte opsætningen af din enhed $deviceName, skal du angive netværkets legitimationsoplysninger.';
+    return 'For at fortsætte opsætningen af din enhed $deviceName skal du angive legitimationsoplysningerne til dit netværk.';
   }
 
   @override
   String wifiPasswordMessage(Object network) {
-    return 'Indtast adgangskode til $network';
+    return 'Indtast adgangskode for $network';
   }
 
   @override
   String get deviceNotFoundMessage =>
-      'Enheder blev ikke fundet. Sørg for, at telefonens Bluetooth er slået til og inden for rækkevidde af den nye enhed.';
+      'Ingen enheder fundet. Kontrollér, at din telefons Bluetooth er slået til, og at du er inden for rækkevidde af din nye enhed.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'Du har ikke tilstrækkelige tilladelser til \"$permissions\" for at fortsætte. Giv de nødvendige tilladelser og tryk på \"Prøv igen\".';
+    return 'Du har ikke tilstrækkelige tilladelser til \"$permissions\" for at fortsætte. Giv de påkrævede tilladelser, og tryk på \"Prøv igen\".';
   }
 
   @override
@@ -638,28 +638,28 @@ class SDa extends S {
   String get confirmingWifiConnection => 'Bekræfter Wi-Fi-forbindelse';
 
   @override
-  String get provisionedSuccessfully => 'Enheden blev konfigureret med succes';
+  String get provisionedSuccessfully => 'Enheden er blevet klargjort';
 
   @override
-  String get returnToDashboard => 'Vend tilbage til dashboard';
+  String get returnToDashboard => 'Tilbage til dashboard';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'Kan ikke oprette session med enheden $deviceName. Prøv igen';
+    return 'Kan ikke etablere session med enheden $deviceName. Prøv igen';
   }
 
   @override
-  String get claimingDevice => 'Tilknytter enhed';
+  String get claimingDevice => 'Tager enheden i brug';
 
   @override
-  String get claimingDeviceDone => 'Enhedstilknytning fuldført';
+  String get claimingDeviceDone => 'Enheden er taget i brug';
 
   @override
-  String get claimingMessageSuccess => 'Enheden blev\ntilknyttet med succes';
+  String get claimingMessageSuccess => 'Enheden blev\ntaget i brug';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'Du har ikke tilstrækkelige tilladelser til \"$permissions\" for at fortsætte. Åbn app-indstillingerne, giv tilladelser og tryk på \"Prøv igen\".';
+    return 'Du har ikke tilstrækkelige tilladelser til \"$permissions\" for at fortsætte. Åbn applikationsindstillinger, giv tilladelser og tryk på \"Prøv igen\".';
   }
 
   @override
@@ -675,11 +675,11 @@ class SDa extends S {
   String get toggleFlash => 'Skift blitz';
 
   @override
-  String get unableToUseCamera => 'Kan ikke bruge kameraet';
+  String get unableToUseCamera => 'Kan ikke bruge kamera';
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Åbn indstillinger og giv adgang til kameraet for at fortsætte';
+      'Åbn indstillinger og giv adgang til kamera for at fortsætte';
 
   @override
   String get notFound => 'Ikke fundet';
@@ -699,7 +699,7 @@ class SDa extends S {
   String get anEmptyRequestDataReceived => 'Tomme forespørgselsdata modtaget.';
 
   @override
-  String get somethingWentWrongRollback => 'Noget gik galt ... Ruller tilbage';
+  String get somethingWentWrongRollback => 'Noget gik galt ... Tilbagerulning';
 
   @override
   String get searchResults => 'Søgeresultater';
@@ -709,7 +709,7 @@ class SDa extends S {
 
   @override
   String get requestedEntityDoesNotExists =>
-      'Den anmodede entitet eksisterer ikke.';
+      'Den anmodede entitet findes ikke.';
 
   @override
   String get noAlarmsFound => 'Ingen alarmer fundet';
@@ -718,19 +718,19 @@ class SDa extends S {
   String get filters => 'Filtre';
 
   @override
-  String get alarmStatusList => 'Alarmstatusliste';
+  String get alarmStatusList => 'Liste over alarmstatus';
 
   @override
-  String get alarmSeverityList => 'Alarm alvorlighedsliste';
+  String get alarmSeverityList => 'Liste over alvorlighedsniveauer';
 
   @override
   String get cleared => 'Ryddet';
 
   @override
-  String get acknowledged => 'Bekræftet';
+  String get acknowledged => 'Kvitteret';
 
   @override
-  String get unacknowledged => 'Ubekræftet';
+  String get unacknowledged => 'Ikke kvitteret';
 
   @override
   String get critical => 'Kritisk';
@@ -739,7 +739,7 @@ class SDa extends S {
   String get major => 'Alvorlig';
 
   @override
-  String get minor => 'Mindre';
+  String get minor => 'Mindre alvorlig';
 
   @override
   String get warning => 'Advarsel';
@@ -762,10 +762,10 @@ class SDa extends S {
   String get reset => 'Nulstil';
 
   @override
-  String get update => 'Opdater';
+  String get update => 'Opdatér';
 
   @override
-  String get alarmTypeList => 'Alarmtypeliste';
+  String get alarmTypeList => 'Liste over alarmtyper';
 
   @override
   String get anyType => 'Enhver type';
@@ -795,7 +795,8 @@ class SDa extends S {
   String get sessionExpired => 'Sessionen er udløbet';
 
   @override
-  String get fatalApplicationErrorOccurred => 'Fatal applikationsfejl opstod:';
+  String get fatalApplicationErrorOccurred =>
+      'Der opstod en fatal applikationsfejl:';
 
   @override
   String get connectionError => 'Forbindelsesfejl';
@@ -809,31 +810,31 @@ class SDa extends S {
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      'Mobilt dashboard skal konfigureres i enhedsprofilen!';
+      'Mobildashboard skal konfigureres i enhedsprofilen!';
 
   @override
   String get openWifiSettings => 'Åbn Wi-Fi-indstillinger';
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'Opret forbindelse til det Wi-Fi, du normalt bruger';
+      'Opret forbindelse til den Wi-Fi, du normalt bruger';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'Vend tilbage til appen og tryk på Klar-knappen';
+      'Vend tilbage til applikationen og tryk på knappen Klar';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Følg venligst de næste trin for at genoprette\nforbindelsen til dit normale Wi-Fi';
+      'Følg de næste trin for at genoprette forbindelse\nmellem din telefon og din sædvanlige Wi-Fi';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Push-meddelelser er ikke konfigureret.\nKontakt venligst din systemadministrator.';
+      'Push-notifikationer er ikke konfigureret.\nKontakt din systemadministrator.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase er ikke konfigureret.\nSe venligst den officielle Firebase-dokumentation\nfor vejledning.';
+      'Firebase er ikke konfigureret.\n Se den officielle Firebase-dokumentation for\n vejledning i, hvordan du gør det.';
 
   @override
   String get markAllAsRead => 'Markér alle som læst';
@@ -843,32 +844,33 @@ class SDa extends S {
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'Kan ikke åbne url: $link';
+    return 'Kan ikke åbne URL: $link';
   }
 
   @override
   String get noDashboardsFound => 'Ingen dashboards fundet';
 
   @override
-  String get openAppSettings => 'Åbn app-indstillinger';
+  String get openAppSettings => 'Åbn applikationsindstillinger';
 
   @override
-  String get connectingToDevice => 'Opretter forbindelse til enhed';
+  String get connectingToDevice => 'Opretter forbindelse til enheden';
 
   @override
-  String get connectToDevice => 'Opret forbindelse til enhed';
+  String get connectToDevice => 'Opret forbindelse til enheden';
 
   @override
   String get selectWifiNetwork => 'Vælg Wi-Fi-netværk';
 
   @override
-  String get deviceProvisioning => 'Enhedsklargøring';
+  String get deviceProvisioning => 'Klargøring af enheder';
 
   @override
   String get permissions => 'Tilladelser';
 
   @override
-  String get unableConnectToDevice => 'Kan ikke oprette forbindelse til enhed';
+  String get unableConnectToDevice =>
+      'Kan ikke oprette forbindelse til enheden';
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
@@ -876,21 +878,21 @@ class SDa extends S {
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Forbindelse til Wi-Fi-netværket $name mislykkedes.\nSørg venligst for, at din telefon er tilsluttet enhedens Wi-Fi-netværk, og at lokal netværksadgang er aktiveret for denne app i enhedsindstillingerne.';
+    return 'Forbindelsen til Wi-Fi-netværket $name mislykkedes.\nSørg for, at din telefon er forbundet til enhedens Wi-Fi-netværk, og at adgang til lokalt netværk er aktiveret for denne applikation i telefonens indstillinger.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'Kan ikke oprette forbindelse til Wi-Fi, fordi netværk ikke blev fundet af enheden $name';
+    return 'Kan ikke oprette forbindelse til Wi-Fi, fordi enheden $name ikke fandt nogen netværk';
   }
 
   @override
   String get pleaseFollowTheNextStepsToConnectYourPhoneTo =>
-      'Følg venligst de næste trin for at tilslutte din telefon til enheden';
+      'Følg de næste trin for at forbinde din telefon til enheden';
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Opret forbindelse til Wi-Fi lignende $wifiName';
+    return 'Opret forbindelse til Wi-Fi svarende til $wifiName';
   }
 
   @override
@@ -906,11 +908,10 @@ class SDa extends S {
   String get markAsRead => 'Markér som læst';
 
   @override
-  String get url => 'Url';
+  String get url => 'URL';
 
   @override
-  String get pleaseScanQrCodeOnYourDevice =>
-      'Scan venligst QR-koden på din enhed';
+  String get pleaseScanQrCodeOnYourDevice => 'Scan QR-koden på din enhed';
 
   @override
   String get search => 'Søg';
@@ -948,7 +949,7 @@ class SDa extends S {
   String get ruleChain => 'Regelkæde';
 
   @override
-  String get ruleNode => 'Regelknude';
+  String get ruleNode => 'Regelnode';
 
   @override
   String get edge => 'Edge';
@@ -957,13 +958,13 @@ class SDa extends S {
   String get entityView => 'Entitetsvisning';
 
   @override
-  String get widgetsBundle => 'Widget-pakke';
+  String get widgetsBundle => 'Widgetpakke';
 
   @override
-  String get widgetType => 'Widget-type';
+  String get widgetType => 'Widgettype';
 
   @override
-  String get apiUsageState => 'API-brugstilstand';
+  String get apiUsageState => 'API-brugsstatus';
 
   @override
   String get tbResource => 'Ressource';
@@ -978,13 +979,13 @@ class SDa extends S {
   String get queue => 'Kø';
 
   @override
-  String get notificationTarget => 'Notifikationsmål';
+  String get notificationTarget => 'Notifikationsmodtager';
 
   @override
   String get notificationTemplate => 'Notifikationsskabelon';
 
   @override
-  String get notificationRequest => 'Notifikationsforespørgsel';
+  String get notificationRequest => 'Notifikationsanmodning';
 
   @override
   String notifications(int count) {
@@ -1004,13 +1005,13 @@ class SDa extends S {
   String get entityGroup => 'Entitetsgruppe';
 
   @override
-  String get converter => 'Konverter';
+  String get converter => 'Datakonverter';
 
   @override
   String get integration => 'Integration';
 
   @override
-  String get schedulerEvent => 'Planlægningshændelse';
+  String get schedulerEvent => 'Planlæggerhændelse';
 
   @override
   String get blobEntity => 'Blob-entitet';
@@ -1050,10 +1051,10 @@ class SDa extends S {
       'Legitimationsoplysninger opdateret';
 
   @override
-  String get actionTypeAssignedToCustomer => 'Tildelt kunde';
+  String get actionTypeAssignedToCustomer => 'Tildelt til kunde';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Fjernet fra kunde';
+  String get actionTypeUnassignedFromCustomer => 'Tildeling til kunde fjernet';
 
   @override
   String get actionTypeActivated => 'Aktiveret';
@@ -1077,7 +1078,7 @@ class SDa extends S {
   String get actionTypeRelationsDeleted => 'Alle relationer slettet';
 
   @override
-  String get actionTypeAlarmAck => 'Bekræftet';
+  String get actionTypeAlarmAck => 'Kvitteret';
 
   @override
   String get actionTypeAlarmClear => 'Ryddet';
@@ -1089,7 +1090,7 @@ class SDa extends S {
   String get actionTypeAlarmAssigned => 'Alarm tildelt';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarm fjernet';
+  String get actionTypeAlarmUnassigned => 'Alarmtildeling fjernet';
 
   @override
   String get actionTypeLogin => 'Login';
@@ -1110,7 +1111,7 @@ class SDa extends S {
   String get actionTypeProvisionSuccess => 'Enhed klargjort';
 
   @override
-  String get actionTypeProvisionFailure => 'Enhedsklargøring mislykkedes';
+  String get actionTypeProvisionFailure => 'Klargøring af enhed mislykkedes';
 
   @override
   String get actionTypeTimeseriesUpdated => 'Telemetri opdateret';
@@ -1122,7 +1123,7 @@ class SDa extends S {
   String get actionTypeAssignedToEdge => 'Tildelt til Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Fjernet fra Edge';
+  String get actionTypeUnassignedFromEdge => 'Tildeling til Edge fjernet';
 
   @override
   String get actionTypeAddedComment => 'Kommentar tilføjet';
@@ -1143,7 +1144,7 @@ class SDa extends S {
   String get actionTypeRemovedFromEntityGroup => 'Fjernet fra entitetsgruppe';
 
   @override
-  String get actionTypeRestApiRuleEngineCall => 'REST API regelmotor-kald';
+  String get actionTypeRestApiRuleEngineCall => 'REST API-kald til Rule Engine';
 
   @override
   String get actionTypeMadePublic => 'Gjort offentlig';
@@ -1156,11 +1157,11 @@ class SDa extends S {
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'Du har ikke tilladelser til at udføre denne handling!';
+      'Du har ikke tilladelse til at udføre denne handling!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Det ser ud til, at dine tilladelser ikke er tilstrækkelige til at fuldføre denne handling';
+      'Det ser ud til, at dine tilladelser ikke er tilstrækkelige til at udføre denne handling';
 
   @override
   String get isRequiredText => 'er påkrævet.';
@@ -1170,19 +1171,19 @@ class SDa extends S {
 
   @override
   String get pleaseContactYourSystemAdministrator =>
-      'Kontakt venligst din systemadministrator';
+      'Kontakt din systemadministrator';
 
   @override
   String errorOccured(Object e) {
-    return 'Fejl opstod: $e';
+    return 'Der opstod en fejl: $e';
   }
 
   @override
-  String get unsavedChanges => 'Ikke-gemte ændringer';
+  String get unsavedChanges => 'Ikke gemte ændringer';
 
   @override
   String get youHaveUnsavedChangesAreYouSureYouWantTo =>
-      'Du har ikke-gemte ændringer. Er du sikker på, at du vil forlade denne side?';
+      'Du har ikke gemte ændringer. Er du sikker på, at du vil forlade denne side?';
 
   @override
   String get deleteAccount => 'Slet konto';
@@ -1211,34 +1212,33 @@ class SDa extends S {
   String get languageAuto => 'Auto';
 
   @override
-  String get unitSystem => 'Enhedssystem';
+  String get unitSystem => 'Måleenhedssystem';
 
   @override
   String get selectCountry => 'Vælg land';
 
   @override
-  String get hideHomeDashboardToolbar =>
-      'Skjul hjemmeside-dashboard værktøjslinje';
+  String get hideHomeDashboardToolbar => 'Skjul værktøjslinje i startdashboard';
 
   @override
   String get phoneNumberHelperText =>
       'Telefonnummer i E.164-format, f.eks. +1201550123';
 
   @override
-  String get homeDashboard => 'Hjemmeside-dashboard';
+  String get homeDashboard => 'Startdashboard';
 
   @override
   String get security => 'Sikkerhed';
 
   @override
-  String get twofactorAuthentication => 'To-faktor-godkendelse';
+  String get twofactorAuthentication => 'Tofaktorgodkendelse';
 
   @override
   String get verificationRequired => 'Verifikation påkrævet';
 
   @override
   String get twofactorAuthenticationIsRequired =>
-      'To-faktor-godkendelse er påkrævet';
+      'Tofaktorgodkendelse er påkrævet';
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
@@ -1249,22 +1249,22 @@ class SDa extends S {
 
   @override
   String get totpSetupSuccessDescription =>
-      'Næste gang du logger ind, skal du angive en to-faktor-godkendelseskode';
+      'Næste gang du logger ind, skal du angive en tofaktorgodkendelseskode';
 
   @override
   String get smsSetupSuccessDescription =>
-      'Næste gang du logger ind, vil du blive bedt om at indtaste sikkerhedskoden, der sendes til telefonnummeret';
+      'Næste gang du logger ind, bliver du bedt om at indtaste sikkerhedskoden, som sendes til telefonnummeret';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Næste gang du logger ind, vil du blive bedt om at indtaste sikkerhedskoden, der sendes til din emailadresse';
+      'Næste gang du logger ind, bliver du bedt om at indtaste sikkerhedskoden, som sendes til din e-mailadresse';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'Næste gang du logger ind, kan du bruge backupkoder til at gennemføre to-faktor-godkendelse';
+      'Næste gang du logger ind, kan du bruge backupkoder til at gennemføre tofaktorgodkendelse';
 
   @override
-  String get loginToApp => 'Log ind i appen';
+  String get loginToApp => 'Log ind på applikationen';
 
   @override
   String get goBack => 'Gå tilbage';
@@ -1282,15 +1282,15 @@ class SDa extends S {
   }
 
   @override
-  String get yesDeactivate => 'Ja, deaktiver';
+  String get yesDeactivate => 'Ja, deaktivér';
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'Indtast en email til brug som din autentifikator.';
+      'Indtast en e-mail, der skal bruges som godkendelsesmetode.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
-      'Indtast et telefonnummer til brug som din autentifikator';
+      'Indtast et telefonnummer, der skal bruges som godkendelsesmetode';
 
   @override
   String get sendCode => 'Send kode';
@@ -1311,18 +1311,12 @@ class SDa extends S {
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'cifre',
-      one: 'cifret',
-    );
-    return '$count-$_temp0 kode';
+    return '$count-cifret kode';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Kopiér 32-cifret nøgle til din autentifikatorapp eller scan QR-koden nedenfor';
+      'Kopiér nøglen på 32 tegn ind i din godkendelsesapp, eller scan QR-koden nedenfor';
 
   @override
   String get applyChanges => 'Anvend ændringer';
@@ -1339,7 +1333,7 @@ class SDa extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'To-faktor-godkendelse beskytter din konto mod uautoriseret adgang. Alt du skal gøre er at indtaste en sikkerhedskode, når du logger ind.';
+      'Tofaktorgodkendelse beskytter din konto mod uautoriseret adgang. Du skal blot indtaste en sikkerhedskode ved login.';
 
   @override
   String get calculatedField => 'Beregnet felt';
@@ -1357,22 +1351,22 @@ class SDa extends S {
   String get job => 'Job';
 
   @override
-  String get mobileAppBundle => 'Mobil app-pakke';
+  String get mobileAppBundle => 'Mobilpakke';
 
   @override
-  String get mobileApp => 'Mobil app';
+  String get mobileApp => 'Mobilapp';
 
   @override
   String get domain => 'Domæne';
 
   @override
-  String get oauth2Client => 'OAuth2-klient';
+  String get oauth2Client => 'OAuth 2.0-klient';
 
   @override
   String get queueStats => 'Køstatistik';
 
   @override
-  String get phoneIsRequired => 'Telefon er påkrævet';
+  String get phoneIsRequired => 'Telefonnummer er påkrævet';
 
   @override
   String get phoneIsInvalid => 'Telefonnummer er ugyldigt';
@@ -1381,10 +1375,10 @@ class SDa extends S {
   String get addVerificationMethod => 'Tilføj verifikationsmetode';
 
   @override
-  String get imageSavedToGallery => 'Gemt i \'Billedgalleri\'';
+  String get imageSavedToGallery => 'Gemt i platformens \'Billedgalleri\'';
 
   @override
-  String get failedToSaveImage => 'Kunne ikke gemme billede';
+  String get failedToSaveImage => 'Kunne ikke gemme billedet';
 
   @override
   String nSelected(int count) {
@@ -1429,22 +1423,22 @@ class SDa extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Henter data fra serveren $host';
+    return 'Henter data fra din vært $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Logger dig ind på værten $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Skifter til den nye vært $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Kunne ikke hente et login-token fra $host. Scan en ny QR-kode.';
   }
 
   @override
@@ -1459,18 +1453,18 @@ class SDa extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'QR-kodesessionen er ikke længere gyldig. Opdatér QR-koden, og scan igen.';
 
   @override
   String get openThisLinkTitle => 'Åbn dette link?';
 
   @override
   String get linkOpensSignInPage =>
-      'Dette link åbner login-siden for denne server. Du bliver logget ud af din nuværende server.';
+      'Dette link åbner loginsiden for denne server. Du bliver logget ud af din aktuelle server.';
 
   @override
   String get linkOpensSignInPageOnly =>
-      'Dette link åbner login-siden for denne server.';
+      'Dette link åbner loginsiden for denne server.';
 
   @override
   String linkSignsInAs(Object email) {
@@ -1486,7 +1480,7 @@ class SDa extends S {
 
   @override
   String get linkToOtherServerNotAllowed =>
-      'Denne app virker kun med sin egen server og kan ikke åbne dette link.';
+      'Denne applikation fungerer kun med sin egen server og kan ikke åbne dette link.';
 
   @override
   String get liveTrackingActive => 'Live-sporing af placering';
@@ -1519,7 +1513,7 @@ class SDa extends S {
   String get liveTrackingSessionTitle => 'Live-sporing af placering';
 
   @override
-  String get liveTrackingTarget => 'Gem placering på enhed';
+  String get liveTrackingTarget => 'Gem placering på entitet';
 
   @override
   String get liveTrackingDashboard => 'Dashboard';
@@ -1538,11 +1532,11 @@ class SDa extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Kan ikke gemme på denne enhed – den findes ikke længere. Sporingen fortsætter; opdater målet i dashboard-handlingen.';
+      'Kan ikke gemme til denne entitet — den findes ikke længere. Sporingen fortsætter; opdatér målet i dashboardhandlingen.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'Ingen forbindelse til serveren. Disse positioner blev ikke gemt – gemningen genoptages, når du er online igen.';
+      'Ingen forbindelse til serveren. Disse positioner blev ikke gemt — lagringen genoptages, når du er online igen.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
@@ -1550,11 +1544,11 @@ class SDa extends S {
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Kan ikke gemme på denne enhed – du har ikke tilladelse. Sporingen fortsætter; bed din administrator om adgang.';
+      'Kan ikke gemme til denne entitet — du har ikke tilladelse. Sporingen fortsætter; bed din administrator om at give adgang.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Kunne ikke gemme denne position på serveren. Gemningen forsøges igen med den næste position.';
+      'Kunne ikke gemme denne position på serveren. Lagringen forsøges igen med næste position.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
@@ -1562,14 +1556,14 @@ class SDa extends S {
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Tilladelse til placering blev afvist.';
+      'Placeringstilladelse blev afvist.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Tilladelse til placering er permanent afvist. Aktivér den i appens indstillinger.';
+      'Placeringstilladelse er permanent afvist. Aktivér den i applikationens indstillinger.';
 
   @override
-  String get liveTrackingErrorLocation => 'Kunne ikke bestemme placeringen.';
+  String get liveTrackingErrorLocation => 'Kunne ikke hente en placering.';
 
   @override
   String get liveTrackingMenuTitle => 'Live-sporing af placering';
@@ -1588,7 +1582,7 @@ class SDa extends S {
   String get liveTrackingEnded => 'Sluttidspunkt';
 
   @override
-  String get liveTrackingEndReason => 'Årsag til afslutning';
+  String get liveTrackingEndReason => 'Afslutningsårsag';
 
   @override
   String get liveTrackingEndReasonManual => 'Stoppet manuelt';
@@ -1607,7 +1601,7 @@ class SDa extends S {
 
   @override
   String serverRequiresVersion(String minVersion) {
-    return 'Denne app virker med ThingsBoard $minVersion eller nyere.';
+    return 'Denne applikation fungerer med ThingsBoard $minVersion eller nyere.';
   }
 
   @override
@@ -1621,12 +1615,11 @@ class SDa extends S {
       'Bed din serveradministrator om at opdatere serveren.';
 
   @override
-  String get deviceClaimFailed =>
-      'Enheden kunne ikke gøres krav på. Prøv igen.';
+  String get deviceClaimFailed => 'Enheden kunne ikke tages i brug. Prøv igen.';
 
   @override
   String get deviceToClaimNotFound =>
-      'Enheden blev ikke fundet. Kontakt enhedens leverandør.';
+      'Enhed ikke fundet. Kontakt enhedsleverandøren.';
 
   @override
   String get enableAuthenticatorApp => 'Aktivér godkendelsesapp';
@@ -1661,7 +1654,7 @@ class SDa extends S {
 
   @override
   String get noAuthenticatorAppFound =>
-      'Der blev ikke fundet nogen godkendelsesapp. Kopiér nøglen til din app i stedet.';
+      'Ingen godkendelsesapp fundet. Kopiér i stedet nøglen ind i din godkendelsesapp.';
 
   @override
   String twoFaProviderEnabled(String provider) {
@@ -1670,7 +1663,7 @@ class SDa extends S {
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'Din administrator kræver totrinsgodkendelse for $email.';
+    return 'Din administrator kræver tofaktorgodkendelse for $email.';
   }
 
   @override

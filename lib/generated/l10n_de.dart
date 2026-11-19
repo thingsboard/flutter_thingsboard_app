@@ -36,25 +36,25 @@ class SDe extends S {
   String get assets => 'Assets';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Mandanten';
 
   @override
-  String get auditLogs => 'Prüfprotokolle';
+  String get auditLogs => 'Audit-Logs';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Keine Kunden gefunden';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Keine Assets gefunden';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Keine Mandanten gefunden';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Keine Geräte gefunden';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Keine Audit-Logs gefunden';
 
   @override
   String get logout => 'Abmelden';
@@ -66,7 +66,7 @@ class SDe extends S {
   String get logoDefaultValue => 'ThingsBoard-Logo';
 
   @override
-  String get loginToYourAccount => 'Melden Sie sich bei Ihrem Konto an';
+  String get loginToYourAccount => 'Bei Ihrem Konto anmelden';
 
   @override
   String get email => 'E-Mail';
@@ -94,10 +94,10 @@ class SDe extends S {
 
   @override
   String get passwordResetText =>
-      'Geben Sie die mit Ihrem Konto verknüpfte E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen des Passworts';
+      'Geben Sie die mit Ihrem Konto verknüpfte E-Mail-Adresse ein, und wir senden Ihnen eine E-Mail mit einem Link zum Zurücksetzen des Passworts';
 
   @override
-  String get requestPasswordReset => 'Passwortzurücksetzung anfordern';
+  String get requestPasswordReset => 'Passwort-Zurücksetzung anfordern';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
@@ -105,7 +105,7 @@ class SDe extends S {
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'E-Mail-Bestätigungslink wurde erfolgreich gesendet!';
+      'Link zur E-Mail-Bestätigung wurde erfolgreich gesendet!';
 
   @override
   String get or => 'ODER';
@@ -141,18 +141,17 @@ class SDe extends S {
   String get phone => 'Telefon';
 
   @override
-  String get alarmClearTitle => 'Alarm löschen';
+  String get alarmClearTitle => 'Alarm zurücksetzen';
 
   @override
-  String get alarmClearText =>
-      'Sind Sie sicher, dass Sie den Alarm löschen möchten?';
+  String get alarmClearText => 'Möchten Sie den Alarm wirklich zurücksetzen?';
 
   @override
   String get alarmAcknowledgeTitle => 'Alarm bestätigen';
 
   @override
   String get alarmAcknowledgeText =>
-      'Sind Sie sicher, dass Sie den Alarm bestätigen möchten?';
+      'Möchten Sie den Alarm wirklich bestätigen?';
 
   @override
   String get assetName => 'Asset-Name';
@@ -167,7 +166,7 @@ class SDe extends S {
   String get assignedToCustomer => 'Dem Kunden zugewiesen';
 
   @override
-  String get auditLogDetails => 'Details des Prüfprotokolls';
+  String get auditLogDetails => 'Audit-Log-Details';
 
   @override
   String get customerDetails => 'Kundendetails';
@@ -222,7 +221,7 @@ class SDe extends S {
   String get systemAdministrator => 'Systemadministrator';
 
   @override
-  String get tenantAdministrator => 'Mieteradministrator';
+  String get tenantAdministrator => 'Mandantenadministrator';
 
   @override
   String get customer => 'Kunde';
@@ -245,7 +244,7 @@ class SDe extends S {
 
   @override
   String get newPassword2RequireText =>
-      'Neues Passwort (erneut) ist erforderlich.';
+      'Wiederholung des neuen Passworts ist erforderlich.';
 
   @override
   String get newPassword2 => 'Neues Passwort bestätigen';
@@ -276,10 +275,10 @@ class SDe extends S {
   String get tryAgain => 'Erneut versuchen';
 
   @override
-  String get verifyYourIdentity => 'Bestätigen Sie Ihre Identität';
+  String get verifyYourIdentity => 'Identität bestätigen';
 
   @override
-  String get continueText => 'Fortfahren';
+  String get continueText => 'Weiter';
 
   @override
   String get resendCode => 'Code erneut senden';
@@ -330,7 +329,7 @@ class SDe extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'Zu viele Anfragen. Verifizierungscode überprüfen';
+      'Zu viele Anfragen zur Überprüfung des Verifizierungscodes';
 
   @override
   String get tryAnotherWay => 'Andere Methode versuchen';
@@ -357,15 +356,15 @@ class SDe extends S {
   String get createAccount => 'Konto erstellen';
 
   @override
-  String get emailVerification => 'E-Mail-Verifizierung';
+  String get emailVerification => 'E-Mail-Bestätigung';
 
   @override
   String get emailVerificationSentText =>
-      'Eine E-Mail mit Verifizierungsinformationen wurde an die angegebene E-Mail-Adresse gesendet';
+      'Eine E-Mail mit Bestätigungsdetails wurde an die angegebene E-Mail-Adresse gesendet';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Bitte folgen Sie den Anweisungen in der E-Mail, um die Registrierung abzuschließen. Hinweis: Wenn Sie die E-Mail nicht finden können, überprüfen Sie bitte Ihren Spam-Ordner oder klicken Sie auf \'Erneut senden\', um die E-Mail erneut zu versenden.';
+      'Bitte folgen Sie den Anweisungen in der E-Mail, um die Registrierung abzuschließen. Hinweis: Falls Sie die E-Mail längere Zeit nicht erhalten haben, prüfen Sie bitte Ihren Spam-Ordner oder versuchen Sie, die E-Mail über die Schaltfläche „Erneut senden“ erneut zu senden.';
 
   @override
   String get resend => 'Erneut senden';
@@ -377,7 +376,7 @@ class SDe extends S {
   String get accountActivated => 'Konto erfolgreich aktiviert!';
 
   @override
-  String get emailVerified => 'E-Mail verifiziert';
+  String get emailVerified => 'E-Mail bestätigt';
 
   @override
   String get activatingAccountText =>
@@ -385,7 +384,7 @@ class SDe extends S {
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'Herzlichen Glückwunsch!\nIhr $appTitle-Konto wurde aktiviert.\nSie können sich jetzt in Ihrem $appTitle-Bereich anmelden.';
+    return 'Herzlichen Glückwunsch!\nIhr $appTitle-Konto wurde aktiviert.\nSie können sich nun in Ihrem $appTitle-Bereich anmelden.';
   }
 
   @override
@@ -425,21 +424,21 @@ class SDe extends S {
   String get signUp => 'Registrieren';
 
   @override
-  String get alreadyHaveAnAccount => 'Sie haben bereits ein Konto?';
+  String get alreadyHaveAnAccount => 'Bereits ein Konto?';
 
   @override
   String get signIn => 'Anmelden';
 
   @override
   String get inactiveUserAlreadyExists =>
-      'Ein inaktiver Benutzer existiert bereits';
+      'Inaktiver Benutzer existiert bereits';
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Ein Benutzer mit einer nicht verifizierten E-Mail-Adresse ist bereits registriert.\nKlicken Sie auf \'Erneut senden\', um die Verifizierungs-E-Mail erneut zu senden.';
+      'Es ist bereits ein Benutzer mit nicht bestätigter E-Mail-Adresse registriert.\nKlicken Sie auf die Schaltfläche „Erneut senden“, wenn Sie die Bestätigungs-E-Mail erneut senden möchten.';
 
   @override
-  String get assignee => 'Zugewiesene Person';
+  String get assignee => 'Zuständiger';
 
   @override
   String get alarmTypes => 'Alarmtypen';
@@ -513,7 +512,7 @@ class SDe extends S {
   String get activity => 'Aktivität';
 
   @override
-  String get addCommentMessage => 'Einen Kommentar hinzufügen...';
+  String get addCommentMessage => 'Kommentar hinzufügen...';
 
   @override
   String get selectUser => 'Benutzer auswählen';
@@ -522,7 +521,7 @@ class SDe extends S {
   String get assignedToMe => 'Mir zugewiesen';
 
   @override
-  String get clear => 'Löschen';
+  String get clear => 'Zurücksetzen';
 
   @override
   String get acknowledge => 'Bestätigen';
@@ -546,13 +545,13 @@ class SDe extends S {
   String get noResultsFound => 'Keine Ergebnisse gefunden';
 
   @override
-  String get tryRefiningYourQuery => 'Bitte verfeinern Sie Ihre Suche';
+  String get tryRefiningYourQuery => 'Bitte verfeinern Sie Ihre Suchanfrage';
 
   @override
-  String get failedToLoadTheList => 'Liste konnte nicht geladen werden';
+  String get failedToLoadTheList => 'Laden der Liste fehlgeschlagen';
 
   @override
-  String get tryRefreshing => 'Bitte versuchen Sie es mit Aktualisieren';
+  String get tryRefreshing => 'Bitte versuchen Sie es erneut';
 
   @override
   String get refresh => 'Aktualisieren';
@@ -565,7 +564,7 @@ class SDe extends S {
 
   @override
   String get failedToLoadAlarmDetails =>
-      'Alarmdetails konnten nicht geladen werden';
+      'Laden der Alarmdetails fehlgeschlagen';
 
   @override
   String get somethingWentWrong => 'Etwas ist schiefgelaufen';
@@ -607,7 +606,7 @@ class SDe extends S {
 
   @override
   String updateTo(Object version) {
-    return 'Aktualisieren auf $version';
+    return 'Auf $version aktualisieren';
   }
 
   @override
@@ -617,11 +616,11 @@ class SDe extends S {
   String get confirmation => 'Bestätigung';
 
   @override
-  String get wifiPassword => 'WLAN-Passwort';
+  String get wifiPassword => 'Wi-Fi-Passwort';
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'Um die Einrichtung Ihres Geräts $deviceName fortzusetzen, geben Sie bitte die Zugangsdaten Ihres Netzwerks ein.';
+    return 'Um die Einrichtung Ihres Geräts $deviceName fortzusetzen, geben Sie bitte Ihre Netzwerk-Zugangsdaten ein.';
   }
 
   @override
@@ -631,18 +630,18 @@ class SDe extends S {
 
   @override
   String get deviceNotFoundMessage =>
-      'Keine Geräte gefunden. Stellen Sie sicher, dass das Bluetooth Ihres Telefons eingeschaltet ist und sich in Reichweite Ihres neuen Geräts befindet.';
+      'Keine Geräte gefunden. Bitte stellen Sie sicher, dass Bluetooth auf Ihrem Telefon aktiviert ist und sich Ihr neues Gerät in Reichweite befindet.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'Sie haben nicht genügend Berechtigungen für \"$permissions\". Bitte erteilen Sie die erforderlichen Berechtigungen und tippen Sie auf \"Erneut versuchen\".';
+    return 'Sie haben nicht genügend Berechtigungen für „$permissions“, um fortzufahren. Bitte erteilen Sie die erforderlichen Berechtigungen und tippen Sie auf „Erneut versuchen“.';
   }
 
   @override
-  String get sendingWifiCredentials => 'WLAN-Zugangsdaten werden gesendet';
+  String get sendingWifiCredentials => 'Wi-Fi-Zugangsdaten werden gesendet';
 
   @override
-  String get confirmingWifiConnection => 'WLAN-Verbindung wird bestätigt';
+  String get confirmingWifiConnection => 'Wi-Fi-Verbindung wird bestätigt';
 
   @override
   String get provisionedSuccessfully =>
@@ -653,7 +652,7 @@ class SDe extends S {
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'Sitzung mit Gerät $deviceName konnte nicht hergestellt werden. Bitte versuchen Sie es erneut';
+    return 'Sitzung mit Gerät $deviceName kann nicht hergestellt werden. Bitte versuchen Sie es erneut';
   }
 
   @override
@@ -667,7 +666,7 @@ class SDe extends S {
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'Sie haben nicht genügend Berechtigungen für \"$permissions\". Bitte öffnen Sie die App-Einstellungen, erteilen Sie die Berechtigungen und tippen Sie auf \"Erneut versuchen\".';
+    return 'Sie haben nicht genügend Berechtigungen für „$permissions“, um fortzufahren. Bitte öffnen Sie die App-Einstellungen, erteilen Sie die Berechtigungen und tippen Sie auf „Erneut versuchen“.';
   }
 
   @override
@@ -677,7 +676,7 @@ class SDe extends S {
   String get allowAccess => 'Zugriff erlauben';
 
   @override
-  String get toggleCamera => 'Kamera wechseln';
+  String get toggleCamera => 'Kamera umschalten';
 
   @override
   String get toggleFlash => 'Blitz umschalten';
@@ -687,7 +686,7 @@ class SDe extends S {
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Öffnen Sie die Einstellungen und gewähren Sie Kamerazugriff, um fortzufahren';
+      'Einstellungen öffnen und Kamerazugriff erteilen, um fortzufahren';
 
   @override
   String get notFound => 'Nicht gefunden';
@@ -708,7 +707,7 @@ class SDe extends S {
 
   @override
   String get somethingWentWrongRollback =>
-      'Etwas ist schiefgelaufen ... Zurücksetzen';
+      'Etwas ist schiefgelaufen ... Rollback';
 
   @override
   String get searchResults => 'Suchergebnisse';
@@ -727,28 +726,28 @@ class SDe extends S {
   String get filters => 'Filter';
 
   @override
-  String get alarmStatusList => 'Alarmstatusliste';
+  String get alarmStatusList => 'Liste der Alarmstatus';
 
   @override
-  String get alarmSeverityList => 'Alarm-Schweregradliste';
+  String get alarmSeverityList => 'Liste der Alarmschweregrade';
 
   @override
-  String get cleared => 'Gelöscht';
+  String get cleared => 'Zurückgesetzt';
 
   @override
   String get acknowledged => 'Bestätigt';
 
   @override
-  String get unacknowledged => 'Unbestätigt';
+  String get unacknowledged => 'Nicht bestätigt';
 
   @override
   String get critical => 'Kritisch';
 
   @override
-  String get major => 'Schwerwiegend';
+  String get major => 'Hoch';
 
   @override
-  String get minor => 'Gering';
+  String get minor => 'Niedrig';
 
   @override
   String get warning => 'Warnung';
@@ -771,10 +770,10 @@ class SDe extends S {
   String get reset => 'Zurücksetzen';
 
   @override
-  String get update => 'Aktualisieren';
+  String get update => 'Speichern';
 
   @override
-  String get alarmTypeList => 'Alarmtypenliste';
+  String get alarmTypeList => 'Liste der Alarmtypen';
 
   @override
   String get anyType => 'Beliebiger Typ';
@@ -814,35 +813,35 @@ class SDe extends S {
   String get failedToConnectToServer => 'Verbindung zum Server fehlgeschlagen';
 
   @override
-  String get retry => 'Erneut versuchen';
+  String get retry => 'Wiederholen';
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      'Das mobile Dashboard sollte im Geräteprofil konfiguriert werden!';
+      'Mobiles Dashboard muss im Geräteprofil konfiguriert werden!';
 
   @override
-  String get openWifiSettings => 'WLAN-Einstellungen öffnen';
+  String get openWifiSettings => 'Wi-Fi-Einstellungen öffnen';
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'Verbinden Sie sich mit dem WLAN, das Sie normalerweise verwenden';
+      'Mit dem üblicherweise genutzten Wi-Fi verbinden';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'Kehren Sie zur App zurück und tippen Sie auf Bereit';
+      'Zur App zurückkehren und auf „Bereit“ tippen';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Bitte folgen Sie den nächsten Schritten, um\nIhr Telefon wieder mit Ihrem WLAN zu verbinden';
+      'Bitte folgen Sie den nächsten Schritten, um Ihr Telefon\nwieder mit Ihrem gewohnten Wi-Fi zu verbinden';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Push-Benachrichtigungen sind nicht konfiguriert.\nBitte kontaktieren Sie Ihren Systemadministrator.';
+      'Push-Benachrichtigungen sind nicht konfiguriert.\nBitte wenden Sie sich an Ihren Systemadministrator.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase ist nicht konfiguriert.\nBitte lesen Sie die offizielle Firebase-Dokumentation\nfür Anleitungen.';
+      'Firebase ist nicht konfiguriert.\n Eine Anleitung zur Konfiguration finden Sie\n in der offiziellen Firebase-Dokumentation.';
 
   @override
   String get markAllAsRead => 'Alle als gelesen markieren';
@@ -862,13 +861,13 @@ class SDe extends S {
   String get openAppSettings => 'App-Einstellungen öffnen';
 
   @override
-  String get connectingToDevice => 'Verbinde mit Gerät';
+  String get connectingToDevice => 'Verbindung zum Gerät wird hergestellt';
 
   @override
   String get connectToDevice => 'Mit Gerät verbinden';
 
   @override
-  String get selectWifiNetwork => 'WLAN-Netzwerk auswählen';
+  String get selectWifiNetwork => 'Wi-Fi-Netzwerk auswählen';
 
   @override
   String get deviceProvisioning => 'Gerätebereitstellung';
@@ -881,16 +880,16 @@ class SDe extends S {
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'Gerät kann kein WLAN in der Nähe finden';
+      'Gerät kann kein Wi-Fi in der Nähe finden';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Verbindung zum WLAN-Netzwerk $name fehlgeschlagen.\nBitte stellen Sie sicher, dass Ihr Telefon mit dem Geräte-WLAN verbunden ist und der lokale Netzwerkzugriff für diese App aktiviert ist.';
+    return 'Verbindung zum Wi-Fi-Netzwerk $name fehlgeschlagen.\nBitte stellen Sie sicher, dass Ihr Telefon mit dem Wi-Fi-Netzwerk des Geräts verbunden ist und dass der Zugriff auf das lokale Netzwerk für diese App in den Einstellungen Ihres Telefons aktiviert ist.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'WLAN-Verbindung nicht möglich, da das Gerät $name keine Netzwerke gefunden hat';
+    return 'Verbindung zum Wi-Fi nicht möglich, da das Gerät $name keine Netzwerke gefunden hat';
   }
 
   @override
@@ -899,7 +898,7 @@ class SDe extends S {
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Verbinden Sie sich mit einem WLAN ähnlich wie $wifiName';
+    return 'Mit einem Wi-Fi ähnlich $wifiName verbinden';
   }
 
   @override
@@ -925,10 +924,10 @@ class SDe extends S {
   String get search => 'Suchen';
 
   @override
-  String get tenant => 'Mieter';
+  String get tenant => 'Mandant';
 
   @override
-  String get tenantProfile => 'Mieterprofil';
+  String get tenantProfile => 'Mandantenprofil';
 
   @override
   String get user => 'Benutzer';
@@ -966,7 +965,7 @@ class SDe extends S {
   String get entityView => 'Entitätsansicht';
 
   @override
-  String get widgetsBundle => 'Widget-Paket';
+  String get widgetsBundle => 'Widget-Bündel';
 
   @override
   String get widgetType => 'Widget-Typ';
@@ -987,7 +986,7 @@ class SDe extends S {
   String get queue => 'Warteschlange';
 
   @override
-  String get notificationTarget => 'Benachrichtigungsziel';
+  String get notificationTarget => 'Benachrichtigungsempfänger';
 
   @override
   String get notificationTemplate => 'Benachrichtigungsvorlage';
@@ -1019,7 +1018,7 @@ class SDe extends S {
   String get integration => 'Integration';
 
   @override
-  String get schedulerEvent => 'Planer-Ereignis';
+  String get schedulerEvent => 'Zeitplanereignis';
 
   @override
   String get blobEntity => 'Blob-Entität';
@@ -1031,7 +1030,7 @@ class SDe extends S {
   String get groupPermission => 'Gruppenberechtigung';
 
   @override
-  String get actionStatusSuccess => 'Erfolg';
+  String get actionStatusSuccess => 'Erfolgreich';
 
   @override
   String get actionStatusFailure => 'Fehlgeschlagen';
@@ -1055,22 +1054,22 @@ class SDe extends S {
   String get actionTypeRpcCall => 'RPC-Aufruf';
 
   @override
-  String get actionTypeCredentialsUpdated => 'Anmeldedaten aktualisiert';
+  String get actionTypeCredentialsUpdated => 'Zugangsdaten aktualisiert';
 
   @override
   String get actionTypeAssignedToCustomer => 'Kunde zugewiesen';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Kundenzuweisung aufgehoben';
+  String get actionTypeUnassignedFromCustomer => 'Vom Kunden entfernt';
 
   @override
   String get actionTypeActivated => 'Aktiviert';
 
   @override
-  String get actionTypeSuspended => 'Gesperrt';
+  String get actionTypeSuspended => 'Suspendiert';
 
   @override
-  String get actionTypeCredentialsRead => 'Anmeldedaten gelesen';
+  String get actionTypeCredentialsRead => 'Zugangsdaten gelesen';
 
   @override
   String get actionTypeAttributesRead => 'Attribute gelesen';
@@ -1088,7 +1087,7 @@ class SDe extends S {
   String get actionTypeAlarmAck => 'Bestätigt';
 
   @override
-  String get actionTypeAlarmClear => 'Gelöscht';
+  String get actionTypeAlarmClear => 'Zurückgesetzt';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm gelöscht';
@@ -1097,22 +1096,22 @@ class SDe extends S {
   String get actionTypeAlarmAssigned => 'Alarm zugewiesen';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarmzuweisung aufgehoben';
+  String get actionTypeAlarmUnassigned => 'Alarm nicht mehr zugewiesen';
 
   @override
-  String get actionTypeLogin => 'Anmeldung';
+  String get actionTypeLogin => 'Login';
 
   @override
-  String get actionTypeLogout => 'Abmeldung';
+  String get actionTypeLogout => 'Logout';
 
   @override
-  String get actionTypeLockout => 'Gesperrt';
+  String get actionTypeLockout => 'Sperrung';
 
   @override
-  String get actionTypeAssignedFromTenant => 'Vom Mieter zugewiesen';
+  String get actionTypeAssignedFromTenant => 'Vom Mandanten zugewiesen';
 
   @override
-  String get actionTypeAssignedToTenant => 'Dem Mieter zugewiesen';
+  String get actionTypeAssignedToTenant => 'Mandant zugewiesen';
 
   @override
   String get actionTypeProvisionSuccess => 'Gerät bereitgestellt';
@@ -1131,7 +1130,7 @@ class SDe extends S {
   String get actionTypeAssignedToEdge => 'Edge zugewiesen';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Edge-Zuweisung aufgehoben';
+  String get actionTypeUnassignedFromEdge => 'Von Edge entfernt';
 
   @override
   String get actionTypeAddedComment => 'Kommentar hinzugefügt';
@@ -1152,7 +1151,8 @@ class SDe extends S {
   String get actionTypeRemovedFromEntityGroup => 'Aus Entitätsgruppe entfernt';
 
   @override
-  String get actionTypeRestApiRuleEngineCall => 'REST-API-Regelengine-Aufruf';
+  String get actionTypeRestApiRuleEngineCall =>
+      'REST-API-Aufruf der Regel-Engine';
 
   @override
   String get actionTypeMadePublic => 'Öffentlich gemacht';
@@ -1161,15 +1161,15 @@ class SDe extends S {
   String get actionTypeMadePrivate => 'Privat gemacht';
 
   @override
-  String get actionTypeChangeOwner => 'Eigentümer geändert';
+  String get actionTypeChangeOwner => 'Besitzer geändert';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'Sie haben keine Berechtigungen, um diesen Vorgang auszuführen!';
+      'Sie haben keine Berechtigung, diese Aktion auszuführen!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Es sieht so aus, als ob Ihre Berechtigungen nicht ausreichen, um diesen Vorgang abzuschließen';
+      'Ihre Berechtigungen reichen offenbar nicht aus, um diese Aktion abzuschließen';
 
   @override
   String get isRequiredText => 'ist erforderlich.';
@@ -1179,7 +1179,7 @@ class SDe extends S {
 
   @override
   String get pleaseContactYourSystemAdministrator =>
-      'Bitte kontaktieren Sie Ihren Systemadministrator';
+      'Bitte wenden Sie sich an Ihren Systemadministrator';
 
   @override
   String errorOccured(Object e) {
@@ -1214,10 +1214,10 @@ class SDe extends S {
   String get hybridUnitSystem => 'Hybrid';
 
   @override
-  String get autoUnitSystem => 'Auto';
+  String get autoUnitSystem => 'Automatisch';
 
   @override
-  String get languageAuto => 'Auto';
+  String get languageAuto => 'Automatisch';
 
   @override
   String get unitSystem => 'Einheitensystem';
@@ -1227,14 +1227,14 @@ class SDe extends S {
 
   @override
   String get hideHomeDashboardToolbar =>
-      'Home-Dashboard-Symbolleiste ausblenden';
+      'Werkzeugleiste im Start-Dashboard ausblenden';
 
   @override
   String get phoneNumberHelperText =>
-      'Telefonnummer im E.164-Format, z.B. +1201550123';
+      'Telefonnummer im E.164-Format, z. B. +1201550123';
 
   @override
-  String get homeDashboard => 'Home-Dashboard';
+  String get homeDashboard => 'Start-Dashboard';
 
   @override
   String get security => 'Sicherheit';
@@ -1251,29 +1251,29 @@ class SDe extends S {
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
-      'Richten Sie eine Verifizierungsmethode ein, um mit Ihrer Anmeldung fortzufahren';
+      'Richten Sie eine Verifizierungsmethode ein, um die Anmeldung fortzusetzen';
 
   @override
   String get setUpAVerificationMethod => 'Verifizierungsmethode einrichten';
 
   @override
   String get totpSetupSuccessDescription =>
-      'Bei der nächsten Anmeldung müssen Sie einen Zwei-Faktor-Authentifizierungscode eingeben';
+      'Beim nächsten Anmelden müssen Sie einen Code zur Zwei-Faktor-Authentifizierung angeben';
 
   @override
   String get smsSetupSuccessDescription =>
-      'Bei der nächsten Anmeldung werden Sie aufgefordert, den Sicherheitscode einzugeben, der an die Telefonnummer gesendet wird';
+      'Beim nächsten Anmelden werden Sie aufgefordert, den Sicherheitscode einzugeben, der an die Telefonnummer gesendet wird';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Bei der nächsten Anmeldung werden Sie aufgefordert, den Sicherheitscode einzugeben, der an Ihre E-Mail-Adresse gesendet wird';
+      'Beim nächsten Anmelden werden Sie aufgefordert, den Sicherheitscode einzugeben, der an Ihre E-Mail-Adresse gesendet wird';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'Bei der nächsten Anmeldung können Sie Backup-Codes für die Zwei-Faktor-Authentifizierung verwenden';
+      'Bei der nächsten Anmeldung können Sie Backup-Codes zur Zwei-Faktor-Authentifizierung verwenden';
 
   @override
-  String get loginToApp => 'In App anmelden';
+  String get loginToApp => 'Bei der App anmelden';
 
   @override
   String get goBack => 'Zurück';
@@ -1283,7 +1283,7 @@ class SDe extends S {
 
   @override
   String get thisWillMakeYourAccountLessSecure =>
-      'Dies macht Ihr Konto weniger sicher';
+      'Dadurch wird Ihr Konto weniger sicher';
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
@@ -1295,11 +1295,11 @@ class SDe extends S {
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'Geben Sie eine E-Mail-Adresse als Authentifikator ein.';
+      'Geben Sie eine E-Mail-Adresse ein, die Sie als Authenticator verwenden möchten.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
-      'Geben Sie eine Telefonnummer als Authentifikator ein';
+      'Geben Sie eine Telefonnummer ein, die Sie als Authenticator verwenden möchten';
 
   @override
   String get sendCode => 'Code senden';
@@ -1313,25 +1313,19 @@ class SDe extends S {
   String get copy => 'Kopieren';
 
   @override
-  String get copiedToClipboard => 'In Zwischenablage kopiert';
+  String get copiedToClipboard => 'In die Zwischenablage kopiert';
 
   @override
   String get enter6digitsKeyFromYourAppHere => '6-stelligen Code hier eingeben';
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'stelliger',
-      one: 'stelliger',
-    );
-    return '$count-$_temp0 Code';
+    return '$count-stelliger Code';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Kopieren Sie den 32-stelligen Schlüssel in Ihre Authentifizierungs-App oder scannen Sie den QR-Code unten';
+      'Kopieren Sie den 32-stelligen Schlüssel in Ihre Authenticator-App oder scannen Sie den QR-Code unten';
 
   @override
   String get applyChanges => 'Änderungen übernehmen';
@@ -1349,7 +1343,7 @@ class SDe extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'Die Zwei-Faktor-Authentifizierung schützt Ihr Konto vor unbefugtem Zugriff. Sie müssen nur einen Sicherheitscode eingeben, wenn Sie sich anmelden.';
+      'Die Zwei-Faktor-Authentifizierung schützt Ihr Konto vor unbefugtem Zugriff. Sie müssen lediglich beim Login einen Sicherheitscode eingeben.';
 
   @override
   String get calculatedField => 'Berechnetes Feld';
@@ -1361,28 +1355,28 @@ class SDe extends S {
   String get aiModel => 'KI-Modell';
 
   @override
-  String get adminSettings => 'Admin-Einstellungen';
+  String get adminSettings => 'Administrator-Einstellungen';
 
   @override
   String get job => 'Job';
 
   @override
-  String get mobileAppBundle => 'Mobile App-Paket';
+  String get mobileAppBundle => 'Mobile-Bundle';
 
   @override
   String get mobileApp => 'Mobile App';
 
   @override
-  String get domain => 'Domäne';
+  String get domain => 'Domain';
 
   @override
-  String get oauth2Client => 'OAuth2-Client';
+  String get oauth2Client => 'OAuth 2.0-Client';
 
   @override
-  String get queueStats => 'Warteschlangenstatistik';
+  String get queueStats => 'Warteschlangenstatistiken';
 
   @override
-  String get phoneIsRequired => 'Telefon ist erforderlich';
+  String get phoneIsRequired => 'Telefonnummer ist erforderlich';
 
   @override
   String get phoneIsInvalid => 'Telefonnummer ist ungültig';
@@ -1391,7 +1385,8 @@ class SDe extends S {
   String get addVerificationMethod => 'Verifizierungsmethode hinzufügen';
 
   @override
-  String get imageSavedToGallery => 'In \'Bildergalerie\' gespeichert';
+  String get imageSavedToGallery =>
+      'In der „Bildergalerie“ der Plattform gespeichert';
 
   @override
   String get failedToSaveImage => 'Bild konnte nicht gespeichert werden';
@@ -1439,22 +1434,22 @@ class SDe extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Daten werden vom Server $host abgerufen';
+    return 'Daten werden von Ihrem Host $host abgerufen';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Sie werden beim Host $host angemeldet';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Sie werden zum neuen Host $host weitergeleitet';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Anmelde-Token konnte nicht von $host abgerufen werden. Bitte scannen Sie einen neuen QR-Code.';
   }
 
   @override
@@ -1469,7 +1464,7 @@ class SDe extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'Die QR-Code-Sitzung ist nicht mehr gültig. Bitte aktualisieren Sie den QR-Code und scannen Sie erneut.';
 
   @override
   String get openThisLinkTitle => 'Diesen Link öffnen?';
@@ -1484,7 +1479,7 @@ class SDe extends S {
 
   @override
   String linkSignsInAs(Object email) {
-    return 'Dieser Link meldet Sie bei diesem Server als $email an.';
+    return 'Dieser Link meldet Sie als $email bei diesem Server an.';
   }
 
   @override
@@ -1514,7 +1509,7 @@ class SDe extends S {
   String get liveTrackingErrors => 'Fehler';
 
   @override
-  String get liveTrackingStop => 'Beenden';
+  String get liveTrackingStop => 'Stoppen';
 
   @override
   String get liveTrackingPause => 'Pausieren';
@@ -1548,7 +1543,7 @@ class SDe extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Speichern in diese Entität nicht möglich – sie existiert nicht mehr. Die Verfolgung läuft weiter; ändern Sie das Ziel in der Dashboard-Aktion.';
+      'Speichern in dieser Entität nicht möglich – sie existiert nicht mehr. Die Verfolgung läuft weiter; aktualisieren Sie das Ziel in der Dashboard-Aktion.';
 
   @override
   String get liveTrackingErrorNoConnection =>
@@ -1560,7 +1555,7 @@ class SDe extends S {
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Speichern in diese Entität nicht möglich – Ihnen fehlt die Berechtigung. Die Verfolgung läuft weiter; bitten Sie Ihren Administrator um Zugriff.';
+      'Speichern in dieser Entität nicht möglich – Sie haben keine Berechtigung. Die Verfolgung läuft weiter; bitten Sie Ihren Administrator um Zugriff.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
@@ -1568,7 +1563,7 @@ class SDe extends S {
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Die Ortungsdienste sind auf diesem Gerät ausgeschaltet.';
+      'Die Ortungsdienste sind auf diesem Gerät deaktiviert.';
 
   @override
   String get liveTrackingErrorPermissionDenied =>
@@ -1576,7 +1571,7 @@ class SDe extends S {
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Die Standortberechtigung wurde dauerhaft verweigert. Aktivieren Sie sie in den App-Einstellungen.';
+      'Die Standortberechtigung ist dauerhaft verweigert. Aktivieren Sie sie in den App-Einstellungen.';
 
   @override
   String get liveTrackingErrorLocation =>
@@ -1587,7 +1582,7 @@ class SDe extends S {
 
   @override
   String get liveTrackingNoRecord =>
-      'Keine aktive Verfolgung und keine kürzliche Sitzung.';
+      'Keine aktive Verfolgung und keine kürzlich beendete Sitzung.';
 
   @override
   String get liveTrackingLastSession => 'Letzte Sitzung';
@@ -1602,10 +1597,10 @@ class SDe extends S {
   String get liveTrackingEndReason => 'Beendigungsgrund';
 
   @override
-  String get liveTrackingEndReasonManual => 'Manuell beendet';
+  String get liveTrackingEndReasonManual => 'Manuell gestoppt';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'Maximale Dauer erreicht';
+  String get liveTrackingEndReasonMaxDuration => 'Max. Dauer erreicht';
 
   @override
   String get liveTrackingEndReasonInterrupted => 'Unterbrochen';
@@ -1618,7 +1613,7 @@ class SDe extends S {
 
   @override
   String serverRequiresVersion(String minVersion) {
-    return 'Diese App funktioniert mit ThingsBoard $minVersion oder neuer.';
+    return 'Diese App funktioniert mit ThingsBoard $minVersion oder höher.';
   }
 
   @override
@@ -1681,7 +1676,7 @@ class SDe extends S {
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'Ihr Administrator verlangt die Zwei-Faktor-Authentifizierung für $email.';
+    return 'Ihr Administrator verlangt eine Zwei-Faktor-Authentifizierung für $email.';
   }
 
   @override
@@ -1689,7 +1684,7 @@ class SDe extends S {
 
   @override
   String get addBackupCodesHint =>
-      'Fügen Sie auch Backup-Codes hinzu, damit Sie sich bei Verlust Ihres Telefons weiterhin anmelden können.';
+      'Fügen Sie auch Backup-Codes hinzu, damit Sie sich weiterhin anmelden können, falls Sie Ihr Telefon verlieren.';
 
   @override
   String get totpSecretKey => 'Geheimer Schlüssel';

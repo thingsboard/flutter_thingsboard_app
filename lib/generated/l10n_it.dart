@@ -36,28 +36,28 @@ class SIt extends S {
   String get assets => 'Asset';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Tenant';
 
   @override
-  String get auditLogs => 'Log di controllo';
+  String get auditLogs => 'Log di audit';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Nessun cliente trovato';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Nessun asset trovato';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Nessun tenant trovato';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Nessun dispositivo trovato';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Nessun log di audit trovato';
 
   @override
-  String get logout => 'Disconnetti';
+  String get logout => 'Esci';
 
   @override
   String get login => 'Accedi';
@@ -72,7 +72,7 @@ class SIt extends S {
   String get email => 'Email';
 
   @override
-  String get emailRequireText => 'L\'email è obbligatoria.';
+  String get emailRequireText => 'Email obbligatoria.';
 
   @override
   String get emailInvalidText => 'Formato email non valido.';
@@ -97,7 +97,7 @@ class SIt extends S {
       'Inserisci l\'email associata al tuo account e ti invieremo un\'email con il link per reimpostare la password';
 
   @override
-  String get requestPasswordReset => 'Richiedi reimpostazione della password';
+  String get requestPasswordReset => 'Richiedi reimpostazione password';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
@@ -105,7 +105,7 @@ class SIt extends S {
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'Il link di verifica email è stato inviato con successo!';
+      'Link di verifica dell\'email inviato con successo!';
 
   @override
   String get or => 'OPPURE';
@@ -141,13 +141,13 @@ class SIt extends S {
   String get phone => 'Telefono';
 
   @override
-  String get alarmClearTitle => 'Cancella Allarme';
+  String get alarmClearTitle => 'Risolvi allarme';
 
   @override
-  String get alarmClearText => 'Sei sicuro di voler cancellare l\'allarme?';
+  String get alarmClearText => 'Sei sicuro di voler risolvere l\'allarme?';
 
   @override
-  String get alarmAcknowledgeTitle => 'Conferma Allarme';
+  String get alarmAcknowledgeTitle => 'Conferma allarme';
 
   @override
   String get alarmAcknowledgeText =>
@@ -166,7 +166,7 @@ class SIt extends S {
   String get assignedToCustomer => 'Assegnato al cliente';
 
   @override
-  String get auditLogDetails => 'Dettagli log di controllo';
+  String get auditLogDetails => 'Dettagli log di audit';
 
   @override
   String get customerDetails => 'Dettagli cliente';
@@ -184,7 +184,7 @@ class SIt extends S {
   String get actionData => 'Dati azione';
 
   @override
-  String get failureDetails => 'Dettagli dell\'errore';
+  String get failureDetails => 'Dettagli errore';
 
   @override
   String get allDevices => 'Tutti i dispositivi';
@@ -262,7 +262,7 @@ class SIt extends S {
   String get profileSuccessNotification => 'Profilo aggiornato con successo';
 
   @override
-  String get passwordSuccessNotification => 'Password cambiata con successo';
+  String get passwordSuccessNotification => 'Password modificata con successo';
 
   @override
   String get notImplemented => 'Non implementato!';
@@ -288,7 +288,7 @@ class SIt extends S {
       time,
       locale: localeName,
       other: '$time secondi',
-      one: '1 secondo',
+      one: '$time secondo',
     );
     return 'Reinvia codice tra $_temp0';
   }
@@ -304,7 +304,7 @@ class SIt extends S {
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'Un codice di sicurezza è stato inviato alla tua email all\'indirizzo $contact.';
+    return 'Un codice di sicurezza è stato inviato al tuo indirizzo email $contact.';
   }
 
   @override
@@ -324,11 +324,11 @@ class SIt extends S {
   String get backupCodeAuthPlaceholder => 'Codice di backup';
 
   @override
-  String get verificationCodeIncorrect => 'Il codice di verifica è errato';
+  String get verificationCodeIncorrect => 'Codice di verifica errato';
 
   @override
   String get verificationCodeManyRequest =>
-      'Troppe richieste, controlla il codice di verifica';
+      'Troppe richieste per verificare il codice';
 
   @override
   String get tryAnotherWay => 'Prova un altro metodo';
@@ -359,17 +359,17 @@ class SIt extends S {
 
   @override
   String get emailVerificationSentText =>
-      'Una email con i dettagli per la verifica è stata inviata all\'indirizzo email specificato';
+      'Un\'email con i dettagli di verifica è stata inviata all\'indirizzo email specificato ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Segui le istruzioni contenute nell\'email per completare la procedura di registrazione. Nota: se non trovi l\'email, controlla la cartella \'spam\' o prova a reinviarla cliccando sul pulsante \'Reinvia\'.';
+      'Segui le istruzioni fornite nell\'email per completare la procedura di registrazione. Nota: se non vedi l\'email da un po\', controlla la cartella \'spam\' o prova a inviarla di nuovo facendo clic sul pulsante \'Reinvia\'.';
 
   @override
   String get resend => 'Reinvia';
 
   @override
-  String get activatingAccount => 'Attivazione account in corso...';
+  String get activatingAccount => 'Attivazione dell\'account...';
 
   @override
   String get accountActivated => 'Account attivato con successo!';
@@ -379,7 +379,7 @@ class SIt extends S {
 
   @override
   String get activatingAccountText =>
-      'Il tuo account è in fase di attivazione.\nAttendere...';
+      'Il tuo account è in fase di attivazione.\nAttendi...';
 
   @override
   String accountActivatedText(Object appTitle) {
@@ -387,7 +387,7 @@ class SIt extends S {
   }
 
   @override
-  String get privacyPolicy => 'Informativa sulla privacy';
+  String get privacyPolicy => 'Informativa sulla Privacy';
 
   @override
   String get cancel => 'Annulla';
@@ -396,7 +396,7 @@ class SIt extends S {
   String get accept => 'Accetta';
 
   @override
-  String get termsOfUse => 'Termini di utilizzo';
+  String get termsOfUse => 'Termini di Utilizzo';
 
   @override
   String get firstName => 'Nome';
@@ -414,7 +414,7 @@ class SIt extends S {
   String get createPassword => 'Crea una password';
 
   @override
-  String get repeatPassword => 'Ripeti la password';
+  String get repeatPassword => 'Ripeti la tua password';
 
   @override
   String get imNotARobot => 'Non sono un robot';
@@ -433,7 +433,7 @@ class SIt extends S {
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Esiste già un utente registrato con un indirizzo email non verificato.\nClicca sul pulsante \'Reinvia\' se desideri ricevere nuovamente l\'email di verifica.';
+      'Esiste già un utente registrato con un indirizzo email non verificato.\nFai clic sul pulsante \'Reinvia\' se desideri inviare di nuovo l\'email di verifica.';
 
   @override
   String get assignee => 'Assegnatario';
@@ -451,7 +451,7 @@ class SIt extends S {
   String get severity => 'Gravità';
 
   @override
-  String get originator => 'Origine';
+  String get originator => 'Originatore';
 
   @override
   String get startTime => 'Ora di inizio';
@@ -519,7 +519,7 @@ class SIt extends S {
   String get assignedToMe => 'Assegnato a me';
 
   @override
-  String get clear => 'Cancella';
+  String get clear => 'Risolvi';
 
   @override
   String get acknowledge => 'Conferma';
@@ -543,7 +543,7 @@ class SIt extends S {
   String get noResultsFound => 'Nessun risultato trovato';
 
   @override
-  String get tryRefiningYourQuery => 'Prova a raffinare la tua ricerca';
+  String get tryRefiningYourQuery => 'Prova a perfezionare la ricerca';
 
   @override
   String get failedToLoadTheList => 'Impossibile caricare l\'elenco';
@@ -568,13 +568,13 @@ class SIt extends S {
   String get somethingWentWrong => 'Qualcosa è andato storto';
 
   @override
-  String get chooseRegion => 'Scegli una regione';
+  String get chooseRegion => 'Scegli regione';
 
   @override
   String get selectRegion => 'Seleziona regione';
 
   @override
-  String get northAmerica => 'America del Nord';
+  String get northAmerica => 'Nord America';
 
   @override
   String get europe => 'Europa';
@@ -618,7 +618,7 @@ class SIt extends S {
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'Per continuare la configurazione del dispositivo $deviceName, fornisci le credenziali della tua rete.';
+    return 'Per continuare la configurazione del tuo dispositivo $deviceName, fornisci le credenziali della tua rete.';
   }
 
   @override
@@ -628,50 +628,51 @@ class SIt extends S {
 
   @override
   String get deviceNotFoundMessage =>
-      'Dispositivi non trovati. Assicurati che il Bluetooth del telefono sia attivo e che il dispositivo sia nel raggio d\'azione.';
+      'Nessun dispositivo trovato. Assicurati che il Bluetooth del tuo telefono sia attivo e che tu sia nel raggio d\'azione del nuovo dispositivo.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'Non hai i permessi necessari per \"$permissions\" per procedere. Concedi i permessi richiesti e tocca \"Riprova\".';
+    return 'Non hai permessi sufficienti (\"$permissions\") per procedere. Concedi i permessi richiesti e tocca \"Riprova\".';
   }
 
   @override
-  String get sendingWifiCredentials => 'Invio credenziali Wi-Fi';
+  String get sendingWifiCredentials => 'Invio credenziali Wi-Fi in corso';
 
   @override
-  String get confirmingWifiConnection => 'Conferma connessione Wi-Fi';
+  String get confirmingWifiConnection =>
+      'Conferma della connessione Wi-Fi in corso';
 
   @override
-  String get provisionedSuccessfully => 'Dispositivo configurato con successo';
+  String get provisionedSuccessfully =>
+      'Provisioning del dispositivo completato con successo';
 
   @override
   String get returnToDashboard => 'Torna alla dashboard';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'Impossibile stabilire una sessione con il dispositivo $deviceName. Riprova';
+    return 'Impossibile stabilire la sessione con il dispositivo $deviceName. Riprova';
   }
 
   @override
-  String get claimingDevice => 'Richiesta dispositivo in corso';
+  String get claimingDevice => 'Rivendicazione del dispositivo in corso';
 
   @override
-  String get claimingDeviceDone => 'Richiesta del dispositivo completata';
+  String get claimingDeviceDone => 'Rivendicazione del dispositivo completata';
 
   @override
-  String get claimingMessageSuccess =>
-      'Il dispositivo è stato\nrichiesto con successo';
+  String get claimingMessageSuccess => 'Dispositivo rivendicato\ncon successo';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'Non hai i permessi necessari per \"$permissions\" per procedere. Apri le impostazioni dell\'app, concedi i permessi e tocca \"Riprova\".';
+    return 'Non hai permessi sufficienti (\"$permissions\") per procedere. Apri le impostazioni dell\'app, concedi i permessi e tocca \"Riprova\".';
   }
 
   @override
   String get scanACode => 'Scansiona un codice';
 
   @override
-  String get allowAccess => 'Consenti accesso';
+  String get allowAccess => 'Consenti l\'accesso';
 
   @override
   String get toggleCamera => 'Cambia fotocamera';
@@ -705,7 +706,7 @@ class SIt extends S {
 
   @override
   String get somethingWentWrongRollback =>
-      'Qualcosa è andato storto ... Ripristino';
+      'Qualcosa è andato storto ... Rollback';
 
   @override
   String get searchResults => 'Risultati della ricerca';
@@ -723,13 +724,13 @@ class SIt extends S {
   String get filters => 'Filtri';
 
   @override
-  String get alarmStatusList => 'Lista stati allarme';
+  String get alarmStatusList => 'Elenco stati allarme';
 
   @override
-  String get alarmSeverityList => 'Lista gravità allarme';
+  String get alarmSeverityList => 'Elenco gravità allarme';
 
   @override
-  String get cleared => 'Cancellato';
+  String get cleared => 'Risolto';
 
   @override
   String get acknowledged => 'Confermato';
@@ -738,10 +739,10 @@ class SIt extends S {
   String get unacknowledged => 'Non confermato';
 
   @override
-  String get critical => 'Critico';
+  String get critical => 'Critica';
 
   @override
-  String get major => 'Grave';
+  String get major => 'Maggiore';
 
   @override
   String get minor => 'Minore';
@@ -750,7 +751,7 @@ class SIt extends S {
   String get warning => 'Avviso';
 
   @override
-  String get indeterminate => 'Indeterminato';
+  String get indeterminate => 'Indeterminata';
 
   @override
   String searchUsers(int count) {
@@ -764,13 +765,13 @@ class SIt extends S {
   }
 
   @override
-  String get reset => 'Reimposta';
+  String get reset => 'Resetta';
 
   @override
-  String get update => 'Aggiorna';
+  String get update => 'Salva modifiche';
 
   @override
-  String get alarmTypeList => 'Lista tipi di allarme';
+  String get alarmTypeList => 'Elenco tipi di allarme';
 
   @override
   String get anyType => 'Qualsiasi tipo';
@@ -782,16 +783,16 @@ class SIt extends S {
   String get all => 'Tutti';
 
   @override
-  String get unread => 'Non letto';
+  String get unread => 'Non letti';
 
   @override
   String get close => 'Chiudi';
 
   @override
-  String get codeVerificationFailed => 'Verifica del codice fallita!';
+  String get codeVerificationFailed => 'Verifica del codice non riuscita!';
 
   @override
-  String get fatalError => 'Errore fatale';
+  String get fatalError => 'Errore irreversibile';
 
   @override
   String get unknownError => 'Errore sconosciuto.';
@@ -801,13 +802,13 @@ class SIt extends S {
 
   @override
   String get fatalApplicationErrorOccurred =>
-      'Si è verificato un errore fatale dell\'applicazione:';
+      'Si è verificato un errore irreversibile dell\'applicazione:';
 
   @override
   String get connectionError => 'Errore di connessione';
 
   @override
-  String get failedToConnectToServer => 'Connessione al server fallita';
+  String get failedToConnectToServer => 'Connessione al server non riuscita';
 
   @override
   String get retry => 'Riprova';
@@ -821,7 +822,7 @@ class SIt extends S {
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'Connettiti al Wi-Fi che usi abitualmente';
+      'Connettiti al Wi-Fi che usi di solito';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
@@ -829,26 +830,26 @@ class SIt extends S {
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Segui i prossimi passaggi per riconnettere\nil tuo telefono al Wi-Fi abituale';
+      'Segui i prossimi passaggi per riconnettere\nil telefono al tuo Wi-Fi abituale';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Le notifiche push non sono configurate.\nContatta il tuo amministratore di sistema.';
+      'Le notifiche push non sono configurate.\nContatta l\'amministratore di sistema.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase non è configurato.\nConsulta la documentazione ufficiale di Firebase\nper le istruzioni.';
+      'Firebase non è configurato.\n Consulta la documentazione ufficiale di Firebase per\n istruzioni su come procedere.';
 
   @override
-  String get markAllAsRead => 'Segna tutto come letto';
+  String get markAllAsRead => 'Segna tutte come lette';
 
   @override
   String get profile => 'Profilo';
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'Impossibile aprire l\'url: $link';
+    return 'Impossibile aprire l\'URL: $link';
   }
 
   @override
@@ -867,7 +868,7 @@ class SIt extends S {
   String get selectWifiNetwork => 'Seleziona rete Wi-Fi';
 
   @override
-  String get deviceProvisioning => 'Provisioning del dispositivo';
+  String get deviceProvisioning => 'Provisioning dispositivo';
 
   @override
   String get permissions => 'Permessi';
@@ -877,11 +878,11 @@ class SIt extends S {
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'Il dispositivo non riesce a trovare Wi-Fi nelle vicinanze';
+      'Il dispositivo non trova Wi-Fi nelle vicinanze';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Connessione alla rete Wi-Fi $name fallita.\nAssicurati che il telefono sia connesso alla rete Wi-Fi del dispositivo e che l\'accesso alla rete locale sia abilitato per questa app.';
+    return 'Connessione alla rete Wi-Fi $name non riuscita.\nAssicurati che il telefono sia connesso alla rete Wi-Fi del dispositivo e che l\'accesso alla rete locale sia abilitato per questa app nelle impostazioni del dispositivo.';
   }
 
   @override
@@ -891,24 +892,24 @@ class SIt extends S {
 
   @override
   String get pleaseFollowTheNextStepsToConnectYourPhoneTo =>
-      'Segui i prossimi passaggi per connettere il tuo telefono al dispositivo';
+      'Segui i passaggi successivi per connettere il telefono al dispositivo';
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Connettiti al Wi-Fi simile a $wifiName';
+    return 'Connettiti a una rete Wi-Fi simile a $wifiName';
   }
 
   @override
   String get ready => 'Pronto';
 
   @override
-  String get exitDeviceProvisioning => 'Esci dal provisioning';
+  String get exitDeviceProvisioning => 'Esci dal provisioning del dispositivo';
 
   @override
   String get noNotificationsFound => 'Nessuna notifica trovata';
 
   @override
-  String get markAsRead => 'Segna come letto';
+  String get markAsRead => 'Segna come letta';
 
   @override
   String get url => 'URL';
@@ -953,7 +954,7 @@ class SIt extends S {
   String get ruleChain => 'Catena di regole';
 
   @override
-  String get ruleNode => 'Nodo di regole';
+  String get ruleNode => 'Nodo regola';
 
   @override
   String get edge => 'Edge';
@@ -1003,7 +1004,7 @@ class SIt extends S {
   }
 
   @override
-  String get notificationRule => 'Regola di notifica';
+  String get notificationRule => 'Regola notifica';
 
   @override
   String get entityGroup => 'Gruppo di entità';
@@ -1015,7 +1016,7 @@ class SIt extends S {
   String get integration => 'Integrazione';
 
   @override
-  String get schedulerEvent => 'Evento dello scheduler';
+  String get schedulerEvent => 'Evento pianificato';
 
   @override
   String get blobEntity => 'Entità Blob';
@@ -1057,7 +1058,8 @@ class SIt extends S {
   String get actionTypeAssignedToCustomer => 'Assegnato al cliente';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Rimosso dal cliente';
+  String get actionTypeUnassignedFromCustomer =>
+      'Assegnazione al cliente rimossa';
 
   @override
   String get actionTypeActivated => 'Attivato';
@@ -1084,7 +1086,7 @@ class SIt extends S {
   String get actionTypeAlarmAck => 'Confermato';
 
   @override
-  String get actionTypeAlarmClear => 'Cancellato';
+  String get actionTypeAlarmClear => 'Risolto';
 
   @override
   String get actionTypeAlarmDelete => 'Allarme eliminato';
@@ -1093,7 +1095,7 @@ class SIt extends S {
   String get actionTypeAlarmAssigned => 'Allarme assegnato';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Allarme non assegnato';
+  String get actionTypeAlarmUnassigned => 'Assegnazione allarme rimossa';
 
   @override
   String get actionTypeLogin => 'Accesso';
@@ -1102,7 +1104,7 @@ class SIt extends S {
   String get actionTypeLogout => 'Disconnessione';
 
   @override
-  String get actionTypeLockout => 'Bloccato';
+  String get actionTypeLockout => 'Blocco';
 
   @override
   String get actionTypeAssignedFromTenant => 'Assegnato dal tenant';
@@ -1111,10 +1113,10 @@ class SIt extends S {
   String get actionTypeAssignedToTenant => 'Assegnato al tenant';
 
   @override
-  String get actionTypeProvisionSuccess => 'Dispositivo fornito';
+  String get actionTypeProvisionSuccess => 'Provisioning dispositivo riuscito';
 
   @override
-  String get actionTypeProvisionFailure => 'Provisioning fallito';
+  String get actionTypeProvisionFailure => 'Provisioning dispositivo fallito';
 
   @override
   String get actionTypeTimeseriesUpdated => 'Telemetria aggiornata';
@@ -1126,7 +1128,7 @@ class SIt extends S {
   String get actionTypeAssignedToEdge => 'Assegnato a Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Rimosso da Edge';
+  String get actionTypeUnassignedFromEdge => 'Assegnazione a Edge rimossa';
 
   @override
   String get actionTypeAddedComment => 'Commento aggiunto';
@@ -1148,7 +1150,7 @@ class SIt extends S {
 
   @override
   String get actionTypeRestApiRuleEngineCall =>
-      'Chiamata al motore di regole REST API';
+      'Chiamata REST API al motore regole';
 
   @override
   String get actionTypeMadePublic => 'Reso pubblico';
@@ -1157,7 +1159,7 @@ class SIt extends S {
   String get actionTypeMadePrivate => 'Reso privato';
 
   @override
-  String get actionTypeChangeOwner => 'Proprietario cambiato';
+  String get actionTypeChangeOwner => 'Proprietario modificato';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
@@ -1168,18 +1170,18 @@ class SIt extends S {
       'Sembra che i tuoi permessi non siano sufficienti per completare questa operazione';
 
   @override
-  String get isRequiredText => 'è obbligatorio.';
+  String get isRequiredText => 'è un campo obbligatorio.';
 
   @override
   String get no2faProvidersFound => 'Nessun provider 2FA trovato';
 
   @override
   String get pleaseContactYourSystemAdministrator =>
-      'Contatta il tuo amministratore di sistema';
+      'Contatta l\'amministratore di sistema';
 
   @override
   String errorOccured(Object e) {
-    return 'Errore verificatosi: $e';
+    return 'Si è verificato un errore: $e';
   }
 
   @override
@@ -1223,7 +1225,7 @@ class SIt extends S {
 
   @override
   String get hideHomeDashboardToolbar =>
-      'Nascondi barra degli strumenti della dashboard';
+      'Nascondi barra strumenti della dashboard principale';
 
   @override
   String get phoneNumberHelperText =>
@@ -1243,7 +1245,7 @@ class SIt extends S {
 
   @override
   String get twofactorAuthenticationIsRequired =>
-      'L\'autenticazione a due fattori è richiesta';
+      'L\'autenticazione a due fattori è obbligatoria';
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
@@ -1254,19 +1256,19 @@ class SIt extends S {
 
   @override
   String get totpSetupSuccessDescription =>
-      'Al prossimo accesso dovrai fornire un codice di autenticazione a due fattori';
+      'La prossima volta che effettuerai l\'accesso, dovrai fornire un codice di autenticazione a due fattori';
 
   @override
   String get smsSetupSuccessDescription =>
-      'Al prossimo accesso ti verrà chiesto di inserire il codice di sicurezza inviato al numero di telefono';
+      'La prossima volta che effettuerai l\'accesso, ti verrà richiesto di inserire il codice di sicurezza che verrà inviato al numero di telefono';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Al prossimo accesso ti verrà chiesto di inserire il codice di sicurezza inviato al tuo indirizzo email';
+      'La prossima volta che effettuerai l\'accesso, ti verrà richiesto di inserire il codice di sicurezza che verrà inviato al tuo indirizzo email';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'Al prossimo accesso potrai usare i codici di backup per l\'autenticazione a due fattori';
+      'Al prossimo accesso potrai usare i codici di backup per superare l\'autenticazione a due fattori';
 
   @override
   String get loginToApp => 'Accedi all\'app';
@@ -1283,7 +1285,7 @@ class SIt extends S {
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
-    return 'Sei sicuro di voler disattivare $providerName?';
+    return 'Sei sicuro di voler disattivare \"$providerName\"?';
   }
 
   @override
@@ -1302,7 +1304,7 @@ class SIt extends S {
 
   @override
   String errorSendingCode(String error) {
-    return 'Errore nell\'invio del codice: $error';
+    return 'Errore durante l\'invio del codice: $error';
   }
 
   @override
@@ -1317,18 +1319,12 @@ class SIt extends S {
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'cifre',
-      one: 'cifra',
-    );
-    return 'Codice a $count $_temp0';
+    return 'Codice a $count cifre';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Copia la chiave a 32 cifre nella tua app di autenticazione o scansiona il codice QR qui sotto';
+      'Copia la chiave di 32 caratteri nella tua app di autenticazione, oppure scansiona il codice QR qui sotto';
 
   @override
   String get applyChanges => 'Applica modifiche';
@@ -1337,7 +1333,7 @@ class SIt extends S {
   String get discardChanges => 'Annulla modifiche';
 
   @override
-  String get yesDiscard => 'Sì, annulla';
+  String get yesDiscard => 'Sì, scarta';
 
   @override
   String get thisActionCannotBeUndone =>
@@ -1346,7 +1342,7 @@ class SIt extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'L\'autenticazione a due fattori protegge il tuo account da accessi non autorizzati. Devi solo inserire un codice di sicurezza quando accedi.';
+      'L\'autenticazione a due fattori protegge il tuo account da accessi non autorizzati. Tutto ciò che devi fare è inserire un codice di sicurezza durante l\'accesso.';
 
   @override
   String get calculatedField => 'Campo calcolato';
@@ -1361,10 +1357,10 @@ class SIt extends S {
   String get adminSettings => 'Impostazioni amministratore';
 
   @override
-  String get job => 'Lavoro';
+  String get job => 'Job';
 
   @override
-  String get mobileAppBundle => 'Pacchetto app mobile';
+  String get mobileAppBundle => 'Pacchetto mobile';
 
   @override
   String get mobileApp => 'App mobile';
@@ -1373,7 +1369,7 @@ class SIt extends S {
   String get domain => 'Dominio';
 
   @override
-  String get oauth2Client => 'Client OAuth2';
+  String get oauth2Client => 'Client OAuth 2.0';
 
   @override
   String get queueStats => 'Statistiche coda';
@@ -1388,18 +1384,19 @@ class SIt extends S {
   String get addVerificationMethod => 'Aggiungi metodo di verifica';
 
   @override
-  String get imageSavedToGallery => 'Salvato nella \'Galleria immagini\'';
+  String get imageSavedToGallery =>
+      'Salvato nella \'Galleria immagini\' della piattaforma';
 
   @override
   String get failedToSaveImage => 'Impossibile salvare l\'immagine';
 
   @override
   String nSelected(int count) {
-    return '$count selezionati';
+    return 'Selezionate: $count';
   }
 
   @override
-  String get selectAll => 'Seleziona tutti i caricati';
+  String get selectAll => 'Seleziona tutti gli elementi caricati';
 
   @override
   String failedToPerformOperation(int count) {
@@ -1407,7 +1404,7 @@ class SIt extends S {
       count,
       locale: localeName,
       other: '$count operazioni non riuscite',
-      one: '1 operazione non riuscita',
+      one: '$count operazione non riuscita',
     );
     return '$_temp0';
   }
@@ -1418,7 +1415,7 @@ class SIt extends S {
       count,
       locale: localeName,
       other: 'Eliminare $count notifiche?',
-      one: 'Eliminare 1 notifica?',
+      one: 'Eliminare $count notifica?',
     );
     return '$_temp0';
   }
@@ -1429,29 +1426,29 @@ class SIt extends S {
       count,
       locale: localeName,
       other: 'Segnare $count notifiche come lette?',
-      one: 'Segnare 1 notifica come letta?',
+      one: 'Segnare $count notifica come letta?',
     );
     return '$_temp0';
   }
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Recupero dei dati dal server $host';
+    return 'Recupero dati dal tuo host $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Accesso all\'host $host in corso';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Passaggio al nuovo host $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Impossibile ottenere un token di accesso da $host. Scansiona un nuovo codice QR.';
   }
 
   @override
@@ -1466,14 +1463,14 @@ class SIt extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'La sessione del codice QR non è più valida. Aggiorna il codice QR ed esegui di nuovo la scansione.';
 
   @override
   String get openThisLinkTitle => 'Aprire questo link?';
 
   @override
   String get linkOpensSignInPage =>
-      'Questo link apre la pagina di accesso di questo server. Verrai disconnesso dal server attuale.';
+      'Questo link apre la pagina di accesso di questo server. Sarai disconnesso dal server corrente.';
 
   @override
   String get linkOpensSignInPageOnly =>
@@ -1489,15 +1486,14 @@ class SIt extends S {
 
   @override
   String get serverConnectionNotSecure =>
-      'Questo server non usa una connessione sicura.';
+      'Questo server non utilizza una connessione sicura.';
 
   @override
   String get linkToOtherServerNotAllowed =>
       'Questa app funziona solo con il proprio server e non può aprire questo link.';
 
   @override
-  String get liveTrackingActive =>
-      'Tracciamento della posizione in tempo reale';
+  String get liveTrackingActive => 'Tracciamento posizione in tempo reale';
 
   @override
   String get liveTrackingPaused => 'Tracciamento in tempo reale in pausa';
@@ -1512,7 +1508,7 @@ class SIt extends S {
   String get liveTrackingErrors => 'Errori';
 
   @override
-  String get liveTrackingStop => 'Interrompi';
+  String get liveTrackingStop => 'Ferma';
 
   @override
   String get liveTrackingPause => 'Pausa';
@@ -1525,10 +1521,10 @@ class SIt extends S {
 
   @override
   String get liveTrackingSessionTitle =>
-      'Tracciamento della posizione in tempo reale';
+      'Tracciamento posizione in tempo reale';
 
   @override
-  String get liveTrackingTarget => 'Salva la posizione nell\'entità';
+  String get liveTrackingTarget => 'Salva posizione nell\'entità';
 
   @override
   String get liveTrackingDashboard => 'Dashboard';
@@ -1547,19 +1543,19 @@ class SIt extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Impossibile salvare in questa entità: non esiste più. Il tracciamento continua; aggiorna la destinazione nell\'azione della dashboard.';
+      'Impossibile salvare su questa entità — non esiste più. Il tracciamento continua; aggiorna la destinazione nell\'azione della dashboard.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'Nessuna connessione al server. Queste posizioni non sono state salvate; il salvataggio riprenderà quando sarai di nuovo online.';
+      'Nessuna connessione al server. Queste posizioni non sono state salvate — il salvataggio riprenderà quando tornerai online.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'La sessione è terminata. Accedi di nuovo per continuare a salvare la posizione.';
+      'La tua sessione è terminata. Accedi di nuovo per continuare a salvare la posizione.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Impossibile salvare in questa entità: non hai l\'autorizzazione. Il tracciamento continua; chiedi l\'accesso all\'amministratore.';
+      'Impossibile salvare su questa entità — non hai i permessi necessari. Il tracciamento continua; chiedi all\'amministratore di concederti l\'accesso.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
@@ -1571,18 +1567,17 @@ class SIt extends S {
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'L\'autorizzazione alla posizione è stata negata.';
+      'Autorizzazione alla localizzazione negata.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'L\'autorizzazione alla posizione è negata in modo permanente. Attivala nelle impostazioni dell\'app.';
+      'L\'autorizzazione alla localizzazione è stata negata in modo permanente. Attivala nelle impostazioni dell\'app.';
 
   @override
   String get liveTrackingErrorLocation => 'Impossibile ottenere la posizione.';
 
   @override
-  String get liveTrackingMenuTitle =>
-      'Tracciamento della posizione in tempo reale';
+  String get liveTrackingMenuTitle => 'Tracciamento posizione in tempo reale';
 
   @override
   String get liveTrackingNoRecord =>
@@ -1592,13 +1587,13 @@ class SIt extends S {
   String get liveTrackingLastSession => 'Ultima sessione';
 
   @override
-  String get liveTrackingStartAgain => 'Riavvia';
+  String get liveTrackingStartAgain => 'Ricomincia';
 
   @override
   String get liveTrackingEnded => 'Ora di fine';
 
   @override
-  String get liveTrackingEndReason => 'Motivo della fine';
+  String get liveTrackingEndReason => 'Motivo di fine';
 
   @override
   String get liveTrackingEndReasonManual => 'Interrotto manualmente';
@@ -1628,7 +1623,7 @@ class SIt extends S {
 
   @override
   String get askAdminToUpdateServer =>
-      'Chiedi all\'amministratore del server di aggiornarlo.';
+      'Chiedi all\'amministratore del server di aggiornare il server.';
 
   @override
   String get deviceClaimFailed =>
@@ -1671,16 +1666,16 @@ class SIt extends S {
 
   @override
   String get noAuthenticatorAppFound =>
-      'Nessuna app di autenticazione trovata. Copia la chiave nella tua app.';
+      'Nessuna app di autenticazione trovata. Copia invece la chiave nella tua app.';
 
   @override
   String twoFaProviderEnabled(String provider) {
-    return '$provider è attivato';
+    return 'Metodo abilitato: $provider';
   }
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'L\'amministratore richiede l\'autenticazione a due fattori per $email.';
+    return 'Il tuo amministratore richiede l\'autenticazione a due fattori per $email.';
   }
 
   @override
@@ -1688,18 +1683,18 @@ class SIt extends S {
 
   @override
   String get addBackupCodesHint =>
-      'Aggiungi anche i codici di backup per accedere anche se perdi il telefono.';
+      'Aggiungi anche i codici di backup, così potrai comunque accedere se perdi il telefono.';
 
   @override
   String get totpSecretKey => 'Chiave segreta';
 
   @override
   String get backupCodesDescription =>
-      'Stampa i codici in modo da averli a portata di mano quando ne avrai bisogno per accedere al tuo account. Puoi utilizzare ogni codice di backup una sola volta.';
+      'Stampa i codici per averli a portata di mano quando ti servono per accedere al tuo account. Puoi usare ogni codice di backup una sola volta.';
 
   @override
   String get backupCodesWarning =>
-      'Una volta che lasci questa pagina, questi codici non potranno essere mostrati di nuovo. Conservali in modo sicuro utilizzando le opzioni sottostanti.';
+      'Una volta lasciata questa pagina, questi codici non potranno essere mostrati di nuovo. Conservali in modo sicuro usando le opzioni qui sotto.';
 
   @override
   String get downloadTxt => 'Scarica (txt)';

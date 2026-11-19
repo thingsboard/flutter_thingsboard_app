@@ -20,7 +20,7 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'أجهزة',
+      other: 'الأجهزة',
       one: 'جهاز',
     );
     return '$_temp0';
@@ -36,34 +36,34 @@ class SAr extends S {
   String get assets => 'الأصول';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'المستأجرون';
 
   @override
   String get auditLogs => 'سجلات التدقيق';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'لم يتم العثور على عملاء';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'لم يتم العثور على أصول';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'لم يتم العثور على مستأجرين';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'لم يتم العثور على أجهزة';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'لا توجد سجلات تدقيق';
 
   @override
-  String get logout => 'تسجيل خروج';
+  String get logout => 'تسجيل الخروج';
 
   @override
-  String get login => 'تسجيل دخول';
+  String get login => 'تسجيل الدخول';
 
   @override
-  String get logoDefaultValue => 'شعار ثينغز بورد';
+  String get logoDefaultValue => 'شعار ThingsBoard';
 
   @override
   String get loginToYourAccount => 'تسجيل الدخول إلى حسابك';
@@ -75,7 +75,7 @@ class SAr extends S {
   String get emailRequireText => 'البريد الإلكتروني مطلوب.';
 
   @override
-  String get emailInvalidText => 'صيغة البريد الإلكتروني غير صحيحة.';
+  String get emailInvalidText => 'تنسيق البريد الإلكتروني غير صالح.';
 
   @override
   String get username => 'اسم المستخدم';
@@ -94,7 +94,7 @@ class SAr extends S {
 
   @override
   String get passwordResetText =>
-      'أدخل البريد الإلكتروني المرتبط بحسابك وسنرسل بريدًا إلكترونيًا يحتوي على رابط لإعادة تعيين كلمة المرور';
+      'أدخل البريد الإلكتروني المرتبط بحسابك وسنرسل إليك رسالة تحتوي على رابط إعادة تعيين كلمة المرور';
 
   @override
   String get requestPasswordReset => 'طلب إعادة تعيين كلمة المرور';
@@ -141,16 +141,16 @@ class SAr extends S {
   String get phone => 'الهاتف';
 
   @override
-  String get alarmClearTitle => 'مسح التنبيه';
+  String get alarmClearTitle => 'مسح الإنذار';
 
   @override
-  String get alarmClearText => 'هل أنت متأكد أنك تريد مسح التنبيه؟';
+  String get alarmClearText => 'هل أنت متأكد أنك تريد مسح الإنذار؟';
 
   @override
-  String get alarmAcknowledgeTitle => 'إقرار التنبيه';
+  String get alarmAcknowledgeTitle => 'الإقرار بالإنذار';
 
   @override
-  String get alarmAcknowledgeText => 'هل أنت متأكد أنك تريد الإقرار بالتنبيه؟';
+  String get alarmAcknowledgeText => 'هل أنت متأكد أنك تريد الإقرار بالإنذار؟';
 
   @override
   String get assetName => 'اسم الأصل';
@@ -162,7 +162,7 @@ class SAr extends S {
   String get label => 'التسمية';
 
   @override
-  String get assignedToCustomer => 'معين للعميل';
+  String get assignedToCustomer => 'تم التعيين إلى العميل';
 
   @override
   String get auditLogDetails => 'تفاصيل سجل التدقيق';
@@ -222,7 +222,7 @@ class SAr extends S {
   String get tenantAdministrator => 'مسؤول المستأجر';
 
   @override
-  String get customer => 'العميل';
+  String get customer => 'عميل';
 
   @override
   String get changePassword => 'تغيير كلمة المرور';
@@ -247,13 +247,13 @@ class SAr extends S {
 
   @override
   String get passwordErrorNotification =>
-      'كلمات المرور المدخلة يجب أن تكون متطابقة!';
+      'يجب أن تكون كلمات المرور المدخلة متطابقة!';
 
   @override
   String get firstNameUpper => 'الاسم الأول';
 
   @override
-  String get lastNameUpper => 'الاسم الأخير';
+  String get lastNameUpper => 'اسم العائلة';
 
   @override
   String get profileSuccessNotification => 'تم تحديث الملف الشخصي بنجاح';
@@ -262,19 +262,19 @@ class SAr extends S {
   String get passwordSuccessNotification => 'تم تغيير كلمة المرور بنجاح';
 
   @override
-  String get notImplemented => 'لم يتم التنفيذ!';
+  String get notImplemented => 'غير مُنفَّذ!';
 
   @override
-  String get listIsEmptyText => 'القائمة فارغة حالياً.';
+  String get listIsEmptyText => 'القائمة فارغة حاليًا.';
 
   @override
-  String get tryAgain => 'حاول مرة أخرى';
+  String get tryAgain => 'المحاولة مرة أخرى';
 
   @override
   String get verifyYourIdentity => 'تحقق من هويتك';
 
   @override
-  String get continueText => 'استمرار';
+  String get continueText => 'متابعة';
 
   @override
   String get resendCode => 'إعادة إرسال الرمز';
@@ -296,16 +296,16 @@ class SAr extends S {
 
   @override
   String get totpAuthDescription =>
-      'يرجى إدخال الرمز الأمني من تطبيق المصادقة الخاص بك.';
+      'يرجى إدخال رمز الأمان من تطبيق المصادقة الخاص بك.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'تم إرسال رمز أمني إلى هاتفك على الرقم $contact.';
+    return 'تم إرسال رمز أمان إلى هاتفك على $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'تم إرسال رمز أمني إلى بريدك الإلكتروني على العنوان $contact.';
+    return 'تم إرسال رمز أمان إلى عنوان البريد الإلكتروني الخاص بك على $contact.';
   }
 
   @override
@@ -322,19 +322,20 @@ class SAr extends S {
   String get emailAuthPlaceholder => 'رمز البريد الإلكتروني';
 
   @override
-  String get backupCodeAuthPlaceholder => 'الرمز الاحتياطي';
+  String get backupCodeAuthPlaceholder => 'رمز احتياطي';
 
   @override
-  String get verificationCodeIncorrect => 'الرمز غير صحيح';
+  String get verificationCodeIncorrect => 'رمز التحقق غير صحيح';
 
   @override
-  String get verificationCodeManyRequest => 'طلبات كثيرة للتحقق من الرمز';
+  String get verificationCodeManyRequest =>
+      'طلبات كثيرة جدًا للتحقق من رمز التحقق';
 
   @override
-  String get tryAnotherWay => 'حاول بطريقة أخرى';
+  String get tryAnotherWay => 'جرب طريقة أخرى';
 
   @override
-  String get selectWayToVerify => 'اختر طريقة للتحقق';
+  String get selectWayToVerify => 'حدد طريقة التحقق';
 
   @override
   String get mfaProviderTopt => 'تطبيق المصادقة';
@@ -346,7 +347,7 @@ class SAr extends S {
   String get mfaProviderEmail => 'البريد الإلكتروني';
 
   @override
-  String get mfaProviderBackupCode => 'الرمز الاحتياطي';
+  String get mfaProviderBackupCode => 'رمز احتياطي';
 
   @override
   String get newUserText => 'مستخدم جديد؟';
@@ -355,7 +356,7 @@ class SAr extends S {
   String get createAccount => 'إنشاء حساب';
 
   @override
-  String get emailVerification => 'تأكيد البريد الإلكتروني';
+  String get emailVerification => 'التحقق من البريد الإلكتروني';
 
   @override
   String get emailVerificationSentText =>
@@ -363,27 +364,27 @@ class SAr extends S {
 
   @override
   String get emailVerificationInstructionsText =>
-      'يرجى اتباع التعليمات المقدمة في البريد الإلكتروني لإكمال إجراء التسجيل الخاص بك. ملاحظة: إذا لم تر البريد الإلكتروني لفترة، يرجى التحقق من مجلد \'الرسائل غير المرغوب فيها\' أو حاول إعادة إرسال البريد الإلكتروني بالضغط على زر \'إعادة إرسال\'.';
+      'يرجى اتباع التعليمات الواردة في البريد الإلكتروني لإكمال إجراء التسجيل. ملاحظة: إذا لم تظهر الرسالة لبعض الوقت، يرجى التحقق من مجلد \"البريد العشوائي\" أو إعادة إرسال البريد الإلكتروني بالنقر على زر \"إعادة الإرسال\".';
 
   @override
-  String get resend => 'إعادة إرسال';
+  String get resend => 'إعادة الإرسال';
 
   @override
-  String get activatingAccount => 'تنشيط الحساب...';
+  String get activatingAccount => 'جارٍ تنشيط الحساب...';
 
   @override
   String get accountActivated => 'تم تنشيط الحساب بنجاح!';
 
   @override
-  String get emailVerified => 'تم تأكيد البريد الإلكتروني';
+  String get emailVerified => 'تم التحقق من البريد الإلكتروني';
 
   @override
   String get activatingAccountText =>
-      'حسابك قيد التنشيط حالياً.\nيرجى الانتظار...';
+      'يجري تنشيط حسابك حاليًا.\nيرجى الانتظار...';
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'تهانينا!\nتم تنشيط حساب $appTitle الخاص بك.\nيمكنك الآن تسجيل الدخول إلى مساحة $appTitle الخاصة بك.';
+    return 'تهانينا!\nتم تنشيط حسابك في $appTitle.\nيمكنك الآن تسجيل الدخول إلى مساحة $appTitle الخاصة بك.';
   }
 
   @override
@@ -405,19 +406,19 @@ class SAr extends S {
   String get firstNameRequireText => 'الاسم الأول مطلوب.';
 
   @override
-  String get lastName => 'الاسم الأخير';
+  String get lastName => 'اسم العائلة';
 
   @override
-  String get lastNameRequireText => 'الاسم الأخير مطلوب.';
+  String get lastNameRequireText => 'اسم العائلة مطلوب.';
 
   @override
   String get createPassword => 'إنشاء كلمة مرور';
 
   @override
-  String get repeatPassword => 'كرر كلمة المرور';
+  String get repeatPassword => 'تكرار كلمة المرور';
 
   @override
-  String get imNotARobot => 'لست روبوت';
+  String get imNotARobot => 'لست روبوتًا';
 
   @override
   String get signUp => 'التسجيل';
@@ -429,17 +430,17 @@ class SAr extends S {
   String get signIn => 'تسجيل الدخول';
 
   @override
-  String get inactiveUserAlreadyExists => 'يوجد مستخدم غير نشط بالفعل';
+  String get inactiveUserAlreadyExists => 'المستخدم غير النشط موجود بالفعل';
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'يوجد مستخدم مسجل بالفعل بعنوان بريد إلكتروني غير مؤكد.\nانقر على زر \'إعادة إرسال\' إذا كنت تريد إعادة إرسال بريد التحقق الإلكتروني.';
+      'يوجد بالفعل مستخدم مسجَّل بعنوان بريد إلكتروني غير مُتحقَّق منه.\nانقر زر \"إعادة الإرسال\" إذا كنت ترغب في إعادة إرسال بريد التحقق.';
 
   @override
-  String get assignee => 'المُكلف';
+  String get assignee => 'المُكلَّف';
 
   @override
-  String get alarmTypes => 'أنواع التنبيهات';
+  String get alarmTypes => 'أنواع الإنذارات';
 
   @override
   String get details => 'التفاصيل';
@@ -451,10 +452,10 @@ class SAr extends S {
   String get severity => 'الخطورة';
 
   @override
-  String get originator => 'المصدر';
+  String get originator => 'المُنشئ';
 
   @override
-  String get startTime => 'وقت البداية';
+  String get startTime => 'وقت البدء';
 
   @override
   String get duration => 'المدة';
@@ -465,11 +466,10 @@ class SAr extends S {
       count,
       locale: localeName,
       other: '$value يوم',
-      many: '$value يوم',
+      many: '$value يومًا',
       few: '$value أيام',
       two: 'يومان',
       one: 'يوم واحد',
-      zero: '$value يوم',
     );
     return '$_temp0';
   }
@@ -480,11 +480,9 @@ class SAr extends S {
       count,
       locale: localeName,
       other: '$value ساعة',
-      many: '$value ساعة',
       few: '$value ساعات',
       two: 'ساعتان',
       one: 'ساعة واحدة',
-      zero: '$value ساعة',
     );
     return '$_temp0';
   }
@@ -495,11 +493,9 @@ class SAr extends S {
       count,
       locale: localeName,
       other: '$value دقيقة',
-      many: '$value دقيقة',
       few: '$value دقائق',
       two: 'دقيقتان',
       one: 'دقيقة واحدة',
-      zero: '$value دقيقة',
     );
     return '$_temp0';
   }
@@ -510,29 +506,27 @@ class SAr extends S {
       count,
       locale: localeName,
       other: '$value ثانية',
-      many: '$value ثانية',
       few: '$value ثوانٍ',
       two: 'ثانيتان',
       one: 'ثانية واحدة',
-      zero: '$value ثانية',
     );
     return '$_temp0';
   }
 
   @override
-  String get viewDashboard => 'عرض اللوحة';
+  String get viewDashboard => 'عرض لوحة المعلومات';
 
   @override
   String get activity => 'النشاط';
 
   @override
-  String get addCommentMessage => 'إضافة تعليق...';
+  String get addCommentMessage => 'أضف تعليقًا...';
 
   @override
-  String get selectUser => 'اختيار المستخدمين';
+  String get selectUser => 'اختر المستخدمين';
 
   @override
-  String get assignedToMe => 'معين لي';
+  String get assignedToMe => 'مُعين لي';
 
   @override
   String get clear => 'مسح';
@@ -541,13 +535,13 @@ class SAr extends S {
   String get acknowledge => 'إقرار';
 
   @override
-  String get edit => 'تحرير';
+  String get edit => 'تعديل';
 
   @override
   String get delete => 'حذف';
 
   @override
-  String get edited => 'محرر';
+  String get edited => 'تم التعديل';
 
   @override
   String get deleteComment => 'حذف التعليق';
@@ -562,7 +556,7 @@ class SAr extends S {
   String get tryRefiningYourQuery => 'يرجى محاولة تحسين استعلامك';
 
   @override
-  String get failedToLoadTheList => 'فشل في تحميل القائمة';
+  String get failedToLoadTheList => 'فشل تحميل القائمة';
 
   @override
   String get tryRefreshing => 'يرجى محاولة التحديث';
@@ -571,13 +565,13 @@ class SAr extends S {
   String get refresh => 'تحديث';
 
   @override
-  String get users => 'المستخدمين';
+  String get users => 'المستخدمون';
 
   @override
-  String get unassigned => 'غير معين';
+  String get unassigned => 'غير مُعين';
 
   @override
-  String get failedToLoadAlarmDetails => 'فشل في تحميل تفاصيل التنبيه';
+  String get failedToLoadAlarmDetails => 'فشل تحميل تفاصيل الإنذار';
 
   @override
   String get somethingWentWrong => 'حدث خطأ ما';
@@ -586,7 +580,7 @@ class SAr extends S {
   String get chooseRegion => 'اختيار المنطقة';
 
   @override
-  String get selectRegion => 'حدد المنطقة';
+  String get selectRegion => 'اختيار المنطقة';
 
   @override
   String get northAmerica => 'أمريكا الشمالية';
@@ -595,7 +589,7 @@ class SAr extends S {
   String get europe => 'أوروبا';
 
   @override
-  String get northAmericaRegionShort => 'ن. فيرجينيا';
+  String get northAmericaRegionShort => 'شمال فيرجينيا';
 
   @override
   String get europeRegionShort => 'فرانكفورت';
@@ -608,32 +602,32 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'لوحات معلومات',
-      one: 'لوحة معلومات',
+      other: 'لوحات المعلومات',
+      one: 'لوحة المعلومات',
     );
     return '$_temp0';
   }
 
   @override
-  String get updateRequired => 'تحديث مطلوب';
+  String get updateRequired => 'التحديث مطلوب';
 
   @override
   String updateTo(Object version) {
-    return 'تحديث إلى $version';
+    return 'التحديث إلى $version';
   }
 
   @override
   String get next => 'التالي';
 
   @override
-  String get confirmation => 'التأكيد';
+  String get confirmation => 'تأكيد';
 
   @override
   String get wifiPassword => 'كلمة مرور Wi-Fi';
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'لمتابعة إعداد جهازك $deviceName، يرجى تقديم بيانات اعتماد الشبكة الخاصة بك.';
+    return 'لمتابعة إعداد جهازك $deviceName، يرجى تقديم بيانات اعتماد شبكتك.';
   }
 
   @override
@@ -643,46 +637,46 @@ class SAr extends S {
 
   @override
   String get deviceNotFoundMessage =>
-      'لم يتم العثور على الأجهزة. يرجى التأكد من تشغيل البلوتوث في هاتفك وأنه ضمن نطاق جهازك الجديد.';
+      'لم يتم العثور على أجهزة. يرجى التأكد من تشغيل Bluetooth في هاتفك وأنه ضمن مدى جهازك الجديد.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'ليس لديك أذونات كافية لـ \"$permissions\" للمتابعة. يرجى منح الأذونات المطلوبة والضغط على \"حاول مرة أخرى\".';
+    return 'ليس لديك أذونات كافية لـ \"$permissions\" للمتابعة. يرجى منح الأذونات المطلوبة والنقر على \"المحاولة مرة أخرى\".';
   }
 
   @override
-  String get sendingWifiCredentials => 'إرسال بيانات اعتماد Wi-Fi';
+  String get sendingWifiCredentials => 'جارٍ إرسال بيانات اعتماد Wi-Fi';
 
   @override
-  String get confirmingWifiConnection => 'تأكيد اتصال Wi-Fi';
+  String get confirmingWifiConnection => 'جارٍ تأكيد اتصال Wi-Fi';
 
   @override
-  String get provisionedSuccessfully => 'تم توفير الجهاز بنجاح';
+  String get provisionedSuccessfully => 'تم تزويد الجهاز بنجاح';
 
   @override
-  String get returnToDashboard => 'العودة إلى اللوحة';
+  String get returnToDashboard => 'العودة إلى لوحة المعلومات';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'لا يمكن إنشاء جلسة مع الجهاز $deviceName. يرجى المحاولة مرة أخرى';
+    return 'تعذّر إنشاء جلسة مع الجهاز $deviceName. يرجى المحاولة مرة أخرى';
   }
 
   @override
-  String get claimingDevice => 'المطالبة بالجهاز';
+  String get claimingDevice => 'جارٍ المطالبة بالجهاز';
 
   @override
-  String get claimingDeviceDone => 'تمت المطالبة بالجهاز';
+  String get claimingDeviceDone => 'اكتملت المطالبة بالجهاز';
 
   @override
-  String get claimingMessageSuccess => 'تمت المطالبة\nبالجهاز بنجاح';
+  String get claimingMessageSuccess => 'تمت المطالبة بالجهاز\nبنجاح';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'ليس لديك أذونات كافية لـ \"$permissions\" للمتابعة. يرجى فتح إعدادات التطبيق ومنح الأذونات والضغط على \"حاول مرة أخرى\".';
+    return 'ليس لديك أذونات كافية لـ \"$permissions\" للمتابعة. يرجى فتح إعدادات التطبيق ومنح الأذونات والنقر على \"المحاولة مرة أخرى\".';
   }
 
   @override
-  String get scanACode => 'مسح الرمز';
+  String get scanACode => 'مسح رمز';
 
   @override
   String get allowAccess => 'السماح بالوصول';
@@ -694,18 +688,18 @@ class SAr extends S {
   String get toggleFlash => 'تبديل الفلاش';
 
   @override
-  String get unableToUseCamera => 'غير قادر على استخدام الكاميرا';
+  String get unableToUseCamera => 'تعذّر استخدام الكاميرا';
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'افتح الإعدادات ومنح الوصول للكاميرا للمتابعة';
+      'افتح الإعدادات وامنح حق الوصول إلى الكاميرا للمتابعة';
 
   @override
   String get notFound => 'غير موجود';
 
   @override
   String routeNotDefined(Object name) {
-    return 'المسار غير محدد: $name';
+    return 'المسار غير معرَّف: $name';
   }
 
   @override
@@ -718,7 +712,7 @@ class SAr extends S {
   String get anEmptyRequestDataReceived => 'تم استلام بيانات طلب فارغة.';
 
   @override
-  String get somethingWentWrongRollback => 'حدث خطأ ما ... التراجع';
+  String get somethingWentWrongRollback => 'حدث خطأ ما ... تراجع';
 
   @override
   String get searchResults => 'نتائج البحث';
@@ -730,25 +724,25 @@ class SAr extends S {
   String get requestedEntityDoesNotExists => 'الكيان المطلوب غير موجود.';
 
   @override
-  String get noAlarmsFound => 'لم يتم العثور على تنبيهات';
+  String get noAlarmsFound => 'لم يتم العثور على إنذارات';
 
   @override
-  String get filters => 'المرشحات';
+  String get filters => 'الفلاتر';
 
   @override
-  String get alarmStatusList => 'قائمة حالة التنبيه';
+  String get alarmStatusList => 'قائمة حالات الإنذار';
 
   @override
-  String get alarmSeverityList => 'قائمة خطورة التنبيه';
+  String get alarmSeverityList => 'قائمة خطورة الإنذار';
 
   @override
   String get cleared => 'تم المسح';
 
   @override
-  String get acknowledged => 'مُقر';
+  String get acknowledged => 'تم الإقرار';
 
   @override
-  String get unacknowledged => 'غير مُقر';
+  String get unacknowledged => 'لم يتم الإقرار';
 
   @override
   String get critical => 'حرج';
@@ -770,8 +764,8 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'البحث عن مستخدمين',
-      one: 'البحث عن مستخدم',
+      other: 'بحث عن مستخدمين',
+      one: 'بحث عن مستخدم',
     );
     return '$_temp0';
   }
@@ -783,13 +777,13 @@ class SAr extends S {
   String get update => 'تحديث';
 
   @override
-  String get alarmTypeList => 'قائمة أنواع التنبيهات';
+  String get alarmTypeList => 'قائمة أنواع الإنذارات';
 
   @override
   String get anyType => 'أي نوع';
 
   @override
-  String get plusAlarmType => '+ نوع تنبيه';
+  String get plusAlarmType => '+ نوع الإنذار';
 
   @override
   String get all => 'الكل';
@@ -826,18 +820,18 @@ class SAr extends S {
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      'يجب تكوين لوحة المعلومات المحمولة في ملف تعريف الجهاز!';
+      'يجب تكوين لوحة معلومات الجوال في ملف تعريف الجهاز!';
 
   @override
   String get openWifiSettings => 'فتح إعدادات Wi-Fi';
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'اتصل بشبكة Wi-Fi التي تستخدمها عادة';
+      'اتصل بشبكة Wi-Fi التي تستخدمها عادةً';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'عد إلى التطبيق واضغط على زر جاهز';
+      'ارجع إلى التطبيق واضغط على زر \"جاهز\"';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
@@ -846,21 +840,21 @@ class SAr extends S {
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'الإشعارات الفورية غير مكوّنة.\nيرجى الاتصال بمسؤول النظام.';
+      'الإشعارات الفورية غير مكوَّنة.\nيرجى التواصل مع مسؤول النظام.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase غير مكوّن.\nيرجى الرجوع إلى وثائق Firebase الرسمية\nللحصول على الإرشادات.';
+      'Firebase غير مكوَّن.\n يرجى الرجوع إلى وثائق Firebase الرسمية\n للاطلاع على إرشادات حول كيفية القيام بذلك.';
 
   @override
-  String get markAllAsRead => 'تحديد الكل كمقروء';
+  String get markAllAsRead => 'تمييز الكل كمقروء';
 
   @override
   String get profile => 'الملف الشخصي';
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'لا يمكن فتح الرابط: $link';
+    return 'تعذر فتح الرابط: $link';
   }
 
   @override
@@ -870,16 +864,16 @@ class SAr extends S {
   String get openAppSettings => 'فتح إعدادات التطبيق';
 
   @override
-  String get connectingToDevice => 'جاري الاتصال بالجهاز';
+  String get connectingToDevice => 'جارٍ الاتصال بالجهاز';
 
   @override
   String get connectToDevice => 'الاتصال بالجهاز';
 
   @override
-  String get selectWifiNetwork => 'اختيار شبكة Wi-Fi';
+  String get selectWifiNetwork => 'اختر شبكة Wi-Fi';
 
   @override
-  String get deviceProvisioning => 'تهيئة الجهاز';
+  String get deviceProvisioning => 'تزويد الأجهزة';
 
   @override
   String get permissions => 'الأذونات';
@@ -889,16 +883,16 @@ class SAr extends S {
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'لا يمكن للجهاز العثور على Wi-Fi قريب';
+      'تعذر على الجهاز العثور على شبكات Wi-Fi قريبة';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'فشل الاتصال بشبكة Wi-Fi $name.\nيرجى التأكد من أن هاتفك متصل بشبكة Wi-Fi الخاصة بالجهاز وأن الوصول إلى الشبكة المحلية مفعّل لهذا التطبيق.';
+    return 'فشل الاتصال بشبكة Wi-Fi $name.\nيرجى التأكد من أن هاتفك متصل بشبكة Wi-Fi الخاصة بالجهاز وأن الوصول إلى الشبكة المحلية مُمكَّن لهذا التطبيق في إعدادات هاتفك.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'تعذر الاتصال بـ Wi-Fi لأن الجهاز $name لم يجد شبكات';
+    return 'تعذر الاتصال بشبكة Wi-Fi لأن الجهاز $name لم يعثر على الشبكات';
   }
 
   @override
@@ -914,16 +908,16 @@ class SAr extends S {
   String get ready => 'جاهز';
 
   @override
-  String get exitDeviceProvisioning => 'الخروج من تهيئة الجهاز';
+  String get exitDeviceProvisioning => 'الخروج من تزويد الجهاز';
 
   @override
   String get noNotificationsFound => 'لم يتم العثور على إشعارات';
 
   @override
-  String get markAsRead => 'تحديد كمقروء';
+  String get markAsRead => 'تمييز كمقروء';
 
   @override
-  String get url => 'رابط';
+  String get url => 'URL';
 
   @override
   String get pleaseScanQrCodeOnYourDevice => 'يرجى مسح رمز QR على جهازك';
@@ -941,7 +935,7 @@ class SAr extends S {
   String get user => 'المستخدم';
 
   @override
-  String get asset => 'الأصل';
+  String get asset => 'أصل';
 
   @override
   String get deviceProfile => 'ملف تعريف الجهاز';
@@ -954,8 +948,8 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'تنبيهات',
-      one: 'تنبيه',
+      other: 'الإنذارات',
+      one: 'إنذار',
     );
     return '$_temp0';
   }
@@ -964,7 +958,7 @@ class SAr extends S {
   String get ruleChain => 'سلسلة القواعد';
 
   @override
-  String get ruleNode => 'عقدة القواعد';
+  String get ruleNode => 'عقدة القاعدة';
 
   @override
   String get edge => 'Edge';
@@ -982,7 +976,7 @@ class SAr extends S {
   String get apiUsageState => 'حالة استخدام API';
 
   @override
-  String get tbResource => 'المورد';
+  String get tbResource => 'مورد';
 
   @override
   String get otaPackage => 'حزمة OTA';
@@ -991,7 +985,7 @@ class SAr extends S {
   String get rpc => 'RPC';
 
   @override
-  String get queue => 'قائمة الانتظار';
+  String get queue => 'طابور';
 
   @override
   String get notificationTarget => 'هدف الإشعار';
@@ -1007,8 +1001,8 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'إشعارات',
-      one: 'إشعار',
+      other: 'الإشعارات',
+      one: 'الإشعار',
     );
     return '$_temp0';
   }
@@ -1020,19 +1014,19 @@ class SAr extends S {
   String get entityGroup => 'مجموعة الكيانات';
 
   @override
-  String get converter => 'محول';
+  String get converter => 'محوّل';
 
   @override
-  String get integration => 'تكامل';
+  String get integration => 'التكامل';
 
   @override
-  String get schedulerEvent => 'حدث المجدول';
+  String get schedulerEvent => 'حدث المُجدوِل';
 
   @override
   String get blobEntity => 'كيان Blob';
 
   @override
-  String get role => 'دور';
+  String get role => 'الدور';
 
   @override
   String get groupPermission => 'إذن المجموعة';
@@ -1071,13 +1065,13 @@ class SAr extends S {
   String get actionTypeUnassignedFromCustomer => 'تم إلغاء التعيين من العميل';
 
   @override
-  String get actionTypeActivated => 'تم التفعيل';
+  String get actionTypeActivated => 'مُنشَّط';
 
   @override
   String get actionTypeSuspended => 'تم التعليق';
 
   @override
-  String get actionTypeCredentialsRead => 'تم قراءة بيانات الاعتماد';
+  String get actionTypeCredentialsRead => 'تمت قراءة بيانات الاعتماد';
 
   @override
   String get actionTypeAttributesRead => 'تم قراءة السمات';
@@ -1098,46 +1092,46 @@ class SAr extends S {
   String get actionTypeAlarmClear => 'تم المسح';
 
   @override
-  String get actionTypeAlarmDelete => 'تم حذف التنبيه';
+  String get actionTypeAlarmDelete => 'تم حذف الإنذار';
 
   @override
-  String get actionTypeAlarmAssigned => 'تم تعيين التنبيه';
+  String get actionTypeAlarmAssigned => 'تم تعيين الإنذار';
 
   @override
-  String get actionTypeAlarmUnassigned => 'تم إلغاء تعيين التنبيه';
+  String get actionTypeAlarmUnassigned => 'تم إلغاء تعيين الإنذار';
 
   @override
-  String get actionTypeLogin => 'تسجيل دخول';
+  String get actionTypeLogin => 'تسجيل الدخول';
 
   @override
-  String get actionTypeLogout => 'تسجيل خروج';
+  String get actionTypeLogout => 'تسجيل الخروج';
 
   @override
-  String get actionTypeLockout => 'تم القفل';
+  String get actionTypeLockout => 'قفل الحساب';
 
   @override
-  String get actionTypeAssignedFromTenant => 'تم التعيين من المستأجر';
+  String get actionTypeAssignedFromTenant => 'مُعين من المستأجر';
 
   @override
-  String get actionTypeAssignedToTenant => 'تم التعيين للمستأجر';
+  String get actionTypeAssignedToTenant => 'مُعين للمستأجر';
 
   @override
-  String get actionTypeProvisionSuccess => 'تم تهيئة الجهاز';
+  String get actionTypeProvisionSuccess => 'تم تزويد الجهاز';
 
   @override
-  String get actionTypeProvisionFailure => 'فشلت تهيئة الجهاز';
+  String get actionTypeProvisionFailure => 'فشل تزويد الجهاز';
 
   @override
-  String get actionTypeTimeseriesUpdated => 'تم تحديث القياس عن بعد';
+  String get actionTypeTimeseriesUpdated => 'تم تحديث بيانات القياس عن بُعد';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'تم حذف القياس عن بعد';
+  String get actionTypeTimeseriesDeleted => 'تم حذف بيانات القياس عن بُعد';
 
   @override
-  String get actionTypeAssignedToEdge => 'تم التعيين لـ Edge';
+  String get actionTypeAssignedToEdge => 'تم التعيين إلى مثيل Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'تم إلغاء التعيين من Edge';
+  String get actionTypeUnassignedFromEdge => 'تم إلغاء التعيين من مثيل Edge';
 
   @override
   String get actionTypeAddedComment => 'تمت إضافة تعليق';
@@ -1149,7 +1143,7 @@ class SAr extends S {
   String get actionTypeDeletedComment => 'تم حذف التعليق';
 
   @override
-  String get actionTypeSmsSent => 'تم إرسال SMS';
+  String get actionTypeSmsSent => 'تم إرسال رسالة SMS';
 
   @override
   String get actionTypeAddedToEntityGroup => 'تمت الإضافة إلى مجموعة الكيانات';
@@ -1163,27 +1157,27 @@ class SAr extends S {
       'استدعاء محرك القواعد عبر REST API';
 
   @override
-  String get actionTypeMadePublic => 'تم جعله عاماً';
+  String get actionTypeMadePublic => 'أصبح عامًا';
 
   @override
-  String get actionTypeMadePrivate => 'تم جعله خاصاً';
+  String get actionTypeMadePrivate => 'أصبح خاصًا';
 
   @override
   String get actionTypeChangeOwner => 'تم تغيير المالك';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'ليس لديك صلاحيات لتنفيذ هذه العملية!';
+      'ليس لديك الأذونات لتنفيذ هذه العملية!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'يبدو أن صلاحياتك غير كافية لإكمال هذه العملية';
+      'يبدو أن أذوناتك غير كافية لإكمال هذه العملية';
 
   @override
-  String get isRequiredText => 'مطلوب.';
+  String get isRequiredText => 'حقل مطلوب.';
 
   @override
-  String get no2faProvidersFound => 'لم يتم العثور على مزودي المصادقة الثنائية';
+  String get no2faProvidersFound => 'لم يتم العثور على مزودي المصادقة بخطوتين';
 
   @override
   String get pleaseContactYourSystemAdministrator =>
@@ -1206,7 +1200,7 @@ class SAr extends S {
 
   @override
   String accountDeletionDialogBody(Object authority) {
-    return 'هل أنت متأكد؟ ستقوم بحذف حساب $authority الخاص بك.';
+    return 'هل أنت متأكد؟ أنت على وشك حذف حساب $authority الخاص بك.';
   }
 
   @override
@@ -1239,7 +1233,7 @@ class SAr extends S {
 
   @override
   String get phoneNumberHelperText =>
-      'رقم الهاتف بصيغة E.164، مثال: ⁦+1201550123⁩';
+      'رقم الهاتف بتنسيق E.164، مثال: ⁦+1201550123⁩';
 
   @override
   String get homeDashboard => 'لوحة المعلومات الرئيسية';
@@ -1248,36 +1242,36 @@ class SAr extends S {
   String get security => 'الأمان';
 
   @override
-  String get twofactorAuthentication => 'المصادقة الثنائية';
+  String get twofactorAuthentication => 'المصادقة بخطوتين';
 
   @override
   String get verificationRequired => 'التحقق مطلوب';
 
   @override
-  String get twofactorAuthenticationIsRequired => 'المصادقة الثنائية مطلوبة';
+  String get twofactorAuthenticationIsRequired => 'المصادقة بخطوتين مطلوبة';
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
-      'قم بإعداد طريقة تحقق لمتابعة تسجيل الدخول';
+      'أعدّ طريقة تحقق لمتابعة تسجيل الدخول';
 
   @override
-  String get setUpAVerificationMethod => 'إعداد طريقة تحقق';
+  String get setUpAVerificationMethod => 'إعداد طريقة التحقق';
 
   @override
   String get totpSetupSuccessDescription =>
-      'في المرة القادمة التي تسجل فيها الدخول، ستحتاج إلى تقديم رمز المصادقة الثنائية';
+      'في المرة القادمة التي تسجّل فيها الدخول، ستحتاج إلى تقديم رمز المصادقة بخطوتين';
 
   @override
   String get smsSetupSuccessDescription =>
-      'في المرة القادمة التي تسجل فيها الدخول، سيُطلب منك إدخال رمز الأمان المرسل إلى رقم الهاتف';
+      'في المرة القادمة التي تسجّل فيها الدخول، سيُطلب منك إدخال رمز الأمان الذي سيُرسل إلى رقم الهاتف';
 
   @override
   String get emailSetupSuccessDescription =>
-      'في المرة القادمة التي تسجل فيها الدخول، سيُطلب منك إدخال رمز الأمان المرسل إلى بريدك الإلكتروني';
+      'في المرة القادمة التي تسجّل فيها الدخول، سيُطلب منك إدخال رمز الأمان الذي سيُرسل إلى عنوان بريدك الإلكتروني';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'في المرة القادمة التي تسجل فيها الدخول، يمكنك استخدام الرموز الاحتياطية للمصادقة الثنائية';
+      'في المرة القادمة التي تسجّل فيها الدخول، ستتمكن من استخدام الرموز الاحتياطية لاجتياز المصادقة بخطوتين';
 
   @override
   String get loginToApp => 'تسجيل الدخول إلى التطبيق';
@@ -1289,23 +1283,24 @@ class SAr extends S {
   String get done => 'تم';
 
   @override
-  String get thisWillMakeYourAccountLessSecure => 'سيجعل هذا حسابك أقل أماناً';
+  String get thisWillMakeYourAccountLessSecure =>
+      'سيؤدي ذلك إلى جعل حسابك أقل أمانًا';
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
-    return 'هل أنت متأكد أنك تريد تعطيل $providerName؟';
+    return 'هل أنت متأكد أنك تريد إلغاء تنشيط $providerName؟';
   }
 
   @override
-  String get yesDeactivate => 'نعم، تعطيل';
+  String get yesDeactivate => 'نعم، إلغاء التنشيط';
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'أدخل بريداً إلكترونياً لاستخدامه كمصادق.';
+      'أدخل عنوان بريد إلكتروني لاستخدامه كوسيلة مصادقة.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
-      'أدخل رقم هاتف لاستخدامه كمصادق';
+      'أدخل رقم هاتف لاستخدامه كوسيلة مصادقة';
 
   @override
   String get sendCode => 'إرسال الرمز';
@@ -1332,7 +1327,7 @@ class SAr extends S {
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'انسخ المفتاح المكون من 32 رقماً إلى تطبيق المصادقة أو امسح رمز QR أدناه';
+      'انسخ المفتاح المكوّن من 32 حرفًا إلى تطبيق المصادقة، أو امسح رمز QR أدناه';
 
   @override
   String get applyChanges => 'تطبيق التغييرات';
@@ -1349,7 +1344,7 @@ class SAr extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'المصادقة الثنائية تحمي حسابك من الوصول غير المصرح به. كل ما عليك فعله هو إدخال رمز أمان عند تسجيل الدخول.';
+      'تحمي المصادقة بخطوتين حسابك من الوصول غير المصرح به. كل ما عليك فعله هو إدخال رمز أمان عند تسجيل الدخول.';
 
   @override
   String get calculatedField => 'حقل محسوب';
@@ -1358,7 +1353,7 @@ class SAr extends S {
   String get apiKey => 'مفتاح API';
 
   @override
-  String get aiModel => 'نموذج ذكاء اصطناعي';
+  String get aiModel => 'نموذج الذكاء الاصطناعي';
 
   @override
   String get adminSettings => 'إعدادات المسؤول';
@@ -1379,22 +1374,22 @@ class SAr extends S {
   String get oauth2Client => 'عميل OAuth2';
 
   @override
-  String get queueStats => 'إحصائيات قائمة الانتظار';
+  String get queueStats => 'إحصائيات الطابور';
 
   @override
-  String get phoneIsRequired => 'رقم الهاتف مطلوب';
+  String get phoneIsRequired => 'الهاتف مطلوب';
 
   @override
-  String get phoneIsInvalid => 'رقم الهاتف غير صالح';
+  String get phoneIsInvalid => 'الهاتف غير صالح';
 
   @override
   String get addVerificationMethod => 'إضافة طريقة تحقق';
 
   @override
-  String get imageSavedToGallery => 'تم الحفظ في \'معرض الصور\'';
+  String get imageSavedToGallery => 'تم الحفظ في \"معرض الصور\" بالمنصة';
 
   @override
-  String get failedToSaveImage => 'فشل في حفظ الصورة';
+  String get failedToSaveImage => 'فشل حفظ الصورة';
 
   @override
   String nSelected(int count) {
@@ -1402,7 +1397,7 @@ class SAr extends S {
   }
 
   @override
-  String get selectAll => 'تحديد الكل المحمّل';
+  String get selectAll => 'تحديد الكل المُحمَّل';
 
   @override
   String failedToPerformOperation(int count) {
@@ -1410,11 +1405,9 @@ class SAr extends S {
       count,
       locale: localeName,
       other: 'فشلت $count عملية',
-      many: 'فشلت $count عملية',
       few: 'فشلت $count عمليات',
       two: 'فشلت عمليتان',
       one: 'فشلت عملية واحدة',
-      zero: 'لم تفشل أي عملية',
     );
     return '$_temp0';
   }
@@ -1429,7 +1422,6 @@ class SAr extends S {
       few: 'حذف $count إشعارات؟',
       two: 'حذف إشعارين؟',
       one: 'حذف إشعار واحد؟',
-      zero: 'حذف $count إشعار؟',
     );
     return '$_temp0';
   }
@@ -1439,39 +1431,38 @@ class SAr extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'وضع علامة مقروء لـ $count إشعار؟',
-      many: 'وضع علامة مقروء لـ $count إشعارًا؟',
-      few: 'وضع علامة مقروء لـ $count إشعارات؟',
-      two: 'وضع علامة مقروء لإشعارين؟',
-      one: 'وضع علامة مقروء لإشعار واحد؟',
-      zero: 'وضع علامة مقروء لـ $count إشعار؟',
+      other: 'وضع علامة مقروء على $count إشعار؟',
+      many: 'وضع علامة مقروء على $count إشعارًا؟',
+      few: 'وضع علامة مقروء على $count إشعارات؟',
+      two: 'وضع علامة مقروء على إشعارين؟',
+      one: 'وضع علامة مقروء على إشعار واحد؟',
     );
     return '$_temp0';
   }
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'جارٍ الحصول على البيانات من الخادم $host';
+    return 'جارٍ الحصول على البيانات من المضيف $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'جارٍ تسجيل دخولك إلى المضيف $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'جارٍ التبديل إلى المضيف الجديد $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'فشل الحصول على رمز تسجيل الدخول من $host. يرجى مسح رمز QR جديد.';
   }
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'تعذّر الاتصال بـ $host';
+    return 'فشل الاتصال بـ $host';
   }
 
   @override
@@ -1481,18 +1472,18 @@ class SAr extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'لم تعد جلسة رمز QR صالحة. يرجى تحديث رمز QR والمسح مرة أخرى.';
 
   @override
   String get openThisLinkTitle => 'فتح هذا الرابط؟';
 
   @override
   String get linkOpensSignInPage =>
-      'يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم. سيتم تسجيل خروجك من الخادم الحالي.';
+      'يفتح هذا الرابط صفحة تسجيل الدخول لهذا الخادم. سيتم تسجيل خروجك من الخادم الحالي.';
 
   @override
   String get linkOpensSignInPageOnly =>
-      'يفتح هذا الرابط صفحة تسجيل الدخول في هذا الخادم.';
+      'يفتح هذا الرابط صفحة تسجيل الدخول لهذا الخادم.';
 
   @override
   String linkSignsInAs(Object email) {
@@ -1507,7 +1498,7 @@ class SAr extends S {
 
   @override
   String get linkToOtherServerNotAllowed =>
-      'يعمل هذا التطبيق مع خادمه فقط ولا يمكنه فتح هذا الرابط.';
+      'يعمل هذا التطبيق مع خادمه الخاص فقط ولا يمكنه فتح هذا الرابط.';
 
   @override
   String get liveTrackingActive => 'تتبع الموقع المباشر';
@@ -1559,34 +1550,34 @@ class SAr extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'لا يمكن الحفظ في هذا الكيان لأنه لم يعد موجودًا. يستمر التتبع؛ حدّث الهدف في إجراء لوحة المعلومات.';
+      'تعذر الحفظ في هذا الكيان — لم يعد موجودًا. يستمر التتبع؛ حدِّث الهدف في إجراء لوحة المعلومات.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'لا يوجد اتصال بالخادم. لم يتم حفظ هذه المواقع، وسيُستأنف الحفظ عند عودة الاتصال.';
+      'لا يوجد اتصال بالخادم. لم يتم حفظ هذه المواقع — يُستأنف الحفظ عند عودة الاتصال بالإنترنت.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'انتهت جلستك. سجّل الدخول مجددًا لمواصلة حفظ الموقع.';
+      'انتهت جلستك. سجّل الدخول مجددًا لمتابعة حفظ الموقع.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'لا يمكن الحفظ في هذا الكيان لأنك لا تملك الصلاحية. يستمر التتبع؛ اطلب الوصول من المسؤول.';
+      'تعذر الحفظ في هذا الكيان — ليس لديك إذن. يستمر التتبع؛ اطلب من مسؤولك منح الوصول.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'تعذّر حفظ هذا الموقع على الخادم. ستتم إعادة المحاولة مع الموقع التالي.';
+      'تعذر حفظ هذا الموقع في الخادم. ستتم إعادة المحاولة مع الموقع التالي.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'خدمات الموقع متوقفة على هذا الجهاز.';
+      'خدمات الموقع مُعطَّلة على هذا الجهاز.';
 
   @override
   String get liveTrackingErrorPermissionDenied => 'تم رفض إذن الموقع.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'تم رفض إذن الموقع بشكل دائم. فعّله من إعدادات التطبيق.';
+      'إذن الموقع مرفوض بشكل دائم. مكّنه من إعدادات التطبيق.';
 
   @override
   String get liveTrackingErrorLocation => 'تعذّر تحديد الموقع.';
@@ -1601,7 +1592,7 @@ class SAr extends S {
   String get liveTrackingLastSession => 'آخر جلسة';
 
   @override
-  String get liveTrackingStartAgain => 'البدء من جديد';
+  String get liveTrackingStartAgain => 'بدء من جديد';
 
   @override
   String get liveTrackingEnded => 'وقت الانتهاء';
@@ -1610,13 +1601,13 @@ class SAr extends S {
   String get liveTrackingEndReason => 'سبب الانتهاء';
 
   @override
-  String get liveTrackingEndReasonManual => 'أُوقف يدويًا';
+  String get liveTrackingEndReasonManual => 'تم الإيقاف يدويًا';
 
   @override
-  String get liveTrackingEndReasonMaxDuration => 'تم بلوغ المدة القصوى';
+  String get liveTrackingEndReasonMaxDuration => 'بلوغ الحد الأقصى للمدة';
 
   @override
-  String get liveTrackingEndReasonInterrupted => 'انقطع';
+  String get liveTrackingEndReasonInterrupted => 'تمت المقاطعة';
 
   @override
   String get serverUpdateRequired => 'يلزم تحديث الخادم';
@@ -1640,31 +1631,31 @@ class SAr extends S {
 
   @override
   String get deviceClaimFailed =>
-      'تعذّر المطالبة بالجهاز. يرجى المحاولة مرة أخرى.';
+      'تعذّرت المطالبة بالجهاز. يرجى المحاولة مرة أخرى.';
 
   @override
   String get deviceToClaimNotFound =>
       'لم يتم العثور على الجهاز. يرجى التواصل مع مزوّد الجهاز.';
 
   @override
-  String get enableAuthenticatorApp => 'تفعيل تطبيق المصادقة';
+  String get enableAuthenticatorApp => 'تمكين تطبيق المصادقة';
 
   @override
-  String get enableSmsAuthenticator => 'تفعيل المصادقة عبر الرسائل القصيرة';
+  String get enableSmsAuthenticator => 'تمكين المصادقة عبر SMS';
 
   @override
-  String get enableEmailAuthenticator => 'تفعيل المصادقة عبر البريد الإلكتروني';
+  String get enableEmailAuthenticator => 'تمكين المصادقة عبر البريد الإلكتروني';
 
   @override
   String get getBackupCode => 'الحصول على رمز احتياطي';
 
   @override
   String get twoFaTotpDescription =>
-      'استخدم تطبيقات مثل Google Authenticator، Authy، أو Duo على هاتفك للمصادقة. سيقوم بتوليد رمز أمان لتسجيل الدخول.';
+      'استخدم تطبيقات مثل Google Authenticator وAuthy أو Duo على هاتفك للمصادقة. ستُنشئ هذه التطبيقات رمز أمان لتسجيل الدخول.';
 
   @override
   String get twoFaSmsDescription =>
-      'استخدم هاتفك للمصادقة. سنرسل لك رمز أمان عبر رسالة نصية عند تسجيل الدخول.';
+      'استخدم هاتفك للمصادقة. سنرسل إليك رمز أمان في رسالة SMS عند تسجيل الدخول.';
 
   @override
   String get twoFaEmailDescription =>
@@ -1672,23 +1663,23 @@ class SAr extends S {
 
   @override
   String get twoFaBackupCodeDescription =>
-      'تتيح لك هذه الرموز القابلة للطباعة استخدامها لتسجيل الدخول عندما تكون بعيدًا عن هاتفك، مثل عند السفر.';
+      'تتيح لك رموز المرور هذه القابلة للطباعة والمخصصة للاستخدام مرة واحدة تسجيل الدخول عندما تكون بعيدًا عن هاتفك، كما في أثناء السفر.';
 
   @override
   String get openInAuthenticatorApp => 'فتح في تطبيق المصادقة';
 
   @override
   String get noAuthenticatorAppFound =>
-      'لم يتم العثور على تطبيق مصادقة. انسخ المفتاح إلى تطبيقك بدلاً من ذلك.';
+      'لم يتم العثور على تطبيق مصادقة. انسخ المفتاح إلى تطبيقك بدلًا من ذلك.';
 
   @override
   String twoFaProviderEnabled(String provider) {
-    return 'تم تفعيل $provider';
+    return '$provider مُمكَّن';
   }
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'يطلب المسؤول المصادقة الثنائية للحساب $email.';
+    return 'يتطلب المسؤول لديك المصادقة بخطوتين لـ $email.';
   }
 
   @override
@@ -1696,18 +1687,18 @@ class SAr extends S {
 
   @override
   String get addBackupCodesHint =>
-      'أضف أيضًا رموزًا احتياطية لتتمكن من تسجيل الدخول إذا فقدت هاتفك.';
+      'أضف رموزًا احتياطية أيضًا، لتتمكن من تسجيل الدخول في حال فقدان هاتفك.';
 
   @override
   String get totpSecretKey => 'المفتاح السري';
 
   @override
   String get backupCodesDescription =>
-      'قم بطباعة الرموز حتى تتمكن من الوصول إليها عندما تحتاج إلى استخدامها لتسجيل الدخول إلى حسابك. يمكنك استخدام كل رمز احتياطي مرة واحدة.';
+      'اطبع الرموز لتكون في متناول يدك عندما تحتاج إلى استخدامها لتسجيل الدخول إلى حسابك. يمكنك استخدام كل رمز احتياطي مرة واحدة.';
 
   @override
   String get backupCodesWarning =>
-      'بمجرد مغادرتك لهذه الصفحة، لن يمكن عرض هذه الرموز مرة أخرى. قم بتخزينها بشكل آمن باستخدام الخيارات أدناه.';
+      'بمجرد مغادرة هذه الصفحة، لن يمكن عرض هذه الرموز مرة أخرى. احفظها بأمان باستخدام الخيارات أدناه.';
 
   @override
   String get downloadTxt => 'تنزيل (txt)';

@@ -36,25 +36,25 @@ class SVi extends S {
   String get assets => 'Tài sản';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Người thuê';
 
   @override
   String get auditLogs => 'Nhật ký kiểm toán';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Không tìm thấy khách hàng nào';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Không tìm thấy tài sản nào';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Không tìm thấy người thuê nào';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Không tìm thấy thiết bị nào';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Không tìm thấy nhật ký kiểm toán nào';
 
   @override
   String get logout => 'Đăng xuất';
@@ -1425,17 +1425,17 @@ class SVi extends S {
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Đang đăng nhập vào máy chủ $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Đang chuyển sang máy chủ mới $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Không thể lấy mã đăng nhập từ $host. Vui lòng quét mã QR mới.';
   }
 
   @override
@@ -1450,7 +1450,7 @@ class SVi extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'Phiên mã QR không còn hợp lệ. Vui lòng làm mới mã QR và quét lại.';
 
   @override
   String get openThisLinkTitle => 'Mở liên kết này?';

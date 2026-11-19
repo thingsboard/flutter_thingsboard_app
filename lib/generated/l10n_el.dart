@@ -36,25 +36,25 @@ class SEl extends S {
   String get assets => 'Περιουσιακά στοιχεία';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Ενοικιαστές';
 
   @override
   String get auditLogs => 'Αρχεία καταγραφής ελέγχου';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Δεν βρέθηκαν πελάτες';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Δεν βρέθηκαν περιουσιακά στοιχεία';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Δεν βρέθηκαν ενοικιαστές';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Δεν βρέθηκαν συσκευές';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Δεν βρέθηκαν αρχεία καταγραφής ελέγχου';
 
   @override
   String get logout => 'Αποσύνδεση';
@@ -72,7 +72,7 @@ class SEl extends S {
   String get email => 'Email';
 
   @override
-  String get emailRequireText => 'Το email είναι υποχρεωτικό.';
+  String get emailRequireText => 'Απαιτείται email.';
 
   @override
   String get emailInvalidText => 'Μη έγκυρη μορφή email.';
@@ -84,28 +84,28 @@ class SEl extends S {
   String get password => 'Κωδικός πρόσβασης';
 
   @override
-  String get passwordRequireText => 'Ο κωδικός πρόσβασης είναι υποχρεωτικός.';
+  String get passwordRequireText => 'Απαιτείται κωδικός πρόσβασης.';
 
   @override
-  String get passwordForgotText => 'Ξεχάσατε τον κωδικό;';
+  String get passwordForgotText => 'Ξεχάσατε τον κωδικό πρόσβασης;';
 
   @override
   String get passwordReset => 'Επαναφορά κωδικού';
 
   @override
   String get passwordResetText =>
-      'Εισαγάγετε το email που σχετίζεται με τον λογαριασμό σας και θα σας στείλουμε έναν σύνδεσμο επαναφοράς κωδικού';
+      'Εισαγάγετε το email που σχετίζεται με τον λογαριασμό σας και θα σας στείλουμε email με σύνδεσμο επαναφοράς κωδικού πρόσβασης';
 
   @override
   String get requestPasswordReset => 'Αίτηση επαναφοράς κωδικού';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
-      'Ο σύνδεσμος επαναφοράς κωδικού εστάλη με επιτυχία!';
+      'Ο σύνδεσμος επαναφοράς κωδικού πρόσβασης στάλθηκε με επιτυχία!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'Ο σύνδεσμος επαλήθευσης email στάλθηκε επιτυχώς!';
+      'Ο σύνδεσμος επαλήθευσης email στάλθηκε με επιτυχία!';
 
   @override
   String get or => 'Ή';
@@ -126,7 +126,7 @@ class SEl extends S {
   String get city => 'Πόλη';
 
   @override
-  String get stateOrProvince => 'Πολιτεία / Επαρχία';
+  String get stateOrProvince => 'Πολιτεία / Περιφέρεια';
 
   @override
   String get postalCode => 'Ταχυδρομικός κώδικας';
@@ -148,11 +148,11 @@ class SEl extends S {
       'Είστε βέβαιοι ότι θέλετε να εκκαθαρίσετε τον συναγερμό;';
 
   @override
-  String get alarmAcknowledgeTitle => 'Επιβεβαίωση συναγερμού';
+  String get alarmAcknowledgeTitle => 'Αναγνώριση συναγερμού';
 
   @override
   String get alarmAcknowledgeText =>
-      'Είστε βέβαιοι ότι θέλετε να επιβεβαιώσετε τον συναγερμό;';
+      'Είστε βέβαιοι ότι θέλετε να αναγνωρίσετε τον συναγερμό;';
 
   @override
   String get assetName => 'Όνομα περιουσιακού στοιχείου';
@@ -176,7 +176,7 @@ class SEl extends S {
   String get assetDetails => 'Λεπτομέρειες περιουσιακού στοιχείου';
 
   @override
-  String get tenantDetails => 'Λεπτομέρειες μισθωτή';
+  String get tenantDetails => 'Λεπτομέρειες ενοικιαστή';
 
   @override
   String get entityType => 'Τύπος οντότητας';
@@ -191,10 +191,10 @@ class SEl extends S {
   String get allDevices => 'Όλες οι συσκευές';
 
   @override
-  String get active => 'Ενεργό';
+  String get active => 'Ενεργή';
 
   @override
-  String get inactive => 'Ανενεργό';
+  String get inactive => 'Ανενεργή';
 
   @override
   String get activeDevices => 'Ενεργές';
@@ -232,28 +232,26 @@ class SEl extends S {
 
   @override
   String get currentPasswordRequireText =>
-      'Ο τρέχων κωδικός πρόσβασης είναι υποχρεωτικός.';
+      'Απαιτείται τρέχων κωδικός πρόσβασης.';
 
   @override
   String get currentPassword => 'Τρέχων κωδικός πρόσβασης';
 
   @override
-  String get newPasswordRequireText =>
-      'Ο νέος κωδικός πρόσβασης είναι υποχρεωτικός.';
+  String get newPasswordRequireText => 'Απαιτείται νέος κωδικός πρόσβασης.';
 
   @override
-  String get newPassword => 'Νέος κωδικός πρόσβασης';
+  String get newPassword => 'Νέος κωδικός';
 
   @override
   String get newPassword2RequireText =>
-      'Η επιβεβαίωση του νέου κωδικού πρόσβασης είναι υποχρεωτική.';
+      'Απαιτείται επανάληψη νέου κωδικού πρόσβασης.';
 
   @override
-  String get newPassword2 => 'Επιβεβαίωση νέου κωδικού πρόσβασης';
+  String get newPassword2 => 'Επιβεβαίωση νέου κωδικού';
 
   @override
-  String get passwordErrorNotification =>
-      'Οι κωδικοί πρόσβασης που εισάγατε πρέπει να είναι ίδιοι!';
+  String get passwordErrorNotification => 'Οι κωδικοί πρέπει να είναι ίδιοι!';
 
   @override
   String get firstNameUpper => 'Όνομα';
@@ -284,7 +282,7 @@ class SEl extends S {
   String get continueText => 'Συνέχεια';
 
   @override
-  String get resendCode => 'Επανάληψη αποστολής κωδικού';
+  String get resendCode => 'Επαναποστολή κωδικού';
 
   @override
   String resendCodeWait(num time) {
@@ -294,26 +292,26 @@ class SEl extends S {
       other: '$time δευτερόλεπτα',
       one: '1 δευτερόλεπτο',
     );
-    return 'Επανάληψη αποστολής σε $_temp0';
+    return 'Επαναποστολή κωδικού σε $_temp0';
   }
 
   @override
   String get totpAuthDescription =>
-      'Εισαγάγετε τον κωδικό ασφαλείας από την εφαρμογή ελέγχου ταυτότητας.';
+      'Παρακαλώ εισάγετε τον κωδικό από την εφαρμογή ελέγχου ταυτότητας.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'Ένας κωδικός ασφαλείας έχει σταλεί στο τηλέφωνό σας στο $contact.';
+    return 'Στάλθηκε κωδικός ασφαλείας στο τηλέφωνό σας, στον αριθμό $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'Ένας κωδικός ασφαλείας έχει σταλεί στο email σας στη διεύθυνση $contact.';
+    return 'Στάλθηκε κωδικός ασφαλείας στη διεύθυνση email σας $contact.';
   }
 
   @override
   String get backupCodeAuthDescription =>
-      'Εισαγάγετε έναν από τους εφεδρικούς σας κωδικούς.';
+      'Παρακαλώ εισάγετε έναν από τους εφεδρικούς σας κωδικούς.';
 
   @override
   String get toptAuthPlaceholder => 'Κωδικός';
@@ -333,10 +331,10 @@ class SEl extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'Υπερβολικά πολλές αιτήσεις για επαλήθευση κωδικού';
+      'Πάρα πολλά αιτήματα ελέγχου κωδικού επαλήθευσης';
 
   @override
-  String get tryAnotherWay => 'Δοκιμάστε άλλο τρόπο';
+  String get tryAnotherWay => 'Δοκιμάστε άλλον τρόπο';
 
   @override
   String get selectWayToVerify => 'Επιλέξτε τρόπο επαλήθευσης';
@@ -364,11 +362,11 @@ class SEl extends S {
 
   @override
   String get emailVerificationSentText =>
-      'Ένα email με λεπτομέρειες επαλήθευσης στάλθηκε στη δηλωμένη διεύθυνση email';
+      'Ένα email με στοιχεία επαλήθευσης στάλθηκε στη διεύθυνση email που ορίσατε ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Ακολουθήστε τις οδηγίες που περιλαμβάνονται στο email για να ολοκληρώσετε τη διαδικασία εγγραφής σας. Σημείωση: αν δεν δείτε το email, ελέγξτε τον φάκελο \'ανεπιθύμητα\' ή δοκιμάστε να το ξαναστείλετε πατώντας το κουμπί \'Επανάληψη αποστολής\'.';
+      'Ακολουθήστε τις οδηγίες του email για να ολοκληρώσετε τη διαδικασία εγγραφής. Σημείωση: αν δεν βλέπετε το email για αρκετή ώρα, ελέγξτε τον φάκελο «spam» ή δοκιμάστε να στείλετε ξανά το email πατώντας το κουμπί «Επανάληψη αποστολής».';
 
   @override
   String get resend => 'Επανάληψη αποστολής';
@@ -384,11 +382,11 @@ class SEl extends S {
 
   @override
   String get activatingAccountText =>
-      'Ο λογαριασμός σας ενεργοποιείται αυτή τη στιγμή.\nΠαρακαλώ περιμένετε...';
+      'Ο λογαριασμός σας ενεργοποιείται.\nΠεριμένετε...';
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'Συγχαρητήρια!\nΟ λογαριασμός σας στο $appTitle έχει ενεργοποιηθεί.\nΤώρα μπορείτε να συνδεθείτε στον χώρο σας στο $appTitle.';
+    return 'Συγχαρητήρια!\nΟ λογαριασμός σας στο $appTitle ενεργοποιήθηκε.\nΤώρα μπορείτε να συνδεθείτε στον χώρο σας στο $appTitle.';
   }
 
   @override
@@ -407,13 +405,13 @@ class SEl extends S {
   String get firstName => 'Όνομα';
 
   @override
-  String get firstNameRequireText => 'Το όνομα είναι υποχρεωτικό.';
+  String get firstNameRequireText => 'Απαιτείται όνομα.';
 
   @override
   String get lastName => 'Επώνυμο';
 
   @override
-  String get lastNameRequireText => 'Το επώνυμο είναι υποχρεωτικό.';
+  String get lastNameRequireText => 'Απαιτείται επώνυμο.';
 
   @override
   String get createPassword => 'Δημιουργήστε έναν κωδικό';
@@ -438,10 +436,10 @@ class SEl extends S {
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Υπάρχει ήδη καταχωρημένος χρήστης με μη επαληθευμένο email.\nΠατήστε \'Επανάληψη αποστολής\' αν θέλετε να ξαναστείλετε το email επαλήθευσης.';
+      'Υπάρχει ήδη εγγεγραμμένος χρήστης με μη επαληθευμένη διεύθυνση email.\nΠατήστε το κουμπί «Επανάληψη αποστολής» αν θέλετε να σταλεί ξανά το email επαλήθευσης.';
 
   @override
-  String get assignee => 'Ανατεθειμένος χρήστης';
+  String get assignee => 'Ανατεθειμένος';
 
   @override
   String get alarmTypes => 'Τύποι συναγερμών';
@@ -456,7 +454,7 @@ class SEl extends S {
   String get severity => 'Σοβαρότητα';
 
   @override
-  String get originator => 'Προέλευση';
+  String get originator => 'Αποστολέας';
 
   @override
   String get startTime => 'Ώρα έναρξης';
@@ -515,10 +513,10 @@ class SEl extends S {
   String get activity => 'Δραστηριότητα';
 
   @override
-  String get addCommentMessage => 'Προσθέστε σχόλιο...';
+  String get addCommentMessage => 'Προσθήκη σχολίου...';
 
   @override
-  String get selectUser => 'Επιλέξτε χρήστες';
+  String get selectUser => 'Επιλογή χρηστών';
 
   @override
   String get assignedToMe => 'Ανατέθηκε σε εμένα';
@@ -527,7 +525,7 @@ class SEl extends S {
   String get clear => 'Εκκαθάριση';
 
   @override
-  String get acknowledge => 'Επιβεβαίωση';
+  String get acknowledge => 'Αναγνώριση';
 
   @override
   String get edit => 'Επεξεργασία';
@@ -536,13 +534,13 @@ class SEl extends S {
   String get delete => 'Διαγραφή';
 
   @override
-  String get edited => 'Επεξεργασμένο';
+  String get edited => 'Επεξεργάστηκε';
 
   @override
   String get deleteComment => 'Διαγραφή σχολίου';
 
   @override
-  String get areYouSure => 'Είστε σίγουροι;';
+  String get areYouSure => 'Είστε βέβαιοι;';
 
   @override
   String get noResultsFound => 'Δεν βρέθηκαν αποτελέσματα';
@@ -554,7 +552,7 @@ class SEl extends S {
   String get failedToLoadTheList => 'Αποτυχία φόρτωσης της λίστας';
 
   @override
-  String get tryRefreshing => 'Δοκιμάστε να ανανεώσετε';
+  String get tryRefreshing => 'Δοκιμάστε ανανέωση';
 
   @override
   String get refresh => 'Ανανέωση';
@@ -563,7 +561,7 @@ class SEl extends S {
   String get users => 'Χρήστες';
 
   @override
-  String get unassigned => 'Μη ανατεθειμένο';
+  String get unassigned => 'Μη ανατεθειμένος';
 
   @override
   String get failedToLoadAlarmDetails =>
@@ -576,7 +574,7 @@ class SEl extends S {
   String get chooseRegion => 'Επιλέξτε περιοχή';
 
   @override
-  String get selectRegion => 'Επιλογή περιοχής';
+  String get selectRegion => 'Επιλέξτε περιοχή';
 
   @override
   String get northAmerica => 'Βόρεια Αμερική';
@@ -619,25 +617,25 @@ class SEl extends S {
   String get confirmation => 'Επιβεβαίωση';
 
   @override
-  String get wifiPassword => 'Κωδικός Wi-Fi';
+  String get wifiPassword => 'Κωδικός πρόσβασης Wi-Fi';
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'Για να συνεχίσετε τη ρύθμιση της συσκευής $deviceName, παρακαλώ δώστε τα διαπιστευτήρια του δικτύου σας.';
+    return 'Για να συνεχίσετε τη ρύθμιση της συσκευής σας $deviceName, παρέχετε τα διαπιστευτήρια του δικτύου σας.';
   }
 
   @override
   String wifiPasswordMessage(Object network) {
-    return 'Εισαγάγετε τον κωδικό για το δίκτυο $network';
+    return 'Εισαγάγετε τον κωδικό πρόσβασης για το δίκτυο $network';
   }
 
   @override
   String get deviceNotFoundMessage =>
-      'Δεν βρέθηκαν συσκευές. Βεβαιωθείτε ότι το Bluetooth του τηλεφώνου σας είναι ενεργοποιημένο και ότι βρίσκεστε εντός εμβέλειας της νέας συσκευής.';
+      'Δεν βρέθηκαν συσκευές. Βεβαιωθείτε ότι το Bluetooth του τηλεφώνου σας είναι ενεργοποιημένο και ότι το τηλέφωνο βρίσκεται εντός εμβέλειας της νέας σας συσκευής.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'Δεν έχετε επαρκή δικαιώματα για \"$permissions\" για να συνεχίσετε. Παρακαλώ δώστε τα απαραίτητα δικαιώματα και πατήστε \"Δοκιμάστε ξανά\".';
+    return 'Δεν έχετε επαρκή δικαιώματα για «$permissions» για να συνεχίσετε. Παραχωρήστε τα απαιτούμενα δικαιώματα και πατήστε «Δοκιμάστε ξανά».';
   }
 
   @override
@@ -647,35 +645,37 @@ class SEl extends S {
   String get confirmingWifiConnection => 'Επιβεβαίωση σύνδεσης Wi-Fi';
 
   @override
-  String get provisionedSuccessfully => 'Η συσκευή διαμορφώθηκε με επιτυχία';
+  String get provisionedSuccessfully =>
+      'Η παροχή της συσκευής ολοκληρώθηκε με επιτυχία';
 
   @override
   String get returnToDashboard => 'Επιστροφή στον πίνακα ελέγχου';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'Δεν είναι δυνατή η σύνδεση με τη συσκευή $deviceName. Παρακαλώ δοκιμάστε ξανά';
+    return 'Δεν είναι δυνατή η δημιουργία συνεδρίας με τη συσκευή $deviceName. Δοκιμάστε ξανά';
   }
 
   @override
-  String get claimingDevice => 'Ανάληψη συσκευής';
+  String get claimingDevice => 'Διεκδίκηση συσκευής';
 
   @override
-  String get claimingDeviceDone => 'Η ανάληψη συσκευής ολοκληρώθηκε';
+  String get claimingDeviceDone => 'Η διεκδίκηση της συσκευής ολοκληρώθηκε';
 
   @override
-  String get claimingMessageSuccess => 'Η συσκευή αναλήφθηκε\nμε επιτυχία';
+  String get claimingMessageSuccess =>
+      'Η διεκδίκηση της συσκευής\nολοκληρώθηκε με επιτυχία';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'Δεν έχετε επαρκή δικαιώματα για \"$permissions\" για να συνεχίσετε. Ανοίξτε τις ρυθμίσεις της εφαρμογής, παραχωρήστε τα δικαιώματα και πατήστε \"Δοκιμάστε ξανά\".';
+    return 'Δεν έχετε επαρκή δικαιώματα για «$permissions» για να συνεχίσετε. Ανοίξτε τις ρυθμίσεις της εφαρμογής, παραχωρήστε τα δικαιώματα και πατήστε «Δοκιμάστε ξανά».';
   }
 
   @override
   String get scanACode => 'Σάρωση κωδικού';
 
   @override
-  String get allowAccess => 'Αποδοχή πρόσβασης';
+  String get allowAccess => 'Παραχώρηση πρόσβασης';
 
   @override
   String get toggleCamera => 'Εναλλαγή κάμερας';
@@ -684,11 +684,11 @@ class SEl extends S {
   String get toggleFlash => 'Εναλλαγή φλας';
 
   @override
-  String get unableToUseCamera => 'Αδυναμία χρήσης κάμερας';
+  String get unableToUseCamera => 'Δεν είναι δυνατή η χρήση της κάμερας';
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Ανοίξτε τις ρυθμίσεις και δώστε πρόσβαση στην κάμερα για να συνεχίσετε';
+      'Ανοίξτε τις ρυθμίσεις και παραχωρήστε πρόσβαση στην κάμερα για να συνεχίσετε';
 
   @override
   String get notFound => 'Δεν βρέθηκε';
@@ -708,7 +708,7 @@ class SEl extends S {
   String get anEmptyRequestDataReceived => 'Ελήφθησαν κενά δεδομένα αιτήματος.';
 
   @override
-  String get somethingWentWrongRollback => 'Κάτι πήγε στραβά ... Αναίρεση';
+  String get somethingWentWrongRollback => 'Κάτι πήγε στραβά ... Επαναφορά';
 
   @override
   String get searchResults => 'Αποτελέσματα αναζήτησης';
@@ -733,28 +733,28 @@ class SEl extends S {
   String get alarmSeverityList => 'Λίστα σοβαρότητας συναγερμών';
 
   @override
-  String get cleared => 'Εκκαθαρισμένο';
+  String get cleared => 'Εκκαθαρισμένος';
 
   @override
-  String get acknowledged => 'Επιβεβαιωμένο';
+  String get acknowledged => 'Αναγνωρισμένος';
 
   @override
-  String get unacknowledged => 'Μη επιβεβαιωμένο';
+  String get unacknowledged => 'Μη αναγνωρισμένος';
 
   @override
-  String get critical => 'Κρίσιμο';
+  String get critical => 'Κρίσιμη';
 
   @override
-  String get major => 'Σοβαρό';
+  String get major => 'Σημαντική';
 
   @override
-  String get minor => 'Ελαφρύ';
+  String get minor => 'Δευτερεύουσα';
 
   @override
   String get warning => 'Προειδοποίηση';
 
   @override
-  String get indeterminate => 'Απροσδιόριστο';
+  String get indeterminate => 'Απροσδιόριστη';
 
   @override
   String searchUsers(int count) {
@@ -792,10 +792,10 @@ class SEl extends S {
   String get close => 'Κλείσιμο';
 
   @override
-  String get codeVerificationFailed => 'Η επαλήθευση κωδικού απέτυχε!';
+  String get codeVerificationFailed => 'Η επαλήθευση του κωδικού απέτυχε!';
 
   @override
-  String get fatalError => 'Κρίσιμο σφάλμα';
+  String get fatalError => 'Μοιραίο σφάλμα';
 
   @override
   String get unknownError => 'Άγνωστο σφάλμα.';
@@ -805,20 +805,20 @@ class SEl extends S {
 
   @override
   String get fatalApplicationErrorOccurred =>
-      'Παρουσιάστηκε κρίσιμο σφάλμα εφαρμογής:';
+      'Προέκυψε μοιραίο σφάλμα εφαρμογής:';
 
   @override
   String get connectionError => 'Σφάλμα σύνδεσης';
 
   @override
-  String get failedToConnectToServer => 'Αποτυχία σύνδεσης στον διακομιστή';
+  String get failedToConnectToServer => 'Αποτυχία σύνδεσης με τον διακομιστή';
 
   @override
   String get retry => 'Επανάληψη';
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      'Ο πίνακας ελέγχου κινητού πρέπει να ρυθμιστεί στο προφίλ συσκευής!';
+      'Ο πίνακας ελέγχου για κινητά πρέπει να διαμορφωθεί στο προφίλ συσκευής!';
 
   @override
   String get openWifiSettings => 'Άνοιγμα ρυθμίσεων Wi-Fi';
@@ -833,26 +833,26 @@ class SEl extends S {
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Ακολουθήστε τα επόμενα βήματα για να επανασυνδέσετε\nτο τηλέφωνό σας στο κανονικό σας Wi-Fi';
+      'Ακολουθήστε τα επόμενα βήματα για να επανασυνδέσετε\nτο τηλέφωνό σας στο συνηθισμένο σας Wi-Fi';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Οι ειδοποιήσεις push δεν έχουν ρυθμιστεί.\nΕπικοινωνήστε με τον διαχειριστή του συστήματός σας.';
+      'Οι ειδοποιήσεις push δεν έχουν διαμορφωθεί.\nΕπικοινωνήστε με τον διαχειριστή του συστήματός σας.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Το Firebase δεν έχει ρυθμιστεί.\nΑνατρέξτε στην επίσημη τεκμηρίωση του Firebase\nγια οδηγίες.';
+      'Το Firebase δεν έχει διαμορφωθεί.\n Ανατρέξτε στην επίσημη τεκμηρίωση του Firebase για\n οδηγίες σχετικά με τον τρόπο διαμόρφωσης.';
 
   @override
-  String get markAllAsRead => 'Σήμανση όλων ως αναγνωσμένα';
+  String get markAllAsRead => 'Σήμανση όλων ως αναγνωσμένων';
 
   @override
   String get profile => 'Προφίλ';
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'Αδυναμία ανοίγματος url: $link';
+    return 'Αδυναμία ανοίγματος του URL: $link';
   }
 
   @override
@@ -862,35 +862,35 @@ class SEl extends S {
   String get openAppSettings => 'Άνοιγμα ρυθμίσεων εφαρμογής';
 
   @override
-  String get connectingToDevice => 'Σύνδεση με τη συσκευή';
+  String get connectingToDevice => 'Σύνδεση με συσκευή';
 
   @override
-  String get connectToDevice => 'Σύνδεση στη συσκευή';
+  String get connectToDevice => 'Σύνδεση με συσκευή';
 
   @override
-  String get selectWifiNetwork => 'Επιλογή δικτύου Wi-Fi';
+  String get selectWifiNetwork => 'Επιλέξτε δίκτυο Wi-Fi';
 
   @override
-  String get deviceProvisioning => 'Διαμόρφωση συσκευής';
+  String get deviceProvisioning => 'Παροχή συσκευής';
 
   @override
   String get permissions => 'Δικαιώματα';
 
   @override
-  String get unableConnectToDevice => 'Αδυναμία σύνδεσης στη συσκευή';
+  String get unableConnectToDevice => 'Αδυναμία σύνδεσης με τη συσκευή';
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'Η συσκευή δεν μπορεί να βρει Wi-Fi κοντά';
+      'Η συσκευή δεν μπορεί να βρει κοντινό δίκτυο Wi-Fi';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Η σύνδεση στο δίκτυο Wi-Fi $name απέτυχε.\nΒεβαιωθείτε ότι το τηλέφωνό σας είναι συνδεδεμένο στο δίκτυο Wi-Fi της συσκευής και ότι η πρόσβαση τοπικού δικτύου είναι ενεργοποιημένη.';
+    return 'Η σύνδεση στο δίκτυο Wi-Fi $name απέτυχε.\nΒεβαιωθείτε ότι το τηλέφωνό σας είναι συνδεδεμένο στο δίκτυο Wi-Fi της συσκευής και ότι η πρόσβαση τοπικού δικτύου είναι ενεργοποιημένη για αυτήν την εφαρμογή στις ρυθμίσεις του τηλεφώνου σας.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'Αδυναμία σύνδεσης στο Wi-Fi επειδή η συσκευή $name δεν βρήκε δίκτυα';
+    return 'Δεν είναι δυνατή η σύνδεση στο Wi-Fi, επειδή δεν βρέθηκαν δίκτυα από τη συσκευή $name';
   }
 
   @override
@@ -906,7 +906,7 @@ class SEl extends S {
   String get ready => 'Έτοιμο';
 
   @override
-  String get exitDeviceProvisioning => 'Έξοδος από τη διαμόρφωση';
+  String get exitDeviceProvisioning => 'Έξοδος από την παροχή συσκευής';
 
   @override
   String get noNotificationsFound => 'Δεν βρέθηκαν ειδοποιήσεις';
@@ -957,7 +957,7 @@ class SEl extends S {
   String get ruleChain => 'Αλυσίδα κανόνων';
 
   @override
-  String get ruleNode => 'Κόμβος κανόνων';
+  String get ruleNode => 'Κόμβος κανόνα';
 
   @override
   String get edge => 'Edge';
@@ -966,7 +966,7 @@ class SEl extends S {
   String get entityView => 'Προβολή οντότητας';
 
   @override
-  String get widgetsBundle => 'Πακέτο widgets';
+  String get widgetsBundle => 'Πακέτο widget';
 
   @override
   String get widgetType => 'Τύπος widget';
@@ -987,7 +987,7 @@ class SEl extends S {
   String get queue => 'Ουρά';
 
   @override
-  String get notificationTarget => 'Στόχος ειδοποίησης';
+  String get notificationTarget => 'Παραλήπτης ειδοποίησης';
 
   @override
   String get notificationTemplate => 'Πρότυπο ειδοποίησης';
@@ -1022,7 +1022,7 @@ class SEl extends S {
   String get schedulerEvent => 'Προγραμματισμένο συμβάν';
 
   @override
-  String get blobEntity => 'Οντότητα Blob';
+  String get blobEntity => 'Οντότητα blob';
 
   @override
   String get role => 'Ρόλος';
@@ -1046,22 +1046,23 @@ class SEl extends S {
   String get actionTypeUpdated => 'Ενημερώθηκε';
 
   @override
-  String get actionTypeAttributesUpdated => 'Χαρακτηριστικά ενημερώθηκαν';
+  String get actionTypeAttributesUpdated => 'Ενημερώθηκαν χαρακτηριστικά';
 
   @override
-  String get actionTypeAttributesDeleted => 'Χαρακτηριστικά διαγράφηκαν';
+  String get actionTypeAttributesDeleted => 'Διαγράφηκαν χαρακτηριστικά';
 
   @override
   String get actionTypeRpcCall => 'Κλήση RPC';
 
   @override
-  String get actionTypeCredentialsUpdated => 'Διαπιστευτήρια ενημερώθηκαν';
+  String get actionTypeCredentialsUpdated => 'Ενημερώθηκαν διαπιστευτήρια';
 
   @override
   String get actionTypeAssignedToCustomer => 'Ανατέθηκε σε πελάτη';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Αφαιρέθηκε από πελάτη';
+  String get actionTypeUnassignedFromCustomer =>
+      'Καταργήθηκε η ανάθεση σε πελάτη';
 
   @override
   String get actionTypeActivated => 'Ενεργοποιήθηκε';
@@ -1070,40 +1071,41 @@ class SEl extends S {
   String get actionTypeSuspended => 'Ανεστάλη';
 
   @override
-  String get actionTypeCredentialsRead => 'Διαπιστευτήρια αναγνώστηκαν';
+  String get actionTypeCredentialsRead => 'Διαβάστηκαν διαπιστευτήρια';
 
   @override
-  String get actionTypeAttributesRead => 'Χαρακτηριστικά αναγνώστηκαν';
+  String get actionTypeAttributesRead => 'Διαβάστηκαν χαρακτηριστικά';
 
   @override
-  String get actionTypeRelationAddOrUpdate => 'Σχέση ενημερώθηκε';
+  String get actionTypeRelationAddOrUpdate => 'Η σχέση ενημερώθηκε';
 
   @override
-  String get actionTypeRelationDeleted => 'Σχέση διαγράφηκε';
+  String get actionTypeRelationDeleted => 'Η σχέση διαγράφηκε';
 
   @override
   String get actionTypeRelationsDeleted => 'Όλες οι σχέσεις διαγράφηκαν';
 
   @override
-  String get actionTypeAlarmAck => 'Επιβεβαιώθηκε';
+  String get actionTypeAlarmAck => 'Αναγνωρίστηκε';
 
   @override
   String get actionTypeAlarmClear => 'Εκκαθαρίστηκε';
 
   @override
-  String get actionTypeAlarmDelete => 'Συναγερμός διαγράφηκε';
+  String get actionTypeAlarmDelete => 'Ο συναγερμός διαγράφηκε';
 
   @override
-  String get actionTypeAlarmAssigned => 'Συναγερμός ανατέθηκε';
+  String get actionTypeAlarmAssigned => 'Ο συναγερμός ανατέθηκε';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Συναγερμός αφαιρέθηκε';
+  String get actionTypeAlarmUnassigned =>
+      'Η ανάθεση του συναγερμού καταργήθηκε';
 
   @override
-  String get actionTypeLogin => 'Σύνδεση';
+  String get actionTypeLogin => 'Είσοδος';
 
   @override
-  String get actionTypeLogout => 'Αποσύνδεση';
+  String get actionTypeLogout => 'Έξοδος';
 
   @override
   String get actionTypeLockout => 'Κλείδωμα';
@@ -1115,76 +1117,76 @@ class SEl extends S {
   String get actionTypeAssignedToTenant => 'Ανατέθηκε σε ενοικιαστή';
 
   @override
-  String get actionTypeProvisionSuccess => 'Συσκευή διαμορφώθηκε';
+  String get actionTypeProvisionSuccess => 'Έγινε παροχή της συσκευής';
 
   @override
-  String get actionTypeProvisionFailure => 'Η διαμόρφωση απέτυχε';
+  String get actionTypeProvisionFailure => 'Η παροχή της συσκευής απέτυχε';
 
   @override
-  String get actionTypeTimeseriesUpdated => 'Τηλεμετρία ενημερώθηκε';
+  String get actionTypeTimeseriesUpdated => 'Ενημερώθηκε τηλεμετρία';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'Τηλεμετρία διαγράφηκε';
+  String get actionTypeTimeseriesDeleted => 'Διαγράφηκε τηλεμετρία';
 
   @override
   String get actionTypeAssignedToEdge => 'Ανατέθηκε σε Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Αφαιρέθηκε από Edge';
+  String get actionTypeUnassignedFromEdge => 'Καταργήθηκε η ανάθεση σε Edge';
 
   @override
-  String get actionTypeAddedComment => 'Σχόλιο προστέθηκε';
+  String get actionTypeAddedComment => 'Προστέθηκε σχόλιο';
 
   @override
-  String get actionTypeUpdatedComment => 'Σχόλιο ενημερώθηκε';
+  String get actionTypeUpdatedComment => 'Ενημερώθηκε σχόλιο';
 
   @override
-  String get actionTypeDeletedComment => 'Σχόλιο διαγράφηκε';
+  String get actionTypeDeletedComment => 'Διαγράφηκε σχόλιο';
 
   @override
-  String get actionTypeSmsSent => 'SMS εστάλη';
+  String get actionTypeSmsSent => 'Στάλθηκε SMS';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'Προστέθηκε στην ομάδα οντοτήτων';
+  String get actionTypeAddedToEntityGroup => 'Προστέθηκε σε ομάδα οντοτήτων';
 
   @override
   String get actionTypeRemovedFromEntityGroup =>
-      'Αφαιρέθηκε από την ομάδα οντοτήτων';
+      'Αφαιρέθηκε από ομάδα οντοτήτων';
 
   @override
   String get actionTypeRestApiRuleEngineCall =>
-      'Κλήση μηχανής κανόνων REST API';
+      'Κλήση REST API μηχανής κανόνων';
 
   @override
-  String get actionTypeMadePublic => 'Έγινε δημόσιο';
+  String get actionTypeMadePublic => 'Ορίστηκε ως δημόσιο';
 
   @override
-  String get actionTypeMadePrivate => 'Έγινε ιδιωτικό';
+  String get actionTypeMadePrivate => 'Ορίστηκε ως ιδιωτικό';
 
   @override
-  String get actionTypeChangeOwner => 'Αλλαγή ιδιοκτήτη';
+  String get actionTypeChangeOwner => 'Ο ιδιοκτήτης άλλαξε';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'Δεν έχετε δικαιώματα για να εκτελέσετε αυτήν τη λειτουργία!';
+      'Δεν έχετε δικαιώματα για την εκτέλεση αυτής της λειτουργίας!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Φαίνεται ότι τα δικαιώματά σας δεν επαρκούν για να ολοκληρώσετε αυτήν τη λειτουργία';
+      'Φαίνεται ότι τα δικαιώματά σας δεν επαρκούν για την ολοκλήρωση αυτής της λειτουργίας';
 
   @override
-  String get isRequiredText => 'είναι υποχρεωτικό.';
+  String get isRequiredText => 'απαιτείται.';
 
   @override
   String get no2faProvidersFound => 'Δεν βρέθηκαν πάροχοι 2FA';
 
   @override
   String get pleaseContactYourSystemAdministrator =>
-      'Επικοινωνήστε με τον διαχειριστή του συστήματος';
+      'Επικοινωνήστε με τον διαχειριστή του συστήματός σας';
 
   @override
   String errorOccured(Object e) {
-    return 'Παρουσιάστηκε σφάλμα: $e';
+    return 'Προέκυψε σφάλμα: $e';
   }
 
   @override
@@ -1192,14 +1194,14 @@ class SEl extends S {
 
   @override
   String get youHaveUnsavedChangesAreYouSureYouWantTo =>
-      'Έχετε μη αποθηκευμένες αλλαγές. Είστε σίγουροι ότι θέλετε να φύγετε;';
+      'Έχετε μη αποθηκευμένες αλλαγές. Είστε βέβαιοι ότι θέλετε να φύγετε από αυτήν τη σελίδα;';
 
   @override
   String get deleteAccount => 'Διαγραφή λογαριασμού';
 
   @override
   String accountDeletionDialogBody(Object authority) {
-    return 'Είστε σίγουροι; Πρόκειται να διαγράψετε τον λογαριασμό $authority σας.';
+    return 'Είστε βέβαιοι; Πρόκειται να διαγράψετε τον λογαριασμό σας με ρόλο «$authority».';
   }
 
   @override
@@ -1218,17 +1220,17 @@ class SEl extends S {
   String get autoUnitSystem => 'Αυτόματο';
 
   @override
-  String get languageAuto => 'Αυτόματο';
+  String get languageAuto => 'Αυτόματη';
 
   @override
   String get unitSystem => 'Σύστημα μονάδων';
 
   @override
-  String get selectCountry => 'Επιλογή χώρας';
+  String get selectCountry => 'Επιλέξτε χώρα';
 
   @override
   String get hideHomeDashboardToolbar =>
-      'Απόκρυψη γραμμής εργαλείων πίνακα ελέγχου';
+      'Απόκρυψη γραμμής εργαλείων στον αρχικό πίνακα ελέγχου';
 
   @override
   String get phoneNumberHelperText =>
@@ -1252,35 +1254,35 @@ class SEl extends S {
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
-      'Ρυθμίστε μια μέθοδο επαλήθευσης για να συνεχίσετε τη σύνδεση';
+      'Ρυθμίστε μια μέθοδο επαλήθευσης για να συνεχίσετε τη σύνδεσή σας';
 
   @override
   String get setUpAVerificationMethod => 'Ρύθμιση μεθόδου επαλήθευσης';
 
   @override
   String get totpSetupSuccessDescription =>
-      'Την επόμενη φορά που θα συνδεθείτε, θα χρειαστεί να δώσετε κωδικό ελέγχου δύο παραγόντων';
+      'Την επόμενη φορά που θα συνδεθείτε, θα χρειαστεί να παρέχετε κωδικό ελέγχου ταυτότητας δύο παραγόντων';
 
   @override
   String get smsSetupSuccessDescription =>
-      'Την επόμενη φορά που θα συνδεθείτε, θα σας ζητηθεί ο κωδικός ασφαλείας που θα σταλεί στο τηλέφωνο';
+      'Την επόμενη φορά που θα συνδεθείτε, θα σας ζητηθεί να εισαγάγετε τον κωδικό ασφαλείας που θα σταλεί στον αριθμό τηλεφώνου σας';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Την επόμενη φορά που θα συνδεθείτε, θα σας ζητηθεί ο κωδικός ασφαλείας που θα σταλεί στο email σας';
+      'Την επόμενη φορά που θα συνδεθείτε, θα σας ζητηθεί να εισαγάγετε τον κωδικό ασφαλείας που θα σταλεί στη διεύθυνση email σας';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'Την επόμενη φορά που θα συνδεθείτε, μπορείτε να χρησιμοποιήσετε εφεδρικούς κωδικούς';
+      'Την επόμενη φορά που θα συνδεθείτε, θα μπορείτε να χρησιμοποιήσετε εφεδρικούς κωδικούς για τον έλεγχο ταυτότητας δύο παραγόντων';
 
   @override
   String get loginToApp => 'Σύνδεση στην εφαρμογή';
 
   @override
-  String get goBack => 'Πίσω';
+  String get goBack => 'Επιστροφή';
 
   @override
-  String get done => 'Ολοκληρώθηκε';
+  String get done => 'Τέλος';
 
   @override
   String get thisWillMakeYourAccountLessSecure =>
@@ -1288,7 +1290,7 @@ class SEl extends S {
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
-    return 'Είστε σίγουροι ότι θέλετε να απενεργοποιήσετε $providerName;';
+    return 'Είστε βέβαιοι ότι θέλετε να απενεργοποιήσετε τη μέθοδο «$providerName»;';
   }
 
   @override
@@ -1296,18 +1298,18 @@ class SEl extends S {
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'Εισαγάγετε ένα email για χρήση ως μέθοδο ελέγχου ταυτότητας.';
+      'Εισαγάγετε ένα email που θα χρησιμοποιείται για τον έλεγχο ταυτότητας.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
-      'Εισαγάγετε αριθμό τηλεφώνου για χρήση ως μέθοδο ελέγχου ταυτότητας';
+      'Εισαγάγετε έναν αριθμό τηλεφώνου που θα χρησιμοποιείται για τον έλεγχο ταυτότητας';
 
   @override
   String get sendCode => 'Αποστολή κωδικού';
 
   @override
   String errorSendingCode(String error) {
-    return 'Σφάλμα αποστολής κωδικού: $error';
+    return 'Σφάλμα κατά την αποστολή κωδικού: $error';
   }
 
   @override
@@ -1322,18 +1324,12 @@ class SEl extends S {
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'ψήφιος',
-      one: 'ψήφιος',
-    );
-    return '$count-$_temp0 κωδικός';
+    return 'Κωδικός $count ψηφίων';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Αντιγράψτε το 32ψήφιο κλειδί στην εφαρμογή ελέγχου ταυτότητας ή σαρώστε τον κωδικό QR';
+      'Αντιγράψτε το κλειδί 32 χαρακτήρων στην εφαρμογή ελέγχου ταυτότητας ή σαρώστε τον παρακάτω κωδικό QR';
 
   @override
   String get applyChanges => 'Εφαρμογή αλλαγών';
@@ -1351,7 +1347,7 @@ class SEl extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'Ο έλεγχος ταυτότητας δύο παραγόντων προστατεύει τον λογαριασμό σας. Αρκεί να εισαγάγετε έναν κωδικό ασφαλείας κατά τη σύνδεση.';
+      'Ο έλεγχος ταυτότητας δύο παραγόντων προστατεύει τον λογαριασμό σας από μη εξουσιοδοτημένη πρόσβαση. Απλώς εισάγετε έναν κωδικό ασφαλείας κατά τη σύνδεση.';
 
   @override
   String get calculatedField => 'Υπολογιζόμενο πεδίο';
@@ -1369,38 +1365,39 @@ class SEl extends S {
   String get job => 'Εργασία';
 
   @override
-  String get mobileAppBundle => 'Πακέτο εφαρμογής κινητού';
+  String get mobileAppBundle => 'Πακέτο εφαρμογής για κινητά';
 
   @override
-  String get mobileApp => 'Εφαρμογή κινητού';
+  String get mobileApp => 'Εφαρμογή για κινητά';
 
   @override
   String get domain => 'Τομέας';
 
   @override
-  String get oauth2Client => 'Πελάτης OAuth2';
+  String get oauth2Client => 'Πελάτης OAuth 2.0';
 
   @override
   String get queueStats => 'Στατιστικά ουράς';
 
   @override
-  String get phoneIsRequired => 'Το τηλέφωνο είναι υποχρεωτικό';
+  String get phoneIsRequired => 'Απαιτείται τηλέφωνο';
 
   @override
-  String get phoneIsInvalid => 'Ο αριθμός τηλεφώνου δεν είναι έγκυρος';
+  String get phoneIsInvalid => 'Μη έγκυρο τηλέφωνο';
 
   @override
   String get addVerificationMethod => 'Προσθήκη μεθόδου επαλήθευσης';
 
   @override
-  String get imageSavedToGallery => 'Αποθηκεύτηκε στη \'Συλλογή εικόνων\'';
+  String get imageSavedToGallery =>
+      'Αποθηκεύτηκε στη «Συλλογή εικόνων» της πλατφόρμας';
 
   @override
   String get failedToSaveImage => 'Αποτυχία αποθήκευσης εικόνας';
 
   @override
   String nSelected(int count) {
-    return '$count επιλεγμένα';
+    return 'Επιλεγμένες: $count';
   }
 
   @override
@@ -1411,8 +1408,8 @@ class SEl extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count ενέργειες απέτυχαν',
-      one: '1 ενέργεια απέτυχε',
+      other: '$count λειτουργίες απέτυχαν',
+      one: '1 λειτουργία απέτυχε',
     );
     return '$_temp0';
   }
@@ -1441,27 +1438,27 @@ class SEl extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Λήψη δεδομένων από τον διακομιστή $host';
+    return 'Λήψη δεδομένων από το host σας $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Σύνδεση στο host $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Μετάβαση στο νέο host $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Αποτυχία λήψης token σύνδεσης από το $host. Σαρώστε έναν νέο κωδικό QR.';
   }
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Αποτυχία σύνδεσης στο $host';
+    return 'Αποτυχία σύνδεσης με το $host';
   }
 
   @override
@@ -1471,14 +1468,14 @@ class SEl extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'Η συνεδρία του κωδικού QR δεν είναι πλέον έγκυρη. Ανανεώστε τον κωδικό QR και σαρώστε ξανά.';
 
   @override
   String get openThisLinkTitle => 'Άνοιγμα αυτού του συνδέσμου;';
 
   @override
   String get linkOpensSignInPage =>
-      'Αυτός ο σύνδεσμος ανοίγει τη σελίδα σύνδεσης αυτού του διακομιστή. Θα αποσυνδεθείτε από τον τρέχοντα διακομιστή.';
+      'Αυτός ο σύνδεσμος ανοίγει τη σελίδα σύνδεσης αυτού του διακομιστή. Θα αποσυνδεθείτε από τον τρέχοντα διακομιστή σας.';
 
   @override
   String get linkOpensSignInPageOnly =>
@@ -1486,12 +1483,12 @@ class SEl extends S {
 
   @override
   String linkSignsInAs(Object email) {
-    return 'Αυτός ο σύνδεσμος σας συνδέει σε αυτόν τον διακομιστή ως $email.';
+    return 'Αυτός ο σύνδεσμος σάς συνδέει σε αυτόν τον διακομιστή ως $email.';
   }
 
   @override
   String get linkSignsIn =>
-      'Αυτός ο σύνδεσμος σας συνδέει σε αυτόν τον διακομιστή.';
+      'Αυτός ο σύνδεσμος σάς συνδέει σε αυτόν τον διακομιστή.';
 
   @override
   String get serverConnectionNotSecure =>
@@ -1502,12 +1499,10 @@ class SEl extends S {
       'Αυτή η εφαρμογή λειτουργεί μόνο με τον δικό της διακομιστή και δεν μπορεί να ανοίξει αυτόν τον σύνδεσμο.';
 
   @override
-  String get liveTrackingActive =>
-      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
+  String get liveTrackingActive => 'Ζωντανή παρακολούθηση τοποθεσίας';
 
   @override
-  String get liveTrackingPaused =>
-      'Η παρακολούθηση σε πραγματικό χρόνο είναι σε παύση';
+  String get liveTrackingPaused => 'Ζωντανή παρακολούθηση σε παύση';
 
   @override
   String get liveTrackingFixes => 'Θέσεις';
@@ -1525,17 +1520,16 @@ class SEl extends S {
   String get liveTrackingPause => 'Παύση';
 
   @override
-  String get liveTrackingResume => 'Συνέχεια';
+  String get liveTrackingResume => 'Συνέχιση';
 
   @override
   String get liveTrackingHide => 'Απόκρυψη';
 
   @override
-  String get liveTrackingSessionTitle =>
-      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
+  String get liveTrackingSessionTitle => 'Ζωντανή παρακολούθηση τοποθεσίας';
 
   @override
-  String get liveTrackingTarget => 'Αποθήκευση τοποθεσίας στην οντότητα';
+  String get liveTrackingTarget => 'Αποθήκευση τοποθεσίας σε οντότητα';
 
   @override
   String get liveTrackingDashboard => 'Πίνακας ελέγχου';
@@ -1554,11 +1548,11 @@ class SEl extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Δεν είναι δυνατή η αποθήκευση σε αυτήν την οντότητα — δεν υπάρχει πλέον. Η παρακολούθηση συνεχίζεται· ενημερώστε τον στόχο στην ενέργεια του πίνακα ελέγχου.';
+      'Δεν είναι δυνατή η αποθήκευση σε αυτή την οντότητα — δεν υπάρχει πλέον. Η παρακολούθηση συνεχίζεται· ενημερώστε τον στόχο στην ενέργεια του πίνακα ελέγχου.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'Δεν υπάρχει σύνδεση με τον διακομιστή. Αυτές οι θέσεις δεν αποθηκεύτηκαν — η αποθήκευση θα συνεχιστεί όταν συνδεθείτε ξανά.';
+      'Δεν υπάρχει σύνδεση με τον διακομιστή. Αυτές οι θέσεις δεν αποθηκεύτηκαν — η αποθήκευση θα συνεχιστεί όταν αποκατασταθεί η σύνδεση.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
@@ -1566,7 +1560,7 @@ class SEl extends S {
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Δεν είναι δυνατή η αποθήκευση σε αυτήν την οντότητα — δεν έχετε δικαίωμα. Η παρακολούθηση συνεχίζεται· ζητήστε πρόσβαση από τον διαχειριστή σας.';
+      'Δεν είναι δυνατή η αποθήκευση σε αυτή την οντότητα — δεν έχετε δικαίωμα. Η παρακολούθηση συνεχίζεται· ζητήστε από τον διαχειριστή σας να σας χορηγήσει πρόσβαση.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
@@ -1574,23 +1568,22 @@ class SEl extends S {
 
   @override
   String get liveTrackingErrorServicesDisabled =>
-      'Οι υπηρεσίες τοποθεσίας είναι απενεργοποιημένες σε αυτήν τη συσκευή.';
+      'Οι υπηρεσίες τοποθεσίας είναι απενεργοποιημένες σε αυτή τη συσκευή.';
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Η άδεια τοποθεσίας απορρίφθηκε.';
+      'Το δικαίωμα τοποθεσίας απορρίφθηκε.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Η άδεια τοποθεσίας έχει απορριφθεί οριστικά. Ενεργοποιήστε την στις ρυθμίσεις της εφαρμογής.';
+      'Το δικαίωμα τοποθεσίας έχει απορριφθεί οριστικά. Ενεργοποιήστε το στις ρυθμίσεις της εφαρμογής.';
 
   @override
   String get liveTrackingErrorLocation =>
       'Δεν ήταν δυνατός ο προσδιορισμός της θέσης.';
 
   @override
-  String get liveTrackingMenuTitle =>
-      'Παρακολούθηση τοποθεσίας σε πραγματικό χρόνο';
+  String get liveTrackingMenuTitle => 'Ζωντανή παρακολούθηση τοποθεσίας';
 
   @override
   String get liveTrackingNoRecord =>
@@ -1600,13 +1593,13 @@ class SEl extends S {
   String get liveTrackingLastSession => 'Τελευταία συνεδρία';
 
   @override
-  String get liveTrackingStartAgain => 'Νέα έναρξη';
+  String get liveTrackingStartAgain => 'Εκκίνηση ξανά';
 
   @override
   String get liveTrackingEnded => 'Ώρα λήξης';
 
   @override
-  String get liveTrackingEndReason => 'Αιτία λήξης';
+  String get liveTrackingEndReason => 'Αιτία τερματισμού';
 
   @override
   String get liveTrackingEndReasonManual => 'Διακόπηκε χειροκίνητα';
@@ -1626,7 +1619,7 @@ class SEl extends S {
 
   @override
   String serverRequiresVersion(String minVersion) {
-    return 'Αυτή η εφαρμογή λειτουργεί με ThingsBoard $minVersion ή νεότερη.';
+    return 'Αυτή η εφαρμογή λειτουργεί με το ThingsBoard $minVersion ή νεότερη έκδοση.';
   }
 
   @override
@@ -1637,7 +1630,7 @@ class SEl extends S {
 
   @override
   String get askAdminToUpdateServer =>
-      'Ζητήστε από τον διαχειριστή του διακομιστή να τον ενημερώσει.';
+      'Ζητήστε από τον διαχειριστή του διακομιστή σας να ενημερώσει τον διακομιστή.';
 
   @override
   String get deviceClaimFailed =>
@@ -1678,7 +1671,8 @@ class SEl extends S {
       'Αυτοί οι εκτυπώσιμοι κωδικοί μίας χρήσης σάς επιτρέπουν να συνδεθείτε όταν δεν έχετε πρόσβαση στο τηλέφωνό σας, όπως κατά τη διάρκεια ενός ταξιδιού.';
 
   @override
-  String get openInAuthenticatorApp => 'Άνοιγμα σε εφαρμογή ελέγχου ταυτότητας';
+  String get openInAuthenticatorApp =>
+      'Άνοιγμα στην εφαρμογή ελέγχου ταυτότητας';
 
   @override
   String get noAuthenticatorAppFound =>
@@ -1686,12 +1680,12 @@ class SEl extends S {
 
   @override
   String twoFaProviderEnabled(String provider) {
-    return 'Το $provider ενεργοποιήθηκε';
+    return 'Ενεργοποιήθηκε: $provider';
   }
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'Ο διαχειριστής σας απαιτεί έλεγχο ταυτότητας δύο παραγόντων για το $email.';
+    return 'Ο διαχειριστής σας απαιτεί έλεγχο ταυτότητας δύο παραγόντων για $email.';
   }
 
   @override
