@@ -528,6 +528,9 @@ class SIt extends S {
   String get edit => 'Modifica';
 
   @override
+  String get editProfile => 'Modifica profilo';
+
+  @override
   String get delete => 'Elimina';
 
   @override

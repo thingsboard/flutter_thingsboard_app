@@ -533,6 +533,9 @@ class SLt extends S {
   String get edit => 'Redaguoti';
 
   @override
+  String get editProfile => 'Redaguoti profilį';
+
+  @override
   String get delete => 'Ištrinti';
 
   @override

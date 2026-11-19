@@ -530,6 +530,9 @@ class SDe extends S {
   String get edit => 'Bearbeiten';
 
   @override
+  String get editProfile => 'Profil bearbeiten';
+
+  @override
   String get delete => 'Löschen';
 
   @override

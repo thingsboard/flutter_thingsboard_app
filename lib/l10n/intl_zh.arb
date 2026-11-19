@@ -160,6 +160,7 @@
   "clear": "清除",
   "acknowledge": "确认",
   "edit": "编辑",
+  "editProfile": "编辑个人资料",
   "delete": "删除",
   "edited": "已编辑",
   "deleteComment": "删除评论",

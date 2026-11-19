@@ -160,6 +160,7 @@
   "clear": "クリア",
   "acknowledge": "確認",
   "edit": "編集",
+  "editProfile": "プロフィールを編集",
   "delete": "削除",
   "edited": "編集済み",
   "deleteComment": "コメントを削除",

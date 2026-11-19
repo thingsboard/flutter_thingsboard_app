@@ -160,6 +160,7 @@
   "clear": "Clear",
   "acknowledge": "Acknowledge",
   "edit": "Edit",
+  "editProfile": "Edit profile",
   "delete": "Delete",
   "edited": "Edited",
   "deleteComment": "Delete comment",

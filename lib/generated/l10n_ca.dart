@@ -529,6 +529,9 @@ class SCa extends S {
   String get edit => 'Edita';
 
   @override
+  String get editProfile => 'Edita el perfil';
+
+  @override
   String get delete => 'Suprimeix';
 
   @override

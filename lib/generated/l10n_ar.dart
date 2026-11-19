@@ -538,6 +538,9 @@ class SAr extends S {
   String get edit => 'تعديل';
 
   @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
   String get delete => 'حذف';
 
   @override

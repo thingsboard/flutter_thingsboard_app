@@ -532,6 +532,9 @@ class SUk extends S {
   String get edit => 'Редагувати';
 
   @override
+  String get editProfile => 'Редагувати профіль';
+
+  @override
   String get delete => 'Видалити';
 
   @override

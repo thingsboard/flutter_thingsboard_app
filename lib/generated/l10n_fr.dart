@@ -529,6 +529,9 @@ class SFr extends S {
   String get edit => 'Modifier';
 
   @override
+  String get editProfile => 'Modifier le profil';
+
+  @override
   String get delete => 'Supprimer';
 
   @override

@@ -529,6 +529,9 @@ class SHi extends S {
   String get edit => 'संपादित करें';
 
   @override
+  String get editProfile => 'प्रोफ़ाइल संपादित करें';
+
+  @override
   String get delete => 'हटाएँ';
 
   @override

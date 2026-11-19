@@ -531,6 +531,9 @@ class SRo extends S {
   String get edit => 'Editează';
 
   @override
+  String get editProfile => 'Editează profilul';
+
+  @override
   String get delete => 'Șterge';
 
   @override

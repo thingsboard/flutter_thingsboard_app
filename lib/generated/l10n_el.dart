@@ -531,6 +531,9 @@ class SEl extends S {
   String get edit => 'Επεξεργασία';
 
   @override
+  String get editProfile => 'Επεξεργασία προφίλ';
+
+  @override
   String get delete => 'Διαγραφή';
 
   @override

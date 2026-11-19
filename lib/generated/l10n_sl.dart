@@ -534,6 +534,9 @@ class SSl extends S {
   String get edit => 'Uredi';
 
   @override
+  String get editProfile => 'Uredi profil';
+
+  @override
   String get delete => 'Izbriši';
 
   @override

@@ -527,6 +527,9 @@ class SPt extends S {
   String get edit => 'Editar';
 
   @override
+  String get editProfile => 'Editar perfil';
+
+  @override
   String get delete => 'Excluir';
 
   @override

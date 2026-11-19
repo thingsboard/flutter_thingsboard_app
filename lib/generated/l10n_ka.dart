@@ -527,6 +527,9 @@ class SKa extends S {
   String get edit => 'რედაქტირება';
 
   @override
+  String get editProfile => 'პროფილის რედაქტირება';
+
+  @override
   String get delete => 'წაშლა';
 
   @override

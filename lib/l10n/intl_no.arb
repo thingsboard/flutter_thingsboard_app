@@ -160,6 +160,7 @@
   "clear": "Nullstill",
   "acknowledge": "Kvitter",
   "edit": "Rediger",
+  "editProfile": "Rediger profil",
   "delete": "Slett",
   "edited": "Redigert",
   "deleteComment": "Slett kommentar",

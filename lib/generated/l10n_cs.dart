@@ -534,6 +534,9 @@ class SCs extends S {
   String get edit => 'Editovat';
 
   @override
+  String get editProfile => 'Editovat profil';
+
+  @override
   String get delete => 'Smazat';
 
   @override

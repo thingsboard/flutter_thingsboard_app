@@ -539,6 +539,9 @@ class SPl extends S {
   String get edit => 'Edytuj';
 
   @override
+  String get editProfile => 'Edytuj profil';
+
+  @override
   String get delete => 'Usuń';
 
   @override

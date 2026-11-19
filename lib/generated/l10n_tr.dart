@@ -526,6 +526,9 @@ class STr extends S {
   String get edit => 'Düzenle';
 
   @override
+  String get editProfile => 'Profili düzenle';
+
+  @override
   String get delete => 'Sil';
 
   @override

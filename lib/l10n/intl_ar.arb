@@ -160,6 +160,7 @@
   "clear": "مسح",
   "acknowledge": "إقرار",
   "edit": "تعديل",
+  "editProfile": "تعديل الملف الشخصي",
   "delete": "حذف",
   "edited": "تم التعديل",
   "deleteComment": "حذف التعليق",

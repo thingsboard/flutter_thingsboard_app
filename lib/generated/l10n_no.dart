@@ -525,6 +525,9 @@ class SNo extends S {
   String get edit => 'Rediger';
 
   @override
+  String get editProfile => 'Rediger profil';
+
+  @override
   String get delete => 'Slett';
 
   @override

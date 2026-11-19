@@ -1048,6 +1048,12 @@ abstract class S {
   /// **'Edit'**
   String get edit;
 
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get editProfile;
+
   /// No description provided for @delete.
   ///
   /// In en, this message translates to:

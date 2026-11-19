@@ -511,6 +511,9 @@ class SZh extends S {
   String get edit => '编辑';
 
   @override
+  String get editProfile => '编辑个人资料';
+
+  @override
   String get delete => '删除';
 
   @override
@@ -2141,6 +2144,9 @@ class SZhTw extends SZh {
 
   @override
   String get edit => '編輯';
+
+  @override
+  String get editProfile => '編輯個人資料';
 
   @override
   String get delete => '刪除';

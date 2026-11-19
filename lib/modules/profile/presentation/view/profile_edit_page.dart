@@ -121,9 +121,7 @@ class ProfileEditPage extends HookConsumerWidget {
       },
       child: Scaffold(
         appBar: TbAppBar(
-          title: Text(
-            '${S.of(context).edit} ${S.of(context).profile.toLowerCase()}',
-          ),
+          title: Text(S.of(context).editProfile),
           leading: IconButton(
             onPressed: () async {
               if (!canPop.value) {

@@ -521,6 +521,9 @@ class SVi extends S {
   String get edit => 'Chỉnh sửa';
 
   @override
+  String get editProfile => 'Chỉnh sửa hồ sơ';
+
+  @override
   String get delete => 'Xóa';
 
   @override

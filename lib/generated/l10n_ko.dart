@@ -516,6 +516,9 @@ class SKo extends S {
   String get edit => '수정';
 
   @override
+  String get editProfile => '프로필 수정';
+
+  @override
   String get delete => '삭제';
 
   @override

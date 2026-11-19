@@ -526,6 +526,9 @@ class SNl extends S {
   String get edit => 'Bewerken';
 
   @override
+  String get editProfile => 'Profiel bewerken';
+
+  @override
   String get delete => 'Verwijderen';
 
   @override

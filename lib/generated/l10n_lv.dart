@@ -526,6 +526,9 @@ class SLv extends S {
   String get edit => 'Rediģēt';
 
   @override
+  String get editProfile => 'Rediģēt profilu';
+
+  @override
   String get delete => 'Dzēst';
 
   @override

@@ -525,6 +525,9 @@ class SDa extends S {
   String get edit => 'Redigér';
 
   @override
+  String get editProfile => 'Redigér profil';
+
+  @override
   String get delete => 'Slet';
 
   @override

@@ -515,6 +515,9 @@ class SJa extends S {
   String get edit => '編集';
 
   @override
+  String get editProfile => 'プロフィールを編集';
+
+  @override
   String get delete => '削除';
 
   @override

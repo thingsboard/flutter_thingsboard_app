@@ -160,6 +160,7 @@
   "clear": "Réinitialiser",
   "acknowledge": "Acquitter",
   "edit": "Modifier",
+  "editProfile": "Modifier le profil",
   "delete": "Supprimer",
   "edited": "Modifié",
   "deleteComment": "Supprimer le commentaire",

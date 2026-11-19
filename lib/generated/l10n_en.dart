@@ -525,6 +525,9 @@ class SEn extends S {
   String get edit => 'Edit';
 
   @override
+  String get editProfile => 'Edit profile';
+
+  @override
   String get delete => 'Delete';
 
   @override

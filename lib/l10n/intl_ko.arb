@@ -160,6 +160,7 @@
   "clear": "해제",
   "acknowledge": "확인",
   "edit": "수정",
+  "editProfile": "프로필 수정",
   "delete": "삭제",
   "edited": "수정됨",
   "deleteComment": "댓글 삭제",
