@@ -63,16 +63,10 @@ class SPt extends S {
   String get login => 'Entrar';
 
   @override
-  String get logoDefaultValue => 'Logotipo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Entrar na sua conta';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'O e-mail é obrigatório.';
 
   @override
   String get emailInvalidText => 'Formato de e-mail inválido.';
@@ -82,9 +76,6 @@ class SPt extends S {
 
   @override
   String get password => 'Senha';
-
-  @override
-  String get passwordRequireText => 'A senha é obrigatória.';
 
   @override
   String get passwordForgotText => 'Esqueceu a senha?';
@@ -98,10 +89,6 @@ class SPt extends S {
 
   @override
   String get requestPasswordReset => 'Solicitar redefinição de senha';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Link para redefinição de senha enviado com sucesso!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SPt extends S {
 
   @override
   String get label => 'Rótulo';
-
-  @override
-  String get assignedToCustomer => 'Atribuído ao cliente';
 
   @override
   String get auditLogDetails => 'Detalhes do log de auditoria';
@@ -256,12 +240,6 @@ class SPt extends S {
   @override
   String get passwordErrorNotification =>
       'As senhas inseridas devem ser iguais!';
-
-  @override
-  String get firstNameUpper => 'Nome';
-
-  @override
-  String get lastNameUpper => 'Sobrenome';
 
   @override
   String get profileSuccessNotification => 'Perfil atualizado com sucesso';
@@ -407,19 +385,7 @@ class SPt extends S {
   String get firstName => 'Nome';
 
   @override
-  String get firstNameRequireText => 'O nome é obrigatório.';
-
-  @override
   String get lastName => 'Sobrenome';
-
-  @override
-  String get lastNameRequireText => 'O sobrenome é obrigatório.';
-
-  @override
-  String get createPassword => 'Criar uma senha';
-
-  @override
-  String get repeatPassword => 'Repetir sua senha';
 
   @override
   String get imNotARobot => 'Não sou um robô';
@@ -518,12 +484,6 @@ class SPt extends S {
   String get addCommentMessage => 'Adicionar um comentário...';
 
   @override
-  String get selectUser => 'Selecionar usuários';
-
-  @override
-  String get assignedToMe => 'Atribuído a mim';
-
-  @override
   String get clear => 'Resolver';
 
   @override
@@ -577,6 +537,9 @@ class SPt extends S {
 
   @override
   String get chooseRegion => 'Escolher região';
+
+  @override
+  String get regions => 'Regiões';
 
   @override
   String get selectRegion => 'Selecionar região';
@@ -635,10 +598,6 @@ class SPt extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Nenhum dispositivo encontrado. Verifique se o Bluetooth do seu telefone está ativado e se você está dentro do alcance do novo dispositivo.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Você não tem permissões suficientes (\"$permissions\") para continuar. Conceda as permissões necessárias e toque em \"Tentar novamente\".';
   }
@@ -663,9 +622,6 @@ class SPt extends S {
 
   @override
   String get claimingDevice => 'Reivindicando dispositivo';
-
-  @override
-  String get claimingDeviceDone => 'Reivindicação do dispositivo concluída';
 
   @override
   String get claimingMessageSuccess => 'Dispositivo reivindicado\ncom sucesso';
@@ -703,17 +659,10 @@ class SPt extends S {
   }
 
   @override
-  String get loginWith => 'Entrar com';
+  String get loginWith => 'ENTRAR COM';
 
   @override
   String get scanQrCode => 'Escanear QR code';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'Dados de solicitação vazios recebidos.';
-
-  @override
-  String get somethingWentWrongRollback => 'Algo deu errado ... Reverter';
 
   @override
   String get searchResults => 'Resultados da pesquisa';
@@ -798,9 +747,6 @@ class SPt extends S {
 
   @override
   String get close => 'Fechar';
-
-  @override
-  String get codeVerificationFailed => 'Falha na verificação do código!';
 
   @override
   String get fatalError => 'Erro fatal';
@@ -1184,7 +1130,9 @@ class SPt extends S {
       'Parece que suas permissões não são suficientes para concluir esta operação';
 
   @override
-  String get isRequiredText => 'é um campo obrigatório.';
+  String fieldIsRequired(String field) {
+    return '$field é um campo obrigatório.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nenhum provedor 2FA encontrado';
@@ -1315,11 +1263,6 @@ class SPt extends S {
 
   @override
   String get sendCode => 'Enviar código';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Erro ao enviar código: $error';
-  }
 
   @override
   String get copy => 'Copiar';
@@ -1519,6 +1462,11 @@ class SPt extends S {
 
   @override
   String get liveTrackingErrors => 'Erros';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Parar';

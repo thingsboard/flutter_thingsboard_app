@@ -63,16 +63,10 @@ class SEl extends S {
   String get login => 'Σύνδεση';
 
   @override
-  String get logoDefaultValue => 'Λογότυπο ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Συνδεθείτε στον λογαριασμό σας';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'Απαιτείται email.';
 
   @override
   String get emailInvalidText => 'Μη έγκυρη μορφή email.';
@@ -82,9 +76,6 @@ class SEl extends S {
 
   @override
   String get password => 'Κωδικός πρόσβασης';
-
-  @override
-  String get passwordRequireText => 'Απαιτείται κωδικός πρόσβασης.';
 
   @override
   String get passwordForgotText => 'Ξεχάσατε τον κωδικό πρόσβασης;';
@@ -98,10 +89,6 @@ class SEl extends S {
 
   @override
   String get requestPasswordReset => 'Αίτηση επαναφοράς κωδικού';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Ο σύνδεσμος επαναφοράς κωδικού πρόσβασης στάλθηκε με επιτυχία!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -162,9 +149,6 @@ class SEl extends S {
 
   @override
   String get label => 'Ετικέτα';
-
-  @override
-  String get assignedToCustomer => 'Ανατέθηκε σε πελάτη';
 
   @override
   String get auditLogDetails => 'Λεπτομέρειες αρχείου καταγραφής ελέγχου';
@@ -258,12 +242,6 @@ class SEl extends S {
 
   @override
   String get passwordErrorNotification => 'Οι κωδικοί πρέπει να είναι ίδιοι!';
-
-  @override
-  String get firstNameUpper => 'Όνομα';
-
-  @override
-  String get lastNameUpper => 'Επώνυμο';
 
   @override
   String get profileSuccessNotification => 'Το προφίλ ενημερώθηκε με επιτυχία';
@@ -411,19 +389,7 @@ class SEl extends S {
   String get firstName => 'Όνομα';
 
   @override
-  String get firstNameRequireText => 'Απαιτείται όνομα.';
-
-  @override
   String get lastName => 'Επώνυμο';
-
-  @override
-  String get lastNameRequireText => 'Απαιτείται επώνυμο.';
-
-  @override
-  String get createPassword => 'Δημιουργήστε έναν κωδικό';
-
-  @override
-  String get repeatPassword => 'Επαναλάβετε τον κωδικό';
 
   @override
   String get imNotARobot => 'Δεν είμαι ρομπότ';
@@ -522,12 +488,6 @@ class SEl extends S {
   String get addCommentMessage => 'Προσθήκη σχολίου...';
 
   @override
-  String get selectUser => 'Επιλογή χρηστών';
-
-  @override
-  String get assignedToMe => 'Ανατέθηκε σε εμένα';
-
-  @override
   String get clear => 'Εκκαθάριση';
 
   @override
@@ -581,6 +541,9 @@ class SEl extends S {
 
   @override
   String get chooseRegion => 'Επιλέξτε περιοχή';
+
+  @override
+  String get regions => 'Περιοχές';
 
   @override
   String get selectRegion => 'Επιλέξτε περιοχή';
@@ -639,10 +602,6 @@ class SEl extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Δεν βρέθηκαν συσκευές. Βεβαιωθείτε ότι το Bluetooth του τηλεφώνου σας είναι ενεργοποιημένο και ότι το τηλέφωνο βρίσκεται εντός εμβέλειας της νέας σας συσκευής.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Δεν έχετε επαρκή δικαιώματα για «$permissions» για να συνεχίσετε. Παραχωρήστε τα απαιτούμενα δικαιώματα και πατήστε «Δοκιμάστε ξανά».';
   }
@@ -667,9 +626,6 @@ class SEl extends S {
 
   @override
   String get claimingDevice => 'Διεκδίκηση συσκευής';
-
-  @override
-  String get claimingDeviceDone => 'Η διεκδίκηση της συσκευής ολοκληρώθηκε';
 
   @override
   String get claimingMessageSuccess =>
@@ -708,16 +664,10 @@ class SEl extends S {
   }
 
   @override
-  String get loginWith => 'Σύνδεση με';
+  String get loginWith => 'ΣΥΝΔΕΣΗ ΜΕ';
 
   @override
   String get scanQrCode => 'Σάρωση κωδικού QR';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Ελήφθησαν κενά δεδομένα αιτήματος.';
-
-  @override
-  String get somethingWentWrongRollback => 'Κάτι πήγε στραβά ... Επαναφορά';
 
   @override
   String get searchResults => 'Αποτελέσματα αναζήτησης';
@@ -802,9 +752,6 @@ class SEl extends S {
 
   @override
   String get close => 'Κλείσιμο';
-
-  @override
-  String get codeVerificationFailed => 'Η επαλήθευση του κωδικού απέτυχε!';
 
   @override
   String get fatalError => 'Μοιραίο σφάλμα';
@@ -1187,7 +1134,9 @@ class SEl extends S {
       'Φαίνεται ότι τα δικαιώματά σας δεν επαρκούν για την ολοκλήρωση αυτής της λειτουργίας';
 
   @override
-  String get isRequiredText => 'απαιτείται.';
+  String fieldIsRequired(String field) {
+    return '$field απαιτείται.';
+  }
 
   @override
   String get no2faProvidersFound => 'Δεν βρέθηκαν πάροχοι 2FA';
@@ -1318,11 +1267,6 @@ class SEl extends S {
 
   @override
   String get sendCode => 'Αποστολή κωδικού';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Σφάλμα κατά την αποστολή κωδικού: $error';
-  }
 
   @override
   String get copy => 'Αντιγραφή';
@@ -1524,6 +1468,11 @@ class SEl extends S {
 
   @override
   String get liveTrackingErrors => 'Σφάλματα';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Διακοπή';

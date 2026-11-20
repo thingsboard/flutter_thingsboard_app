@@ -63,16 +63,10 @@ class SJa extends S {
   String get login => 'ログイン';
 
   @override
-  String get logoDefaultValue => 'ThingsBoardロゴ';
-
-  @override
   String get loginToYourAccount => 'アカウントにログイン';
 
   @override
   String get email => 'メールアドレス';
-
-  @override
-  String get emailRequireText => 'メールは必須です。';
 
   @override
   String get emailInvalidText => '無効なメールアドレス形式です。';
@@ -82,9 +76,6 @@ class SJa extends S {
 
   @override
   String get password => 'パスワード';
-
-  @override
-  String get passwordRequireText => 'パスワードは必須です。';
 
   @override
   String get passwordForgotText => 'パスワードをお忘れですか？';
@@ -98,10 +89,6 @@ class SJa extends S {
 
   @override
   String get requestPasswordReset => 'パスワードリセットをリクエスト';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'パスワードリセットリンクを送信しました。';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SJa extends S {
 
   @override
   String get label => 'ラベル';
-
-  @override
-  String get assignedToCustomer => '顧客に割り当て済み';
 
   @override
   String get auditLogDetails => '監査ログ詳細';
@@ -253,12 +237,6 @@ class SJa extends S {
 
   @override
   String get passwordErrorNotification => '入力したパスワードは一致していなければなりません！';
-
-  @override
-  String get firstNameUpper => '名';
-
-  @override
-  String get lastNameUpper => '姓';
 
   @override
   String get profileSuccessNotification => 'プロフィールを更新しました。';
@@ -399,19 +377,7 @@ class SJa extends S {
   String get firstName => '名';
 
   @override
-  String get firstNameRequireText => '名は必須です。';
-
-  @override
   String get lastName => '姓';
-
-  @override
-  String get lastNameRequireText => '姓は必須です。';
-
-  @override
-  String get createPassword => 'パスワードを作成';
-
-  @override
-  String get repeatPassword => 'パスワードを再入力';
 
   @override
   String get imNotARobot => '私はロボットではありません';
@@ -506,12 +472,6 @@ class SJa extends S {
   String get addCommentMessage => 'コメントを追加...';
 
   @override
-  String get selectUser => 'ユーザーを選択';
-
-  @override
-  String get assignedToMe => '自分に割り当て済み';
-
-  @override
   String get clear => 'クリア';
 
   @override
@@ -564,6 +524,9 @@ class SJa extends S {
 
   @override
   String get chooseRegion => 'リージョンを選択';
+
+  @override
+  String get regions => 'リージョン';
 
   @override
   String get selectRegion => 'リージョンを選択';
@@ -622,10 +585,6 @@ class SJa extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'デバイスが見つかりません。スマートフォンのBluetoothがオンになっており、新しいデバイスの通信範囲内にあることを確認してください。';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return '続行するには「$permissions」の権限が不足しています。必要な権限を付与し、「再試行」をタップしてください。';
   }
@@ -649,9 +608,6 @@ class SJa extends S {
 
   @override
   String get claimingDevice => 'デバイスを登録中';
-
-  @override
-  String get claimingDeviceDone => 'デバイスの登録が完了しました';
 
   @override
   String get claimingMessageSuccess => 'デバイスは正常に\n登録されました';
@@ -693,12 +649,6 @@ class SJa extends S {
 
   @override
   String get scanQrCode => 'QRコードをスキャン';
-
-  @override
-  String get anEmptyRequestDataReceived => '空のリクエストデータを受信しました。';
-
-  @override
-  String get somethingWentWrongRollback => '問題が発生しました ... ロールバック';
 
   @override
   String get searchResults => '検索結果';
@@ -781,9 +731,6 @@ class SJa extends S {
 
   @override
   String get close => '閉じる';
-
-  @override
-  String get codeVerificationFailed => 'コードの検証に失敗しました！';
 
   @override
   String get fatalError => '致命的なエラー';
@@ -1158,7 +1105,9 @@ class SJa extends S {
       'この操作を完了するための権限が不足しているようです';
 
   @override
-  String get isRequiredText => 'は必須です。';
+  String fieldIsRequired(String field) {
+    return '$fieldは必須です。';
+  }
 
   @override
   String get no2faProvidersFound => '2FAプロバイダーが見つかりません';
@@ -1282,11 +1231,6 @@ class SJa extends S {
 
   @override
   String get sendCode => 'コードを送信';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'コードの送信エラー: $error';
-  }
 
   @override
   String get copy => 'コピー';
@@ -1479,6 +1423,11 @@ class SJa extends S {
 
   @override
   String get liveTrackingErrors => 'エラー';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => '停止';

@@ -63,16 +63,10 @@ class SKo extends S {
   String get login => '로그인';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard 로고';
-
-  @override
   String get loginToYourAccount => '계정에 로그인';
 
   @override
   String get email => '이메일';
-
-  @override
-  String get emailRequireText => '이메일을 입력하세요.';
 
   @override
   String get emailInvalidText => '잘못된 이메일 형식입니다.';
@@ -82,9 +76,6 @@ class SKo extends S {
 
   @override
   String get password => '비밀번호';
-
-  @override
-  String get passwordRequireText => '비밀번호는 필수 항목입니다.';
 
   @override
   String get passwordForgotText => '비밀번호를 잊으셨습니까?';
@@ -98,10 +89,6 @@ class SKo extends S {
 
   @override
   String get requestPasswordReset => '비밀번호 재설정 요청';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      '비밀번호 재설정 링크를 성공적으로 보냈습니다!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SKo extends S {
 
   @override
   String get label => '레이블';
-
-  @override
-  String get assignedToCustomer => '할당된 고객';
 
   @override
   String get auditLogDetails => '감사 로그 세부 사항';
@@ -253,12 +237,6 @@ class SKo extends S {
 
   @override
   String get passwordErrorNotification => '입력된 비밀번호는 같아야 합니다!';
-
-  @override
-  String get firstNameUpper => '이름';
-
-  @override
-  String get lastNameUpper => '성';
 
   @override
   String get profileSuccessNotification => '프로필이 업데이트되었습니다.';
@@ -400,19 +378,7 @@ class SKo extends S {
   String get firstName => '이름';
 
   @override
-  String get firstNameRequireText => '이름은 필수 항목입니다.';
-
-  @override
   String get lastName => '성';
-
-  @override
-  String get lastNameRequireText => '성은 필수 항목입니다.';
-
-  @override
-  String get createPassword => '비밀번호 생성';
-
-  @override
-  String get repeatPassword => '비밀번호 재입력';
 
   @override
   String get imNotARobot => '저는 로봇이 아닙니다';
@@ -507,12 +473,6 @@ class SKo extends S {
   String get addCommentMessage => '댓글 추가...';
 
   @override
-  String get selectUser => '사용자 선택';
-
-  @override
-  String get assignedToMe => '나에게 할당됨';
-
-  @override
   String get clear => '해제';
 
   @override
@@ -565,6 +525,9 @@ class SKo extends S {
 
   @override
   String get chooseRegion => '지역 선택';
+
+  @override
+  String get regions => '지역';
 
   @override
   String get selectRegion => '지역 선택';
@@ -623,10 +586,6 @@ class SKo extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      '장치를 찾을 수 없습니다. 휴대폰의 블루투스가 켜져 있고 새 장치의 범위 내에 있는지 확인하세요.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return '\"$permissions\"에 대한 권한이 부족하여 계속할 수 없습니다. 필요한 권한을 부여하고 \"다시 시도\"를 탭하세요.';
   }
@@ -650,9 +609,6 @@ class SKo extends S {
 
   @override
   String get claimingDevice => '장치 소유권 등록 중';
-
-  @override
-  String get claimingDeviceDone => '장치 소유권 등록 완료';
 
   @override
   String get claimingMessageSuccess => '장치 소유권 등록이\n성공적으로 완료되었습니다';
@@ -694,12 +650,6 @@ class SKo extends S {
 
   @override
   String get scanQrCode => 'QR 코드 스캔';
-
-  @override
-  String get anEmptyRequestDataReceived => '빈 요청 데이터가 수신되었습니다.';
-
-  @override
-  String get somethingWentWrongRollback => '문제가 발생했습니다 ... 롤백';
 
   @override
   String get searchResults => '검색 결과';
@@ -783,9 +733,6 @@ class SKo extends S {
 
   @override
   String get close => '닫기';
-
-  @override
-  String get codeVerificationFailed => '코드 확인에 실패했습니다!';
 
   @override
   String get fatalError => '치명적 오류';
@@ -1159,7 +1106,9 @@ class SKo extends S {
       '이 작업을 완료하기에 권한이 부족한 것 같습니다';
 
   @override
-  String get isRequiredText => '필드는 필수 항목입니다.';
+  String fieldIsRequired(String field) {
+    return '$field 필드는 필수 항목입니다.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA 제공자를 찾을 수 없습니다';
@@ -1283,11 +1232,6 @@ class SKo extends S {
 
   @override
   String get sendCode => '코드 전송';
-
-  @override
-  String errorSendingCode(String error) {
-    return '코드 전송 오류: $error';
-  }
 
   @override
   String get copy => '복사';
@@ -1483,6 +1427,11 @@ class SKo extends S {
 
   @override
   String get liveTrackingErrors => '오류';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => '정지';

@@ -63,16 +63,10 @@ class SNl extends S {
   String get login => 'Inloggen';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard-logo';
-
-  @override
   String get loginToYourAccount => 'Inloggen op je account';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'E-mail is verplicht.';
 
   @override
   String get emailInvalidText => 'Ongeldig e-mailformaat.';
@@ -82,9 +76,6 @@ class SNl extends S {
 
   @override
   String get password => 'Wachtwoord';
-
-  @override
-  String get passwordRequireText => 'Wachtwoord is verplicht.';
 
   @override
   String get passwordForgotText => 'Wachtwoord vergeten?';
@@ -98,10 +89,6 @@ class SNl extends S {
 
   @override
   String get requestPasswordReset => 'Wachtwoordreset aanvragen';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Link om wachtwoord opnieuw in te stellen is verzonden!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SNl extends S {
 
   @override
   String get label => 'Label';
-
-  @override
-  String get assignedToCustomer => 'Toegewezen aan klant';
 
   @override
   String get auditLogDetails => 'Details auditlog';
@@ -256,12 +240,6 @@ class SNl extends S {
   @override
   String get passwordErrorNotification =>
       'Ingevoerde wachtwoorden moeten gelijk zijn!';
-
-  @override
-  String get firstNameUpper => 'Voornaam';
-
-  @override
-  String get lastNameUpper => 'Achternaam';
 
   @override
   String get profileSuccessNotification => 'Profiel succesvol bijgewerkt';
@@ -406,19 +384,7 @@ class SNl extends S {
   String get firstName => 'Voornaam';
 
   @override
-  String get firstNameRequireText => 'Voornaam is verplicht.';
-
-  @override
   String get lastName => 'Achternaam';
-
-  @override
-  String get lastNameRequireText => 'Achternaam is verplicht.';
-
-  @override
-  String get createPassword => 'Maak een wachtwoord aan';
-
-  @override
-  String get repeatPassword => 'Herhaal je wachtwoord';
 
   @override
   String get imNotARobot => 'Ik ben geen robot';
@@ -517,12 +483,6 @@ class SNl extends S {
   String get addCommentMessage => 'Voeg een opmerking toe...';
 
   @override
-  String get selectUser => 'Gebruikers selecteren';
-
-  @override
-  String get assignedToMe => 'Aan mij toegewezen';
-
-  @override
   String get clear => 'Opheffen';
 
   @override
@@ -575,6 +535,9 @@ class SNl extends S {
 
   @override
   String get chooseRegion => 'Regio kiezen';
+
+  @override
+  String get regions => 'Regio\'s';
 
   @override
   String get selectRegion => 'Regio selecteren';
@@ -633,10 +596,6 @@ class SNl extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Geen apparaten gevonden. Controleer of de Bluetooth van je telefoon is ingeschakeld en of je binnen bereik bent van je nieuwe apparaat.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Je hebt onvoldoende rechten voor \"$permissions\" om door te gaan. Verleen de vereiste rechten en tik op \"Opnieuw proberen\".';
   }
@@ -660,9 +619,6 @@ class SNl extends S {
 
   @override
   String get claimingDevice => 'Apparaat claimen';
-
-  @override
-  String get claimingDeviceDone => 'Apparaat claimen voltooid';
 
   @override
   String get claimingMessageSuccess => 'Apparaat is\nsuccesvol geclaimd';
@@ -700,17 +656,10 @@ class SNl extends S {
   }
 
   @override
-  String get loginWith => 'Inloggen met';
+  String get loginWith => 'INLOGGEN MET';
 
   @override
   String get scanQrCode => 'QR-code scannen';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Lege aanvraaggegevens ontvangen.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Er is iets misgegaan ... Terugdraaien';
 
   @override
   String get searchResults => 'Zoekresultaten';
@@ -795,9 +744,6 @@ class SNl extends S {
 
   @override
   String get close => 'Sluiten';
-
-  @override
-  String get codeVerificationFailed => 'Codeverificatie mislukt!';
 
   @override
   String get fatalError => 'Fatale fout';
@@ -1177,7 +1123,9 @@ class SNl extends S {
       'Je rechten lijken niet toereikend om deze bewerking te voltooien';
 
   @override
-  String get isRequiredText => 'is verplicht.';
+  String fieldIsRequired(String field) {
+    return '$field is verplicht.';
+  }
 
   @override
   String get no2faProvidersFound => 'Geen 2FA-providers gevonden';
@@ -1308,11 +1256,6 @@ class SNl extends S {
 
   @override
   String get sendCode => 'Code verzenden';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Fout bij verzenden van code: $error';
-  }
 
   @override
   String get copy => 'Kopiëren';
@@ -1513,6 +1456,11 @@ class SNl extends S {
 
   @override
   String get liveTrackingErrors => 'Fouten';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Stoppen';

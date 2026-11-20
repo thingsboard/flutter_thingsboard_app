@@ -63,16 +63,10 @@ class SDa extends S {
   String get login => 'Log ind';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard-logo';
-
-  @override
   String get loginToYourAccount => 'Log ind på din konto';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'E-mail er påkrævet.';
 
   @override
   String get emailInvalidText => 'Ugyldigt e-mailformat.';
@@ -82,9 +76,6 @@ class SDa extends S {
 
   @override
   String get password => 'Adgangskode';
-
-  @override
-  String get passwordRequireText => 'Adgangskode er påkrævet.';
 
   @override
   String get passwordForgotText => 'Glemt adgangskode?';
@@ -98,10 +89,6 @@ class SDa extends S {
 
   @override
   String get requestPasswordReset => 'Anmod om nulstilling af adgangskode';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Linket til nulstilling af adgangskode blev sendt!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SDa extends S {
 
   @override
   String get label => 'Etiket';
-
-  @override
-  String get assignedToCustomer => 'Tildelt kunde';
 
   @override
   String get auditLogDetails => 'Detaljer for revisionslog';
@@ -255,12 +239,6 @@ class SDa extends S {
   @override
   String get passwordErrorNotification =>
       'De indtastede adgangskoder skal være ens!';
-
-  @override
-  String get firstNameUpper => 'Fornavn';
-
-  @override
-  String get lastNameUpper => 'Efternavn';
 
   @override
   String get profileSuccessNotification => 'Profilen er opdateret';
@@ -405,19 +383,7 @@ class SDa extends S {
   String get firstName => 'Fornavn';
 
   @override
-  String get firstNameRequireText => 'Fornavn er påkrævet.';
-
-  @override
   String get lastName => 'Efternavn';
-
-  @override
-  String get lastNameRequireText => 'Efternavn er påkrævet.';
-
-  @override
-  String get createPassword => 'Opret en adgangskode';
-
-  @override
-  String get repeatPassword => 'Gentag din adgangskode';
 
   @override
   String get imNotARobot => 'Jeg er ikke en robot';
@@ -516,12 +482,6 @@ class SDa extends S {
   String get addCommentMessage => 'Tilføj en kommentar...';
 
   @override
-  String get selectUser => 'Vælg brugere';
-
-  @override
-  String get assignedToMe => 'Tildelt mig';
-
-  @override
   String get clear => 'Ryd';
 
   @override
@@ -574,6 +534,9 @@ class SDa extends S {
 
   @override
   String get chooseRegion => 'Vælg region';
+
+  @override
+  String get regions => 'Regioner';
 
   @override
   String get selectRegion => 'Vælg region';
@@ -632,10 +595,6 @@ class SDa extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Ingen enheder fundet. Kontrollér, at din telefons Bluetooth er slået til, og at du er inden for rækkevidde af din nye enhed.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Du har ikke tilstrækkelige tilladelser til \"$permissions\" for at fortsætte. Giv de påkrævede tilladelser, og tryk på \"Prøv igen\".';
   }
@@ -659,9 +618,6 @@ class SDa extends S {
 
   @override
   String get claimingDevice => 'Tager enheden i brug';
-
-  @override
-  String get claimingDeviceDone => 'Enheden er taget i brug';
 
   @override
   String get claimingMessageSuccess => 'Enheden blev\ntaget i brug';
@@ -699,16 +655,10 @@ class SDa extends S {
   }
 
   @override
-  String get loginWith => 'Log ind med';
+  String get loginWith => 'LOG IND MED';
 
   @override
   String get scanQrCode => 'Scan QR-kode';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Tomme forespørgselsdata modtaget.';
-
-  @override
-  String get somethingWentWrongRollback => 'Noget gik galt ... Tilbagerulning';
 
   @override
   String get searchResults => 'Søgeresultater';
@@ -793,9 +743,6 @@ class SDa extends S {
 
   @override
   String get close => 'Luk';
-
-  @override
-  String get codeVerificationFailed => 'Kodeverifikation mislykkedes!';
 
   @override
   String get fatalError => 'Fatal fejl';
@@ -1176,7 +1123,9 @@ class SDa extends S {
       'Det ser ud til, at dine tilladelser ikke er tilstrækkelige til at udføre denne handling';
 
   @override
-  String get isRequiredText => 'er påkrævet.';
+  String fieldIsRequired(String field) {
+    return '$field er påkrævet.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ingen 2FA-udbydere fundet';
@@ -1306,11 +1255,6 @@ class SDa extends S {
 
   @override
   String get sendCode => 'Send kode';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Fejl ved afsendelse af kode: $error';
-  }
 
   @override
   String get copy => 'Kopiér';
@@ -1508,6 +1452,11 @@ class SDa extends S {
 
   @override
   String get liveTrackingErrors => 'Fejl';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Stop';

@@ -63,16 +63,10 @@ class SSl extends S {
   String get login => 'Prijava';
 
   @override
-  String get logoDefaultValue => 'Logotip ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Prijavite se v svoj račun';
 
   @override
   String get email => 'E-pošta';
-
-  @override
-  String get emailRequireText => 'E-pošta je obvezna.';
 
   @override
   String get emailInvalidText => 'Neveljavna oblika e-poštnega naslova.';
@@ -82,9 +76,6 @@ class SSl extends S {
 
   @override
   String get password => 'Geslo';
-
-  @override
-  String get passwordRequireText => 'Geslo je obvezno.';
 
   @override
   String get passwordForgotText => 'Ste pozabili geslo?';
@@ -98,10 +89,6 @@ class SSl extends S {
 
   @override
   String get requestPasswordReset => 'Zahtevaj ponastavitev gesla';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Povezava za ponastavitev gesla je bila uspešno poslana!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -162,9 +149,6 @@ class SSl extends S {
 
   @override
   String get label => 'Oznaka';
-
-  @override
-  String get assignedToCustomer => 'Dodeljeno stranki';
 
   @override
   String get auditLogDetails => 'Podrobnosti revizijskega dnevnika';
@@ -255,12 +239,6 @@ class SSl extends S {
 
   @override
   String get passwordErrorNotification => 'Vneseni gesli se morata ujemati!';
-
-  @override
-  String get firstNameUpper => 'Ime';
-
-  @override
-  String get lastNameUpper => 'Priimek';
 
   @override
   String get profileSuccessNotification => 'Profil je bil uspešno posodobljen';
@@ -406,19 +384,7 @@ class SSl extends S {
   String get firstName => 'Ime';
 
   @override
-  String get firstNameRequireText => 'Ime je obvezno.';
-
-  @override
   String get lastName => 'Priimek';
-
-  @override
-  String get lastNameRequireText => 'Priimek je obvezen.';
-
-  @override
-  String get createPassword => 'Ustvarite geslo';
-
-  @override
-  String get repeatPassword => 'Ponovite geslo';
 
   @override
   String get imNotARobot => 'Nisem robot';
@@ -525,12 +491,6 @@ class SSl extends S {
   String get addCommentMessage => 'Dodajte komentar...';
 
   @override
-  String get selectUser => 'Izberi uporabnike';
-
-  @override
-  String get assignedToMe => 'Dodeljeno meni';
-
-  @override
   String get clear => 'Ponastavi';
 
   @override
@@ -585,6 +545,9 @@ class SSl extends S {
 
   @override
   String get chooseRegion => 'Izberite regijo';
+
+  @override
+  String get regions => 'Regije';
 
   @override
   String get selectRegion => 'Izberite regijo';
@@ -643,10 +606,6 @@ class SSl extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Naprav ni mogoče najti. Prepričajte se, da je Bluetooth v telefonu vklopljen in da je telefon v dosegu nove naprave.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Za nadaljevanje nimate dovolj dovoljenj za »$permissions«. Dodelite zahtevana dovoljenja in tapnite »Poskusi znova«.';
   }
@@ -670,9 +629,6 @@ class SSl extends S {
 
   @override
   String get claimingDevice => 'Prevzemanje naprave';
-
-  @override
-  String get claimingDeviceDone => 'Prevzem naprave končan';
 
   @override
   String get claimingMessageSuccess => 'Naprava je bila\nuspešno prevzeta';
@@ -710,17 +666,10 @@ class SSl extends S {
   }
 
   @override
-  String get loginWith => 'Prijava z';
+  String get loginWith => 'PRIJAVA Z';
 
   @override
   String get scanQrCode => 'Skeniraj kodo QR';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'Prejeti so bili prazni podatki zahteve.';
-
-  @override
-  String get somethingWentWrongRollback => 'Nekaj je šlo narobe ... Povrni';
 
   @override
   String get searchResults => 'Rezultati iskanja';
@@ -804,9 +753,6 @@ class SSl extends S {
 
   @override
   String get close => 'Zapri';
-
-  @override
-  String get codeVerificationFailed => 'Preverjanje kode ni uspelo!';
 
   @override
   String get fatalError => 'Usodna napaka';
@@ -1186,7 +1132,9 @@ class SSl extends S {
       'Videti je, da vaša dovoljenja ne zadostujejo za izvedbo te operacije';
 
   @override
-  String get isRequiredText => 'je obvezno polje.';
+  String fieldIsRequired(String field) {
+    return '$field je obvezno polje.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ni najdenih ponudnikov 2FA';
@@ -1317,11 +1265,6 @@ class SSl extends S {
 
   @override
   String get sendCode => 'Pošlji kodo';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Napaka pri pošiljanju kode: $error';
-  }
 
   @override
   String get copy => 'Kopiraj';
@@ -1525,6 +1468,11 @@ class SSl extends S {
 
   @override
   String get liveTrackingErrors => 'Napake';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Ustavi';

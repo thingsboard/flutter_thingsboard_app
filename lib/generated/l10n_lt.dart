@@ -63,16 +63,10 @@ class SLt extends S {
   String get login => 'Prisijungti';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard logotipas';
-
-  @override
   String get loginToYourAccount => 'Prisijunkite prie savo paskyros';
 
   @override
   String get email => 'El. paštas';
-
-  @override
-  String get emailRequireText => 'El. pašto adresas yra privalomas.';
 
   @override
   String get emailInvalidText => 'Neteisingas el. pašto formatas.';
@@ -82,9 +76,6 @@ class SLt extends S {
 
   @override
   String get password => 'Slaptažodis';
-
-  @override
-  String get passwordRequireText => 'Slaptažodis yra privalomas.';
 
   @override
   String get passwordForgotText => 'Pamiršote slaptažodį?';
@@ -98,10 +89,6 @@ class SLt extends S {
 
   @override
   String get requestPasswordReset => 'Prašyti slaptažodžio atstatymo';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Slaptažodžio atstatymo nuoroda sėkmingai išsiųsta!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SLt extends S {
 
   @override
   String get label => 'Etiketė';
-
-  @override
-  String get assignedToCustomer => 'Priskirta klientui';
 
   @override
   String get auditLogDetails => 'Audito žurnalo informacija';
@@ -255,12 +239,6 @@ class SLt extends S {
 
   @override
   String get passwordErrorNotification => 'Įvesti slaptažodžiai turi sutapti!';
-
-  @override
-  String get firstNameUpper => 'Vardas';
-
-  @override
-  String get lastNameUpper => 'Pavardė';
 
   @override
   String get profileSuccessNotification => 'Profilis sėkmingai atnaujintas';
@@ -405,19 +383,7 @@ class SLt extends S {
   String get firstName => 'Vardas';
 
   @override
-  String get firstNameRequireText => 'Vardas yra privalomas.';
-
-  @override
   String get lastName => 'Pavardė';
-
-  @override
-  String get lastNameRequireText => 'Pavardė yra privaloma.';
-
-  @override
-  String get createPassword => 'Sukurti slaptažodį';
-
-  @override
-  String get repeatPassword => 'Pakartokite slaptažodį';
 
   @override
   String get imNotARobot => 'Aš nesu robotas';
@@ -524,12 +490,6 @@ class SLt extends S {
   String get addCommentMessage => 'Parašykite komentarą...';
 
   @override
-  String get selectUser => 'Pasirinkti naudotojus';
-
-  @override
-  String get assignedToMe => 'Priskirta man';
-
-  @override
   String get clear => 'Išvalyti';
 
   @override
@@ -583,6 +543,9 @@ class SLt extends S {
 
   @override
   String get chooseRegion => 'Pasirinkti regioną';
+
+  @override
+  String get regions => 'Regionai';
 
   @override
   String get selectRegion => 'Pasirinkite regioną';
@@ -641,10 +604,6 @@ class SLt extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Įrenginių nerasta. Įsitikinkite, kad jūsų telefono Bluetooth yra įjungtas ir yra naujo įrenginio aprėpties zonoje.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Jūs neturite pakankamai leidimų „$permissions“, kad galėtumėte tęsti. Suteikite reikalingus leidimus ir palieskite „Bandyti dar kartą“.';
   }
@@ -668,9 +627,6 @@ class SLt extends S {
 
   @override
   String get claimingDevice => 'Perimamas įrenginys';
-
-  @override
-  String get claimingDeviceDone => 'Įrenginio perėmimas baigtas';
 
   @override
   String get claimingMessageSuccess => 'Įrenginys sėkmingai\nperimtas';
@@ -708,16 +664,10 @@ class SLt extends S {
   }
 
   @override
-  String get loginWith => 'Prisijungti naudojant';
+  String get loginWith => 'PRISIJUNGTI NAUDOJANT';
 
   @override
   String get scanQrCode => 'Nuskaityti QR kodą';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Gauti tušti užklausos duomenys.';
-
-  @override
-  String get somethingWentWrongRollback => 'Kažkas nepavyko ... Atšaukti';
 
   @override
   String get searchResults => 'Paieškos rezultatai';
@@ -801,9 +751,6 @@ class SLt extends S {
 
   @override
   String get close => 'Uždaryti';
-
-  @override
-  String get codeVerificationFailed => 'Nepavyko patikrinti kodo!';
 
   @override
   String get fatalError => 'Kritinė klaida';
@@ -1183,7 +1130,9 @@ class SLt extends S {
       'Panašu, kad jūsų leidimų nepakanka šiam veiksmui atlikti';
 
   @override
-  String get isRequiredText => 'yra privalomas laukas.';
+  String fieldIsRequired(String field) {
+    return '$field yra privalomas laukas.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA tiekėjų nerasta';
@@ -1314,11 +1263,6 @@ class SLt extends S {
 
   @override
   String get sendCode => 'Siųsti kodą';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Klaida siunčiant kodą: $error';
-  }
 
   @override
   String get copy => 'Kopijuoti';
@@ -1520,6 +1464,11 @@ class SLt extends S {
 
   @override
   String get liveTrackingErrors => 'Klaidos';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Sustabdyti';

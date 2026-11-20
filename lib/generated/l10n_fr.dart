@@ -63,16 +63,10 @@ class SFr extends S {
   String get login => 'Connexion';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Connexion à votre compte';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'L’email est requis.';
 
   @override
   String get emailInvalidText => 'Format d’email invalide.';
@@ -82,9 +76,6 @@ class SFr extends S {
 
   @override
   String get password => 'Mot de passe';
-
-  @override
-  String get passwordRequireText => 'Le mot de passe est requis.';
 
   @override
   String get passwordForgotText => 'Mot de passe oublié ?';
@@ -99,10 +90,6 @@ class SFr extends S {
   @override
   String get requestPasswordReset =>
       'Demander une réinitialisation du mot de passe';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Le lien de réinitialisation du mot de passe a été envoyé avec succès !';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -163,9 +150,6 @@ class SFr extends S {
 
   @override
   String get label => 'Libellé';
-
-  @override
-  String get assignedToCustomer => 'Assigné à un client';
 
   @override
   String get auditLogDetails => 'Détails du journal d’audit';
@@ -258,12 +242,6 @@ class SFr extends S {
   @override
   String get passwordErrorNotification =>
       'Les mots de passe saisis doivent être identiques !';
-
-  @override
-  String get firstNameUpper => 'Prénom';
-
-  @override
-  String get lastNameUpper => 'Nom de famille';
 
   @override
   String get profileSuccessNotification => 'Profil mis à jour avec succès';
@@ -409,19 +387,7 @@ class SFr extends S {
   String get firstName => 'Prénom';
 
   @override
-  String get firstNameRequireText => 'Le prénom est requis.';
-
-  @override
   String get lastName => 'Nom de famille';
-
-  @override
-  String get lastNameRequireText => 'Le nom de famille est requis.';
-
-  @override
-  String get createPassword => 'Créer un mot de passe';
-
-  @override
-  String get repeatPassword => 'Répétez votre mot de passe';
 
   @override
   String get imNotARobot => 'Je ne suis pas un robot';
@@ -520,12 +486,6 @@ class SFr extends S {
   String get addCommentMessage => 'Ajouter un commentaire...';
 
   @override
-  String get selectUser => 'Sélectionner des utilisateurs';
-
-  @override
-  String get assignedToMe => 'Assigné à moi';
-
-  @override
   String get clear => 'Réinitialiser';
 
   @override
@@ -579,6 +539,9 @@ class SFr extends S {
 
   @override
   String get chooseRegion => 'Choisir la région';
+
+  @override
+  String get regions => 'Régions';
 
   @override
   String get selectRegion => 'Sélectionner la région';
@@ -637,10 +600,6 @@ class SFr extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Aucun appareil trouvé. Veuillez vous assurer que le Bluetooth de votre téléphone est activé et à portée de votre nouvel appareil.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Vous n’avez pas les autorisations suffisantes (« $permissions ») pour continuer. Veuillez accorder les autorisations requises et appuyer sur « Réessayer ».';
   }
@@ -665,9 +624,6 @@ class SFr extends S {
 
   @override
   String get claimingDevice => 'Réclamation de l’appareil';
-
-  @override
-  String get claimingDeviceDone => 'Réclamation de l’appareil terminée';
 
   @override
   String get claimingMessageSuccess => 'L’appareil a été\nréclamé avec succès';
@@ -705,17 +661,10 @@ class SFr extends S {
   }
 
   @override
-  String get loginWith => 'Se connecter avec';
+  String get loginWith => 'SE CONNECTER AVEC';
 
   @override
   String get scanQrCode => 'Scanner le code QR';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Données de requête vides reçues.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Une erreur s’est produite ... Annulation';
 
   @override
   String get searchResults => 'Résultats de recherche';
@@ -799,9 +748,6 @@ class SFr extends S {
 
   @override
   String get close => 'Fermer';
-
-  @override
-  String get codeVerificationFailed => 'Échec de la vérification du code !';
 
   @override
   String get fatalError => 'Erreur fatale';
@@ -1183,7 +1129,9 @@ class SFr extends S {
       'Il semble que vos autorisations soient insuffisantes pour effectuer cette opération';
 
   @override
-  String get isRequiredText => 'est un champ obligatoire.';
+  String fieldIsRequired(String field) {
+    return '$field est un champ obligatoire.';
+  }
 
   @override
   String get no2faProvidersFound => 'Aucun fournisseur 2FA trouvé';
@@ -1314,11 +1262,6 @@ class SFr extends S {
 
   @override
   String get sendCode => 'Envoyer le code';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Erreur lors de l’envoi du code : $error';
-  }
 
   @override
   String get copy => 'Copier';
@@ -1518,6 +1461,11 @@ class SFr extends S {
 
   @override
   String get liveTrackingErrors => 'Erreurs';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label : $value';
+  }
 
   @override
   String get liveTrackingStop => 'Arrêter';

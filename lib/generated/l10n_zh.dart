@@ -63,16 +63,10 @@ class SZh extends S {
   String get login => '登录';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard 徽标';
-
-  @override
   String get loginToYourAccount => '登录您的账户';
 
   @override
   String get email => '邮箱';
-
-  @override
-  String get emailRequireText => '邮箱为必填项。';
 
   @override
   String get emailInvalidText => '邮箱格式无效。';
@@ -82,9 +76,6 @@ class SZh extends S {
 
   @override
   String get password => '密码';
-
-  @override
-  String get passwordRequireText => '密码为必填项。';
 
   @override
   String get passwordForgotText => '忘记密码？';
@@ -97,9 +88,6 @@ class SZh extends S {
 
   @override
   String get requestPasswordReset => '请求重置密码';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification => '密码重置链接已成功发送！';
 
   @override
   String get emailVersificationSuccessfullySentNotification => '邮箱验证链接已成功发送！';
@@ -157,9 +145,6 @@ class SZh extends S {
 
   @override
   String get label => '标签';
-
-  @override
-  String get assignedToCustomer => '已分配给客户';
 
   @override
   String get auditLogDetails => '审计日志详情';
@@ -250,12 +235,6 @@ class SZh extends S {
 
   @override
   String get passwordErrorNotification => '输入的密码必须一致！';
-
-  @override
-  String get firstNameUpper => '名';
-
-  @override
-  String get lastNameUpper => '姓';
 
   @override
   String get profileSuccessNotification => '个人资料更新成功。';
@@ -395,19 +374,7 @@ class SZh extends S {
   String get firstName => '名';
 
   @override
-  String get firstNameRequireText => '名为必填项。';
-
-  @override
   String get lastName => '姓';
-
-  @override
-  String get lastNameRequireText => '姓为必填项。';
-
-  @override
-  String get createPassword => '创建密码';
-
-  @override
-  String get repeatPassword => '重复您的密码';
 
   @override
   String get imNotARobot => '我不是机器人';
@@ -502,12 +469,6 @@ class SZh extends S {
   String get addCommentMessage => '添加评论...';
 
   @override
-  String get selectUser => '选择用户';
-
-  @override
-  String get assignedToMe => '分配给我';
-
-  @override
   String get clear => '清除';
 
   @override
@@ -560,6 +521,9 @@ class SZh extends S {
 
   @override
   String get chooseRegion => '选择区域';
+
+  @override
+  String get regions => '区域';
 
   @override
   String get selectRegion => '选择区域';
@@ -618,9 +582,6 @@ class SZh extends S {
   }
 
   @override
-  String get deviceNotFoundMessage => '未找到设备。请确保您手机的蓝牙已开启，并且在新设备的信号范围内。';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return '您没有足够的“$permissions”权限以继续操作。请授予所需权限，然后点击“重试”。';
   }
@@ -644,9 +605,6 @@ class SZh extends S {
 
   @override
   String get claimingDevice => '正在认领设备';
-
-  @override
-  String get claimingDeviceDone => '设备认领完成';
 
   @override
   String get claimingMessageSuccess => '设备已\n成功认领';
@@ -688,12 +646,6 @@ class SZh extends S {
 
   @override
   String get scanQrCode => '扫描二维码';
-
-  @override
-  String get anEmptyRequestDataReceived => '收到的请求数据为空。';
-
-  @override
-  String get somethingWentWrongRollback => '出现错误……正在回滚';
 
   @override
   String get searchResults => '搜索结果';
@@ -776,9 +728,6 @@ class SZh extends S {
 
   @override
   String get close => '关闭';
-
-  @override
-  String get codeVerificationFailed => '验证码验证失败！';
 
   @override
   String get fatalError => '严重错误';
@@ -1150,7 +1099,9 @@ class SZh extends S {
       '您的权限似乎不足以完成此操作。';
 
   @override
-  String get isRequiredText => '为必填项。';
+  String fieldIsRequired(String field) {
+    return '$field为必填项。';
+  }
 
   @override
   String get no2faProvidersFound => '未找到双因素认证提供商';
@@ -1268,11 +1219,6 @@ class SZh extends S {
 
   @override
   String get sendCode => '发送验证码';
-
-  @override
-  String errorSendingCode(String error) {
-    return '发送验证码出错：$error';
-  }
 
   @override
   String get copy => '复制';
@@ -1462,6 +1408,11 @@ class SZh extends S {
 
   @override
   String get liveTrackingErrors => '错误';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label：$value';
+  }
 
   @override
   String get liveTrackingStop => '停止';
@@ -1703,16 +1654,10 @@ class SZhTw extends SZh {
   String get login => '登入';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard 標誌';
-
-  @override
   String get loginToYourAccount => '登入您的帳戶';
 
   @override
   String get email => '電子郵件';
-
-  @override
-  String get emailRequireText => '電子郵件為必填項。';
 
   @override
   String get emailInvalidText => '電子郵件格式無效。';
@@ -1722,9 +1667,6 @@ class SZhTw extends SZh {
 
   @override
   String get password => '密碼';
-
-  @override
-  String get passwordRequireText => '密碼為必填項。';
 
   @override
   String get passwordForgotText => '忘記密碼？';
@@ -1737,9 +1679,6 @@ class SZhTw extends SZh {
 
   @override
   String get requestPasswordReset => '請求重設密碼';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification => '密碼重設連結已成功寄出！';
 
   @override
   String get emailVersificationSuccessfullySentNotification => '電子郵件驗證連結已成功寄出！';
@@ -1797,9 +1736,6 @@ class SZhTw extends SZh {
 
   @override
   String get label => '標籤';
-
-  @override
-  String get assignedToCustomer => '已指派給客戶';
 
   @override
   String get auditLogDetails => '稽核記錄詳細資料';
@@ -1890,12 +1826,6 @@ class SZhTw extends SZh {
 
   @override
   String get passwordErrorNotification => '輸入的密碼必須一致！';
-
-  @override
-  String get firstNameUpper => '名字';
-
-  @override
-  String get lastNameUpper => '姓氏';
 
   @override
   String get profileSuccessNotification => '個人資料已成功更新。';
@@ -2036,19 +1966,7 @@ class SZhTw extends SZh {
   String get firstName => '名';
 
   @override
-  String get firstNameRequireText => '名字為必填項。';
-
-  @override
   String get lastName => '姓';
-
-  @override
-  String get lastNameRequireText => '姓氏為必填項。';
-
-  @override
-  String get createPassword => '建立密碼';
-
-  @override
-  String get repeatPassword => '再次輸入密碼';
 
   @override
   String get imNotARobot => '我不是機器人';
@@ -2143,12 +2061,6 @@ class SZhTw extends SZh {
   String get addCommentMessage => '新增留言…';
 
   @override
-  String get selectUser => '選取使用者';
-
-  @override
-  String get assignedToMe => '指派給我';
-
-  @override
   String get clear => '清除';
 
   @override
@@ -2201,6 +2113,9 @@ class SZhTw extends SZh {
 
   @override
   String get chooseRegion => '選擇區域';
+
+  @override
+  String get regions => '區域';
 
   @override
   String get selectRegion => '選取區域';
@@ -2259,9 +2174,6 @@ class SZhTw extends SZh {
   }
 
   @override
-  String get deviceNotFoundMessage => '找不到裝置。請確認您手機的藍牙已開啟，且在新裝置的範圍內。';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return '您沒有足夠的「$permissions」權限可繼續操作。請授予必要權限後點選「重試」。';
   }
@@ -2285,9 +2197,6 @@ class SZhTw extends SZh {
 
   @override
   String get claimingDevice => '正在認領裝置';
-
-  @override
-  String get claimingDeviceDone => '裝置認領完成';
 
   @override
   String get claimingMessageSuccess => '裝置已\n成功認領';
@@ -2329,12 +2238,6 @@ class SZhTw extends SZh {
 
   @override
   String get scanQrCode => '掃描 QR 碼';
-
-  @override
-  String get anEmptyRequestDataReceived => '收到空的請求資料。';
-
-  @override
-  String get somethingWentWrongRollback => '發生錯誤……正在復原';
 
   @override
   String get searchResults => '搜尋結果';
@@ -2417,9 +2320,6 @@ class SZhTw extends SZh {
 
   @override
   String get close => '關閉';
-
-  @override
-  String get codeVerificationFailed => '驗證碼驗證失敗！';
 
   @override
   String get fatalError => '嚴重錯誤';
@@ -2792,7 +2692,9 @@ class SZhTw extends SZh {
       '您的權限似乎不足以完成此操作。';
 
   @override
-  String get isRequiredText => '為必填項。';
+  String fieldIsRequired(String field) {
+    return '$field為必填項。';
+  }
 
   @override
   String get no2faProvidersFound => '找不到雙因素驗證提供者';
@@ -2911,11 +2813,6 @@ class SZhTw extends SZh {
 
   @override
   String get sendCode => '傳送驗證碼';
-
-  @override
-  String errorSendingCode(String error) {
-    return '傳送驗證碼時發生錯誤：$error';
-  }
 
   @override
   String get copy => '複製';
@@ -3108,6 +3005,11 @@ class SZhTw extends SZh {
 
   @override
   String get liveTrackingErrors => '錯誤';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label：$value';
+  }
 
   @override
   String get liveTrackingStop => '停止';

@@ -74,7 +74,7 @@ class LoginWidget extends HookConsumerWidget {
                           spacing: 12,
                           children: [
                             Text(
-                              S.of(context).loginWith.toUpperCase(),
+                              S.of(context).loginWith,
                               style: TbTextStyles.labelMedium.copyWith(
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'Roboto',

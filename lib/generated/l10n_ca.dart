@@ -63,16 +63,10 @@ class SCa extends S {
   String get login => 'Inicia la sessió';
 
   @override
-  String get logoDefaultValue => 'Logotip de ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Inicieu la sessió al vostre compte';
 
   @override
   String get email => 'Correu electrònic';
-
-  @override
-  String get emailRequireText => 'El correu electrònic és obligatori.';
 
   @override
   String get emailInvalidText => 'El format del correu electrònic no és vàlid.';
@@ -82,9 +76,6 @@ class SCa extends S {
 
   @override
   String get password => 'Contrasenya';
-
-  @override
-  String get passwordRequireText => 'La contrasenya és obligatòria.';
 
   @override
   String get passwordForgotText => 'Heu oblidat la contrasenya?';
@@ -99,10 +90,6 @@ class SCa extends S {
   @override
   String get requestPasswordReset =>
       'Sol·licita el restabliment de la contrasenya';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'L\'enllaç per restablir la contrasenya s\'ha enviat correctament!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -162,9 +149,6 @@ class SCa extends S {
 
   @override
   String get label => 'Etiqueta';
-
-  @override
-  String get assignedToCustomer => 'Assignat al client';
 
   @override
   String get auditLogDetails => 'Detalls del registre d\'auditoria';
@@ -257,12 +241,6 @@ class SCa extends S {
   @override
   String get passwordErrorNotification =>
       'Les contrasenyes introduïdes han de coincidir!';
-
-  @override
-  String get firstNameUpper => 'Nom';
-
-  @override
-  String get lastNameUpper => 'Cognom';
 
   @override
   String get profileSuccessNotification => 'Perfil actualitzat correctament';
@@ -409,19 +387,7 @@ class SCa extends S {
   String get firstName => 'Nom';
 
   @override
-  String get firstNameRequireText => 'El nom és obligatori.';
-
-  @override
   String get lastName => 'Cognom';
-
-  @override
-  String get lastNameRequireText => 'El cognom és obligatori.';
-
-  @override
-  String get createPassword => 'Creeu una contrasenya';
-
-  @override
-  String get repeatPassword => 'Repetiu la vostra contrasenya';
 
   @override
   String get imNotARobot => 'No soc un robot';
@@ -520,12 +486,6 @@ class SCa extends S {
   String get addCommentMessage => 'Afegiu un comentari...';
 
   @override
-  String get selectUser => 'Selecciona els usuaris';
-
-  @override
-  String get assignedToMe => 'Assignades a mi';
-
-  @override
   String get clear => 'Resol';
 
   @override
@@ -579,6 +539,9 @@ class SCa extends S {
 
   @override
   String get chooseRegion => 'Trieu una regió';
+
+  @override
+  String get regions => 'Regions';
 
   @override
   String get selectRegion => 'Seleccioneu una regió';
@@ -637,10 +600,6 @@ class SCa extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'No s\'ha trobat cap dispositiu. Assegureu-vos que el Bluetooth del telèfon estigui activat i a l\'abast del nou dispositiu.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'No teniu prou permisos (\"$permissions\") per continuar. Concediu els permisos necessaris i toqueu \"Torna-ho a provar\".';
   }
@@ -665,9 +624,6 @@ class SCa extends S {
 
   @override
   String get claimingDevice => 'S\'està reclamant el dispositiu';
-
-  @override
-  String get claimingDeviceDone => 'Reclamació del dispositiu completada';
 
   @override
   String get claimingMessageSuccess =>
@@ -706,18 +662,10 @@ class SCa extends S {
   }
 
   @override
-  String get loginWith => 'Inicia la sessió amb';
+  String get loginWith => 'INICIA LA SESSIÓ AMB';
 
   @override
   String get scanQrCode => 'Escaneja el codi QR';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'S\'han rebut dades de sol·licitud buides.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Alguna cosa ha anat malament... S\'està revertint';
 
   @override
   String get searchResults => 'Resultats de la cerca';
@@ -802,9 +750,6 @@ class SCa extends S {
 
   @override
   String get close => 'Tanca';
-
-  @override
-  String get codeVerificationFailed => 'La verificació del codi ha fallat!';
 
   @override
   String get fatalError => 'Error fatal';
@@ -1187,7 +1132,9 @@ class SCa extends S {
       'Sembla que els vostres permisos no són suficients per completar aquesta operació';
 
   @override
-  String get isRequiredText => 'és un camp obligatori.';
+  String fieldIsRequired(String field) {
+    return '$field és un camp obligatori.';
+  }
 
   @override
   String get no2faProvidersFound => 'No s\'han trobat proveïdors de 2FA';
@@ -1318,11 +1265,6 @@ class SCa extends S {
 
   @override
   String get sendCode => 'Envia el codi';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Error en enviar el codi: $error';
-  }
 
   @override
   String get copy => 'Copia';
@@ -1523,6 +1465,11 @@ class SCa extends S {
 
   @override
   String get liveTrackingErrors => 'Errors';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Atura';

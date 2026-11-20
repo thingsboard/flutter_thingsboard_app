@@ -63,16 +63,10 @@ class SUk extends S {
   String get login => 'Увійти';
 
   @override
-  String get logoDefaultValue => 'Логотип ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Вхід в обліковий запис';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'Потрібно вказати Email.';
 
   @override
   String get emailInvalidText => 'Некоректний формат email.';
@@ -82,9 +76,6 @@ class SUk extends S {
 
   @override
   String get password => 'Пароль';
-
-  @override
-  String get passwordRequireText => 'Потрібно вказати пароль.';
 
   @override
   String get passwordForgotText => 'Забули пароль?';
@@ -100,15 +91,11 @@ class SUk extends S {
   String get requestPasswordReset => 'Запросити скидання пароля';
 
   @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Посилання для скидання пароля успішно надіслано!';
-
-  @override
   String get emailVersificationSuccessfullySentNotification =>
       'Посилання для підтвердження Email успішно надіслано!';
 
   @override
-  String get or => 'або';
+  String get or => 'АБО';
 
   @override
   String get no => 'Ні';
@@ -161,9 +148,6 @@ class SUk extends S {
 
   @override
   String get label => 'Маркування';
-
-  @override
-  String get assignedToCustomer => 'Призначено клієнту';
 
   @override
   String get auditLogDetails => 'Деталі журналу аудиту';
@@ -255,12 +239,6 @@ class SUk extends S {
 
   @override
   String get passwordErrorNotification => 'Введені паролі мають збігатися!';
-
-  @override
-  String get firstNameUpper => 'Ім’я';
-
-  @override
-  String get lastNameUpper => 'Прізвище';
 
   @override
   String get profileSuccessNotification => 'Профіль успішно оновлено';
@@ -407,19 +385,7 @@ class SUk extends S {
   String get firstName => 'Ім’я';
 
   @override
-  String get firstNameRequireText => 'Потрібно вказати ім’я.';
-
-  @override
   String get lastName => 'Прізвище';
-
-  @override
-  String get lastNameRequireText => 'Потрібно вказати прізвище.';
-
-  @override
-  String get createPassword => 'Створити пароль';
-
-  @override
-  String get repeatPassword => 'Повторити пароль';
 
   @override
   String get imNotARobot => 'Я не робот';
@@ -523,12 +489,6 @@ class SUk extends S {
   String get addCommentMessage => 'Додати коментар...';
 
   @override
-  String get selectUser => 'Вибрати користувачів';
-
-  @override
-  String get assignedToMe => 'Призначені мені';
-
-  @override
   String get clear => 'Зняти';
 
   @override
@@ -582,6 +542,9 @@ class SUk extends S {
 
   @override
   String get chooseRegion => 'Оберіть регіон';
+
+  @override
+  String get regions => 'Регіони';
 
   @override
   String get selectRegion => 'Виберіть регіон';
@@ -640,10 +603,6 @@ class SUk extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Пристрої не знайдено. Переконайтеся, що Bluetooth на телефоні ввімкнено і ви перебуваєте в межах досяжності нового пристрою.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Недостатньо дозволів для «$permissions», щоб продовжити. Надайте потрібні дозволи та натисніть «Спробувати ще раз».';
   }
@@ -667,9 +626,6 @@ class SUk extends S {
 
   @override
   String get claimingDevice => 'Прив’язування пристрою';
-
-  @override
-  String get claimingDeviceDone => 'Прив’язування пристрою завершено';
 
   @override
   String get claimingMessageSuccess => 'Пристрій\nуспішно прив’язано';
@@ -707,16 +663,10 @@ class SUk extends S {
   }
 
   @override
-  String get loginWith => 'Увійти через';
+  String get loginWith => 'УВІЙТИ ЧЕРЕЗ';
 
   @override
   String get scanQrCode => 'Сканувати QR-код';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Отримано порожні дані запиту.';
-
-  @override
-  String get somethingWentWrongRollback => 'Щось пішло не так... Відкат';
 
   @override
   String get searchResults => 'Результати пошуку';
@@ -800,9 +750,6 @@ class SUk extends S {
 
   @override
   String get close => 'Закрити';
-
-  @override
-  String get codeVerificationFailed => 'Не вдалося перевірити код!';
 
   @override
   String get fatalError => 'Фатальна помилка';
@@ -1182,7 +1129,9 @@ class SUk extends S {
       'Схоже, ваших дозволів недостатньо для виконання цієї операції';
 
   @override
-  String get isRequiredText => '— обов’язкове поле.';
+  String fieldIsRequired(String field) {
+    return '$field — обов’язкове поле.';
+  }
 
   @override
   String get no2faProvidersFound => 'Провайдерів 2FA не знайдено';
@@ -1313,11 +1262,6 @@ class SUk extends S {
 
   @override
   String get sendCode => 'Надіслати код';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Помилка надсилання коду: $error';
-  }
 
   @override
   String get copy => 'Копіювати';
@@ -1522,6 +1466,11 @@ class SUk extends S {
 
   @override
   String get liveTrackingErrors => 'Помилки';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Зупинити';

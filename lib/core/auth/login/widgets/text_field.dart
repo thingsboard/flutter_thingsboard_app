@@ -164,7 +164,7 @@ class TbTextField extends HookWidget {
       formControlName: formControlName,
       validationMessages: {
         ValidationMessage.required: (error) =>
-            '$label ${S.of(context).isRequiredText}',
+            S.of(context).fieldIsRequired(label),
         ValidationMessage.email: (error) => S.of(context).emailInvalidText,
         ValidationMessage.mustMatch: (error) => 'Fields must match',
         ValidationMessage.minLength: (error) {

@@ -63,16 +63,10 @@ class SCs extends S {
   String get login => 'Přihlásit se';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Přihlášení k účtu';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'E-mail je povinný.';
 
   @override
   String get emailInvalidText => 'Neplatný formát e-mailu.';
@@ -82,9 +76,6 @@ class SCs extends S {
 
   @override
   String get password => 'Heslo';
-
-  @override
-  String get passwordRequireText => 'Heslo je povinné.';
 
   @override
   String get passwordForgotText => 'Zapomněli jste heslo?';
@@ -98,10 +89,6 @@ class SCs extends S {
 
   @override
   String get requestPasswordReset => 'Vyžádat reset hesla';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Odkaz pro reset hesla byl úspěšně odeslán!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SCs extends S {
 
   @override
   String get label => 'Označení';
-
-  @override
-  String get assignedToCustomer => 'Přiřazeno zákazníkovi';
 
   @override
   String get auditLogDetails => 'Detail záznamu auditu';
@@ -253,12 +237,6 @@ class SCs extends S {
 
   @override
   String get passwordErrorNotification => 'Zadaná hesla se musí shodovat!';
-
-  @override
-  String get firstNameUpper => 'Jméno';
-
-  @override
-  String get lastNameUpper => 'Příjmení';
 
   @override
   String get profileSuccessNotification => 'Profil byl úspěšně aktualizován';
@@ -406,19 +384,7 @@ class SCs extends S {
   String get firstName => 'Jméno';
 
   @override
-  String get firstNameRequireText => 'Jméno je povinné.';
-
-  @override
   String get lastName => 'Příjmení';
-
-  @override
-  String get lastNameRequireText => 'Příjmení je povinné.';
-
-  @override
-  String get createPassword => 'Vytvořte heslo';
-
-  @override
-  String get repeatPassword => 'Zopakujte heslo';
 
   @override
   String get imNotARobot => 'Nejsem robot';
@@ -525,12 +491,6 @@ class SCs extends S {
   String get addCommentMessage => 'Přidejte komentář...';
 
   @override
-  String get selectUser => 'Vybrat uživatele';
-
-  @override
-  String get assignedToMe => 'Přiřazeno mně';
-
-  @override
   String get clear => 'Vyřešit';
 
   @override
@@ -583,6 +543,9 @@ class SCs extends S {
 
   @override
   String get chooseRegion => 'Zvolte region';
+
+  @override
+  String get regions => 'Regiony';
 
   @override
   String get selectRegion => 'Vyberte region';
@@ -641,10 +604,6 @@ class SCs extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Zařízení nebyla nalezena. Ujistěte se, že je Bluetooth vašeho telefonu zapnutý a že se nacházíte v dosahu nového zařízení.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Nemáte dostatečná oprávnění pro „$permissions“, abyste mohli pokračovat. Udělte prosím požadovaná oprávnění a klepněte na „Zkusit znovu“.';
   }
@@ -668,9 +627,6 @@ class SCs extends S {
 
   @override
   String get claimingDevice => 'Získávání zařízení';
-
-  @override
-  String get claimingDeviceDone => 'Získání zařízení dokončeno';
 
   @override
   String get claimingMessageSuccess => 'Zařízení bylo\núspěšně získáno';
@@ -708,17 +664,10 @@ class SCs extends S {
   }
 
   @override
-  String get loginWith => 'Přihlásit se přes';
+  String get loginWith => 'PŘIHLÁSIT SE PŘES';
 
   @override
   String get scanQrCode => 'Naskenovat QR kód';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'Byla přijata prázdná data požadavku.';
-
-  @override
-  String get somethingWentWrongRollback => 'Něco se pokazilo … Vrácení zpět';
 
   @override
   String get searchResults => 'Výsledky vyhledávání';
@@ -804,9 +753,6 @@ class SCs extends S {
 
   @override
   String get close => 'Zavřít';
-
-  @override
-  String get codeVerificationFailed => 'Ověření kódu se nezdařilo!';
 
   @override
   String get fatalError => 'Kritická chyba';
@@ -1186,7 +1132,9 @@ class SCs extends S {
       'Zdá se, že vaše oprávnění nejsou dostatečná k provedení této operace';
 
   @override
-  String get isRequiredText => 'je povinný údaj.';
+  String fieldIsRequired(String field) {
+    return '$field je povinný údaj.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nebyli nalezeni žádní poskytovatelé 2FA';
@@ -1317,11 +1265,6 @@ class SCs extends S {
 
   @override
   String get sendCode => 'Odeslat kód';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Chyba při odesílání kódu: $error';
-  }
 
   @override
   String get copy => 'Kopírovat';
@@ -1525,6 +1468,11 @@ class SCs extends S {
 
   @override
   String get liveTrackingErrors => 'Chyby';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Zastavit';

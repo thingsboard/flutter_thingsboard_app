@@ -63,16 +63,10 @@ class STr extends S {
   String get login => 'Giriş yap';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard logosu';
-
-  @override
   String get loginToYourAccount => 'Hesabınıza giriş yapın';
 
   @override
   String get email => 'E-posta';
-
-  @override
-  String get emailRequireText => 'E-posta gereklidir.';
 
   @override
   String get emailInvalidText => 'Geçersiz e-posta formatı.';
@@ -82,9 +76,6 @@ class STr extends S {
 
   @override
   String get password => 'Parola';
-
-  @override
-  String get passwordRequireText => 'Parola gereklidir.';
 
   @override
   String get passwordForgotText => 'Parolanızı mı unuttunuz?';
@@ -98,10 +89,6 @@ class STr extends S {
 
   @override
   String get requestPasswordReset => 'Parola sıfırlama iste';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Parola sıfırlama bağlantısı başarıyla gönderildi!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class STr extends S {
 
   @override
   String get label => 'Etiket';
-
-  @override
-  String get assignedToCustomer => 'Müşteriye atanmış';
 
   @override
   String get auditLogDetails => 'Denetim günlüğü ayrıntıları';
@@ -254,12 +238,6 @@ class STr extends S {
 
   @override
   String get passwordErrorNotification => 'Girilen parolalar aynı olmalıdır!';
-
-  @override
-  String get firstNameUpper => 'Ad';
-
-  @override
-  String get lastNameUpper => 'Soyad';
 
   @override
   String get profileSuccessNotification => 'Profil başarıyla güncellendi';
@@ -405,19 +383,7 @@ class STr extends S {
   String get firstName => 'Ad';
 
   @override
-  String get firstNameRequireText => 'Ad gereklidir.';
-
-  @override
   String get lastName => 'Soyad';
-
-  @override
-  String get lastNameRequireText => 'Soyad gereklidir.';
-
-  @override
-  String get createPassword => 'Parola oluştur';
-
-  @override
-  String get repeatPassword => 'Parolanızı tekrar girin';
 
   @override
   String get imNotARobot => 'Ben robot değilim';
@@ -517,12 +483,6 @@ class STr extends S {
   String get addCommentMessage => 'Yorum ekle...';
 
   @override
-  String get selectUser => 'Kullanıcıları seç';
-
-  @override
-  String get assignedToMe => 'Bana atanan';
-
-  @override
   String get clear => 'Temizle';
 
   @override
@@ -575,6 +535,9 @@ class STr extends S {
 
   @override
   String get chooseRegion => 'Bölge seçin';
+
+  @override
+  String get regions => 'Bölgeler';
 
   @override
   String get selectRegion => 'Bölge seçin';
@@ -633,10 +596,6 @@ class STr extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Cihaz bulunamadı. Lütfen telefonunuzun Bluetooth özelliğinin açık olduğundan ve yeni cihazınızın kapsama alanı içinde olduğundan emin olun.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Devam etmek için \"$permissions\" izinleri yeterli değil. Lütfen gerekli izinleri verin ve \"Tekrar dene\" seçeneğine dokunun.';
   }
@@ -660,9 +619,6 @@ class STr extends S {
 
   @override
   String get claimingDevice => 'Cihaz talep ediliyor';
-
-  @override
-  String get claimingDeviceDone => 'Cihaz talebi tamamlandı';
 
   @override
   String get claimingMessageSuccess => 'Cihaz başarıyla\ntalep edildi';
@@ -700,17 +656,10 @@ class STr extends S {
   }
 
   @override
-  String get loginWith => 'Şununla oturum aç';
+  String get loginWith => 'ŞUNUNLA OTURUM AÇ';
 
   @override
   String get scanQrCode => 'QR kodu tara';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Boş istek verisi alındı.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Bir şeyler ters gitti ... Geri alınıyor';
 
   @override
   String get searchResults => 'Arama sonuçları';
@@ -794,9 +743,6 @@ class STr extends S {
 
   @override
   String get close => 'Kapat';
-
-  @override
-  String get codeVerificationFailed => 'Kod doğrulama başarısız!';
 
   @override
   String get fatalError => 'Kritik hata';
@@ -1176,7 +1122,9 @@ class STr extends S {
       'Bu işlemi tamamlamak için izinleriniz yeterli görünmüyor';
 
   @override
-  String get isRequiredText => 'gereklidir.';
+  String fieldIsRequired(String field) {
+    return '$field gereklidir.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA sağlayıcısı bulunamadı';
@@ -1306,11 +1254,6 @@ class STr extends S {
 
   @override
   String get sendCode => 'Kodu gönder';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Kod gönderilirken hata: $error';
-  }
 
   @override
   String get copy => 'Kopyala';
@@ -1509,6 +1452,11 @@ class STr extends S {
 
   @override
   String get liveTrackingErrors => 'Hatalar';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Durdur';

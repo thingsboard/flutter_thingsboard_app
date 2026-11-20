@@ -238,12 +238,6 @@ abstract class S {
   /// **'Log In'**
   String get login;
 
-  /// No description provided for @logoDefaultValue.
-  ///
-  /// In en, this message translates to:
-  /// **'ThingsBoard Logo'**
-  String get logoDefaultValue;
-
   /// No description provided for @loginToYourAccount.
   ///
   /// In en, this message translates to:
@@ -255,12 +249,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Email'**
   String get email;
-
-  /// No description provided for @emailRequireText.
-  ///
-  /// In en, this message translates to:
-  /// **'Email is required.'**
-  String get emailRequireText;
 
   /// No description provided for @emailInvalidText.
   ///
@@ -279,12 +267,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
-
-  /// No description provided for @passwordRequireText.
-  ///
-  /// In en, this message translates to:
-  /// **'Password is required.'**
-  String get passwordRequireText;
 
   /// No description provided for @passwordForgotText.
   ///
@@ -309,12 +291,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Request password reset'**
   String get requestPasswordReset;
-
-  /// No description provided for @passwordResetLinkSuccessfullySentNotification.
-  ///
-  /// In en, this message translates to:
-  /// **'Password reset link was successfully sent!'**
-  String get passwordResetLinkSuccessfullySentNotification;
 
   /// No description provided for @emailVersificationSuccessfullySentNotification.
   ///
@@ -429,12 +405,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Label'**
   String get label;
-
-  /// No description provided for @assignedToCustomer.
-  ///
-  /// In en, this message translates to:
-  /// **'Assigned to customer'**
-  String get assignedToCustomer;
 
   /// No description provided for @auditLogDetails.
   ///
@@ -615,18 +585,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Entered passwords must be same!'**
   String get passwordErrorNotification;
-
-  /// No description provided for @firstNameUpper.
-  ///
-  /// In en, this message translates to:
-  /// **'First Name'**
-  String get firstNameUpper;
-
-  /// No description provided for @lastNameUpper.
-  ///
-  /// In en, this message translates to:
-  /// **'Last Name'**
-  String get lastNameUpper;
 
   /// No description provided for @profileSuccessNotification.
   ///
@@ -874,35 +832,11 @@ abstract class S {
   /// **'First name'**
   String get firstName;
 
-  /// No description provided for @firstNameRequireText.
-  ///
-  /// In en, this message translates to:
-  /// **'First name is required.'**
-  String get firstNameRequireText;
-
   /// No description provided for @lastName.
   ///
   /// In en, this message translates to:
   /// **'Last name'**
   String get lastName;
-
-  /// No description provided for @lastNameRequireText.
-  ///
-  /// In en, this message translates to:
-  /// **'Last name is required.'**
-  String get lastNameRequireText;
-
-  /// No description provided for @createPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Create a password'**
-  String get createPassword;
-
-  /// No description provided for @repeatPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat your password'**
-  String get repeatPassword;
 
   /// No description provided for @imNotARobot.
   ///
@@ -1030,18 +964,6 @@ abstract class S {
   /// **'Add a comment...'**
   String get addCommentMessage;
 
-  /// No description provided for @selectUser.
-  ///
-  /// In en, this message translates to:
-  /// **'Select users'**
-  String get selectUser;
-
-  /// No description provided for @assignedToMe.
-  ///
-  /// In en, this message translates to:
-  /// **'Assigned to me'**
-  String get assignedToMe;
-
   /// No description provided for @clear.
   ///
   /// In en, this message translates to:
@@ -1150,6 +1072,12 @@ abstract class S {
   /// **'Choose region'**
   String get chooseRegion;
 
+  /// No description provided for @regions.
+  ///
+  /// In en, this message translates to:
+  /// **'Regions'**
+  String get regions;
+
   /// No description provided for @selectRegion.
   ///
   /// In en, this message translates to:
@@ -1234,12 +1162,6 @@ abstract class S {
   /// **'Enter password for {network}'**
   String wifiPasswordMessage(Object network);
 
-  /// No description provided for @deviceNotFoundMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Devices not found. Please make sure that your phone’s Bluetooth is turned on and within range of your new device.'**
-  String get deviceNotFoundMessage;
-
   /// No description provided for @permissionsNotEnoughMessage.
   ///
   /// In en, this message translates to:
@@ -1281,12 +1203,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Claiming device'**
   String get claimingDevice;
-
-  /// No description provided for @claimingDeviceDone.
-  ///
-  /// In en, this message translates to:
-  /// **'Device claiming done'**
-  String get claimingDeviceDone;
 
   /// No description provided for @claimingMessageSuccess.
   ///
@@ -1351,7 +1267,7 @@ abstract class S {
   /// No description provided for @loginWith.
   ///
   /// In en, this message translates to:
-  /// **'Login with'**
+  /// **'LOGIN WITH'**
   String get loginWith;
 
   /// No description provided for @scanQrCode.
@@ -1359,18 +1275,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Scan QR code'**
   String get scanQrCode;
-
-  /// No description provided for @anEmptyRequestDataReceived.
-  ///
-  /// In en, this message translates to:
-  /// **'An empty request data received.'**
-  String get anEmptyRequestDataReceived;
-
-  /// No description provided for @somethingWentWrongRollback.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong ... Rollback'**
-  String get somethingWentWrongRollback;
 
   /// No description provided for @searchResults.
   ///
@@ -1521,12 +1425,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
-
-  /// No description provided for @codeVerificationFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Code verification failed!'**
-  String get codeVerificationFailed;
 
   /// No description provided for @fatalError.
   ///
@@ -2207,11 +2105,11 @@ abstract class S {
   /// **'It looks like your permissions aren\'t sufficient to complete this operation'**
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis;
 
-  /// No description provided for @isRequiredText.
+  /// No description provided for @fieldIsRequired.
   ///
   /// In en, this message translates to:
-  /// **'is required.'**
-  String get isRequiredText;
+  /// **'{field} is required.'**
+  String fieldIsRequired(String field);
 
   /// No description provided for @no2faProvidersFound.
   ///
@@ -2434,12 +2332,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Send code'**
   String get sendCode;
-
-  /// No description provided for @errorSendingCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Error sending code: {error}'**
-  String errorSendingCode(String error);
 
   /// No description provided for @copy.
   ///
@@ -2735,6 +2627,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Errors'**
   String get liveTrackingErrors;
+
+  /// A live tracking counter, e.g. Saved: 3. Use the language's own label-colon punctuation.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: {value}'**
+  String liveTrackingCount(String label, int value);
 
   /// No description provided for @liveTrackingStop.
   ///

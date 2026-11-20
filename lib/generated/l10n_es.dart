@@ -63,16 +63,10 @@ class SEs extends S {
   String get login => 'Iniciar sesión';
 
   @override
-  String get logoDefaultValue => 'Logo de ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Inicia sesión en tu cuenta';
 
   @override
   String get email => 'Correo electrónico';
-
-  @override
-  String get emailRequireText => 'Se requiere el correo electrónico.';
 
   @override
   String get emailInvalidText => 'Formato de correo electrónico no válido.';
@@ -82,9 +76,6 @@ class SEs extends S {
 
   @override
   String get password => 'Contraseña';
-
-  @override
-  String get passwordRequireText => 'Se requiere la contraseña.';
 
   @override
   String get passwordForgotText => '¿Olvidaste tu contraseña?';
@@ -98,10 +89,6 @@ class SEs extends S {
 
   @override
   String get requestPasswordReset => 'Solicitar restablecimiento de contraseña';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      '¡El enlace para restablecer la contraseña se envió correctamente!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -162,9 +149,6 @@ class SEs extends S {
 
   @override
   String get label => 'Etiqueta';
-
-  @override
-  String get assignedToCustomer => 'Asignado al cliente';
 
   @override
   String get auditLogDetails => 'Detalles del registro de auditoría';
@@ -257,12 +241,6 @@ class SEs extends S {
   @override
   String get passwordErrorNotification =>
       '¡Las contraseñas ingresadas deben coincidir!';
-
-  @override
-  String get firstNameUpper => 'Nombre';
-
-  @override
-  String get lastNameUpper => 'Apellido';
 
   @override
   String get profileSuccessNotification => 'Perfil actualizado correctamente';
@@ -409,19 +387,7 @@ class SEs extends S {
   String get firstName => 'Nombre';
 
   @override
-  String get firstNameRequireText => 'Se requiere el nombre.';
-
-  @override
   String get lastName => 'Apellido';
-
-  @override
-  String get lastNameRequireText => 'Se requiere el apellido.';
-
-  @override
-  String get createPassword => 'Crea una contraseña';
-
-  @override
-  String get repeatPassword => 'Repite tu contraseña';
 
   @override
   String get imNotARobot => 'No soy un robot';
@@ -520,12 +486,6 @@ class SEs extends S {
   String get addCommentMessage => 'Agregar un comentario...';
 
   @override
-  String get selectUser => 'Seleccionar usuarios';
-
-  @override
-  String get assignedToMe => 'Asignado a mí';
-
-  @override
   String get clear => 'Resolver';
 
   @override
@@ -579,6 +539,9 @@ class SEs extends S {
 
   @override
   String get chooseRegion => 'Elegir región';
+
+  @override
+  String get regions => 'Regiones';
 
   @override
   String get selectRegion => 'Seleccionar región';
@@ -637,10 +600,6 @@ class SEs extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'No se encontraron dispositivos. Asegúrate de que el Bluetooth de tu teléfono esté activado y dentro del alcance de tu nuevo dispositivo.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'No tienes permisos suficientes (\"$permissions\") para continuar. Otorga los permisos requeridos y presiona \"Intentar de nuevo\".';
   }
@@ -665,9 +624,6 @@ class SEs extends S {
 
   @override
   String get claimingDevice => 'Reclamando dispositivo';
-
-  @override
-  String get claimingDeviceDone => 'Reclamación del dispositivo completada';
 
   @override
   String get claimingMessageSuccess =>
@@ -706,17 +662,10 @@ class SEs extends S {
   }
 
   @override
-  String get loginWith => 'Iniciar sesión con';
+  String get loginWith => 'INICIAR SESIÓN CON';
 
   @override
   String get scanQrCode => 'Escanear código QR';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'Se recibieron datos de solicitud vacíos.';
-
-  @override
-  String get somethingWentWrongRollback => 'Algo salió mal ... Revertir';
 
   @override
   String get searchResults => 'Resultados de búsqueda';
@@ -800,9 +749,6 @@ class SEs extends S {
 
   @override
   String get close => 'Cerrar';
-
-  @override
-  String get codeVerificationFailed => '¡Falló la verificación del código!';
 
   @override
   String get fatalError => 'Error fatal';
@@ -1185,7 +1131,9 @@ class SEs extends S {
       'Parece que tus permisos no son suficientes para completar esta operación';
 
   @override
-  String get isRequiredText => 'es un campo obligatorio.';
+  String fieldIsRequired(String field) {
+    return '$field es un campo obligatorio.';
+  }
 
   @override
   String get no2faProvidersFound => 'No se encontraron proveedores de 2FA';
@@ -1316,11 +1264,6 @@ class SEs extends S {
 
   @override
   String get sendCode => 'Enviar código';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Error al enviar el código: $error';
-  }
 
   @override
   String get copy => 'Copiar';
@@ -1520,6 +1463,11 @@ class SEs extends S {
 
   @override
   String get liveTrackingErrors => 'Errores';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Detener';

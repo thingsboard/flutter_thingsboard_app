@@ -63,16 +63,10 @@ class SNo extends S {
   String get login => 'Logg inn';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard-logo';
-
-  @override
   String get loginToYourAccount => 'Logg inn på kontoen din';
 
   @override
   String get email => 'E-post';
-
-  @override
-  String get emailRequireText => 'E-post er påkrevd.';
 
   @override
   String get emailInvalidText => 'Ugyldig e-postformat.';
@@ -82,9 +76,6 @@ class SNo extends S {
 
   @override
   String get password => 'Passord';
-
-  @override
-  String get passwordRequireText => 'Passord er påkrevd.';
 
   @override
   String get passwordForgotText => 'Glemt passord?';
@@ -98,10 +89,6 @@ class SNo extends S {
 
   @override
   String get requestPasswordReset => 'Be om tilbakestilling av passord';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Lenke for tilbakestilling av passord ble sendt!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SNo extends S {
 
   @override
   String get label => 'Etikett';
-
-  @override
-  String get assignedToCustomer => 'Tildelt kunde';
 
   @override
   String get auditLogDetails => 'Detaljer for revisjonslogg';
@@ -255,12 +239,6 @@ class SNo extends S {
 
   @override
   String get passwordErrorNotification => 'Passordene må være like!';
-
-  @override
-  String get firstNameUpper => 'Fornavn';
-
-  @override
-  String get lastNameUpper => 'Etternavn';
 
   @override
   String get profileSuccessNotification => 'Profil oppdatert';
@@ -405,19 +383,7 @@ class SNo extends S {
   String get firstName => 'Fornavn';
 
   @override
-  String get firstNameRequireText => 'Fornavn er påkrevd.';
-
-  @override
   String get lastName => 'Etternavn';
-
-  @override
-  String get lastNameRequireText => 'Etternavn er påkrevd.';
-
-  @override
-  String get createPassword => 'Opprett et passord';
-
-  @override
-  String get repeatPassword => 'Gjenta passordet ditt';
 
   @override
   String get imNotARobot => 'Jeg er ikke en robot';
@@ -516,12 +482,6 @@ class SNo extends S {
   String get addCommentMessage => 'Legg til en kommentar...';
 
   @override
-  String get selectUser => 'Velg brukere';
-
-  @override
-  String get assignedToMe => 'Tildelt meg';
-
-  @override
   String get clear => 'Nullstill';
 
   @override
@@ -574,6 +534,9 @@ class SNo extends S {
 
   @override
   String get chooseRegion => 'Velg region';
+
+  @override
+  String get regions => 'Regioner';
 
   @override
   String get selectRegion => 'Velg region';
@@ -632,10 +595,6 @@ class SNo extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Fant ingen enheter. Kontroller at Bluetooth på telefonen er slått på og at du er innenfor rekkevidden til den nye enheten.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Du har ikke tilstrekkelige tillatelser for \"$permissions\" til å fortsette. Gi nødvendige tillatelser og trykk \"Prøv igjen\".';
   }
@@ -659,9 +618,6 @@ class SNo extends S {
 
   @override
   String get claimingDevice => 'Gjør krav på enhet';
-
-  @override
-  String get claimingDeviceDone => 'Krav på enhet fullført';
 
   @override
   String get claimingMessageSuccess => 'Det er gjort krav på\nenheten';
@@ -699,16 +655,10 @@ class SNo extends S {
   }
 
   @override
-  String get loginWith => 'Logg inn med';
+  String get loginWith => 'LOGG INN MED';
 
   @override
   String get scanQrCode => 'Skann QR-kode';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Mottok tomme forespørselsdata.';
-
-  @override
-  String get somethingWentWrongRollback => 'Noe gikk galt ... Ruller tilbake';
 
   @override
   String get searchResults => 'Søkeresultater';
@@ -792,9 +742,6 @@ class SNo extends S {
 
   @override
   String get close => 'Lukk';
-
-  @override
-  String get codeVerificationFailed => 'Kodeverifisering mislyktes!';
 
   @override
   String get fatalError => 'Kritisk feil';
@@ -1173,7 +1120,9 @@ class SNo extends S {
       'Det ser ut til at tillatelsene dine ikke er tilstrekkelige for å fullføre denne operasjonen';
 
   @override
-  String get isRequiredText => 'er påkrevd.';
+  String fieldIsRequired(String field) {
+    return '$field er påkrevd.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ingen 2FA-leverandører funnet';
@@ -1304,11 +1253,6 @@ class SNo extends S {
 
   @override
   String get sendCode => 'Send kode';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Feil ved sending av kode: $error';
-  }
 
   @override
   String get copy => 'Kopier';
@@ -1507,6 +1451,11 @@ class SNo extends S {
 
   @override
   String get liveTrackingErrors => 'Feil';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Stopp';

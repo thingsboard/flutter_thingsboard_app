@@ -63,16 +63,10 @@ class SRo extends S {
   String get login => 'Conectare';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Conectați-vă la cont';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'Adresa de e-mail este obligatorie.';
 
   @override
   String get emailInvalidText => 'Format de e-mail nevalid.';
@@ -82,9 +76,6 @@ class SRo extends S {
 
   @override
   String get password => 'Parolă';
-
-  @override
-  String get passwordRequireText => 'Parola este obligatorie.';
 
   @override
   String get passwordForgotText => 'Ați uitat parola?';
@@ -98,10 +89,6 @@ class SRo extends S {
 
   @override
   String get requestPasswordReset => 'Solicită resetarea parolei';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Linkul de resetare a parolei a fost trimis cu succes!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SRo extends S {
 
   @override
   String get label => 'Etichetă';
-
-  @override
-  String get assignedToCustomer => 'Atribuit clientului';
 
   @override
   String get auditLogDetails => 'Detalii jurnal audit';
@@ -255,12 +239,6 @@ class SRo extends S {
   @override
   String get passwordErrorNotification =>
       'Parola reintrodusă trebuie să fie identică!';
-
-  @override
-  String get firstNameUpper => 'Prenume';
-
-  @override
-  String get lastNameUpper => 'Nume de familie';
 
   @override
   String get profileSuccessNotification => 'Profil actualizat cu succes';
@@ -407,19 +385,7 @@ class SRo extends S {
   String get firstName => 'Prenume';
 
   @override
-  String get firstNameRequireText => 'Prenumele este obligatoriu.';
-
-  @override
   String get lastName => 'Nume de familie';
-
-  @override
-  String get lastNameRequireText => 'Numele de familie este obligatoriu.';
-
-  @override
-  String get createPassword => 'Creați o parolă';
-
-  @override
-  String get repeatPassword => 'Repetați parola';
 
   @override
   String get imNotARobot => 'Nu sunt robot';
@@ -522,12 +488,6 @@ class SRo extends S {
   String get addCommentMessage => 'Adăugați un comentariu...';
 
   @override
-  String get selectUser => 'Selectează utilizatori';
-
-  @override
-  String get assignedToMe => 'Atribuite mie';
-
-  @override
   String get clear => 'Rezolvă';
 
   @override
@@ -581,6 +541,9 @@ class SRo extends S {
 
   @override
   String get chooseRegion => 'Alege regiunea';
+
+  @override
+  String get regions => 'Regiuni';
 
   @override
   String get selectRegion => 'Selectează regiunea';
@@ -639,10 +602,6 @@ class SRo extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Niciun dispozitiv găsit. Asigurați-vă că Bluetooth-ul telefonului este activat și că vă aflați în raza noului dispozitiv.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Nu aveți permisiuni suficiente pentru „$permissions” pentru a continua. Acordați permisiunile necesare și apăsați „Încearcă din nou”.';
   }
@@ -667,9 +626,6 @@ class SRo extends S {
 
   @override
   String get claimingDevice => 'Se revendică dispozitivul';
-
-  @override
-  String get claimingDeviceDone => 'Revendicarea dispozitivului finalizată';
 
   @override
   String get claimingMessageSuccess =>
@@ -708,17 +664,10 @@ class SRo extends S {
   }
 
   @override
-  String get loginWith => 'Conectare cu';
+  String get loginWith => 'CONECTARE CU';
 
   @override
   String get scanQrCode => 'Scanează codul QR';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'S-au primit date de solicitare goale.';
-
-  @override
-  String get somethingWentWrongRollback => 'A apărut o problemă ... Revenire';
 
   @override
   String get searchResults => 'Rezultatele căutării';
@@ -803,9 +752,6 @@ class SRo extends S {
 
   @override
   String get close => 'Închide';
-
-  @override
-  String get codeVerificationFailed => 'Verificarea codului a eșuat!';
 
   @override
   String get fatalError => 'Eroare fatală';
@@ -1189,7 +1135,9 @@ class SRo extends S {
       'Se pare că permisiunile dumneavoastră nu sunt suficiente pentru a finaliza această operațiune';
 
   @override
-  String get isRequiredText => 'este un câmp obligatoriu.';
+  String fieldIsRequired(String field) {
+    return '$field este un câmp obligatoriu.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nu s-au găsit furnizori 2FA';
@@ -1320,11 +1268,6 @@ class SRo extends S {
 
   @override
   String get sendCode => 'Trimite codul';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Eroare la trimiterea codului: $error';
-  }
 
   @override
   String get copy => 'Copiază';
@@ -1527,6 +1470,11 @@ class SRo extends S {
 
   @override
   String get liveTrackingErrors => 'Erori';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Oprește';

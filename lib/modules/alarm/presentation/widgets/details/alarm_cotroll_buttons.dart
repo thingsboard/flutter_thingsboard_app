@@ -49,7 +49,7 @@ class AlarmControlButtons extends StatelessWidget {
                                         Navigator.of(context).pop(false);
                                       },
                                       child: Text(
-                                        S.of(context).no.toUpperCase(),
+                                        S.of(context).no,
                                         style: TbTextStyles.labelLarge.copyWith(
                                           color: Colors.black.withValues(
                                             alpha: .87,
@@ -62,7 +62,7 @@ class AlarmControlButtons extends StatelessWidget {
                                         Navigator.of(context).pop(true);
                                       },
                                       child: Text(
-                                        S.of(context).yes.toUpperCase(),
+                                        S.of(context).yes,
                                         style: TbTextStyles.labelLarge.copyWith(
                                           color: Theme.of(context).primaryColor,
                                         ),
@@ -104,7 +104,7 @@ class AlarmControlButtons extends StatelessWidget {
                                         Navigator.of(context).pop(false);
                                       },
                                       child: Text(
-                                        S.of(context).no.toUpperCase(),
+                                        S.of(context).no,
                                         style: TbTextStyles.labelLarge.copyWith(
                                           color: Colors.black.withValues(
                                             alpha: .87,
@@ -117,7 +117,7 @@ class AlarmControlButtons extends StatelessWidget {
                                         Navigator.of(context).pop(true);
                                       },
                                       child: Text(
-                                        S.of(context).yes.toUpperCase(),
+                                        S.of(context).yes,
                                         style: TbTextStyles.labelLarge.copyWith(
                                           color: Theme.of(context).primaryColor,
                                         ),

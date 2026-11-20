@@ -20,7 +20,7 @@ class ExitConfirmationDialog extends StatelessWidget {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
-            S.of(context).cancel.toUpperCase(),
+            S.of(context).cancel,
             style: TbTextStyles.labelLarge.copyWith(
               color: Theme.of(context).primaryColor,
             ),
@@ -32,7 +32,7 @@ class ExitConfirmationDialog extends StatelessWidget {
             Navigator.of(context).pop();
           },
           child: Text(
-            S.of(context).yes.toUpperCase(),
+            S.of(context).yes,
             style: TbTextStyles.labelLarge.copyWith(
               color: Colors.black.withValues(alpha: .87),
             ),
