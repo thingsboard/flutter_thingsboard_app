@@ -19,6 +19,9 @@ const e2eConfig = PatrolTesterConfig(
   printLogs: true,
 );
 
+/// How long to wait for the home screen after tapping Log In.
+const signInTimeout = Duration(seconds: 60);
+
 /// The emulators run in English.
 final s = lookupS(const Locale('en'));
 
@@ -34,8 +37,11 @@ extension AppSteps on PatrolIntegrationTester {
     await this(ElevatedButton).containing(s.login).tap();
   }
 
+  /// Waits for the home screen after sign-in. Signing in on a CI emulator
+  /// against the remote server can take far longer than on a phone, so this
+  /// waits up to [signInTimeout] instead of the usual 30 s.
   Future<void> expectHome() async {
-    await this(s.home).waitUntilVisible();
+    await this(s.home).waitUntilVisible(timeout: signInTimeout);
     await this(s.more).waitUntilVisible();
     await _allowNotifications();
   }
