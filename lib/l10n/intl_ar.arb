@@ -494,6 +494,7 @@
   "liveTrackingFixes": "المواقع",
   "liveTrackingSaved": "المحفوظة",
   "liveTrackingErrors": "الأخطاء",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "إيقاف",
   "liveTrackingPause": "إيقاف مؤقت",
   "liveTrackingResume": "استئناف",

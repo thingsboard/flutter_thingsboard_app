@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Positioner",
   "liveTrackingSaved": "Gemt",
   "liveTrackingErrors": "Fejl",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Stop",
   "liveTrackingPause": "Pause",
   "liveTrackingResume": "Genoptag",

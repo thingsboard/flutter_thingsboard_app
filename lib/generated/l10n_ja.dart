@@ -1425,6 +1425,11 @@ class SJa extends S {
   String get liveTrackingErrors => 'エラー';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => '停止';
 
   @override

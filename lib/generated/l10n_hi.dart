@@ -1456,6 +1456,11 @@ class SHi extends S {
   String get liveTrackingErrors => 'त्रुटियाँ';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'रोकें';
 
   @override

@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Înregistrări",
   "liveTrackingSaved": "Salvate",
   "liveTrackingErrors": "Erori",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Oprește",
   "liveTrackingPause": "Pauză",
   "liveTrackingResume": "Reia",

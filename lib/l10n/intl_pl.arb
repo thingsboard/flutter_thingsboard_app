@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Odczyty",
   "liveTrackingSaved": "Zapisane",
   "liveTrackingErrors": "Błędy",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Zatrzymaj",
   "liveTrackingPause": "Wstrzymaj",
   "liveTrackingResume": "Wznów",

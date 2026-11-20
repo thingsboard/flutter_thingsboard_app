@@ -95,7 +95,7 @@ class SUk extends S {
       'Посилання для підтвердження Email успішно надіслано!';
 
   @override
-  String get or => 'або';
+  String get or => 'АБО';
 
   @override
   String get no => 'Ні';
@@ -1466,6 +1466,11 @@ class SUk extends S {
 
   @override
   String get liveTrackingErrors => 'Помилки';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
 
   @override
   String get liveTrackingStop => 'Зупинити';

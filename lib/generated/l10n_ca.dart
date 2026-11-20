@@ -1467,6 +1467,11 @@ class SCa extends S {
   String get liveTrackingErrors => 'Errors';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Atura';
 
   @override

@@ -1463,6 +1463,11 @@ class SFr extends S {
   String get liveTrackingErrors => 'Erreurs';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label : $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Arrêter';
 
   @override

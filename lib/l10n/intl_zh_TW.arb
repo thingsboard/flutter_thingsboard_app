@@ -494,6 +494,7 @@
   "liveTrackingFixes": "定位點",
   "liveTrackingSaved": "已儲存",
   "liveTrackingErrors": "錯誤",
+  "liveTrackingCount": "{label}：{value}",
   "liveTrackingStop": "停止",
   "liveTrackingPause": "暫停",
   "liveTrackingResume": "繼續",

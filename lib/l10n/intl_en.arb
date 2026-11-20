@@ -494,6 +494,18 @@
   "liveTrackingFixes": "Fixes",
   "liveTrackingSaved": "Saved",
   "liveTrackingErrors": "Errors",
+  "liveTrackingCount": "{label}: {value}",
+  "@liveTrackingCount": {
+    "description": "A live tracking counter, e.g. Saved: 3. Use the language's own label-colon punctuation.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
   "liveTrackingStop": "Stop",
   "liveTrackingPause": "Pause",
   "liveTrackingResume": "Resume",

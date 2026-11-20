@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Alınan konumlar",
   "liveTrackingSaved": "Kaydedildi",
   "liveTrackingErrors": "Hatalar",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Durdur",
   "liveTrackingPause": "Duraklat",
   "liveTrackingResume": "Devam et",

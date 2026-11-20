@@ -1464,6 +1464,11 @@ class SDe extends S {
   String get liveTrackingErrors => 'Fehler';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Stoppen';
 
   @override

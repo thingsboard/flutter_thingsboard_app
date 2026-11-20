@@ -494,6 +494,7 @@
   "liveTrackingFixes": "측위",
   "liveTrackingSaved": "저장됨",
   "liveTrackingErrors": "오류",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "정지",
   "liveTrackingPause": "일시 중지",
   "liveTrackingResume": "재개",

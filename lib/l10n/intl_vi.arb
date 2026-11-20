@@ -484,6 +484,7 @@
   "liveTrackingFixes": "Vị trí",
   "liveTrackingSaved": "Đã lưu",
   "liveTrackingErrors": "Lỗi",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Dừng",
   "liveTrackingPause": "Tạm dừng",
   "liveTrackingResume": "Tiếp tục",

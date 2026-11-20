@@ -494,6 +494,7 @@
   "liveTrackingFixes": "測位数",
   "liveTrackingSaved": "保存済み",
   "liveTrackingErrors": "エラー",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "停止",
   "liveTrackingPause": "一時停止",
   "liveTrackingResume": "再開",

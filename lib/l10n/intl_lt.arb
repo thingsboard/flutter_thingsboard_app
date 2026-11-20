@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Padėtys",
   "liveTrackingSaved": "Išsaugota",
   "liveTrackingErrors": "Klaidos",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Sustabdyti",
   "liveTrackingPause": "Pristabdyti",
   "liveTrackingResume": "Tęsti",

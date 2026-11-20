@@ -11,11 +11,12 @@ import 'package:thingsboard_app/generated/l10n.dart';
 /// Android 13+ offers an app only the languages listed in its localeConfig,
 /// in Android spelling.
 void main() {
-  // The app's code -> the Android one; plain zh is covered by zh-Hans.
+  // The app's code -> the Android one.
   const androidNames = {
     'no': 'nb',
     'pt': 'pt-BR',
     'nl_BE': 'nl-BE',
+    'zh': 'zh-Hans',
     'zh_CN': 'zh-Hans',
     'zh_TW': 'zh-Hant',
   };
@@ -34,7 +35,6 @@ void main() {
         .map((m) => m.group(1)!)
         .toSet();
     final expected = S.supportedLocales
-        .where((l) => l.toString() != 'zh')
         .map((l) => androidNames[l.toString()] ?? l.toString())
         .toSet();
     expect(listed, expected);

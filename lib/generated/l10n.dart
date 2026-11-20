@@ -2628,6 +2628,12 @@ abstract class S {
   /// **'Errors'**
   String get liveTrackingErrors;
 
+  /// A live tracking counter, e.g. Saved: 3. Use the language's own label-colon punctuation.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: {value}'**
+  String liveTrackingCount(String label, int value);
+
   /// No description provided for @liveTrackingStop.
   ///
   /// In en, this message translates to:

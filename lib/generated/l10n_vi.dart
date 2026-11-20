@@ -1450,6 +1450,11 @@ class SVi extends S {
   String get liveTrackingErrors => 'Lỗi';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Dừng';
 
   @override

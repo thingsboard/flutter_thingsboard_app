@@ -1470,6 +1470,11 @@ class SCs extends S {
   String get liveTrackingErrors => 'Chyby';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Zastavit';
 
   @override

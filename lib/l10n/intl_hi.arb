@@ -494,6 +494,7 @@
   "liveTrackingFixes": "प्राप्त स्थान",
   "liveTrackingSaved": "सहेजा गया",
   "liveTrackingErrors": "त्रुटियाँ",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "रोकें",
   "liveTrackingPause": "पॉज़ करें",
   "liveTrackingResume": "जारी रखें",

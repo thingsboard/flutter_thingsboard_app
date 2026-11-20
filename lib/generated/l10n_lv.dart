@@ -1454,6 +1454,11 @@ class SLv extends S {
   String get liveTrackingErrors => 'Kļūdas';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Apturēt';
 
   @override

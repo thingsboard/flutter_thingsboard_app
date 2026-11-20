@@ -113,6 +113,20 @@ Future<void> _openDeviceTarget(WidgetRef ref, String deviceId) async {
   }
 }
 
+String _counts(
+  BuildContext context, {
+  required int fixes,
+  required int saved,
+  required int errors,
+}) {
+  final s = S.of(context);
+  return [
+    s.liveTrackingCount(s.liveTrackingFixes, fixes),
+    s.liveTrackingCount(s.liveTrackingSaved, saved),
+    s.liveTrackingCount(s.liveTrackingErrors, errors),
+  ].join(' · ');
+}
+
 /// Tiles describing where fixes are saved: target entity (a link when its
 /// type has a details page) and the dashboard the session was started from
 /// (a link when its id is known).
@@ -199,9 +213,12 @@ class _ActiveSession extends ConsumerWidget {
         ),
         ListTile(
           title: Text(
-            '${S.of(context).liveTrackingFixes}: ${session.fixCount} · '
-            '${S.of(context).liveTrackingSaved}: ${session.savedCount} · '
-            '${S.of(context).liveTrackingErrors}: ${session.saveErrorCount}',
+            _counts(
+              context,
+              fixes: session.fixCount,
+              saved: session.savedCount,
+              errors: session.saveErrorCount,
+            ),
           ),
         ),
         if (lastFix != null)
@@ -328,9 +345,12 @@ class _LastSession extends ConsumerWidget {
         ),
         ListTile(
           title: Text(
-            '${S.of(context).liveTrackingFixes}: ${record.fixCount} · '
-            '${S.of(context).liveTrackingSaved}: ${record.savedCount} · '
-            '${S.of(context).liveTrackingErrors}: ${record.saveErrorCount}',
+            _counts(
+              context,
+              fixes: record.fixCount,
+              saved: record.savedCount,
+              errors: record.saveErrorCount,
+            ),
           ),
         ),
         if (record.lastLat != null && record.lastLng != null)

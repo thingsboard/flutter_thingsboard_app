@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Fiksācijas",
   "liveTrackingSaved": "Saglabātas",
   "liveTrackingErrors": "Kļūdas",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Apturēt",
   "liveTrackingPause": "Pauzēt",
   "liveTrackingResume": "Turpināt",

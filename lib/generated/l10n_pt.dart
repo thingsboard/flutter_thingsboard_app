@@ -1464,6 +1464,11 @@ class SPt extends S {
   String get liveTrackingErrors => 'Erros';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Parar';
 
   @override

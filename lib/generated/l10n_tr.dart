@@ -1454,6 +1454,11 @@ class STr extends S {
   String get liveTrackingErrors => 'Hatalar';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Durdur';
 
   @override

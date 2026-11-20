@@ -1466,6 +1466,11 @@ class SLt extends S {
   String get liveTrackingErrors => 'Klaidos';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Sustabdyti';
 
   @override

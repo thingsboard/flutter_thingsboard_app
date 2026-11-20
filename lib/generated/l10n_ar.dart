@@ -1472,6 +1472,11 @@ class SAr extends S {
   String get liveTrackingErrors => 'الأخطاء';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'إيقاف';
 
   @override

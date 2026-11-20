@@ -1410,6 +1410,11 @@ class SZh extends S {
   String get liveTrackingErrors => '错误';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label：$value';
+  }
+
+  @override
   String get liveTrackingStop => '停止';
 
   @override
@@ -3000,6 +3005,11 @@ class SZhTw extends SZh {
 
   @override
   String get liveTrackingErrors => '錯誤';
+
+  @override
+  String liveTrackingCount(String label, int value) {
+    return '$label：$value';
+  }
 
   @override
   String get liveTrackingStop => '停止';

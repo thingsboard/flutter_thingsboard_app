@@ -1476,6 +1476,11 @@ class SPl extends S {
   String get liveTrackingErrors => 'Błędy';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Zatrzymaj';
 
   @override

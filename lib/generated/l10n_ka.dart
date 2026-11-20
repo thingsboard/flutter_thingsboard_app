@@ -1462,6 +1462,11 @@ class SKa extends S {
   String get liveTrackingErrors => 'შეცდომები';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'გაჩერება';
 
   @override

@@ -1463,6 +1463,11 @@ class SIt extends S {
   String get liveTrackingErrors => 'Errori';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Ferma';
 
   @override

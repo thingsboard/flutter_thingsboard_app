@@ -494,6 +494,7 @@
   "liveTrackingFixes": "მდებარეობები",
   "liveTrackingSaved": "შენახული",
   "liveTrackingErrors": "შეცდომები",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "გაჩერება",
   "liveTrackingPause": "შეჩერება",
   "liveTrackingResume": "გაგრძელება",

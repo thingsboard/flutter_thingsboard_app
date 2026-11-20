@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Položaji",
   "liveTrackingSaved": "Shranjeno",
   "liveTrackingErrors": "Napake",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Ustavi",
   "liveTrackingPause": "Začasno ustavi",
   "liveTrackingResume": "Nadaljuj",

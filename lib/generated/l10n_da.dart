@@ -1454,6 +1454,11 @@ class SDa extends S {
   String get liveTrackingErrors => 'Fejl';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Stop';
 
   @override

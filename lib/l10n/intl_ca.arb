@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Posicions",
   "liveTrackingSaved": "Desades",
   "liveTrackingErrors": "Errors",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Atura",
   "liveTrackingPause": "Posa en pausa",
   "liveTrackingResume": "Reprèn",

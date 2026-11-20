@@ -1429,6 +1429,11 @@ class SKo extends S {
   String get liveTrackingErrors => '오류';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => '정지';
 
   @override

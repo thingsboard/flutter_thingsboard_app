@@ -1470,6 +1470,11 @@ class SEl extends S {
   String get liveTrackingErrors => 'Σφάλματα';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Διακοπή';
 
   @override

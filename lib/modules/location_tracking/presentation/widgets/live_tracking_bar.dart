@@ -25,6 +25,7 @@ class LiveTrackingBar extends ConsumerWidget {
     }
     final colors = Theme.of(context).colorScheme;
     final tracking = session.status == LiveTrackingStatus.tracking;
+    final s = S.of(context);
 
     if (viewState.hidden) {
       return SafeArea(bottom: false, child: _CollapsedBar(tracking: tracking));
@@ -60,11 +61,21 @@ class LiveTrackingBar extends ConsumerWidget {
                             ?.copyWith(color: colors.onPrimaryContainer),
                       ),
                       Text(
-                        '${S.of(context).liveTrackingFixes}: '
-                        '${session.fixCount} · '
-                        '${S.of(context).liveTrackingSaved}: '
-                        '${session.savedCount}'
-                        '${session.saveErrorCount > 0 ? ' · ${S.of(context).liveTrackingErrors}: ${session.saveErrorCount}' : ''}',
+                        [
+                          s.liveTrackingCount(
+                            s.liveTrackingFixes,
+                            session.fixCount,
+                          ),
+                          s.liveTrackingCount(
+                            s.liveTrackingSaved,
+                            session.savedCount,
+                          ),
+                          if (session.saveErrorCount > 0)
+                            s.liveTrackingCount(
+                              s.liveTrackingErrors,
+                              session.saveErrorCount,
+                            ),
+                        ].join(' · '),
                         style: Theme.of(context).textTheme.labelSmall
                             ?.copyWith(color: colors.onPrimaryContainer),
                       ),

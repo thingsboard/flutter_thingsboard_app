@@ -1453,6 +1453,11 @@ class SNo extends S {
   String get liveTrackingErrors => 'Feil';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Stopp';
 
   @override

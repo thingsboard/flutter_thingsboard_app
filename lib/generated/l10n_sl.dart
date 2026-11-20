@@ -1470,6 +1470,11 @@ class SSl extends S {
   String get liveTrackingErrors => 'Napake';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Ustavi';
 
   @override

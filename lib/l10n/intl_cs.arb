@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Zaměření",
   "liveTrackingSaved": "Uloženo",
   "liveTrackingErrors": "Chyby",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Zastavit",
   "liveTrackingPause": "Pozastavit",
   "liveTrackingResume": "Pokračovat",

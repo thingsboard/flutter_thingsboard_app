@@ -1458,6 +1458,11 @@ class SNl extends S {
   String get liveTrackingErrors => 'Fouten';
 
   @override
+  String liveTrackingCount(String label, int value) {
+    return '$label: $value';
+  }
+
+  @override
   String get liveTrackingStop => 'Stoppen';
 
   @override

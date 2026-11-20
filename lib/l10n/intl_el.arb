@@ -494,6 +494,7 @@
   "liveTrackingFixes": "Θέσεις",
   "liveTrackingSaved": "Αποθηκεύτηκαν",
   "liveTrackingErrors": "Σφάλματα",
+  "liveTrackingCount": "{label}: {value}",
   "liveTrackingStop": "Διακοπή",
   "liveTrackingPause": "Παύση",
   "liveTrackingResume": "Συνέχιση",
