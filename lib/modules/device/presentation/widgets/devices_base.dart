@@ -353,8 +353,8 @@ class _DeviceCardState extends State<DeviceCard> {
                                       Text(
                                         widget.device.attribute('active') ==
                                                 'true'
-                                            ? S.of(context).active
-                                            : S.of(context).inactive,
+                                            ? S.of(context).deviceActive
+                                            : S.of(context).deviceInactive,
                                         style: TextStyle(
                                           color:
                                               widget.device.attribute(

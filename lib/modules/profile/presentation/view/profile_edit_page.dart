@@ -121,9 +121,7 @@ class ProfileEditPage extends HookConsumerWidget {
       },
       child: Scaffold(
         appBar: TbAppBar(
-          title: Text(
-            '${S.of(context).edit} ${S.of(context).profile.toLowerCase()}',
-          ),
+          title: Text(S.of(context).editProfile),
           leading: IconButton(
             onPressed: () async {
               if (!canPop.value) {
@@ -553,7 +551,7 @@ Future<void> _saveProfile(
     updatedAdditionalInfo['unitSystem'] = unitSystem;
   }
   final lang = additionalInfoForm.control('lang').value as Locale;
-  // Keeps a language the app does not translate (uk_UA) unless the user
+  // Keeps a language the app does not translate (sv_SE) unless the user
   // picks another one.
   if (lang == autoLanguage) {
     updatedAdditionalInfo.remove('lang');

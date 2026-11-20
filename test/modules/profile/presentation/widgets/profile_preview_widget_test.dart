@@ -22,7 +22,7 @@ void main() {
     });
 
     test('is the shown language for one the app does not translate', () {
-      expect(profileLanguage('uk_UA', shown), shown);
+      expect(profileLanguage('sv_SE', shown), shown);
     });
   });
 }

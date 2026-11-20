@@ -196,6 +196,33 @@ class SEn extends S {
   String get inactive => 'Inactive';
 
   @override
+  String get deviceActive => 'Active';
+
+  @override
+  String get deviceInactive => 'Inactive';
+
+  @override
+  String get activeDevices => 'Active';
+
+  @override
+  String get inactiveDevices => 'Inactive';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Active Acknowledged';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Active Unacknowledged';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Cleared Acknowledged';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Cleared Unacknowledged';
+
+  @override
+  String get alarmStatusFilterActive => 'Active';
+
+  @override
   String get systemAdministrator => 'System Administrator';
 
   @override
@@ -504,6 +531,9 @@ class SEn extends S {
   String get edit => 'Edit';
 
   @override
+  String get editProfile => 'Edit profile';
+
+  @override
   String get delete => 'Delete';
 
   @override
@@ -755,6 +785,9 @@ class SEn extends S {
 
   @override
   String get all => 'All';
+
+  @override
+  String get allNotifications => 'All';
 
   @override
   String get unread => 'Unread';

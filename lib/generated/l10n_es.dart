@@ -36,25 +36,25 @@ class SEs extends S {
   String get assets => 'Activos';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Inquilinos';
 
   @override
   String get auditLogs => 'Registros de auditoría';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'No se encontraron clientes';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'No se encontraron activos';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'No se encontraron inquilinos';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'No se encontraron dispositivos';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'No se encontraron registros de auditoría';
 
   @override
   String get logout => 'Cerrar sesión';
@@ -63,7 +63,7 @@ class SEs extends S {
   String get login => 'Iniciar sesión';
 
   @override
-  String get logoDefaultValue => 'Logotipo de ThingsBoard';
+  String get logoDefaultValue => 'Logo de ThingsBoard';
 
   @override
   String get loginToYourAccount => 'Inicia sesión en tu cuenta';
@@ -72,10 +72,10 @@ class SEs extends S {
   String get email => 'Correo electrónico';
 
   @override
-  String get emailRequireText => 'El correo electrónico es obligatorio.';
+  String get emailRequireText => 'Se requiere el correo electrónico.';
 
   @override
-  String get emailInvalidText => 'Formato de correo electrónico inválido.';
+  String get emailInvalidText => 'Formato de correo electrónico no válido.';
 
   @override
   String get username => 'nombre de usuario';
@@ -84,7 +84,7 @@ class SEs extends S {
   String get password => 'Contraseña';
 
   @override
-  String get passwordRequireText => 'La contraseña es obligatoria.';
+  String get passwordRequireText => 'Se requiere la contraseña.';
 
   @override
   String get passwordForgotText => '¿Olvidaste tu contraseña?';
@@ -94,7 +94,7 @@ class SEs extends S {
 
   @override
   String get passwordResetText =>
-      'Ingresa el correo electrónico asociado a tu cuenta y te enviaremos un enlace para restablecer la contraseña';
+      'Ingresa el correo electrónico asociado a tu cuenta y te enviaremos un correo con el enlace para restablecer la contraseña';
 
   @override
   String get requestPasswordReset => 'Solicitar restablecimiento de contraseña';
@@ -141,10 +141,11 @@ class SEs extends S {
   String get phone => 'Teléfono';
 
   @override
-  String get alarmClearTitle => 'Borrar alarma';
+  String get alarmClearTitle => 'Resolver alarma';
 
   @override
-  String get alarmClearText => '¿Estás seguro de que deseas borrar la alarma?';
+  String get alarmClearText =>
+      '¿Estás seguro de que deseas resolver la alarma?';
 
   @override
   String get alarmAcknowledgeTitle => 'Reconocer alarma';
@@ -196,6 +197,33 @@ class SEs extends S {
   String get inactive => 'Inactivo';
 
   @override
+  String get deviceActive => 'Activo';
+
+  @override
+  String get deviceInactive => 'Inactivo';
+
+  @override
+  String get activeDevices => 'Activo';
+
+  @override
+  String get inactiveDevices => 'Inactivo';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Activa reconocida';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Activa no reconocida';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Resuelta reconocida';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Resuelta no reconocida';
+
+  @override
+  String get alarmStatusFilterActive => 'Activa';
+
+  @override
   String get systemAdministrator => 'Administrador del sistema';
 
   @override
@@ -208,20 +236,20 @@ class SEs extends S {
   String get changePassword => 'Cambiar contraseña';
 
   @override
-  String get currentPasswordRequireText =>
-      'La contraseña actual es obligatoria.';
+  String get currentPasswordRequireText => 'Se requiere la contraseña actual.';
 
   @override
   String get currentPassword => 'Contraseña actual';
 
   @override
-  String get newPasswordRequireText => 'La nueva contraseña es obligatoria.';
+  String get newPasswordRequireText => 'Se requiere la nueva contraseña.';
 
   @override
   String get newPassword => 'Nueva contraseña';
 
   @override
-  String get newPassword2RequireText => 'Debes confirmar la nueva contraseña.';
+  String get newPassword2RequireText =>
+      'Se requiere confirmar la nueva contraseña.';
 
   @override
   String get newPassword2 => 'Confirmar nueva contraseña';
@@ -237,10 +265,10 @@ class SEs extends S {
   String get lastNameUpper => 'Apellido';
 
   @override
-  String get profileSuccessNotification => 'Perfil actualizado exitosamente';
+  String get profileSuccessNotification => 'Perfil actualizado correctamente';
 
   @override
-  String get passwordSuccessNotification => 'Contraseña cambiada exitosamente';
+  String get passwordSuccessNotification => 'Contraseña cambiada correctamente';
 
   @override
   String get notImplemented => '¡No implementado!';
@@ -273,7 +301,7 @@ class SEs extends S {
 
   @override
   String get totpAuthDescription =>
-      'Por favor, ingresa el código de seguridad de tu aplicación de autenticación.';
+      'Por favor ingresa el código de seguridad desde tu aplicación de autenticación.';
 
   @override
   String smsAuthDescription(Object contact) {
@@ -287,7 +315,7 @@ class SEs extends S {
 
   @override
   String get backupCodeAuthDescription =>
-      'Por favor, ingresa uno de tus códigos de respaldo.';
+      'Por favor ingresa uno de tus códigos de respaldo.';
 
   @override
   String get toptAuthPlaceholder => 'Código';
@@ -307,10 +335,10 @@ class SEs extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'Demasiadas solicitudes, verifica el código de verificación';
+      'Demasiadas solicitudes para comprobar el código de verificación';
 
   @override
-  String get tryAnotherWay => 'Probar otra forma';
+  String get tryAnotherWay => 'Intentar otra forma';
 
   @override
   String get selectWayToVerify => 'Selecciona una forma de verificación';
@@ -338,11 +366,11 @@ class SEs extends S {
 
   @override
   String get emailVerificationSentText =>
-      'Se ha enviado un correo electrónico con los detalles de verificación a la dirección especificada';
+      'Se envió un correo con los detalles de verificación a la dirección de correo especificada ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Por favor, sigue las instrucciones proporcionadas en el correo para completar el proceso de registro. Nota: si no ves el correo, revisa tu carpeta de \'spam\' o intenta reenviarlo haciendo clic en el botón \'Reenviar\'.';
+      'Sigue las instrucciones del correo para completar el proceso de registro. Nota: si no ves el correo en un tiempo, revisa tu carpeta de \'spam\' o intenta reenviarlo haciendo clic en el botón \'Reenviar\'.';
 
   @override
   String get resend => 'Reenviar';
@@ -351,7 +379,7 @@ class SEs extends S {
   String get activatingAccount => 'Activando cuenta...';
 
   @override
-  String get accountActivated => '¡Cuenta activada exitosamente!';
+  String get accountActivated => '¡Cuenta activada con éxito!';
 
   @override
   String get emailVerified => 'Correo verificado';
@@ -366,7 +394,7 @@ class SEs extends S {
   }
 
   @override
-  String get privacyPolicy => 'Política de privacidad';
+  String get privacyPolicy => 'Política de Privacidad';
 
   @override
   String get cancel => 'Cancelar';
@@ -375,25 +403,25 @@ class SEs extends S {
   String get accept => 'Aceptar';
 
   @override
-  String get termsOfUse => 'Términos de uso';
+  String get termsOfUse => 'Términos de Uso';
 
   @override
   String get firstName => 'Nombre';
 
   @override
-  String get firstNameRequireText => 'El nombre es obligatorio.';
+  String get firstNameRequireText => 'Se requiere el nombre.';
 
   @override
   String get lastName => 'Apellido';
 
   @override
-  String get lastNameRequireText => 'El apellido es obligatorio.';
+  String get lastNameRequireText => 'Se requiere el apellido.';
 
   @override
-  String get createPassword => 'Crear una contraseña';
+  String get createPassword => 'Crea una contraseña';
 
   @override
-  String get repeatPassword => 'Repetir la contraseña';
+  String get repeatPassword => 'Repite tu contraseña';
 
   @override
   String get imNotARobot => 'No soy un robot';
@@ -412,10 +440,10 @@ class SEs extends S {
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Ya hay un usuario registrado con una dirección de correo sin verificar.\nHaz clic en \'Reenviar\' si deseas reenviar el correo de verificación.';
+      'Ya existe un usuario registrado con una dirección de correo no verificada.\nHaz clic en el botón \'Reenviar\' si deseas reenviar el correo de verificación.';
 
   @override
-  String get assignee => 'Asignado a';
+  String get assignee => 'Asignado';
 
   @override
   String get alarmTypes => 'Tipos de alarma';
@@ -498,13 +526,16 @@ class SEs extends S {
   String get assignedToMe => 'Asignado a mí';
 
   @override
-  String get clear => 'Borrar';
+  String get clear => 'Resolver';
 
   @override
   String get acknowledge => 'Reconocer';
 
   @override
   String get edit => 'Editar';
+
+  @override
+  String get editProfile => 'Editar perfil';
 
   @override
   String get delete => 'Eliminar';
@@ -522,13 +553,13 @@ class SEs extends S {
   String get noResultsFound => 'No se encontraron resultados';
 
   @override
-  String get tryRefiningYourQuery => 'Por favor, intenta refinar tu consulta';
+  String get tryRefiningYourQuery => 'Intenta refinar tu consulta';
 
   @override
   String get failedToLoadTheList => 'No se pudo cargar la lista';
 
   @override
-  String get tryRefreshing => 'Por favor, intenta actualizar';
+  String get tryRefreshing => 'Intenta actualizar';
 
   @override
   String get refresh => 'Actualizar';
@@ -537,7 +568,7 @@ class SEs extends S {
   String get users => 'Usuarios';
 
   @override
-  String get unassigned => 'Sin asignar';
+  String get unassigned => 'No asignado';
 
   @override
   String get failedToLoadAlarmDetails =>
@@ -562,7 +593,7 @@ class SEs extends S {
   String get northAmericaRegionShort => 'N. Virginia';
 
   @override
-  String get europeRegionShort => 'Frankfurt';
+  String get europeRegionShort => 'Fráncfort';
 
   @override
   String get deviceList => 'Lista de dispositivos';
@@ -602,7 +633,7 @@ class SEs extends S {
 
   @override
   String wifiPasswordMessage(Object network) {
-    return 'Ingresa la contraseña de $network';
+    return 'Ingresa la contraseña para $network';
   }
 
   @override
@@ -611,7 +642,7 @@ class SEs extends S {
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'No tienes suficientes permisos para \"$permissions\" para continuar. Otorga los permisos necesarios y toca \"Intentar de nuevo\".';
+    return 'No tienes permisos suficientes (\"$permissions\") para continuar. Otorga los permisos requeridos y presiona \"Intentar de nuevo\".';
   }
 
   @override
@@ -622,14 +653,14 @@ class SEs extends S {
 
   @override
   String get provisionedSuccessfully =>
-      'El dispositivo ha sido aprovisionado exitosamente';
+      'El dispositivo se ha aprovisionado correctamente';
 
   @override
   String get returnToDashboard => 'Volver al tablero';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'No se puede establecer sesión con el dispositivo $deviceName. Por favor, inténtalo de nuevo';
+    return 'No se puede establecer la sesión con el dispositivo $deviceName. Inténtalo de nuevo';
   }
 
   @override
@@ -640,11 +671,11 @@ class SEs extends S {
 
   @override
   String get claimingMessageSuccess =>
-      'El dispositivo ha sido\nreclamado exitosamente';
+      'El dispositivo se ha\nreclamado correctamente';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'No tienes suficientes permisos para \"$permissions\" para continuar. Abre la configuración de la app, otorga los permisos y toca \"Intentar de nuevo\".';
+    return 'No tienes permisos suficientes (\"$permissions\") para continuar. Abre la configuración de la aplicación, otorga los permisos y presiona \"Intentar de nuevo\".';
   }
 
   @override
@@ -664,7 +695,7 @@ class SEs extends S {
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Abre la configuración y concede acceso a la cámara para continuar';
+      'Abre la configuración y otorga acceso a la cámara para continuar';
 
   @override
   String get notFound => 'No encontrado';
@@ -685,7 +716,7 @@ class SEs extends S {
       'Se recibieron datos de solicitud vacíos.';
 
   @override
-  String get somethingWentWrongRollback => 'Algo salió mal ... Revirtiendo';
+  String get somethingWentWrongRollback => 'Algo salió mal ... Revertir';
 
   @override
   String get searchResults => 'Resultados de búsqueda';
@@ -706,19 +737,19 @@ class SEs extends S {
   String get alarmStatusList => 'Lista de estados de alarma';
 
   @override
-  String get alarmSeverityList => 'Lista de severidad de alarma';
+  String get alarmSeverityList => 'Lista de severidades de alarma';
 
   @override
-  String get cleared => 'Borrado';
+  String get cleared => 'Resuelta';
 
   @override
-  String get acknowledged => 'Reconocido';
+  String get acknowledged => 'Reconocida';
 
   @override
-  String get unacknowledged => 'No reconocido';
+  String get unacknowledged => 'No reconocida';
 
   @override
-  String get critical => 'Crítico';
+  String get critical => 'Crítica';
 
   @override
   String get major => 'Mayor';
@@ -730,7 +761,7 @@ class SEs extends S {
   String get warning => 'Advertencia';
 
   @override
-  String get indeterminate => 'Indeterminado';
+  String get indeterminate => 'Indeterminada';
 
   @override
   String searchUsers(int count) {
@@ -747,7 +778,7 @@ class SEs extends S {
   String get reset => 'Restablecer';
 
   @override
-  String get update => 'Actualizar';
+  String get update => 'Aplicar';
 
   @override
   String get alarmTypeList => 'Lista de tipos de alarma';
@@ -759,16 +790,19 @@ class SEs extends S {
   String get plusAlarmType => '+ Tipo de alarma';
 
   @override
-  String get all => 'Todo';
+  String get all => 'Todos';
 
   @override
-  String get unread => 'No leído';
+  String get allNotifications => 'Todas';
+
+  @override
+  String get unread => 'No leídas';
 
   @override
   String get close => 'Cerrar';
 
   @override
-  String get codeVerificationFailed => '¡Verificación de código fallida!';
+  String get codeVerificationFailed => '¡Falló la verificación del código!';
 
   @override
   String get fatalError => 'Error fatal';
@@ -780,7 +814,8 @@ class SEs extends S {
   String get sessionExpired => 'La sesión ha expirado';
 
   @override
-  String get fatalApplicationErrorOccurred => 'Error fatal de la aplicación:';
+  String get fatalApplicationErrorOccurred =>
+      'Ocurrió un error fatal en la aplicación:';
 
   @override
   String get connectionError => 'Error de conexión';
@@ -793,7 +828,7 @@ class SEs extends S {
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      '¡El tablero móvil debe configurarse en el perfil del dispositivo!';
+      '¡El tablero móvil debe estar configurado en el perfil de dispositivo!';
 
   @override
   String get openWifiSettings => 'Abrir configuración de Wi-Fi';
@@ -804,7 +839,7 @@ class SEs extends S {
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'Vuelve a la aplicación y toca el botón Listo';
+      'Vuelve a la aplicación y presiona el botón Listo';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
@@ -817,7 +852,7 @@ class SEs extends S {
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase no está configurado.\nConsulta la documentación oficial de Firebase\npara obtener instrucciones.';
+      'Firebase no está configurado.\n Consulta la documentación oficial de Firebase para\n obtener orientación sobre cómo hacerlo.';
 
   @override
   String get markAllAsRead => 'Marcar todo como leído';
@@ -827,14 +862,14 @@ class SEs extends S {
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'No se puede abrir la url: $link';
+    return 'No se puede abrir la URL: $link';
   }
 
   @override
   String get noDashboardsFound => 'No se encontraron tableros';
 
   @override
-  String get openAppSettings => 'Abrir configuración de la app';
+  String get openAppSettings => 'Abrir configuración de la aplicación';
 
   @override
   String get connectingToDevice => 'Conectando al dispositivo';
@@ -846,7 +881,7 @@ class SEs extends S {
   String get selectWifiNetwork => 'Seleccionar red Wi-Fi';
 
   @override
-  String get deviceProvisioning => 'Aprovisionamiento de dispositivo';
+  String get deviceProvisioning => 'Aprovisionamiento del dispositivo';
 
   @override
   String get permissions => 'Permisos';
@@ -856,16 +891,16 @@ class SEs extends S {
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'El dispositivo no puede encontrar Wi-Fi cercano';
+      'El dispositivo no encuentra redes Wi-Fi cercanas';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'La conexión a la red Wi-Fi $name falló.\nAsegúrate de que tu teléfono esté conectado a la red Wi-Fi del dispositivo y que el acceso a la red local esté habilitado para esta app.';
+    return 'Error al conectarse a la red Wi-Fi $name.\nAsegúrate de que tu teléfono esté conectado a la red Wi-Fi del dispositivo y de que el acceso a la red local esté habilitado para esta aplicación en la configuración de tu dispositivo.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'No se puede conectar al Wi-Fi porque el dispositivo $name no encontró redes';
+    return 'No se puede conectar al Wi-Fi porque el dispositivo $name no encontró ninguna red';
   }
 
   @override
@@ -874,14 +909,15 @@ class SEs extends S {
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Conéctate al Wi-Fi similar a $wifiName';
+    return 'Conéctate a una red Wi-Fi similar a $wifiName';
   }
 
   @override
   String get ready => 'Listo';
 
   @override
-  String get exitDeviceProvisioning => 'Salir del aprovisionamiento';
+  String get exitDeviceProvisioning =>
+      'Salir del aprovisionamiento del dispositivo';
 
   @override
   String get noNotificationsFound => 'No se encontraron notificaciones';
@@ -903,7 +939,7 @@ class SEs extends S {
   String get tenant => 'Inquilino';
 
   @override
-  String get tenantProfile => 'Perfil del inquilino';
+  String get tenantProfile => 'Perfil de inquilino';
 
   @override
   String get user => 'Usuario';
@@ -912,10 +948,10 @@ class SEs extends S {
   String get asset => 'Activo';
 
   @override
-  String get deviceProfile => 'Perfil del dispositivo';
+  String get deviceProfile => 'Perfil de dispositivo';
 
   @override
-  String get assetProfile => 'Perfil del activo';
+  String get assetProfile => 'Perfil de activo';
 
   @override
   String alarms(int count) {
@@ -932,7 +968,7 @@ class SEs extends S {
   String get ruleChain => 'Cadena de reglas';
 
   @override
-  String get ruleNode => 'Nodo de regla';
+  String get ruleNode => 'Nodo de reglas';
 
   @override
   String get edge => 'Edge';
@@ -947,7 +983,7 @@ class SEs extends S {
   String get widgetType => 'Tipo de widget';
 
   @override
-  String get apiUsageState => 'Estado de uso de API';
+  String get apiUsageState => 'Estado de uso de la API';
 
   @override
   String get tbResource => 'Recurso';
@@ -962,7 +998,7 @@ class SEs extends S {
   String get queue => 'Cola';
 
   @override
-  String get notificationTarget => 'Destino de notificación';
+  String get notificationTarget => 'Destinatario de notificación';
 
   @override
   String get notificationTemplate => 'Plantilla de notificación';
@@ -994,7 +1030,7 @@ class SEs extends S {
   String get integration => 'Integración';
 
   @override
-  String get schedulerEvent => 'Evento del planificador';
+  String get schedulerEvent => 'Evento programado';
 
   @override
   String get blobEntity => 'Entidad Blob';
@@ -1012,7 +1048,7 @@ class SEs extends S {
   String get actionStatusFailure => 'Fallo';
 
   @override
-  String get actionTypeAdded => 'Añadido';
+  String get actionTypeAdded => 'Agregado';
 
   @override
   String get actionTypeDeleted => 'Eliminado';
@@ -1060,10 +1096,10 @@ class SEs extends S {
   String get actionTypeRelationsDeleted => 'Todas las relaciones eliminadas';
 
   @override
-  String get actionTypeAlarmAck => 'Reconocido';
+  String get actionTypeAlarmAck => 'Alarma reconocida';
 
   @override
-  String get actionTypeAlarmClear => 'Borrado';
+  String get actionTypeAlarmClear => 'Alarma resuelta';
 
   @override
   String get actionTypeAlarmDelete => 'Alarma eliminada';
@@ -1081,7 +1117,7 @@ class SEs extends S {
   String get actionTypeLogout => 'Cierre de sesión';
 
   @override
-  String get actionTypeLockout => 'Bloqueado';
+  String get actionTypeLockout => 'Bloqueo';
 
   @override
   String get actionTypeAssignedFromTenant => 'Asignado desde el inquilino';
@@ -1093,7 +1129,8 @@ class SEs extends S {
   String get actionTypeProvisionSuccess => 'Dispositivo aprovisionado';
 
   @override
-  String get actionTypeProvisionFailure => 'Aprovisionamiento fallido';
+  String get actionTypeProvisionFailure =>
+      'El aprovisionamiento del dispositivo falló';
 
   @override
   String get actionTypeTimeseriesUpdated => 'Telemetría actualizada';
@@ -1108,7 +1145,7 @@ class SEs extends S {
   String get actionTypeUnassignedFromEdge => 'Desasignado de Edge';
 
   @override
-  String get actionTypeAddedComment => 'Comentario añadido';
+  String get actionTypeAddedComment => 'Comentario agregado';
 
   @override
   String get actionTypeUpdatedComment => 'Comentario actualizado';
@@ -1120,15 +1157,15 @@ class SEs extends S {
   String get actionTypeSmsSent => 'SMS enviado';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'Añadido al grupo de entidades';
+  String get actionTypeAddedToEntityGroup => 'Agregado al grupo de entidades';
 
   @override
   String get actionTypeRemovedFromEntityGroup =>
-      'Eliminado del grupo de entidades';
+      'Quitado del grupo de entidades';
 
   @override
   String get actionTypeRestApiRuleEngineCall =>
-      'Llamada al motor de reglas REST API';
+      'Llamada REST API al motor de reglas';
 
   @override
   String get actionTypeMadePublic => 'Hecho público';
@@ -1141,17 +1178,17 @@ class SEs extends S {
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      '¡No tiene permisos para realizar esta operación!';
+      '¡No tienes permisos para realizar esta operación!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Parece que sus permisos no son suficientes para completar esta operación';
+      'Parece que tus permisos no son suficientes para completar esta operación';
 
   @override
-  String get isRequiredText => 'es obligatorio.';
+  String get isRequiredText => 'es un campo obligatorio.';
 
   @override
-  String get no2faProvidersFound => 'No se encontraron proveedores 2FA';
+  String get no2faProvidersFound => 'No se encontraron proveedores de 2FA';
 
   @override
   String get pleaseContactYourSystemAdministrator =>
@@ -1159,7 +1196,7 @@ class SEs extends S {
 
   @override
   String errorOccured(Object e) {
-    return 'Error ocurrido: $e';
+    return 'Se produjo un error: $e';
   }
 
   @override
@@ -1167,7 +1204,7 @@ class SEs extends S {
 
   @override
   String get youHaveUnsavedChangesAreYouSureYouWantTo =>
-      'Tienes cambios sin guardar. ¿Estás seguro de que quieres abandonar esta página?';
+      'Tienes cambios sin guardar. ¿Estás seguro de que deseas salir de esta página?';
 
   @override
   String get deleteAccount => 'Eliminar cuenta';
@@ -1190,10 +1227,10 @@ class SEs extends S {
   String get hybridUnitSystem => 'Híbrido';
 
   @override
-  String get autoUnitSystem => 'Auto';
+  String get autoUnitSystem => 'Automático';
 
   @override
-  String get languageAuto => 'Auto';
+  String get languageAuto => 'Automático';
 
   @override
   String get unitSystem => 'Sistema de unidades';
@@ -1203,7 +1240,7 @@ class SEs extends S {
 
   @override
   String get hideHomeDashboardToolbar =>
-      'Ocultar barra de herramientas del tablero';
+      'Ocultar barra de herramientas del tablero de inicio';
 
   @override
   String get phoneNumberHelperText =>
@@ -1223,7 +1260,7 @@ class SEs extends S {
 
   @override
   String get twofactorAuthenticationIsRequired =>
-      'Se requiere autenticación de dos factores';
+      'Se requiere la autenticación de dos factores';
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
@@ -1234,28 +1271,28 @@ class SEs extends S {
 
   @override
   String get totpSetupSuccessDescription =>
-      'La próxima vez que inicies sesión, deberás proporcionar un código de autenticación de dos factores';
+      'La próxima vez que inicies sesión, tendrás que proporcionar un código de autenticación de dos factores';
 
   @override
   String get smsSetupSuccessDescription =>
-      'La próxima vez que inicies sesión, se te pedirá que ingreses el código de seguridad enviado al número de teléfono';
+      'La próxima vez que inicies sesión, se te pedirá que introduzcas el código de seguridad que se enviará al número de teléfono';
 
   @override
   String get emailSetupSuccessDescription =>
-      'La próxima vez que inicies sesión, se te pedirá que ingreses el código de seguridad enviado a tu correo electrónico';
+      'La próxima vez que inicies sesión, se te pedirá que introduzcas el código de seguridad que se enviará a tu dirección de correo electrónico';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'La próxima vez que inicies sesión, podrás usar códigos de respaldo para la autenticación de dos factores';
+      'La próxima vez que inicies sesión, podrás usar códigos de respaldo para pasar la autenticación de dos factores';
 
   @override
-  String get loginToApp => 'Iniciar sesión en la app';
+  String get loginToApp => 'Iniciar sesión en la aplicación';
 
   @override
   String get goBack => 'Volver';
 
   @override
-  String get done => 'Hecho';
+  String get done => 'Listo';
 
   @override
   String get thisWillMakeYourAccountLessSecure =>
@@ -1263,7 +1300,7 @@ class SEs extends S {
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
-    return '¿Estás seguro de que quieres desactivar $providerName?';
+    return '¿Estás seguro de que deseas desactivar \"$providerName\"?';
   }
 
   @override
@@ -1297,18 +1334,12 @@ class SEs extends S {
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'dígitos',
-      one: 'dígito',
-    );
-    return 'Código de $count $_temp0';
+    return 'Código de $count dígitos';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Copia la clave de 32 dígitos en tu aplicación de autenticación o escanea el código QR a continuación';
+      'Copia la clave de 32 caracteres en tu aplicación de autenticación o escanea el código QR de abajo';
 
   @override
   String get applyChanges => 'Aplicar cambios';
@@ -1325,13 +1356,13 @@ class SEs extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'La autenticación de dos factores protege tu cuenta del acceso no autorizado. Solo necesitas ingresar un código de seguridad al iniciar sesión.';
+      'La autenticación de dos factores protege tu cuenta contra accesos no autorizados. Solo tienes que ingresar un código de seguridad al iniciar sesión.';
 
   @override
   String get calculatedField => 'Campo calculado';
 
   @override
-  String get apiKey => 'Clave API';
+  String get apiKey => 'Clave de API';
 
   @override
   String get aiModel => 'Modelo de IA';
@@ -1343,50 +1374,51 @@ class SEs extends S {
   String get job => 'Trabajo';
 
   @override
-  String get mobileAppBundle => 'Paquete de app móvil';
+  String get mobileAppBundle => 'Paquete móvil';
 
   @override
-  String get mobileApp => 'App móvil';
+  String get mobileApp => 'Aplicación móvil';
 
   @override
   String get domain => 'Dominio';
 
   @override
-  String get oauth2Client => 'Cliente OAuth2';
+  String get oauth2Client => 'Cliente OAuth 2.0';
 
   @override
   String get queueStats => 'Estadísticas de cola';
 
   @override
-  String get phoneIsRequired => 'El teléfono es obligatorio';
+  String get phoneIsRequired => 'Se requiere el teléfono';
 
   @override
-  String get phoneIsInvalid => 'El número de teléfono no es válido';
+  String get phoneIsInvalid => 'El teléfono no es válido';
 
   @override
-  String get addVerificationMethod => 'Añadir método de verificación';
+  String get addVerificationMethod => 'Agregar método de verificación';
 
   @override
-  String get imageSavedToGallery => 'Guardado en \'Galería de imágenes\'';
+  String get imageSavedToGallery =>
+      'Guardado en la \'Galería de imágenes\' de la plataforma';
 
   @override
-  String get failedToSaveImage => 'Error al guardar la imagen';
+  String get failedToSaveImage => 'No se pudo guardar la imagen';
 
   @override
   String nSelected(int count) {
-    return '$count seleccionados';
+    return 'Seleccionadas: $count';
   }
 
   @override
-  String get selectAll => 'Seleccionar todo lo cargado';
+  String get selectAll => 'Seleccionar todas';
 
   @override
   String failedToPerformOperation(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count operaciones fallaron',
-      one: '1 operación falló',
+      other: 'Fallaron $count operaciones',
+      one: 'Falló 1 operación',
     );
     return '$_temp0';
   }
@@ -1415,22 +1447,22 @@ class SEs extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Obteniendo datos del servidor $host';
+    return 'Obteniendo datos de tu host $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Iniciando sesión en el host $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Cambiando al nuevo host $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'No se pudo obtener un token de inicio de sesión de $host. Escanea un nuevo código QR.';
   }
 
   @override
@@ -1445,7 +1477,7 @@ class SEs extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'La sesión del código QR ya no es válida. Actualiza el código QR y escanéalo de nuevo.';
 
   @override
   String get openThisLinkTitle => '¿Abrir este enlace?';
@@ -1472,13 +1504,13 @@ class SEs extends S {
 
   @override
   String get linkToOtherServerNotAllowed =>
-      'Esta aplicación solo funciona con su propio servidor y no puede abrir este enlace.';
+      'Esta aplicación funciona únicamente con su propio servidor y no puede abrir este enlace.';
 
   @override
-  String get liveTrackingActive => 'Seguimiento de ubicación en tiempo real';
+  String get liveTrackingActive => 'Seguimiento de ubicación en vivo';
 
   @override
-  String get liveTrackingPaused => 'Seguimiento en tiempo real en pausa';
+  String get liveTrackingPaused => 'Seguimiento en vivo pausado';
 
   @override
   String get liveTrackingFixes => 'Posiciones';
@@ -1502,14 +1534,13 @@ class SEs extends S {
   String get liveTrackingHide => 'Ocultar';
 
   @override
-  String get liveTrackingSessionTitle =>
-      'Seguimiento de ubicación en tiempo real';
+  String get liveTrackingSessionTitle => 'Seguimiento de ubicación en vivo';
 
   @override
   String get liveTrackingTarget => 'Guardar ubicación en la entidad';
 
   @override
-  String get liveTrackingDashboard => 'Panel';
+  String get liveTrackingDashboard => 'Tablero';
 
   @override
   String get liveTrackingStatus => 'Estado';
@@ -1525,7 +1556,7 @@ class SEs extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'No se puede guardar en esta entidad: ya no existe. El seguimiento continúa; actualiza el destino en la acción del panel.';
+      'No se puede guardar en esta entidad: ya no existe. El seguimiento continúa; actualiza el destino en la acción del tablero.';
 
   @override
   String get liveTrackingErrorNoConnection =>
@@ -1533,11 +1564,11 @@ class SEs extends S {
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Tu sesión ha finalizado. Inicia sesión de nuevo para seguir guardando la ubicación.';
+      'Tu sesión terminó. Inicia sesión de nuevo para seguir guardando la ubicación.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'No se puede guardar en esta entidad: no tienes permiso. El seguimiento continúa; pide acceso a tu administrador.';
+      'No se puede guardar en esta entidad — no tienes permiso. El seguimiento continúa; pide a tu administrador que te dé acceso.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
@@ -1553,26 +1584,26 @@ class SEs extends S {
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'El permiso de ubicación está denegado permanentemente. Actívalo en los ajustes de la aplicación.';
+      'El permiso de ubicación está denegado permanentemente. Actívalo en la configuración de la aplicación.';
 
   @override
   String get liveTrackingErrorLocation => 'No se pudo obtener la ubicación.';
 
   @override
-  String get liveTrackingMenuTitle => 'Seguimiento de ubicación en tiempo real';
+  String get liveTrackingMenuTitle => 'Seguimiento de ubicación en vivo';
 
   @override
   String get liveTrackingNoRecord =>
-      'No hay seguimiento activo ni sesiones recientes.';
+      'Sin seguimiento activo ni sesión reciente.';
 
   @override
   String get liveTrackingLastSession => 'Última sesión';
 
   @override
-  String get liveTrackingStartAgain => 'Iniciar de nuevo';
+  String get liveTrackingStartAgain => 'Comenzar de nuevo';
 
   @override
-  String get liveTrackingEnded => 'Hora de fin';
+  String get liveTrackingEnded => 'Hora de finalización';
 
   @override
   String get liveTrackingEndReason => 'Motivo de finalización';
@@ -1606,24 +1637,25 @@ class SEs extends S {
 
   @override
   String get askAdminToUpdateServer =>
-      'Pida al administrador del servidor que lo actualice.';
+      'Pide al administrador de tu servidor que lo actualice.';
 
   @override
   String get deviceClaimFailed =>
-      'No se pudo reclamar el dispositivo. Inténtelo de nuevo.';
+      'No se pudo reclamar el dispositivo. Inténtalo de nuevo.';
 
   @override
   String get deviceToClaimNotFound =>
-      'Dispositivo no encontrado. Póngase en contacto con el proveedor del dispositivo.';
+      'Dispositivo no encontrado. Contacta al proveedor del dispositivo.';
 
   @override
-  String get enableAuthenticatorApp => 'Activar aplicación de autenticación';
+  String get enableAuthenticatorApp => 'Habilitar aplicación de autenticación';
 
   @override
-  String get enableSmsAuthenticator => 'Activar autenticación por SMS';
+  String get enableSmsAuthenticator => 'Habilitar autenticador por SMS';
 
   @override
-  String get enableEmailAuthenticator => 'Activar autenticación por Email';
+  String get enableEmailAuthenticator =>
+      'Habilitar autenticador por correo electrónico';
 
   @override
   String get getBackupCode => 'Obtener código de respaldo';
@@ -1650,16 +1682,16 @@ class SEs extends S {
 
   @override
   String get noAuthenticatorAppFound =>
-      'No se encontró ninguna aplicación de autenticación. Copie la clave en su aplicación.';
+      'No se encontró ninguna aplicación de autenticación. Copia la clave en tu aplicación.';
 
   @override
   String twoFaProviderEnabled(String provider) {
-    return '$provider está activado';
+    return 'Método habilitado: $provider';
   }
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'Su administrador requiere la autenticación de dos factores para $email.';
+    return 'Tu administrador requiere autenticación de dos factores para $email.';
   }
 
   @override
@@ -1667,7 +1699,7 @@ class SEs extends S {
 
   @override
   String get addBackupCodesHint =>
-      'Añada también códigos de respaldo para poder iniciar sesión si pierde su teléfono.';
+      'Agrega también códigos de respaldo para que puedas iniciar sesión si pierdes tu teléfono.';
 
   @override
   String get totpSecretKey => 'Clave secreta';
@@ -1678,7 +1710,7 @@ class SEs extends S {
 
   @override
   String get backupCodesWarning =>
-      'Una vez que salgas de esta página, estos códigos no podrán mostrarse de nuevo. Guárdalos de forma segura usando las opciones de abajo.';
+      'Una vez que salgas de esta página, estos códigos no se podrán mostrar de nuevo. Guárdalos de forma segura usando las opciones a continuación.';
 
   @override
   String get downloadTxt => 'Descargar (txt)';

@@ -20,7 +20,8 @@ void main() {
     test('keeps the Chinese regions apart', () {
       expect(localeFromTbCode('zh_CN'), const Locale('zh', 'CN'));
       expect(localeFromTbCode('zh_TW'), const Locale('zh', 'TW'));
-      expect(localeFromTbCode('zh_HK'), const Locale('zh'));
+      expect(localeFromTbCode('zh_HK'), const Locale('zh', 'TW'));
+      expect(localeFromTbCode('zh_SG'), const Locale('zh'));
     });
 
     test('accepts language-only and BCP 47 codes', () {
@@ -29,7 +30,7 @@ void main() {
     });
 
     test('returns null for a language the app does not translate', () {
-      expect(localeFromTbCode('uk_UA'), isNull);
+      expect(localeFromTbCode('sv_SE'), isNull);
       expect(localeFromTbCode(''), isNull);
       expect(localeFromTbCode(null), isNull);
     });
@@ -46,12 +47,69 @@ void main() {
       const Locale('no'),
     );
     expect(
-      resolveAppLocale(const [Locale('uk', 'UA')], S.supportedLocales),
+      resolveAppLocale(const [Locale('sv', 'SE')], S.supportedLocales),
       const Locale('en'),
     );
     expect(
       resolveAppLocale(const [Locale('zh', 'TW')], S.supportedLocales),
       const Locale('zh', 'TW'),
+    );
+  });
+
+  test('a Traditional Chinese device gets the Taiwan translation', () {
+    expect(
+      resolveAppLocale(const [
+        Locale.fromSubtags(
+          languageCode: 'zh',
+          scriptCode: 'Hant',
+          countryCode: 'HK',
+        ),
+      ], S.supportedLocales),
+      const Locale('zh', 'TW'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('zh', 'MO')], S.supportedLocales),
+      const Locale('zh', 'TW'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('zh', 'SG')], S.supportedLocales),
+      const Locale('zh'),
+    );
+    // An explicit Simplified script wins over a Traditional region, Taiwan
+    // included (zh_TW is a supported locale, so Flutter would match it).
+    for (final region in ['HK', 'MO', 'TW']) {
+      expect(
+        resolveAppLocale([
+          Locale.fromSubtags(
+            languageCode: 'zh',
+            scriptCode: 'Hans',
+            countryCode: region,
+          ),
+        ], S.supportedLocales),
+        const Locale('zh'),
+        reason: 'zh-Hans-$region',
+      );
+    }
+    expect(
+      resolveAppLocale(const [
+        Locale.fromSubtags(
+          languageCode: 'zh',
+          scriptCode: 'Hans',
+          countryCode: 'CN',
+        ),
+      ], S.supportedLocales),
+      const Locale('zh', 'CN'),
+    );
+  });
+
+  test('an untranslated language falls back to English, not by region', () {
+    expect(
+      resolveAppLocale(const [Locale('sv', 'BE')], S.supportedLocales),
+      const Locale('en'),
+    );
+    expect(
+      resolveAppLocale(const [Locale('nl', 'BE')], S.supportedLocales),
+      const Locale('nl', 'BE'),
     );
   });
 
@@ -63,12 +121,21 @@ void main() {
   });
 
   group('tbLocaleCode', () {
+    // Walks S.supportedLocales, so a new ARB without a _tbLocaleCodes entry
+    // fails here instead of saving a bare `ll` code to the user's profile.
     test('round-trips every supported locale', () {
-      for (final code in [
-        'ar_AE', 'da_DK', 'de_DE', 'el_GR', 'en_US', 'es_ES', 'fr_FR', //
-        'it_IT', 'nl_NL', 'no_NO', 'vi_VN', 'zh_CN', 'zh_TW',
-      ]) {
-        expect(tbLocaleCode(localeFromTbCode(code)!), code);
+      for (final locale in S.supportedLocales) {
+        final code = tbLocaleCode(locale);
+        expect(
+          code,
+          matches(RegExp(r'^[a-z]{2}_[A-Z]{2}$')),
+          reason: '$locale',
+        );
+        // Plain zh is stored as zh_CN, which resolves to the zh_CN locale.
+        final back = locale == const Locale('zh')
+            ? const Locale('zh', 'CN')
+            : locale;
+        expect(localeFromTbCode(code), back, reason: '$locale');
       }
     });
   });

@@ -36,25 +36,25 @@ class SNo extends S {
   String get assets => 'Eiendeler';
 
   @override
-  String get tenants => 'Tenants';
+  String get tenants => 'Leietakere';
 
   @override
   String get auditLogs => 'Revisjonslogger';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Ingen kunder funnet';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Ingen eiendeler funnet';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Ingen leietakere funnet';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Ingen enheter funnet';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Ingen revisjonslogger funnet';
 
   @override
   String get logout => 'Logg ut';
@@ -94,18 +94,18 @@ class SNo extends S {
 
   @override
   String get passwordResetText =>
-      'Skriv inn e-posten som er knyttet til kontoen din, så sender vi en lenke for tilbakestilling av passord';
+      'Skriv inn e-posten knyttet til kontoen din, så sender vi en e-post med lenke for tilbakestilling av passord';
 
   @override
   String get requestPasswordReset => 'Be om tilbakestilling av passord';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
-      'Lenken for tilbakestilling av passord ble sendt!';
+      'Lenke for tilbakestilling av passord ble sendt!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'E-postbekreftelseslenken ble sendt!';
+      'Lenke for e-postverifisering ble sendt!';
 
   @override
   String get or => 'ELLER';
@@ -126,7 +126,7 @@ class SNo extends S {
   String get city => 'By';
 
   @override
-  String get stateOrProvince => 'Stat / Provins';
+  String get stateOrProvince => 'Delstat / provins';
 
   @override
   String get postalCode => 'Postnummer';
@@ -141,17 +141,17 @@ class SNo extends S {
   String get phone => 'Telefon';
 
   @override
-  String get alarmClearTitle => 'Fjern alarm';
+  String get alarmClearTitle => 'Nullstill alarm';
 
   @override
-  String get alarmClearText => 'Er du sikker på at du vil fjerne alarmen?';
+  String get alarmClearText => 'Er du sikker på at du vil nullstille alarmen?';
 
   @override
-  String get alarmAcknowledgeTitle => 'Bekreft alarm';
+  String get alarmAcknowledgeTitle => 'Kvitter alarm';
 
   @override
   String get alarmAcknowledgeText =>
-      'Er du sikker på at du vil bekrefte alarmen?';
+      'Er du sikker på at du vil kvittere alarmen?';
 
   @override
   String get assetName => 'Eiendelsnavn';
@@ -172,13 +172,13 @@ class SNo extends S {
   String get customerDetails => 'Kundedetaljer';
 
   @override
-  String get assetDetails => 'Ressursdetaljer';
+  String get assetDetails => 'Eiendelsdetaljer';
 
   @override
   String get tenantDetails => 'Leietakerdetaljer';
 
   @override
-  String get entityType => 'Enhetstype';
+  String get entityType => 'Entitetstype';
 
   @override
   String get actionData => 'Handlingsdata';
@@ -196,6 +196,33 @@ class SNo extends S {
   String get inactive => 'Inaktiv';
 
   @override
+  String get deviceActive => 'Aktiv';
+
+  @override
+  String get deviceInactive => 'Inaktiv';
+
+  @override
+  String get activeDevices => 'Aktiv';
+
+  @override
+  String get inactiveDevices => 'Inaktiv';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Aktiv – kvittert';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Aktiv – ikke kvittert';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Nullstilt – kvittert';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Nullstilt – ikke kvittert';
+
+  @override
+  String get alarmStatusFilterActive => 'Aktiv';
+
+  @override
   String get systemAdministrator => 'Systemadministrator';
 
   @override
@@ -205,7 +232,7 @@ class SNo extends S {
   String get customer => 'Kunde';
 
   @override
-  String get changePassword => 'Endre passord';
+  String get changePassword => 'Bytt passord';
 
   @override
   String get currentPasswordRequireText => 'Nåværende passord er påkrevd.';
@@ -220,7 +247,8 @@ class SNo extends S {
   String get newPassword => 'Nytt passord';
 
   @override
-  String get newPassword2RequireText => 'Bekreft nytt passord er påkrevd.';
+  String get newPassword2RequireText =>
+      'Bekreftelse av nytt passord er påkrevd.';
 
   @override
   String get newPassword2 => 'Bekreft nytt passord';
@@ -235,10 +263,10 @@ class SNo extends S {
   String get lastNameUpper => 'Etternavn';
 
   @override
-  String get profileSuccessNotification => 'Profilen ble oppdatert';
+  String get profileSuccessNotification => 'Profil oppdatert';
 
   @override
-  String get passwordSuccessNotification => 'Passordet ble endret';
+  String get passwordSuccessNotification => 'Passord endret';
 
   @override
   String get notImplemented => 'Ikke implementert!';
@@ -250,7 +278,7 @@ class SNo extends S {
   String get tryAgain => 'Prøv igjen';
 
   @override
-  String get verifyYourIdentity => 'Bekreft identiteten din';
+  String get verifyYourIdentity => 'Bekreft din identitet';
 
   @override
   String get continueText => 'Fortsett';
@@ -271,21 +299,20 @@ class SNo extends S {
 
   @override
   String get totpAuthDescription =>
-      'Vennligst skriv inn sikkerhetskoden fra autentiseringsappen din.';
+      'Skriv inn sikkerhetskoden fra autentiseringsappen din.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'En sikkerhetskode har blitt sendt til telefonen din på $contact.';
+    return 'En sikkerhetskode er sendt til telefonen din på $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'En sikkerhetskode har blitt sendt til e-postadressen din på $contact.';
+    return 'En sikkerhetskode er sendt til e-postadressen din på $contact.';
   }
 
   @override
-  String get backupCodeAuthDescription =>
-      'Vennligst skriv inn en av dine reservekoder.';
+  String get backupCodeAuthDescription => 'Skriv inn en av reservekodene dine.';
 
   @override
   String get toptAuthPlaceholder => 'Kode';
@@ -304,13 +331,13 @@ class SNo extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'For mange forespørsler, sjekk verifiseringskoden';
+      'For mange forespørsler om å sjekke verifiseringskoden';
 
   @override
-  String get tryAnotherWay => 'Prøv en annen måte';
+  String get tryAnotherWay => 'Prøv en annen metode';
 
   @override
-  String get selectWayToVerify => 'Velg en verifiseringsmetode';
+  String get selectWayToVerify => 'Velg en måte å verifisere på';
 
   @override
   String get mfaProviderTopt => 'Autentiseringsapp';
@@ -335,31 +362,31 @@ class SNo extends S {
 
   @override
   String get emailVerificationSentText =>
-      'En e-post med verifiseringsdetaljer ble sendt til den angitte e-postadressen';
+      'En e-post med verifiseringsdetaljer ble sendt til den oppgitte e-postadressen ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Vennligst følg instruksjonene i e-posten for å fullføre registreringen. Merk: hvis du ikke har sett e-posten etter en stund, sjekk \'søppelpost\'-mappen eller prøv å sende e-posten på nytt ved å klikke på \'Send på nytt\'.';
+      'Følg instruksjonene i e-posten for å fullføre registreringen. Merk: hvis du ikke ser e-posten etter en stund, sjekk \'spam\'-mappen eller prøv å sende e-posten på nytt ved å klikke på \'Send igjen\'-knappen.';
 
   @override
-  String get resend => 'Send på nytt';
+  String get resend => 'Send igjen';
 
   @override
   String get activatingAccount => 'Aktiverer konto...';
 
   @override
-  String get accountActivated => 'Kontoen ble aktivert!';
+  String get accountActivated => 'Kontoen er aktivert!';
 
   @override
-  String get emailVerified => 'E-post bekreftet';
+  String get emailVerified => 'E-post verifisert';
 
   @override
   String get activatingAccountText =>
-      'Kontoen din aktiveres for øyeblikket.\nVennligst vent...';
+      'Kontoen din aktiveres nå.\nVennligst vent …';
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'Gratulerer!\nDin $appTitle-konto har blitt aktivert.\nDu kan nå logge inn på ditt $appTitle-område.';
+    return 'Gratulerer!\n$appTitle-kontoen din er aktivert.\nNå kan du logge inn på $appTitle-området ditt.';
   }
 
   @override
@@ -372,7 +399,7 @@ class SNo extends S {
   String get accept => 'Godta';
 
   @override
-  String get termsOfUse => 'Vilkår for bruk';
+  String get termsOfUse => 'Bruksvilkår';
 
   @override
   String get firstName => 'Fornavn';
@@ -405,14 +432,14 @@ class SNo extends S {
   String get signIn => 'Logg inn';
 
   @override
-  String get inactiveUserAlreadyExists => 'Inaktiv bruker finnes allerede';
+  String get inactiveUserAlreadyExists => 'Inaktiv bruker eksisterer allerede';
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Det finnes allerede en registrert bruker med en ubekreftet e-postadresse.\nKlikk på \'Send på nytt\'-knappen hvis du ønsker å sende verifiseringsmailen på nytt.';
+      'Det finnes allerede en registrert bruker med uverifisert e-postadresse.\nKlikk på \'Send igjen\'-knappen hvis du vil sende verifiserings-e-posten på nytt.';
 
   @override
-  String get assignee => 'Tildelt person';
+  String get assignee => 'Tildelt';
 
   @override
   String get alarmTypes => 'Alarmtyper';
@@ -427,7 +454,7 @@ class SNo extends S {
   String get severity => 'Alvorlighetsgrad';
 
   @override
-  String get originator => 'Opprinnelse';
+  String get originator => 'Avsender';
 
   @override
   String get startTime => 'Starttid';
@@ -495,13 +522,16 @@ class SNo extends S {
   String get assignedToMe => 'Tildelt meg';
 
   @override
-  String get clear => 'Fjern';
+  String get clear => 'Nullstill';
 
   @override
-  String get acknowledge => 'Bekreft';
+  String get acknowledge => 'Kvitter';
 
   @override
   String get edit => 'Rediger';
+
+  @override
+  String get editProfile => 'Rediger profil';
 
   @override
   String get delete => 'Slett';
@@ -519,7 +549,7 @@ class SNo extends S {
   String get noResultsFound => 'Ingen resultater funnet';
 
   @override
-  String get tryRefiningYourQuery => 'Prøv å forbedre søket ditt';
+  String get tryRefiningYourQuery => 'Prøv å avgrense søket';
 
   @override
   String get failedToLoadTheList => 'Kunne ikke laste listen';
@@ -593,17 +623,17 @@ class SNo extends S {
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'For å fortsette oppsettet av enheten din $deviceName, vennligst oppgi nettverksinformasjonen din.';
+    return 'For å fortsette oppsettet av enheten $deviceName, oppgi legitimasjonen for nettverket ditt.';
   }
 
   @override
   String wifiPasswordMessage(Object network) {
-    return 'Skriv inn passordet for $network';
+    return 'Oppgi passord for $network';
   }
 
   @override
   String get deviceNotFoundMessage =>
-      'Enheter ble ikke funnet. Sørg for at telefonens Bluetooth er slått på og at du er innenfor rekkevidde av enheten.';
+      'Fant ingen enheter. Kontroller at Bluetooth på telefonen er slått på og at du er innenfor rekkevidden til den nye enheten.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
@@ -611,30 +641,30 @@ class SNo extends S {
   }
 
   @override
-  String get sendingWifiCredentials => 'Sender Wi-Fi-opplysninger';
+  String get sendingWifiCredentials => 'Sender Wi-Fi-legitimasjon';
 
   @override
   String get confirmingWifiConnection => 'Bekrefter Wi-Fi-tilkobling';
 
   @override
-  String get provisionedSuccessfully => 'Enheten ble klargjort';
+  String get provisionedSuccessfully => 'Enheten er klargjort';
 
   @override
-  String get returnToDashboard => 'Gå tilbake til dashbordet';
+  String get returnToDashboard => 'Tilbake til dashbord';
 
   @override
   String cannotEstablishSession(Object deviceName) {
-    return 'Kan ikke opprette økt med enheten $deviceName. Vennligst prøv igjen';
+    return 'Kan ikke opprette økt med enheten $deviceName. Prøv igjen';
   }
 
   @override
-  String get claimingDevice => 'Krever eierskap til enhet';
+  String get claimingDevice => 'Gjør krav på enhet';
 
   @override
-  String get claimingDeviceDone => 'Eierskapskrav fullført';
+  String get claimingDeviceDone => 'Krav på enhet fullført';
 
   @override
-  String get claimingMessageSuccess => 'Enheten ble\nregistrert med suksess';
+  String get claimingMessageSuccess => 'Det er gjort krav på\nenheten';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
@@ -645,20 +675,20 @@ class SNo extends S {
   String get scanACode => 'Skann en kode';
 
   @override
-  String get allowAccess => 'Tillat tilgang';
+  String get allowAccess => 'Gi tilgang';
 
   @override
   String get toggleCamera => 'Bytt kamera';
 
   @override
-  String get toggleFlash => 'Slå av/på blits';
+  String get toggleFlash => 'Slå blits av/på';
 
   @override
   String get unableToUseCamera => 'Kan ikke bruke kameraet';
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Åpne innstillinger og gi tilgang til kameraet for å fortsette';
+      'Åpne innstillingene og gi tilgang til kameraet for å fortsette';
 
   @override
   String get notFound => 'Ikke funnet';
@@ -675,7 +705,7 @@ class SNo extends S {
   String get scanQrCode => 'Skann QR-kode';
 
   @override
-  String get anEmptyRequestDataReceived => 'Tomme forespørselsdata mottatt.';
+  String get anEmptyRequestDataReceived => 'Mottok tomme forespørselsdata.';
 
   @override
   String get somethingWentWrongRollback => 'Noe gikk galt ... Ruller tilbake';
@@ -687,8 +717,7 @@ class SNo extends S {
   String get viewAll => 'Vis alle';
 
   @override
-  String get requestedEntityDoesNotExists =>
-      'Den forespurte enheten eksisterer ikke.';
+  String get requestedEntityDoesNotExists => 'Forespurt entitet finnes ikke.';
 
   @override
   String get noAlarmsFound => 'Ingen alarmer funnet';
@@ -697,19 +726,19 @@ class SNo extends S {
   String get filters => 'Filtre';
 
   @override
-  String get alarmStatusList => 'Alarmstatusliste';
+  String get alarmStatusList => 'Liste over alarmstatus';
 
   @override
-  String get alarmSeverityList => 'Alarm alvorlighetsliste';
+  String get alarmSeverityList => 'Liste over alvorlighetsgrad for alarmer';
 
   @override
-  String get cleared => 'Fjernet';
+  String get cleared => 'Nullstilt';
 
   @override
-  String get acknowledged => 'Bekreftet';
+  String get acknowledged => 'Kvittert';
 
   @override
-  String get unacknowledged => 'Ubekreftet';
+  String get unacknowledged => 'Ikke kvittert';
 
   @override
   String get critical => 'Kritisk';
@@ -718,7 +747,7 @@ class SNo extends S {
   String get major => 'Alvorlig';
 
   @override
-  String get minor => 'Mindre';
+  String get minor => 'Mindre alvorlig';
 
   @override
   String get warning => 'Advarsel';
@@ -731,8 +760,8 @@ class SNo extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Søk brukere',
-      one: 'Søk bruker',
+      other: 'Søk etter brukere',
+      one: 'Søk etter bruker',
     );
     return '$_temp0';
   }
@@ -744,16 +773,19 @@ class SNo extends S {
   String get update => 'Oppdater';
 
   @override
-  String get alarmTypeList => 'Alarmtypeliste';
+  String get alarmTypeList => 'Liste over alarmtyper';
 
   @override
-  String get anyType => 'Enhver type';
+  String get anyType => 'Alle typer';
 
   @override
   String get plusAlarmType => '+ Alarmtype';
 
   @override
   String get all => 'Alle';
+
+  @override
+  String get allNotifications => 'Alle';
 
   @override
   String get unread => 'Ulest';
@@ -765,7 +797,7 @@ class SNo extends S {
   String get codeVerificationFailed => 'Kodeverifisering mislyktes!';
 
   @override
-  String get fatalError => 'Fatal feil';
+  String get fatalError => 'Kritisk feil';
 
   @override
   String get unknownError => 'Ukjent feil.';
@@ -774,44 +806,45 @@ class SNo extends S {
   String get sessionExpired => 'Økten er utløpt';
 
   @override
-  String get fatalApplicationErrorOccurred => 'Fatal applikasjonsfeil oppstod:';
+  String get fatalApplicationErrorOccurred =>
+      'Det oppstod en kritisk applikasjonsfeil:';
 
   @override
   String get connectionError => 'Tilkoblingsfeil';
 
   @override
-  String get failedToConnectToServer => 'Kunne ikke koble til serveren';
+  String get failedToConnectToServer => 'Kunne ikke koble til server';
 
   @override
-  String get retry => 'Prøv igjen';
+  String get retry => 'Prøv på nytt';
 
   @override
   String get mobileDashboardShouldBeConfiguredInDeviceProfile =>
-      'Mobilt dashbord må konfigureres i enhetsprofilen!';
+      'Mobildashbord må konfigureres i enhetsprofilen!';
 
   @override
   String get openWifiSettings => 'Åpne Wi-Fi-innstillinger';
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'Koble til Wi-Fi du vanligvis bruker';
+      'Koble til Wi-Fi-nettet du vanligvis bruker';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'Gå tilbake til appen og trykk Klar-knappen';
+      'Gå tilbake til appen og trykk på Klar-knappen';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Følg de neste trinnene for å koble\ntelefonen din til vanlig Wi-Fi igjen';
+      'Følg trinnene nedenfor for å koble\ntelefonen til ditt vanlige Wi-Fi igjen';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Push-varsler er ikke konfigurert.\nKontakt systemadministratoren din.';
+      'Push-varsler er ikke konfigurert.\nKontakt systemadministratoren.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase er ikke konfigurert.\nSe den offisielle Firebase-dokumentasjonen\nfor veiledning.';
+      'Firebase er ikke konfigurert.\n Se den offisielle Firebase-dokumentasjonen for\n veiledning om hvordan du gjør det.';
 
   @override
   String get markAllAsRead => 'Merk alle som lest';
@@ -821,7 +854,7 @@ class SNo extends S {
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'Kan ikke åpne url: $link';
+    return 'Kan ikke åpne URL: $link';
   }
 
   @override
@@ -837,7 +870,7 @@ class SNo extends S {
   String get connectToDevice => 'Koble til enhet';
 
   @override
-  String get selectWifiNetwork => 'Velg Wi-Fi-nettverk';
+  String get selectWifiNetwork => 'Velg Wi-Fi-nett';
 
   @override
   String get deviceProvisioning => 'Enhetsklargjøring';
@@ -850,25 +883,25 @@ class SNo extends S {
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'Enheten finner ikke Wi-Fi i nærheten';
+      'Enheten finner ingen Wi-Fi i nærheten';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Tilkobling til Wi-Fi-nettverket $name mislyktes.\nSørg for at telefonen er koblet til enhetens Wi-Fi-nettverk og at lokal nettverkstilgang er aktivert.';
+    return 'Tilkobling til Wi-Fi-nettet $name mislyktes.\nKontroller at telefonen er koblet til enhetens Wi-Fi-nett, og at tilgang til lokalt nettverk er aktivert for denne appen i innstillingene på telefonen.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'Kan ikke koble til Wi-Fi fordi enheten $name ikke fant nettverk';
+    return 'Kan ikke koble til Wi-Fi fordi enheten $name ikke fant noen nett';
   }
 
   @override
   String get pleaseFollowTheNextStepsToConnectYourPhoneTo =>
-      'Følg de neste trinnene for å koble telefonen din til enheten';
+      'Følg trinnene nedenfor for å koble telefonen til enheten';
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Koble til Wi-Fi lignende $wifiName';
+    return 'Koble til Wi-Fi som ligner på $wifiName';
   }
 
   @override
@@ -931,13 +964,13 @@ class SNo extends S {
   String get edge => 'Edge';
 
   @override
-  String get entityView => 'Enhetsvisning';
+  String get entityView => 'Entitetsvisning';
 
   @override
   String get widgetsBundle => 'Widgetpakke';
 
   @override
-  String get widgetType => 'Widgettype';
+  String get widgetType => 'Widget-type';
 
   @override
   String get apiUsageState => 'API-bruksstatus';
@@ -955,7 +988,7 @@ class SNo extends S {
   String get queue => 'Kø';
 
   @override
-  String get notificationTarget => 'Varslingsmål';
+  String get notificationTarget => 'Varslingsmottaker';
 
   @override
   String get notificationTemplate => 'Varslingsmal';
@@ -981,13 +1014,13 @@ class SNo extends S {
   String get entityGroup => 'Entitetsgruppe';
 
   @override
-  String get converter => 'Konverter';
+  String get converter => 'Datakonverter';
 
   @override
   String get integration => 'Integrasjon';
 
   @override
-  String get schedulerEvent => 'Planlegger-hendelse';
+  String get schedulerEvent => 'Planlagt hendelse';
 
   @override
   String get blobEntity => 'Blob-entitet';
@@ -999,7 +1032,7 @@ class SNo extends S {
   String get groupPermission => 'Gruppetillatelse';
 
   @override
-  String get actionStatusSuccess => 'Suksess';
+  String get actionStatusSuccess => 'Vellykket';
 
   @override
   String get actionStatusFailure => 'Mislykket';
@@ -1029,7 +1062,7 @@ class SNo extends S {
   String get actionTypeAssignedToCustomer => 'Tildelt kunde';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Fjernet fra kunde';
+  String get actionTypeUnassignedFromCustomer => 'Tildeling til kunde fjernet';
 
   @override
   String get actionTypeActivated => 'Aktivert';
@@ -1053,10 +1086,10 @@ class SNo extends S {
   String get actionTypeRelationsDeleted => 'Alle relasjoner slettet';
 
   @override
-  String get actionTypeAlarmAck => 'Bekreftet';
+  String get actionTypeAlarmAck => 'Alarm kvittert';
 
   @override
-  String get actionTypeAlarmClear => 'Fjernet';
+  String get actionTypeAlarmClear => 'Alarm nullstilt';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm slettet';
@@ -1065,7 +1098,7 @@ class SNo extends S {
   String get actionTypeAlarmAssigned => 'Alarm tildelt';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarm fjernet';
+  String get actionTypeAlarmUnassigned => 'Alarmtildeling fjernet';
 
   @override
   String get actionTypeLogin => 'Innlogging';
@@ -1074,7 +1107,7 @@ class SNo extends S {
   String get actionTypeLogout => 'Utlogging';
 
   @override
-  String get actionTypeLockout => 'Låst ute';
+  String get actionTypeLockout => 'Utestengt';
 
   @override
   String get actionTypeAssignedFromTenant => 'Tildelt fra leietaker';
@@ -1086,7 +1119,7 @@ class SNo extends S {
   String get actionTypeProvisionSuccess => 'Enhet klargjort';
 
   @override
-  String get actionTypeProvisionFailure => 'Enhetsklargjøring mislyktes';
+  String get actionTypeProvisionFailure => 'Klargjøring av enhet mislyktes';
 
   @override
   String get actionTypeTimeseriesUpdated => 'Telemetri oppdatert';
@@ -1098,7 +1131,7 @@ class SNo extends S {
   String get actionTypeAssignedToEdge => 'Tildelt Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Fjernet fra Edge';
+  String get actionTypeUnassignedFromEdge => 'Tildeling til Edge fjernet';
 
   @override
   String get actionTypeAddedComment => 'Kommentar lagt til';
@@ -1119,7 +1152,8 @@ class SNo extends S {
   String get actionTypeRemovedFromEntityGroup => 'Fjernet fra entitetsgruppe';
 
   @override
-  String get actionTypeRestApiRuleEngineCall => 'REST API regelmotor-kall';
+  String get actionTypeRestApiRuleEngineCall =>
+      'REST API-kall til regelmotoren';
 
   @override
   String get actionTypeMadePublic => 'Gjort offentlig';
@@ -1132,11 +1166,11 @@ class SNo extends S {
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'Du har ikke tillatelser til å utføre denne operasjonen!';
+      'Du har ikke tillatelse til å utføre denne operasjonen!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Det ser ut til at tillatelsene dine ikke er tilstrekkelige til å fullføre denne operasjonen';
+      'Det ser ut til at tillatelsene dine ikke er tilstrekkelige for å fullføre denne operasjonen';
 
   @override
   String get isRequiredText => 'er påkrevd.';
@@ -1150,7 +1184,7 @@ class SNo extends S {
 
   @override
   String errorOccured(Object e) {
-    return 'Feil oppstod: $e';
+    return 'Det oppstod en feil: $e';
   }
 
   @override
@@ -1193,14 +1227,15 @@ class SNo extends S {
   String get selectCountry => 'Velg land';
 
   @override
-  String get hideHomeDashboardToolbar => 'Skjul dashbord-verktøylinje';
+  String get hideHomeDashboardToolbar =>
+      'Skjul verktøylinje for hjemmedashbord';
 
   @override
   String get phoneNumberHelperText =>
       'Telefonnummer i E.164-format, f.eks. +1201550123';
 
   @override
-  String get homeDashboard => 'Hjemme-dashbord';
+  String get homeDashboard => 'Hjemmedashbord';
 
   @override
   String get security => 'Sikkerhet';
@@ -1209,7 +1244,7 @@ class SNo extends S {
   String get twofactorAuthentication => 'Tofaktorautentisering';
 
   @override
-  String get verificationRequired => 'Verifisering kreves';
+  String get verificationRequired => 'Verifisering påkrevd';
 
   @override
   String get twofactorAuthenticationIsRequired =>
@@ -1217,10 +1252,10 @@ class SNo extends S {
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
-      'Sett opp en verifiseringsmetode for å fortsette innloggingen';
+      'Konfigurer en verifiseringsmetode for å fortsette med innloggingen';
 
   @override
-  String get setUpAVerificationMethod => 'Sett opp en verifiseringsmetode';
+  String get setUpAVerificationMethod => 'Konfigurer en verifiseringsmetode';
 
   @override
   String get totpSetupSuccessDescription =>
@@ -1228,11 +1263,11 @@ class SNo extends S {
 
   @override
   String get smsSetupSuccessDescription =>
-      'Neste gang du logger inn, vil du bli bedt om å taste inn sikkerhetskoden som sendes til telefonnummeret';
+      'Neste gang du logger inn, blir du bedt om å angi sikkerhetskoden som sendes til telefonnummeret';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Neste gang du logger inn, vil du bli bedt om å taste inn sikkerhetskoden som sendes til e-postadressen din';
+      'Neste gang du logger inn, blir du bedt om å angi sikkerhetskoden som sendes til e-postadressen din';
 
   @override
   String get backupCodeSetupSuccessDescription =>
@@ -1261,11 +1296,11 @@ class SNo extends S {
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'Skriv inn en e-post som skal brukes som autentisering.';
+      'Skriv inn en e-postadresse som skal brukes til autentisering.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
-      'Skriv inn et telefonnummer som skal brukes som autentisering';
+      'Skriv inn et telefonnummer som skal brukes til autentisering';
 
   @override
   String get sendCode => 'Send kode';
@@ -1287,18 +1322,12 @@ class SNo extends S {
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'sifret',
-      one: 'sifret',
-    );
-    return '$count-$_temp0 kode';
+    return '$count-sifret kode';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Kopier 32-sifret nøkkel til autentiseringsappen din eller skann QR-koden nedenfor';
+      'Kopier den 32-tegns nøkkelen til autentiseringsappen din, eller skann QR-koden nedenfor';
 
   @override
   String get applyChanges => 'Bruk endringer';
@@ -1315,7 +1344,7 @@ class SNo extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'Tofaktorautentisering beskytter kontoen din mot uautorisert tilgang. Du trenger bare å taste inn en sikkerhetskode når du logger inn.';
+      'Tofaktorautentisering beskytter kontoen din mot uautorisert tilgang. Alt du trenger å gjøre er å skrive inn en sikkerhetskode når du logger inn.';
 
   @override
   String get calculatedField => 'Beregnet felt';
@@ -1333,7 +1362,7 @@ class SNo extends S {
   String get job => 'Jobb';
 
   @override
-  String get mobileAppBundle => 'Mobilapppakke';
+  String get mobileAppBundle => 'Mobilpakke';
 
   @override
   String get mobileApp => 'Mobilapp';
@@ -1342,22 +1371,22 @@ class SNo extends S {
   String get domain => 'Domene';
 
   @override
-  String get oauth2Client => 'OAuth2-klient';
+  String get oauth2Client => 'OAuth 2.0-klient';
 
   @override
   String get queueStats => 'Køstatistikk';
 
   @override
-  String get phoneIsRequired => 'Telefon er påkrevd';
+  String get phoneIsRequired => 'Telefonnummer er påkrevd';
 
   @override
-  String get phoneIsInvalid => 'Telefonnummer er ugyldig';
+  String get phoneIsInvalid => 'Telefonnummeret er ugyldig';
 
   @override
   String get addVerificationMethod => 'Legg til verifiseringsmetode';
 
   @override
-  String get imageSavedToGallery => 'Lagret i \'Bildegalleri\'';
+  String get imageSavedToGallery => 'Lagret i plattformens \'Bildegalleri\'';
 
   @override
   String get failedToSaveImage => 'Kunne ikke lagre bildet';
@@ -1368,15 +1397,15 @@ class SNo extends S {
   }
 
   @override
-  String get selectAll => 'Velg alle lastede';
+  String get selectAll => 'Velg alle innlastede';
 
   @override
   String failedToPerformOperation(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count handlinger mislyktes',
-      one: '1 handling mislyktes',
+      other: '$count operasjoner mislyktes',
+      one: '1 operasjon mislyktes',
     );
     return '$_temp0';
   }
@@ -1386,8 +1415,8 @@ class SNo extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Slette $count varslinger?',
-      one: 'Slette 1 varsling?',
+      other: 'Slette $count varsler?',
+      one: 'Slette 1 varsel?',
     );
     return '$_temp0';
   }
@@ -1397,30 +1426,30 @@ class SNo extends S {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Markere $count varslinger som lest?',
-      one: 'Markere 1 varsling som lest?',
+      other: 'Merke $count varsler som lest?',
+      one: 'Merke 1 varsel som lest?',
     );
     return '$_temp0';
   }
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Henter data fra serveren $host';
+    return 'Henter data fra verten din $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Logger deg inn på verten $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Bytter til den nye verten $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Kunne ikke hente et påloggingstoken fra $host. Skann en ny QR-kode.';
   }
 
   @override
@@ -1435,14 +1464,14 @@ class SNo extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'QR-kodeøkten er ikke lenger gyldig. Oppdater QR-koden og skann på nytt.';
 
   @override
   String get openThisLinkTitle => 'Åpne denne lenken?';
 
   @override
   String get linkOpensSignInPage =>
-      'Denne lenken åpner påloggingssiden til denne serveren. Du blir logget ut av den nåværende serveren.';
+      'Denne lenken åpner påloggingssiden til denne serveren. Du blir logget ut av den gjeldende serveren.';
 
   @override
   String get linkOpensSignInPageOnly =>
@@ -1450,11 +1479,11 @@ class SNo extends S {
 
   @override
   String linkSignsInAs(Object email) {
-    return 'Denne lenken logger deg på denne serveren som $email.';
+    return 'Denne lenken logger deg inn på denne serveren som $email.';
   }
 
   @override
-  String get linkSignsIn => 'Denne lenken logger deg på denne serveren.';
+  String get linkSignsIn => 'Denne lenken logger deg inn på denne serveren.';
 
   @override
   String get serverConnectionNotSecure =>
@@ -1495,7 +1524,7 @@ class SNo extends S {
   String get liveTrackingSessionTitle => 'Sanntidssporing av posisjon';
 
   @override
-  String get liveTrackingTarget => 'Lagre posisjon på enhet';
+  String get liveTrackingTarget => 'Lagre posisjon til entitet';
 
   @override
   String get liveTrackingDashboard => 'Dashbord';
@@ -1514,23 +1543,23 @@ class SNo extends S {
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Kan ikke lagre på denne enheten – den finnes ikke lenger. Sporingen fortsetter; oppdater målet i dashbordhandlingen.';
+      'Kan ikke lagre til denne entiteten – den finnes ikke lenger. Sporingen fortsetter; oppdater målet i dashbordhandlingen.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'Ingen tilkobling til serveren. Disse posisjonene ble ikke lagret – lagringen fortsetter når du er på nett igjen.';
+      'Ingen tilkobling til serveren. Disse posisjonene ble ikke lagret – lagringen fortsetter når du er tilkoblet igjen.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
-      'Økten din er avsluttet. Logg inn igjen for å fortsette å lagre posisjonen.';
+      'Økten din er avsluttet. Logg inn igjen for å fortsette å lagre posisjon.';
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Kan ikke lagre på denne enheten – du har ikke tillatelse. Sporingen fortsetter; be administratoren om tilgang.';
+      'Kan ikke lagre til denne entiteten – du har ikke tilgang. Sporingen fortsetter; be administratoren din om tilgang.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Kunne ikke lagre denne posisjonen på serveren. Lagringen prøves på nytt med neste posisjon.';
+      'Kunne ikke lagre denne posisjonen til serveren. Lagringen prøves på nytt ved neste posisjon.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
@@ -1538,14 +1567,14 @@ class SNo extends S {
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Tillatelse til posisjon ble avslått.';
+      'Posisjonstillatelse ble avslått.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Tillatelse til posisjon er permanent avslått. Slå den på i appinnstillingene.';
+      'Posisjonstillatelse er permanent avslått. Aktiver den i appinnstillingene.';
 
   @override
-  String get liveTrackingErrorLocation => 'Kunne ikke fastslå posisjonen.';
+  String get liveTrackingErrorLocation => 'Kunne ikke hente posisjon.';
 
   @override
   String get liveTrackingMenuTitle => 'Sanntidssporing av posisjon';
@@ -1575,7 +1604,7 @@ class SNo extends S {
   String get liveTrackingEndReasonInterrupted => 'Avbrutt';
 
   @override
-  String get serverUpdateRequired => 'Serveroppdatering kreves';
+  String get serverUpdateRequired => 'Oppdatering av server kreves';
 
   @override
   String get backToLogin => 'Tilbake til innlogging';
@@ -1593,15 +1622,15 @@ class SNo extends S {
 
   @override
   String get askAdminToUpdateServer =>
-      'Be serveradministratoren om å oppdatere serveren.';
+      'Be serveradministratoren din om å oppdatere serveren.';
 
   @override
   String get deviceClaimFailed =>
-      'Enheten kunne ikke gjøres krav på. Prøv igjen.';
+      'Klarte ikke å gjøre krav på enheten. Prøv igjen.';
 
   @override
   String get deviceToClaimNotFound =>
-      'Fant ikke enheten. Kontakt leverandøren av enheten.';
+      'Enhet ikke funnet. Kontakt enhetsleverandøren.';
 
   @override
   String get enableAuthenticatorApp => 'Aktiver autentiseringsapp';
@@ -1636,7 +1665,7 @@ class SNo extends S {
 
   @override
   String get noAuthenticatorAppFound =>
-      'Fant ingen autentiseringsapp. Kopier nøkkelen til appen din i stedet.';
+      'Ingen autentiseringsapp funnet. Kopier nøkkelen inn i appen din i stedet.';
 
   @override
   String twoFaProviderEnabled(String provider) {
@@ -1653,7 +1682,7 @@ class SNo extends S {
 
   @override
   String get addBackupCodesHint =>
-      'Legg også til reservekoder, slik at du kan logge på hvis du mister telefonen.';
+      'Legg til reservekoder også, så du fortsatt kan logge inn hvis du mister telefonen.';
 
   @override
   String get totpSecretKey => 'Hemmelig nøkkel';

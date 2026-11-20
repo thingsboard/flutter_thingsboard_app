@@ -20,33 +20,63 @@ class AppLocale extends _$AppLocale {
 }
 
 /// ThingsBoard stores the user language as `ll_CC` (`de_DE`), one region per
-/// language; the app translations are per language, apart from Chinese.
+/// language; the app translations are per language, apart from Chinese and
+/// Belgian Dutch (`nl_BE`).
 const _tbLocaleCodes = {
   'ar': 'ar_AE',
+  'ca': 'ca_ES',
+  'cs': 'cs_CZ',
   'da': 'da_DK',
   'de': 'de_DE',
   'el': 'el_GR',
   'en': 'en_US',
   'es': 'es_ES',
   'fr': 'fr_FR',
+  'hi': 'hi_IN',
   'it': 'it_IT',
+  'ja': 'ja_JP',
+  'ka': 'ka_GE',
+  'ko': 'ko_KR',
+  'lt': 'lt_LT',
+  'lv': 'lv_LV',
   'nl': 'nl_NL',
   'no': 'no_NO',
+  'pl': 'pl_PL',
+  'pt': 'pt_BR',
+  'ro': 'ro_RO',
+  'sl': 'sl_SI',
+  'tr': 'tr_TR',
+  'uk': 'uk_UA',
   'vi': 'vi_VN',
   'zh': 'zh_CN',
 };
 
 const _nativeLanguageNames = {
   'ar': 'العربية',
+  'ca': 'català',
+  'cs': 'čeština',
   'da': 'dansk',
   'de': 'Deutsch',
   'el': 'Ελληνικά',
   'en': 'English',
   'es': 'español',
   'fr': 'français',
+  'hi': 'हिन्दी',
   'it': 'italiano',
+  'ja': '日本語',
+  'ka': 'ქართული',
+  'ko': '한국어',
+  'lt': 'lietuvių',
+  'lv': 'latviešu',
   'nl': 'Nederlands',
+  'nl_BE': 'Nederlands (België)',
   'no': 'norsk',
+  'pl': 'polski',
+  'pt': 'português (Brasil)',
+  'ro': 'română',
+  'sl': 'slovenščina',
+  'tr': 'Türkçe',
+  'uk': 'українська',
   'vi': 'Tiếng Việt',
   'zh': '中文',
   'zh_CN': '中文 (中国)',
@@ -68,7 +98,7 @@ String tbLocaleCode(Locale locale) => locale.countryCode != null
 /// it: the exact locale, else the same language; null when unsupported.
 Locale? localeFromTbCode(String? code) {
   if (code == null || code.isEmpty) return null;
-  final normalized = code.replaceAll('-', '_');
+  final normalized = _traditionalChinese(code.replaceAll('-', '_'));
   final language = _languageAlias(normalized.split('_').first);
   return S.supportedLocales.firstWhereOrNull(
         (l) => l.toString() == normalized,
@@ -83,20 +113,47 @@ Locale? localeFromTbCode(String? code) {
 String _languageAlias(String language) =>
     language == 'nb' || language == 'nn' ? 'no' : language;
 
+/// Hong Kong and Macao write Traditional Chinese, as Taiwan does; the app has
+/// one Traditional translation, `zh_TW` (plain `zh` is Simplified).
+String _traditionalChinese(String code) =>
+    code == 'zh_HK' || code == 'zh_MO' ? 'zh_TW' : code;
+
+/// An explicit script wins: `zh-Hans-HK` stays Simplified.
+bool _isTraditionalChinese(Locale l) =>
+    l.languageCode == 'zh' &&
+    (l.scriptCode == 'Hant' ||
+        (l.scriptCode == null &&
+            (l.countryCode == 'HK' || l.countryCode == 'MO')));
+
 /// MaterialApp.localeListResolutionCallback: Flutter's default resolution
-/// with the language aliases applied.
+/// with the language aliases applied and Traditional Chinese sent to `zh_TW`.
+///
+/// A language the app does not translate loses its region and script first:
+/// otherwise Flutter matches the region alone, and `sv_BE` would get Belgian
+/// Dutch instead of the English fallback.
 Locale resolveAppLocale(
   List<Locale>? locales,
   Iterable<Locale> supportedLocales,
-) => basicLocaleListResolution(
-  locales
-      ?.map(
-        (l) => Locale.fromSubtags(
-          languageCode: _languageAlias(l.languageCode),
-          scriptCode: l.scriptCode,
-          countryCode: l.countryCode,
-        ),
-      )
-      .toList(),
-  supportedLocales,
-);
+) {
+  final languages = supportedLocales.map((l) => l.languageCode).toSet();
+  return basicLocaleListResolution(
+    locales?.map((l) {
+      // Simplified Chinese with a Traditional region (zh-Hans-TW/HK/MO): drop
+      // the region, or Flutter matches zh_TW by language and country.
+      if (l.languageCode == 'zh' &&
+          l.scriptCode == 'Hans' &&
+          const {'TW', 'HK', 'MO'}.contains(l.countryCode)) {
+        return const Locale('zh');
+      }
+      if (_isTraditionalChinese(l)) return const Locale('zh', 'TW');
+      final language = _languageAlias(l.languageCode);
+      if (!languages.contains(language)) return Locale(language);
+      return Locale.fromSubtags(
+        languageCode: language,
+        scriptCode: l.scriptCode,
+        countryCode: l.countryCode,
+      );
+    }).toList(),
+    supportedLocales,
+  );
+}

@@ -193,7 +193,7 @@ List<Locale> getAllLanguages() {
 
 /// The profile language for the ThingsBoard code [lang]: [autoLanguage]
 /// without one, the selectable language for it, else [shown] (the user keeps
-/// a language the app does not translate, such as `uk_UA`).
+/// a language the app does not translate, such as `sv_SE`).
 Locale profileLanguage(String? lang, Locale shown) {
   if (lang == null || lang.isEmpty) {
     return autoLanguage;

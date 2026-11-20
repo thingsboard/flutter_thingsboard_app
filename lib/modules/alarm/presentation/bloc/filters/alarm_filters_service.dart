@@ -30,7 +30,8 @@ class AlarmFiltersService implements IAlarmFiltersService {
   static final _alarmStatus = <FilterDataEntity<AlarmSearchStatus>>{
     FilterDataEntity(
       data: AlarmSearchStatus.ACTIVE,
-      getLocalizedLabel: (BuildContext context) => S.of(context).active,
+      getLocalizedLabel: (BuildContext context) =>
+          S.of(context).alarmStatusFilterActive,
     ),
     FilterDataEntity(
       data: AlarmSearchStatus.CLEARED,

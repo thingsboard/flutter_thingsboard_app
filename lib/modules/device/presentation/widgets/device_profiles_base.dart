@@ -473,7 +473,9 @@ Widget _buildDeviceCount(BuildContext context, bool active, int? count) {
               const SizedBox(width: 8.67),
               Flexible(
                 child: Text(
-                  active ? S.of(context).active : S.of(context).inactive,
+                  active
+                      ? S.of(context).activeDevices
+                      : S.of(context).inactiveDevices,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

@@ -13,7 +13,7 @@ class SNl extends S {
   String get appTitle => 'ThingsBoard';
 
   @override
-  String get home => 'Startpagina';
+  String get home => 'Home';
 
   @override
   String devices(int count) {
@@ -39,22 +39,22 @@ class SNl extends S {
   String get tenants => 'Tenants';
 
   @override
-  String get auditLogs => 'Auditlogboeken';
+  String get auditLogs => 'Auditlogs';
 
   @override
-  String get noCustomersFound => 'No customers found';
+  String get noCustomersFound => 'Geen klanten gevonden';
 
   @override
-  String get noAssetsFound => 'No assets found';
+  String get noAssetsFound => 'Geen assets gevonden';
 
   @override
-  String get noTenantsFound => 'No tenants found';
+  String get noTenantsFound => 'Geen tenants gevonden';
 
   @override
-  String get noDevicesFound => 'No devices found';
+  String get noDevicesFound => 'Geen apparaten gevonden';
 
   @override
-  String get noAuditLogsFound => 'No audit logs found';
+  String get noAuditLogsFound => 'Geen auditlogs gevonden';
 
   @override
   String get logout => 'Uitloggen';
@@ -66,7 +66,7 @@ class SNl extends S {
   String get logoDefaultValue => 'ThingsBoard-logo';
 
   @override
-  String get loginToYourAccount => 'Log in op uw account';
+  String get loginToYourAccount => 'Inloggen op je account';
 
   @override
   String get email => 'E-mail';
@@ -90,22 +90,22 @@ class SNl extends S {
   String get passwordForgotText => 'Wachtwoord vergeten?';
 
   @override
-  String get passwordReset => 'Wachtwoord herstellen';
+  String get passwordReset => 'Wachtwoord opnieuw instellen';
 
   @override
   String get passwordResetText =>
-      'Voer het e-mailadres in dat aan uw account is gekoppeld en we sturen een e-mail met een link om uw wachtwoord te herstellen';
+      'Voer het e-mailadres in dat aan je account is gekoppeld, dan sturen we je een e-mail met een link om je wachtwoord opnieuw in te stellen';
 
   @override
-  String get requestPasswordReset => 'Wachtwoordherstel aanvragen';
+  String get requestPasswordReset => 'Wachtwoordreset aanvragen';
 
   @override
   String get passwordResetLinkSuccessfullySentNotification =>
-      'Wachtwoordherstellink is succesvol verzonden!';
+      'Link om wachtwoord opnieuw in te stellen is verzonden!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
-      'E-mailverificatielink is succesvol verzonden!';
+      'Link voor e-mailverificatie is verzonden!';
 
   @override
   String get or => 'OF';
@@ -135,23 +135,23 @@ class SNl extends S {
   String get address => 'Adres';
 
   @override
-  String get address2 => 'Adresregel 2';
+  String get address2 => 'Adres 2';
 
   @override
   String get phone => 'Telefoon';
 
   @override
-  String get alarmClearTitle => 'Alarm wissen';
+  String get alarmClearTitle => 'Alarm opheffen';
 
   @override
-  String get alarmClearText => 'Weet u zeker dat u het alarm wilt wissen?';
+  String get alarmClearText => 'Weet je zeker dat je dit alarm wilt opheffen?';
 
   @override
   String get alarmAcknowledgeTitle => 'Alarm bevestigen';
 
   @override
   String get alarmAcknowledgeText =>
-      'Weet u zeker dat u het alarm wilt bevestigen?';
+      'Weet je zeker dat je dit alarm wilt bevestigen?';
 
   @override
   String get assetName => 'Assetnaam';
@@ -166,13 +166,13 @@ class SNl extends S {
   String get assignedToCustomer => 'Toegewezen aan klant';
 
   @override
-  String get auditLogDetails => 'Details auditlogboek';
+  String get auditLogDetails => 'Details auditlog';
 
   @override
-  String get customerDetails => 'Klantgegevens';
+  String get customerDetails => 'Klantdetails';
 
   @override
-  String get assetDetails => 'Assetgegevens';
+  String get assetDetails => 'Assetdetails';
 
   @override
   String get tenantDetails => 'Tenantgegevens';
@@ -194,6 +194,33 @@ class SNl extends S {
 
   @override
   String get inactive => 'Inactief';
+
+  @override
+  String get deviceActive => 'Actief';
+
+  @override
+  String get deviceInactive => 'Inactief';
+
+  @override
+  String get activeDevices => 'Actief';
+
+  @override
+  String get inactiveDevices => 'Inactief';
+
+  @override
+  String get alarmStatusActiveAcknowledged => 'Actief, bevestigd';
+
+  @override
+  String get alarmStatusActiveUnacknowledged => 'Actief, niet bevestigd';
+
+  @override
+  String get alarmStatusClearedAcknowledged => 'Opgeheven, bevestigd';
+
+  @override
+  String get alarmStatusClearedUnacknowledged => 'Opgeheven, niet bevestigd';
+
+  @override
+  String get alarmStatusFilterActive => 'Actief';
 
   @override
   String get systemAdministrator => 'Systeembeheerder';
@@ -221,14 +248,14 @@ class SNl extends S {
 
   @override
   String get newPassword2RequireText =>
-      'Nieuw wachtwoord opnieuw is verplicht.';
+      'Nieuw wachtwoord herhalen is verplicht.';
 
   @override
   String get newPassword2 => 'Bevestig nieuw wachtwoord';
 
   @override
   String get passwordErrorNotification =>
-      'De ingevoerde wachtwoorden moeten hetzelfde zijn!';
+      'Ingevoerde wachtwoorden moeten gelijk zijn!';
 
   @override
   String get firstNameUpper => 'Voornaam';
@@ -249,10 +276,10 @@ class SNl extends S {
   String get listIsEmptyText => 'De lijst is momenteel leeg.';
 
   @override
-  String get tryAgain => 'Probeer opnieuw';
+  String get tryAgain => 'Opnieuw proberen';
 
   @override
-  String get verifyYourIdentity => 'Verifieer uw identiteit';
+  String get verifyYourIdentity => 'Verifieer je identiteit';
 
   @override
   String get continueText => 'Doorgaan';
@@ -268,25 +295,25 @@ class SNl extends S {
       other: '$time seconden',
       one: '1 seconde',
     );
-    return 'Code opnieuw verzenden in $_temp0';
+    return 'Code opnieuw verzenden over $_temp0';
   }
 
   @override
   String get totpAuthDescription =>
-      'Voer de beveiligingscode in vanuit uw authenticator-app.';
+      'Voer de beveiligingscode in uit je authenticator-app.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'Er is een beveiligingscode verzonden naar uw telefoon op $contact.';
+    return 'Er is een beveiligingscode verzonden naar je telefoonnummer $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'Er is een beveiligingscode verzonden naar uw e-mailadres op $contact.';
+    return 'Er is een beveiligingscode verzonden naar je e-mailadres $contact.';
   }
 
   @override
-  String get backupCodeAuthDescription => 'Voer een van uw back-upcodes in.';
+  String get backupCodeAuthDescription => 'Voer een van je back-upcodes in.';
 
   @override
   String get toptAuthPlaceholder => 'Code';
@@ -305,10 +332,10 @@ class SNl extends S {
 
   @override
   String get verificationCodeManyRequest =>
-      'Te veel verzoeken, controleer de verificatiecode';
+      'Te veel verzoeken om de verificatiecode te controleren';
 
   @override
-  String get tryAnotherWay => 'Probeer een andere methode';
+  String get tryAnotherWay => 'Probeer een andere manier';
 
   @override
   String get selectWayToVerify => 'Selecteer een verificatiemethode';
@@ -336,11 +363,11 @@ class SNl extends S {
 
   @override
   String get emailVerificationSentText =>
-      'Er is een e-mail met verificatiedetails verzonden naar het opgegeven e-mailadres';
+      'Er is een e-mail met verificatiegegevens verzonden naar het opgegeven e-mailadres ';
 
   @override
   String get emailVerificationInstructionsText =>
-      'Volg de instructies in de e-mail om uw registratie te voltooien. Let op: als u de e-mail niet ziet, controleer dan uw \'spam\'-map of probeer de e-mail opnieuw te verzenden door op de knop \'Opnieuw verzenden\' te klikken.';
+      'Volg de instructies in de e-mail om je registratie te voltooien. Let op: als je de e-mail na enige tijd nog niet hebt ontvangen, controleer dan je \'spam\'-map of probeer de e-mail opnieuw te verzenden door op de knop \'Opnieuw verzenden\' te tikken.';
 
   @override
   String get resend => 'Opnieuw verzenden';
@@ -356,11 +383,11 @@ class SNl extends S {
 
   @override
   String get activatingAccountText =>
-      'Uw account wordt momenteel geactiveerd.\nEven geduld alstublieft...';
+      'Je account wordt momenteel geactiveerd.\nEven geduld...';
 
   @override
   String accountActivatedText(Object appTitle) {
-    return 'Gefeliciteerd!\nUw $appTitle-account is geactiveerd.\nU kunt nu inloggen op uw $appTitle-omgeving.';
+    return 'Gefeliciteerd!\nJe $appTitle-account is geactiveerd.\nJe kunt nu inloggen op je $appTitle-omgeving.';
   }
 
   @override
@@ -391,7 +418,7 @@ class SNl extends S {
   String get createPassword => 'Maak een wachtwoord aan';
 
   @override
-  String get repeatPassword => 'Herhaal uw wachtwoord';
+  String get repeatPassword => 'Herhaal je wachtwoord';
 
   @override
   String get imNotARobot => 'Ik ben geen robot';
@@ -400,23 +427,23 @@ class SNl extends S {
   String get signUp => 'Registreren';
 
   @override
-  String get alreadyHaveAnAccount => 'Heeft u al een account?';
+  String get alreadyHaveAnAccount => 'Heb je al een account?';
 
   @override
-  String get signIn => 'Inloggen';
+  String get signIn => 'Aanmelden';
 
   @override
   String get inactiveUserAlreadyExists => 'Inactieve gebruiker bestaat al';
 
   @override
   String get inactiveUserAlreadyExistsMessage =>
-      'Er is al een geregistreerde gebruiker met een niet-geverifieerd e-mailadres.\nKlik op de knop \'Opnieuw verzenden\' als u de verificatie-e-mail opnieuw wilt verzenden.';
+      'Er is al een geregistreerde gebruiker met een niet-geverifieerd e-mailadres.\nKlik op de knop \'Opnieuw verzenden\' als je de verificatie-e-mail opnieuw wilt verzenden.';
 
   @override
-  String get assignee => 'Toegewezene';
+  String get assignee => 'Toegewezen aan';
 
   @override
-  String get alarmTypes => 'Alarmtypes';
+  String get alarmTypes => 'Alarmtypen';
 
   @override
   String get details => 'Details';
@@ -428,7 +455,7 @@ class SNl extends S {
   String get severity => 'Ernst';
 
   @override
-  String get originator => 'Oorsprong';
+  String get originator => 'Afzender';
 
   @override
   String get startTime => 'Starttijd';
@@ -496,13 +523,16 @@ class SNl extends S {
   String get assignedToMe => 'Aan mij toegewezen';
 
   @override
-  String get clear => 'Wissen';
+  String get clear => 'Opheffen';
 
   @override
   String get acknowledge => 'Bevestigen';
 
   @override
   String get edit => 'Bewerken';
+
+  @override
+  String get editProfile => 'Profiel bewerken';
 
   @override
   String get delete => 'Verwijderen';
@@ -514,22 +544,22 @@ class SNl extends S {
   String get deleteComment => 'Opmerking verwijderen';
 
   @override
-  String get areYouSure => 'Weet u het zeker?';
+  String get areYouSure => 'Weet je het zeker?';
 
   @override
   String get noResultsFound => 'Geen resultaten gevonden';
 
   @override
-  String get tryRefiningYourQuery => 'Probeer uw zoekopdracht te verfijnen';
+  String get tryRefiningYourQuery => 'Probeer je zoekopdracht te verfijnen';
 
   @override
-  String get failedToLoadTheList => 'Laden van de lijst mislukt';
+  String get failedToLoadTheList => 'Lijst laden mislukt';
 
   @override
-  String get tryRefreshing => 'Probeer te verversen';
+  String get tryRefreshing => 'Probeer te vernieuwen';
 
   @override
-  String get refresh => 'Verversen';
+  String get refresh => 'Vernieuwen';
 
   @override
   String get users => 'Gebruikers';
@@ -538,16 +568,16 @@ class SNl extends S {
   String get unassigned => 'Niet toegewezen';
 
   @override
-  String get failedToLoadAlarmDetails => 'Details van alarm laden mislukt';
+  String get failedToLoadAlarmDetails => 'Alarmdetails laden mislukt';
 
   @override
   String get somethingWentWrong => 'Er is iets misgegaan';
 
   @override
-  String get chooseRegion => 'Kies regio';
+  String get chooseRegion => 'Regio kiezen';
 
   @override
-  String get selectRegion => 'Selecteer regio';
+  String get selectRegion => 'Regio selecteren';
 
   @override
   String get northAmerica => 'Noord-Amerika';
@@ -580,7 +610,7 @@ class SNl extends S {
 
   @override
   String updateTo(Object version) {
-    return 'Updaten naar $version';
+    return 'Bijwerken naar $version';
   }
 
   @override
@@ -594,21 +624,21 @@ class SNl extends S {
 
   @override
   String wifiHelpMessage(Object deviceName) {
-    return 'Om de installatie van uw apparaat $deviceName voort te zetten, geef de netwerkgegevens op.';
+    return 'Geef de inloggegevens van je netwerk op om de installatie van je apparaat $deviceName te vervolgen.';
   }
 
   @override
   String wifiPasswordMessage(Object network) {
-    return 'Voer het wachtwoord in voor $network';
+    return 'Voer het wachtwoord voor $network in';
   }
 
   @override
   String get deviceNotFoundMessage =>
-      'Apparaten niet gevonden. Zorg ervoor dat Bluetooth op uw telefoon is ingeschakeld en dat u zich binnen bereik van uw nieuwe apparaat bevindt.';
+      'Geen apparaten gevonden. Controleer of de Bluetooth van je telefoon is ingeschakeld en of je binnen bereik bent van je nieuwe apparaat.';
 
   @override
   String permissionsNotEnoughMessage(Object permissions) {
-    return 'U heeft onvoldoende rechten voor \"$permissions\" om door te gaan. Verleen de vereiste rechten en tik op \"Opnieuw proberen\".';
+    return 'Je hebt onvoldoende rechten voor \"$permissions\" om door te gaan. Verleen de vereiste rechten en tik op \"Opnieuw proberen\".';
   }
 
   @override
@@ -632,18 +662,18 @@ class SNl extends S {
   String get claimingDevice => 'Apparaat claimen';
 
   @override
-  String get claimingDeviceDone => 'Claimen van apparaat voltooid';
+  String get claimingDeviceDone => 'Apparaat claimen voltooid';
 
   @override
   String get claimingMessageSuccess => 'Apparaat is\nsuccesvol geclaimd';
 
   @override
   String openAppSettingsToGrantPermissionMessage(Object permissions) {
-    return 'U heeft onvoldoende rechten voor \"$permissions\" om door te gaan. Open de app-instellingen, verleen de rechten en tik op \"Opnieuw proberen\".';
+    return 'Je hebt onvoldoende rechten voor \"$permissions\" om door te gaan. Open de app-instellingen, verleen de rechten en tik op \"Opnieuw proberen\".';
   }
 
   @override
-  String get scanACode => 'Scan een code';
+  String get scanACode => 'Code scannen';
 
   @override
   String get allowAccess => 'Toegang toestaan';
@@ -652,14 +682,14 @@ class SNl extends S {
   String get toggleCamera => 'Camera wisselen';
 
   @override
-  String get toggleFlash => 'Flitser schakelen';
+  String get toggleFlash => 'Flitser aan/uit';
 
   @override
   String get unableToUseCamera => 'Kan camera niet gebruiken';
 
   @override
   String get openSettingsAndGrantAccessToCameraToContinue =>
-      'Open instellingen en geef cameratoegang om door te gaan';
+      'Open instellingen en verleen toegang tot de camera om door te gaan';
 
   @override
   String get notFound => 'Niet gevonden';
@@ -676,7 +706,7 @@ class SNl extends S {
   String get scanQrCode => 'QR-code scannen';
 
   @override
-  String get anEmptyRequestDataReceived => 'Lege verzoekgegevens ontvangen.';
+  String get anEmptyRequestDataReceived => 'Lege aanvraaggegevens ontvangen.';
 
   @override
   String get somethingWentWrongRollback =>
@@ -690,7 +720,7 @@ class SNl extends S {
 
   @override
   String get requestedEntityDoesNotExists =>
-      'De gevraagde entiteit bestaat niet.';
+      'Opgevraagde entiteit bestaat niet.';
 
   @override
   String get noAlarmsFound => 'Geen alarmen gevonden';
@@ -699,28 +729,28 @@ class SNl extends S {
   String get filters => 'Filters';
 
   @override
-  String get alarmStatusList => 'Alarmstatuslijst';
+  String get alarmStatusList => 'Lijst van alarmstatussen';
 
   @override
-  String get alarmSeverityList => 'Alarm-ernstlijst';
+  String get alarmSeverityList => 'Lijst van alarmernst';
 
   @override
-  String get cleared => 'Gewist';
+  String get cleared => 'Opgeheven';
 
   @override
   String get acknowledged => 'Bevestigd';
 
   @override
-  String get unacknowledged => 'Onbevestigd';
+  String get unacknowledged => 'Niet bevestigd';
 
   @override
   String get critical => 'Kritiek';
 
   @override
-  String get major => 'Ernstig';
+  String get major => 'Belangrijk';
 
   @override
-  String get minor => 'Gering';
+  String get minor => 'Minder belangrijk';
 
   @override
   String get warning => 'Waarschuwing';
@@ -740,13 +770,13 @@ class SNl extends S {
   }
 
   @override
-  String get reset => 'Herstellen';
+  String get reset => 'Resetten';
 
   @override
   String get update => 'Bijwerken';
 
   @override
-  String get alarmTypeList => 'Alarmtypelijst';
+  String get alarmTypeList => 'Lijst met alarmtypen';
 
   @override
   String get anyType => 'Elk type';
@@ -756,6 +786,9 @@ class SNl extends S {
 
   @override
   String get all => 'Alle';
+
+  @override
+  String get allNotifications => 'Alle';
 
   @override
   String get unread => 'Ongelezen';
@@ -777,14 +810,13 @@ class SNl extends S {
 
   @override
   String get fatalApplicationErrorOccurred =>
-      'Fatale applicatiefout opgetreden:';
+      'Er is een fatale applicatiefout opgetreden:';
 
   @override
   String get connectionError => 'Verbindingsfout';
 
   @override
-  String get failedToConnectToServer =>
-      'Kan geen verbinding maken met de server';
+  String get failedToConnectToServer => 'Verbinden met server mislukt';
 
   @override
   String get retry => 'Opnieuw proberen';
@@ -798,24 +830,24 @@ class SNl extends S {
 
   @override
   String get connectToTheWifiYouUsuallyUse =>
-      'Verbind met het Wi-Fi dat u normaal gebruikt';
+      'Maak verbinding met de Wi-Fi die je gewoonlijk gebruikt';
 
   @override
   String get returnToTheAppAndTapReadyButton =>
-      'Ga terug naar de app en tik op de knop Gereed';
+      'Keer terug naar de app en tik op de knop Klaar';
 
   @override
   String get pleaseFollowTheNextStepsToReconnectnyourPhoneToYour =>
-      'Volg de volgende stappen om\nuw telefoon opnieuw te verbinden met uw Wi-Fi';
+      'Volg de volgende stappen om je telefoon\nweer met je gebruikelijke Wi-Fi te verbinden';
 
   @override
   String
   get pushNotificationsAreNotConfiguredpleaseContactYourSystemAdministrator =>
-      'Push-meldingen zijn niet geconfigureerd.\nNeem contact op met uw systeembeheerder.';
+      'Pushmeldingen zijn niet geconfigureerd.\nNeem contact op met je systeembeheerder.';
 
   @override
   String get firebaseIsNotConfiguredPleaseReferToTheOfficialFirebase =>
-      'Firebase is niet geconfigureerd.\nRaadpleeg de officiële Firebase-documentatie\nvoor instructies.';
+      'Firebase is niet geconfigureerd.\n Raadpleeg de officiële Firebase-documentatie voor\n instructies hierover.';
 
   @override
   String get markAllAsRead => 'Alles als gelezen markeren';
@@ -825,7 +857,7 @@ class SNl extends S {
 
   @override
   String cantLaunchUrlLink(String link) {
-    return 'Kan url niet openen: $link';
+    return 'Kan URL niet openen: $link';
   }
 
   @override
@@ -838,60 +870,60 @@ class SNl extends S {
   String get connectingToDevice => 'Verbinden met apparaat';
 
   @override
-  String get connectToDevice => 'Verbinden met apparaat';
+  String get connectToDevice => 'Verbinding maken met apparaat';
 
   @override
   String get selectWifiNetwork => 'Wi-Fi-netwerk selecteren';
 
   @override
-  String get deviceProvisioning => 'Apparaatprovisioning';
+  String get deviceProvisioning => 'Provisioning van apparaten';
 
   @override
   String get permissions => 'Rechten';
 
   @override
-  String get unableConnectToDevice => 'Kan niet verbinden met apparaat';
+  String get unableConnectToDevice => 'Kan geen verbinding maken met apparaat';
 
   @override
   String get deviceNotAbleToFindWifiNearby =>
-      'Apparaat kan geen Wi-Fi vinden in de buurt';
+      'Apparaat kan geen Wi-Fi in de buurt vinden';
 
   @override
   String connectionToTheWifiNetworkFailednpleaseEnsureThatYour(Object name) {
-    return 'Verbinding met het Wi-Fi-netwerk $name mislukt.\nZorg ervoor dat uw telefoon verbonden is met het Wi-Fi-netwerk van het apparaat en dat lokale netwerktoegang is ingeschakeld.';
+    return 'Verbinding met het Wi-Fi-netwerk $name mislukt.\nZorg ervoor dat je telefoon is verbonden met het Wi-Fi-netwerk van het apparaat en dat toegang tot het lokale netwerk is ingeschakeld voor deze app in de instellingen van je telefoon.';
   }
 
   @override
   String unableConnectToWifiBecauseNetworksWasntFoundByDevice(Object name) {
-    return 'Kan niet verbinden met Wi-Fi omdat het apparaat $name geen netwerken heeft gevonden';
+    return 'Kan geen verbinding maken met Wi-Fi omdat apparaat $name geen netwerken heeft gevonden';
   }
 
   @override
   String get pleaseFollowTheNextStepsToConnectYourPhoneTo =>
-      'Volg de volgende stappen om uw telefoon met het apparaat te verbinden';
+      'Volg de volgende stappen om je telefoon met het apparaat te verbinden';
 
   @override
   String connectToWifiSimilarToWifiname(Object wifiName) {
-    return 'Verbind met Wi-Fi vergelijkbaar met $wifiName';
+    return 'Maak verbinding met een Wi-Fi-netwerk dat lijkt op $wifiName';
   }
 
   @override
-  String get ready => 'Gereed';
+  String get ready => 'Klaar';
 
   @override
-  String get exitDeviceProvisioning => 'Apparaatprovisioning verlaten';
+  String get exitDeviceProvisioning => 'Apparaatprovisioning afsluiten';
 
   @override
   String get noNotificationsFound => 'Geen meldingen gevonden';
 
   @override
-  String get markAsRead => 'Markeer als gelezen';
+  String get markAsRead => 'Markeren als gelezen';
 
   @override
   String get url => 'URL';
 
   @override
-  String get pleaseScanQrCodeOnYourDevice => 'Scan de QR-code op uw apparaat';
+  String get pleaseScanQrCodeOnYourDevice => 'Scan de QR-code op je apparaat';
 
   @override
   String get search => 'Zoeken';
@@ -929,7 +961,7 @@ class SNl extends S {
   String get ruleChain => 'Regelketen';
 
   @override
-  String get ruleNode => 'Regelknooppunt';
+  String get ruleNode => 'Regelnode';
 
   @override
   String get edge => 'Edge';
@@ -938,16 +970,16 @@ class SNl extends S {
   String get entityView => 'Entiteitsweergave';
 
   @override
-  String get widgetsBundle => 'Widgetpakket';
+  String get widgetsBundle => 'Widgetbundel';
 
   @override
   String get widgetType => 'Widgettype';
 
   @override
-  String get apiUsageState => 'API-gebruiksstatus';
+  String get apiUsageState => 'API-gebruikstoestand';
 
   @override
-  String get tbResource => 'Bron';
+  String get tbResource => 'Resource';
 
   @override
   String get otaPackage => 'OTA-pakket';
@@ -959,7 +991,7 @@ class SNl extends S {
   String get queue => 'Wachtrij';
 
   @override
-  String get notificationTarget => 'Meldingsdoel';
+  String get notificationTarget => 'Meldingsontvanger';
 
   @override
   String get notificationTemplate => 'Meldingssjabloon';
@@ -982,7 +1014,7 @@ class SNl extends S {
   String get notificationRule => 'Meldingsregel';
 
   @override
-  String get entityGroup => 'Entiteitsgroep';
+  String get entityGroup => 'Entiteitengroep';
 
   @override
   String get converter => 'Converter';
@@ -991,7 +1023,7 @@ class SNl extends S {
   String get integration => 'Integratie';
 
   @override
-  String get schedulerEvent => 'Planner-evenement';
+  String get schedulerEvent => 'Plannergebeurtenis';
 
   @override
   String get blobEntity => 'Blob-entiteit';
@@ -1000,7 +1032,7 @@ class SNl extends S {
   String get role => 'Rol';
 
   @override
-  String get groupPermission => 'Groepstoestemming';
+  String get groupPermission => 'Groepsmachtiging';
 
   @override
   String get actionStatusSuccess => 'Succes';
@@ -1024,7 +1056,7 @@ class SNl extends S {
   String get actionTypeAttributesDeleted => 'Attributen verwijderd';
 
   @override
-  String get actionTypeRpcCall => 'RPC-oproep';
+  String get actionTypeRpcCall => 'RPC-aanroep';
 
   @override
   String get actionTypeCredentialsUpdated => 'Inloggegevens bijgewerkt';
@@ -1033,7 +1065,8 @@ class SNl extends S {
   String get actionTypeAssignedToCustomer => 'Toegewezen aan klant';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'Verwijderd van klant';
+  String get actionTypeUnassignedFromCustomer =>
+      'Toewijzing aan klant ingetrokken';
 
   @override
   String get actionTypeActivated => 'Geactiveerd';
@@ -1057,10 +1090,10 @@ class SNl extends S {
   String get actionTypeRelationsDeleted => 'Alle relaties verwijderd';
 
   @override
-  String get actionTypeAlarmAck => 'Bevestigd';
+  String get actionTypeAlarmAck => 'Alarm bevestigd';
 
   @override
-  String get actionTypeAlarmClear => 'Gewist';
+  String get actionTypeAlarmClear => 'Alarm opgeheven';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm verwijderd';
@@ -1069,7 +1102,7 @@ class SNl extends S {
   String get actionTypeAlarmAssigned => 'Alarm toegewezen';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarm niet toegewezen';
+  String get actionTypeAlarmUnassigned => 'Toewijzing van alarm ingetrokken';
 
   @override
   String get actionTypeLogin => 'Inloggen';
@@ -1081,7 +1114,7 @@ class SNl extends S {
   String get actionTypeLockout => 'Geblokkeerd';
 
   @override
-  String get actionTypeAssignedFromTenant => 'Toegewezen door tenant';
+  String get actionTypeAssignedFromTenant => 'Toegewezen vanuit tenant';
 
   @override
   String get actionTypeAssignedToTenant => 'Toegewezen aan tenant';
@@ -1090,7 +1123,7 @@ class SNl extends S {
   String get actionTypeProvisionSuccess => 'Apparaat geprovisioneerd';
 
   @override
-  String get actionTypeProvisionFailure => 'Provisioning mislukt';
+  String get actionTypeProvisionFailure => 'Provisioning apparaat mislukt';
 
   @override
   String get actionTypeTimeseriesUpdated => 'Telemetrie bijgewerkt';
@@ -1102,7 +1135,7 @@ class SNl extends S {
   String get actionTypeAssignedToEdge => 'Toegewezen aan Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Verwijderd van Edge';
+  String get actionTypeUnassignedFromEdge => 'Toewijzing aan Edge ingetrokken';
 
   @override
   String get actionTypeAddedComment => 'Opmerking toegevoegd';
@@ -1117,14 +1150,14 @@ class SNl extends S {
   String get actionTypeSmsSent => 'SMS verzonden';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'Toegevoegd aan entiteitsgroep';
+  String get actionTypeAddedToEntityGroup => 'Toegevoegd aan entiteitengroep';
 
   @override
   String get actionTypeRemovedFromEntityGroup =>
-      'Verwijderd uit entiteitsgroep';
+      'Verwijderd uit entiteitengroep';
 
   @override
-  String get actionTypeRestApiRuleEngineCall => 'REST API regelengine-aanroep';
+  String get actionTypeRestApiRuleEngineCall => 'Rule Engine REST API-aanroep';
 
   @override
   String get actionTypeMadePublic => 'Openbaar gemaakt';
@@ -1137,11 +1170,11 @@ class SNl extends S {
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>
-      'U heeft geen machtigingen om deze bewerking uit te voeren!';
+      'Je hebt geen rechten om deze bewerking uit te voeren!';
 
   @override
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis =>
-      'Het lijkt erop dat uw machtigingen niet voldoende zijn om deze bewerking uit te voeren';
+      'Je rechten lijken niet toereikend om deze bewerking te voltooien';
 
   @override
   String get isRequiredText => 'is verplicht.';
@@ -1151,11 +1184,11 @@ class SNl extends S {
 
   @override
   String get pleaseContactYourSystemAdministrator =>
-      'Neem contact op met uw systeembeheerder';
+      'Neem contact op met je systeembeheerder';
 
   @override
   String errorOccured(Object e) {
-    return 'Fout opgetreden: $e';
+    return 'Er is een fout opgetreden: $e';
   }
 
   @override
@@ -1163,14 +1196,14 @@ class SNl extends S {
 
   @override
   String get youHaveUnsavedChangesAreYouSureYouWantTo =>
-      'U heeft niet-opgeslagen wijzigingen. Weet u zeker dat u deze pagina wilt verlaten?';
+      'Je hebt niet-opgeslagen wijzigingen. Weet je zeker dat je deze pagina wilt verlaten?';
 
   @override
   String get deleteAccount => 'Account verwijderen';
 
   @override
   String accountDeletionDialogBody(Object authority) {
-    return 'Weet u het zeker? U gaat uw $authority-account verwijderen.';
+    return 'Weet je het zeker? Je gaat je $authority-account verwijderen.';
   }
 
   @override
@@ -1186,19 +1219,20 @@ class SNl extends S {
   String get hybridUnitSystem => 'Hybride';
 
   @override
-  String get autoUnitSystem => 'Auto';
+  String get autoUnitSystem => 'Automatisch';
 
   @override
-  String get languageAuto => 'Auto';
+  String get languageAuto => 'Automatisch';
 
   @override
-  String get unitSystem => 'Eenhedensysteem';
+  String get unitSystem => 'Eenheidssysteem';
 
   @override
   String get selectCountry => 'Land selecteren';
 
   @override
-  String get hideHomeDashboardToolbar => 'Dashboard-werkbalk verbergen';
+  String get hideHomeDashboardToolbar =>
+      'Werkbalk van startdashboard verbergen';
 
   @override
   String get phoneNumberHelperText =>
@@ -1218,7 +1252,7 @@ class SNl extends S {
 
   @override
   String get twofactorAuthenticationIsRequired =>
-      'Tweefactorauthenticatie is vereist';
+      'Tweefactorauthenticatie is verplicht';
 
   @override
   String get setUpAVerificationMethodToContinueWithYourLogin =>
@@ -1229,36 +1263,36 @@ class SNl extends S {
 
   @override
   String get totpSetupSuccessDescription =>
-      'De volgende keer dat u inlogt, moet u een tweefactorauthenticatiecode opgeven';
+      'De volgende keer dat je inlogt, moet je een tweefactorauthenticatiecode invoeren';
 
   @override
   String get smsSetupSuccessDescription =>
-      'De volgende keer dat u inlogt, wordt u gevraagd de beveiligingscode in te voeren die naar uw telefoonnummer wordt gestuurd';
+      'De volgende keer dat je inlogt, word je gevraagd de beveiligingscode in te voeren die naar het telefoonnummer wordt verzonden';
 
   @override
   String get emailSetupSuccessDescription =>
-      'De volgende keer dat u inlogt, wordt u gevraagd de beveiligingscode in te voeren die naar uw e-mailadres wordt gestuurd';
+      'De volgende keer dat je inlogt, word je gevraagd de beveiligingscode in te voeren die naar je e-mailadres wordt verzonden';
 
   @override
   String get backupCodeSetupSuccessDescription =>
-      'De volgende keer dat u inlogt, kunt u back-upcodes gebruiken voor tweefactorauthenticatie';
+      'De volgende keer dat je inlogt, kun je back-upcodes gebruiken om de tweefactorauthenticatie te doorlopen';
 
   @override
-  String get loginToApp => 'Inloggen in de app';
+  String get loginToApp => 'Inloggen in app';
 
   @override
   String get goBack => 'Terug';
 
   @override
-  String get done => 'Klaar';
+  String get done => 'Gereed';
 
   @override
   String get thisWillMakeYourAccountLessSecure =>
-      'Dit maakt uw account minder veilig';
+      'Hierdoor wordt je account minder veilig';
 
   @override
   String areYouSureYouWantToDeactivate(Object providerName) {
-    return 'Weet u zeker dat u $providerName wilt deactiveren?';
+    return 'Weet je zeker dat je $providerName wilt deactiveren?';
   }
 
   @override
@@ -1277,7 +1311,7 @@ class SNl extends S {
 
   @override
   String errorSendingCode(String error) {
-    return 'Fout bij het verzenden van de code: $error';
+    return 'Fout bij verzenden van code: $error';
   }
 
   @override
@@ -1288,22 +1322,16 @@ class SNl extends S {
 
   @override
   String get enter6digitsKeyFromYourAppHere =>
-      'Vul hier de 6-cijferige code in';
+      'Voer hier de 6-cijferige code in';
 
   @override
   String digitsCode(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'cijferige',
-      one: 'cijferige',
-    );
-    return '$count-$_temp0 code';
+    return 'Code van $count cijfers';
   }
 
   @override
   String get copy32digitsKeyToYourAuthenticationAppOrScanQrcode =>
-      'Kopieer de 32-cijferige sleutel naar uw authenticator-app of scan de QR-code hieronder';
+      'Kopieer de sleutel van 32 tekens naar je authenticator-app of scan de onderstaande QR-code';
 
   @override
   String get applyChanges => 'Wijzigingen toepassen';
@@ -1321,7 +1349,7 @@ class SNl extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'Tweefactorauthenticatie beschermt uw account tegen ongeautoriseerde toegang. U hoeft alleen een beveiligingscode in te voeren bij het inloggen.';
+      'Tweefactorauthenticatie beschermt je account tegen ongeautoriseerde toegang. Je hoeft alleen een beveiligingscode in te voeren bij het inloggen.';
 
   @override
   String get calculatedField => 'Berekend veld';
@@ -1333,13 +1361,13 @@ class SNl extends S {
   String get aiModel => 'AI-model';
 
   @override
-  String get adminSettings => 'Beheerdersinstellingen';
+  String get adminSettings => 'Beheerinstellingen';
 
   @override
   String get job => 'Taak';
 
   @override
-  String get mobileAppBundle => 'Mobiele app-bundel';
+  String get mobileAppBundle => 'Mobiele bundel';
 
   @override
   String get mobileApp => 'Mobiele app';
@@ -1348,13 +1376,13 @@ class SNl extends S {
   String get domain => 'Domein';
 
   @override
-  String get oauth2Client => 'OAuth2-client';
+  String get oauth2Client => 'OAuth 2.0-client';
 
   @override
   String get queueStats => 'Wachtrijstatistieken';
 
   @override
-  String get phoneIsRequired => 'Telefoon is verplicht';
+  String get phoneIsRequired => 'Telefoonnummer is verplicht';
 
   @override
   String get phoneIsInvalid => 'Telefoonnummer is ongeldig';
@@ -1363,10 +1391,11 @@ class SNl extends S {
   String get addVerificationMethod => 'Verificatiemethode toevoegen';
 
   @override
-  String get imageSavedToGallery => 'Opgeslagen in \'Afbeeldingengalerij\'';
+  String get imageSavedToGallery =>
+      'Opgeslagen in de \'Afbeeldingengalerij\' van het platform';
 
   @override
-  String get failedToSaveImage => 'Kan afbeelding niet opslaan';
+  String get failedToSaveImage => 'Afbeelding opslaan mislukt';
 
   @override
   String nSelected(int count) {
@@ -1411,27 +1440,27 @@ class SNl extends S {
 
   @override
   String gettingDataFromHost(Object host) {
-    return 'Gegevens ophalen van de server $host';
+    return 'Gegevens ophalen van je host $host';
   }
 
   @override
   String loggingYouIntoHost(Object host) {
-    return 'Logging you into the host $host';
+    return 'Inloggen bij host $host';
   }
 
   @override
   String switchingToNewHost(Object host) {
-    return 'Switching you to the new host $host';
+    return 'Overschakelen naar de nieuwe host $host';
   }
 
   @override
   String failedToObtainLoginTokenFromHost(Object host) {
-    return 'Failed to obtain a login token from $host. Please scan a new QR code.';
+    return 'Kan geen inlogtoken ophalen van $host. Scan een nieuwe QR-code.';
   }
 
   @override
   String failedToConnectToHost(Object host) {
-    return 'Kan geen verbinding maken met $host';
+    return 'Verbinden met $host mislukt';
   }
 
   @override
@@ -1441,18 +1470,18 @@ class SNl extends S {
 
   @override
   String get qrCodeSessionIsNoLongerValid =>
-      'The QR code session is no longer valid. Please refresh the QR code and scan again.';
+      'De QR-codesessie is niet meer geldig. Vernieuw de QR-code en scan opnieuw.';
 
   @override
   String get openThisLinkTitle => 'Deze link openen?';
 
   @override
   String get linkOpensSignInPage =>
-      'Deze link opent de inlogpagina van deze server. Je wordt afgemeld bij je huidige server.';
+      'Deze link opent de aanmeldpagina van deze server. Je wordt afgemeld bij je huidige server.';
 
   @override
   String get linkOpensSignInPageOnly =>
-      'Deze link opent de inlogpagina van deze server.';
+      'Deze link opent de aanmeldpagina van deze server.';
 
   @override
   String linkSignsInAs(Object email) {
@@ -1471,13 +1500,13 @@ class SNl extends S {
       'Deze app werkt alleen met de eigen server en kan deze link niet openen.';
 
   @override
-  String get liveTrackingActive => 'Live locatietracking';
+  String get liveTrackingActive => 'Live locatievolging';
 
   @override
-  String get liveTrackingPaused => 'Live tracking gepauzeerd';
+  String get liveTrackingPaused => 'Live locatievolging gepauzeerd';
 
   @override
-  String get liveTrackingFixes => 'Posities';
+  String get liveTrackingFixes => 'Metingen';
 
   @override
   String get liveTrackingSaved => 'Opgeslagen';
@@ -1498,10 +1527,10 @@ class SNl extends S {
   String get liveTrackingHide => 'Verbergen';
 
   @override
-  String get liveTrackingSessionTitle => 'Live locatietracking';
+  String get liveTrackingSessionTitle => 'Live locatievolging';
 
   @override
-  String get liveTrackingTarget => 'Locatie opslaan bij entiteit';
+  String get liveTrackingTarget => 'Locatie opslaan in entiteit';
 
   @override
   String get liveTrackingDashboard => 'Dashboard';
@@ -1513,18 +1542,18 @@ class SNl extends S {
   String get liveTrackingStarted => 'Starttijd';
 
   @override
-  String get liveTrackingLastFix => 'Laatste positie';
+  String get liveTrackingLastFix => 'Laatste meting';
 
   @override
   String get liveTrackingLastError => 'Laatste fout';
 
   @override
   String get liveTrackingErrorTargetNotFound =>
-      'Kan niet opslaan bij deze entiteit – ze bestaat niet meer. Tracking gaat door; werk het doel bij in de dashboardactie.';
+      'Kan niet opslaan in deze entiteit — deze bestaat niet meer. Volgen gaat door; werk het doel bij in de dashboardactie.';
 
   @override
   String get liveTrackingErrorNoConnection =>
-      'Geen verbinding met de server. Deze posities zijn niet opgeslagen – opslaan gaat verder zodra je weer online bent.';
+      'Geen verbinding met de server. Deze metingen zijn niet opgeslagen — opslaan wordt hervat zodra je weer online bent.';
 
   @override
   String get liveTrackingErrorUnauthorized =>
@@ -1532,11 +1561,11 @@ class SNl extends S {
 
   @override
   String get liveTrackingErrorSavePermissionDenied =>
-      'Kan niet opslaan bij deze entiteit – je hebt geen toestemming. Tracking gaat door; vraag je beheerder om toegang.';
+      'Kan niet opslaan in deze entiteit — je hebt geen rechten. Volgen gaat door; vraag je beheerder om toegang te verlenen.';
 
   @override
   String get liveTrackingErrorSaveFailed =>
-      'Deze positie kon niet op de server worden opgeslagen. Opslaan wordt opnieuw geprobeerd bij de volgende positie.';
+      'Kan deze meting niet opslaan op de server. Opslaan wordt opnieuw geprobeerd bij de volgende meting.';
 
   @override
   String get liveTrackingErrorServicesDisabled =>
@@ -1544,21 +1573,21 @@ class SNl extends S {
 
   @override
   String get liveTrackingErrorPermissionDenied =>
-      'Toestemming voor locatie is geweigerd.';
+      'Locatietoegang is geweigerd.';
 
   @override
   String get liveTrackingErrorPermissionDeniedForever =>
-      'Toestemming voor locatie is permanent geweigerd. Schakel deze in via de app-instellingen.';
+      'Locatietoegang is permanent geweigerd. Schakel deze in bij de app-instellingen.';
 
   @override
-  String get liveTrackingErrorLocation => 'Kon de locatie niet bepalen.';
+  String get liveTrackingErrorLocation => 'Kan geen locatie bepalen.';
 
   @override
-  String get liveTrackingMenuTitle => 'Live locatietracking';
+  String get liveTrackingMenuTitle => 'Live locatievolging';
 
   @override
   String get liveTrackingNoRecord =>
-      'Geen actieve tracking en geen recente sessie.';
+      'Geen actieve locatievolging en geen recente sessie.';
 
   @override
   String get liveTrackingLastSession => 'Laatste sessie';
@@ -1582,14 +1611,14 @@ class SNl extends S {
   String get liveTrackingEndReasonInterrupted => 'Onderbroken';
 
   @override
-  String get serverUpdateRequired => 'Serverupdate vereist';
+  String get serverUpdateRequired => 'Server bijwerken vereist';
 
   @override
   String get backToLogin => 'Terug naar inloggen';
 
   @override
   String serverRequiresVersion(String minVersion) {
-    return 'Deze app werkt met ThingsBoard $minVersion of nieuwer.';
+    return 'Deze app werkt met ThingsBoard $minVersion of hoger.';
   }
 
   @override
@@ -1600,7 +1629,7 @@ class SNl extends S {
 
   @override
   String get askAdminToUpdateServer =>
-      'Vraag uw serverbeheerder om de server bij te werken.';
+      'Vraag je serverbeheerder om de server bij te werken.';
 
   @override
   String get deviceClaimFailed =>
@@ -1614,36 +1643,36 @@ class SNl extends S {
   String get enableAuthenticatorApp => 'Authenticator-app inschakelen';
 
   @override
-  String get enableSmsAuthenticator => 'SMS-authenticatie inschakelen';
+  String get enableSmsAuthenticator => 'SMS-authenticator inschakelen';
 
   @override
-  String get enableEmailAuthenticator => 'E-mailauthenticatie inschakelen';
+  String get enableEmailAuthenticator => 'E-mailauthenticator inschakelen';
 
   @override
   String get getBackupCode => 'Back-upcode ophalen';
 
   @override
   String get twoFaTotpDescription =>
-      'Gebruik apps zoals Google Authenticator, Authy of Duo op je telefoon om te verifiëren. Het genereert een beveiligingscode om in te loggen.';
+      'Gebruik apps zoals Google Authenticator, Authy of Duo op je telefoon om te authenticeren. Hiermee wordt een beveiligingscode gegenereerd om in te loggen.';
 
   @override
   String get twoFaSmsDescription =>
-      'Gebruik je telefoon om je te authenticeren. We sturen je een beveiligingscode via sms wanneer je inlogt.';
+      'Gebruik je telefoon om te authenticeren. We sturen je een beveiligingscode via SMS wanneer je inlogt.';
 
   @override
   String get twoFaEmailDescription =>
-      'Gebruik een beveiligingscode die naar uw e-mailadres is verzonden om u te verifiëren.';
+      'Gebruik een beveiligingscode die naar je e-mailadres wordt gestuurd om te authenticeren.';
 
   @override
   String get twoFaBackupCodeDescription =>
-      'Met deze afdrukbare eenmalige toegangscodes kunt u zich aanmelden wanneer u uw telefoon niet bij de hand hebt, bijvoorbeeld wanneer u op reis bent.';
+      'Met deze afdrukbare eenmalige codes kun je je aanmelden wanneer je je telefoon niet bij je hebt, bijvoorbeeld tijdens het reizen.';
 
   @override
   String get openInAuthenticatorApp => 'Openen in authenticator-app';
 
   @override
   String get noAuthenticatorAppFound =>
-      'Geen authenticator-app gevonden. Kopieer de sleutel naar uw app.';
+      'Geen authenticator-app gevonden. Kopieer de sleutel in plaats daarvan naar je app.';
 
   @override
   String twoFaProviderEnabled(String provider) {
@@ -1652,7 +1681,7 @@ class SNl extends S {
 
   @override
   String twoFaRequiredByAdmin(String email) {
-    return 'Uw beheerder vereist tweestapsverificatie voor $email.';
+    return 'Je beheerder vereist tweefactorauthenticatie voor $email.';
   }
 
   @override
@@ -1660,19 +1689,24 @@ class SNl extends S {
 
   @override
   String get addBackupCodesHint =>
-      'Voeg ook back-upcodes toe, zodat u kunt inloggen als u uw telefoon kwijtraakt.';
+      'Voeg ook back-upcodes toe, zodat je je nog kunt aanmelden als je je telefoon kwijtraakt.';
 
   @override
   String get totpSecretKey => 'Geheime sleutel';
 
   @override
   String get backupCodesDescription =>
-      'Print de codes uit, zodat je ze bij de hand hebt wanneer je ze moet gebruiken om in te loggen op je account. U kunt elke back-upcode één keer gebruiken.';
+      'Druk de codes af zodat je ze bij de hand hebt wanneer je ze nodig hebt om in te loggen op je account. Je kunt elke back-upcode één keer gebruiken.';
 
   @override
   String get backupCodesWarning =>
-      'Zodra u deze pagina verlaat, kunnen deze codes niet meer worden weergegeven. Bewaar ze veilig met behulp van de onderstaande opties.';
+      'Zodra je deze pagina verlaat, kunnen deze codes niet opnieuw worden weergegeven. Bewaar ze veilig met de onderstaande opties.';
 
   @override
   String get downloadTxt => 'Downloaden (txt)';
+}
+
+/// The translations for Dutch Flemish, as used in Belgium (`nl_BE`).
+class SNlBe extends SNl {
+  SNlBe() : super('nl_BE');
 }
