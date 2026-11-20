@@ -27,7 +27,7 @@ void main() {
       await $.expectDashboardText(E2eServer.dashboardMarker);
       await $.logOut();
     } finally {
-      await $.resetOrientation();
+      await $.lockPortrait();
       await server.cleanUpCustomer(user.customerId);
     }
   });

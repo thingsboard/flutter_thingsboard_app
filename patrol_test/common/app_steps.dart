@@ -3,8 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart' show TestFailure;
@@ -89,18 +87,43 @@ extension AppSteps on PatrolIntegrationTester {
   }
 
   /// Patrol has no rotate command, so the app is asked for landscape the way
-  /// a screen would ask. [resetOrientation] gives the choice back.
+  /// a screen would ask, and the step waits until the app has turned: on an
+  /// iOS CI simulator that can take several seconds.
   Future<void> rotateToLandscape() async {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
     ]);
-    await pump(const Duration(seconds: 1));
+    await _waitForOrientation(landscape: true);
   }
 
+  /// Turns the app back to portrait and keeps it there. Releasing the lock
+  /// let the iOS simulator turn the app to landscape again, and the next
+  /// steps expect portrait.
   Future<void> resetOrientation() async {
-    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    await pump(const Duration(seconds: 1));
-    await SystemChrome.setPreferredOrientations(const []);
+    await lockPortrait();
+    await _waitForOrientation(landscape: false);
+  }
+
+  /// Asks for portrait without waiting, for cleanup after a failure.
+  Future<void> lockPortrait() =>
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  Future<void> _waitForOrientation({required bool landscape}) async {
+    const timeout = Duration(seconds: 20);
+    final end = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(end)) {
+      await pump(const Duration(milliseconds: 500));
+      final size = tester.view.physicalSize;
+      if ((size.width > size.height) == landscape) {
+        // Let the layout settle after the turn.
+        await pump(const Duration(seconds: 1));
+        return;
+      }
+    }
+    throw TestFailure(
+      'The app did not turn to ${landscape ? 'landscape' : 'portrait'} '
+      'within $timeout',
+    );
   }
 
   /// Leaves the app for [duration], then brings it back.
@@ -111,18 +134,16 @@ extension AppSteps on PatrolIntegrationTester {
     await pump(const Duration(seconds: 1));
   }
 
-  /// Goes back from a page: the app bar arrow on Android, the edge swipe on
-  /// iOS.
+  /// Goes back from a page with the app bar arrow.
   ///
-  /// Not the Android back key: under Patrol on Android 16 it closed the app
-  /// from the alarm details page, while the same key in the app run by hand
-  /// on an Android 16 emulator went back to the list.
+  /// Not the system gestures, which stay manual checks:
+  /// - the Android back key: under Patrol on Android 16 it closed the app
+  ///   from the alarm details page, while the same key in the app run by
+  ///   hand on an Android 16 emulator went back to the list;
+  /// - Patrol's iOS swipe back: its one fast native swipe from the screen
+  ///   edge left the alarm details page open.
   Future<void> goBack() async {
-    if (Platform.isAndroid) {
-      await this(Icons.arrow_back).tap();
-    } else {
-      await platform.ios.swipeBack();
-    }
+    await this(Icons.arrow_back).tap();
     await pump(const Duration(seconds: 1));
   }
 
