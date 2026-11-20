@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 
@@ -15,69 +20,72 @@ class AlarmControlFiltersButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Reset gives way first: on a 360dp phone, or with a larger system font,
+    // the three labels can be wider than the row in some languages (de).
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(
-          onPressed: onResetTap,
-          style: ButtonStyle(
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
+        Flexible(
+          child: TextButton(
+            onPressed: onResetTap,
+            style: ButtonStyle(
+              padding: WidgetStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
-          ),
-          child:  Text(
-            S.of(context).reset,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                S.of(context).reset,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
         ),
-        const Spacer(),
-        TextButton(
-          onPressed: onCancelTap,
-          style: ButtonStyle(
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: onCancelTap,
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+              ),
+              child: Text(
+                S.of(context).cancel,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-          child:  Text(
-            S.of(context).cancel,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        FilledButton(
-          onPressed: onUpdateTap,
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all(
-              RoundedRectangleBorder(
-                // Change your radius here
-                borderRadius: BorderRadius.circular(4),
+            const SizedBox(width: 8),
+            FilledButton(
+              onPressed: onUpdateTap,
+              style: ButtonStyle(
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    // Change your radius here
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                padding: WidgetStateProperty.all(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+              ),
+              child: Text(
+                S.of(context).update,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
               ),
             ),
-            padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-            ),
-          ),
-          child:  Text(
-            S.of(context).update,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
-          ),
+          ],
         ),
       ],
     );

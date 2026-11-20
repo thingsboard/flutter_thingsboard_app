@@ -1,10 +1,15 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/assignee/assignee_query_ctrl.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/assignee/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
   AssigneeBloc({
@@ -28,8 +33,10 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         filtersService.setSelectedFilter(Filters.assignee, data: event.userId);
         queryCtrl.onSearchText(null);
 
-        final assignee = paginationRepository.pagingController.itemList
-            ?.firstWhere((assignee) => assignee.userInfo.id.id == event.userId);
+        final assignee = paginationRepository.pagingController.items
+            ?.firstWhere(
+              (assignee) => assignee.userInfo.id?.id == event.userId,
+            );
 
         if (assignee != null) {
           if (event.selfAssignment) {
@@ -48,7 +55,22 @@ class AssigneeBloc extends Bloc<AssigneeEvent, AssigneeState> {
         queryCtrl.onSearchText(null);
 
       case AssigneeRefreshEvent():
-        paginationRepository.refresh();
+        await paginationRepository.refresh();
+
+        // Show the selected user as the refreshed list has them, e.g. renamed.
+        final current = state;
+        if (current is AssigneeSelectedState) {
+          final refreshed = paginationRepository.pagingController.items
+              ?.where(
+                (assignee) =>
+                    assignee.userInfo.id?.id ==
+                    current.assignee.userInfo.id?.id,
+              )
+              .firstOrNull;
+          if (refreshed != null) {
+            emit(AssigneeSelectedState(assignee: refreshed));
+          }
+        }
 
       case AssigneeResetSearchTextEvent():
         queryCtrl.onSearchText(null);

@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -9,11 +14,10 @@ import 'package:thingsboard_app/locator.dart';
 
 typedef DashboardTitleCallback = void Function(String title);
 
-typedef DashboardControllerCallback =
-    void Function(
-      DashboardController controller,
-      ValueNotifier<bool> loadingCtrl,
-    );
+typedef DashboardControllerCallback = void Function(
+  DashboardController controller,
+  ValueNotifier<bool> loadingCtrl,
+);
 
 class DashboardController {
   DashboardController();
@@ -24,10 +28,13 @@ class DashboardController {
   final TbLogger log = getIt();
 
   InAppWebViewController? controller;
+  Map<String, dynamic>? _lastOpened;
 
   void setWebViewController(InAppWebViewController ctrl) {
     controller = ctrl;
   }
+
+  bool get hasOpenedDashboard => _lastOpened != null;
 
   Future<void> openDashboard(
     String dashboardId, {
@@ -36,7 +43,6 @@ class DashboardController {
     bool fullscreen = false,
     bool home = false,
   }) async {
-    final windowMessage = <String, dynamic>{'type': 'openDashboardMessage'};
     final data = <String, dynamic>{'dashboardId': dashboardId};
     if (state != null) {
       data['state'] = state;
@@ -47,7 +53,21 @@ class DashboardController {
     if (hideToolbar == true) {
       data['hideToolbar'] = true;
     }
-    windowMessage['data'] = data;
+    _lastOpened = data;
+    await _postOpenDashboard(data);
+  }
+
+  /// Opens the last dashboard again in a web view that started over, in
+  /// [state] when given. The web app reloads a dashboard only when it opened
+  /// that same one last, so it has to learn which one is open.
+  Future<void> reopenDashboard({String? state}) async {
+    final last = _lastOpened;
+    if (last == null) return;
+    await _postOpenDashboard({...last, 'state': ?state});
+  }
+
+  Future<void> _postOpenDashboard(Map<String, dynamic> data) async {
+    final windowMessage = {'type': 'openDashboardMessage', 'data': data};
     await controller?.postWebMessage(
       message: WebMessage(data: jsonEncode(windowMessage)),
       targetOrigin: WebUri('*'),
@@ -79,11 +99,10 @@ class DashboardController {
     log.debug('tryLocalNavigation($path)');
 
     if (path != null && path != '/home') {
-      final parts =
-          path
-              .split('/')
-              .where((e) => e.isNotEmpty && e != 'entities')
-              .toList();
+      final parts = path
+          .split('/')
+          .where((e) => e.isNotEmpty && e != 'entities')
+          .toList();
       if ([
         'profile',
         'devices',

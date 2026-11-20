@@ -1,6 +1,11 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/modules/alarm/data/datasource/alarm_types/i_alarm_types_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/domain/repository/alarm_types/i_alarm_types_repository.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmTypesRepository implements IAlarmTypesRepository {
   const AlarmTypesRepository({required this.datasource});
@@ -8,7 +13,7 @@ class AlarmTypesRepository implements IAlarmTypesRepository {
   final IAlarmTypesDatasource datasource;
 
   @override
-  Future<PageData<AlarmType>> fetchAlarmTypes(PageLink pageKey) {
+  Future<PageData<EntitySubtype>> fetchAlarmTypes(PageLink pageKey) {
     return datasource.fetchAlarmTypes(pageKey);
   }
 }

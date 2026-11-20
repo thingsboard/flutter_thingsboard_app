@@ -1,4 +1,10 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:go_router/go_router.dart';
+import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/dashboard/domain/entites/dashboard_arguments.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboards_page.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/fullscreen_dashboard_page.dart';
@@ -14,20 +20,20 @@ class DashboardRoutes {
 final dashboardRoutes = [
   GoRoute(
     path: DashboardRoutes.dashboards,
-    builder: (context, state) => const DashboardsPage(),
+    builder: (context, state) =>
+        DashboardsPage(title: S.of(context).dashboards(2)),
   ),
 
   GoRoute(
     path: DashboardRoutes.dashboard,
     builder: (context, state) {
       final args = state.extra! as DashboardArgumentsEntity;
-   
+
       return SingleDashboardView(
         id: args.id,
         title: args.title,
         state: args.state,
         hideToolbar: args.hideToolbar,
-        
       );
     },
   ),

@@ -1,39 +1,37 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
+import 'package:thingsboard_app/core/entity/contact_info.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
-abstract class EntityDetailsPage<T extends BaseData> extends StatefulWidget {
+abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
   const EntityDetailsPage({
-    required String defaultTitle,
-    required String entityId,
-    String? subTitle,
-    bool showLoadingIndicator = true,
-    bool hideAppBar = false,
-    double? appBarElevation,
+    required this._defaultTitle,
+    required this._entityId,
+    this._subTitle,
+    this._showLoadingIndicator = true,
+    this._hideAppBar = false,
+    this._appBarElevation,
     super.key,
-  }) : _defaultTitle = defaultTitle,
-       _entityId = entityId,
-       _subTitle = subTitle,
-       _showLoadingIndicator = showLoadingIndicator,
-       _hideAppBar = hideAppBar,
-       _appBarElevation = appBarElevation;
-  final labelTextStyle = const TextStyle(
-    color: Color(0xFF757575),
-    fontSize: 14,
-    height: 20 / 14,
-  );
+  });
+  TextStyle get labelTextStyle =>
+      const TextStyle(color: Color(0xFF757575), fontSize: 14, height: 20 / 14);
 
-  final valueTextStyle = const TextStyle(
-    color: Color(0xFF282828),
-    fontSize: 14,
-    height: 20 / 14,
-  );
+  TextStyle get valueTextStyle =>
+      const TextStyle(color: Color(0xFF282828), fontSize: 14, height: 20 / 14);
 
-  final String _defaultTitle;
+  /// Shown until the entity, and with it its name, is loaded.
+  final String Function(S s) _defaultTitle;
   final String _entityId;
-  final String? _subTitle;
+  final String Function(S s)? _subTitle;
   final bool _showLoadingIndicator;
   final bool _hideAppBar;
   final double? _appBarElevation;
@@ -43,87 +41,88 @@ abstract class EntityDetailsPage<T extends BaseData> extends StatefulWidget {
 
   Future<T?> fetchEntity(String id);
 
-  ValueNotifier<String>? detailsTitle() {
-    return null;
-  }
-
   Widget buildEntityDetails(BuildContext context, T entity);
 }
 
-class _EntityDetailsPageState<T extends BaseData>
+class _EntityDetailsPageState<T extends Object>
     extends State<EntityDetailsPage<T>> {
   late Future<T?> entityFuture;
-  late ValueNotifier<String> titleValue;
+  final titleValue = ValueNotifier<String?>(null);
+  final ICustomTranslationService customTranslationService = getIt();
 
   @override
   void initState() {
     super.initState();
     entityFuture = widget.fetchEntity(widget._entityId);
-    final ValueNotifier<String>? detailsTitle = widget.detailsTitle();
-    if (detailsTitle == null) {
-      titleValue = ValueNotifier(widget._defaultTitle);
-      entityFuture.then((value) {
-        if (value is HasName) {
-          titleValue.value = (value! as HasName).getName();
-        }
-      });
-    } else {
-      titleValue = detailsTitle;
-    }
+    entityFuture.then(
+      (value) => titleValue.value = _entityName(value),
+      // The FutureBuilder below shows the failure; keep the default title.
+      onError: (_) {},
+    );
+  }
+
+  @override
+  void dispose() {
+    titleValue.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:
-          widget._hideAppBar
-              ? null
-              : TbAppBar(
-                showLoadingIndicator: widget._showLoadingIndicator,
-                elevation: widget._appBarElevation,
-                title: ValueListenableBuilder<String>(
-                  valueListenable: titleValue,
-                  builder: (context, title, child) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+      appBar: widget._hideAppBar
+          ? null
+          : TbAppBar(
+              showLoadingIndicator: widget._showLoadingIndicator,
+              elevation: widget._appBarElevation,
+              title: ValueListenableBuilder<String?>(
+                valueListenable: titleValue,
+                builder: (context, name, _) {
+                  final s = S.of(context);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name != null
+                            ? customTranslationService.translate(name)
+                            : widget._defaultTitle(s),
+                        style: widget._subTitle != null
+                            ? Theme.of(context).primaryTextTheme.titleLarge!
+                                  .copyWith(fontSize: 16)
+                            : null,
+                      ),
+                      if (widget._subTitle != null)
                         Text(
-                          title,
-                          style:
-                              widget._subTitle != null
-                                  ? Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleLarge!
-                                      .copyWith(fontSize: 16)
-                                  : null,
-                        ),
-                        if (widget._subTitle != null)
-                          Text(
-                            widget._subTitle!,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleLarge!
-                                  .color!
-                                  .withAlpha((0.38 * 255).ceil()),
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              height: 16 / 12,
-                            ),
+                          widget._subTitle!(s),
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .titleLarge!
+                                .color!
+                                .withAlpha((0.38 * 255).ceil()),
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            height: 16 / 12,
                           ),
-                      ],
-                    );
-                  },
-                ),
+                        ),
+                    ],
+                  );
+                },
               ),
+            ),
       body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final entity = snapshot.data;
             if (entity != null) {
-              return widget.buildEntityDetails(context, entity);
+              // SafeArea: in landscape the display cutout covers the sides.
+              return SingleChildScrollView(
+                child: SafeArea(
+                  child: widget.buildEntityDetails(context, entity),
+                ),
+              );
             } else {
               return Center(
                 child: Text(S.of(context).requestedEntityDoesNotExists),
@@ -138,7 +137,7 @@ class _EntityDetailsPageState<T extends BaseData>
   }
 }
 
-abstract class ContactBasedDetailsPage<T extends ContactBased>
+abstract class ContactBasedDetailsPage<T extends Object>
     extends EntityDetailsPage<T> {
   const ContactBasedDetailsPage({
     required super.defaultTitle,
@@ -152,16 +151,20 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
 
   @override
   Widget buildEntityDetails(BuildContext context, T entity) {
+    final e = ContactInfo.of(entity)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(S.of(context).title, style: labelTextStyle),
-          Text(entity.getName(), style: valueTextStyle),
+          Text(
+            getIt<ICustomTranslationService>().translate(e.title),
+            style: valueTextStyle,
+          ),
           const SizedBox(height: 16),
           Text(S.of(context).country, style: labelTextStyle),
-          Text(entity.country ?? '', style: valueTextStyle),
+          Text(e.country ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -171,7 +174,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).city, style: labelTextStyle),
-                    Text(entity.city ?? '', style: valueTextStyle),
+                    Text(e.city ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -181,7 +184,7 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(S.of(context).stateOrProvince, style: labelTextStyle),
-                    Text(entity.state ?? '', style: valueTextStyle),
+                    Text(e.state ?? '', style: valueTextStyle),
                   ],
                 ),
               ),
@@ -189,21 +192,36 @@ abstract class ContactBasedDetailsPage<T extends ContactBased>
           ),
           const SizedBox(height: 16),
           Text(S.of(context).postalCode, style: labelTextStyle),
-          Text(entity.zip ?? '', style: valueTextStyle),
+          Text(e.zip ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address, style: labelTextStyle),
-          Text(entity.address ?? '', style: valueTextStyle),
+          Text(e.address ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).address2, style: labelTextStyle),
-          Text(entity.address2 ?? '', style: valueTextStyle),
+          Text(e.address2 ?? '', style: valueTextStyle),
           const SizedBox(height: 16),
           Text(S.of(context).phone, style: labelTextStyle),
-          Text(entity.phone ?? '', style: valueTextStyle),
+          // A phone number reads left to right in any language; without the
+          // isolate its leading plus moves to the end in right-to-left.
+          Text(
+            e.phone == null ? '' : '\u2066${e.phone}\u2069',
+            style: valueTextStyle,
+          ),
           const SizedBox(height: 16),
           Text(S.of(context).email, style: labelTextStyle),
-          Text(entity.email ?? '', style: valueTextStyle),
+          Text(e.email ?? '', style: valueTextStyle),
         ],
       ),
     );
   }
 }
+
+/// The generated models share no name interface; these are the entity types
+/// shown by [EntityDetailsPage].
+String? _entityName(Object? entity) => switch (entity) {
+  Device(:final name) => name,
+  Asset(:final name) => name,
+  Customer(:final title) => title,
+  Tenant(:final title) => title,
+  _ => null,
+};

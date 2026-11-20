@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,18 +38,23 @@ class PaginationGridWidget<T, B> extends StatelessWidget {
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16),
-            sliver: PagedSliverGrid<T, B>(
-              pagingController: pagingController,
-              builderDelegate: builderDelegate,
-              gridDelegate: gridDelegate ??
-                  SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: gridChildAspectRatio ?? 156 / 150,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    crossAxisCount: Orientation.portrait == orientation
-                        ? (isMobile(context) ? 2 : 4)
-                        : (isMobile(context) ? 4 : 5),
-                  ),
+            sliver: PagingListener(
+              controller: pagingController,
+              builder: (context, state, fetchNextPage) => PagedSliverGrid<T, B>(
+                state: state,
+                fetchNextPage: fetchNextPage,
+                builderDelegate: builderDelegate,
+                gridDelegate:
+                    gridDelegate ??
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: gridChildAspectRatio ?? 156 / 150,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      crossAxisCount: Orientation.portrait == orientation
+                          ? (isMobile(context) ? 2 : 4)
+                          : (isMobile(context) ? 4 : 5),
+                    ),
+              ),
             ),
           ),
         ],

@@ -36,21 +36,26 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 def customScheme = getDartDefineValue('thingsboardOAuth2CallbackUrlScheme') ?: 'org.thingsboard.app.auth'
-def customLabel = getDartDefineValue('androidApplicationName') ?: 'Thingsboard app'
-def appLinksUrlHost = getDartDefineValue('appLinksUrlHost') ?: 'demo.thingsboard.io'
+def customLabel = getDartDefineValue('androidApplicationName') ?: 'ThingsBoard App'
+def appLinksUrlHost = getDartDefineValue('appLinksUrlHost') ?: 'thingsboard.cloud'
 def webPathPrefix = getDartDefineValue('webPathPrefix') ?: '/api/noauth/qr'
 def appLinksUrlScheme = getDartDefineValue('appLinksUrlScheme') ?: 'https'
+def redirectURLHost = getDartDefineValue('registrationRedirectUrlHost') ?: 'app.pe.thingsboard.org'
+def redirectURLScheme = getDartDefineValue('registrationRedirectUrlScheme') ?: 'tbscheme'
+
 android {
 namespace "org.thingsboard.app"
-    ndkVersion "29.0.13113456 rc1"
-    compileSdkVersion 35
+    ndkVersion flutter.ndkVersion
+    compileSdkVersion flutter.compileSdkVersion
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
+   
     defaultConfig {
-        applicationId getDartDefineValue('androidApplicationId')?: "org.thingsboard.app"
+        applicationId getDartDefineValue('androidApplicationId') ?: "org.thingsboard.app"
         minSdkVersion 24
+        multiDexEnabled true
         targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -59,7 +64,9 @@ namespace "org.thingsboard.app"
     appLabel: customLabel,
     appLinksUrlHost: appLinksUrlHost,
     webPathPrefix: webPathPrefix,
-    appLinksUrlScheme: appLinksUrlScheme
+    appLinksUrlScheme: appLinksUrlScheme,
+    redirectURLHost: redirectURLHost,
+    redirectURLScheme: redirectURLScheme
 ]
     }
 compileOptions {
@@ -67,22 +74,22 @@ compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
             // Custom proguard rules
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
         }
     }
 
     dependencies {
         implementation 'androidx.browser:browser:1.0.0'
+        // Compile-time access to FirebaseMessagingService for TbFirebaseMessagingService;
+        // the runtime version is resolved by the firebase_messaging Flutter plugin
+        compileOnly 'com.google.firebase:firebase-messaging:24.1.2'
         coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
         implementation 'androidx.window:window:1.0.0'
         implementation 'androidx.window:window-java:1.0.0'
@@ -100,4 +107,10 @@ compileOptions {
 
 flutter {
     source '../..'
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
 }

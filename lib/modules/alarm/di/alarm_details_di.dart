@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/details/alarm_details_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/details/i_alarm_details_datasource.dart';
@@ -16,7 +21,7 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/details/clear_alar
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/delete_alarm_comment_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/fetch_alarm_comments_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/details/post_alarm_comments_usecase.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract final class AlarmDetailsDi {
   AlarmDetailsDi._();

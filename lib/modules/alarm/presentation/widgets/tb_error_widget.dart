@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
@@ -36,9 +41,8 @@ class TbErrorWidget extends StatelessWidget {
           child: TextButton(
             onPressed: onRefresh,
             style: TextButton.styleFrom(
-              backgroundColor: Theme.of(
-                context,
-              ).primaryColor.withValues(alpha: .1),
+              backgroundColor: Theme.of(context).primaryColor
+                  .withValues(alpha: .1),
               fixedSize: const Size(216, 48),
             ),
             child: Row(

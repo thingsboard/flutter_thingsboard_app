@@ -1,0 +1,6 @@
+# Formatting-only commits, skipped by git blame:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+# (GitHub applies this file automatically.)
+
+# style: format the code base with dart format
+8bd918e8ec23f9f620257c235df47b5d757b8d9d

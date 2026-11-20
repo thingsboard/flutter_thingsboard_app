@@ -1,0 +1,33 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:esp_smartconfig/esp_smartconfig.dart';
+import 'package:thingsboard_app/modules/device_provisioning/data/esp_smartconfig/i_esp_smartconfig_service.dart';
+
+class EspSmartConfigService implements IEspSmartConfigService {
+  const EspSmartConfigService(this.provisioner);
+
+  final Provisioner provisioner;
+
+  @override
+  Provisioner create(SmartConfig config) {
+    switch (config) {
+      case SmartConfig.espTouch:
+        return Provisioner.espTouch();
+      case SmartConfig.espTouchV2:
+        return Provisioner.espTouchV2();
+    }
+  }
+
+  @override
+  Future<void> start(ProvisioningRequest request) {
+    return provisioner.start(request);
+  }
+
+  @override
+  Future<void> stop() async {
+    provisioner.stop();
+  }
+}

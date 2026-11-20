@@ -1,3 +1,7 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,11 +19,11 @@ import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_control
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarm_types/alarm_types_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/assignee/alarm_assignee_widget.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/widgets/filter_toggle_block_widget.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmsFilterPage extends StatefulWidget {
-const  AlarmsFilterPage({required this.pageController, super.key});
+  const AlarmsFilterPage({required this.pageController, super.key});
   final PreloadPageController pageController;
 
   @override
@@ -32,7 +36,6 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
   /// This flag indicates that the user has made changes to the filters.
   /// For example, selecting a status, assignee, or any other filter option.
   bool filtersChanged = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,9 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FilterToggleBlockWidget<FilterDataEntity<AlarmSearchStatus>>(
+                          FilterToggleBlockWidget<
+                            FilterDataEntity<AlarmSearchStatus>
+                          >(
                             key: ValueKey(
                               filtersService.getSelectedFilter(Filters.status),
                             ),
@@ -87,38 +92,39 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
                                 filtersChanged = true;
                               });
                             },
-                            labelAtIndex:
-                                (index) => filtersService.statuses.elementAt(index)
-                                    .getLocalizedLabel(context),
+                            labelAtIndex: (index) => filtersService.statuses
+                                .elementAt(index)
+                                .getLocalizedLabel(context),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: FilterToggleBlockWidget<FilterDataEntity<AlarmSeverity>>(
-                              key: ValueKey(
-                                filtersService.severities
-                              ),
-                              label: S.of(context).alarmSeverityList,
-                              items: filtersService.severities,
-                              selected: filtersService.getSelectedFilter(
-                                Filters.severity,
-                              ),
-                              onSelectedChanged: (values) {
-                                filtersService.setSelectedFilter(
-                                  Filters.severity,
-                                  data: values,
-                                );
+                            child:
+                                FilterToggleBlockWidget<
+                                  FilterDataEntity<AlarmSeverity>
+                                >(
+                                  key: ValueKey(filtersService.severities),
+                                  label: S.of(context).alarmSeverityList,
+                                  items: filtersService.severities,
+                                  selected: filtersService.getSelectedFilter(
+                                    Filters.severity,
+                                  ),
+                                  onSelectedChanged: (values) {
+                                    filtersService.setSelectedFilter(
+                                      Filters.severity,
+                                      data: values,
+                                    );
 
-                                setState(() {
-                                  filtersChanged = true;
-                                });
-                              },
-                              labelAtIndex:
-                                  (index) => filtersService.severities.elementAt(index)
+                                    setState(() {
+                                      filtersChanged = true;
+                                    });
+                                  },
+                                  labelAtIndex: (index) => filtersService
+                                      .severities
+                                      .elementAt(index)
                                       .getLocalizedLabel(context),
-                            ),
+                                ),
                           ),
                           AlarmTypesWidget(
-                            
                             onChanged: () {
                               setState(() {
                                 filtersChanged = true;
@@ -128,7 +134,6 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: AlarmAssigneeFilterWidget(
-                              
                               onChanged: () {
                                 setState(() {
                                   filtersChanged = true;
@@ -145,25 +150,24 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
                     onCancelTap: () {
                       _onBackButtonClick();
                     },
-                    onUpdateTap:
-                        filtersChanged
-                            ? () {
-                              filtersService.commitChanges();
+                    onUpdateTap: filtersChanged
+                        ? () {
+                            filtersService.commitChanges();
 
-                              getIt<AlarmBloc>().add(
-                                AlarmFiltersUpdateEvent(
-                                  filtersEntity:
-                                      filtersService.getCommittedFilters(),
-                                ),
-                              );
+                            getIt<AlarmBloc>().add(
+                              AlarmFiltersUpdateEvent(
+                                filtersEntity: filtersService
+                                    .getCommittedFilters(),
+                              ),
+                            );
 
-                              widget.pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                            : null,
+                            widget.pageController.animateToPage(
+                              0,
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        : null,
                   ),
                 ],
               ),
@@ -178,13 +182,12 @@ class _AlarmsFilterPageState extends State<AlarmsFilterPage> {
   void initState() {
     filtersService = getIt<IAlarmFiltersService>();
 
-
     super.initState();
   }
 
   @override
   void dispose() {
-     _onBackButtonClick();
+    _onBackButtonClick();
     super.dispose();
   }
 

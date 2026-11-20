@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 class ScanAreaClipper extends CustomClipper<Path> {
@@ -17,7 +22,9 @@ class ScanAreaClipper extends CustomClipper<Path> {
     final double holeTop = (size.height - areaSize.height) / 2;
 
     final Path holePath = Path();
-    holePath.addRect(Rect.fromLTWH(holeLeft, holeTop, areaSize.width, areaSize.height));
+    holePath.addRect(
+      Rect.fromLTWH(holeLeft, holeTop, areaSize.width, areaSize.height),
+    );
 
     return Path.combine(PathOperation.difference, path, holePath);
   }

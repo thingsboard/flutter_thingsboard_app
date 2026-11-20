@@ -1,11 +1,17 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:thingsboard_app/config/routes/v2/redirects/redirect.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/noauth_routes.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/register_routes.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/select_region_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 
@@ -21,8 +27,16 @@ class AuthRedirect implements Redirect {
     Ref ref,
   ) async {
     final login = ref.read(loginProvider);
-    final path = state.fullPath;
-
+    final path = state.fullPath ?? '';
+    if (path == SelectRegionRoutes.selectRegion) {
+      return null;
+    }
+    if (RegisterRoutes.isRegisterRoute(path)) {
+      return null;
+    }
+    if (path == SelectRegionRoutes.chooseRegion) {
+      return null;
+    }
     if (path == LoginRoutes.login + LoginRoutes.mfaConfigure) {
       return null;
     }
@@ -32,23 +46,10 @@ class AuthRedirect implements Redirect {
     if (path == noAuthPath) {
       return null;
     }
-final loginPath= isLoginPath(state);
+    final loginPath = isLoginPath(state);
     if (!login.isUserLoaded && !loginPath) {
-      return '/login${path?.isEmpty == true ? '' : '?redirect=$path'}';
+      return '/login${path.isEmpty ? '' : '?redirect=$path'}';
     }
-
-    // if (login.isUserLoaded &&
-    //     ![
-    //       Authority.PRE_VERIFICATION_TOKEN,
-    //       Authority.MFA_CONFIGURATION_TOKEN,
-    //     ].contains(login.userScope) &&
-    //     isLoginPath(state)) {
-    //   final redirect = state.uri.queryParameters['ridirect'];
-    //   if (redirect != null && redirect.isNotEmpty) {
-    //     return redirect;
-    //   }
-    //   return '/home';
-    // }
     return null;
   }
 }

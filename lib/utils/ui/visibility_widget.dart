@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -24,10 +29,7 @@ class AnimatedVisibilityWidget extends HookWidget {
     );
 
     final animation = useAnimation(
-      CurvedAnimation(
-        parent: controller,
-        curve: curve,
-      ),
+      CurvedAnimation(parent: controller, curve: curve),
     );
 
     final isVisible = useState(show);
@@ -48,12 +50,6 @@ class AnimatedVisibilityWidget extends HookWidget {
       return replacment;
     }
 
-    return Opacity(
-      opacity: animation,
-      child: Transform.scale(
-        scale: 0.6 + (animation * 0.4),
-        child: child,
-      ),
-    );
+    return Opacity(opacity: animation, child: child);
   }
 }
