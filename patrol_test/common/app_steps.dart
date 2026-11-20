@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart' show TestFailure;
 import 'package:patrol/patrol.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/main.dart' as app;
@@ -142,6 +143,24 @@ extension AppSteps on PatrolIntegrationTester {
 
   Future<void> openAlarms() async {
     await this(s.alarms(2)).tap();
+  }
+
+  /// Waits until the app shows either the login page (returns true) or the
+  /// alarm list (returns false), whichever comes first.
+  Future<bool> waitForLoginPageOrAlarms({
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
+    final loginButton = this(ElevatedButton).containing(s.login);
+    final alarmList = this(RefreshIndicator);
+    final end = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(end)) {
+      await pump(const Duration(milliseconds: 500));
+      if (loginButton.exists) return true;
+      if (alarmList.exists) return false;
+    }
+    throw TestFailure(
+      'Neither the login page nor the alarm list appeared within $timeout',
+    );
   }
 
   /// Pulls the alarm list down, so the app asks the server again instead of
