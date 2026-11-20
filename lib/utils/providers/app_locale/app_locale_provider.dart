@@ -138,6 +138,13 @@ Locale resolveAppLocale(
   final languages = supportedLocales.map((l) => l.languageCode).toSet();
   return basicLocaleListResolution(
     locales?.map((l) {
+      // Simplified Chinese with a Traditional region (zh-Hans-TW/HK/MO): drop
+      // the region, or Flutter matches zh_TW by language and country.
+      if (l.languageCode == 'zh' &&
+          l.scriptCode == 'Hans' &&
+          const {'TW', 'HK', 'MO'}.contains(l.countryCode)) {
+        return const Locale('zh');
+      }
       if (_isTraditionalChinese(l)) return const Locale('zh', 'TW');
       final language = _languageAlias(l.languageCode);
       if (!languages.contains(language)) return Locale(language);

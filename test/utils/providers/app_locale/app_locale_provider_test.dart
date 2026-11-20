@@ -74,16 +74,31 @@ void main() {
     expect(
       resolveAppLocale(const [Locale('zh', 'SG')], S.supportedLocales),
       const Locale('zh'),
-    ); // An explicit script wins over the region.
+    );
+    // An explicit Simplified script wins over a Traditional region, Taiwan
+    // included (zh_TW is a supported locale, so Flutter would match it).
+    for (final region in ['HK', 'MO', 'TW']) {
+      expect(
+        resolveAppLocale([
+          Locale.fromSubtags(
+            languageCode: 'zh',
+            scriptCode: 'Hans',
+            countryCode: region,
+          ),
+        ], S.supportedLocales),
+        const Locale('zh'),
+        reason: 'zh-Hans-$region',
+      );
+    }
     expect(
       resolveAppLocale(const [
         Locale.fromSubtags(
           languageCode: 'zh',
           scriptCode: 'Hans',
-          countryCode: 'HK',
+          countryCode: 'CN',
         ),
       ], S.supportedLocales),
-      const Locale('zh'),
+      const Locale('zh', 'CN'),
     );
   });
 
