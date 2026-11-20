@@ -2,8 +2,8 @@ name: E2E
 
 # Patrol tests against the E2E server (CONTRIBUTING.md, "E2E tests").
 # Runs after every merge, on pull requests labeled `e2e:android` or `e2e:ios`
-# (one job per label), and from the Run workflow button. Not a required check
-# yet.
+# (one job per label; add e2e:full for the full suite), and from the Run
+# workflow button. Not a required check yet.
 on:
   push:
     branches: ['develop/**']
@@ -15,7 +15,7 @@ on:
       suite:
         description: Test suite (folder in patrol_test/)
         type: choice
-        options: [smoke]
+        options: [smoke, full]
         default: smoke
       platform:
         description: Platform
@@ -89,7 +89,10 @@ jobs:
     env:
       # Android 16 and Android 13, the versions MOB-33 tests on.
       API_LEVEL: ${{ inputs.os == 'oldest' && '33' || '36' }}
-      SUITE: ${{ inputs.suite || 'smoke' }}
+      # The label e2e:full picks the full suite on a pull request.
+      SUITE: ${{ inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke' }}
+      # The full suite runs the smoke tests too.
+      TARGETS: ${{ (inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke') == 'full' && 'patrol_test/smoke,patrol_test/full' || 'patrol_test/smoke' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Free disk space
@@ -146,7 +149,7 @@ jobs:
           profile: pixel_6
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: patrol test --target patrol_test/${{ env.SUITE }} --dart-define-from-file=${{ runner.temp }}/e2e_defines.json
+          script: patrol test --target ${{ env.TARGETS }} --dart-define-from-file=${{ runner.temp }}/e2e_defines.json
       - name: Upload the test reports
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -177,7 +180,10 @@ jobs:
       # iOS 26 and iOS 17, the newest and the oldest version the app is tested on.
       IOS_VERSION: ${{ inputs.os == 'oldest' && '17' || '26' }}
       DEVICE_TYPE: ${{ inputs.os == 'oldest' && 'iPhone 15' || 'iPhone 17' }}
-      SUITE: ${{ inputs.suite || 'smoke' }}
+      # The label e2e:full picks the full suite on a pull request.
+      SUITE: ${{ inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke' }}
+      # The full suite runs the smoke tests too.
+      TARGETS: ${{ (inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke') == 'full' && 'patrol_test/smoke,patrol_test/full' || 'patrol_test/smoke' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: ./.github/actions/setup-flutter
@@ -251,7 +257,7 @@ jobs:
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
           SIMULATOR_VERSION: ${{ steps.simulator.outputs.version }}
         run: |
-          patrol test --target "patrol_test/$SUITE" \
+          patrol test --target "$TARGETS" \
             --dart-define-from-file="$RUNNER_TEMP/e2e_defines.json" \
             --device "$SIMULATOR_UDID" --ios "$SIMULATOR_VERSION"
       - name: Upload the test results

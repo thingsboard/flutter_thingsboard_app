@@ -83,9 +83,9 @@ Add a test for a bug fix where the code allows it.
 
 ## E2E tests
 
-End-to-end tests drive the app on an Android emulator or an iOS simulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite (`smoke/`). They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
+End-to-end tests drive the app on an Android emulator or an iOS simulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite: `smoke/` runs after every merge, `full/` (with `smoke/`) before a release. The full suite covers only critical journeys (signing in, dashboards, two-factor login, switching users, an ended session, alarms), each as a customer created for the run. It needs TOTP allowed in the server's two-factor settings. They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
 
-The `E2E` workflow runs them on an Android emulator and an iOS simulator after every merge into `develop/**`, on pull requests labeled `e2e:android` or `e2e:ios` (each label runs its platform) and from the Run workflow button, where the `platform` input picks Android (the default), iOS or both. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
+The `E2E` workflow runs them on an Android emulator and an iOS simulator after every merge into `develop/**`, on pull requests labeled `e2e:android` or `e2e:ios` (each label runs its platform; add `e2e:full` to run the full suite with smoke) and from the Run workflow button, where the `platform` input picks Android (the default), iOS or both. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
 
 It needs, in the repository settings:
 

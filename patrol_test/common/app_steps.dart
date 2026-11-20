@@ -3,7 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patrol/patrol.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/main.dart' as app;
@@ -71,6 +74,89 @@ extension AppSteps on PatrolIntegrationTester {
     await this(s.more).tap();
     await this(s.logout).tap();
     await this(ElevatedButton).containing(s.login).waitUntilVisible();
+  }
+
+  /// Waits for the login page, for example after the session ended.
+  Future<void> expectLoginPage() async {
+    await this(ElevatedButton).containing(s.login).waitUntilVisible();
+  }
+
+  /// Patrol has no rotate command, so the app is asked for landscape the way
+  /// a screen would ask. [resetOrientation] gives the choice back.
+  Future<void> rotateToLandscape() async {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+    ]);
+    await pump(const Duration(seconds: 1));
+  }
+
+  Future<void> resetOrientation() async {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await pump(const Duration(seconds: 1));
+    await SystemChrome.setPreferredOrientations(const []);
+  }
+
+  /// Leaves the app for [duration], then brings it back.
+  Future<void> backgroundFor(Duration duration) async {
+    await platform.mobile.pressHome();
+    await Future<void>.delayed(duration);
+    await platform.mobile.openApp();
+    await pump(const Duration(seconds: 1));
+  }
+
+  /// The platform's own back: the system back key on Android, the edge swipe
+  /// on iOS.
+  Future<void> systemBack() async {
+    if (Platform.isAndroid) {
+      await platform.android.pressBack();
+    } else {
+      await platform.ios.swipeBack();
+    }
+    await pump(const Duration(seconds: 1));
+  }
+
+  /// The code submits by itself once it has 6 digits.
+  Future<void> enterTwoFactorCode(String code) async {
+    await this(TextField)
+        .containing(_label(s.toptAuthPlaceholder))
+        .enterText(code);
+  }
+
+  Future<void> expectTwoFactorPage() async {
+    await this(s.verifyYourIdentity).waitUntilVisible();
+  }
+
+  Future<void> expectWrongTwoFactorCode() async {
+    await this(s.verificationCodeIncorrect).waitUntilVisible();
+  }
+
+  Future<void> openAlarms() async {
+    await this(s.alarms(2)).tap();
+  }
+
+  Future<void> openAlarmDetails(String type) async {
+    await this(type).waitUntilVisible();
+    await this(Icons.more_vert).tap();
+    await this(s.acknowledge).waitUntilVisible();
+  }
+
+  Future<void> acknowledgeAlarm() async {
+    await this(ElevatedButton).containing(s.acknowledge).tap();
+    await this(s.alarmAcknowledgeTitle).waitUntilVisible();
+    await this(TextButton).containing(s.yes.toUpperCase()).tap();
+  }
+
+  /// The status line on the alarm card and on the details page.
+  Future<void> expectAlarmStatus({required bool acknowledged}) async {
+    await this(
+      '${s.active} ${acknowledged ? s.acknowledged : s.unacknowledged}',
+    ).waitUntilVisible();
+  }
+
+  /// Opens the More page, which starts with the signed-in user.
+  Future<void> openMore() async {
+    await this(s.more).tap();
+    await this(s.logout).waitUntilVisible();
   }
 
   /// Matches the field label, which adds `*` to required fields.

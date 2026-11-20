@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'e2e_env.dart';
+import 'totp.dart';
 
 typedef E2eUser = ({String email, String password, String customerId});
 
@@ -78,9 +79,15 @@ class E2eServer {
     );
   }
 
-  /// Creates a customer with one activated customer user. Deleting the
-  /// customer with [deleteCustomer] also deletes the user.
-  Future<E2eUser> createCustomerUser() async {
+  /// Creates a customer with one activated customer user in the customer's
+  /// [userGroup]. Deleting the customer with [deleteCustomer] also deletes the
+  /// user and everything else the customer owns.
+  ///
+  /// `Customer Users` can only read; `Customer Administrators` can also act,
+  /// for example acknowledge alarms.
+  Future<E2eUser> createCustomerUser({
+    String userGroup = customerUsersGroup,
+  }) async {
     final name = '${E2eEnv.entityPrefix}${E2eEnv.runId}-customer';
     final customer = (await _client.getCustomerControllerApi().saveCustomer(
       customer: Customer((b) => b..title = name),
@@ -96,7 +103,7 @@ class E2eServer {
                     ownerType: 'CUSTOMER',
                     ownerId: customerId.id,
                     groupType: 'USER',
-                    groupName: 'Customer Users',
+                    groupName: userGroup,
                   ))
               .data!;
       final email = '$name@example.com';
@@ -127,6 +134,120 @@ class E2eServer {
       rethrow;
     }
   }
+
+  static const customerUsersGroup = 'Customer Users';
+  static const customerAdministratorsGroup = 'Customer Administrators';
+
+  /// Type of the alarm [createCustomerAlarm] raises.
+  static const alarmType = '${E2eEnv.entityPrefix}alarm';
+
+  /// Creates a copy of the E2E dashboard owned by the customer and makes it
+  /// the customer's home dashboard, so its users land on it after sign-in.
+  Future<void> setCustomerHomeDashboard(String customerId) async {
+    final dashboard = (await _client.getDashboardControllerApi().saveDashboard(
+      dashboard: Dashboard(
+        (b) => b
+          ..title = dashboardTitle
+          ..customerId.replace(_customerId(customerId))
+          ..configuration = JsonObject(_dashboardConfiguration()),
+      ),
+      entityGroupId: await _customerGroupId(customerId, 'DASHBOARD', 'All'),
+    )).data!;
+    final customerApi = _client.getCustomerControllerApi();
+    final customer = (await customerApi.getCustomerById(customerId: customerId))
+        .data!;
+    final info = {
+      ...?(customer.additionalInfo?.value as Map?)?.cast<String, Object?>(),
+      'homeDashboardId': dashboard.id!.id,
+      'homeDashboardHideToolbar': true,
+    };
+    await customerApi.saveCustomer(
+      customer: customer.rebuild((b) => b..additionalInfo = JsonObject(info)),
+    );
+  }
+
+  /// Raises an active, unacknowledged [alarmType] alarm on a new device owned
+  /// by the customer.
+  Future<void> createCustomerAlarm(String customerId) async {
+    final device = (await _client.getDeviceControllerApi().saveDevice(
+      device: Device(
+        (b) => b
+          ..name = '${E2eEnv.entityPrefix}${E2eEnv.runId}-device'
+          ..type = 'default'
+          ..customerId.replace(_customerId(customerId)),
+      ),
+      entityGroupId: await _customerGroupId(customerId, 'DEVICE', 'All'),
+    )).data!;
+    await _client.getAlarmControllerApi().saveAlarm(
+      alarm: Alarm(
+        (b) => b
+          ..type = alarmType
+          ..name = alarmType
+          ..originator = device.id
+          ..severity = AlarmSeverity.MAJOR
+          ..status = AlarmStatus.ACTIVE_UNACK
+          ..acknowledged = false
+          ..cleared = false,
+      ),
+    );
+  }
+
+  /// Turns on TOTP two-factor login for [user] and returns the generator for
+  /// its codes. TOTP must be allowed in the server's platform settings.
+  static Future<Totp> enableTotp(E2eUser user) async {
+    final client = await _signInAs(user);
+    final api = client.getTwoFactorAuthConfigControllerApi();
+    final config =
+        (await api.generateTwoFaAccountConfig(providerType: 'TOTP')).data!
+            as TotpTwoFaAccountConfig;
+    final totp = Totp.fromAuthUrl(config.authUrl);
+    await api.verifyAndSaveTwoFaAccountConfig(
+      twoFaAccountConfig: config,
+      verificationCode: totp.now(),
+    );
+    return totp;
+  }
+
+  /// Ends every session of [user] on the server the way a password change
+  /// does: tokens issued before it stop working, including the app's.
+  static Future<void> endSessions(E2eUser user) async {
+    final client = await _signInAs(user);
+    // The server rejects tokens issued in the same second as the change.
+    await Future<void>.delayed(const Duration(seconds: 1));
+    await client.changePassword(user.password, _newPassword());
+  }
+
+  static Future<ThingsboardClient> _signInAs(E2eUser user) async {
+    final client = ThingsboardClient(E2eEnv.serverUrl);
+    await client.login(
+      LoginRequest(
+        (b) => b
+          ..username = user.email
+          ..password = user.password,
+      ),
+    );
+    return client;
+  }
+
+  Future<String> _customerGroupId(
+    String customerId,
+    String groupType,
+    String groupName,
+  ) async {
+    final group =
+        (await _client
+                .getEntityGroupControllerApi()
+                .getEntityGroupByOwnerAndNameAndType(
+                  ownerType: 'CUSTOMER',
+                  ownerId: customerId,
+                  groupType: groupType,
+                  groupName: groupName,
+                ))
+            .data!;
+    return group.id!.id;
+  }
+
+  static CustomerId _customerId(String id) => CustomerId((b) => b..id = id);
 
   Future<void> deleteCustomer(String customerId) =>
       _client.getCustomerControllerApi().deleteCustomer(customerId: customerId);
