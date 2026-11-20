@@ -63,16 +63,10 @@ class SHi extends S {
   String get login => 'लॉगिन';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard लोगो';
-
-  @override
   String get loginToYourAccount => 'अपने खाते में लॉगिन करें';
 
   @override
   String get email => 'ईमेल';
-
-  @override
-  String get emailRequireText => 'ईमेल आवश्यक है।';
 
   @override
   String get emailInvalidText => 'अमान्य ईमेल फ़ॉर्मेट।';
@@ -82,9 +76,6 @@ class SHi extends S {
 
   @override
   String get password => 'पासवर्ड';
-
-  @override
-  String get passwordRequireText => 'पासवर्ड आवश्यक है।';
 
   @override
   String get passwordForgotText => 'पासवर्ड भूल गए?';
@@ -98,10 +89,6 @@ class SHi extends S {
 
   @override
   String get requestPasswordReset => 'पासवर्ड रीसेट का अनुरोध करें';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'पासवर्ड रीसेट लिंक सफलतापूर्वक भेजा गया!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SHi extends S {
 
   @override
   String get label => 'लेबल';
-
-  @override
-  String get assignedToCustomer => 'ग्राहक को असाइन किया गया';
 
   @override
   String get auditLogDetails => 'ऑडिट लॉग विवरण';
@@ -257,12 +241,6 @@ class SHi extends S {
   @override
   String get passwordErrorNotification =>
       'दर्ज किए गए पासवर्ड समान होने चाहिए!';
-
-  @override
-  String get firstNameUpper => 'पहला नाम';
-
-  @override
-  String get lastNameUpper => 'अंतिम नाम';
 
   @override
   String get profileSuccessNotification => 'प्रोफ़ाइल सफलतापूर्वक अपडेट की गई';
@@ -408,19 +386,7 @@ class SHi extends S {
   String get firstName => 'पहला नाम';
 
   @override
-  String get firstNameRequireText => 'पहला नाम आवश्यक है।';
-
-  @override
   String get lastName => 'अंतिम नाम';
-
-  @override
-  String get lastNameRequireText => 'अंतिम नाम आवश्यक है।';
-
-  @override
-  String get createPassword => 'पासवर्ड बनाएँ';
-
-  @override
-  String get repeatPassword => 'अपना पासवर्ड दोहराएँ';
 
   @override
   String get imNotARobot => 'मैं रोबोट नहीं हूँ';
@@ -518,12 +484,6 @@ class SHi extends S {
 
   @override
   String get addCommentMessage => 'टिप्पणी जोड़ें...';
-
-  @override
-  String get selectUser => 'उपयोगकर्ता चुनें';
-
-  @override
-  String get assignedToMe => 'मुझे असाइन किए गए';
 
   @override
   String get clear => 'क्लियर करें';
@@ -637,10 +597,6 @@ class SHi extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'कोई डिवाइस नहीं मिला। कृपया सुनिश्चित करें कि आपके फ़ोन का Bluetooth चालू है और आपके नए डिवाइस की रेंज में है।';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'आगे बढ़ने के लिए आपके पास \"$permissions\" के लिए पर्याप्त अनुमतियाँ नहीं हैं। कृपया आवश्यक अनुमतियाँ दें और \"पुनः प्रयास करें\" पर टैप करें।';
   }
@@ -664,9 +620,6 @@ class SHi extends S {
 
   @override
   String get claimingDevice => 'डिवाइस क्लेम किया जा रहा है';
-
-  @override
-  String get claimingDeviceDone => 'डिवाइस क्लेम पूर्ण हुआ';
 
   @override
   String get claimingMessageSuccess => 'डिवाइस सफलतापूर्वक\nक्लेम किया गया';
@@ -708,12 +661,6 @@ class SHi extends S {
 
   @override
   String get scanQrCode => 'QR कोड स्कैन करें';
-
-  @override
-  String get anEmptyRequestDataReceived => 'खाली अनुरोध डेटा प्राप्त हुआ।';
-
-  @override
-  String get somethingWentWrongRollback => 'कुछ गलत हुआ ... रोलबैक';
 
   @override
   String get searchResults => 'खोज परिणाम';
@@ -797,9 +744,6 @@ class SHi extends S {
 
   @override
   String get close => 'बंद करें';
-
-  @override
-  String get codeVerificationFailed => 'कोड सत्यापन विफल!';
 
   @override
   String get fatalError => 'गंभीर त्रुटि';
@@ -1307,11 +1251,6 @@ class SHi extends S {
 
   @override
   String get sendCode => 'कोड भेजें';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'कोड भेजने में त्रुटि: $error';
-  }
 
   @override
   String get copy => 'कॉपी करें';

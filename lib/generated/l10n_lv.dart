@@ -63,16 +63,10 @@ class SLv extends S {
   String get login => 'Pierakstīties';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard logotips';
-
-  @override
   String get loginToYourAccount => 'Pierakstīties savā kontā';
 
   @override
   String get email => 'E-pasts';
-
-  @override
-  String get emailRequireText => 'E-pasts ir nepieciešams.';
 
   @override
   String get emailInvalidText => 'Nederīgs e-pasta formāts.';
@@ -82,9 +76,6 @@ class SLv extends S {
 
   @override
   String get password => 'Parole';
-
-  @override
-  String get passwordRequireText => 'Parole ir nepieciešama.';
 
   @override
   String get passwordForgotText => 'Aizmirsāt paroli?';
@@ -98,10 +89,6 @@ class SLv extends S {
 
   @override
   String get requestPasswordReset => 'Pieprasīt paroles atiestatīšanu';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Paroles atiestatīšanas saite tika veiksmīgi nosūtīta!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SLv extends S {
 
   @override
   String get label => 'Etiķete';
-
-  @override
-  String get assignedToCustomer => 'Piešķirts klientam';
 
   @override
   String get auditLogDetails => 'Audita žurnāla detaļas';
@@ -255,12 +239,6 @@ class SLv extends S {
 
   @override
   String get passwordErrorNotification => 'Ievadītajām parolēm ir jāsakrīt!';
-
-  @override
-  String get firstNameUpper => 'Vārds';
-
-  @override
-  String get lastNameUpper => 'Uzvārds';
 
   @override
   String get profileSuccessNotification => 'Profils veiksmīgi atjaunināts';
@@ -406,19 +384,7 @@ class SLv extends S {
   String get firstName => 'Vārds';
 
   @override
-  String get firstNameRequireText => 'Vārds ir nepieciešams.';
-
-  @override
   String get lastName => 'Uzvārds';
-
-  @override
-  String get lastNameRequireText => 'Uzvārds ir nepieciešams.';
-
-  @override
-  String get createPassword => 'Izveidot paroli';
-
-  @override
-  String get repeatPassword => 'Atkārtot paroli';
 
   @override
   String get imNotARobot => 'Es neesmu robots';
@@ -515,12 +481,6 @@ class SLv extends S {
 
   @override
   String get addCommentMessage => 'Pievienojiet komentāru...';
-
-  @override
-  String get selectUser => 'Atlasīt lietotājus';
-
-  @override
-  String get assignedToMe => 'Piešķirts man';
 
   @override
   String get clear => 'Atrisināt';
@@ -633,10 +593,6 @@ class SLv extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Iekārtas nav atrastas. Lūdzu, pārliecinieties, ka tālruņa Bluetooth ir ieslēgts un jaunā iekārta atrodas uztveršanas zonā.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Jums nav pietiekamu atļauju \"$permissions\", lai turpinātu. Lūdzu, piešķiriet nepieciešamās atļaujas un pieskarieties pogai \"Mēģināt vēlreiz\".';
   }
@@ -660,9 +616,6 @@ class SLv extends S {
 
   @override
   String get claimingDevice => 'Iekārtas pieņemšana īpašumā';
-
-  @override
-  String get claimingDeviceDone => 'Iekārta pieņemta īpašumā';
 
   @override
   String get claimingMessageSuccess => 'Iekārta ir\nveiksmīgi pieņemta īpašumā';
@@ -704,12 +657,6 @@ class SLv extends S {
 
   @override
   String get scanQrCode => 'Skenēt QR kodu';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Saņemti tukši pieprasījuma dati.';
-
-  @override
-  String get somethingWentWrongRollback => 'Kaut kas nogāja greizi ... Atsaukt';
 
   @override
   String get searchResults => 'Meklēšanas rezultāti';
@@ -793,9 +740,6 @@ class SLv extends S {
 
   @override
   String get close => 'Aizvērt';
-
-  @override
-  String get codeVerificationFailed => 'Koda pārbaude neizdevās!';
 
   @override
   String get fatalError => 'Kritiska kļūda';
@@ -1305,11 +1249,6 @@ class SLv extends S {
 
   @override
   String get sendCode => 'Nosūtīt kodu';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Kļūda, sūtot kodu: $error';
-  }
 
   @override
   String get copy => 'Kopēt';

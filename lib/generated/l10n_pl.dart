@@ -63,16 +63,10 @@ class SPl extends S {
   String get login => 'Zaloguj się';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Zaloguj się do swojego konta';
 
   @override
   String get email => 'E-mail';
-
-  @override
-  String get emailRequireText => 'E-mail jest wymagany.';
 
   @override
   String get emailInvalidText => 'Nieprawidłowy format adresu e-mail.';
@@ -82,9 +76,6 @@ class SPl extends S {
 
   @override
   String get password => 'Hasło';
-
-  @override
-  String get passwordRequireText => 'Hasło jest wymagane.';
 
   @override
   String get passwordForgotText => 'Nie pamiętasz hasła?';
@@ -98,10 +89,6 @@ class SPl extends S {
 
   @override
   String get requestPasswordReset => 'Poproś o zresetowanie hasła';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Link do resetowania hasła został pomyślnie wysłany!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SPl extends S {
 
   @override
   String get label => 'Etykieta';
-
-  @override
-  String get assignedToCustomer => 'Przypisany do klienta';
 
   @override
   String get auditLogDetails => 'Szczegóły dziennika audytu';
@@ -256,12 +240,6 @@ class SPl extends S {
 
   @override
   String get passwordErrorNotification => 'Wpisane hasła muszą być takie same!';
-
-  @override
-  String get firstNameUpper => 'Imię';
-
-  @override
-  String get lastNameUpper => 'Nazwisko';
 
   @override
   String get profileSuccessNotification =>
@@ -411,19 +389,7 @@ class SPl extends S {
   String get firstName => 'Imię';
 
   @override
-  String get firstNameRequireText => 'Imię jest wymagane.';
-
-  @override
   String get lastName => 'Nazwisko';
-
-  @override
-  String get lastNameRequireText => 'Nazwisko jest wymagane.';
-
-  @override
-  String get createPassword => 'Utwórz hasło';
-
-  @override
-  String get repeatPassword => 'Powtórz swoje hasło';
 
   @override
   String get imNotARobot => 'Nie jestem robotem';
@@ -528,12 +494,6 @@ class SPl extends S {
 
   @override
   String get addCommentMessage => 'Dodaj komentarz...';
-
-  @override
-  String get selectUser => 'Wybierz użytkowników';
-
-  @override
-  String get assignedToMe => 'Przypisane do mnie';
 
   @override
   String get clear => 'Wyczyść';
@@ -647,10 +607,6 @@ class SPl extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Nie znaleziono urządzeń. Upewnij się, że Bluetooth w Twoim telefonie jest włączony i że znajdujesz się w zasięgu nowego urządzenia.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Nie masz wystarczających uprawnień do „$permissions”, aby kontynuować. Nadaj wymagane uprawnienia i dotknij „Spróbuj ponownie”.';
   }
@@ -676,9 +632,6 @@ class SPl extends S {
 
   @override
   String get claimingDevice => 'Przejmowanie urządzenia';
-
-  @override
-  String get claimingDeviceDone => 'Przejmowanie urządzenia zakończone';
 
   @override
   String get claimingMessageSuccess => 'Urządzenie zostało\npomyślnie przejęte';
@@ -720,12 +673,6 @@ class SPl extends S {
 
   @override
   String get scanQrCode => 'Zeskanuj kod QR';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Otrzymano puste dane żądania.';
-
-  @override
-  String get somethingWentWrongRollback => 'Coś poszło nie tak ... Wycofywanie';
 
   @override
   String get searchResults => 'Wyniki wyszukiwania';
@@ -809,9 +756,6 @@ class SPl extends S {
 
   @override
   String get close => 'Zamknij';
-
-  @override
-  String get codeVerificationFailed => 'Weryfikacja kodu nie powiodła się!';
 
   @override
   String get fatalError => 'Błąd krytyczny';
@@ -1325,11 +1269,6 @@ class SPl extends S {
 
   @override
   String get sendCode => 'Wyślij kod';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Błąd wysyłania kodu: $error';
-  }
 
   @override
   String get copy => 'Kopiuj';

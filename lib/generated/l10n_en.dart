@@ -63,16 +63,10 @@ class SEn extends S {
   String get login => 'Log In';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard Logo';
-
-  @override
   String get loginToYourAccount => 'Login to your account';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'Email is required.';
 
   @override
   String get emailInvalidText => 'Invalid email format.';
@@ -82,9 +76,6 @@ class SEn extends S {
 
   @override
   String get password => 'Password';
-
-  @override
-  String get passwordRequireText => 'Password is required.';
 
   @override
   String get passwordForgotText => 'Forgot Password?';
@@ -98,10 +89,6 @@ class SEn extends S {
 
   @override
   String get requestPasswordReset => 'Request password reset';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Password reset link was successfully sent!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SEn extends S {
 
   @override
   String get label => 'Label';
-
-  @override
-  String get assignedToCustomer => 'Assigned to customer';
 
   @override
   String get auditLogDetails => 'Audit log details';
@@ -254,12 +238,6 @@ class SEn extends S {
 
   @override
   String get passwordErrorNotification => 'Entered passwords must be same!';
-
-  @override
-  String get firstNameUpper => 'First Name';
-
-  @override
-  String get lastNameUpper => 'Last Name';
 
   @override
   String get profileSuccessNotification => 'Profile successfully updated';
@@ -405,19 +383,7 @@ class SEn extends S {
   String get firstName => 'First name';
 
   @override
-  String get firstNameRequireText => 'First name is required.';
-
-  @override
   String get lastName => 'Last name';
-
-  @override
-  String get lastNameRequireText => 'Last name is required.';
-
-  @override
-  String get createPassword => 'Create a password';
-
-  @override
-  String get repeatPassword => 'Repeat your password';
 
   @override
   String get imNotARobot => 'I\'m not a robot';
@@ -514,12 +480,6 @@ class SEn extends S {
 
   @override
   String get addCommentMessage => 'Add a comment...';
-
-  @override
-  String get selectUser => 'Select users';
-
-  @override
-  String get assignedToMe => 'Assigned to me';
 
   @override
   String get clear => 'Clear';
@@ -632,10 +592,6 @@ class SEn extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Devices not found. Please make sure that your phone’s Bluetooth is turned on and within range of your new device.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'You don\'t have enough permissions for \"$permissions\" to proceed. Please grant the required permissions and tap \"Try Again\".';
   }
@@ -660,9 +616,6 @@ class SEn extends S {
 
   @override
   String get claimingDevice => 'Claiming device';
-
-  @override
-  String get claimingDeviceDone => 'Device claiming done';
 
   @override
   String get claimingMessageSuccess => 'Device has been\nsuccessfully claimed';
@@ -704,12 +657,6 @@ class SEn extends S {
 
   @override
   String get scanQrCode => 'Scan QR code';
-
-  @override
-  String get anEmptyRequestDataReceived => 'An empty request data received.';
-
-  @override
-  String get somethingWentWrongRollback => 'Something went wrong ... Rollback';
 
   @override
   String get searchResults => 'Search results';
@@ -794,9 +741,6 @@ class SEn extends S {
 
   @override
   String get close => 'Close';
-
-  @override
-  String get codeVerificationFailed => 'Code verification failed!';
 
   @override
   String get fatalError => 'Fatal error';
@@ -1305,11 +1249,6 @@ class SEn extends S {
 
   @override
   String get sendCode => 'Send code';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Error sending code: $error';
-  }
 
   @override
   String get copy => 'Copy';

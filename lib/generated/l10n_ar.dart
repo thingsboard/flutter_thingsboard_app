@@ -63,16 +63,10 @@ class SAr extends S {
   String get login => 'تسجيل الدخول';
 
   @override
-  String get logoDefaultValue => 'شعار ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'تسجيل الدخول إلى حسابك';
 
   @override
   String get email => 'البريد الإلكتروني';
-
-  @override
-  String get emailRequireText => 'البريد الإلكتروني مطلوب.';
 
   @override
   String get emailInvalidText => 'تنسيق البريد الإلكتروني غير صالح.';
@@ -82,9 +76,6 @@ class SAr extends S {
 
   @override
   String get password => 'كلمة المرور';
-
-  @override
-  String get passwordRequireText => 'كلمة المرور مطلوبة.';
 
   @override
   String get passwordForgotText => 'هل نسيت كلمة المرور؟';
@@ -98,10 +89,6 @@ class SAr extends S {
 
   @override
   String get requestPasswordReset => 'طلب إعادة تعيين كلمة المرور';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'تم إرسال رابط إعادة تعيين كلمة المرور بنجاح!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -160,9 +147,6 @@ class SAr extends S {
 
   @override
   String get label => 'التسمية';
-
-  @override
-  String get assignedToCustomer => 'تم التعيين إلى العميل';
 
   @override
   String get auditLogDetails => 'تفاصيل سجل التدقيق';
@@ -254,12 +238,6 @@ class SAr extends S {
   @override
   String get passwordErrorNotification =>
       'يجب أن تكون كلمات المرور المدخلة متطابقة!';
-
-  @override
-  String get firstNameUpper => 'الاسم الأول';
-
-  @override
-  String get lastNameUpper => 'اسم العائلة';
 
   @override
   String get profileSuccessNotification => 'تم تحديث الملف الشخصي بنجاح';
@@ -409,19 +387,7 @@ class SAr extends S {
   String get firstName => 'الاسم الأول';
 
   @override
-  String get firstNameRequireText => 'الاسم الأول مطلوب.';
-
-  @override
   String get lastName => 'اسم العائلة';
-
-  @override
-  String get lastNameRequireText => 'اسم العائلة مطلوب.';
-
-  @override
-  String get createPassword => 'إنشاء كلمة مرور';
-
-  @override
-  String get repeatPassword => 'تكرار كلمة المرور';
 
   @override
   String get imNotARobot => 'لست روبوتًا';
@@ -527,12 +493,6 @@ class SAr extends S {
 
   @override
   String get addCommentMessage => 'أضف تعليقًا...';
-
-  @override
-  String get selectUser => 'اختر المستخدمين';
-
-  @override
-  String get assignedToMe => 'مُعين لي';
 
   @override
   String get clear => 'مسح';
@@ -645,10 +605,6 @@ class SAr extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'لم يتم العثور على أجهزة. يرجى التأكد من تشغيل Bluetooth في هاتفك وأنه ضمن مدى جهازك الجديد.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'ليس لديك أذونات كافية لـ \"$permissions\" للمتابعة. يرجى منح الأذونات المطلوبة والنقر على \"المحاولة مرة أخرى\".';
   }
@@ -672,9 +628,6 @@ class SAr extends S {
 
   @override
   String get claimingDevice => 'جارٍ المطالبة بالجهاز';
-
-  @override
-  String get claimingDeviceDone => 'اكتملت المطالبة بالجهاز';
 
   @override
   String get claimingMessageSuccess => 'تمت المطالبة بالجهاز\nبنجاح';
@@ -716,12 +669,6 @@ class SAr extends S {
 
   @override
   String get scanQrCode => 'مسح رمز QR';
-
-  @override
-  String get anEmptyRequestDataReceived => 'تم استلام بيانات طلب فارغة.';
-
-  @override
-  String get somethingWentWrongRollback => 'حدث خطأ ما ... تراجع';
 
   @override
   String get searchResults => 'نتائج البحث';
@@ -805,9 +752,6 @@ class SAr extends S {
 
   @override
   String get close => 'إغلاق';
-
-  @override
-  String get codeVerificationFailed => 'فشل التحقق من الرمز!';
 
   @override
   String get fatalError => 'خطأ فادح';
@@ -1316,11 +1260,6 @@ class SAr extends S {
 
   @override
   String get sendCode => 'إرسال الرمز';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'خطأ في إرسال الرمز: $error';
-  }
 
   @override
   String get copy => 'نسخ';

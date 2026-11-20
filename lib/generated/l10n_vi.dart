@@ -63,16 +63,10 @@ class SVi extends S {
   String get login => 'Đăng nhập';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Đăng nhập vào tài khoản của bạn';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'Vui lòng nhập email.';
 
   @override
   String get emailInvalidText => 'Định dạng email không hợp lệ.';
@@ -82,9 +76,6 @@ class SVi extends S {
 
   @override
   String get password => 'Mật khẩu';
-
-  @override
-  String get passwordRequireText => 'Vui lòng nhập mật khẩu.';
 
   @override
   String get passwordForgotText => 'Quên mật khẩu?';
@@ -98,10 +89,6 @@ class SVi extends S {
 
   @override
   String get requestPasswordReset => 'Yêu cầu đặt lại mật khẩu';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Đã gửi liên kết đặt lại mật khẩu thành công!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SVi extends S {
 
   @override
   String get label => 'Nhãn';
-
-  @override
-  String get assignedToCustomer => 'Được gán cho khách hàng';
 
   @override
   String get auditLogDetails => 'Chi tiết nhật ký kiểm toán';
@@ -254,12 +238,6 @@ class SVi extends S {
 
   @override
   String get passwordErrorNotification => 'Mật khẩu đã nhập phải giống nhau!';
-
-  @override
-  String get firstNameUpper => 'Tên';
-
-  @override
-  String get lastNameUpper => 'Họ';
 
   @override
   String get profileSuccessNotification => 'Hồ sơ đã được cập nhật thành công';
@@ -404,19 +382,7 @@ class SVi extends S {
   String get firstName => 'Tên';
 
   @override
-  String get firstNameRequireText => 'Vui lòng nhập tên.';
-
-  @override
   String get lastName => 'Họ';
-
-  @override
-  String get lastNameRequireText => 'Vui lòng nhập họ.';
-
-  @override
-  String get createPassword => 'Tạo mật khẩu';
-
-  @override
-  String get repeatPassword => 'Nhập lại mật khẩu của bạn';
 
   @override
   String get imNotARobot => 'Tôi không phải là rô bốt';
@@ -510,12 +476,6 @@ class SVi extends S {
 
   @override
   String get addCommentMessage => 'Thêm bình luận...';
-
-  @override
-  String get selectUser => 'Chọn người dùng';
-
-  @override
-  String get assignedToMe => 'Được gán cho tôi';
 
   @override
   String get clear => 'Xóa';
@@ -628,10 +588,6 @@ class SVi extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Không tìm thấy thiết bị. Vui lòng đảm bảo rằng Bluetooth trên điện thoại của bạn đã được bật và nằm trong phạm vi của thiết bị mới.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Bạn không có đủ quyền cho \"$permissions\" để tiếp tục. Vui lòng cấp các quyền cần thiết và nhấn \"Thử lại\".';
   }
@@ -655,9 +611,6 @@ class SVi extends S {
 
   @override
   String get claimingDevice => 'Đang xác nhận quyền sở hữu thiết bị';
-
-  @override
-  String get claimingDeviceDone => 'Hoàn tất xác nhận quyền sở hữu thiết bị';
 
   @override
   String get claimingMessageSuccess =>
@@ -700,13 +653,6 @@ class SVi extends S {
 
   @override
   String get scanQrCode => 'Quét mã QR';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'Đã nhận được dữ liệu yêu cầu trống.';
-
-  @override
-  String get somethingWentWrongRollback => 'Đã xảy ra lỗi ... Hoàn tác';
 
   @override
   String get searchResults => 'Kết quả tìm kiếm';
@@ -791,9 +737,6 @@ class SVi extends S {
 
   @override
   String get close => 'Đóng';
-
-  @override
-  String get codeVerificationFailed => 'Xác minh mã thất bại!';
 
   @override
   String get fatalError => 'Lỗi nghiêm trọng';
@@ -1303,11 +1246,6 @@ class SVi extends S {
 
   @override
   String get sendCode => 'Gửi mã';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Lỗi khi gửi mã: $error';
-  }
 
   @override
   String get copy => 'Sao chép';

@@ -63,16 +63,10 @@ class SKa extends S {
   String get login => 'შესვლა';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard-ის ლოგო';
-
-  @override
   String get loginToYourAccount => 'შედით თქვენს ანგარიშში';
 
   @override
   String get email => 'ელფოსტა';
-
-  @override
-  String get emailRequireText => 'ელფოსტა სავალდებულოა.';
 
   @override
   String get emailInvalidText => 'ელფოსტის არასწორი ფორმატი.';
@@ -82,9 +76,6 @@ class SKa extends S {
 
   @override
   String get password => 'პაროლი';
-
-  @override
-  String get passwordRequireText => 'პაროლი სავალდებულოა.';
 
   @override
   String get passwordForgotText => 'დაგავიწყდათ პაროლი?';
@@ -98,10 +89,6 @@ class SKa extends S {
 
   @override
   String get requestPasswordReset => 'პაროლის აღდგენის მოთხოვნა';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'პაროლის აღდგენის ბმული წარმატებით გაიგზავნა!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -162,9 +149,6 @@ class SKa extends S {
 
   @override
   String get label => 'ნიშნული';
-
-  @override
-  String get assignedToCustomer => 'მინიჭებულია კლიენტზე';
 
   @override
   String get auditLogDetails => 'აუდიტის ჟურნალის დეტალები';
@@ -255,12 +239,6 @@ class SKa extends S {
 
   @override
   String get passwordErrorNotification => 'შეყვანილი პაროლები უნდა ემთხვეოდეს!';
-
-  @override
-  String get firstNameUpper => 'სახელი';
-
-  @override
-  String get lastNameUpper => 'გვარი';
 
   @override
   String get profileSuccessNotification => 'პროფილი წარმატებით განახლდა';
@@ -406,19 +384,7 @@ class SKa extends S {
   String get firstName => 'სახელი';
 
   @override
-  String get firstNameRequireText => 'სახელი სავალდებულოა.';
-
-  @override
   String get lastName => 'გვარი';
-
-  @override
-  String get lastNameRequireText => 'გვარი სავალდებულოა.';
-
-  @override
-  String get createPassword => 'პაროლის შექმნა';
-
-  @override
-  String get repeatPassword => 'გაიმეორეთ პაროლი';
 
   @override
   String get imNotARobot => 'მე არ ვარ რობოტი';
@@ -516,12 +482,6 @@ class SKa extends S {
 
   @override
   String get addCommentMessage => 'დაამატეთ კომენტარი...';
-
-  @override
-  String get selectUser => 'მომხმარებლების არჩევა';
-
-  @override
-  String get assignedToMe => 'ჩემზე მინიჭებული';
 
   @override
   String get clear => 'გადაწყვეტა';
@@ -635,10 +595,6 @@ class SKa extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'მოწყობილობები ვერ მოიძებნა. გთხოვთ, დარწმუნდეთ, რომ თქვენი ტელეფონის Bluetooth ჩართულია და ახალი მოწყობილობის რადიუსშია.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'გასაგრძელებლად არ გაქვთ საკმარისი ნებართვები \"$permissions\"-ისთვის. გთხოვთ, მიანიჭოთ საჭირო ნებართვები და დააჭიროთ ღილაკს \"ხელახლა ცდა\".';
   }
@@ -663,9 +619,6 @@ class SKa extends S {
 
   @override
   String get claimingDevice => 'მოწყობილობის მიბმა';
-
-  @override
-  String get claimingDeviceDone => 'მოწყობილობის მიბმა დასრულდა';
 
   @override
   String get claimingMessageSuccess => 'მოწყობილობა წარმატებით\nმიება';
@@ -707,13 +660,6 @@ class SKa extends S {
 
   @override
   String get scanQrCode => 'QR კოდის სკანირება';
-
-  @override
-  String get anEmptyRequestDataReceived =>
-      'მიღებულია ცარიელი მოთხოვნის მონაცემები.';
-
-  @override
-  String get somethingWentWrongRollback => 'რაღაც შეცდომა მოხდა ... დაბრუნება';
 
   @override
   String get searchResults => 'ძებნის შედეგები';
@@ -797,9 +743,6 @@ class SKa extends S {
 
   @override
   String get close => 'დახურვა';
-
-  @override
-  String get codeVerificationFailed => 'კოდის დამოწმება ვერ მოხერხდა!';
 
   @override
   String get fatalError => 'ფატალური შეცდომა';
@@ -1314,11 +1257,6 @@ class SKa extends S {
 
   @override
   String get sendCode => 'კოდის გაგზავნა';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'კოდის გაგზავნის შეცდომა: $error';
-  }
 
   @override
   String get copy => 'კოპირება';

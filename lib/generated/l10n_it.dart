@@ -63,16 +63,10 @@ class SIt extends S {
   String get login => 'Accedi';
 
   @override
-  String get logoDefaultValue => 'Logo ThingsBoard';
-
-  @override
   String get loginToYourAccount => 'Accedi al tuo account';
 
   @override
   String get email => 'Email';
-
-  @override
-  String get emailRequireText => 'Email obbligatoria.';
 
   @override
   String get emailInvalidText => 'Formato email non valido.';
@@ -82,9 +76,6 @@ class SIt extends S {
 
   @override
   String get password => 'Password';
-
-  @override
-  String get passwordRequireText => 'La password è obbligatoria.';
 
   @override
   String get passwordForgotText => 'Password dimenticata?';
@@ -98,10 +89,6 @@ class SIt extends S {
 
   @override
   String get requestPasswordReset => 'Richiedi reimpostazione password';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Il link per reimpostare la password è stato inviato con successo!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SIt extends S {
 
   @override
   String get label => 'Etichetta';
-
-  @override
-  String get assignedToCustomer => 'Assegnato al cliente';
 
   @override
   String get auditLogDetails => 'Dettagli log di audit';
@@ -257,12 +241,6 @@ class SIt extends S {
   @override
   String get passwordErrorNotification =>
       'Le password inserite devono coincidere!';
-
-  @override
-  String get firstNameUpper => 'Nome';
-
-  @override
-  String get lastNameUpper => 'Cognome';
 
   @override
   String get profileSuccessNotification => 'Profilo aggiornato con successo';
@@ -408,19 +386,7 @@ class SIt extends S {
   String get firstName => 'Nome';
 
   @override
-  String get firstNameRequireText => 'Il nome è obbligatorio.';
-
-  @override
   String get lastName => 'Cognome';
-
-  @override
-  String get lastNameRequireText => 'Il cognome è obbligatorio.';
-
-  @override
-  String get createPassword => 'Crea una password';
-
-  @override
-  String get repeatPassword => 'Ripeti la tua password';
 
   @override
   String get imNotARobot => 'Non sono un robot';
@@ -517,12 +483,6 @@ class SIt extends S {
 
   @override
   String get addCommentMessage => 'Aggiungi un commento...';
-
-  @override
-  String get selectUser => 'Seleziona utenti';
-
-  @override
-  String get assignedToMe => 'Assegnato a me';
 
   @override
   String get clear => 'Risolvi';
@@ -636,10 +596,6 @@ class SIt extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Nessun dispositivo trovato. Assicurati che il Bluetooth del tuo telefono sia attivo e che tu sia nel raggio d\'azione del nuovo dispositivo.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Non hai permessi sufficienti (\"$permissions\") per procedere. Concedi i permessi richiesti e tocca \"Riprova\".';
   }
@@ -665,9 +621,6 @@ class SIt extends S {
 
   @override
   String get claimingDevice => 'Rivendicazione del dispositivo in corso';
-
-  @override
-  String get claimingDeviceDone => 'Rivendicazione del dispositivo completata';
 
   @override
   String get claimingMessageSuccess => 'Dispositivo rivendicato\ncon successo';
@@ -709,13 +662,6 @@ class SIt extends S {
 
   @override
   String get scanQrCode => 'Scansiona codice QR';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Ricevuti dati di richiesta vuoti.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Qualcosa è andato storto ... Rollback';
 
   @override
   String get searchResults => 'Risultati della ricerca';
@@ -799,9 +745,6 @@ class SIt extends S {
 
   @override
   String get close => 'Chiudi';
-
-  @override
-  String get codeVerificationFailed => 'Verifica del codice non riuscita!';
 
   @override
   String get fatalError => 'Errore irreversibile';
@@ -1313,11 +1256,6 @@ class SIt extends S {
 
   @override
   String get sendCode => 'Invia codice';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Errore durante l\'invio del codice: $error';
-  }
 
   @override
   String get copy => 'Copia';

@@ -63,16 +63,10 @@ class SDe extends S {
   String get login => 'Anmelden';
 
   @override
-  String get logoDefaultValue => 'ThingsBoard-Logo';
-
-  @override
   String get loginToYourAccount => 'Bei Ihrem Konto anmelden';
 
   @override
   String get email => 'E-Mail';
-
-  @override
-  String get emailRequireText => 'E-Mail ist erforderlich.';
 
   @override
   String get emailInvalidText => 'Ungültiges E-Mail-Format.';
@@ -82,9 +76,6 @@ class SDe extends S {
 
   @override
   String get password => 'Passwort';
-
-  @override
-  String get passwordRequireText => 'Passwort ist erforderlich.';
 
   @override
   String get passwordForgotText => 'Passwort vergessen?';
@@ -98,10 +89,6 @@ class SDe extends S {
 
   @override
   String get requestPasswordReset => 'Passwort-Zurücksetzung anfordern';
-
-  @override
-  String get passwordResetLinkSuccessfullySentNotification =>
-      'Link zum Zurücksetzen des Passworts wurde erfolgreich gesendet!';
 
   @override
   String get emailVersificationSuccessfullySentNotification =>
@@ -161,9 +148,6 @@ class SDe extends S {
 
   @override
   String get label => 'Bezeichnung';
-
-  @override
-  String get assignedToCustomer => 'Dem Kunden zugewiesen';
 
   @override
   String get auditLogDetails => 'Audit-Log-Details';
@@ -258,12 +242,6 @@ class SDe extends S {
   @override
   String get passwordErrorNotification =>
       'Die eingegebenen Passwörter müssen übereinstimmen!';
-
-  @override
-  String get firstNameUpper => 'Vorname';
-
-  @override
-  String get lastNameUpper => 'Nachname';
 
   @override
   String get profileSuccessNotification => 'Profil erfolgreich aktualisiert';
@@ -409,19 +387,7 @@ class SDe extends S {
   String get firstName => 'Vorname';
 
   @override
-  String get firstNameRequireText => 'Vorname ist erforderlich.';
-
-  @override
   String get lastName => 'Nachname';
-
-  @override
-  String get lastNameRequireText => 'Nachname ist erforderlich.';
-
-  @override
-  String get createPassword => 'Passwort erstellen';
-
-  @override
-  String get repeatPassword => 'Passwort wiederholen';
 
   @override
   String get imNotARobot => 'Ich bin kein Roboter';
@@ -519,12 +485,6 @@ class SDe extends S {
 
   @override
   String get addCommentMessage => 'Kommentar hinzufügen...';
-
-  @override
-  String get selectUser => 'Benutzer auswählen';
-
-  @override
-  String get assignedToMe => 'Mir zugewiesen';
 
   @override
   String get clear => 'Zurücksetzen';
@@ -638,10 +598,6 @@ class SDe extends S {
   }
 
   @override
-  String get deviceNotFoundMessage =>
-      'Keine Geräte gefunden. Bitte stellen Sie sicher, dass Bluetooth auf Ihrem Telefon aktiviert ist und sich Ihr neues Gerät in Reichweite befindet.';
-
-  @override
   String permissionsNotEnoughMessage(Object permissions) {
     return 'Sie haben nicht genügend Berechtigungen für „$permissions“, um fortzufahren. Bitte erteilen Sie die erforderlichen Berechtigungen und tippen Sie auf „Erneut versuchen“.';
   }
@@ -666,9 +622,6 @@ class SDe extends S {
 
   @override
   String get claimingDevice => 'Gerät wird beansprucht';
-
-  @override
-  String get claimingDeviceDone => 'Gerätebeanspruchung abgeschlossen';
 
   @override
   String get claimingMessageSuccess => 'Gerät wurde\nerfolgreich beansprucht';
@@ -710,13 +663,6 @@ class SDe extends S {
 
   @override
   String get scanQrCode => 'QR-Code scannen';
-
-  @override
-  String get anEmptyRequestDataReceived => 'Leere Anfragedaten empfangen.';
-
-  @override
-  String get somethingWentWrongRollback =>
-      'Etwas ist schiefgelaufen ... Rollback';
 
   @override
   String get searchResults => 'Suchergebnisse';
@@ -801,9 +747,6 @@ class SDe extends S {
 
   @override
   String get close => 'Schließen';
-
-  @override
-  String get codeVerificationFailed => 'Code-Verifizierung fehlgeschlagen!';
 
   @override
   String get fatalError => 'Schwerwiegender Fehler';
@@ -1315,11 +1258,6 @@ class SDe extends S {
 
   @override
   String get sendCode => 'Code senden';
-
-  @override
-  String errorSendingCode(String error) {
-    return 'Fehler beim Senden des Codes: $error';
-  }
 
   @override
   String get copy => 'Kopieren';
