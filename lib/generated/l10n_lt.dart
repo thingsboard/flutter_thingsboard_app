@@ -1127,7 +1127,9 @@ class SLt extends S {
       'Panašu, kad jūsų leidimų nepakanka šiam veiksmui atlikti';
 
   @override
-  String get isRequiredText => 'yra privalomas laukas.';
+  String fieldIsRequired(String field) {
+    return '$field yra privalomas laukas.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA tiekėjų nerasta';

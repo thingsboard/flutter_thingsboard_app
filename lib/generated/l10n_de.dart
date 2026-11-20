@@ -1127,7 +1127,9 @@ class SDe extends S {
       'Ihre Berechtigungen reichen offenbar nicht aus, um diese Aktion abzuschließen';
 
   @override
-  String get isRequiredText => 'ist erforderlich.';
+  String fieldIsRequired(String field) {
+    return '$field ist erforderlich.';
+  }
 
   @override
   String get no2faProvidersFound => 'Keine 2FA-Anbieter gefunden';

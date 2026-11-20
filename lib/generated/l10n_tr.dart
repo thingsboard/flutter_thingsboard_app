@@ -1119,7 +1119,9 @@ class STr extends S {
       'Bu işlemi tamamlamak için izinleriniz yeterli görünmüyor';
 
   @override
-  String get isRequiredText => 'gereklidir.';
+  String fieldIsRequired(String field) {
+    return '$field gereklidir.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA sağlayıcısı bulunamadı';

@@ -1117,7 +1117,9 @@ class SNo extends S {
       'Det ser ut til at tillatelsene dine ikke er tilstrekkelige for å fullføre denne operasjonen';
 
   @override
-  String get isRequiredText => 'er påkrevd.';
+  String fieldIsRequired(String field) {
+    return '$field er påkrevd.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ingen 2FA-leverandører funnet';

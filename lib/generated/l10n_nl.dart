@@ -1120,7 +1120,9 @@ class SNl extends S {
       'Je rechten lijken niet toereikend om deze bewerking te voltooien';
 
   @override
-  String get isRequiredText => 'is verplicht.';
+  String fieldIsRequired(String field) {
+    return '$field is verplicht.';
+  }
 
   @override
   String get no2faProvidersFound => 'Geen 2FA-providers gevonden';

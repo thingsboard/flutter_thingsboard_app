@@ -1120,7 +1120,9 @@ class SDa extends S {
       'Det ser ud til, at dine tilladelser ikke er tilstrækkelige til at udføre denne handling';
 
   @override
-  String get isRequiredText => 'er påkrævet.';
+  String fieldIsRequired(String field) {
+    return '$field er påkrævet.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ingen 2FA-udbydere fundet';

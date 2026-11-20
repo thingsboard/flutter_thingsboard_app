@@ -1132,7 +1132,9 @@ class SRo extends S {
       'Se pare că permisiunile dumneavoastră nu sunt suficiente pentru a finaliza această operațiune';
 
   @override
-  String get isRequiredText => 'este un câmp obligatoriu.';
+  String fieldIsRequired(String field) {
+    return '$field este un câmp obligatoriu.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nu s-au găsit furnizori 2FA';

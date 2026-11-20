@@ -1102,7 +1102,9 @@ class SJa extends S {
       'この操作を完了するための権限が不足しているようです';
 
   @override
-  String get isRequiredText => 'は必須です。';
+  String fieldIsRequired(String field) {
+    return '$fieldは必須です。';
+  }
 
   @override
   String get no2faProvidersFound => '2FAプロバイダーが見つかりません';

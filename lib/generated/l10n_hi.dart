@@ -1121,7 +1121,9 @@ class SHi extends S {
       'ऐसा लगता है कि यह ऑपरेशन पूरा करने के लिए आपकी अनुमतियाँ पर्याप्त नहीं हैं';
 
   @override
-  String get isRequiredText => 'आवश्यक है।';
+  String fieldIsRequired(String field) {
+    return '$field आवश्यक है।';
+  }
 
   @override
   String get no2faProvidersFound => 'कोई 2FA प्रदाता नहीं मिला';

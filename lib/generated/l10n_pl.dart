@@ -1138,7 +1138,9 @@ class SPl extends S {
       'Wygląda na to, że Twoje uprawnienia nie są wystarczające do wykonania tej operacji';
 
   @override
-  String get isRequiredText => 'jest polem wymaganym.';
+  String fieldIsRequired(String field) {
+    return '$field jest polem wymaganym.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nie znaleziono dostawców 2FA';

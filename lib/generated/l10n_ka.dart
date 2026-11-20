@@ -1126,7 +1126,9 @@ class SKa extends S {
       'როგორც ჩანს, თქვენი უფლებები საკმარისი არ არის ამ ოპერაციის დასასრულებლად';
 
   @override
-  String get isRequiredText => 'სავალდებულოა.';
+  String fieldIsRequired(String field) {
+    return '$field სავალდებულოა.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA პროვაიდერები ვერ მოიძებნა';

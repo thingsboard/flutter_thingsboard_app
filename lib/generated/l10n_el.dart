@@ -1131,7 +1131,9 @@ class SEl extends S {
       'Φαίνεται ότι τα δικαιώματά σας δεν επαρκούν για την ολοκλήρωση αυτής της λειτουργίας';
 
   @override
-  String get isRequiredText => 'απαιτείται.';
+  String fieldIsRequired(String field) {
+    return '$field απαιτείται.';
+  }
 
   @override
   String get no2faProvidersFound => 'Δεν βρέθηκαν πάροχοι 2FA';

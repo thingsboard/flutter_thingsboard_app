@@ -1129,7 +1129,9 @@ class SCa extends S {
       'Sembla que els vostres permisos no són suficients per completar aquesta operació';
 
   @override
-  String get isRequiredText => 'és un camp obligatori.';
+  String fieldIsRequired(String field) {
+    return '$field és un camp obligatori.';
+  }
 
   @override
   String get no2faProvidersFound => 'No s\'han trobat proveïdors de 2FA';

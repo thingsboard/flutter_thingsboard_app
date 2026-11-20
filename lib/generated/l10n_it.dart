@@ -1125,7 +1125,9 @@ class SIt extends S {
       'Sembra che i tuoi permessi non siano sufficienti per completare questa operazione';
 
   @override
-  String get isRequiredText => 'è un campo obbligatorio.';
+  String fieldIsRequired(String field) {
+    return '$field è un campo obbligatorio.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nessun provider 2FA trovato';

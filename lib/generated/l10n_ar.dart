@@ -1130,7 +1130,9 @@ class SAr extends S {
       'يبدو أن أذوناتك غير كافية لإكمال هذه العملية';
 
   @override
-  String get isRequiredText => 'حقل مطلوب.';
+  String fieldIsRequired(String field) {
+    return '$field حقل مطلوب.';
+  }
 
   @override
   String get no2faProvidersFound => 'لم يتم العثور على مزودي المصادقة بخطوتين';

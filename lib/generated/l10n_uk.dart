@@ -1126,7 +1126,9 @@ class SUk extends S {
       'Схоже, ваших дозволів недостатньо для виконання цієї операції';
 
   @override
-  String get isRequiredText => '— обов’язкове поле.';
+  String fieldIsRequired(String field) {
+    return '$field — обов’язкове поле.';
+  }
 
   @override
   String get no2faProvidersFound => 'Провайдерів 2FA не знайдено';

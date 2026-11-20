@@ -2099,11 +2099,11 @@ abstract class S {
   /// **'It looks like your permissions aren\'t sufficient to complete this operation'**
   String get itLooksLikeYourPermissionsArentSufficientToCompleteThis;
 
-  /// No description provided for @isRequiredText.
+  /// No description provided for @fieldIsRequired.
   ///
   /// In en, this message translates to:
-  /// **'is required.'**
-  String get isRequiredText;
+  /// **'{field} is required.'**
+  String fieldIsRequired(String field);
 
   /// No description provided for @no2faProvidersFound.
   ///

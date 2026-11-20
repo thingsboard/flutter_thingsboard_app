@@ -1096,7 +1096,9 @@ class SZh extends S {
       '您的权限似乎不足以完成此操作。';
 
   @override
-  String get isRequiredText => '为必填项。';
+  String fieldIsRequired(String field) {
+    return '$field为必填项。';
+  }
 
   @override
   String get no2faProvidersFound => '未找到双因素认证提供商';
@@ -2679,7 +2681,9 @@ class SZhTw extends SZh {
       '您的權限似乎不足以完成此操作。';
 
   @override
-  String get isRequiredText => '為必填項。';
+  String fieldIsRequired(String field) {
+    return '$field為必填項。';
+  }
 
   @override
   String get no2faProvidersFound => '找不到雙因素驗證提供者';

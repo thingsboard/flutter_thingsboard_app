@@ -1126,7 +1126,9 @@ class SFr extends S {
       'Il semble que vos autorisations soient insuffisantes pour effectuer cette opération';
 
   @override
-  String get isRequiredText => 'est un champ obligatoire.';
+  String fieldIsRequired(String field) {
+    return '$field est un champ obligatoire.';
+  }
 
   @override
   String get no2faProvidersFound => 'Aucun fournisseur 2FA trouvé';

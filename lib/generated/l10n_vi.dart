@@ -1116,7 +1116,9 @@ class SVi extends S {
       'Có vẻ như quyền của bạn không đủ để hoàn thành thao tác này';
 
   @override
-  String get isRequiredText => 'là bắt buộc.';
+  String fieldIsRequired(String field) {
+    return '$field là bắt buộc.';
+  }
 
   @override
   String get no2faProvidersFound => 'Không tìm thấy nhà cung cấp 2FA nào';

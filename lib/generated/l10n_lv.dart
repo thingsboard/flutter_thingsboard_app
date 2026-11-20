@@ -1119,7 +1119,9 @@ class SLv extends S {
       'Šķiet, ka jūsu atļaujas nav pietiekamas šīs darbības veikšanai';
 
   @override
-  String get isRequiredText => 'ir obligāts lauks.';
+  String fieldIsRequired(String field) {
+    return '$field ir obligāts lauks.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA nodrošinātāji nav atrasti';

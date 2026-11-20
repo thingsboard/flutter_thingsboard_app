@@ -1103,7 +1103,9 @@ class SKo extends S {
       '이 작업을 완료하기에 권한이 부족한 것 같습니다';
 
   @override
-  String get isRequiredText => '필드는 필수 항목입니다.';
+  String fieldIsRequired(String field) {
+    return '$field 필드는 필수 항목입니다.';
+  }
 
   @override
   String get no2faProvidersFound => '2FA 제공자를 찾을 수 없습니다';

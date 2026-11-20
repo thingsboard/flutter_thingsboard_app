@@ -1119,7 +1119,9 @@ class SEn extends S {
       'It looks like your permissions aren\'t sufficient to complete this operation';
 
   @override
-  String get isRequiredText => 'is required.';
+  String fieldIsRequired(String field) {
+    return '$field is required.';
+  }
 
   @override
   String get no2faProvidersFound => 'No 2FA providers found';

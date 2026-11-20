@@ -1127,7 +1127,9 @@ class SPt extends S {
       'Parece que suas permissões não são suficientes para concluir esta operação';
 
   @override
-  String get isRequiredText => 'é um campo obrigatório.';
+  String fieldIsRequired(String field) {
+    return '$field é um campo obrigatório.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nenhum provedor 2FA encontrado';

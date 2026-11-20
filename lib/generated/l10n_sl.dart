@@ -1129,7 +1129,9 @@ class SSl extends S {
       'Videti je, da vaša dovoljenja ne zadostujejo za izvedbo te operacije';
 
   @override
-  String get isRequiredText => 'je obvezno polje.';
+  String fieldIsRequired(String field) {
+    return '$field je obvezno polje.';
+  }
 
   @override
   String get no2faProvidersFound => 'Ni najdenih ponudnikov 2FA';

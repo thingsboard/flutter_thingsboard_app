@@ -1129,7 +1129,9 @@ class SCs extends S {
       'Zdá se, že vaše oprávnění nejsou dostatečná k provedení této operace';
 
   @override
-  String get isRequiredText => 'je povinný údaj.';
+  String fieldIsRequired(String field) {
+    return '$field je povinný údaj.';
+  }
 
   @override
   String get no2faProvidersFound => 'Nebyli nalezeni žádní poskytovatelé 2FA';

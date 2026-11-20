@@ -1128,7 +1128,9 @@ class SEs extends S {
       'Parece que tus permisos no son suficientes para completar esta operación';
 
   @override
-  String get isRequiredText => 'es un campo obligatorio.';
+  String fieldIsRequired(String field) {
+    return '$field es un campo obligatorio.';
+  }
 
   @override
   String get no2faProvidersFound => 'No se encontraron proveedores de 2FA';
