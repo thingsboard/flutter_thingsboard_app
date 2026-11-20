@@ -141,6 +141,8 @@ extension AppSteps on PatrolIntegrationTester {
   /// Pulls the alarm list down, so the app asks the server again instead of
   /// showing what it already loaded.
   Future<void> refreshAlarms() async {
+    // The list appears a moment after the tab opens.
+    await this(RefreshIndicator).waitUntilExists();
     await tester.fling(
       this(RefreshIndicator).first,
       const Offset(0, 400),
