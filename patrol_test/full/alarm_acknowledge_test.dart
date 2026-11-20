@@ -8,8 +8,9 @@ import 'package:patrol/patrol.dart';
 import '../common/app_steps.dart';
 import '../common/e2e_server.dart';
 
-/// Journey 6: a user acknowledges an alarm in its details, goes back with the
-/// platform's own back, and the list shows the new status.
+/// Journey 6: a user acknowledges an alarm in its details, goes back (the app
+/// bar arrow on Android, the edge swipe on iOS), and the list shows the new
+/// status.
 void main() {
   patrolTest(
     'customer administrator acknowledges an alarm',
@@ -32,7 +33,7 @@ void main() {
         await $.openAlarmDetails(E2eServer.alarmType);
         await $.acknowledgeAlarm();
         await $.expectAlarmStatus(acknowledged: true);
-        await $.systemBack();
+        await $.goBack();
         await $(E2eServer.alarmType).waitUntilVisible();
         await $.expectAlarmStatus(acknowledged: true);
         await $.logOut();

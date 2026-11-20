@@ -104,11 +104,15 @@ extension AppSteps on PatrolIntegrationTester {
     await pump(const Duration(seconds: 1));
   }
 
-  /// The platform's own back: the system back key on Android, the edge swipe
-  /// on iOS.
-  Future<void> systemBack() async {
+  /// Goes back from a page: the app bar arrow on Android, the edge swipe on
+  /// iOS.
+  ///
+  /// Not the Android back key: under Patrol on Android 16 it closed the app
+  /// from the alarm details page, while the same key in the app run by hand
+  /// on an Android 16 emulator went back to the list.
+  Future<void> goBack() async {
     if (Platform.isAndroid) {
-      await platform.android.pressBack();
+      await this(Icons.arrow_back).tap();
     } else {
       await platform.ios.swipeBack();
     }
