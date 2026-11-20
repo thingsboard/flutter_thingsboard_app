@@ -270,9 +270,16 @@ class E2eServer {
   Future<void> deleteCustomer(String customerId) =>
       _client.getCustomerControllerApi().deleteCustomer(customerId: customerId);
 
-  /// Deletes customers that runs older than a day left behind, for example
-  /// after a cancelled job.
+  /// Deletes customers that earlier tests left behind:
+  ///  * those of this run: the tests run one after another, so a customer of
+  ///    this run that exists when a test starts belongs to a test whose app
+  ///    process ended before its cleanup could run;
+  ///  * those older than a day, for example from a cancelled job.
+  ///
+  /// Parallel runs and other attempts have their own run id, so their
+  /// customers of today are left alone.
   Future<void> deleteStaleCustomers() async {
+    final thisRun = '${E2eEnv.entityPrefix}${E2eEnv.runId}-';
     final page = (await _client.getCustomerControllerApi().getCustomers(
       pageSize: 100,
       page: 0,
@@ -282,8 +289,9 @@ class E2eServer {
         .subtract(const Duration(days: 1))
         .millisecondsSinceEpoch;
     for (final customer in page.data ?? const <Customer>[]) {
-      if (customer.title.startsWith(E2eEnv.entityPrefix) &&
-          (customer.createdTime ?? dayAgo) < dayAgo) {
+      if (customer.title.startsWith(thisRun) ||
+          (customer.title.startsWith(E2eEnv.entityPrefix) &&
+              (customer.createdTime ?? dayAgo) < dayAgo)) {
         await deleteCustomer(customer.id!.id);
       }
     }
