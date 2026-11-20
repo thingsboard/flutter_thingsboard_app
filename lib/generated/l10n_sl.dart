@@ -197,6 +197,12 @@ class SSl extends S {
   String get inactive => 'Neaktiven';
 
   @override
+  String get deviceActive => 'Aktivna';
+
+  @override
+  String get deviceInactive => 'Neaktivna';
+
+  @override
   String get activeDevices => 'Aktivne';
 
   @override

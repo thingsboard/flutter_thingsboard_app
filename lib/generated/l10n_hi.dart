@@ -196,6 +196,12 @@ class SHi extends S {
   String get inactive => 'निष्क्रिय';
 
   @override
+  String get deviceActive => 'सक्रिय';
+
+  @override
+  String get deviceInactive => 'निष्क्रिय';
+
+  @override
   String get activeDevices => 'सक्रिय';
 
   @override

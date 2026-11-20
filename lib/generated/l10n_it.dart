@@ -196,6 +196,12 @@ class SIt extends S {
   String get inactive => 'Inattivo';
 
   @override
+  String get deviceActive => 'Attivo';
+
+  @override
+  String get deviceInactive => 'Inattivo';
+
+  @override
   String get activeDevices => 'Attivo';
 
   @override

@@ -192,6 +192,12 @@ class SZh extends S {
   String get inactive => '非活动';
 
   @override
+  String get deviceActive => '活动';
+
+  @override
+  String get deviceInactive => '非活动';
+
+  @override
   String get activeDevices => '活跃';
 
   @override
@@ -1824,6 +1830,12 @@ class SZhTw extends SZh {
 
   @override
   String get inactive => '不活躍';
+
+  @override
+  String get deviceActive => '活躍';
+
+  @override
+  String get deviceInactive => '不活躍';
 
   @override
   String get activeDevices => '活躍';

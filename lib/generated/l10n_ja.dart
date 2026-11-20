@@ -195,6 +195,12 @@ class SJa extends S {
   String get inactive => '非アクティブ';
 
   @override
+  String get deviceActive => 'アクティブ';
+
+  @override
+  String get deviceInactive => '非アクティブ';
+
+  @override
   String get activeDevices => 'アクティブ';
 
   @override

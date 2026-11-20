@@ -195,6 +195,12 @@ class SLt extends S {
   String get inactive => 'Neaktyvus';
 
   @override
+  String get deviceActive => 'Aktyvus';
+
+  @override
+  String get deviceInactive => 'Neaktyvus';
+
+  @override
   String get activeDevices => 'Aktyvūs';
 
   @override

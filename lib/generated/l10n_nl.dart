@@ -196,6 +196,12 @@ class SNl extends S {
   String get inactive => 'Inactief';
 
   @override
+  String get deviceActive => 'Actief';
+
+  @override
+  String get deviceInactive => 'Inactief';
+
+  @override
   String get activeDevices => 'Actief';
 
   @override

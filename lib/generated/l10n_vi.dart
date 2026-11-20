@@ -196,6 +196,12 @@ class SVi extends S {
   String get inactive => 'Không hoạt động';
 
   @override
+  String get deviceActive => 'Hoạt động';
+
+  @override
+  String get deviceInactive => 'Không hoạt động';
+
+  @override
   String get activeDevices => 'Hoạt động';
 
   @override

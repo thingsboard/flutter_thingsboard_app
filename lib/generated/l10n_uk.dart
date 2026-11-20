@@ -196,6 +196,12 @@ class SUk extends S {
   String get inactive => 'Неактивний';
 
   @override
+  String get deviceActive => 'Активний';
+
+  @override
+  String get deviceInactive => 'Неактивний';
+
+  @override
   String get activeDevices => 'Активні';
 
   @override

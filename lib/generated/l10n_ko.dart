@@ -195,6 +195,12 @@ class SKo extends S {
   String get inactive => '비활성';
 
   @override
+  String get deviceActive => '활성';
+
+  @override
+  String get deviceInactive => '비활성';
+
+  @override
   String get activeDevices => '활성';
 
   @override

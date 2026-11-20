@@ -64,6 +64,8 @@
   "allDevices": "Όλες οι συσκευές",
   "active": "Ενεργή",
   "inactive": "Ανενεργή",
+  "deviceActive": "Ενεργή",
+  "deviceInactive": "Ανενεργή",
   "activeDevices": "Ενεργές",
   "inactiveDevices": "Ανενεργές",
   "alarmStatusActiveAcknowledged": "Ενεργός αναγνωρισμένος",

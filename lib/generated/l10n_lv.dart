@@ -190,10 +190,16 @@ class SLv extends S {
   String get allDevices => 'Visas iekārtas';
 
   @override
-  String get active => 'Aktīvs';
+  String get active => 'Aktīva';
 
   @override
-  String get inactive => 'Neaktīvs';
+  String get inactive => 'Neaktīva';
+
+  @override
+  String get deviceActive => 'Aktīva';
+
+  @override
+  String get deviceInactive => 'Neaktīva';
 
   @override
   String get activeDevices => 'Aktīvas';

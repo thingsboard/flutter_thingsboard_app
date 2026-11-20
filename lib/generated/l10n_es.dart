@@ -197,6 +197,12 @@ class SEs extends S {
   String get inactive => 'Inactivo';
 
   @override
+  String get deviceActive => 'Activo';
+
+  @override
+  String get deviceInactive => 'Inactivo';
+
+  @override
   String get activeDevices => 'Activo';
 
   @override

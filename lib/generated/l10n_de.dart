@@ -196,6 +196,12 @@ class SDe extends S {
   String get inactive => 'Inaktiv';
 
   @override
+  String get deviceActive => 'Aktiv';
+
+  @override
+  String get deviceInactive => 'Inaktiv';
+
+  @override
   String get activeDevices => 'Aktiv';
 
   @override

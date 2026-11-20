@@ -64,6 +64,8 @@
   "allDevices": "所有裝置",
   "active": "活躍",
   "inactive": "不活躍",
+  "deviceActive": "活躍",
+  "deviceInactive": "不活躍",
   "activeDevices": "活躍",
   "inactiveDevices": "不活躍",
   "alarmStatusActiveAcknowledged": "未清除、已確認",

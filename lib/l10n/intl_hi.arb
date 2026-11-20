@@ -64,6 +64,8 @@
   "allDevices": "सभी डिवाइस",
   "active": "सक्रिय",
   "inactive": "निष्क्रिय",
+  "deviceActive": "सक्रिय",
+  "deviceInactive": "निष्क्रिय",
   "activeDevices": "सक्रिय",
   "inactiveDevices": "निष्क्रिय",
   "alarmStatusActiveAcknowledged": "सक्रिय, स्वीकार किया गया",

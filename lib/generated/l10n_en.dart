@@ -196,6 +196,12 @@ class SEn extends S {
   String get inactive => 'Inactive';
 
   @override
+  String get deviceActive => 'Active';
+
+  @override
+  String get deviceInactive => 'Inactive';
+
+  @override
   String get activeDevices => 'Active';
 
   @override

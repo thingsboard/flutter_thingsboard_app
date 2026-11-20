@@ -64,6 +64,8 @@
   "allDevices": "Všechna zařízení",
   "active": "Aktivní",
   "inactive": "Neaktivní",
+  "deviceActive": "Aktivní",
+  "deviceInactive": "Neaktivní",
   "activeDevices": "Aktivní",
   "inactiveDevices": "Neaktivní",
   "alarmStatusActiveAcknowledged": "Aktivní přijaté",

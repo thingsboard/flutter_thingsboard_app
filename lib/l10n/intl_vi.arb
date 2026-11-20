@@ -63,6 +63,8 @@
   "allDevices": "Tất cả thiết bị",
   "active": "Hoạt động",
   "inactive": "Không hoạt động",
+  "deviceActive": "Hoạt động",
+  "deviceInactive": "Không hoạt động",
   "activeDevices": "Hoạt động",
   "inactiveDevices": "Không hoạt động",
   "alarmStatusActiveAcknowledged": "Hoạt động Đã xác nhận",

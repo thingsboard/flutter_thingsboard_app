@@ -189,10 +189,16 @@ class SRo extends S {
   String get allDevices => 'Toate dispozitivele';
 
   @override
-  String get active => 'Activ';
+  String get active => 'Activă';
 
   @override
-  String get inactive => 'Inactiv';
+  String get inactive => 'Inactivă';
+
+  @override
+  String get deviceActive => 'Activ';
+
+  @override
+  String get deviceInactive => 'Inactiv';
 
   @override
   String get activeDevices => 'Active';

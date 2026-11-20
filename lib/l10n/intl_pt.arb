@@ -64,6 +64,8 @@
   "allDevices": "Todos os dispositivos",
   "active": "Ativo",
   "inactive": "Inativo",
+  "deviceActive": "Ativo",
+  "deviceInactive": "Inativo",
   "activeDevices": "Ativo",
   "inactiveDevices": "Inativo",
   "alarmStatusActiveAcknowledged": "Ativo reconhecido",

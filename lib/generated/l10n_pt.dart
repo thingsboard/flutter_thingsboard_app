@@ -196,6 +196,12 @@ class SPt extends S {
   String get inactive => 'Inativo';
 
   @override
+  String get deviceActive => 'Ativo';
+
+  @override
+  String get deviceInactive => 'Inativo';
+
+  @override
   String get activeDevices => 'Ativo';
 
   @override

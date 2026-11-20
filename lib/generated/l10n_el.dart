@@ -197,6 +197,12 @@ class SEl extends S {
   String get inactive => 'Ανενεργή';
 
   @override
+  String get deviceActive => 'Ενεργή';
+
+  @override
+  String get deviceInactive => 'Ανενεργή';
+
+  @override
   String get activeDevices => 'Ενεργές';
 
   @override

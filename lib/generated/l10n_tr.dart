@@ -196,6 +196,12 @@ class STr extends S {
   String get inactive => 'Pasif';
 
   @override
+  String get deviceActive => 'Aktif';
+
+  @override
+  String get deviceInactive => 'Pasif';
+
+  @override
   String get activeDevices => 'Aktif';
 
   @override

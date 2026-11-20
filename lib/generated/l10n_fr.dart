@@ -192,10 +192,16 @@ class SFr extends S {
   String get allDevices => 'Tous les appareils';
 
   @override
-  String get active => 'Actif';
+  String get active => 'Active';
 
   @override
-  String get inactive => 'Inactif';
+  String get inactive => 'Inactive';
+
+  @override
+  String get deviceActive => 'Actif';
+
+  @override
+  String get deviceInactive => 'Inactif';
 
   @override
   String get activeDevices => 'Actif';

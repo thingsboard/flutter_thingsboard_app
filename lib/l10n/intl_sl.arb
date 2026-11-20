@@ -64,6 +64,8 @@
   "allDevices": "Vse naprave",
   "active": "Aktiven",
   "inactive": "Neaktiven",
+  "deviceActive": "Aktivna",
+  "deviceInactive": "Neaktivna",
   "activeDevices": "Aktivne",
   "inactiveDevices": "Neaktivne",
   "alarmStatusActiveAcknowledged": "Aktiven, potrjen",

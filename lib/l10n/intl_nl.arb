@@ -64,6 +64,8 @@
   "allDevices": "Alle apparaten",
   "active": "Actief",
   "inactive": "Inactief",
+  "deviceActive": "Actief",
+  "deviceInactive": "Inactief",
   "activeDevices": "Actief",
   "inactiveDevices": "Inactief",
   "alarmStatusActiveAcknowledged": "Actief, bevestigd",

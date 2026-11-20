@@ -64,6 +64,8 @@
   "allDevices": "Visi įrenginiai",
   "active": "Aktyvus",
   "inactive": "Neaktyvus",
+  "deviceActive": "Aktyvus",
+  "deviceInactive": "Neaktyvus",
   "activeDevices": "Aktyvūs",
   "inactiveDevices": "Neaktyvūs",
   "alarmStatusActiveAcknowledged": "Aktyvus, patvirtintas",

@@ -496,6 +496,18 @@ abstract class S {
   /// **'Inactive'**
   String get inactive;
 
+  /// No description provided for @deviceActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get deviceActive;
+
+  /// No description provided for @deviceInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get deviceInactive;
+
   /// No description provided for @activeDevices.
   ///
   /// In en, this message translates to:

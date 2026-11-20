@@ -64,6 +64,8 @@
   "allDevices": "Tots els dispositius",
   "active": "Actiu",
   "inactive": "Inactiu",
+  "deviceActive": "Actiu",
+  "deviceInactive": "Inactiu",
   "activeDevices": "Actius",
   "inactiveDevices": "Inactius",
   "alarmStatusActiveAcknowledged": "Activa reconeguda",

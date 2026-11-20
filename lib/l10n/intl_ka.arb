@@ -64,6 +64,8 @@
   "allDevices": "ყველა მოწყობილობა",
   "active": "აქტიური",
   "inactive": "არააქტიური",
+  "deviceActive": "აქტიური",
+  "deviceInactive": "არააქტიური",
   "activeDevices": "აქტიური",
   "inactiveDevices": "არააქტიური",
   "alarmStatusActiveAcknowledged": "აქტიური, დადასტურებული",

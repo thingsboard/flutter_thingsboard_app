@@ -197,6 +197,12 @@ class SKa extends S {
   String get inactive => 'არააქტიური';
 
   @override
+  String get deviceActive => 'აქტიური';
+
+  @override
+  String get deviceInactive => 'არააქტიური';
+
+  @override
   String get activeDevices => 'აქტიური';
 
   @override

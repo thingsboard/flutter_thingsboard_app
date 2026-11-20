@@ -64,6 +64,8 @@
   "allDevices": "Tüm cihazlar",
   "active": "Aktif",
   "inactive": "Pasif",
+  "deviceActive": "Aktif",
+  "deviceInactive": "Pasif",
   "activeDevices": "Aktif",
   "inactiveDevices": "Pasif",
   "alarmStatusActiveAcknowledged": "Aktif, onaylandı",

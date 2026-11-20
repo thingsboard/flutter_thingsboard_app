@@ -195,6 +195,12 @@ class SCs extends S {
   String get inactive => 'Neaktivní';
 
   @override
+  String get deviceActive => 'Aktivní';
+
+  @override
+  String get deviceInactive => 'Neaktivní';
+
+  @override
   String get activeDevices => 'Aktivní';
 
   @override

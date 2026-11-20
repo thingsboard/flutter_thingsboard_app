@@ -64,6 +64,8 @@
   "allDevices": "Усі пристрої",
   "active": "Активний",
   "inactive": "Неактивний",
+  "deviceActive": "Активний",
+  "deviceInactive": "Неактивний",
   "activeDevices": "Активні",
   "inactiveDevices": "Неактивні",
   "alarmStatusActiveAcknowledged": "Активна підтверджена",

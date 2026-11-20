@@ -64,6 +64,8 @@
   "allDevices": "모든 장치",
   "active": "활성",
   "inactive": "비활성",
+  "deviceActive": "활성",
+  "deviceInactive": "비활성",
   "activeDevices": "활성",
   "inactiveDevices": "비활성",
   "alarmStatusActiveAcknowledged": "활성, 확인됨",

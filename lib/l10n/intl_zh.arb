@@ -64,6 +64,8 @@
   "allDevices": "所有设备",
   "active": "活动",
   "inactive": "非活动",
+  "deviceActive": "活动",
+  "deviceInactive": "非活动",
   "activeDevices": "活跃",
   "inactiveDevices": "不活跃",
   "alarmStatusActiveAcknowledged": "活动已确认",

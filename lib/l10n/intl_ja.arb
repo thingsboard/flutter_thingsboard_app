@@ -64,6 +64,8 @@
   "allDevices": "すべてのデバイス",
   "active": "アクティブ",
   "inactive": "非アクティブ",
+  "deviceActive": "アクティブ",
+  "deviceInactive": "非アクティブ",
   "activeDevices": "アクティブ",
   "inactiveDevices": "非アクティブ",
   "alarmStatusActiveAcknowledged": "アクティブ 確認済み",

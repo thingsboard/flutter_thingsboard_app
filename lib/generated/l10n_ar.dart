@@ -189,10 +189,16 @@ class SAr extends S {
   String get allDevices => 'جميع الأجهزة';
 
   @override
-  String get active => 'نشط';
+  String get active => 'نشطة';
 
   @override
-  String get inactive => 'غير نشط';
+  String get inactive => 'غير نشطة';
+
+  @override
+  String get deviceActive => 'نشط';
+
+  @override
+  String get deviceInactive => 'غير نشط';
 
   @override
   String get activeDevices => 'نشط';

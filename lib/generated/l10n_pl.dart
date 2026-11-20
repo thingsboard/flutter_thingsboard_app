@@ -190,10 +190,16 @@ class SPl extends S {
   String get allDevices => 'Wszystkie urządzenia';
 
   @override
-  String get active => 'Aktywny';
+  String get active => 'Aktywna';
 
   @override
-  String get inactive => 'Nieaktywny';
+  String get inactive => 'Nieaktywna';
+
+  @override
+  String get deviceActive => 'Aktywne';
+
+  @override
+  String get deviceInactive => 'Nieaktywne';
 
   @override
   String get activeDevices => 'Aktywne';

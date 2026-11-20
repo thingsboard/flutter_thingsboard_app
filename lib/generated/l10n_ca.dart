@@ -197,6 +197,12 @@ class SCa extends S {
   String get inactive => 'Inactiu';
 
   @override
+  String get deviceActive => 'Actiu';
+
+  @override
+  String get deviceInactive => 'Inactiu';
+
+  @override
   String get activeDevices => 'Actius';
 
   @override
