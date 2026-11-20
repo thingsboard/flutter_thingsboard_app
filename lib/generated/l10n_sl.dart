@@ -547,6 +547,9 @@ class SSl extends S {
   String get chooseRegion => 'Izberite regijo';
 
   @override
+  String get regions => 'Regije';
+
+  @override
   String get selectRegion => 'Izberite regijo';
 
   @override

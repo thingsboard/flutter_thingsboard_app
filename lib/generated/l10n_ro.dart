@@ -543,6 +543,9 @@ class SRo extends S {
   String get chooseRegion => 'Alege regiunea';
 
   @override
+  String get regions => 'Regiuni';
+
+  @override
   String get selectRegion => 'Selectează regiunea';
 
   @override

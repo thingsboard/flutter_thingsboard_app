@@ -542,6 +542,9 @@ class SDe extends S {
   String get chooseRegion => 'Region auswählen';
 
   @override
+  String get regions => 'Regionen';
+
+  @override
   String get selectRegion => 'Region auswählen';
 
   @override

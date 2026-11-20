@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Nu s-au putut încărca detaliile alarmei",
   "somethingWentWrong": "Ceva nu a funcționat",
   "chooseRegion": "Alege regiunea",
+  "regions": "Regiuni",
   "selectRegion": "Selectează regiunea",
   "northAmerica": "America de Nord",
   "europe": "Europa",

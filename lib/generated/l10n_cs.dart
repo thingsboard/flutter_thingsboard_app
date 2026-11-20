@@ -545,6 +545,9 @@ class SCs extends S {
   String get chooseRegion => 'Zvolte region';
 
   @override
+  String get regions => 'Regiony';
+
+  @override
   String get selectRegion => 'Vyberte region';
 
   @override

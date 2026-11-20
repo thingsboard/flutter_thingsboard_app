@@ -536,6 +536,9 @@ class SDa extends S {
   String get chooseRegion => 'Vælg region';
 
   @override
+  String get regions => 'Regioner';
+
+  @override
   String get selectRegion => 'Vælg region';
 
   @override

@@ -532,6 +532,9 @@ class SVi extends S {
   String get chooseRegion => 'Chọn khu vực';
 
   @override
+  String get regions => 'Khu vực';
+
+  @override
   String get selectRegion => 'Chọn khu vực';
 
   @override

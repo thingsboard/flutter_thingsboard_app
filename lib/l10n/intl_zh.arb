@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "加载告警详情失败",
   "somethingWentWrong": "出错了",
   "chooseRegion": "选择区域",
+  "regions": "区域",
   "selectRegion": "选择区域",
   "northAmerica": "北美",
   "europe": "欧洲",

@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Не вдалося завантажити деталі тривоги",
   "somethingWentWrong": "Щось пішло не так",
   "chooseRegion": "Оберіть регіон",
+  "regions": "Регіони",
   "selectRegion": "Виберіть регіон",
   "northAmerica": "Північна Америка",
   "europe": "Європа",

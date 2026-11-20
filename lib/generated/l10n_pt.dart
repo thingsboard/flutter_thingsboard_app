@@ -539,6 +539,9 @@ class SPt extends S {
   String get chooseRegion => 'Escolher região';
 
   @override
+  String get regions => 'Regiões';
+
+  @override
   String get selectRegion => 'Selecionar região';
 
   @override

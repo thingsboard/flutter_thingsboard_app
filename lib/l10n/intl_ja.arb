@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "アラームの詳細の読み込みに失敗しました",
   "somethingWentWrong": "問題が発生しました",
   "chooseRegion": "リージョンを選択",
+  "regions": "リージョン",
   "selectRegion": "リージョンを選択",
   "northAmerica": "北米",
   "europe": "ヨーロッパ",

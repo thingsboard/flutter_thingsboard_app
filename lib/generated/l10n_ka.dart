@@ -539,6 +539,9 @@ class SKa extends S {
   String get chooseRegion => 'აირჩიეთ რეგიონი';
 
   @override
+  String get regions => 'რეგიონები';
+
+  @override
   String get selectRegion => 'აირჩიეთ რეგიონი';
 
   @override

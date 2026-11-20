@@ -526,6 +526,9 @@ class SJa extends S {
   String get chooseRegion => 'リージョンを選択';
 
   @override
+  String get regions => 'リージョン';
+
+  @override
   String get selectRegion => 'リージョンを選択';
 
   @override

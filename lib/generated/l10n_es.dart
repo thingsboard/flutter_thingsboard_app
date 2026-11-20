@@ -541,6 +541,9 @@ class SEs extends S {
   String get chooseRegion => 'Elegir región';
 
   @override
+  String get regions => 'Regiones';
+
+  @override
   String get selectRegion => 'Seleccionar región';
 
   @override

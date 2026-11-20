@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Nalaganje podrobnosti alarma ni uspelo",
   "somethingWentWrong": "Nekaj je šlo narobe",
   "chooseRegion": "Izberite regijo",
+  "regions": "Regije",
   "selectRegion": "Izberite regijo",
   "northAmerica": "Severna Amerika",
   "europe": "Evropa",

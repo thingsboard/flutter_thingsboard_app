@@ -25,7 +25,7 @@ extension RegionToString on Region {
       case Region.europe:
         return S.of(context).europe;
       case Region.custom:
-        return 'Regions';
+        return S.of(context).regions;
     }
   }
 }

@@ -544,6 +544,9 @@ class SUk extends S {
   String get chooseRegion => 'Оберіть регіон';
 
   @override
+  String get regions => 'Регіони';
+
+  @override
   String get selectRegion => 'Виберіть регіон';
 
   @override

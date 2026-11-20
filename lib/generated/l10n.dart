@@ -1072,6 +1072,12 @@ abstract class S {
   /// **'Choose region'**
   String get chooseRegion;
 
+  /// No description provided for @regions.
+  ///
+  /// In en, this message translates to:
+  /// **'Regions'**
+  String get regions;
+
   /// No description provided for @selectRegion.
   ///
   /// In en, this message translates to:

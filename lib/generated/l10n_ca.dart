@@ -541,6 +541,9 @@ class SCa extends S {
   String get chooseRegion => 'Trieu una regió';
 
   @override
+  String get regions => 'Regions';
+
+  @override
   String get selectRegion => 'Seleccioneu una regió';
 
   @override

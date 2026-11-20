@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Nie udało się załadować szczegółów alarmu",
   "somethingWentWrong": "Coś poszło nie tak",
   "chooseRegion": "Wybierz region",
+  "regions": "Regiony",
   "selectRegion": "Wybierz region",
   "northAmerica": "Ameryka Północna",
   "europe": "Europa",

@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Falha ao carregar os detalhes do alarme",
   "somethingWentWrong": "Algo deu errado",
   "chooseRegion": "Escolher região",
+  "regions": "Regiões",
   "selectRegion": "Selecionar região",
   "northAmerica": "América do Norte",
   "europe": "Europa",

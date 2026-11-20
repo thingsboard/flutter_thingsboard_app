@@ -527,6 +527,9 @@ class SKo extends S {
   String get chooseRegion => '지역 선택';
 
   @override
+  String get regions => '지역';
+
+  @override
   String get selectRegion => '지역 선택';
 
   @override

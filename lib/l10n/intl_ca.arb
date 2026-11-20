@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "No s'han pogut carregar els detalls de l'alarma",
   "somethingWentWrong": "Alguna cosa ha anat malament",
   "chooseRegion": "Trieu una regió",
+  "regions": "Regions",
   "selectRegion": "Seleccioneu una regió",
   "northAmerica": "Amèrica del Nord",
   "europe": "Europa",

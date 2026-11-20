@@ -536,6 +536,9 @@ class SEn extends S {
   String get chooseRegion => 'Choose region';
 
   @override
+  String get regions => 'Regions';
+
+  @override
   String get selectRegion => 'Select region';
 
   @override

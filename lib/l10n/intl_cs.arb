@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Nepodařilo se načíst detail alarmu",
   "somethingWentWrong": "Něco se pokazilo",
   "chooseRegion": "Zvolte region",
+  "regions": "Regiony",
   "selectRegion": "Vyberte region",
   "northAmerica": "Severní Amerika",
   "europe": "Evropa",

@@ -541,6 +541,9 @@ class SFr extends S {
   String get chooseRegion => 'Choisir la région';
 
   @override
+  String get regions => 'Régions';
+
+  @override
   String get selectRegion => 'Sélectionner la région';
 
   @override

@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Impossibile caricare i dettagli dell'allarme",
   "somethingWentWrong": "Qualcosa è andato storto",
   "chooseRegion": "Scegli regione",
+  "regions": "Regioni",
   "selectRegion": "Seleziona regione",
   "northAmerica": "Nord America",
   "europe": "Europa",

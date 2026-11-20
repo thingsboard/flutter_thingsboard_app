@@ -537,6 +537,9 @@ class SNl extends S {
   String get chooseRegion => 'Regio kiezen';
 
   @override
+  String get regions => 'Regio\'s';
+
+  @override
   String get selectRegion => 'Regio selecteren';
 
   @override

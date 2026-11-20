@@ -523,6 +523,9 @@ class SZh extends S {
   String get chooseRegion => '选择区域';
 
   @override
+  String get regions => '区域';
+
+  @override
   String get selectRegion => '选择区域';
 
   @override
@@ -2105,6 +2108,9 @@ class SZhTw extends SZh {
 
   @override
   String get chooseRegion => '選擇區域';
+
+  @override
+  String get regions => '區域';
 
   @override
   String get selectRegion => '選取區域';

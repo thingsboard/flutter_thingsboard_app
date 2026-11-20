@@ -551,6 +551,9 @@ class SPl extends S {
   String get chooseRegion => 'Wybierz region';
 
   @override
+  String get regions => 'Regiony';
+
+  @override
   String get selectRegion => 'Wybierz region';
 
   @override

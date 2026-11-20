@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Échec du chargement des détails de l’alarme",
   "somethingWentWrong": "Une erreur s’est produite",
   "chooseRegion": "Choisir la région",
+  "regions": "Régions",
   "selectRegion": "Sélectionner la région",
   "northAmerica": "Amérique du Nord",
   "europe": "Europe",

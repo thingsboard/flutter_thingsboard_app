@@ -537,6 +537,9 @@ class SLv extends S {
   String get chooseRegion => 'Izvēlieties reģionu';
 
   @override
+  String get regions => 'Reģioni';
+
+  @override
   String get selectRegion => 'Atlasiet reģionu';
 
   @override

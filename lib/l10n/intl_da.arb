@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "Kunne ikke indlæse alarmdetaljer",
   "somethingWentWrong": "Noget gik galt",
   "chooseRegion": "Vælg region",
+  "regions": "Regioner",
   "selectRegion": "Vælg region",
   "northAmerica": "Nordamerika",
   "europe": "Europa",

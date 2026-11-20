@@ -164,6 +164,7 @@
   "failedToLoadAlarmDetails": "알람 세부 정보를 불러오지 못했습니다",
   "somethingWentWrong": "문제가 발생했습니다",
   "chooseRegion": "지역 선택",
+  "regions": "지역",
   "selectRegion": "지역 선택",
   "northAmerica": "북미",
   "europe": "유럽",

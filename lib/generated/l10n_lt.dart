@@ -545,6 +545,9 @@ class SLt extends S {
   String get chooseRegion => 'Pasirinkti regioną';
 
   @override
+  String get regions => 'Regionai';
+
+  @override
   String get selectRegion => 'Pasirinkite regioną';
 
   @override

@@ -549,6 +549,9 @@ class SAr extends S {
   String get chooseRegion => 'اختيار المنطقة';
 
   @override
+  String get regions => 'المناطق';
+
+  @override
   String get selectRegion => 'اختيار المنطقة';
 
   @override

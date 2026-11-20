@@ -540,6 +540,9 @@ class SIt extends S {
   String get chooseRegion => 'Scegli regione';
 
   @override
+  String get regions => 'Regioni';
+
+  @override
   String get selectRegion => 'Seleziona regione';
 
   @override

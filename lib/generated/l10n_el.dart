@@ -543,6 +543,9 @@ class SEl extends S {
   String get chooseRegion => 'Επιλέξτε περιοχή';
 
   @override
+  String get regions => 'Περιοχές';
+
+  @override
   String get selectRegion => 'Επιλέξτε περιοχή';
 
   @override

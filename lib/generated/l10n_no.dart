@@ -536,6 +536,9 @@ class SNo extends S {
   String get chooseRegion => 'Velg region';
 
   @override
+  String get regions => 'Regioner';
+
+  @override
   String get selectRegion => 'Velg region';
 
   @override

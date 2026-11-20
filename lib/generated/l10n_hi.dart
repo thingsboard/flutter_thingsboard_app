@@ -541,6 +541,9 @@ class SHi extends S {
   String get chooseRegion => 'क्षेत्र चुनें';
 
   @override
+  String get regions => 'क्षेत्र';
+
+  @override
   String get selectRegion => 'क्षेत्र चुनें';
 
   @override

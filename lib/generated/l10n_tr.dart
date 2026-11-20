@@ -537,6 +537,9 @@ class STr extends S {
   String get chooseRegion => 'Bölge seçin';
 
   @override
+  String get regions => 'Bölgeler';
+
+  @override
   String get selectRegion => 'Bölge seçin';
 
   @override
