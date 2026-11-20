@@ -28,7 +28,7 @@ void main() {
       await $.expectDashboardText(E2eServer.dashboardMarker);
       await $.logOut();
     } finally {
-      await server.deleteCustomer(user.customerId);
+      await server.cleanUpCustomer(user.customerId);
     }
   });
 }

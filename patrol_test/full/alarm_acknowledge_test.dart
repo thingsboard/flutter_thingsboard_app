@@ -38,7 +38,7 @@ void main() {
         await $.expectAlarmStatus(acknowledged: true);
         await $.logOut();
       } finally {
-        await server.deleteCustomer(user.customerId);
+        await server.cleanUpCustomer(user.customerId);
       }
     },
   );

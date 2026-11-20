@@ -25,11 +25,13 @@ void main() {
         await $.expectHome();
 
         await E2eServer.endSessions(user);
-        // Any screen that loads data makes the next request.
+        // The alarm list may already be loaded; pulling it down makes the
+        // app send a request with the old token, as a user refreshing would.
         await $.openAlarms();
+        await $.refreshAlarms();
         await $.expectLoginPage();
       } finally {
-        await server.deleteCustomer(user.customerId);
+        await server.cleanUpCustomer(user.customerId);
       }
     },
   );

@@ -41,7 +41,7 @@ void main() {
         expect($(E2eEnv.tenantEmail), findsNothing);
         await $.logOut();
       } finally {
-        await server.deleteCustomer(user.customerId);
+        await server.cleanUpCustomer(user.customerId);
       }
     },
   );

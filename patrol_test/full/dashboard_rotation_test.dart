@@ -28,7 +28,7 @@ void main() {
       await $.logOut();
     } finally {
       await $.resetOrientation();
-      await server.deleteCustomer(user.customerId);
+      await server.cleanUpCustomer(user.customerId);
     }
   });
 }

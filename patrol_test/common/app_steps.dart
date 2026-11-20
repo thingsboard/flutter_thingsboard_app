@@ -138,6 +138,17 @@ extension AppSteps on PatrolIntegrationTester {
     await this(s.alarms(2)).tap();
   }
 
+  /// Pulls the alarm list down, so the app asks the server again instead of
+  /// showing what it already loaded.
+  Future<void> refreshAlarms() async {
+    await tester.fling(
+      this(RefreshIndicator).first,
+      const Offset(0, 400),
+      1000,
+    );
+    await pump(const Duration(seconds: 2));
+  }
+
   Future<void> openAlarmDetails(String type) async {
     await this(type).waitUntilVisible();
     await this(Icons.more_vert).tap();

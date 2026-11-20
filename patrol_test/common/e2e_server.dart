@@ -270,6 +270,18 @@ class E2eServer {
   Future<void> deleteCustomer(String customerId) =>
       _client.getCustomerControllerApi().deleteCustomer(customerId: customerId);
 
+  /// Deletes the customer a test created, at the end of the test. A failure
+  /// here, such as a dropped connection, only prints a warning: the app part
+  /// of the test is done, and the next test's [deleteStaleCustomers] deletes
+  /// the leftover.
+  Future<void> cleanUpCustomer(String customerId) async {
+    try {
+      await deleteCustomer(customerId);
+    } on Exception catch (e) {
+      debugPrint('E2E cleanup: customer $customerId not deleted: $e');
+    }
+  }
+
   /// Deletes customers that earlier tests left behind:
   ///  * those of this run: the tests run one after another, so a customer of
   ///    this run that exists when a test starts belongs to a test whose app

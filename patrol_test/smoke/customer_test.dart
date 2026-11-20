@@ -19,7 +19,7 @@ void main() {
       await $.expectHome();
       await $.logOut();
     } finally {
-      await server.deleteCustomer(user.customerId);
+      await server.cleanUpCustomer(user.customerId);
     }
   });
 }
