@@ -1090,10 +1090,10 @@ class SDa extends S {
   String get actionTypeRelationsDeleted => 'Alle relationer slettet';
 
   @override
-  String get actionTypeAlarmAck => 'Kvitteret';
+  String get actionTypeAlarmAck => 'Alarm kvitteret';
 
   @override
-  String get actionTypeAlarmClear => 'Ryddet';
+  String get actionTypeAlarmClear => 'Alarm ryddet';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm slettet';
@@ -1102,7 +1102,7 @@ class SDa extends S {
   String get actionTypeAlarmAssigned => 'Alarm tildelt';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarmtildeling fjernet';
+  String get actionTypeAlarmUnassigned => 'Tildeling af alarm fjernet';
 
   @override
   String get actionTypeLogin => 'Login';

@@ -1077,7 +1077,7 @@ class SAr extends S {
   String get actionTypeUnassignedFromCustomer => 'تم إلغاء التعيين من العميل';
 
   @override
-  String get actionTypeActivated => 'مُنشَّط';
+  String get actionTypeActivated => 'تم التنشيط';
 
   @override
   String get actionTypeSuspended => 'تم التعليق';
@@ -1086,7 +1086,7 @@ class SAr extends S {
   String get actionTypeCredentialsRead => 'تمت قراءة بيانات الاعتماد';
 
   @override
-  String get actionTypeAttributesRead => 'تم قراءة السمات';
+  String get actionTypeAttributesRead => 'تمت قراءة السمات';
 
   @override
   String get actionTypeRelationAddOrUpdate => 'تم تحديث العلاقة';
@@ -1098,10 +1098,10 @@ class SAr extends S {
   String get actionTypeRelationsDeleted => 'تم حذف جميع العلاقات';
 
   @override
-  String get actionTypeAlarmAck => 'تم الإقرار';
+  String get actionTypeAlarmAck => 'تم الإقرار بالإنذار';
 
   @override
-  String get actionTypeAlarmClear => 'تم المسح';
+  String get actionTypeAlarmClear => 'تم مسح الإنذار';
 
   @override
   String get actionTypeAlarmDelete => 'تم حذف الإنذار';
@@ -1122,10 +1122,10 @@ class SAr extends S {
   String get actionTypeLockout => 'قفل الحساب';
 
   @override
-  String get actionTypeAssignedFromTenant => 'مُعين من المستأجر';
+  String get actionTypeAssignedFromTenant => 'تم التعيين من المستأجر';
 
   @override
-  String get actionTypeAssignedToTenant => 'مُعين للمستأجر';
+  String get actionTypeAssignedToTenant => 'تم التعيين للمستأجر';
 
   @override
   String get actionTypeProvisionSuccess => 'تم تزويد الجهاز';

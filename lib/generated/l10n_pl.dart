@@ -1084,37 +1084,37 @@ class SPl extends S {
       'Anulowano przypisanie do klienta';
 
   @override
-  String get actionTypeActivated => 'Aktywowany';
+  String get actionTypeActivated => 'Aktywowano';
 
   @override
-  String get actionTypeSuspended => 'Zawieszony';
+  String get actionTypeSuspended => 'Zawieszono';
 
   @override
-  String get actionTypeCredentialsRead => 'Dane uwierzytelniające odczytane';
+  String get actionTypeCredentialsRead => 'Odczytano dane uwierzytelniające';
 
   @override
-  String get actionTypeAttributesRead => 'Odczytane atrybuty';
+  String get actionTypeAttributesRead => 'Odczytano atrybuty';
 
   @override
-  String get actionTypeRelationAddOrUpdate => 'Relacja zaktualizowana';
+  String get actionTypeRelationAddOrUpdate => 'Zaktualizowano relację';
 
   @override
-  String get actionTypeRelationDeleted => 'Relacja usunięta';
+  String get actionTypeRelationDeleted => 'Usunięto relację';
 
   @override
-  String get actionTypeRelationsDeleted => 'Wszystkie relacje usunięte';
+  String get actionTypeRelationsDeleted => 'Usunięto wszystkie relacje';
 
   @override
-  String get actionTypeAlarmAck => 'Potwierdzony';
+  String get actionTypeAlarmAck => 'Potwierdzono alarm';
 
   @override
-  String get actionTypeAlarmClear => 'Wyczyszczony';
+  String get actionTypeAlarmClear => 'Wyczyszczono alarm';
 
   @override
   String get actionTypeAlarmDelete => 'Usunięto alarm';
 
   @override
-  String get actionTypeAlarmAssigned => 'Alarm przypisany';
+  String get actionTypeAlarmAssigned => 'Przypisano alarm';
 
   @override
   String get actionTypeAlarmUnassigned => 'Anulowano przypisanie alarmu';
@@ -1129,23 +1129,23 @@ class SPl extends S {
   String get actionTypeLockout => 'Blokada konta';
 
   @override
-  String get actionTypeAssignedFromTenant => 'Przypisane od tenanta';
+  String get actionTypeAssignedFromTenant => 'Przypisano od tenanta';
 
   @override
-  String get actionTypeAssignedToTenant => 'Przypisane do tenanta';
+  String get actionTypeAssignedToTenant => 'Przypisano do tenanta';
 
   @override
-  String get actionTypeProvisionSuccess => 'Urządzenie zaaprowizowane';
+  String get actionTypeProvisionSuccess => 'Zaaprowizowano urządzenie';
 
   @override
   String get actionTypeProvisionFailure =>
       'Aprowizacja urządzenia nie powiodła się';
 
   @override
-  String get actionTypeTimeseriesUpdated => 'Telemetria zaktualizowana';
+  String get actionTypeTimeseriesUpdated => 'Zaktualizowano telemetrię';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'Telemetria usunięta';
+  String get actionTypeTimeseriesDeleted => 'Usunięto telemetrię';
 
   @override
   String get actionTypeAssignedToEdge => 'Przypisano do instancji Edge';

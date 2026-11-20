@@ -1090,10 +1090,10 @@ class SNl extends S {
   String get actionTypeRelationsDeleted => 'Alle relaties verwijderd';
 
   @override
-  String get actionTypeAlarmAck => 'Bevestigd';
+  String get actionTypeAlarmAck => 'Alarm bevestigd';
 
   @override
-  String get actionTypeAlarmClear => 'Opgeheven';
+  String get actionTypeAlarmClear => 'Alarm opgeheven';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm verwijderd';

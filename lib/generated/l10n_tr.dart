@@ -1049,16 +1049,16 @@ class STr extends S {
   String get actionTypeUpdated => 'Güncellendi';
 
   @override
-  String get actionTypeAttributesUpdated => 'Öznitelikler Güncellendi';
+  String get actionTypeAttributesUpdated => 'Öznitelikler güncellendi';
 
   @override
-  String get actionTypeAttributesDeleted => 'Öznitelikler Silindi';
+  String get actionTypeAttributesDeleted => 'Öznitelikler silindi';
 
   @override
-  String get actionTypeRpcCall => 'RPC Çağrısı';
+  String get actionTypeRpcCall => 'RPC çağrısı';
 
   @override
-  String get actionTypeCredentialsUpdated => 'Kimlik Bilgileri Güncellendi';
+  String get actionTypeCredentialsUpdated => 'Kimlik bilgileri güncellendi';
 
   @override
   String get actionTypeAssignedToCustomer => 'Müşteriye atandı';
@@ -1089,16 +1089,16 @@ class STr extends S {
   String get actionTypeRelationsDeleted => 'Tüm ilişkiler silindi';
 
   @override
-  String get actionTypeAlarmAck => 'Onaylandı';
+  String get actionTypeAlarmAck => 'Alarm onaylandı';
 
   @override
-  String get actionTypeAlarmClear => 'Temizlendi';
+  String get actionTypeAlarmClear => 'Alarm temizlendi';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm silindi';
 
   @override
-  String get actionTypeAlarmAssigned => 'Alarm Atandı';
+  String get actionTypeAlarmAssigned => 'Alarm atandı';
 
   @override
   String get actionTypeAlarmUnassigned => 'Alarm ataması kaldırıldı';
@@ -1150,10 +1150,10 @@ class STr extends S {
   String get actionTypeSmsSent => 'SMS gönderildi';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'Öğe Grubuna Eklendi';
+  String get actionTypeAddedToEntityGroup => 'Öğe grubuna eklendi';
 
   @override
-  String get actionTypeRemovedFromEntityGroup => 'Öğe Grubundan Kaldırıldı';
+  String get actionTypeRemovedFromEntityGroup => 'Öğe grubundan kaldırıldı';
 
   @override
   String get actionTypeRestApiRuleEngineCall => 'Kural motoru REST API çağrısı';

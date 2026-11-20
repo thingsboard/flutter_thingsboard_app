@@ -1088,10 +1088,10 @@ class SLv extends S {
   String get actionTypeRelationsDeleted => 'Visas attiecības dzēstas';
 
   @override
-  String get actionTypeAlarmAck => 'Apstiprināts';
+  String get actionTypeAlarmAck => 'Trauksme apstiprināta';
 
   @override
-  String get actionTypeAlarmClear => 'Atrisināts';
+  String get actionTypeAlarmClear => 'Trauksme atrisināta';
 
   @override
   String get actionTypeAlarmDelete => 'Trauksme dzēsta';

@@ -1091,10 +1091,10 @@ class SHi extends S {
   String get actionTypeRelationsDeleted => 'सभी रिलेशन हटाए गए';
 
   @override
-  String get actionTypeAlarmAck => 'स्वीकार किया गया';
+  String get actionTypeAlarmAck => 'अलार्म स्वीकार किया गया';
 
   @override
-  String get actionTypeAlarmClear => 'क्लियर किया गया';
+  String get actionTypeAlarmClear => 'अलार्म क्लियर किया गया';
 
   @override
   String get actionTypeAlarmDelete => 'अलार्म हटाया गया';

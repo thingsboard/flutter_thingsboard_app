@@ -1044,13 +1044,13 @@ class SKa extends S {
   String get actionStatusFailure => 'წარუმატებელი';
 
   @override
-  String get actionTypeAdded => 'დამატებული';
+  String get actionTypeAdded => 'დამატებულია';
 
   @override
-  String get actionTypeDeleted => 'წაშლილი';
+  String get actionTypeDeleted => 'წაშლილია';
 
   @override
-  String get actionTypeUpdated => 'განახლებული';
+  String get actionTypeUpdated => 'განახლებულია';
 
   @override
   String get actionTypeAttributesUpdated => 'ატრიბუტები განახლებულია';
@@ -1066,16 +1066,16 @@ class SKa extends S {
       'ავტორიზაციის მონაცემები განახლებულია';
 
   @override
-  String get actionTypeAssignedToCustomer => 'კლიენტზე მინიჭებული';
+  String get actionTypeAssignedToCustomer => 'კლიენტზე მინიჭებულია';
 
   @override
-  String get actionTypeUnassignedFromCustomer => 'კლიენტისგან მოხსნილი';
+  String get actionTypeUnassignedFromCustomer => 'კლიენტისგან მოხსნილია';
 
   @override
-  String get actionTypeActivated => 'გააქტიურებული';
+  String get actionTypeActivated => 'გააქტიურებულია';
 
   @override
-  String get actionTypeSuspended => 'შეჩერებული';
+  String get actionTypeSuspended => 'შეჩერებულია';
 
   @override
   String get actionTypeCredentialsRead => 'ავტორიზაციის მონაცემები წაკითხულია';
@@ -1093,19 +1093,19 @@ class SKa extends S {
   String get actionTypeRelationsDeleted => 'ყველა ურთიერთობა წაშლილია';
 
   @override
-  String get actionTypeAlarmAck => 'დადასტურებული';
+  String get actionTypeAlarmAck => 'განგაში დადასტურებულია';
 
   @override
-  String get actionTypeAlarmClear => 'გადაწყვეტილი';
+  String get actionTypeAlarmClear => 'განგაში გადაწყვეტილია';
 
   @override
-  String get actionTypeAlarmDelete => 'განგაში წაიშალა';
+  String get actionTypeAlarmDelete => 'განგაში წაშლილია';
 
   @override
-  String get actionTypeAlarmAssigned => 'განგაში მიენიჭა';
+  String get actionTypeAlarmAssigned => 'განგაში მინიჭებულია';
 
   @override
-  String get actionTypeAlarmUnassigned => 'განგაშის მინიჭება მოიხსნა';
+  String get actionTypeAlarmUnassigned => 'განგაშის მინიჭება მოხსნილია';
 
   @override
   String get actionTypeLogin => 'შესვლა';
@@ -1124,52 +1124,52 @@ class SKa extends S {
 
   @override
   String get actionTypeProvisionSuccess =>
-      'მოწყობილობის პროვიზიონირება შესრულდა';
+      'მოწყობილობის პროვიზიონირება შესრულებულია';
 
   @override
   String get actionTypeProvisionFailure =>
       'მოწყობილობის პროვიზიონირება ვერ მოხერხდა';
 
   @override
-  String get actionTypeTimeseriesUpdated => 'ტელემეტრია განახლდა';
+  String get actionTypeTimeseriesUpdated => 'ტელემეტრია განახლებულია';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'ტელემეტრია წაიშალა';
+  String get actionTypeTimeseriesDeleted => 'ტელემეტრია წაშლილია';
 
   @override
-  String get actionTypeAssignedToEdge => 'Edge-ზე მინიჭებული';
+  String get actionTypeAssignedToEdge => 'Edge-ზე მინიჭებულია';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Edge-ისგან მოხსნილი';
+  String get actionTypeUnassignedFromEdge => 'Edge-ისგან მოხსნილია';
 
   @override
-  String get actionTypeAddedComment => 'კომენტარი დაემატა';
+  String get actionTypeAddedComment => 'კომენტარი დამატებულია';
 
   @override
-  String get actionTypeUpdatedComment => 'კომენტარი განახლდა';
+  String get actionTypeUpdatedComment => 'კომენტარი განახლებულია';
 
   @override
-  String get actionTypeDeletedComment => 'კომენტარი წაიშალა';
+  String get actionTypeDeletedComment => 'კომენტარი წაშლილია';
 
   @override
   String get actionTypeSmsSent => 'SMS გაგზავნილია';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'ობიექტების ჯგუფში დამატებული';
+  String get actionTypeAddedToEntityGroup => 'ობიექტების ჯგუფში დამატებულია';
 
   @override
   String get actionTypeRemovedFromEntityGroup =>
-      'ობიექტების ჯგუფიდან ამოღებული';
+      'ობიექტების ჯგუფიდან ამოღებულია';
 
   @override
   String get actionTypeRestApiRuleEngineCall =>
       'წესების ძრავის REST API გამოძახება';
 
   @override
-  String get actionTypeMadePublic => 'საჯაროდ გადაიქცა';
+  String get actionTypeMadePublic => 'საჯაროდ გადაქცეულია';
 
   @override
-  String get actionTypeMadePrivate => 'პრივატულად გადაიქცა';
+  String get actionTypeMadePrivate => 'პრივატულად გადაქცეულია';
 
   @override
   String get actionTypeChangeOwner => 'მფლობელი შეცვლილია';
@@ -1342,7 +1342,7 @@ class SKa extends S {
   String get applyChanges => 'ცვლილებების გამოყენება';
 
   @override
-  String get discardChanges => 'ცვლილებების გაუქმება';
+  String get discardChanges => 'ცვლილებების უგულებელყოფა';
 
   @override
   String get yesDiscard => 'დიახ, უგულებელყოფა';

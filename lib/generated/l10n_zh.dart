@@ -1140,7 +1140,7 @@ class SZh extends S {
   String get actionTypeMadePrivate => '已设为私有';
 
   @override
-  String get actionTypeChangeOwner => '所有者已更改';
+  String get actionTypeChangeOwner => '所有者已变更';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation => '您没有权限执行此操作！';
@@ -2707,10 +2707,10 @@ class SZhTw extends SZh {
   String get actionTypeRelationsDeleted => '所有關聯已刪除';
 
   @override
-  String get actionTypeAlarmAck => '已確認';
+  String get actionTypeAlarmAck => '警報已確認';
 
   @override
-  String get actionTypeAlarmClear => '已清除';
+  String get actionTypeAlarmClear => '警報已清除';
 
   @override
   String get actionTypeAlarmDelete => '警報已刪除';

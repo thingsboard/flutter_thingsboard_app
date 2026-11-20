@@ -1099,10 +1099,10 @@ class SRo extends S {
   String get actionTypeRelationsDeleted => 'Toate relațiile șterse';
 
   @override
-  String get actionTypeAlarmAck => 'Confirmată';
+  String get actionTypeAlarmAck => 'Alarmă confirmată';
 
   @override
-  String get actionTypeAlarmClear => 'Rezolvată';
+  String get actionTypeAlarmClear => 'Alarmă rezolvată';
 
   @override
   String get actionTypeAlarmDelete => 'Alarmă ștearsă';
@@ -1111,7 +1111,7 @@ class SRo extends S {
   String get actionTypeAlarmAssigned => 'Alarmă atribuită';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarmă neatribuită';
+  String get actionTypeAlarmUnassigned => 'Atribuire alarmă eliminată';
 
   @override
   String get actionTypeLogin => 'Conectare';

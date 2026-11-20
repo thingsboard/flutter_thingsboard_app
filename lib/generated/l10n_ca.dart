@@ -1065,7 +1065,7 @@ class SCa extends S {
   String get actionTypeAttributesDeleted => 'Atributs suprimits';
 
   @override
-  String get actionTypeRpcCall => 'Trucada RPC';
+  String get actionTypeRpcCall => 'Crida RPC';
 
   @override
   String get actionTypeCredentialsUpdated => 'Credencials actualitzades';
@@ -1083,10 +1083,10 @@ class SCa extends S {
   String get actionTypeSuspended => 'Suspès';
 
   @override
-  String get actionTypeCredentialsRead => 'Lectura de credencials';
+  String get actionTypeCredentialsRead => 'Credencials llegides';
 
   @override
-  String get actionTypeAttributesRead => 'Lectura d\'atributs';
+  String get actionTypeAttributesRead => 'Atributs llegits';
 
   @override
   String get actionTypeRelationAddOrUpdate => 'Relació actualitzada';
@@ -1138,7 +1138,7 @@ class SCa extends S {
   String get actionTypeTimeseriesUpdated => 'Telemetria actualitzada';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'Telemetria esborrada';
+  String get actionTypeTimeseriesDeleted => 'Telemetria suprimida';
 
   @override
   String get actionTypeAssignedToEdge => 'Assignat a l\'Edge';
@@ -1159,15 +1159,15 @@ class SCa extends S {
   String get actionTypeSmsSent => 'SMS enviat';
 
   @override
-  String get actionTypeAddedToEntityGroup => 'S\'ha afegit al grup d\'entitats';
+  String get actionTypeAddedToEntityGroup => 'Afegit al grup d\'entitats';
 
   @override
   String get actionTypeRemovedFromEntityGroup =>
-      'S\'ha eliminat del grup d\'entitats';
+      'Eliminat del grup d\'entitats';
 
   @override
   String get actionTypeRestApiRuleEngineCall =>
-      'Trucada a l\'API REST del motor de regles';
+      'Crida a l\'API REST del motor de regles';
 
   @override
   String get actionTypeMadePublic => 'Fet públic';

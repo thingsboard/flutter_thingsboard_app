@@ -1081,10 +1081,10 @@ class SLt extends S {
   String get actionTypeSuspended => 'Sustabdyta';
 
   @override
-  String get actionTypeCredentialsRead => 'Prisijungimo duomenų skaitymas';
+  String get actionTypeCredentialsRead => 'Prisijungimo duomenys nuskaityti';
 
   @override
-  String get actionTypeAttributesRead => 'Atributų skaitymas';
+  String get actionTypeAttributesRead => 'Atributai nuskaityti';
 
   @override
   String get actionTypeRelationAddOrUpdate => 'Ryšys pridėtas arba atnaujintas';

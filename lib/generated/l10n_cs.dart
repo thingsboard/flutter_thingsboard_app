@@ -1060,7 +1060,7 @@ class SCs extends S {
   String get actionTypeUpdated => 'Aktualizováno';
 
   @override
-  String get actionTypeAttributesUpdated => 'Atributy editovány';
+  String get actionTypeAttributesUpdated => 'Atributy aktualizovány';
 
   @override
   String get actionTypeAttributesDeleted => 'Atributy smazány';
@@ -1069,7 +1069,7 @@ class SCs extends S {
   String get actionTypeRpcCall => 'RPC volání';
 
   @override
-  String get actionTypeCredentialsUpdated => 'Přístupové údaje editovány';
+  String get actionTypeCredentialsUpdated => 'Přístupové údaje aktualizovány';
 
   @override
   String get actionTypeAssignedToCustomer => 'Přiřazeno zákazníkovi';
@@ -1084,10 +1084,10 @@ class SCs extends S {
   String get actionTypeSuspended => 'Deaktivováno';
 
   @override
-  String get actionTypeCredentialsRead => 'Zobrazení přístupových údajů';
+  String get actionTypeCredentialsRead => 'Přístupové údaje zobrazeny';
 
   @override
-  String get actionTypeAttributesRead => 'Zobrazení atributů';
+  String get actionTypeAttributesRead => 'Atributy zobrazeny';
 
   @override
   String get actionTypeRelationAddOrUpdate => 'Vztah aktualizován';
@@ -1099,10 +1099,10 @@ class SCs extends S {
   String get actionTypeRelationsDeleted => 'Všechny vztahy smazány';
 
   @override
-  String get actionTypeAlarmAck => 'Přijaté';
+  String get actionTypeAlarmAck => 'Alarm přijat';
 
   @override
-  String get actionTypeAlarmClear => 'Vyřešené';
+  String get actionTypeAlarmClear => 'Alarm vyřešen';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm smazán';
@@ -1123,22 +1123,22 @@ class SCs extends S {
   String get actionTypeLockout => 'Zablokování';
 
   @override
-  String get actionTypeAssignedFromTenant => 'Odebráno tenantovi';
+  String get actionTypeAssignedFromTenant => 'Přiřazeno od tenanta';
 
   @override
   String get actionTypeAssignedToTenant => 'Přiřazeno tenantovi';
 
   @override
-  String get actionTypeProvisionSuccess => 'Zřízení zařízení';
+  String get actionTypeProvisionSuccess => 'Zařízení zřízeno';
 
   @override
-  String get actionTypeProvisionFailure => 'Selhání zřízení zařízení';
+  String get actionTypeProvisionFailure => 'Zřízení zařízení selhalo';
 
   @override
-  String get actionTypeTimeseriesUpdated => 'Aktualizace telemetrie';
+  String get actionTypeTimeseriesUpdated => 'Telemetrie aktualizována';
 
   @override
-  String get actionTypeTimeseriesDeleted => 'Smazání telemetrie';
+  String get actionTypeTimeseriesDeleted => 'Telemetrie smazána';
 
   @override
   String get actionTypeAssignedToEdge => 'Přiřazeno k instanci Edge';
@@ -1147,7 +1147,7 @@ class SCs extends S {
   String get actionTypeUnassignedFromEdge => 'Odebráno z instance Edge';
 
   @override
-  String get actionTypeAddedComment => 'Přidán komentář';
+  String get actionTypeAddedComment => 'Komentář přidán';
 
   @override
   String get actionTypeUpdatedComment => 'Komentář aktualizován';

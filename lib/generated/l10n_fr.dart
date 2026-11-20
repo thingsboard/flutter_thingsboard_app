@@ -1095,19 +1095,19 @@ class SFr extends S {
   String get actionTypeRelationsDeleted => 'Toutes les relations supprimées';
 
   @override
-  String get actionTypeAlarmAck => 'Acquittée';
+  String get actionTypeAlarmAck => 'Alarme acquittée';
 
   @override
-  String get actionTypeAlarmClear => 'Réinitialisée';
+  String get actionTypeAlarmClear => 'Alarme réinitialisée';
 
   @override
   String get actionTypeAlarmDelete => 'Alarme supprimée';
 
   @override
-  String get actionTypeAlarmAssigned => 'Alarme attribuée';
+  String get actionTypeAlarmAssigned => 'Alarme assignée';
 
   @override
-  String get actionTypeAlarmUnassigned => 'Alarme désattribuée';
+  String get actionTypeAlarmUnassigned => 'Alarme désassignée';
 
   @override
   String get actionTypeLogin => 'Connexion';
@@ -1172,7 +1172,7 @@ class SFr extends S {
   String get actionTypeMadePrivate => 'Rendu privé';
 
   @override
-  String get actionTypeChangeOwner => 'Propriétaire modifié';
+  String get actionTypeChangeOwner => 'Propriétaire changé';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>

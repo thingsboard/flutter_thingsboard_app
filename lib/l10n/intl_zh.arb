@@ -385,7 +385,7 @@
   "actionTypeRestApiRuleEngineCall": "REST API 规则引擎调用",
   "actionTypeMadePublic": "已设为公开",
   "actionTypeMadePrivate": "已设为私有",
-  "actionTypeChangeOwner": "所有者已更改",
+  "actionTypeChangeOwner": "所有者已变更",
   "youDontHavePermissionsToPerformThisOperation": "您没有权限执行此操作！",
   "itLooksLikeYourPermissionsArentSufficientToCompleteThis": "您的权限似乎不足以完成此操作。",
   "isRequiredText": "为必填项。",

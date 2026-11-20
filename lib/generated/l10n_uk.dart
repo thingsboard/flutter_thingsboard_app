@@ -278,7 +278,7 @@ class SUk extends S {
   String get tryAgain => 'Спробувати ще раз';
 
   @override
-  String get verifyYourIdentity => 'Підтвердити Вашу особу';
+  String get verifyYourIdentity => 'Підтвердити вашу особу';
 
   @override
   String get continueText => 'Продовжити';
@@ -300,21 +300,21 @@ class SUk extends S {
 
   @override
   String get totpAuthDescription =>
-      'Будь ласка, введіть код безпеки з Вашого застосунку автентифікації.';
+      'Будь ласка, введіть код безпеки з вашого застосунку автентифікації.';
 
   @override
   String smsAuthDescription(Object contact) {
-    return 'Код безпеки було надіслано на Ваш телефон: $contact.';
+    return 'Код безпеки було надіслано на ваш телефон: $contact.';
   }
 
   @override
   String emailAuthDescription(Object contact) {
-    return 'Код безпеки було надіслано на Вашу адресу email: $contact.';
+    return 'Код безпеки було надіслано на вашу адресу email: $contact.';
   }
 
   @override
   String get backupCodeAuthDescription =>
-      'Будь ласка, введіть один із Ваших резервних кодів.';
+      'Будь ласка, введіть один із ваших резервних кодів.';
 
   @override
   String get toptAuthPlaceholder => 'Код';
@@ -1056,16 +1056,16 @@ class SUk extends S {
   String get actionTypeUpdated => 'Оновлено';
 
   @override
-  String get actionTypeAttributesUpdated => 'Атрибути оновлені';
+  String get actionTypeAttributesUpdated => 'Атрибути оновлено';
 
   @override
-  String get actionTypeAttributesDeleted => 'Атрибути видалені';
+  String get actionTypeAttributesDeleted => 'Атрибути видалено';
 
   @override
   String get actionTypeRpcCall => 'Виклик RPC';
 
   @override
-  String get actionTypeCredentialsUpdated => 'Облікові дані оновлені';
+  String get actionTypeCredentialsUpdated => 'Облікові дані оновлено';
 
   @override
   String get actionTypeAssignedToCustomer => 'Призначено клієнту';
@@ -1095,16 +1095,16 @@ class SUk extends S {
   String get actionTypeRelationsDeleted => 'Усі зв’язки видалено';
 
   @override
-  String get actionTypeAlarmAck => 'Підтверджена';
+  String get actionTypeAlarmAck => 'Тривогу підтверджено';
 
   @override
-  String get actionTypeAlarmClear => 'Знята';
+  String get actionTypeAlarmClear => 'Тривогу знято';
 
   @override
   String get actionTypeAlarmDelete => 'Тривогу видалено';
 
   @override
-  String get actionTypeAlarmAssigned => 'Призначено тривогу';
+  String get actionTypeAlarmAssigned => 'Тривогу призначено';
 
   @override
   String get actionTypeAlarmUnassigned => 'Знято призначення тривоги';
@@ -1158,10 +1158,11 @@ class SUk extends S {
   String get actionTypeAddedToEntityGroup => 'Додано до групи сутностей';
 
   @override
-  String get actionTypeRemovedFromEntityGroup => 'Видалено з групи сутностей';
+  String get actionTypeRemovedFromEntityGroup => 'Вилучено з групи сутностей';
 
   @override
-  String get actionTypeRestApiRuleEngineCall => 'Виклик REST API Rule Engine';
+  String get actionTypeRestApiRuleEngineCall =>
+      'Виклик REST API механізму правил';
 
   @override
   String get actionTypeMadePublic => 'Зроблено публічним';
@@ -1200,7 +1201,7 @@ class SUk extends S {
 
   @override
   String get youHaveUnsavedChangesAreYouSureYouWantTo =>
-      'У Вас є незбережені зміни. Ви впевнені, що хочете покинути цю сторінку?';
+      'У вас є незбережені зміни. Ви впевнені, що хочете покинути цю сторінку?';
 
   @override
   String get deleteAccount => 'Видалити обліковий запис';
@@ -1267,15 +1268,15 @@ class SUk extends S {
 
   @override
   String get totpSetupSuccessDescription =>
-      'Наступного разу під час входу Вам потрібно буде надати код двофакторної автентифікації';
+      'Наступного разу під час входу вам потрібно буде надати код двофакторної автентифікації';
 
   @override
   String get smsSetupSuccessDescription =>
-      'Наступного разу під час входу Вам буде запропоновано ввести код безпеки, який буде надіслано на номер телефону';
+      'Наступного разу під час входу вам буде запропоновано ввести код безпеки, який буде надіслано на номер телефону';
 
   @override
   String get emailSetupSuccessDescription =>
-      'Наступного разу під час входу Вам буде запропоновано ввести код безпеки, який буде надіслано на Вашу email-адресу';
+      'Наступного разу під час входу вам буде запропоновано ввести код безпеки, який буде надіслано на вашу email-адресу';
 
   @override
   String get backupCodeSetupSuccessDescription =>
@@ -1304,7 +1305,7 @@ class SUk extends S {
 
   @override
   String get enterAnEmailToUseAsYourAuthenticator =>
-      'Введіть email, щоб використовувати його як Ваш автентифікатор.';
+      'Введіть email, щоб використовувати його як ваш автентифікатор.';
 
   @override
   String get enterAPhoneNumberToUseAsYourAuthenticator =>
@@ -1351,7 +1352,7 @@ class SUk extends S {
   @override
   String
   get twofactorAuthenticationProtectsYourAccountFromUnauthorizedAccessAllYou =>
-      'Двофакторна автентифікація захищає Ваш обліковий запис від несанкціонованого доступу. Все, що Вам потрібно зробити, — ввести код безпеки під час входу.';
+      'Двофакторна автентифікація захищає ваш обліковий запис від несанкціонованого доступу. Все, що вам потрібно зробити, — ввести код безпеки під час входу.';
 
   @override
   String get calculatedField => 'Розрахункове поле';
@@ -1665,19 +1666,19 @@ class SUk extends S {
 
   @override
   String get twoFaTotpDescription =>
-      'Використовуйте застосунки, такі як Google Authenticator, Authy або Duo на Вашому телефоні для автентифікації. Вони генерують код безпеки для входу.';
+      'Використовуйте застосунки, такі як Google Authenticator, Authy або Duo на вашому телефоні для автентифікації. Вони генерують код безпеки для входу.';
 
   @override
   String get twoFaSmsDescription =>
-      'Використовуйте свій телефон для автентифікації. Ми надішлемо Вам код безпеки через SMS-повідомлення під час входу.';
+      'Використовуйте свій телефон для автентифікації. Ми надішлемо вам код безпеки через SMS-повідомлення під час входу.';
 
   @override
   String get twoFaEmailDescription =>
-      'Використовуйте код безпеки, надісланий на Вашу email-адресу, для автентифікації.';
+      'Використовуйте код безпеки, надісланий на вашу email-адресу, для автентифікації.';
 
   @override
   String get twoFaBackupCodeDescription =>
-      'Ці друковані одноразові коди дозволяють увійти в систему, коли Ви не маєте доступу до телефону, наприклад, під час подорожей.';
+      'Ці друковані одноразові коди дозволяють увійти в систему, коли ви не маєте доступу до телефону, наприклад, під час подорожей.';
 
   @override
   String get openInAuthenticatorApp => 'Відкрити в застосунку автентифікації';
@@ -1708,11 +1709,11 @@ class SUk extends S {
 
   @override
   String get backupCodesDescription =>
-      'Роздрукуйте коди, щоб вони були під рукою, коли Вам потрібно буде використати їх для входу у Ваш обліковий запис. Ви можете використати кожен резервний код один раз.';
+      'Роздрукуйте коди, щоб вони були під рукою, коли вам потрібно буде використати їх для входу у ваш обліковий запис. Ви можете використати кожен резервний код один раз.';
 
   @override
   String get backupCodesWarning =>
-      'Щойно Ви покинете цю сторінку, ці коди не можна буде показати знову. Зберігайте їх безпечно, використовуючи варіанти нижче.';
+      'Щойно ви покинете цю сторінку, ці коди не можна буде показати знову. Зберігайте їх безпечно, використовуючи варіанти нижче.';
 
   @override
   String get downloadTxt => 'Завантажити (txt)';

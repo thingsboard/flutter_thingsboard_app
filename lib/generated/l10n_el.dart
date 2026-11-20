@@ -1098,10 +1098,10 @@ class SEl extends S {
   String get actionTypeRelationsDeleted => 'Όλες οι σχέσεις διαγράφηκαν';
 
   @override
-  String get actionTypeAlarmAck => 'Αναγνωρίστηκε';
+  String get actionTypeAlarmAck => 'Ο συναγερμός αναγνωρίστηκε';
 
   @override
-  String get actionTypeAlarmClear => 'Εκκαθαρίστηκε';
+  String get actionTypeAlarmClear => 'Ο συναγερμός εκκαθαρίστηκε';
 
   @override
   String get actionTypeAlarmDelete => 'Ο συναγερμός διαγράφηκε';

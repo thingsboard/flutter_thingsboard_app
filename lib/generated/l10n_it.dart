@@ -1095,10 +1095,10 @@ class SIt extends S {
   String get actionTypeRelationsDeleted => 'Tutte le relazioni eliminate';
 
   @override
-  String get actionTypeAlarmAck => 'Confermato';
+  String get actionTypeAlarmAck => 'Allarme confermato';
 
   @override
-  String get actionTypeAlarmClear => 'Risolto';
+  String get actionTypeAlarmClear => 'Allarme risolto';
 
   @override
   String get actionTypeAlarmDelete => 'Allarme eliminato';
@@ -1171,7 +1171,7 @@ class SIt extends S {
   String get actionTypeMadePrivate => 'Reso privato';
 
   @override
-  String get actionTypeChangeOwner => 'Proprietario modificato';
+  String get actionTypeChangeOwner => 'Proprietario cambiato';
 
   @override
   String get youDontHavePermissionsToPerformThisOperation =>

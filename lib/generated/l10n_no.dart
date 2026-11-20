@@ -1086,10 +1086,10 @@ class SNo extends S {
   String get actionTypeRelationsDeleted => 'Alle relasjoner slettet';
 
   @override
-  String get actionTypeAlarmAck => 'Kvittert';
+  String get actionTypeAlarmAck => 'Alarm kvittert';
 
   @override
-  String get actionTypeAlarmClear => 'Nullstilt';
+  String get actionTypeAlarmClear => 'Alarm nullstilt';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm slettet';

@@ -1096,10 +1096,10 @@ class SDe extends S {
   String get actionTypeRelationsDeleted => 'Alle Beziehungen gelöscht';
 
   @override
-  String get actionTypeAlarmAck => 'Bestätigt';
+  String get actionTypeAlarmAck => 'Alarm bestätigt';
 
   @override
-  String get actionTypeAlarmClear => 'Zurückgesetzt';
+  String get actionTypeAlarmClear => 'Alarm zurückgesetzt';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm gelöscht';

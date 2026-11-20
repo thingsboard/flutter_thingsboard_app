@@ -1139,10 +1139,10 @@ class SEs extends S {
   String get actionTypeTimeseriesDeleted => 'Telemetría eliminada';
 
   @override
-  String get actionTypeAssignedToEdge => 'Asignado al Edge';
+  String get actionTypeAssignedToEdge => 'Asignado a Edge';
 
   @override
-  String get actionTypeUnassignedFromEdge => 'Desasignado del Edge';
+  String get actionTypeUnassignedFromEdge => 'Desasignado de Edge';
 
   @override
   String get actionTypeAddedComment => 'Comentario agregado';

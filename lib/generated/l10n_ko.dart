@@ -1052,31 +1052,31 @@ class SKo extends S {
   String get actionTypeUnassignedFromCustomer => '고객 할당 해제됨';
 
   @override
-  String get actionTypeActivated => '활성';
+  String get actionTypeActivated => '활성화됨';
 
   @override
-  String get actionTypeSuspended => '일시 중지';
+  String get actionTypeSuspended => '일시 중지됨';
 
   @override
-  String get actionTypeCredentialsRead => '자격 증명 읽기';
+  String get actionTypeCredentialsRead => '자격 증명 읽음';
 
   @override
-  String get actionTypeAttributesRead => '속성 읽기';
+  String get actionTypeAttributesRead => '속성 읽음';
 
   @override
-  String get actionTypeRelationAddOrUpdate => '관계가 업데이트되었습니다';
+  String get actionTypeRelationAddOrUpdate => '관계 업데이트됨';
 
   @override
-  String get actionTypeRelationDeleted => '관계가 삭제되었습니다';
+  String get actionTypeRelationDeleted => '관계 삭제됨';
 
   @override
-  String get actionTypeRelationsDeleted => '모든 관계가 삭제되었습니다';
+  String get actionTypeRelationsDeleted => '모든 관계 삭제됨';
 
   @override
-  String get actionTypeAlarmAck => '확인됨';
+  String get actionTypeAlarmAck => '알람 확인됨';
 
   @override
-  String get actionTypeAlarmClear => '해제됨';
+  String get actionTypeAlarmClear => '알람 해제됨';
 
   @override
   String get actionTypeAlarmDelete => '알람 삭제됨';
@@ -1097,16 +1097,16 @@ class SKo extends S {
   String get actionTypeLockout => '잠금';
 
   @override
-  String get actionTypeAssignedFromTenant => '테넌트로부터 지정';
+  String get actionTypeAssignedFromTenant => '테넌트로부터 할당됨';
 
   @override
-  String get actionTypeAssignedToTenant => '테넌트로 지정';
+  String get actionTypeAssignedToTenant => '테넌트에 할당됨';
 
   @override
-  String get actionTypeProvisionSuccess => '장치가 프로비저닝됨';
+  String get actionTypeProvisionSuccess => '장치 프로비저닝됨';
 
   @override
-  String get actionTypeProvisionFailure => '장치 프로비저닝이 실패했습니다';
+  String get actionTypeProvisionFailure => '장치 프로비저닝 실패';
 
   @override
   String get actionTypeTimeseriesUpdated => '텔레메트리 수정됨';
@@ -1311,7 +1311,7 @@ class SKo extends S {
   String get applyChanges => '변경사항 적용';
 
   @override
-  String get discardChanges => '변경 취소';
+  String get discardChanges => '변경사항 버리기';
 
   @override
   String get yesDiscard => '예, 버리기';

@@ -1098,10 +1098,10 @@ class SSl extends S {
   String get actionTypeRelationsDeleted => 'Vse relacije izbrisane';
 
   @override
-  String get actionTypeAlarmAck => 'Potrjen';
+  String get actionTypeAlarmAck => 'Alarm potrjen';
 
   @override
-  String get actionTypeAlarmClear => 'Ponastavljen';
+  String get actionTypeAlarmClear => 'Alarm ponastavljen';
 
   @override
   String get actionTypeAlarmDelete => 'Alarm izbrisan';

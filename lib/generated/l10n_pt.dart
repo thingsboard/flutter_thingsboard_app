@@ -1095,10 +1095,10 @@ class SPt extends S {
   String get actionTypeRelationsDeleted => 'Todas as relações excluídas';
 
   @override
-  String get actionTypeAlarmAck => 'Reconhecido';
+  String get actionTypeAlarmAck => 'Alarme reconhecido';
 
   @override
-  String get actionTypeAlarmClear => 'Resolvido';
+  String get actionTypeAlarmClear => 'Alarme resolvido';
 
   @override
   String get actionTypeAlarmDelete => 'Alarme excluído';
