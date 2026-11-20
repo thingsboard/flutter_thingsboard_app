@@ -92,7 +92,7 @@ It needs, in the repository settings:
 - variable `E2E_SERVER_URL`, the server (for example `https://tbqa.cloud`);
 - secrets `E2E_TENANT_EMAIL` and `E2E_TENANT_PASSWORD`, a tenant administrator on that server without two-factor login.
 
-Until they are set, the workflow skips E2E with a warning. The tests sign in that account once per run and stop on failure without retrying, so a wrong password cannot lock the account.
+Until they are set, the workflow skips E2E with a warning. The tests never retry a sign-in the server refused, so a wrong password cannot lock the account; only a connection that got no answer is retried, up to 3 times.
 
 To run them locally, install the Patrol CLI once (`dart pub global activate patrol_cli 4.9.0`), start an Android emulator and put the same values in a file outside the repository, for example `~/e2e_defines.json`:
 
