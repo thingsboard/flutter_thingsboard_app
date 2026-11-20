@@ -669,7 +669,7 @@ class SPl extends S {
   }
 
   @override
-  String get loginWith => 'Zaloguj się przez';
+  String get loginWith => 'ZALOGUJ SIĘ PRZEZ';
 
   @override
   String get scanQrCode => 'Zeskanuj kod QR';

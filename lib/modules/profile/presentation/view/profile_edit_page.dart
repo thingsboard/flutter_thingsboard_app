@@ -464,16 +464,11 @@ class ProfileEditPage extends HookConsumerWidget {
     BuildContext context,
     Locale? localeBeforeEdit,
   ) async {
-    final original = S.of(context).discardChanges;
-    String titleString = original;
-    if (original.isNotEmpty) {
-      titleString = titleString[0].toUpperCase() + titleString.substring(1);
-    }
     final discard = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          titleString,
+          S.of(context).discardChanges,
           style: TbTextStyles.titleXs.copyWith(color: AppColors.textSecondary),
         ),
         content: Text(

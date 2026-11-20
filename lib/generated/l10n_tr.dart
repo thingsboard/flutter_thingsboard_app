@@ -653,7 +653,7 @@ class STr extends S {
   }
 
   @override
-  String get loginWith => 'Şununla oturum aç';
+  String get loginWith => 'ŞUNUNLA OTURUM AÇ';
 
   @override
   String get scanQrCode => 'QR kodu tara';

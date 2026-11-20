@@ -659,7 +659,7 @@ class SEs extends S {
   }
 
   @override
-  String get loginWith => 'Iniciar sesión con';
+  String get loginWith => 'INICIAR SESIÓN CON';
 
   @override
   String get scanQrCode => 'Escanear código QR';

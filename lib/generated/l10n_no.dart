@@ -652,7 +652,7 @@ class SNo extends S {
   }
 
   @override
-  String get loginWith => 'Logg inn med';
+  String get loginWith => 'LOGG INN MED';
 
   @override
   String get scanQrCode => 'Skann QR-kode';

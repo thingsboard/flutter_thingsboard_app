@@ -653,7 +653,7 @@ class SEn extends S {
   }
 
   @override
-  String get loginWith => 'Login with';
+  String get loginWith => 'LOGIN WITH';
 
   @override
   String get scanQrCode => 'Scan QR code';

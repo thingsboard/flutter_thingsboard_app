@@ -661,7 +661,7 @@ class SRo extends S {
   }
 
   @override
-  String get loginWith => 'Conectare cu';
+  String get loginWith => 'CONECTARE CU';
 
   @override
   String get scanQrCode => 'Scanează codul QR';

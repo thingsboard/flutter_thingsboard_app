@@ -661,7 +661,7 @@ class SLt extends S {
   }
 
   @override
-  String get loginWith => 'Prisijungti naudojant';
+  String get loginWith => 'PRISIJUNGTI NAUDOJANT';
 
   @override
   String get scanQrCode => 'Nuskaityti QR kodą';

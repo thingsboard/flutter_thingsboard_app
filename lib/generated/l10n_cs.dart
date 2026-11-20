@@ -661,7 +661,7 @@ class SCs extends S {
   }
 
   @override
-  String get loginWith => 'Přihlásit se přes';
+  String get loginWith => 'PŘIHLÁSIT SE PŘES';
 
   @override
   String get scanQrCode => 'Naskenovat QR kód';

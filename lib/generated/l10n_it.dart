@@ -658,7 +658,7 @@ class SIt extends S {
   }
 
   @override
-  String get loginWith => 'Accedi con';
+  String get loginWith => 'ACCEDI CON';
 
   @override
   String get scanQrCode => 'Scansiona codice QR';

@@ -663,7 +663,7 @@ class SSl extends S {
   }
 
   @override
-  String get loginWith => 'Prijava z';
+  String get loginWith => 'PRIJAVA Z';
 
   @override
   String get scanQrCode => 'Skeniraj kodo QR';

@@ -660,7 +660,7 @@ class SUk extends S {
   }
 
   @override
-  String get loginWith => 'Увійти через';
+  String get loginWith => 'УВІЙТИ ЧЕРЕЗ';
 
   @override
   String get scanQrCode => 'Сканувати QR-код';

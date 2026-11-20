@@ -649,7 +649,7 @@ class SVi extends S {
   }
 
   @override
-  String get loginWith => 'Đăng nhập bằng';
+  String get loginWith => 'ĐĂNG NHẬP BẰNG';
 
   @override
   String get scanQrCode => 'Quét mã QR';

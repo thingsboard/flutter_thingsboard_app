@@ -202,7 +202,7 @@
   "openSettingsAndGrantAccessToCameraToContinue": "Abra as configurações e conceda acesso à câmera para continuar",
   "notFound": "Não encontrado",
   "routeNotDefined": "Rota não definida: {name}",
-  "loginWith": "Entrar com",
+  "loginWith": "ENTRAR COM",
   "scanQrCode": "Escanear QR code",
   "searchResults": "Resultados da pesquisa",
   "viewAll": "Ver todos",

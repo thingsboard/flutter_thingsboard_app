@@ -202,7 +202,7 @@
   "openSettingsAndGrantAccessToCameraToContinue": "Відкрийте налаштування та надайте доступ до камери, щоб продовжити",
   "notFound": "Не знайдено",
   "routeNotDefined": "Маршрут не визначено: {name}",
-  "loginWith": "Увійти через",
+  "loginWith": "УВІЙТИ ЧЕРЕЗ",
   "scanQrCode": "Сканувати QR-код",
   "searchResults": "Результати пошуку",
   "viewAll": "Переглянути все",

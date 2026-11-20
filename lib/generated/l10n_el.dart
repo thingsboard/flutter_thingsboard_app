@@ -661,7 +661,7 @@ class SEl extends S {
   }
 
   @override
-  String get loginWith => 'Σύνδεση με';
+  String get loginWith => 'ΣΥΝΔΕΣΗ ΜΕ';
 
   @override
   String get scanQrCode => 'Σάρωση κωδικού QR';

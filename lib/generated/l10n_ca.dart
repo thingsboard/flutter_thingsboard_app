@@ -659,7 +659,7 @@ class SCa extends S {
   }
 
   @override
-  String get loginWith => 'Inicia la sessió amb';
+  String get loginWith => 'INICIA LA SESSIÓ AMB';
 
   @override
   String get scanQrCode => 'Escaneja el codi QR';

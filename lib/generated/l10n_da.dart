@@ -652,7 +652,7 @@ class SDa extends S {
   }
 
   @override
-  String get loginWith => 'Log ind med';
+  String get loginWith => 'LOG IND MED';
 
   @override
   String get scanQrCode => 'Scan QR-kode';

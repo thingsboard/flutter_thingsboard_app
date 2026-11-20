@@ -202,7 +202,7 @@
   "openSettingsAndGrantAccessToCameraToContinue": "Devam etmek için ayarları açın ve kameraya erişim izni verin",
   "notFound": "Bulunamadı",
   "routeNotDefined": "Rota tanımlı değil: {name}",
-  "loginWith": "Şununla oturum aç",
+  "loginWith": "ŞUNUNLA OTURUM AÇ",
   "scanQrCode": "QR kodu tara",
   "searchResults": "Arama sonuçları",
   "viewAll": "Tümünü görüntüle",

@@ -202,7 +202,7 @@
   "openSettingsAndGrantAccessToCameraToContinue": "Za nadaljevanje odprite nastavitve in dovolite dostop do kamere",
   "notFound": "Ni najdeno",
   "routeNotDefined": "Pot ni določena: {name}",
-  "loginWith": "Prijava z",
+  "loginWith": "PRIJAVA Z",
   "scanQrCode": "Skeniraj kodo QR",
   "searchResults": "Rezultati iskanja",
   "viewAll": "Prikaži vse",

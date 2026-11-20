@@ -202,7 +202,7 @@
   "openSettingsAndGrantAccessToCameraToContinue": "Open settings and grant access to camera to continue",
   "notFound": "Not Found",
   "routeNotDefined": "Route not defined: {name}",
-  "loginWith": "Login with",
+  "loginWith": "LOGIN WITH",
   "scanQrCode": "Scan QR code",
   "searchResults": "Search results",
   "viewAll": "View all",

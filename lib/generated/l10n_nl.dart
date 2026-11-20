@@ -653,7 +653,7 @@ class SNl extends S {
   }
 
   @override
-  String get loginWith => 'Inloggen met';
+  String get loginWith => 'INLOGGEN MET';
 
   @override
   String get scanQrCode => 'QR-code scannen';

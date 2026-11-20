@@ -653,7 +653,7 @@ class SLv extends S {
   }
 
   @override
-  String get loginWith => 'Pierakstīties ar';
+  String get loginWith => 'PIERAKSTĪTIES AR';
 
   @override
   String get scanQrCode => 'Skenēt QR kodu';

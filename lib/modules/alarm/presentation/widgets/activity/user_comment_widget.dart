@@ -101,7 +101,7 @@ class _UserCommentState extends State<UserCommentWidget> {
                         Navigator.of(context).pop(false);
                       },
                       child: Text(
-                        S.of(context).cancel.toUpperCase(),
+                        S.of(context).cancel,
                         style: TbTextStyles.labelLarge.copyWith(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -112,7 +112,7 @@ class _UserCommentState extends State<UserCommentWidget> {
                         Navigator.of(context).pop(true);
                       },
                       child: Text(
-                        S.of(context).delete.toUpperCase(),
+                        S.of(context).delete,
                         style: TbTextStyles.labelLarge.copyWith(
                           color: const Color(0xffD12730),
                         ),

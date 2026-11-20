@@ -656,7 +656,7 @@ class SPt extends S {
   }
 
   @override
-  String get loginWith => 'Entrar com';
+  String get loginWith => 'ENTRAR COM';
 
   @override
   String get scanQrCode => 'Escanear QR code';

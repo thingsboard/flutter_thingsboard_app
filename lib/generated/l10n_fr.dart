@@ -658,7 +658,7 @@ class SFr extends S {
   }
 
   @override
-  String get loginWith => 'Se connecter avec';
+  String get loginWith => 'SE CONNECTER AVEC';
 
   @override
   String get scanQrCode => 'Scanner le code QR';

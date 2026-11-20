@@ -659,7 +659,7 @@ class SDe extends S {
   }
 
   @override
-  String get loginWith => 'Anmelden mit';
+  String get loginWith => 'ANMELDEN MIT';
 
   @override
   String get scanQrCode => 'QR-Code scannen';

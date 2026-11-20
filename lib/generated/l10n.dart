@@ -1261,7 +1261,7 @@ abstract class S {
   /// No description provided for @loginWith.
   ///
   /// In en, this message translates to:
-  /// **'Login with'**
+  /// **'LOGIN WITH'**
   String get loginWith;
 
   /// No description provided for @scanQrCode.
