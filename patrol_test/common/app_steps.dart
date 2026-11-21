@@ -166,37 +166,6 @@ extension AppSteps on PatrolIntegrationTester {
     await this(s.alarms(2)).tap();
   }
 
-  /// Waits until the app shows either the login page (returns true) or the
-  /// alarm list (returns false), whichever comes first.
-  Future<bool> waitForLoginPageOrAlarms({
-    Duration timeout = const Duration(seconds: 30),
-  }) async {
-    final loginButton = this(ElevatedButton).containing(s.login);
-    final alarmList = this(RefreshIndicator);
-    final end = DateTime.now().add(timeout);
-    while (DateTime.now().isBefore(end)) {
-      await pump(const Duration(milliseconds: 500));
-      if (loginButton.exists) return true;
-      if (alarmList.exists) return false;
-    }
-    throw TestFailure(
-      'Neither the login page nor the alarm list appeared within $timeout',
-    );
-  }
-
-  /// Pulls the alarm list down, so the app asks the server again instead of
-  /// showing what it already loaded.
-  Future<void> refreshAlarms() async {
-    // The list appears a moment after the tab opens.
-    await this(RefreshIndicator).waitUntilExists();
-    await tester.fling(
-      this(RefreshIndicator).first,
-      const Offset(0, 400),
-      1000,
-    );
-    await pump(const Duration(seconds: 2));
-  }
-
   Future<void> openAlarmDetails(String type) async {
     await this(type).waitUntilVisible();
     await this(Icons.more_vert).tap();

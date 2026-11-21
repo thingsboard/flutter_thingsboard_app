@@ -154,9 +154,6 @@ flutter_launcher_icons:
 # E2E tests (patrol_test/), run with `patrol test`. See CONTRIBUTING.md.
 patrol:
   app_name: ThingsBoard App
-  # Android only: a failed test saves a screenshot of the app, which
-  # `patrol test` copies to patrol_test/screenshots (CI uploads it).
-  screenshot_on_failure: true
   android:
     package_name: org.thingsboard.app
   ios:

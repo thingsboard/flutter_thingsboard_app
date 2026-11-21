@@ -29,53 +29,36 @@ class E2eServer {
   /// tree to tell a loaded dashboard from a failed one.
   static const dashboardMarker = 'e2e-ready';
 
-  /// Signs in the tenant administrator. A refused sign-in is never retried:
-  /// repeated failed sign-ins would lock the account for every later run.
-  /// Only a connection that failed before the server answered is retried,
-  /// since the server then never checked the password.
+  /// Signs in the tenant administrator once, with no retry: repeated failed
+  /// sign-ins would lock the account for every later run.
   static Future<E2eServer> signIn() async {
     E2eEnv.check();
-    const attempts = 3;
-    for (var attempt = 1; ; attempt++) {
-      final client = ThingsboardClient(E2eEnv.serverUrl);
-      final LoginResponse response;
-      try {
-        response = await client.login(
-          LoginRequest(
-            (b) => b
-              ..username = E2eEnv.tenantEmail
-              ..password = E2eEnv.tenantPassword,
-          ),
-        );
-      } on ThingsboardError catch (e) {
-        if (e.status == null && attempt < attempts) {
-          debugPrint(
-            'E2E tenant sign-in: no answer from ${E2eEnv.serverUrl} '
-            '(${e.message}), retrying ($attempt/$attempts)',
-          );
-          await Future<void>.delayed(const Duration(seconds: 5));
-          continue;
-        }
-        throw _signInFailure(e);
-      } on Exception catch (e) {
-        throw _signInFailure(e);
-      }
-      if (response.scope != null) {
-        throw TestFailure(
-          'The E2E tenant administrator has two-factor login '
-          '(${response.scope}). Turn it off for this account.',
-        );
-      }
-      return E2eServer._(client);
+    final client = ThingsboardClient(E2eEnv.serverUrl);
+    final LoginResponse response;
+    try {
+      response = await client.login(
+        LoginRequest(
+          (b) => b
+            ..username = E2eEnv.tenantEmail
+            ..password = E2eEnv.tenantPassword,
+        ),
+      );
+    } on Exception catch (e) {
+      throw TestFailure(
+        'The E2E tenant administrator could not sign in to '
+        '${E2eEnv.serverUrl}: $e\n'
+        'Check E2E_TENANT_EMAIL and E2E_TENANT_PASSWORD, and that the account '
+        'is active and not locked. Stopped without retrying.',
+      );
     }
+    if (response.scope != null) {
+      throw TestFailure(
+        'The E2E tenant administrator has two-factor login '
+        '(${response.scope}). Turn it off for this account.',
+      );
+    }
+    return E2eServer._(client);
   }
-
-  static TestFailure _signInFailure(Exception e) => TestFailure(
-    'The E2E tenant administrator could not sign in to '
-    '${E2eEnv.serverUrl}: $e\n'
-    'Check E2E_TENANT_EMAIL and E2E_TENANT_PASSWORD, and that the account '
-    'is active and not locked. A refused sign-in is not retried.',
-  );
 
   /// Creates [dashboardTitle] unless the tenant already has it.
   Future<void> ensureDashboard() async {

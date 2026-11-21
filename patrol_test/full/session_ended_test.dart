@@ -25,13 +25,8 @@ void main() {
         await $.expectHome();
 
         await E2eServer.endSessions(user);
-        // Opening Alarms usually sends a request with the old token, and the
-        // app goes to login. If it shows the list it had already loaded, a
-        // pull to refresh sends that request, as a user refreshing would.
+        // Opening Alarms sends a request with the old token.
         await $.openAlarms();
-        if (!await $.waitForLoginPageOrAlarms()) {
-          await $.refreshAlarms();
-        }
         await $.expectLoginPage();
       } finally {
         await server.cleanUpCustomer(user.customerId);

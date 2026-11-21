@@ -155,12 +155,10 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: e2e-android-${{ env.API_LEVEL }}-reports
-          # Test results with the logcat of each test, and a screenshot of
-          # the app for each failed test.
+          # Test results with the logcat of each test.
           path: |
             build/app/outputs/androidTest-results
             build/app/reports/androidTests
-            patrol_test/screenshots
           retention-days: 7
 
   ios:
