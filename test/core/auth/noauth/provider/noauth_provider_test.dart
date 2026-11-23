@@ -272,6 +272,29 @@ void main() {
       verify(() => previous.auth.logout(extra: any(named: 'extra'))).called(1);
     });
 
+    test('a switch to another host waits for the old Firebase apps to be '
+        'deleted before it re-creates the client', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final clearing = Completer<void>();
+      final deleted = Completer<void>();
+      when(firebase.clearApps).thenAnswer((_) {
+        clearing.complete();
+        return deleted.future;
+      });
+
+      final switching = switchTo(host);
+      await clearing.future;
+      await pumpEventQueue();
+      expect(clientService.reInits, isEmpty);
+
+      deleted.complete();
+      await switching;
+      expect(clientService.reInits, [host]);
+      verify(firebase.clearApps).called(1);
+      verifyNever(() => firebase.removeApp(name: any(named: 'name')));
+    });
+
     // In a build with a fixed server the login page has no region switch, so
     // staying on an outdated server left a QR code as the only way out.
     test('an outdated server is a failed switch: the app goes back to the '

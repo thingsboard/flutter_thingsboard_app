@@ -15,8 +15,6 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/application/push_notification_display.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
-import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
 import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/local_database/i_local_database_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -30,7 +28,6 @@ class NotificationService {
     FirebaseInstallations? installations,
     FlutterLocalNotificationsPlugin? localNotificationsPlugin,
     INotificationsLocalService? localService,
-    this._initDefaultFirebase = initDefaultFirebaseApp,
   }) : _injectedMessaging = messaging,
        _injectedInstallations = installations,
        flutterLocalNotificationsPlugin =
@@ -39,7 +36,6 @@ class NotificationService {
 
   final FirebaseMessaging? _injectedMessaging;
   final FirebaseInstallations? _injectedInstallations;
-  final Future<void> Function() _initDefaultFirebase;
   final TbLogger _log = getIt();
   // Read the live client on every access: a QR-code endpoint switch re-creates
   // the client (ITbClientService.reInit), so a reference captured at
@@ -73,7 +69,6 @@ class NotificationService {
   bool get _isFirebaseConfigured => getIt<IFirebaseService>().apps.isNotEmpty;
 
   Future<void> init() async {
-    await _restoreDefaultFirebaseApp();
     if (!_isFirebaseConfigured) {
       return;
     }
@@ -113,17 +108,6 @@ class NotificationService {
       _subscribeOnForegroundMessage();
       await updateNotificationsCount();
     }
-  }
-
-  /// Only a QR switch to another host restores the default Firebase app that
-  /// a custom server removed; the region page and a QR code of the current
-  /// host leave it removed.
-  Future<void> _restoreDefaultFirebaseApp() async {
-    if (_isFirebaseConfigured ||
-        await getIt<IEndpointService>().isCustomEndpoint()) {
-      return;
-    }
-    await _initDefaultFirebase();
   }
 
   /// Shows the server's unread count; a failed request (e.g. offline) keeps

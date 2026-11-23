@@ -17,6 +17,7 @@ import 'package:thingsboard_app/core/select_region/model/region.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
@@ -104,6 +105,7 @@ Future<void> onChangeEndpoint(Region region, WidgetRef ref) async {
   // re-init completes; the container outlives it.
   final container = ProviderScope.containerOf(ref.context, listen: false);
   await getIt<IEndpointService>().setRegion(region);
+  await restoreDefaultFirebaseApp();
   final newEndpoint = await getIt<IEndpointService>().getEndpoint();
   try {
     await getIt<ITbClientService>().reInit(

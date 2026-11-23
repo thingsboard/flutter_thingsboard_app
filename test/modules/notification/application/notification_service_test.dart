@@ -16,7 +16,6 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
-import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart'
     hide NotificationSettings;
 
@@ -38,8 +37,6 @@ class MockNotificationControllerApi extends Mock
     implements NotificationControllerApi {}
 
 class MockThingsboardAppRouter extends Mock implements ThingsboardAppRouter {}
-
-class MockEndpointService extends Mock implements IEndpointService {}
 
 const dashboardPush = <String, dynamic>{
   'onClick.enabled': 'true',
@@ -81,7 +78,6 @@ void main() {
   late MockNotificationsLocalService localService;
   late MockLocalDatabaseService localDatabase;
   late MockFirebaseService firebaseService;
-  late MockEndpointService endpoints;
   late MockUserControllerApi userApi;
   late StreamController<String> fidChanges;
 
@@ -214,9 +210,6 @@ void main() {
       localDatabase: localDatabase,
       firebaseService: firebaseService,
     );
-    endpoints = MockEndpointService();
-    when(() => endpoints.isCustomEndpoint()).thenAnswer((_) async => false);
-    getIt.registerLazySingleton<IEndpointService>(() => endpoints);
   });
 
   group('NotificationService.init', () {
@@ -433,56 +426,6 @@ void main() {
         () => messaging.register(),
         () => localDatabase.setPushRegistered(),
       ]);
-    });
-  });
-
-  group('NotificationService.init without the default Firebase app', () {
-    late List<String> apps;
-    late int restores;
-
-    setUp(() {
-      apps = [];
-      restores = 0;
-      when(() => firebaseService.apps).thenAnswer((_) => apps);
-    });
-
-    NotificationService buildRestoringService() => NotificationService(
-      messaging: messaging,
-      installations: installations,
-      localNotificationsPlugin: localNotificationsPlugin,
-      localService: localService,
-      initDefaultFirebase: () async {
-        restores++;
-        apps.add('[DEFAULT]');
-      },
-    );
-
-    test('restores it and registers for push on a built-in server', () async {
-      await buildRestoringService().init();
-
-      expect(restores, 1);
-      verify(() => messaging.register()).called(1);
-      verifyMobileSessionSaved(installationId);
-    });
-
-    test('leaves push off on a custom server', () async {
-      when(() => endpoints.isCustomEndpoint()).thenAnswer((_) async => true);
-
-      await buildRestoringService().init();
-
-      expect(restores, 0);
-      verifyNever(() => messaging.register());
-      verifyNoSessionSaved();
-    });
-
-    test('keeps a Firebase app that is already there', () async {
-      apps.add('[DEFAULT]');
-
-      await buildRestoringService().init();
-
-      expect(restores, 0);
-      verifyNever(() => endpoints.isCustomEndpoint());
-      verify(() => messaging.register()).called(1);
     });
   });
 

@@ -6,7 +6,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
@@ -474,7 +473,7 @@ class NoauthProvider extends _$NoauthProvider {
     await _writeStoredSession(session);
     await getIt<IEndpointService>().setEndpoint(host);
     if (!isSameOrigin) {
-      await _switchFirebaseApps(previousEndpoint);
+      await _switchFirebaseApps();
     }
     await _reInitClient(host, logTag: 'switch');
     // The server update page takes over and the caller rolls the switch back;
@@ -505,17 +504,13 @@ class NoauthProvider extends _$NoauthProvider {
     // in the storage, as the previous client may already be closed.
     await _writeStoredSession((token: null, refreshToken: null));
     await getIt<IEndpointService>().setEndpoint(host);
-    await _switchFirebaseApps(previousEndpoint);
+    await _switchFirebaseApps();
     await _reInitClient(host, logTag: 'hostOnly');
   }
 
-  Future<void> _switchFirebaseApps(String previousEndpoint) async {
+  Future<void> _switchFirebaseApps() async {
     _logger.debug('SwitchEndpointUseCase:deleteFB App');
-    if (Firebase.apps.isNotEmpty) {
-      getIt<IFirebaseService>()
-        ..removeApp()
-        ..removeApp(name: previousEndpoint);
-    }
+    await getIt<IFirebaseService>().clearApps();
 
     // If we revert to the original host configured in the app_constants
     final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
