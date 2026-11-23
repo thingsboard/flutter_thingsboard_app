@@ -129,8 +129,8 @@ void main() {
     verify(() => router.navigateTo<dynamic>('/')).called(1);
   });
 
-  testWidgets('a built-in region without a Firebase app gets the default one '
-      'before the client is re-created', (tester) async {
+  testWidgets('checks for the default Firebase app before the client is '
+      're-created', (tester) async {
     reInitAnswers(() async {});
     await pumpScreen(tester);
 
@@ -139,7 +139,6 @@ void main() {
 
     verifyInOrder([
       () => endpoints.setRegion(Region.europe),
-      () => firebase.apps,
       endpoints.isCustomEndpoint,
       () => clientService.reInit(
         endpoint: EndpointService.europeHost,

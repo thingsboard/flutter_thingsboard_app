@@ -212,7 +212,7 @@ class NoauthProvider extends _$NoauthProvider {
           changed = true;
           await _stopLiveTracking();
           final previous = await _holdSignedInClient();
-          await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
+          await _switchHostOnly(host: host);
           if (_isServerOutdated) {
             await _rollBackFromOutdated(
               host,
@@ -249,12 +249,7 @@ class NoauthProvider extends _$NoauthProvider {
           host: host,
         ),
       );
-      await _installSession(
-        session,
-        host: host,
-        previousEndpoint: previousEndpoint,
-        isSameOrigin: isSameOrigin,
-      );
+      await _installSession(session, host: host, isSameOrigin: isSameOrigin);
 
       if (_isServerOutdated) {
         if (!isSameOrigin) {
@@ -467,7 +462,6 @@ class NoauthProvider extends _$NoauthProvider {
   Future<void> _installSession(
     _ExchangedSession session, {
     required String host,
-    required String previousEndpoint,
     required bool isSameOrigin,
   }) async {
     await _writeStoredSession(session);
@@ -494,10 +488,7 @@ class NoauthProvider extends _$NoauthProvider {
     }
   }
 
-  Future<void> _switchHostOnly({
-    required String host,
-    required String previousEndpoint,
-  }) async {
+  Future<void> _switchHostOnly({required String host}) async {
     _emit(NoAuthState(step: NoAuthStep.switchingHost, host: host));
     // A host switch without a login secret ends on the login page of the new
     // host: the previous host's session tokens are meaningless there. Cleared
