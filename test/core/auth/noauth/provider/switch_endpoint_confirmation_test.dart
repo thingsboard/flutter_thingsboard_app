@@ -63,10 +63,12 @@ void main() {
 
   setUp(() {
     client = MockThingsboardClient();
+    final firebase = MockFirebaseService();
+    when(firebase.clearApps).thenAnswer((_) async {});
     clientService = registerTestDependencies(
       tbClient: client,
       localDatabase: MockLocalDatabaseService(),
-      firebaseService: MockFirebaseService(),
+      firebaseService: firebase,
     );
     when(() => clientService.unsupportedServer).thenReturn(ValueNotifier(null));
     when(

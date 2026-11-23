@@ -19,11 +19,13 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../helpers/fake_wl.dart';
+import '../../helpers/test_dependencies.dart' show MockFirebaseService;
 
 class MockEndpointService extends Mock implements IEndpointService {}
 
@@ -37,6 +39,7 @@ void main() {
   late MockEndpointService endpoints;
   late MockTbClientService clientService;
   late MockRouter router;
+  late MockFirebaseService firebase;
   late FakeWl wl;
   late int oauthBuilds;
 
@@ -44,16 +47,20 @@ void main() {
     endpoints = MockEndpointService();
     clientService = MockTbClientService();
     router = MockRouter();
+    firebase = MockFirebaseService();
     wl = FakeWl();
     oauthBuilds = 0;
     when(() => endpoints.setRegion(any())).thenAnswer((_) async {});
     when(() => endpoints.getEndpoint())
         .thenAnswer((_) async => EndpointService.europeHost);
+    when(endpoints.isCustomEndpoint).thenAnswer((_) async => false);
+    when(() => firebase.apps).thenReturn([]);
     when(() => router.navigateTo<dynamic>(any())).thenAnswer((_) async => null);
     getIt
       ..registerSingleton<IEndpointService>(endpoints)
       ..registerSingleton<ITbClientService>(clientService)
       ..registerSingleton<ThingsboardAppRouter>(router)
+      ..registerSingleton<IFirebaseService>(firebase)
       ..registerSingleton<TbLogger>(MockTbLogger());
     addTearDown(getIt.reset);
   });
@@ -120,6 +127,26 @@ void main() {
     expect(wl.updates, 1);
     expect(oauthBuilds, 2);
     verify(() => router.navigateTo<dynamic>('/')).called(1);
+  });
+
+  testWidgets('checks for the default Firebase app before the client is '
+      're-created', (tester) async {
+    reInitAnswers(() async {});
+    await pumpScreen(tester);
+
+    await tapEurope(tester);
+    await tester.pump();
+
+    verifyInOrder([
+      () => endpoints.setRegion(Region.europe),
+      endpoints.isCustomEndpoint,
+      () => clientService.reInit(
+        endpoint: EndpointService.europeHost,
+        onDone: any(named: 'onDone'),
+        onAuthError: any(named: 'onAuthError'),
+      ),
+    ]);
+    verifyNever(firebase.clearApps);
   });
 
   testWidgets('an unreachable server still leads to the login page', (

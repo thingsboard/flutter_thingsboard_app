@@ -6,7 +6,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
@@ -213,7 +212,7 @@ class NoauthProvider extends _$NoauthProvider {
           changed = true;
           await _stopLiveTracking();
           final previous = await _holdSignedInClient();
-          await _switchHostOnly(host: host, previousEndpoint: previousEndpoint);
+          await _switchHostOnly(host: host);
           if (_isServerOutdated) {
             await _rollBackFromOutdated(
               host,
@@ -250,12 +249,7 @@ class NoauthProvider extends _$NoauthProvider {
           host: host,
         ),
       );
-      await _installSession(
-        session,
-        host: host,
-        previousEndpoint: previousEndpoint,
-        isSameOrigin: isSameOrigin,
-      );
+      await _installSession(session, host: host, isSameOrigin: isSameOrigin);
 
       if (_isServerOutdated) {
         if (!isSameOrigin) {
@@ -468,13 +462,12 @@ class NoauthProvider extends _$NoauthProvider {
   Future<void> _installSession(
     _ExchangedSession session, {
     required String host,
-    required String previousEndpoint,
     required bool isSameOrigin,
   }) async {
     await _writeStoredSession(session);
     await getIt<IEndpointService>().setEndpoint(host);
     if (!isSameOrigin) {
-      await _switchFirebaseApps(previousEndpoint);
+      await _switchFirebaseApps();
     }
     await _reInitClient(host, logTag: 'switch');
     // The server update page takes over and the caller rolls the switch back;
@@ -495,27 +488,20 @@ class NoauthProvider extends _$NoauthProvider {
     }
   }
 
-  Future<void> _switchHostOnly({
-    required String host,
-    required String previousEndpoint,
-  }) async {
+  Future<void> _switchHostOnly({required String host}) async {
     _emit(NoAuthState(step: NoAuthStep.switchingHost, host: host));
     // A host switch without a login secret ends on the login page of the new
     // host: the previous host's session tokens are meaningless there. Cleared
     // in the storage, as the previous client may already be closed.
     await _writeStoredSession((token: null, refreshToken: null));
     await getIt<IEndpointService>().setEndpoint(host);
-    await _switchFirebaseApps(previousEndpoint);
+    await _switchFirebaseApps();
     await _reInitClient(host, logTag: 'hostOnly');
   }
 
-  Future<void> _switchFirebaseApps(String previousEndpoint) async {
+  Future<void> _switchFirebaseApps() async {
     _logger.debug('SwitchEndpointUseCase:deleteFB App');
-    if (Firebase.apps.isNotEmpty) {
-      getIt<IFirebaseService>()
-        ..removeApp()
-        ..removeApp(name: previousEndpoint);
-    }
+    await getIt<IFirebaseService>().clearApps();
 
     // If we revert to the original host configured in the app_constants
     final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
