@@ -23,11 +23,17 @@ void useCutoutPhone(WidgetTester tester, Orientation orientation) {
   addTearDown(tester.view.reset);
 }
 
-/// Scrolls [finder] into view and checks that it is clear of the insets set
-/// by [useCutoutPhone].
-Future<void> expectClearOfInsets(WidgetTester tester, Finder finder) async {
-  await tester.ensureVisible(finder);
-  await tester.pumpAndSettle();
+/// Checks that [finder] is clear of the insets set by [useCutoutPhone],
+/// after scrolling it into view unless [scrollIntoView] is false.
+Future<void> expectClearOfInsets(
+  WidgetTester tester,
+  Finder finder, {
+  bool scrollIntoView = true,
+}) async {
+  if (scrollIntoView) {
+    await tester.ensureVisible(finder);
+    await tester.pumpAndSettle();
+  }
   final view = tester.view;
   final ratio = view.devicePixelRatio;
   final size = view.physicalSize / ratio;

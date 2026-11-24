@@ -18,6 +18,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
@@ -49,53 +50,46 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
     if (!codeSent.value) {
       return ReactiveForm(
         formGroup: form,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 20,
-                  children: [
-                    Text(
-                      S.of(context).enterAnEmailToUseAsYourAuthenticator,
-                      style: TbTextStyles.bodyMedium,
-                    ),
-                    TbTextField(
-                      formControlName: 'email',
-                      label: S.of(context).email,
-                      type: TextInputType.emailAddress,
-                      autoFillHints: const [AutofillHints.email],
-                    ),
-                  ],
-                ),
-              ),
+        child: PinnedFooterScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          footer: SizedBox(
+            width: double.infinity,
+            child: ReactiveFormConsumer(
+              builder: (context, formGroup, _) {
+                return FilledButton(
+                  onPressed: formGroup.control('email').invalid || loading.value
+                      ? null
+                      : () async {
+                          await _handleSendCode(form, codeSent);
+                        },
+                  child: loading.value
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(S.of(context).sendCode),
+                );
+              },
             ),
-            SizedBox(
-              width: double.infinity,
-              child: ReactiveFormConsumer(
-                builder: (context, formGroup, _) {
-                  return FilledButton(
-                    onPressed:
-                        formGroup.control('email').invalid || loading.value
-                        ? null
-                        : () async {
-                            await _handleSendCode(form, codeSent);
-                          },
-                    child: loading.value
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(S.of(context).sendCode),
-                  );
-                },
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
+            children: [
+              Text(
+                S.of(context).enterAnEmailToUseAsYourAuthenticator,
+                style: TbTextStyles.bodyMedium,
               ),
-            ),
-          ],
+              TbTextField(
+                formControlName: 'email',
+                label: S.of(context).email,
+                type: TextInputType.emailAddress,
+                autoFillHints: const [AutofillHints.email],
+              ),
+            ],
+          ),
         ),
       );
     }

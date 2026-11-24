@@ -26,6 +26,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -115,6 +116,53 @@ class _SignUpPageContent extends HookConsumerWidget {
       );
     }
 
+    final footer = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ReactiveFormConsumer(
+          builder: (context, formGroup, child) => ElevatedButton(
+            onPressed: form.invalid
+                ? null
+                : () {
+                    _signUp(
+                      context,
+                      ref,
+                      form,
+                      selfRegistrationParams,
+                      signUpFields,
+                      recaptchaResponse,
+                      log,
+                    );
+                  },
+            child: Text(S.of(context).signUp),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              S.of(context).alreadyHaveAnAccount,
+              style: const TextStyle(fontSize: 14, height: 20 / 14),
+            ),
+            TextButton(
+              onPressed: () => backToLogin(context),
+              child: Text(
+                S.of(context).signIn,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  letterSpacing: 1,
+                  fontSize: 14,
+                  height: 20 / 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+
     return PopScope(
       // Opened from an app link there is no login page to go back to.
       canPop: context.canPop(),
@@ -131,261 +179,188 @@ class _SignUpPageContent extends HookConsumerWidget {
               children: [
                 const LoginPageBackground(),
                 Positioned.fill(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              spacing: 16,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                SizedBox(height: 50, child: wlState.logo),
-                                if (selfRegistrationParams.title != null &&
-                                    selfRegistrationParams.title!.isNotEmpty)
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          selfRegistrationParams.title!,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: Color(0xFFAFAFAF),
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14,
-                                            height: 24 / 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                  child: PinnedFooterScrollView(
+                    padding: const EdgeInsets.all(24),
+                    pinnedFooterPadding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    footer: footer,
+                    child: Column(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(height: 50, child: wlState.logo),
+                        if (selfRegistrationParams.title != null &&
+                            selfRegistrationParams.title!.isNotEmpty)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  selfRegistrationParams.title!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFFAFAFAF),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 24 / 24,
                                   ),
-                                AutofillGroup(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    spacing: 16,
-                                    children: [
-                                      ListView.separated(
-                                        padding: EdgeInsets.zero,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          final field = signUpFields[index];
-                                          final passwordFiled =
-                                              field.id ==
-                                                  SignUpFieldId.PASSWORD ||
-                                              field.id ==
-                                                  SignUpFieldId.REPEAT_PASSWORD;
+                                ),
+                              ),
+                            ],
+                          ),
+                        AutofillGroup(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            spacing: 16,
+                            children: [
+                              ListView.separated(
+                                padding: EdgeInsets.zero,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final field = signUpFields[index];
+                                  final passwordFiled =
+                                      field.id == SignUpFieldId.PASSWORD ||
+                                      field.id == SignUpFieldId.REPEAT_PASSWORD;
 
-                                          return SingUpFieldWidget(
-                                            field: signUpFields[index],
-                                            obscureText: passwordFiled,
+                                  return SingUpFieldWidget(
+                                    field: signUpFields[index],
+                                    obscureText: passwordFiled,
+                                  );
+                                },
+                                separatorBuilder: (_, _) =>
+                                    const SizedBox(height: 12),
+                                itemCount: signUpFields.length,
+                              ),
+                              ReactiveCheckboxListTile(
+                                onChanged: (control) {
+                                  final hasResponse =
+                                      recaptchaResponse.value != null &&
+                                      recaptchaResponse.value!.isNotEmpty;
+                                  if (!hasResponse) {
+                                    _openRecaptcha(
+                                      context,
+                                      selfRegistrationParams,
+                                      recaptchaResponse,
+                                    );
+                                  }
+                                },
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                dense: true,
+                                formControlName: 'recaptcha',
+                                title: Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        final hasResponse =
+                                            recaptchaResponse.value != null &&
+                                            recaptchaResponse.value!.isNotEmpty;
+                                        if (!hasResponse) {
+                                          _openRecaptcha(
+                                            context,
+                                            selfRegistrationParams,
+                                            recaptchaResponse,
                                           );
-                                        },
-                                        separatorBuilder: (_, _) =>
-                                            const SizedBox(height: 12),
-                                        itemCount: signUpFields.length,
+                                        }
+                                      },
+                                      child: Text(
+                                        S.of(context).imNotARobot,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
                                       ),
-                                      ReactiveCheckboxListTile(
-                                        onChanged: (control) {
-                                          final hasResponse =
-                                              recaptchaResponse.value != null &&
-                                              recaptchaResponse
-                                                  .value!
-                                                  .isNotEmpty;
-                                          if (!hasResponse) {
-                                            _openRecaptcha(
-                                              context,
-                                              selfRegistrationParams,
-                                              recaptchaResponse,
-                                            );
-                                          }
-                                        },
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              vertical: 4,
-                                            ),
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        dense: true,
-                                        formControlName: 'recaptcha',
-                                        title: Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                final hasResponse =
-                                                    recaptchaResponse.value !=
-                                                        null &&
-                                                    recaptchaResponse
-                                                        .value!
-                                                        .isNotEmpty;
-                                                if (!hasResponse) {
-                                                  _openRecaptcha(
-                                                    context,
-                                                    selfRegistrationParams,
-                                                    recaptchaResponse,
-                                                  );
-                                                }
-                                              },
-                                              child: Text(
-                                                S.of(context).imNotARobot,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
-                                            ),
-                                          ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (selfRegistrationParams.showPrivacyPolicy ??
+                                  false)
+                                ReactiveCheckboxListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  dense: true,
+                                  formControlName: 'privacyPolicy',
+                                  title: Row(
+                                    children: [
+                                      Text(
+                                        S.of(context).accept,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          height: 20 / 14,
                                         ),
                                       ),
-                                      if (selfRegistrationParams
-                                              .showPrivacyPolicy ??
-                                          false)
-                                        ReactiveCheckboxListTile(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                vertical: 4,
-                                              ),
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          dense: true,
-                                          formControlName: 'privacyPolicy',
-                                          title: Row(
-                                            children: [
-                                              Text(
-                                                S.of(context).accept,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  height: 20 / 14,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  _openPrivacyPolicy(form);
-                                                },
-                                                child: Text(
-                                                  " ${S.of(context).privacyPolicy}",
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    letterSpacing: 1,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    height: 20 / 14,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                      InkWell(
+                                        onTap: () {
+                                          _openPrivacyPolicy(form);
+                                        },
+                                        child: Text(
+                                          " ${S.of(context).privacyPolicy}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            letterSpacing: 1,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            height: 20 / 14,
                                           ),
                                         ),
-                                      if (selfRegistrationParams
-                                              .showTermsOfUse ??
-                                          false)
-                                        ReactiveCheckboxListTile(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                vertical: 4,
-                                              ),
-                                          formControlName: 'termsOfUse',
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          dense: true,
-                                          title: Row(
-                                            children: [
-                                              Text(
-                                                S.of(context).accept,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  height: 20 / 14,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  _openTermsOfUse(form);
-                                                },
-                                                child: Text(
-                                                  " ${S.of(context).termsOfUse}",
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    letterSpacing: 1,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    height: 20 / 14,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              if (selfRegistrationParams.showTermsOfUse ??
+                                  false)
+                                ReactiveCheckboxListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  formControlName: 'termsOfUse',
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  dense: true,
+                                  title: Row(
+                                    children: [
+                                      Text(
+                                        S.of(context).accept,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          height: 20 / 14,
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          _openTermsOfUse(form);
+                                        },
+                                        child: Text(
+                                          " ${S.of(context).termsOfUse}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            letterSpacing: 1,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            height: 20 / 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ReactiveFormConsumer(
-                              builder: (context, formGroup, child) =>
-                                  ElevatedButton(
-                                    onPressed: form.invalid
-                                        ? null
-                                        : () {
-                                            _signUp(
-                                              context,
-                                              ref,
-                                              form,
-                                              selfRegistrationParams,
-                                              signUpFields,
-                                              recaptchaResponse,
-                                              log,
-                                            );
-                                          },
-                                    child: Text(S.of(context).signUp),
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  S.of(context).alreadyHaveAnAccount,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    height: 20 / 14,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () => backToLogin(context),
-                                  child: Text(
-                                    S.of(context).signIn,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      letterSpacing: 1,
-                                      fontSize: 14,
-                                      height: 20 / 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 if (signupState.isSigningUp)

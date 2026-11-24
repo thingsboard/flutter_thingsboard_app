@@ -34,11 +34,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
               backgroundColor: Colors.transparent,
               appBar: TbAppBar(),
               body: SafeArea(
-                child: Stack(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox.expand(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
                         child: Column(
                           children: [
                             const SizedBox(height: 18),
@@ -102,25 +103,20 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                                 color: Color(0xFFAFAFAF),
                               ),
                             ),
-                            const Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 16,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    _resendEmail();
-                                  },
-                                  child: Text(S.of(context).resend),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        onPressed: () {
+                          _resendEmail();
+                        },
+                        child: Text(S.of(context).resend),
                       ),
                     ),
                   ],

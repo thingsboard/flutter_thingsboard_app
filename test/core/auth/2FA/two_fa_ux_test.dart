@@ -16,6 +16,7 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_avalible_providers/two_factor_setup_avalible_providers.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_config_success.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_force_description.dart';
+import 'package:thingsboard_app/core/auth/2FA/setup/widgets/backup_code_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
@@ -112,6 +113,40 @@ Future<void> _expectClearOfInsets(
   expect(button.right, lessThanOrEqualTo(size.width - insets.right / ratio));
   expect(button.top, greaterThanOrEqualTo(insets.top / ratio));
   expect(button.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
+}
+
+/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
+const _landscapeKeyboard = 210.0;
+
+/// [child] with the app bar and padding of a 2FA page, as BaseTwoFactorLayout
+/// lays it out.
+Widget _twoFaPage(Widget child) => Scaffold(
+  appBar: AppBar(title: const Text('2FA')),
+  body: SafeArea(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: child,
+    ),
+  ),
+);
+
+/// Checks that [finder] is inside its page's scroll viewport and that the
+/// viewport ends above the keyboard.
+void _expectAboveKeyboard(WidgetTester tester, Finder finder) {
+  final rect = tester.getRect(finder);
+  final viewport = tester.getRect(
+    find.ancestor(of: finder, matching: find.byType(Scrollable)).last,
+  );
+  expect(rect.top, greaterThanOrEqualTo(viewport.top));
+  expect(rect.bottom, lessThanOrEqualTo(viewport.bottom));
+  final view = tester.view;
+  expect(
+    viewport.bottom,
+    lessThanOrEqualTo(
+      (view.physicalSize.height - view.viewInsets.bottom) /
+          view.devicePixelRatio,
+    ),
+  );
 }
 
 void main() {
@@ -359,6 +394,75 @@ void main() {
 
       expect(find.text(s.verificationCodeManyRequest), findsOneWidget);
     });
+
+    testWidgets('the email field stays above a landscape keyboard', (
+      tester,
+    ) async {
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          overrides: [loginProvider.overrideWith(FakeLogin.new)],
+          _twoFaPage(
+            EmailConfigureWidget(
+              config: EmailTwoFaAccountConfig(
+                (b) => b..email = 'a@example.com',
+              ),
+              loading: ValueNotifier(false),
+              onConfigured: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final field = find.byType(EditableText).first;
+
+      await tester.showKeyboard(field);
+      tester.view.viewInsets = const FakeViewPadding(
+        bottom: _landscapeKeyboard * 3,
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      _expectAboveKeyboard(tester, field);
+    });
+  });
+
+  group('backup codes', () {
+    testWidgets('every code and Done can be reached in landscape', (
+      tester,
+    ) async {
+      when(
+        () => api.verifyAndSaveTwoFaAccountConfig(
+          twoFaAccountConfig: any(named: 'twoFaAccountConfig'),
+          verificationCode: any(named: 'verificationCode'),
+          extra: any(named: 'extra'),
+        ),
+      ).thenAnswer((_) async => Response(requestOptions: RequestOptions()));
+      final codes = [for (var i = 0; i < 10; i++) 'code000$i'];
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            BackupCodeConfigureWidget(
+              config: BackupCodeTwoFaAccountConfig(
+                (b) => b..codes = SetBuilder<String>(codes),
+              ),
+              loading: ValueNotifier(false),
+              onConfigured: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      await _expectClearOfInsets(tester, s.done);
+      final lastCode = find.text(codes.last);
+      await tester.ensureVisible(lastCode);
+      await tester.pumpAndSettle();
+      final size = tester.view.physicalSize / tester.view.devicePixelRatio;
+      expect(tester.getRect(lastCode).bottom, lessThanOrEqualTo(size.height));
+    });
   });
 
   group('provider list', () {
@@ -389,6 +493,34 @@ void main() {
         expect(find.text(s.recommended), findsOneWidget);
       });
     }
+
+    testWidgets('every method can be reached in landscape', (tester) async {
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            const SelectProviderTypeWidget(
+              type: TwoFaViewType.setup,
+              avalibleTypes: [
+                TwoFaProviderType.TOTP,
+                TwoFaProviderType.SMS,
+                TwoFaProviderType.EMAIL,
+                TwoFaProviderType.BACKUP_CODE,
+              ],
+              activeProviders: [TwoFaProviderType.EMAIL],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      final last = find.byType(ListTile).last;
+      await tester.ensureVisible(last);
+      await tester.pumpAndSettle();
+      final size = tester.view.physicalSize / tester.view.devicePixelRatio;
+      expect(tester.getRect(last).bottom, lessThanOrEqualTo(size.height));
+    });
 
     testWidgets('a sign-in verification lists only the method names', (
       tester,

@@ -3,14 +3,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/reset_password/reset_password_request_page.dart';
+import 'package:thingsboard_app/core/auth/signup/email_verification_page.dart';
 import 'package:thingsboard_app/core/auth/signup/email_verified_page.dart';
+import 'package:thingsboard_app/core/auth/signup/signup_page.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
@@ -38,12 +42,38 @@ class MockSignUpApi extends Mock implements SignUpControllerApi {}
 
 final s = lookupS(const Locale('en'));
 
-Future<void> _pump(WidgetTester tester, Widget page) async {
+final _signUpInfo = LoginMobileInfo(
+  (b) => b.selfRegistrationParams = SignUpSelfRegistrationParams(
+    (p) => p
+      ..title = ''
+      ..fields = ListBuilder<SignUpField>([
+        for (final id in [SignUpFieldId.EMAIL, SignUpFieldId.PASSWORD])
+          SignUpField(
+            (f) => f
+              ..id = id
+              ..label = id.name
+              ..required_ = true,
+          ),
+      ])
+      ..showPrivacyPolicy = true
+      ..showTermsOfUse = true,
+  ).toBuilder(),
+);
+
+/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
+const _landscapeKeyboard = 210.0;
+
+Future<void> _pump(
+  WidgetTester tester,
+  Widget page, {
+  bool settle = true,
+}) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         navigationProvider.overrideWith(_NoPagesNavigation.new),
         wlProvider.overrideWith(FakeWl.new),
+        oauthProvider.overrideWith((_) => Future.value(_signUpInfo)),
       ],
       child: MaterialApp.router(
         localizationsDelegates: S.localizationsDelegates,
@@ -53,7 +83,7 @@ Future<void> _pump(WidgetTester tester, Widget page) async {
       ),
     ),
   );
-  await tester.pumpAndSettle();
+  if (settle) await tester.pumpAndSettle();
 }
 
 Finder _button(String text) => find.ancestor(
@@ -109,9 +139,93 @@ void main() {
         await _pump(tester, const EmailVerifiedPage(emailCode: 'code'));
 
         expect(tester.takeException(), isNull);
+        await expectClearOfInsets(
+          tester,
+          _button(s.login),
+          scrollIntoView: false,
+        );
         await expectClearOfInsets(tester, find.text(s.accountActivated));
-        await expectClearOfInsets(tester, _button(s.login));
+      });
+
+      testWidgets('the sent verification email fits a phone with a cutout', (
+        tester,
+      ) async {
+        useCutoutPhone(tester, orientation);
+        await _pump(
+          tester,
+          const EmailVerificationPage(email: 'new.user@example.com'),
+        );
+
+        expect(tester.takeException(), isNull);
+        await expectClearOfInsets(
+          tester,
+          _button(s.resend),
+          scrollIntoView: false,
+        );
+        await expectClearOfInsets(
+          tester,
+          find.text(s.emailVerificationInstructionsText),
+        );
       });
     });
   }
+
+  testWidgets('the activating account is centered on the screen', (
+    tester,
+  ) async {
+    useCutoutPhone(tester, Orientation.portrait);
+    await _pump(
+      tester,
+      const EmailVerifiedPage(emailCode: 'code'),
+      settle: false,
+    );
+
+    final top = tester.getRect(find.text(s.activatingAccount)).top;
+    final bottom = tester.getRect(find.text(s.activatingAccountText)).bottom;
+    final view = tester.view;
+    final ratio = view.devicePixelRatio;
+    final screenTop = view.padding.top / ratio;
+    final screenBottom =
+        (view.physicalSize.height - view.padding.bottom) / ratio;
+    expect(
+      ((top + bottom) / 2 - (screenTop + screenBottom) / 2).abs(),
+      lessThan(40),
+    );
+  });
+
+  testWidgets('the sign up button is on screen in landscape', (tester) async {
+    useCutoutPhone(tester, Orientation.landscape);
+    await _pump(tester, const SignUpPage());
+
+    expect(tester.takeException(), isNull);
+    await expectClearOfInsets(tester, _button(s.signUp), scrollIntoView: false);
+  });
+
+  testWidgets('the focused sign up field stays above a landscape keyboard', (
+    tester,
+  ) async {
+    useCutoutPhone(tester, Orientation.landscape);
+    await _pump(tester, const SignUpPage());
+    final email = find.byType(EditableText).first;
+
+    await tester.showKeyboard(email);
+    tester.view.viewInsets = const FakeViewPadding(
+      bottom: _landscapeKeyboard * 3,
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final field = tester.getRect(email);
+    final viewport = tester.getRect(
+      find.ancestor(of: email, matching: find.byType(Scrollable)).last,
+    );
+    expect(field.top, greaterThanOrEqualTo(viewport.top));
+    expect(field.bottom, lessThanOrEqualTo(viewport.bottom));
+    expect(
+      viewport.bottom,
+      lessThanOrEqualTo(
+        tester.view.physicalSize.height / 3 - _landscapeKeyboard,
+      ),
+    );
+  });
 }
