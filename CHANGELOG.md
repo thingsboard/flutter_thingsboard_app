@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (unreleased)
+## 2.0.0 (2026-11-25)
 
 ThingsBoard CE and PE are now one product, and this is its open-source mobile app: use it as is, or as the base of your own branded app. It continues the ThingsBoard PE app (all of its history is kept).
 
