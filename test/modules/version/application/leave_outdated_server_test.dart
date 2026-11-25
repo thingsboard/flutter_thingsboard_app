@@ -77,6 +77,22 @@ void main() {
     verify(clientService.clearUnsupportedServer).called(1);
   });
 
+  test(
+    'a server set with a trailing slash reaches the client without it',
+    () async {
+      await leave(on: outdated, ownServer: '$own/');
+
+      verify(() => endpoints.setEndpoint(own)).called(1);
+      verify(
+        () => clientService.reInit(
+          endpoint: own,
+          onDone: any(named: 'onDone'),
+          onAuthError: any(named: 'onAuthError'),
+        ),
+      ).called(1);
+    },
+  );
+
   test('a build for one server that is outdated itself stays on it', () async {
     await leave(on: '$own/', ownServer: own);
 
