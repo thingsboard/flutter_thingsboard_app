@@ -24,7 +24,9 @@ const defaultResendDurationSeconds = 45;
 class TwoFactorConfirm extends _$TwoFactorConfirm {
   Timer? _resendTimer;
   late final int _resendTimerDurationSeconds;
-  final _tbClient = getIt<ITbClientService>().client;
+  // Read the live client on every access: a failed QR-code switch closes the
+  // client and rolls back to a new one, and this page can still be open.
+  ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
 
   @override
   TwoFactorConfirmState build(

@@ -43,6 +43,7 @@ void main() {
   late MockTwoFactorAuthControllerApi api;
   late MockOverlayService overlay;
   late MockThingsboardClient client;
+  late MockTbClientService clientService;
   late FakeLogin login;
   late ProviderContainer container;
   final provider = twoFactorConfirmProvider(TwoFaProviderType.EMAIL, null);
@@ -56,7 +57,7 @@ void main() {
     api = MockTwoFactorAuthControllerApi();
     client = MockThingsboardClient();
     when(client.getTwoFactorAuthControllerApi).thenReturn(api);
-    final clientService = registerTestDependencies(
+    clientService = registerTestDependencies(
       tbClient: client,
       localDatabase: MockLocalDatabaseService(),
       firebaseService: MockFirebaseService(),
@@ -142,6 +143,40 @@ void main() {
     await container.read(provider.notifier).sendCode();
 
     verifyNever(() => overlay.showErrorNotification(any()));
+  });
+
+  test('a code is checked by the client that replaced the one the page '
+      'started with', () async {
+    // A failed QR-code switch closes the client and rolls back to a new one
+    // while the verification page stays open.
+    container.read(provider);
+    final replacement = MockThingsboardClient();
+    when(() => clientService.client).thenReturn(replacement);
+    when(
+      () => replacement.checkTwoFaVerificationCode(
+        any(),
+        any(),
+        requestConfig: any(named: 'requestConfig'),
+      ),
+    ).thenAnswer((_) async => LoginResponse((b) => b..token = 't'));
+
+    await container.read(provider.notifier).verifyCode('123456');
+
+    verify(
+      () => replacement.checkTwoFaVerificationCode(
+        any(),
+        any(),
+        requestConfig: any(named: 'requestConfig'),
+      ),
+    ).called(1);
+    verifyNever(
+      () => client.checkTwoFaVerificationCode(
+        any(),
+        any(),
+        requestConfig: any(named: 'requestConfig'),
+      ),
+    );
+    expect(container.read(provider).codeState, CodeState.valid);
   });
 
   group('a code the server does not accept', () {

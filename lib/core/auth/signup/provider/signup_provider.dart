@@ -15,7 +15,8 @@ part 'signup_provider.g.dart';
 
 @riverpod
 class Signup extends _$Signup {
-  final _tbClient = getIt<ITbClientService>().client;
+  // Read the live client on every access: a QR-code switch re-creates it.
+  ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
   final _deviceInfoService = getIt<IDeviceInfoService>();
 
   @override
