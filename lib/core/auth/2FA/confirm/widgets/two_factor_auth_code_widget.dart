@@ -17,6 +17,7 @@ import 'package:thingsboard_app/core/auth/2FA/confirm/providers/2fa_confirm_prov
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 const noResendCodeProviders = {
@@ -83,9 +84,23 @@ class EnterACodeWidget extends HookConsumerWidget {
       ).animate(CurvedAnimation(parent: timer, curve: Curves.linear)),
     );
     final currentSeconds = (animation * timerDuration).ceil();
-    return Center(
-      child: ReactiveForm(
-        formGroup: form,
+    return ReactiveForm(
+      formGroup: form,
+      child: PinnedFooterScrollView(
+        footer: SizedBox(
+          width: double.infinity,
+          child: OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            onPressed: () {
+              context.push(
+                '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?skipDefault=true',
+              );
+            },
+            child: Text(S.of(context).tryAnotherWay),
+          ),
+        ),
         child: Column(
           spacing: 20,
           children: [
@@ -132,25 +147,6 @@ class EnterACodeWidget extends HookConsumerWidget {
                         child: Text(S.of(context).resendCode),
                       ),
               ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    onPressed: () {
-                      context.push(
-                        '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?skipDefault=true',
-                      );
-                    },
-                    child: Text(S.of(context).tryAnotherWay),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

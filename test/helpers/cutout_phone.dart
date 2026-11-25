@@ -44,3 +44,34 @@ Future<void> expectClearOfInsets(
   expect(rect.top, greaterThanOrEqualTo(insets.top / ratio));
   expect(rect.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
 }
+
+/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
+const landscapeKeyboard = 210.0;
+
+/// Focuses [field] and opens a [landscapeKeyboard] high keyboard below it.
+Future<void> openLandscapeKeyboard(WidgetTester tester, Finder field) async {
+  await tester.showKeyboard(field);
+  tester.view.viewInsets = FakeViewPadding(
+    bottom: landscapeKeyboard * tester.view.devicePixelRatio,
+  );
+  await tester.pumpAndSettle();
+}
+
+/// Checks that [finder] is inside its page's scroll viewport and that the
+/// viewport ends above the keyboard.
+void expectAboveKeyboard(WidgetTester tester, Finder finder) {
+  final rect = tester.getRect(finder);
+  final viewport = tester.getRect(
+    find.ancestor(of: finder, matching: find.byType(Scrollable)).last,
+  );
+  expect(rect.top, greaterThanOrEqualTo(viewport.top));
+  expect(rect.bottom, lessThanOrEqualTo(viewport.bottom));
+  final view = tester.view;
+  expect(
+    viewport.bottom,
+    lessThanOrEqualTo(
+      (view.physicalSize.height - view.viewInsets.bottom) /
+          view.devicePixelRatio,
+    ),
+  );
+}

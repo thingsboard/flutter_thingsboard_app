@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_account_settings_provider/two_factor_setup_account_settings_provider.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_avalible_providers/two_factor_setup_avalible_providers.dart';
+import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_provider/two_factor_setup_provider.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_setup.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -19,6 +20,7 @@ import 'package:thingsboard_app/utils/services/device_info/i_device_info_service
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/cutout_phone.dart';
 import '../../../../helpers/test_dependencies.dart';
 
 class MockOverlayService extends Mock implements IOverlayService {}
@@ -34,6 +36,8 @@ class FakeLogin extends Login {
   @override
   Future<void> logout() async => logouts++;
 }
+
+final s = lookupS(const Locale('en'));
 
 void main() {
   late MockThingsboardClient client;
@@ -127,4 +131,56 @@ void main() {
 
     expect(find.text('SMS-Authenticator aktivieren'), findsOneWidget);
   });
+
+  testWidgets(
+    'a required email setup keeps its field above a landscape keyboard',
+    (tester) async {
+      useCutoutPhone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            loginProvider.overrideWith(FakeLogin.new),
+            twoFactorSetupAvalibleProvidersProvider.overrideWith(
+              (_) => Future.value([
+                TwoFaProviderType.TOTP,
+                TwoFaProviderType.EMAIL,
+              ]),
+            ),
+            acountTwoFactorSettingsProvider.overrideWith((_) => Future.value()),
+            generateConfigProvider(TwoFaProviderType.EMAIL).overrideWith(
+              (_) => Future.value(
+                EmailTwoFaAccountConfig((b) => b..email = 'a@example.com'),
+              ),
+            ),
+          ],
+          child: MaterialApp.router(
+            localizationsDelegates: S.localizationsDelegates,
+            routerConfig: GoRouter(
+              routes: [
+                GoRoute(
+                  path: '/',
+                  builder: (_, _) => const TwoFactorAuthSetup(
+                    isForce: true,
+                    selectedProvider: TwoFaProviderType.EMAIL,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text(s.tryAnotherWay), findsOneWidget);
+      final field = find.byType(EditableText).first;
+
+      await openLandscapeKeyboard(tester, field);
+
+      expect(tester.takeException(), isNull);
+      expectAboveKeyboard(tester, field);
+      final another = find.text(s.tryAnotherWay);
+      await tester.ensureVisible(another);
+      await tester.pumpAndSettle();
+      expectAboveKeyboard(tester, another);
+    },
+  );
 }

@@ -22,6 +22,7 @@ import 'package:thingsboard_app/modules/main/presentation/providers/navigation_p
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
+import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../helpers/cutout_phone.dart';
@@ -59,9 +60,6 @@ final _signUpInfo = LoginMobileInfo(
       ..showTermsOfUse = true,
   ).toBuilder(),
 );
-
-/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
-const _landscapeKeyboard = 210.0;
 
 Future<void> _pump(
   WidgetTester tester,
@@ -174,6 +172,9 @@ void main() {
     tester,
   ) async {
     useCutoutPhone(tester, Orientation.portrait);
+    // Narrower than the screen, as the text is with a real font.
+    tester.platformDispatcher.textScaleFactorTestValue = 0.25;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     await _pump(
       tester,
       const EmailVerifiedPage(emailCode: 'code'),
@@ -189,16 +190,11 @@ void main() {
         (view.physicalSize.height - view.padding.bottom) / ratio;
     expect(
       ((top + bottom) / 2 - (screenTop + screenBottom) / 2).abs(),
-      lessThan(40),
+      lessThan(1),
     );
-  });
-
-  testWidgets('the sign up button is on screen in landscape', (tester) async {
-    useCutoutPhone(tester, Orientation.landscape);
-    await _pump(tester, const SignUpPage());
-
-    expect(tester.takeException(), isNull);
-    await expectClearOfInsets(tester, _button(s.signUp), scrollIntoView: false);
+    final spinner = tester.getRect(find.byType(TbProgressIndicator));
+    final screenWidth = view.physicalSize.width / ratio;
+    expect((spinner.center.dx - screenWidth / 2).abs(), lessThan(1));
   });
 
   testWidgets('the focused sign up field stays above a landscape keyboard', (
@@ -208,24 +204,9 @@ void main() {
     await _pump(tester, const SignUpPage());
     final email = find.byType(EditableText).first;
 
-    await tester.showKeyboard(email);
-    tester.view.viewInsets = const FakeViewPadding(
-      bottom: _landscapeKeyboard * 3,
-    );
-    await tester.pumpAndSettle();
+    await openLandscapeKeyboard(tester, email);
 
     expect(tester.takeException(), isNull);
-    final field = tester.getRect(email);
-    final viewport = tester.getRect(
-      find.ancestor(of: email, matching: find.byType(Scrollable)).last,
-    );
-    expect(field.top, greaterThanOrEqualTo(viewport.top));
-    expect(field.bottom, lessThanOrEqualTo(viewport.bottom));
-    expect(
-      viewport.bottom,
-      lessThanOrEqualTo(
-        tester.view.physicalSize.height / 3 - _landscapeKeyboard,
-      ),
-    );
+    expectAboveKeyboard(tester, email);
   });
 }

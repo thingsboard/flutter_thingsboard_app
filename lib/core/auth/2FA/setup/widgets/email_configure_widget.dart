@@ -26,6 +26,7 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
     required super.config,
     required super.loading,
     required super.onConfigured,
+    super.alternative,
   });
 
   @override
@@ -52,26 +53,34 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
         formGroup: form,
         child: PinnedFooterScrollView(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          footer: SizedBox(
-            width: double.infinity,
-            child: ReactiveFormConsumer(
-              builder: (context, formGroup, _) {
-                return FilledButton(
-                  onPressed: formGroup.control('email').invalid || loading.value
-                      ? null
-                      : () async {
-                          await _handleSendCode(form, codeSent);
-                        },
-                  child: loading.value
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(S.of(context).sendCode),
-                );
-              },
-            ),
+          footer: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ReactiveFormConsumer(
+                  builder: (context, formGroup, _) {
+                    return FilledButton(
+                      onPressed:
+                          formGroup.control('email').invalid || loading.value
+                          ? null
+                          : () async {
+                              await _handleSendCode(form, codeSent);
+                            },
+                      child: loading.value
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(S.of(context).sendCode),
+                    );
+                  },
+                ),
+              ),
+              ?alternative,
+            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -94,6 +103,7 @@ class EmailConfigureWidget extends TwoFaConfigWidget<EmailTwoFaAccountConfig> {
       );
     }
     return CodeWidget(
+      alternative: alternative,
       resend: () async {
         await _sendCode(form);
       },

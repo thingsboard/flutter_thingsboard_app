@@ -19,6 +19,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -29,11 +30,15 @@ abstract class TwoFaConfigWidget<T extends TwoFaAccountConfig>
     required this.config,
     required this.loading,
     required this.onConfigured,
+    this.alternative,
   });
 
   final T config;
   final ValueNotifier<bool> loading;
   final VoidCallback onConfigured;
+
+  /// Another way to verify, offered below the setup's own action.
+  final Widget? alternative;
 }
 
 /// The key in groups of four, easier to compare with an authenticator app.
@@ -52,6 +57,7 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
     required super.config,
     required super.loading,
     required super.onConfigured,
+    super.alternative,
     @visibleForTesting this.openUrl = _openExternally,
   });
 
@@ -76,7 +82,8 @@ class TotpConfigureWidget extends TwoFaConfigWidget<TotpTwoFaAccountConfig> {
 
     return ReactiveForm(
       formGroup: form,
-      child: SingleChildScrollView(
+      child: PinnedFooterScrollView(
+        footer: alternative,
         child: Column(
           spacing: 32,
           children: [

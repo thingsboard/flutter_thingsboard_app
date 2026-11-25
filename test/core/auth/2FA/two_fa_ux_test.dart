@@ -17,8 +17,10 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_config_success.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_force_description.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/backup_code_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/setup/widgets/code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -31,6 +33,7 @@ import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../../helpers/connection_error.dart';
+import '../../../helpers/cutout_phone.dart';
 import '../../../helpers/test_dependencies.dart';
 
 class MockOverlayService extends Mock implements IOverlayService {}
@@ -115,9 +118,6 @@ Future<void> _expectClearOfInsets(
   expect(button.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
 }
 
-/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
-const _landscapeKeyboard = 210.0;
-
 /// [child] with the app bar and padding of a 2FA page, as BaseTwoFactorLayout
 /// lays it out.
 Widget _twoFaPage(Widget child) => Scaffold(
@@ -129,25 +129,6 @@ Widget _twoFaPage(Widget child) => Scaffold(
     ),
   ),
 );
-
-/// Checks that [finder] is inside its page's scroll viewport and that the
-/// viewport ends above the keyboard.
-void _expectAboveKeyboard(WidgetTester tester, Finder finder) {
-  final rect = tester.getRect(finder);
-  final viewport = tester.getRect(
-    find.ancestor(of: finder, matching: find.byType(Scrollable)).last,
-  );
-  expect(rect.top, greaterThanOrEqualTo(viewport.top));
-  expect(rect.bottom, lessThanOrEqualTo(viewport.bottom));
-  final view = tester.view;
-  expect(
-    viewport.bottom,
-    lessThanOrEqualTo(
-      (view.physicalSize.height - view.viewInsets.bottom) /
-          view.devicePixelRatio,
-    ),
-  );
-}
 
 void main() {
   late MockThingsboardClient client;
@@ -416,14 +397,42 @@ void main() {
       await tester.pumpAndSettle();
       final field = find.byType(EditableText).first;
 
-      await tester.showKeyboard(field);
-      tester.view.viewInsets = const FakeViewPadding(
-        bottom: _landscapeKeyboard * 3,
-      );
-      await tester.pumpAndSettle();
+      await openLandscapeKeyboard(tester, field);
 
       expect(tester.takeException(), isNull);
-      _expectAboveKeyboard(tester, field);
+      expectAboveKeyboard(tester, field);
+    });
+  });
+
+  group('code step', () {
+    testWidgets('another way stays in view above a portrait keyboard', (
+      tester,
+    ) async {
+      _phone(tester, Orientation.portrait);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            CodeWidget(
+              onSubmnit: (_) {},
+              title: 'A code was sent',
+              resendTimeoutSeconds: 30,
+              data: getTwoFaProviderData(TwoFaProviderType.EMAIL),
+              resend: () {},
+              alternative: OutlinedButton(
+                onPressed: () {},
+                child: Text(s.tryAnotherWay),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      tester.view.viewInsets = const FakeViewPadding(bottom: 336 * 3);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(tester.takeException(), isNull);
+      expectAboveKeyboard(tester, find.text(s.tryAnotherWay));
     });
   });
 

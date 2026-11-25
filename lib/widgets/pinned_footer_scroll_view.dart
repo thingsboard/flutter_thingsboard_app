@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 /// Scrolls [child] above [footer], which stays pinned below the scroll while
 /// the keyboard is closed. While the keyboard is open, [footer] scrolls after
 /// [child] instead, so the focused field gets all the room the keyboard
-/// leaves.
+/// leaves. Without a [footer] it is a plain scroll view.
 class PinnedFooterScrollView extends StatelessWidget {
   const PinnedFooterScrollView({
     super.key,
     required this.child,
-    required this.footer,
+    this.footer,
     this.padding = EdgeInsets.zero,
     this.pinnedFooterPadding = EdgeInsets.zero,
-    this.footerSpacing = 16,
   });
 
   final Widget child;
-  final Widget footer;
+  final Widget? footer;
 
   /// Padding of the scrolling content, the footer included while it scrolls.
   final EdgeInsets padding;
@@ -28,15 +27,13 @@ class PinnedFooterScrollView extends StatelessWidget {
   /// Padding around [footer] while it is pinned.
   final EdgeInsets pinnedFooterPadding;
 
-  /// Space between [child] and [footer] while the footer scrolls.
-  final double footerSpacing;
-
   @override
   Widget build(BuildContext context) {
     // Rebuilt by the layout change the keyboard causes; the inset is read from
     // the view because a Scaffold body's MediaQuery has it removed.
     return LayoutBuilder(
       builder: (context, _) {
+        final footer = this.footer;
         final keyboardOpen = View.of(context).viewInsets.bottom > 0;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,15 +45,15 @@ class PinnedFooterScrollView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     child,
-                    if (keyboardOpen) ...[
-                      SizedBox(height: footerSpacing),
+                    if (footer != null && keyboardOpen) ...[
+                      const SizedBox(height: 16),
                       footer,
                     ],
                   ],
                 ),
               ),
             ),
-            if (!keyboardOpen)
+            if (footer != null && !keyboardOpen)
               Padding(padding: pinnedFooterPadding, child: footer),
           ],
         );

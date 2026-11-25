@@ -85,21 +85,14 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         title: data.setupTitleFunction(context),
         isLoading: isLoading.value,
         child: config.when(
-          data: (configData) => Column(
-            children: [
-              Expanded(
-                child: _buildProviderWidget(
-                  selectedProvider!,
-                  configData,
-                  isLoading,
-                  ref,
-                  context,
-                ),
-              ),
-              if (isForce && (providers.value?.length ?? 0) > 1)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: SizedBox(
+          data: (configData) => _buildProviderWidget(
+            selectedProvider!,
+            configData,
+            isLoading,
+            ref,
+            context,
+            alternative: isForce && (providers.value?.length ?? 0) > 1
+                ? SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
@@ -109,9 +102,8 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
                       },
                       child: Text(S.of(context).tryAnotherWay),
                     ),
-                  ),
-                ),
-            ],
+                  )
+                : null,
           ),
           loading: () => const SizedBox.shrink(),
           error: (error, stack) =>
@@ -149,8 +141,9 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
     TwoFaAccountConfig config,
     ValueNotifier<bool> loading,
     WidgetRef ref,
-    BuildContext context,
-  ) {
+    BuildContext context, {
+    Widget? alternative,
+  }) {
     void onConfigured() => _onMfaConfigured(ref, context, provider);
 
     return switch (provider) {
@@ -158,21 +151,25 @@ class TwoFactorAuthSetup extends HookConsumerWidget {
         onConfigured: onConfigured,
         loading: loading,
         config: config as TotpTwoFaAccountConfig,
+        alternative: alternative,
       ),
       TwoFaProviderType.SMS => PhoneConfigureWidget(
         onConfigured: onConfigured,
         loading: loading,
         config: config as SmsTwoFaAccountConfig,
+        alternative: alternative,
       ),
       TwoFaProviderType.EMAIL => EmailConfigureWidget(
         onConfigured: onConfigured,
         loading: loading,
         config: config as EmailTwoFaAccountConfig,
+        alternative: alternative,
       ),
       TwoFaProviderType.BACKUP_CODE => BackupCodeConfigureWidget(
         onConfigured: onConfigured,
         loading: loading,
         config: config as BackupCodeTwoFaAccountConfig,
+        alternative: alternative,
       ),
       _ => const SizedBox.shrink(),
     };
