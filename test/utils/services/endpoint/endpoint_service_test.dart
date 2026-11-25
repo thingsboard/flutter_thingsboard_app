@@ -27,7 +27,7 @@ void main() {
       when(() => database.setSelectedEndpoint(any())).thenAnswer((_) async {});
     });
 
-    // Installs from before the fix already persisted the slash.
+    // An endpoint stored by an older version can end with a slash.
     test(
       'a stored endpoint with a trailing slash is returned normalized',
       () async {

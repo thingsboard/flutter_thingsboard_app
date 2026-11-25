@@ -190,7 +190,6 @@ class Wl extends _$Wl {
   );
 
   static LoginWhiteLabelingParams _createDefaultLoginWlParams() {
-    // Build login WL params from default WL params values
     return LoginWhiteLabelingParams(
       (b) => b
         ..logoImageUrl = defaultLogoUrl

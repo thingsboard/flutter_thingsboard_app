@@ -14,10 +14,9 @@ class AssigneeDatasource implements IAssigneeDatasource {
 
   @override
   Future<PageData<UserInfo>> fetchAssignee(PageLink pageKey) async {
-    // Pre-migration this hit GET /api/users/info (findUsersByQuery), which
-    // returns users scoped to the current user's tenant/customer hierarchy.
-    // getAllUserInfos hits /api/userInfos/all and is restricted for non-sysadmin
-    // roles, so it returned only the current user.
+    // findUsersByQuery returns the users of the current user's tenant or
+    // customer; getAllUserInfos is restricted for non-sysadmin roles and
+    // returns only the current user.
     final response = await tbClient.getUserControllerApi().findUsersByQuery(
       pageSize: pageKey.pageSize,
       page: pageKey.page,

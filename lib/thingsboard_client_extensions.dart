@@ -5,13 +5,10 @@
 
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-/// Extension that restores the old `hasGenericPermission()` / `hasReadGenericPermission()`
-/// helpers on the new built_value [AllowedPermissionsInfo] model.
+/// Generic permission checks on [AllowedPermissionsInfo].
 ///
-/// The new client stores merged generic permissions in
-/// `userPermissions.genericPermissions: BuiltMap<String, BuiltSet<Operation>>`.
-/// The key is the resource name string (e.g. `'ALARM'`), mirroring the
-/// old `Map<Resource, Set<Operation>>` but JSON-serialised.
+/// `userPermissions.genericPermissions` is keyed by the resource name string
+/// (e.g. `'ALARM'`).
 ///
 /// The web UI symbols named below (`hasGenericAllPermission`,
 /// `isResourceAllowed`, `hasSharedReadGroupsPermission`) live in ui-ngx

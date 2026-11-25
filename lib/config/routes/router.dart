@@ -89,15 +89,15 @@ class ThingsboardAppRouter {
       final uri = Uri.parse(link);
       await getIt<ILocalDatabaseService>().deleteInitialAppLink();
       if (!_appLinkPaths.contains(uri.path)) {
-        log.debug('TbContext: app link to ${uri.path} ignored');
+        log.debug('Router: app link to ${uri.path} ignored');
         return;
       }
       // The login page would wait for a sign-in that already happened.
       if (uri.path == LoginRoutes.login && _hasFullSession()) {
-        log.debug('TbContext: app link to ${uri.path} ignored, signed in');
+        log.debug('Router: app link to ${uri.path} ignored, signed in');
         return;
       }
-      log.debug('TbContext: navigate by appLink $uri');
+      log.debug('Router: navigate by appLink $uri');
       navigateTo(
         uri.path,
         routeSettings: RouteSettings(

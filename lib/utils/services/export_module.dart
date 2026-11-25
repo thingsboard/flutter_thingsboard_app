@@ -69,11 +69,9 @@ class TbDashboardExportModule {
     String finalFileName = filename.isNotEmpty
         ? filename
         : 'tb-file-export-${DateFormat('dd-MM-yyyy HH-mm-ss').format(DateTime.now())}';
-    // Enhanced file extension handling
     if (!finalFileName.contains('.')) {
       String? extension;
 
-      // First try to use provided MIME type
       if (mimeType != null && mimeType.isNotEmpty) {
         extension = _getExtensionFromMimeType(mimeType);
       }
@@ -85,7 +83,6 @@ class TbDashboardExportModule {
     saveWithFilePicker(finalFileName, data);
   }
 
-  // Helper method to get extension from MIME type
   String? _getExtensionFromMimeType(String mimeType) {
     final csvTypes = [
       'text/csv',
@@ -98,7 +95,7 @@ class TbDashboardExportModule {
     }
     final found = extensionFromMime(mimeType);
     if (found == mimeType) {
-      return null; // No specific extension found
+      return null;
     }
     return found;
   }

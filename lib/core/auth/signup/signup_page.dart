@@ -397,7 +397,6 @@ Future<void> _openRecaptcha(
     final captcha = signUpParams.captcha;
     if (captcha == null) return;
     if (captcha.version == 'enterprise') {
-      // Get recaptcha client for enterprise version
       RecaptchaClient? client;
       final deviceService = getIt<IDeviceInfoService>();
       final enterpriseCaptcha = captcha is EnterpriseCaptchaParams

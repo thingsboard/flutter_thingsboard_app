@@ -8,10 +8,6 @@ import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class TbThemeUtils {
-  //static final _tbTypography = Typography.material2018();
-
-  // static const Color _tbTextColor = Color(0xFF282828);
-
   static final tbPrimary =
       // ignore: deprecated_member_use
       _mergeColors(Colors.teal, {'500': Colors.teal[800]!.value});

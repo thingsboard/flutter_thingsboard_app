@@ -10,6 +10,5 @@ final rootRoutes = [
   GoRoute(
     path: '/',
     builder: (context, state) => const LoginPage(riderectUrl: null),
-    //const Scaffold(body: Center(child: TbProgressIndicator(size: 50,))),
   ),
 ];

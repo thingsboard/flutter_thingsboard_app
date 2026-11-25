@@ -12,8 +12,8 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/wid
 import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
 import 'package:thingsboard_app/modules/location_tracking/domain/models/live_tracking_config.dart';
 
-/// Starts a live tracking session from a fully-resolved dashboard config
-/// (see the phase 1c wire protocol). Replaces any active session.
+/// Starts a live tracking session from a fully-resolved dashboard config.
+/// Replaces any active session.
 class StartLiveLocationAction extends MobileAction {
   @override
   Future<WidgetMobileActionResult> execute(

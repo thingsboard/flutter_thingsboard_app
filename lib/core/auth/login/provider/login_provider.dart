@@ -182,9 +182,8 @@ class Login extends _$Login {
   }
 
   /// Only a loaded user moves the app past the login and 2FA screens, so a
-  /// failed load must end in a retry or a logout: keeping the session without
-  /// a user left the login loader spinning and the 2FA screen frozen on a
-  /// valid code.
+  /// failed load must end in a retry or a logout: a session without a user
+  /// leaves the login loader spinning and the 2FA screen frozen.
   Future<void> _onLoadUserFailed(ThingsboardClient client, Object e) async {
     // A QR endpoint switch replaced the client, or a rejected refresh token
     // cleared the session: that change fires its own UserLoadedEvent.

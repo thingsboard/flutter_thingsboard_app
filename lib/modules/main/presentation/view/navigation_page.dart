@@ -44,7 +44,6 @@ class NavigationPage extends HookConsumerWidget {
       return null;
     }, [screenSize]);
     final trackingBarVisible = ref.watch(liveTrackingProvider).session != null;
-    // Handle app lifecycle for notifications
     useOnAppLifecycleStateChange((prev, next) {
       if (next == AppLifecycleState.resumed) {
         getIt<NotificationService>().updateNotificationsCount();
@@ -56,7 +55,6 @@ class NavigationPage extends HookConsumerWidget {
       return null;
     }, []);
 
-    // Update current index based on current route
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final currentPath = GoRouterState.of(context).uri.toString();

@@ -451,10 +451,8 @@ class ProfileEditPage extends HookConsumerWidget {
         form
             .control('additionalInfo.homeDashboardId')
             .patchValue(info, updateParent: false, emitEvent: true);
-      } catch (e) {
-        // getIt<IOverlayService>().showErrorNotification(
-        //   (_) => 'Error fetching home dashboard info $e',
-        // );
+      } catch (_) {
+        // The field stays unset.
       }
       loading.value = false;
     }

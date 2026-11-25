@@ -69,7 +69,6 @@ class AlarmControlFiltersButton extends StatelessWidget {
               style: ButtonStyle(
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
-                    // Change your radius here
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

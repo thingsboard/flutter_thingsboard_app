@@ -134,9 +134,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Takes priority over the firebase_messaging plugin's service to
-             suppress the FCM SDK's default (icon-less) tray notification;
-             messages are rendered on the Dart side instead. See
+        <!-- Replaces the firebase_messaging plugin's service: see
              TbFirebaseMessagingService. -->
         <service
             android:name=".TbFirebaseMessagingService"

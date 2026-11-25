@@ -102,16 +102,12 @@ Future<void> setUpRootDependencies() async {
         notifications: getIt(),
       ),
     )
-    // ..registerLazySingleton(() => TbContext())
     ..registerSingletonAsync<ITbClientService>(() async {
       final client = TbClientService();
       await client.init();
       return client;
     })
     ..registerLazySingleton(() => NotificationService())
-    // ..registerSingleton(
-    //   ThingsboardAppRouter(overlayService: getIt(), tbContext: getIt()),
-    // )
     ..registerLazySingleton<IFirebaseService>(
       () => FirebaseService(logger: getIt(), endpointService: getIt()),
     )

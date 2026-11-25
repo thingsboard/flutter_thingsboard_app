@@ -27,8 +27,8 @@ import org.json.JSONObject
  * notification (same tag, id and channel, see PushNotificationDisplay) with
  * the icon, which replaces it in place without a new alert. If the Dart
  * isolate never runs (a stale callback handle right after an app update, the
- * process killed while the engine starts), the plain notification stays:
- * exactly what the SDK showed before this change.
+ * process killed while the engine starts), the SDK's plain notification
+ * stays.
  *
  * Delivery to Dart is unaffected: FlutterFirebaseMessagingReceiver gets its
  * own copy of the broadcast and forwards the complete message to

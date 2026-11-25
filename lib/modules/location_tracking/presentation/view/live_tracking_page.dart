@@ -304,8 +304,8 @@ class _LastSession extends ConsumerWidget {
   };
 
   Future<void> _startAgain(WidgetRef ref) async {
-    // AuthUser.sub is the current user's email (phase-1c trackedBy semantics);
-    // re-derive it so a relaunch is attributed to whoever is logged in now.
+    // AuthUser.sub is the current user's email: re-derive it so a relaunch is
+    // attributed to whoever is logged in now.
     final email = getIt<ITbClientService>().client.getAuthUser()?.sub;
     final config = LiveTrackingConfig.fromJson({
       ...record.configJson,

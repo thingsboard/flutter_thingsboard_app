@@ -79,7 +79,6 @@ class NavigationHelper {
     );
   }
 
-  // Helper functions
   static String getLabel(PageLayout pageLayout) {
     final label = customLabel(pageLayout);
     if (label != null) {

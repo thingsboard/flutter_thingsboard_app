@@ -20,9 +20,8 @@ const _duplicateLinkWindow = Duration(seconds: 2);
 /// app) through the same [ThingsboardAppRouter.navigateByAppLink] path the
 /// in-app QR scanner uses.
 ///
-/// App links used to be handled by `TbContext.init`, which the v2 router no
-/// longer calls. Owns the single subscription for the whole app: call it once,
-/// from the app root.
+/// Owns the single subscription for the whole app: call it once, from the app
+/// root.
 void useAppLinks() {
   useEffect(() {
     String? lastLink;

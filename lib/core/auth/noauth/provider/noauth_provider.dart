@@ -503,7 +503,7 @@ class NoauthProvider extends _$NoauthProvider {
     _logger.debug('SwitchEndpointUseCase:deleteFB App');
     await getIt<IFirebaseService>().clearApps();
 
-    // If we revert to the original host configured in the app_constants
+    // A built-in server uses the default Firebase app.
     final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
     if (!isCustom) {
       await initDefaultFirebaseApp();

@@ -169,8 +169,7 @@ abstract class EntityQueryApi {
   }
 }
 
-/// Extension that restores the old `field()` / `attribute()` convenience
-/// accessors on the built_value [EntityData] model.
+/// `field()` / `attribute()` accessors on [EntityData].
 extension EntityDataHelpers on EntityData {
   String? field(String key) => latest?['ENTITY_FIELD']?[key]?.value;
   String? attribute(String key) => latest?['ATTRIBUTE']?[key]?.value;

@@ -96,11 +96,10 @@ class NotificationWidget extends StatelessWidget {
                         ),
                         Flexible(
                           child: Padding(
-                            // Keeps the 8px body margin flutter_html used to add.
                             padding: const EdgeInsets.all(8),
                             child: HtmlWidget(
                               notification.text ?? '',
-                              // Links were not tappable with flutter_html.
+                              // Links in the notification text are not opened.
                               onTapUrl: (_) => true,
                               customWidgetBuilder: (element) =>
                                   _isRemoteImage(
