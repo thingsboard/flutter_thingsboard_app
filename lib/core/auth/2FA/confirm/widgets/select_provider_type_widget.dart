@@ -60,7 +60,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
 
     return Stack(
       children: [
-        Center(
+        SingleChildScrollView(
           child: Column(
             spacing: 20,
             children: [
@@ -100,6 +100,7 @@ class SelectProviderTypeWidget extends HookConsumerWidget {
                   ListView.separated(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final provider = filtered[index];
                       final bool isEnabled =

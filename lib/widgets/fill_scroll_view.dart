@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-/// A page at least as tall as the screen, so a [Spacer] or [Expanded] in
+/// A page at least as large as the screen, so a [Spacer] or [Expanded] in
 /// [child] pushes content to the bottom; on a short screen it scrolls.
 class FillScrollView extends StatelessWidget {
   const FillScrollView({
@@ -24,6 +24,10 @@ class FillScrollView extends StatelessWidget {
         padding: padding,
         child: ConstrainedBox(
           constraints: BoxConstraints(
+            minWidth: (constraints.maxWidth - padding.horizontal).clamp(
+              0,
+              double.infinity,
+            ),
             minHeight: (constraints.maxHeight - padding.vertical).clamp(
               0,
               double.infinity,

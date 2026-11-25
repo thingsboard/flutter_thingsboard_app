@@ -23,11 +23,17 @@ void useCutoutPhone(WidgetTester tester, Orientation orientation) {
   addTearDown(tester.view.reset);
 }
 
-/// Scrolls [finder] into view and checks that it is clear of the insets set
-/// by [useCutoutPhone].
-Future<void> expectClearOfInsets(WidgetTester tester, Finder finder) async {
-  await tester.ensureVisible(finder);
-  await tester.pumpAndSettle();
+/// Checks that [finder] is clear of the insets set by [useCutoutPhone],
+/// after scrolling it into view unless [scrollIntoView] is false.
+Future<void> expectClearOfInsets(
+  WidgetTester tester,
+  Finder finder, {
+  bool scrollIntoView = true,
+}) async {
+  if (scrollIntoView) {
+    await tester.ensureVisible(finder);
+    await tester.pumpAndSettle();
+  }
   final view = tester.view;
   final ratio = view.devicePixelRatio;
   final size = view.physicalSize / ratio;
@@ -37,4 +43,42 @@ Future<void> expectClearOfInsets(WidgetTester tester, Finder finder) async {
   expect(rect.right, lessThanOrEqualTo(size.width - insets.right / ratio));
   expect(rect.top, greaterThanOrEqualTo(insets.top / ratio));
   expect(rect.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
+}
+
+/// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
+const landscapeKeyboard = 210.0;
+
+/// The height of the iOS keyboard on a portrait iPhone, in logical pixels.
+const portraitKeyboard = 336.0;
+
+/// Focuses [field] and opens a [height] high keyboard below it.
+Future<void> openKeyboard(
+  WidgetTester tester,
+  Finder field, {
+  double height = landscapeKeyboard,
+}) async {
+  await tester.showKeyboard(field);
+  tester.view.viewInsets = FakeViewPadding(
+    bottom: height * tester.view.devicePixelRatio,
+  );
+  await tester.pumpAndSettle();
+}
+
+/// Checks that [finder] is inside its page's scroll viewport and that the
+/// viewport ends above the keyboard.
+void expectAboveKeyboard(WidgetTester tester, Finder finder) {
+  final rect = tester.getRect(finder);
+  final viewport = tester.getRect(
+    find.ancestor(of: finder, matching: find.byType(Scrollable)).last,
+  );
+  expect(rect.top, greaterThanOrEqualTo(viewport.top));
+  expect(rect.bottom, lessThanOrEqualTo(viewport.bottom));
+  final view = tester.view;
+  expect(
+    viewport.bottom,
+    lessThanOrEqualTo(
+      (view.physicalSize.height - view.viewInsets.bottom) /
+          view.devicePixelRatio,
+    ),
+  );
 }

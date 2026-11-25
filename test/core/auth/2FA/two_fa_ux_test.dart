@@ -16,8 +16,11 @@ import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_a
 import 'package:thingsboard_app/core/auth/2FA/setup/providers/two_factor_setup_avalible_providers/two_factor_setup_avalible_providers.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_config_success.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/two_factor_auth_force_description.dart';
+import 'package:thingsboard_app/core/auth/2FA/setup/widgets/backup_code_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/setup/widgets/code_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/email_configure_widget.dart';
 import 'package:thingsboard_app/core/auth/2FA/setup/widgets/totp_configure_widget.dart';
+import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/2FA/two_fa_view_type.dart';
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -30,6 +33,7 @@ import 'package:thingsboard_app/utils/silent_request.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../../helpers/connection_error.dart';
+import '../../../helpers/cutout_phone.dart';
 import '../../../helpers/test_dependencies.dart';
 
 class MockOverlayService extends Mock implements IOverlayService {}
@@ -113,6 +117,18 @@ Future<void> _expectClearOfInsets(
   expect(button.top, greaterThanOrEqualTo(insets.top / ratio));
   expect(button.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
 }
+
+/// [child] with the app bar and padding of a 2FA page, as BaseTwoFactorLayout
+/// lays it out.
+Widget _twoFaPage(Widget child) => Scaffold(
+  appBar: AppBar(title: const Text('2FA')),
+  body: SafeArea(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: child,
+    ),
+  ),
+);
 
 void main() {
   late MockThingsboardClient client;
@@ -359,6 +375,106 @@ void main() {
 
       expect(find.text(s.verificationCodeManyRequest), findsOneWidget);
     });
+
+    testWidgets('the email field stays above a landscape keyboard', (
+      tester,
+    ) async {
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          overrides: [loginProvider.overrideWith(FakeLogin.new)],
+          _twoFaPage(
+            EmailConfigureWidget(
+              config: EmailTwoFaAccountConfig(
+                (b) => b..email = 'a@example.com',
+              ),
+              loading: ValueNotifier(false),
+              onConfigured: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final field = find.byType(EditableText).first;
+
+      await openKeyboard(tester, field);
+
+      expect(tester.takeException(), isNull);
+      expectAboveKeyboard(tester, field);
+    });
+  });
+
+  group('code step', () {
+    testWidgets('another way stays in view above a portrait keyboard', (
+      tester,
+    ) async {
+      _phone(tester, Orientation.portrait);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            CodeWidget(
+              onSubmnit: (_) {},
+              title: 'A code was sent',
+              resendTimeoutSeconds: 30,
+              data: getTwoFaProviderData(TwoFaProviderType.EMAIL),
+              resend: () {},
+              alternative: OutlinedButton(
+                onPressed: () {},
+                child: Text(s.tryAnotherWay),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await openKeyboard(
+        tester,
+        find.byType(EditableText).first,
+        height: portraitKeyboard,
+      );
+
+      expect(tester.takeException(), isNull);
+      expectAboveKeyboard(tester, find.text(s.tryAnotherWay));
+    });
+  });
+
+  group('backup codes', () {
+    testWidgets('every code and Done can be reached in landscape', (
+      tester,
+    ) async {
+      when(
+        () => api.verifyAndSaveTwoFaAccountConfig(
+          twoFaAccountConfig: any(named: 'twoFaAccountConfig'),
+          verificationCode: any(named: 'verificationCode'),
+          extra: any(named: 'extra'),
+        ),
+      ).thenAnswer((_) async => Response(requestOptions: RequestOptions()));
+      final codes = [for (var i = 0; i < 10; i++) 'code000$i'];
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            BackupCodeConfigureWidget(
+              config: BackupCodeTwoFaAccountConfig(
+                (b) => b..codes = SetBuilder<String>(codes),
+              ),
+              loading: ValueNotifier(false),
+              onConfigured: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      await _expectClearOfInsets(tester, s.done);
+      final lastCode = find.text(codes.last);
+      await tester.ensureVisible(lastCode);
+      await tester.pumpAndSettle();
+      final size = tester.view.physicalSize / tester.view.devicePixelRatio;
+      expect(tester.getRect(lastCode).bottom, lessThanOrEqualTo(size.height));
+    });
   });
 
   group('provider list', () {
@@ -389,6 +505,34 @@ void main() {
         expect(find.text(s.recommended), findsOneWidget);
       });
     }
+
+    testWidgets('every method can be reached in landscape', (tester) async {
+      _phone(tester, Orientation.landscape);
+      await tester.pumpWidget(
+        _app(
+          _twoFaPage(
+            const SelectProviderTypeWidget(
+              type: TwoFaViewType.setup,
+              avalibleTypes: [
+                TwoFaProviderType.TOTP,
+                TwoFaProviderType.SMS,
+                TwoFaProviderType.EMAIL,
+                TwoFaProviderType.BACKUP_CODE,
+              ],
+              activeProviders: [TwoFaProviderType.EMAIL],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      final last = find.byType(ListTile).last;
+      await tester.ensureVisible(last);
+      await tester.pumpAndSettle();
+      final size = tester.view.physicalSize / tester.view.devicePixelRatio;
+      expect(tester.getRect(last).bottom, lessThanOrEqualTo(size.height));
+    });
 
     testWidgets('a sign-in verification lists only the method names', (
       tester,

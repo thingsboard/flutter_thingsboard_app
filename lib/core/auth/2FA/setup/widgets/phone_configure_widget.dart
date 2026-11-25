@@ -18,6 +18,7 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_country_picker.dart';
 import 'package:thingsboard_app/widgets/tb_drop_down_text_field.dart';
 import 'package:thingsboard_app/widgets/tb_phone_field.dart';
@@ -28,6 +29,7 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     required super.config,
     required super.loading,
     required super.onConfigured,
+    super.alternative,
   });
 
   @override
@@ -53,70 +55,71 @@ class PhoneConfigureWidget extends TwoFaConfigWidget<SmsTwoFaAccountConfig> {
     if (!codeSent.value) {
       return ReactiveForm(
         formGroup: form,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 20,
-                  children: [
-                    Text(
-                      S.of(context).enterAPhoneNumberToUseAsYourAuthenticator,
-                      style: TbTextStyles.bodyMedium,
-                    ),
-                    TbDropDownTextField<IsoCode>(
-                      formControlName: 'countryCode',
-                      selectedItemBuilder: (country) =>
-                          countryDisplayName(context, country),
-                      label: S.of(context).country,
-                      bottomSheetBuilder: (context, value) =>
-                          const TbCountryPicker(),
-                      onSelected: (country) {
-                        if (country != null) {
-                          phoneController.value = PhoneNumber(
-                            isoCode: country,
-                            nsn: phoneController.value.nsn,
-                          );
-                        }
-                      },
-                    ),
-                    TbPhoneField(controller: phoneController),
-                  ],
+        child: PinnedFooterScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          footer: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ReactiveFormConsumer(
+                  builder: (context, formGroup, _) {
+                    return FilledButton(
+                      onPressed:
+                          formGroup.control('phone').invalid || loading.value
+                          ? null
+                          : () async {
+                              await _handleSendCode(form, codeSent);
+                            },
+                      child: loading.value
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(S.of(context).sendCode),
+                    );
+                  },
                 ),
               ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ReactiveFormConsumer(
-                builder: (context, formGroup, _) {
-                  return FilledButton(
-                    onPressed:
-                        formGroup.control('phone').invalid || loading.value
-                        ? null
-                        : () async {
-                            await _handleSendCode(form, codeSent);
-                          },
-                    child: loading.value
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(S.of(context).sendCode),
-                  );
+              ?alternative,
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
+            children: [
+              Text(
+                S.of(context).enterAPhoneNumberToUseAsYourAuthenticator,
+                style: TbTextStyles.bodyMedium,
+              ),
+              TbDropDownTextField<IsoCode>(
+                formControlName: 'countryCode',
+                selectedItemBuilder: (country) =>
+                    countryDisplayName(context, country),
+                label: S.of(context).country,
+                bottomSheetBuilder: (context, value) => const TbCountryPicker(),
+                onSelected: (country) {
+                  if (country != null) {
+                    phoneController.value = PhoneNumber(
+                      isoCode: country,
+                      nsn: phoneController.value.nsn,
+                    );
+                  }
                 },
               ),
-            ),
-          ],
+              TbPhoneField(controller: phoneController),
+            ],
+          ),
         ),
       );
     }
 
     final PhoneNumber phoneNumber = form.control('phone').value as PhoneNumber;
     return CodeWidget(
+      alternative: alternative,
       resend: () async {
         await _sendCode(form);
       },

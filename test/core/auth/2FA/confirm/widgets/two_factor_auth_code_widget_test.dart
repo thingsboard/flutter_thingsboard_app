@@ -17,6 +17,7 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../../../../helpers/connection_error.dart';
+import '../../../../../helpers/cutout_phone.dart';
 import '../../../../../helpers/test_dependencies.dart';
 
 class MockTwoFactorAuthControllerApi extends Mock
@@ -80,6 +81,44 @@ void main() {
     );
     await tester.pumpAndSettle();
   }
+
+  testWidgets('the code field stays above a landscape keyboard', (
+    tester,
+  ) async {
+    useCutoutPhone(tester, Orientation.landscape);
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          localizationsDelegates: S.localizationsDelegates,
+          home: Scaffold(
+            appBar: AppBar(title: const Text('2FA')),
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
+                child: EnterACodeWidget(
+                  selectedProvider: TwoFaProviderInfo(
+                    (b) => b
+                      ..type = TwoFaProviderType.EMAIL
+                      ..contact = 'u***@example.com',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final field = find.byType(EditableText);
+
+    await openKeyboard(tester, field);
+
+    expect(tester.takeException(), isNull);
+    expectAboveKeyboard(tester, field);
+  });
 
   Future<void> submit(WidgetTester tester, String code) async {
     await tester.enterText(find.byType(TextField), code);

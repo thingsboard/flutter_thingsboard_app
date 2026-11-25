@@ -19,6 +19,7 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class BackupCodeConfigureWidget
@@ -27,6 +28,7 @@ class BackupCodeConfigureWidget
     required super.config,
     required super.loading,
     required super.onConfigured,
+    super.alternative,
   });
   Future<void> saveConfig() async {
     try {
@@ -55,96 +57,95 @@ class BackupCodeConfigureWidget
           ref.invalidate(acountTwoFactorSettingsProvider);
         }
       },
-      child: Column(
-        children: [
-          Expanded(
-            child: Column(
-              spacing: 20,
+      child: PinnedFooterScrollView(
+        padding: const EdgeInsets.only(bottom: 16),
+        footer: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: onConfigured,
+                child: Text(S.of(context).done),
+              ),
+            ),
+            ?alternative,
+          ],
+        ),
+        child: Column(
+          spacing: 20,
+          children: [
+            Column(
+              spacing: 8,
               children: [
-                Column(
-                  spacing: 8,
-                  children: [
-                    Text(
-                      S.of(context).backupCodesDescription,
-                      style: TbTextStyles.bodyMedium,
-                    ),
-                    Text(
-                      S.of(context).backupCodesWarning,
-                      style: TbTextStyles.bodyMedium,
-                    ),
-                  ],
+                Text(
+                  S.of(context).backupCodesDescription,
+                  style: TbTextStyles.bodyMedium,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: AppColors.bordersLight),
-                  ),
-                  child: SelectableRegion(
-                    selectionControls: MaterialTextSelectionControls(),
-                    child: Column(
-                      spacing: 12,
-                      children: chunkList(codes, 2)
-                          .map(
-                            (e) => Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(e[0], style: TbTextStyles.labelLarge),
-                                Text(e[1], style: TbTextStyles.labelLarge),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () async {
-                          await Clipboard.setData(
-                            ClipboardData(text: codesText),
-                          );
-                          getIt<IOverlayService>().showSuccessNotification(
-                            duration: const Duration(seconds: 3),
-                            (_) => S.of(context).copiedToClipboard,
-                          );
-                        },
-                        icon: const Icon(Icons.copy),
-                        label: Text(S.of(context).copy),
-                      ),
-                    ),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          final bytes = utf8.encode(codesText);
-                          TbDashboardExportModule.saveWithFilePicker(
-                            'backup-codes.txt',
-                            bytes,
-                          );
-                        },
-                        icon: const Icon(Icons.download),
-                        label: Text(S.of(context).downloadTxt),
-                      ),
-                    ),
-                  ],
+                Text(
+                  S.of(context).backupCodesWarning,
+                  style: TbTextStyles.bodyMedium,
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: onConfigured,
-              child: Text(S.of(context).done),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(color: AppColors.bordersLight),
+              ),
+              child: SelectableRegion(
+                selectionControls: MaterialTextSelectionControls(),
+                child: Column(
+                  spacing: 12,
+                  children: chunkList(codes, 2)
+                      .map(
+                        (e) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(e[0], style: TbTextStyles.labelLarge),
+                            Text(e[1], style: TbTextStyles.labelLarge),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
-          ),
-        ],
+            Row(
+              spacing: 8,
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: codesText));
+                      getIt<IOverlayService>().showSuccessNotification(
+                        duration: const Duration(seconds: 3),
+                        (_) => S.of(context).copiedToClipboard,
+                      );
+                    },
+                    icon: const Icon(Icons.copy),
+                    label: Text(S.of(context).copy),
+                  ),
+                ),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      final bytes = utf8.encode(codesText);
+                      TbDashboardExportModule.saveWithFilePicker(
+                        'backup-codes.txt',
+                        bytes,
+                      );
+                    },
+                    icon: const Icon(Icons.download),
+                    label: Text(S.of(context).downloadTxt),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
