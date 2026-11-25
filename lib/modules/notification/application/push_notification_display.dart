@@ -31,7 +31,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
   await PushNotificationDisplay.waitForPlainNotification(message);
   await PushNotificationDisplay.show(message);
-  debugPrint('TbPush: re-posted ${message.messageId} with the template icon');
+  if (kDebugMode) {
+    debugPrint('TbPush: re-posted ${message.messageId} with the template icon');
+  }
 }
 
 /// The id TbFirebaseMessagingService posts the plain notification under, so

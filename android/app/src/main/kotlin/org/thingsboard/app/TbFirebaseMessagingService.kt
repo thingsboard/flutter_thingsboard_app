@@ -67,7 +67,7 @@ class TbFirebaseMessagingService : FlutterFirebaseMessagingService() {
         // Dart gives up waiting for this one after a second; posting after it
         // would replace the icon version.
         if (isPosted(messageId, id)) {
-            Log.i(TAG, "Dart already posted $messageId, skipping the plain one")
+            debug("Dart already posted $messageId, skipping the plain one")
             return
         }
         val built = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -82,7 +82,7 @@ class TbFirebaseMessagingService : FlutterFirebaseMessagingService() {
             .build()
         try {
             NotificationManagerCompat.from(this).notify(messageId, id, built)
-            Log.i(TAG, "Posted plain notification $messageId; Dart adds the icon")
+            debug("Posted plain notification $messageId; Dart adds the icon")
         } catch (e: SecurityException) {
             Log.w(TAG, "Could not post notification $messageId", e)
         }
@@ -163,5 +163,10 @@ class TbFirebaseMessagingService : FlutterFirebaseMessagingService() {
 
         /** Java's String.hashCode, which PushNotificationDisplay reproduces in Dart. */
         fun notificationId(messageId: String): Int = messageId.hashCode()
+
+        // Off by default; `adb shell setprop log.tag.TbPush DEBUG` turns it on.
+        private fun debug(message: String) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) Log.d(TAG, message)
+        }
     }
 }
