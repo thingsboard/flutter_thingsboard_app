@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -5,11 +10,11 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/alarm/alarms_list.dart';
 import 'package:thingsboard_app/modules/alarm/di/alarms_di.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarms_states.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/view/alarms_filter_page.dart';
+import 'package:thingsboard_app/modules/alarm/presentation/widgets/alarms_list.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
@@ -65,8 +70,8 @@ class _AlarmsPageState extends State<AlarmsPage>
                         BlocBuilder<AlarmBloc, AlarmsState>(
                           builder: (context, state) {
                             if (state is AlarmsFilterActivatedState) {
-                              return Positioned(
-                                right: 13,
+                              return PositionedDirectional(
+                                end: 13,
                                 top: 13,
                                 child: Container(
                                   height: 8,
@@ -99,11 +104,7 @@ class _AlarmsPageState extends State<AlarmsPage>
               );
 
             case 1:
-              return 
-              AlarmsFilterPage(
-
-               pageController: _preloadPageCtrl,
-             );
+              return AlarmsFilterPage(pageController: _preloadPageCtrl);
           }
 
           return const SizedBox.shrink();

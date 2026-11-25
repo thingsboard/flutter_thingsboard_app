@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/filters/i_alarm_filter.dart';
 
@@ -22,9 +27,7 @@ class AlarmTypeFilter<T> implements IAlarmFilter<Set<T>> {
 
   @override
   void updateSelectedData(Set<T> data) {
-    logger.debug(
-      'AlarmTypeFilter::updateSelectedData($data)',
-    );
+    logger.debug('AlarmTypeFilter::updateSelectedData($data)');
 
     alarmTypeSelected
       ..clear()

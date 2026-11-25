@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dashboard_arguments.dart';
@@ -9,6 +9,7 @@ part of 'dashboard_arguments.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DashboardArgumentsEntityCopyWith<DashboardArgumentsEntity> get copyWith => _$Da
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardArgumentsEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.state, state) || other.state == state)&&(identical(other.hideToolbar, hideToolbar) || other.hideToolbar == hideToolbar)&&(identical(other.animate, animate) || other.animate == animate));
+  final _this = this as DashboardArgumentsEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardArgumentsEntity&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.state, _this.state) || other.state == _this.state)&&(identical(other.hideToolbar, _this.hideToolbar) || other.hideToolbar == _this.hideToolbar)&&(identical(other.animate, _this.animate) || other.animate == _this.animate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,state,hideToolbar,animate);
+int get hashCode {
+  final _this = this as DashboardArgumentsEntity;
+  return Object.hash(runtimeType,_this.id,_this.title,_this.state,_this.hideToolbar,_this.animate);
+}
 
 @override
 String toString() {
-  return 'DashboardArgumentsEntity(id: $id, title: $title, state: $state, hideToolbar: $hideToolbar, animate: $animate)';
+  final _this = this as DashboardArgumentsEntity;
+  return 'DashboardArgumentsEntity(id: ${_this.id}, title: ${_this.title}, state: ${_this.state}, hideToolbar: ${_this.hideToolbar}, animate: ${_this.animate})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DashboardArgumentsEntityCopyWithImpl<$Res>
 /// Create a copy of DashboardArgumentsEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = freezed,Object? state = freezed,Object? hideToolbar = freezed,Object? animate = null,}) {
-  return _then(_self.copyWith(
+  return _then(DashboardArgumentsEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,state: freezed == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardArgumentsEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.state, state) || other.state == state)&&(identical(other.hideToolbar, hideToolbar) || other.hideToolbar == hideToolbar)&&(identical(other.animate, animate) || other.animate == animate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardArgumentsEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.state, state) || other.state == state)&&(identical(other.hideToolbar, hideToolbar) || other.hideToolbar == hideToolbar)&&(identical(other.animate, animate) || other.animate == animate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,state,hideToolbar,animate);
+int get hashCode {
+    return Object.hash(runtimeType,id,title,state,hideToolbar,animate);
+}
 
 @override
 String toString() {
-  return 'DashboardArgumentsEntity(id: $id, title: $title, state: $state, hideToolbar: $hideToolbar, animate: $animate)';
+    return 'DashboardArgumentsEntity(id: $id, title: $title, state: $state, hideToolbar: $hideToolbar, animate: $animate)';
 }
 
 

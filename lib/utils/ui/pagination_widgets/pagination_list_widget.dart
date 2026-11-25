@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,11 +35,17 @@ class PaginationListWidget<T, B> extends StatelessWidget {
         ),
         SliverPadding(
           padding: const EdgeInsets.all(16),
-          sliver: PagedSliverList<T, B>.separated(
-            pagingController: pagingController,
-            builderDelegate: builderDelegate,
-            separatorBuilder:
-                separatorWidgetBuilder ?? (_, _) => const SizedBox(height: 16),
+          sliver: PagingListener(
+            controller: pagingController,
+            builder: (context, state, fetchNextPage) =>
+                PagedSliverList<T, B>.separated(
+                  state: state,
+                  fetchNextPage: fetchNextPage,
+                  builderDelegate: builderDelegate,
+                  separatorBuilder:
+                      separatorWidgetBuilder ??
+                      (_, _) => const SizedBox(height: 16),
+                ),
           ),
         ),
       ],

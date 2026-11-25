@@ -1,5 +1,10 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:equatable/equatable.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmFiltersEntity extends Equatable {
   const AlarmFiltersEntity({
@@ -24,7 +29,7 @@ class AlarmFiltersEntity extends Equatable {
       typeList: typeList.isNotEmpty ? typeList : null,
       statusList: status.isNotEmpty ? status : null,
       severityList: severity.isNotEmpty ? severity : null,
-      assigneeId: userId != null ? UserId(userId) : null,
+      assigneeId: userId != null ? UserId((b) => b..id = userId) : null,
     );
   }
 

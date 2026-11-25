@@ -1,8 +1,16 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
-import 'package:thingsboard_app/modules/main/providers/navigation_provider.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 class RefreshListenable extends ChangeNotifier {
   RefreshListenable(this._ref) {
@@ -13,6 +21,10 @@ class RefreshListenable extends ChangeNotifier {
       notifyListeners();
     });
     _ref.listen(navigationProvider, (current, next) {
+      notifyListeners();
+    });
+    getIt<ITbClientService>().unsupportedServer.addListener(notifyListeners);
+    getIt<IEndpointService>().listenEndpointChanges.addListener(() {
       notifyListeners();
     });
   }

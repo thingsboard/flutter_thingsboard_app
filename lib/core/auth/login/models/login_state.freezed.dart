@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_state.dart';
@@ -9,12 +9,13 @@ part of 'login_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginState {
 
- bool get isUserLoaded; User? get user; MobileBasicInfo? get mobileLoginInfo; Authority? get userScope;
+ bool get isUserLoaded; User? get user; MobileBasicInfo? get mobileLoginInfo; Authority? get userScope; AllowedPermissionsInfo? get userPermissions;
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,21 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope));
+  final _this = this as LoginState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isUserLoaded, _this.isUserLoaded) || other.isUserLoaded == _this.isUserLoaded)&&(identical(other.user, _this.user) || other.user == _this.user)&&(identical(other.mobileLoginInfo, _this.mobileLoginInfo) || other.mobileLoginInfo == _this.mobileLoginInfo)&&(identical(other.userScope, _this.userScope) || other.userScope == _this.userScope)&&(identical(other.userPermissions, _this.userPermissions) || other.userPermissions == _this.userPermissions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope);
+int get hashCode {
+  final _this = this as LoginState;
+  return Object.hash(runtimeType,_this.isUserLoaded,_this.user,_this.mobileLoginInfo,_this.userScope,_this.userPermissions);
+}
 
 @override
 String toString() {
-  return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope)';
+  final _this = this as LoginState;
+  return 'LoginState(isUserLoaded: ${_this.isUserLoaded}, user: ${_this.user}, mobileLoginInfo: ${_this.mobileLoginInfo}, userScope: ${_this.userScope}, userPermissions: ${_this.userPermissions})';
 }
 
 
@@ -45,7 +51,7 @@ abstract mixin class $LoginStateCopyWith<$Res>  {
   factory $LoginStateCopyWith(LoginState value, $Res Function(LoginState) _then) = _$LoginStateCopyWithImpl;
 @useResult
 $Res call({
- bool isUserLoaded, User? user, MobileBasicInfo? mobileLoginInfo, Authority? userScope
+ bool isUserLoaded, User? user, MobileBasicInfo? mobileLoginInfo, Authority? userScope, AllowedPermissionsInfo? userPermissions
 });
 
 
@@ -62,13 +68,14 @@ class _$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isUserLoaded = null,Object? user = freezed,Object? mobileLoginInfo = freezed,Object? userScope = freezed,}) {
-  return _then(_self.copyWith(
+@pragma('vm:prefer-inline') @override $Res call({Object? isUserLoaded = null,Object? user = freezed,Object? mobileLoginInfo = freezed,Object? userScope = freezed,Object? userPermissions = freezed,}) {
+  return _then(LoginState(
 isUserLoaded: null == isUserLoaded ? _self.isUserLoaded : isUserLoaded // ignore: cast_nullable_to_non_nullable
 as bool,user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as User?,mobileLoginInfo: freezed == mobileLoginInfo ? _self.mobileLoginInfo : mobileLoginInfo // ignore: cast_nullable_to_non_nullable
 as MobileBasicInfo?,userScope: freezed == userScope ? _self.userScope : userScope // ignore: cast_nullable_to_non_nullable
-as Authority?,
+as Authority?,userPermissions: freezed == userPermissions ? _self.userPermissions : userPermissions // ignore: cast_nullable_to_non_nullable
+as AllowedPermissionsInfo?,
   ));
 }
 
@@ -153,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope,  AllowedPermissionsInfo? userPermissions)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope);case _:
+return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope,_that.userPermissions);case _:
   return orElse();
 
 }
@@ -174,10 +181,10 @@ return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userSc
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope,  AllowedPermissionsInfo? userPermissions)  $default,) {final _that = this;
 switch (_that) {
 case _LoginState():
-return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope);case _:
+return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope,_that.userPermissions);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +201,10 @@ return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userSc
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isUserLoaded,  User? user,  MobileBasicInfo? mobileLoginInfo,  Authority? userScope,  AllowedPermissionsInfo? userPermissions)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope);case _:
+return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userScope,_that.userPermissions);case _:
   return null;
 
 }
@@ -209,13 +216,14 @@ return $default(_that.isUserLoaded,_that.user,_that.mobileLoginInfo,_that.userSc
 
 
 class _LoginState extends LoginState {
-  const _LoginState({required this.isUserLoaded, this.user, this.mobileLoginInfo, this.userScope}): super._();
+  const _LoginState({required this.isUserLoaded, this.user, this.mobileLoginInfo, this.userScope, this.userPermissions}): super._();
   
 
 @override final  bool isUserLoaded;
 @override final  User? user;
 @override final  MobileBasicInfo? mobileLoginInfo;
 @override final  Authority? userScope;
+@override final  AllowedPermissionsInfo? userPermissions;
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +235,18 @@ _$LoginStateCopyWith<_LoginState> get copyWith => __$LoginStateCopyWithImpl<_Log
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isUserLoaded, isUserLoaded) || other.isUserLoaded == isUserLoaded)&&(identical(other.user, user) || other.user == user)&&(identical(other.mobileLoginInfo, mobileLoginInfo) || other.mobileLoginInfo == mobileLoginInfo)&&(identical(other.userScope, userScope) || other.userScope == userScope)&&(identical(other.userPermissions, userPermissions) || other.userPermissions == userPermissions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope);
+int get hashCode {
+    return Object.hash(runtimeType,isUserLoaded,user,mobileLoginInfo,userScope,userPermissions);
+}
 
 @override
 String toString() {
-  return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope)';
+    return 'LoginState(isUserLoaded: $isUserLoaded, user: $user, mobileLoginInfo: $mobileLoginInfo, userScope: $userScope, userPermissions: $userPermissions)';
 }
 
 
@@ -247,7 +257,7 @@ abstract mixin class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$
   factory _$LoginStateCopyWith(_LoginState value, $Res Function(_LoginState) _then) = __$LoginStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isUserLoaded, User? user, MobileBasicInfo? mobileLoginInfo, Authority? userScope
+ bool isUserLoaded, User? user, MobileBasicInfo? mobileLoginInfo, Authority? userScope, AllowedPermissionsInfo? userPermissions
 });
 
 
@@ -264,13 +274,14 @@ class __$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isUserLoaded = null,Object? user = freezed,Object? mobileLoginInfo = freezed,Object? userScope = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isUserLoaded = null,Object? user = freezed,Object? mobileLoginInfo = freezed,Object? userScope = freezed,Object? userPermissions = freezed,}) {
   return _then(_LoginState(
 isUserLoaded: null == isUserLoaded ? _self.isUserLoaded : isUserLoaded // ignore: cast_nullable_to_non_nullable
 as bool,user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as User?,mobileLoginInfo: freezed == mobileLoginInfo ? _self.mobileLoginInfo : mobileLoginInfo // ignore: cast_nullable_to_non_nullable
 as MobileBasicInfo?,userScope: freezed == userScope ? _self.userScope : userScope // ignore: cast_nullable_to_non_nullable
-as Authority?,
+as Authority?,userPermissions: freezed == userPermissions ? _self.userPermissions : userPermissions // ignore: cast_nullable_to_non_nullable
+as AllowedPermissionsInfo?,
   ));
 }
 

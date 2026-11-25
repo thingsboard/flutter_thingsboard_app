@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/core/select_region/model/region.dart';
 
 /// The aim of this service is to consolidate operations with
@@ -17,4 +22,10 @@ abstract interface class ILocalDatabaseService {
   Future<String?> getInitialAppLink();
 
   Future<void> deleteInitialAppLink();
+
+  Future<bool> isPushRegistered();
+
+  Future<void> setPushRegistered();
+
+  Future<void> clearPushRegistered();
 }

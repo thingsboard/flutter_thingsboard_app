@@ -1,0 +1,9 @@
+arb-dir: lib/l10n
+template-arb-file: intl_en.arb
+output-dir: lib/generated
+output-localization-file: l10n.dart
+output-class: S
+nullable-getter: false
+# Flutter falls back to the first supported locale when the device
+# language has no translation.
+preferred-supported-locales: [en]

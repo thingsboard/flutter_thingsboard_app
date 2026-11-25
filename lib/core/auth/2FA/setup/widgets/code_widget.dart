@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -6,6 +11,7 @@ import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/2FA/confirm/models/two_factor_auth_provider_login_data.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 
 class CodeWidget extends HookWidget {
   const CodeWidget({
@@ -15,12 +21,16 @@ class CodeWidget extends HookWidget {
     required this.resendTimeoutSeconds,
     required this.data,
     required this.resend,
+    this.alternative,
   });
   final void Function(AbstractControl control) onSubmnit;
   final String title;
   final VoidCallback resend;
   final int resendTimeoutSeconds;
   final TwoFactorAuthProviderLoginData data;
+
+  /// Another way to verify, offered below the code.
+  final Widget? alternative;
   @override
   Widget build(BuildContext context) {
     final timer = useAnimationController(
@@ -48,8 +58,9 @@ class CodeWidget extends HookWidget {
 
     return ReactiveForm(
       formGroup: form,
-      child: SingleChildScrollView(
+      child: PinnedFooterScrollView(
         padding: const EdgeInsets.symmetric(vertical: 8),
+        footer: alternative,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           spacing: 20,

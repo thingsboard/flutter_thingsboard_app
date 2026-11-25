@@ -1,8 +1,15 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
-import 'package:universal_platform/universal_platform.dart';
+import 'package:thingsboard_app/utils/services/device_info/platform_version.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class DeviceInfoService implements IDeviceInfoService {
   late final AndroidDeviceInfo? androidInfo;
@@ -12,48 +19,37 @@ class DeviceInfoService implements IDeviceInfoService {
   late final PlatformType platform;
   late final String buildVersion;
   Future<void> init() async {
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
-      final packageInfo = await PackageInfo.fromPlatform();
-      packageName = packageInfo.packageName;
-      buildVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
-      version = PlatformVersion.fromString(packageInfo.version);
-    } else {
-      packageName = 'web.app';
-      androidInfo = null;
-      iosInfo = null;
-      platform = PlatformType.WEB;
-    }
-    if (UniversalPlatform.isAndroid) {
+    final packageInfo = await PackageInfo.fromPlatform();
+    packageName = packageInfo.packageName;
+    buildVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
+    version = PlatformVersion.fromString(packageInfo.version);
+    if (Platform.isAndroid) {
       androidInfo = await DeviceInfoPlugin().androidInfo;
       iosInfo = null;
       platform = PlatformType.ANDROID;
-    } else if (UniversalPlatform.isIOS) {
+    } else if (Platform.isIOS) {
       iosInfo = await DeviceInfoPlugin().iosInfo;
       androidInfo = null;
       platform = PlatformType.IOS;
+    } else {
+      throw UnsupportedError('The app runs on Android and iOS only');
     }
   }
 
   @override
   bool isPhysicalDevice() {
-    if (UniversalPlatform.isAndroid) {
+    if (Platform.isAndroid) {
       return androidInfo!.isPhysicalDevice == true;
-    } else if (UniversalPlatform.isIOS) {
-      return iosInfo!.isPhysicalDevice;
-    } else {
-      return false;
     }
+    return iosInfo!.isPhysicalDevice;
   }
 
   @override
   String getSystemVersion() {
-    if (UniversalPlatform.isAndroid) {
+    if (Platform.isAndroid) {
       return androidInfo?.version.release ?? 'Unknown Android Version';
-    } else if (UniversalPlatform.isIOS) {
-      return iosInfo?.systemVersion ?? 'Unknown iOS Version';
-    } else {
-      return 'Unknown Platform Version';
     }
+    return iosInfo?.systemVersion ?? 'Unknown iOS Version';
   }
 
   @override
@@ -63,11 +59,9 @@ class DeviceInfoService implements IDeviceInfoService {
 
   @override
   String getDeviceModel() {
-    return UniversalPlatform.isAndroid
+    return Platform.isAndroid
         ? androidInfo?.model ?? 'Unknown Android Model'
-        : UniversalPlatform.isIOS
-        ? iosInfo?.model ?? 'Unknown iOS Model'
-        : 'Unknown Device Model';
+        : iosInfo?.model ?? 'Unknown iOS Model';
   }
 
   @override

@@ -1,9 +1,14 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/alarm_types/fetch_alarm_types_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_types/bloc.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/filters/i_alarm_filters_service.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/pagination_repository.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
   AlarmTypesBloc({
@@ -14,7 +19,7 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
     on(_onEvent);
   }
 
-  final PaginationRepository<PageLink, AlarmType> paginationRepository;
+  final PaginationRepository<PageLink, EntitySubtype> paginationRepository;
   final FetchAlarmTypesUseCase fetchAlarmTypesUseCase;
   final IAlarmFiltersService filtersService;
 
@@ -34,7 +39,7 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
             selectedTypes: types,
             allowToAddMore:
                 types.length <
-                (paginationRepository.pagingController.itemList?.length ?? 0),
+                (paginationRepository.pagingController.items?.length ?? 0),
           ),
         );
 
@@ -51,7 +56,7 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
               selectedTypes: types,
               allowToAddMore:
                   types.length <
-                  (paginationRepository.pagingController.itemList?.length ?? 0),
+                  (paginationRepository.pagingController.items?.length ?? 0),
             ),
           );
         } else {
@@ -75,7 +80,7 @@ class AlarmTypesBloc extends Bloc<AlarmTypesEvent, AlarmTypesState> {
               selectedTypes: types,
               allowToAddMore:
                   types.length <
-                  (paginationRepository.pagingController.itemList?.length ?? 0),
+                  (paginationRepository.pagingController.items?.length ?? 0),
             ),
           );
         } else {

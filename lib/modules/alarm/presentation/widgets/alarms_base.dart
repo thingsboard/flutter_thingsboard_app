@@ -1,0 +1,24 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/material.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+extension AlarmSeverityColors on AlarmSeverity {
+  Color toColor() {
+    return switch (this) {
+      AlarmSeverity.CRITICAL => const Color(0xFFD12730),
+
+      AlarmSeverity.MAJOR => const Color(0xFFF66716),
+
+      AlarmSeverity.MINOR => const Color(0xFFF2DA05),
+
+      AlarmSeverity.WARNING => const Color(0xFFFAA405),
+
+      AlarmSeverity.INDETERMINATE => Colors.black.withValues(alpha: 0.38),
+      _ => Colors.transparent,
+    };
+  }
+}

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'two_factor_confirm_state.dart';
@@ -9,12 +9,13 @@ part of 'two_factor_confirm_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TwoFactorConfirmState {
 
- bool get resendAvalible; bool get loading; bool get codeSent; CodeState get codeState;
+ bool get resendAvalible; bool get loading; bool get codeSent; CodeState get codeState; String? get rejectionMessage;
 /// Create a copy of TwoFactorConfirmState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,21 @@ $TwoFactorConfirmStateCopyWith<TwoFactorConfirmState> get copyWith => _$TwoFacto
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TwoFactorConfirmState&&(identical(other.resendAvalible, resendAvalible) || other.resendAvalible == resendAvalible)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.codeSent, codeSent) || other.codeSent == codeSent)&&(identical(other.codeState, codeState) || other.codeState == codeState));
+  final _this = this as TwoFactorConfirmState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TwoFactorConfirmState&&(identical(other.resendAvalible, _this.resendAvalible) || other.resendAvalible == _this.resendAvalible)&&(identical(other.loading, _this.loading) || other.loading == _this.loading)&&(identical(other.codeSent, _this.codeSent) || other.codeSent == _this.codeSent)&&(identical(other.codeState, _this.codeState) || other.codeState == _this.codeState)&&(identical(other.rejectionMessage, _this.rejectionMessage) || other.rejectionMessage == _this.rejectionMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,resendAvalible,loading,codeSent,codeState);
+int get hashCode {
+  final _this = this as TwoFactorConfirmState;
+  return Object.hash(runtimeType,_this.resendAvalible,_this.loading,_this.codeSent,_this.codeState,_this.rejectionMessage);
+}
 
 @override
 String toString() {
-  return 'TwoFactorConfirmState(resendAvalible: $resendAvalible, loading: $loading, codeSent: $codeSent, codeState: $codeState)';
+  final _this = this as TwoFactorConfirmState;
+  return 'TwoFactorConfirmState(resendAvalible: ${_this.resendAvalible}, loading: ${_this.loading}, codeSent: ${_this.codeSent}, codeState: ${_this.codeState}, rejectionMessage: ${_this.rejectionMessage})';
 }
 
 
@@ -45,7 +51,7 @@ abstract mixin class $TwoFactorConfirmStateCopyWith<$Res>  {
   factory $TwoFactorConfirmStateCopyWith(TwoFactorConfirmState value, $Res Function(TwoFactorConfirmState) _then) = _$TwoFactorConfirmStateCopyWithImpl;
 @useResult
 $Res call({
- bool resendAvalible, bool loading, bool codeSent, CodeState codeState
+ bool resendAvalible, bool loading, bool codeSent, CodeState codeState, String? rejectionMessage
 });
 
 
@@ -62,13 +68,14 @@ class _$TwoFactorConfirmStateCopyWithImpl<$Res>
 
 /// Create a copy of TwoFactorConfirmState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? resendAvalible = null,Object? loading = null,Object? codeSent = null,Object? codeState = null,}) {
-  return _then(_self.copyWith(
+@pragma('vm:prefer-inline') @override $Res call({Object? resendAvalible = null,Object? loading = null,Object? codeSent = null,Object? codeState = null,Object? rejectionMessage = freezed,}) {
+  return _then(TwoFactorConfirmState(
 resendAvalible: null == resendAvalible ? _self.resendAvalible : resendAvalible // ignore: cast_nullable_to_non_nullable
 as bool,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
 as bool,codeSent: null == codeSent ? _self.codeSent : codeSent // ignore: cast_nullable_to_non_nullable
 as bool,codeState: null == codeState ? _self.codeState : codeState // ignore: cast_nullable_to_non_nullable
-as CodeState,
+as CodeState,rejectionMessage: freezed == rejectionMessage ? _self.rejectionMessage : rejectionMessage // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -153,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState,  String? rejectionMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TwoFactorConfirmState() when $default != null:
-return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState);case _:
+return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState,_that.rejectionMessage);case _:
   return orElse();
 
 }
@@ -174,10 +181,10 @@ return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeStat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState,  String? rejectionMessage)  $default,) {final _that = this;
 switch (_that) {
 case _TwoFactorConfirmState():
-return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState);case _:
+return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState,_that.rejectionMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +201,10 @@ return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeStat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool resendAvalible,  bool loading,  bool codeSent,  CodeState codeState,  String? rejectionMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _TwoFactorConfirmState() when $default != null:
-return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState);case _:
+return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeState,_that.rejectionMessage);case _:
   return null;
 
 }
@@ -209,13 +216,14 @@ return $default(_that.resendAvalible,_that.loading,_that.codeSent,_that.codeStat
 
 
 class _TwoFactorConfirmState implements TwoFactorConfirmState {
-  const _TwoFactorConfirmState({required this.resendAvalible, required this.loading, required this.codeSent, required this.codeState});
+  const _TwoFactorConfirmState({required this.resendAvalible, required this.loading, required this.codeSent, required this.codeState, this.rejectionMessage});
   
 
 @override final  bool resendAvalible;
 @override final  bool loading;
 @override final  bool codeSent;
 @override final  CodeState codeState;
+@override final  String? rejectionMessage;
 
 /// Create a copy of TwoFactorConfirmState
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +235,18 @@ _$TwoFactorConfirmStateCopyWith<_TwoFactorConfirmState> get copyWith => __$TwoFa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TwoFactorConfirmState&&(identical(other.resendAvalible, resendAvalible) || other.resendAvalible == resendAvalible)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.codeSent, codeSent) || other.codeSent == codeSent)&&(identical(other.codeState, codeState) || other.codeState == codeState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TwoFactorConfirmState&&(identical(other.resendAvalible, resendAvalible) || other.resendAvalible == resendAvalible)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.codeSent, codeSent) || other.codeSent == codeSent)&&(identical(other.codeState, codeState) || other.codeState == codeState)&&(identical(other.rejectionMessage, rejectionMessage) || other.rejectionMessage == rejectionMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,resendAvalible,loading,codeSent,codeState);
+int get hashCode {
+    return Object.hash(runtimeType,resendAvalible,loading,codeSent,codeState,rejectionMessage);
+}
 
 @override
 String toString() {
-  return 'TwoFactorConfirmState(resendAvalible: $resendAvalible, loading: $loading, codeSent: $codeSent, codeState: $codeState)';
+    return 'TwoFactorConfirmState(resendAvalible: $resendAvalible, loading: $loading, codeSent: $codeSent, codeState: $codeState, rejectionMessage: $rejectionMessage)';
 }
 
 
@@ -247,7 +257,7 @@ abstract mixin class _$TwoFactorConfirmStateCopyWith<$Res> implements $TwoFactor
   factory _$TwoFactorConfirmStateCopyWith(_TwoFactorConfirmState value, $Res Function(_TwoFactorConfirmState) _then) = __$TwoFactorConfirmStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool resendAvalible, bool loading, bool codeSent, CodeState codeState
+ bool resendAvalible, bool loading, bool codeSent, CodeState codeState, String? rejectionMessage
 });
 
 
@@ -264,13 +274,14 @@ class __$TwoFactorConfirmStateCopyWithImpl<$Res>
 
 /// Create a copy of TwoFactorConfirmState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? resendAvalible = null,Object? loading = null,Object? codeSent = null,Object? codeState = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? resendAvalible = null,Object? loading = null,Object? codeSent = null,Object? codeState = null,Object? rejectionMessage = freezed,}) {
   return _then(_TwoFactorConfirmState(
 resendAvalible: null == resendAvalible ? _self.resendAvalible : resendAvalible // ignore: cast_nullable_to_non_nullable
 as bool,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
 as bool,codeSent: null == codeSent ? _self.codeSent : codeSent // ignore: cast_nullable_to_non_nullable
 as bool,codeState: null == codeState ? _self.codeState : codeState // ignore: cast_nullable_to_non_nullable
-as CodeState,
+as CodeState,rejectionMessage: freezed == rejectionMessage ? _self.rejectionMessage : rejectionMessage // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

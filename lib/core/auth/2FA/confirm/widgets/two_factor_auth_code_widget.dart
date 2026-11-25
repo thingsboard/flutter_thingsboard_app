@@ -1,3 +1,8 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +17,8 @@ import 'package:thingsboard_app/core/auth/2FA/confirm/providers/2fa_confirm_prov
 import 'package:thingsboard_app/core/auth/2FA/two_fa_providers_helper.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
+import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 const noResendCodeProviders = {
   TwoFaProviderType.BACKUP_CODE,
@@ -25,7 +31,8 @@ class EnterACodeWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = getTwoFaProviderData(selectedProvider.type);
+    final providerType = selectedProvider.type!;
+    final data = getTwoFaProviderData(providerType);
     final timerDuration = selectedProvider.minVerificationCodeSendPeriod ?? 0;
     final form = useMemoized(
       () => FormGroup({
@@ -43,13 +50,13 @@ class EnterACodeWidget extends HookConsumerWidget {
     )..forward();
     final state = ref.watch(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
     );
     ref.listen(
       twoFactorConfirmProvider(
-        selectedProvider.type,
+        providerType,
         selectedProvider.minVerificationCodeSendPeriod,
       ),
       (prev, next) {
@@ -57,16 +64,16 @@ class EnterACodeWidget extends HookConsumerWidget {
           timer.reset();
           timer.reverse();
         }
-        if ([
-          CodeState.invalid,
-          CodeState.tooManyRequests,
-        ].contains(next.codeState)) {
-          form.control('code').setErrors({
-            (next.codeState == CodeState.invalid
-                    ? TbValicationMessages.invalidCode
-                    : TbValicationMessages.tooManyRequests):
-                {},
-          });
+        final reason = switch (next.codeState) {
+          CodeState.invalid => TbValicationMessages.invalidCode,
+          CodeState.tooManyRequests => TbValicationMessages.tooManyRequests,
+          CodeState.rejected => TbValicationMessages.rejected,
+          CodeState.valid || CodeState.empty => null,
+        };
+        if (reason != null && prev?.codeState != next.codeState) {
+          form
+              .control('code')
+              .rejectCode(reason, message: next.rejectionMessage);
         }
       },
     );
@@ -77,9 +84,23 @@ class EnterACodeWidget extends HookConsumerWidget {
       ).animate(CurvedAnimation(parent: timer, curve: Curves.linear)),
     );
     final currentSeconds = (animation * timerDuration).ceil();
-    return Center(
-      child: ReactiveForm(
-        formGroup: form,
+    return ReactiveForm(
+      formGroup: form,
+      child: PinnedFooterScrollView(
+        footer: SizedBox(
+          width: double.infinity,
+          child: OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            onPressed: () {
+              context.push(
+                '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?skipDefault=true',
+              );
+            },
+            child: Text(S.of(context).tryAnotherWay),
+          ),
+        ),
         child: Column(
           spacing: 20,
           children: [
@@ -105,47 +126,27 @@ class EnterACodeWidget extends HookConsumerWidget {
               type: data.textInputType,
               autoFillHints: const [AutofillHints.oneTimeCode],
             ),
-            if (!noResendCodeProviders.contains(selectedProvider.type))
+            if (!noResendCodeProviders.contains(providerType))
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child:
-                    !state.resendAvalible
-                        ? Text(
-                          S.of(context).resendCodeWait(currentSeconds),
-                          style: TbTextStyles.labelMedium.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                        )
-                        : TextButton(
-                          style: TextButton.styleFrom(
-                            padding: DesignTokens.paddigZero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            resendCode(ref, form);
-                          },
-                          child: Text(S.of(context).resendCode),
+                child: !state.resendAvalible
+                    ? Text(
+                        S.of(context).resendCodeWait(currentSeconds),
+                        style: TbTextStyles.labelMedium.copyWith(
+                          color: AppColors.textDisabled,
                         ),
+                      )
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                          padding: DesignTokens.paddigZero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          resendCode(ref, form);
+                        },
+                        child: Text(S.of(context).resendCode),
+                      ),
               ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    onPressed: () {
-                      context.push(
-                        '${LoginRoutes.login}${LoginRoutes.mfaConfirm}?skipDefault=true',
-                      );
-                    },
-                    child: Text(S.of(context).tryAnotherWay),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -167,7 +168,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     await ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )
@@ -178,7 +179,7 @@ class EnterACodeWidget extends HookConsumerWidget {
     ref
         .read(
           twoFactorConfirmProvider(
-            selectedProvider.type,
+            selectedProvider.type!,
             selectedProvider.minVerificationCodeSendPeriod,
           ).notifier,
         )

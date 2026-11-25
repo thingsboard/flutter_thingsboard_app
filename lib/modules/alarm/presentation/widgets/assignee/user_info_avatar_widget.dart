@@ -1,5 +1,9 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class UserInfoAvatarWidget extends StatelessWidget {
   const UserInfoAvatarWidget({
@@ -24,7 +28,8 @@ class UserInfoAvatarWidget extends StatelessWidget {
       child: Center(
         child: Text(
           shortName,
-          style: GoogleFonts.roboto(
+          style: const TextStyle(
+            fontFamily: 'Roboto',
             fontWeight: FontWeight.w700,
             fontSize: 14,
             letterSpacing: 1,

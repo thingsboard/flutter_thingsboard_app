@@ -1,9 +1,14 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:thingsboard_app/core/usecases/user_details_usecase.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/alarm/domain/entities/assignee_entity.dart';
 import 'package:thingsboard_app/modules/alarm/domain/repository/assignee/i_assigne_repository.dart';
-import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/usecase.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 class FetchAssigneeUseCase
     extends UseCase<Future<PageData<AssigneeEntity>>, PageLink> {

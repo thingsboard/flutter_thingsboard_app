@@ -1,0 +1,500 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:thingsboard_app/core/auth/noauth/data/model/switch_endpoint_args.dart';
+import 'package:thingsboard_app/core/auth/noauth/provider/noauth_provider.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
+import 'package:thingsboard_app/core/select_region/model/region.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/location_tracking/application/i_live_location_tracking_service.dart';
+import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
+import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
+import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+import '../../../../helpers/previous_session_mocks.dart';
+import '../../../../helpers/test_dependencies.dart';
+
+class FakeEndpointService implements IEndpointService {
+  FakeEndpointService(this.endpoint);
+
+  String endpoint;
+
+  @override
+  Future<void> setEndpoint(String endpoint) async => this.endpoint = endpoint;
+
+  @override
+  Future<String> getEndpoint() async => endpoint;
+
+  @override
+  String getCachedEndpoint() => endpoint;
+
+  // A custom endpoint has no default Firebase app to bring back.
+  @override
+  Future<bool> isCustomEndpoint() async => true;
+
+  @override
+  Future<void> setRegion(Region region) async {}
+
+  @override
+  Future<Region?> getSelectedRegion() async => Region.custom;
+
+  @override
+  ValueListenable<String?> get listenEndpointChanges => ValueNotifier(null);
+}
+
+class MemoryStorage extends Fake implements TbStorage {
+  final items = <String, Object?>{};
+
+  @override
+  Future<void> setItem(String key, Object? value) async => items[key] = value;
+
+  @override
+  Future<void> deleteItem(String key) async => items.remove(key);
+
+  @override
+  Future<Object?>? getItem(String key, {Object? defaultValue}) =>
+      Future.value(items[key] ?? defaultValue);
+}
+
+/// A client service whose re-created client finds [outdatedHost] too old.
+class FakeClientService implements ITbClientService {
+  FakeClientService(this.client, {required this.outdatedHost});
+
+  @override
+  ThingsboardClient client;
+  final String outdatedHost;
+  final reInits = <String>[];
+
+  /// Runs when [outdatedHost] is reported, as the router shows the server
+  /// update page.
+  VoidCallback? onOutdated;
+  final _unsupported = ValueNotifier<UnsupportedServerVersionError?>(null);
+
+  @override
+  ValueListenable<UnsupportedServerVersionError?> get unsupportedServer =>
+      _unsupported;
+
+  @override
+  Future<void> init() async {}
+
+  @override
+  Future<void> reInit({
+    required String endpoint,
+    required VoidCallback onDone,
+    required ErrorCallback onAuthError,
+  }) async {
+    reInits.add(endpoint);
+    if (endpoint == outdatedHost) {
+      reportUnsupportedServer(
+        UnsupportedServerVersionError('4.2.2.8', '4.4.0'),
+        endpoint: endpoint,
+      );
+      onOutdated?.call();
+      return;
+    }
+    onDone();
+  }
+
+  @override
+  String? unsupportedServerEndpoint;
+
+  @override
+  bool reportUnsupportedServer(Object error, {String? endpoint}) {
+    if (error is! UnsupportedServerVersionError) {
+      return false;
+    }
+    unsupportedServerEndpoint = endpoint;
+    _unsupported.value = error;
+    return true;
+  }
+
+  @override
+  void clearUnsupportedServer() {
+    unsupportedServerEndpoint = null;
+    _unsupported.value = null;
+  }
+}
+
+class MockLiveTracking extends Mock implements ILiveLocationTrackingService {}
+
+class MockDeviceInfo extends Mock implements IDeviceInfoService {}
+
+void main() {
+  group('resolveSwitchHost', () {
+    const previousEndpoint = 'https://previous';
+
+    test('normalizes the host given in the link', () {
+      final args = SwitchEndpointArgs(
+        host: 'https://h/',
+        uri: Uri.parse('https://other/qr'),
+      );
+
+      expect(resolveSwitchHost(args, previousEndpoint), 'https://h');
+    });
+
+    test('falls back to the origin of an http(s) link', () {
+      final args = SwitchEndpointArgs(
+        uri: Uri.parse('https://h:8080/api/noauth/qr?secret=s'),
+      );
+
+      expect(resolveSwitchHost(args, previousEndpoint), 'https://h:8080');
+    });
+
+    test('keeps the previous endpoint for a custom-scheme link', () {
+      final args = SwitchEndpointArgs(
+        uri: Uri.parse('thingsboard://login?secret=s'),
+      );
+
+      expect(resolveSwitchHost(args, previousEndpoint), previousEndpoint);
+    });
+  });
+
+  group('switchEndpoint', () {
+    const previousEndpoint = 'https://previous.example';
+    late HttpServer server;
+    late String host;
+    late FakeEndpointService endpoints;
+    late MemoryStorage storage;
+    late MockThingsboardClient client;
+    late PreviousSessionMocks previous;
+    late MockFirebaseService firebase;
+
+    setUp(() async {
+      // The target host: the switch verifies the exchanged session there.
+      server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      server.listen((request) {
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType.json
+          ..write('{}')
+          ..close();
+      });
+      addTearDown(() => server.close(force: true));
+      host = 'http://127.0.0.1:${server.port}';
+
+      endpoints = FakeEndpointService(previousEndpoint);
+      storage = MemoryStorage()
+        ..items['jwt_token'] = 'previous-token'
+        ..items['refresh_token'] = 'previous-refresh';
+      client = MockThingsboardClient();
+      when(
+        () => client.getLoginDataBySecretKey(
+          host: any(named: 'host'),
+          key: any(named: 'key'),
+        ),
+      ).thenAnswer(
+        (_) async => LoginResponse(
+          (b) => b
+            ..token = 'scanned-token'
+            ..refreshToken = 'scanned-refresh',
+        ),
+      );
+      when(client.isAuthenticated).thenReturn(true);
+      final liveTracking = MockLiveTracking();
+      when(liveTracking.teardownForLogout).thenAnswer((_) async {});
+      firebase = MockFirebaseService();
+      when(firebase.clearApps).thenAnswer((_) async {});
+      final deviceInfo = MockDeviceInfo();
+      when(deviceInfo.getApplicationId).thenReturn('org.thingsboard.app');
+      when(deviceInfo.getPlatformType).thenReturn(PlatformType.IOS);
+
+      getIt
+        ..registerLazySingleton<TbLogger>(MockTbLogger.new)
+        ..registerSingleton<IEndpointService>(endpoints)
+        ..registerSingleton<TbStorage>(storage)
+        ..registerSingleton<IFirebaseService>(firebase)
+        ..registerSingleton<ILiveLocationTrackingService>(liveTracking)
+        ..registerSingleton<IDeviceInfoService>(deviceInfo);
+      addTearDown(getIt.reset);
+      previous = PreviousSessionMocks(client);
+    });
+
+    late ProviderContainer container;
+    var asked = false;
+
+    /// Runs the switch a scanned QR code of [host] starts. Without a
+    /// [secret] it is a link that only opens the login page of [host].
+    Future<void> switchTo(String host, {String? secret = 'secret'}) {
+      asked = false;
+      container = ProviderContainer();
+      addTearDown(container.dispose);
+      // The user confirms where the link leads.
+      container.listen(noauthProviderProvider, (previous, next) {
+        if (next.step == NoAuthStep.confirming) {
+          container
+              .read(noauthProviderProvider.notifier)
+              .answerConfirmation(accepted: true);
+        }
+      });
+      final query = secret == null ? '' : '?secret=$secret';
+      container.listen(noauthProviderProvider, (_, next) {
+        if (next.step == NoAuthStep.confirming) asked = true;
+      });
+      return container
+          .read(noauthProviderProvider.notifier)
+          .switchEndpoint(
+            SwitchEndpointParams(
+              data: SwitchEndpointArgs(
+                secret: secret,
+                host: host,
+                uri: Uri.parse('$host/api/noauth/qr$query'),
+              ),
+            ),
+          );
+    }
+
+    test('moves to a supported server with the scanned session', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+
+      await switchTo(host);
+      final state = container.read(noauthProviderProvider);
+
+      expect(state.isDone, isTrue);
+      expect(state.failure, isNull);
+      expect(endpoints.endpoint, host);
+      expect(storage.items['jwt_token'], 'scanned-token');
+      expect(storage.items['refresh_token'], 'scanned-refresh');
+      expect(clientService.reInits, [host]);
+      // The session it replaced is ended on its own server, and the new one
+      // stays in the storage.
+      verify(() => previous.auth.logout(extra: any(named: 'extra'))).called(1);
+    });
+
+    test('a switch to another host waits for the old Firebase apps to be '
+        'deleted before it re-creates the client', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final clearing = Completer<void>();
+      final deleted = Completer<void>();
+      when(firebase.clearApps).thenAnswer((_) {
+        clearing.complete();
+        return deleted.future;
+      });
+
+      final switching = switchTo(host);
+      await clearing.future;
+      await pumpEventQueue();
+      expect(clientService.reInits, isEmpty);
+
+      deleted.complete();
+      await switching;
+      expect(clientService.reInits, [host]);
+      verify(firebase.clearApps).called(1);
+      verifyNever(() => firebase.removeApp(name: any(named: 'name')));
+    });
+
+    // In a build with a fixed server the login page has no region switch, so
+    // staying on an outdated server left a QR code as the only way out.
+    test('an outdated server is a failed switch: the app goes back to the '
+        'server and the session it had', () async {
+      final clientService = FakeClientService(client, outdatedHost: host);
+      getIt.registerSingleton<ITbClientService>(clientService);
+
+      await switchTo(host);
+      final state = container.read(noauthProviderProvider);
+
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, [host, previousEndpoint]);
+      // The server update page still explains what happened, and names the
+      // outdated server, not the one the app went back to.
+      expect(clientService.unsupportedServer.value, isNotNull);
+      expect(clientService.unsupportedServerEndpoint, host);
+      expect(state.isDone, isTrue);
+      expect(state.failure, isNull);
+      // The session the app goes back to is still valid on its server.
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+    });
+
+    test('a switch whose view the server update page replaces rolls back '
+        'once', () async {
+      final clientService = FakeClientService(client, outdatedHost: host);
+      getIt.registerSingleton<ITbClientService>(clientService);
+
+      final switching = switchTo(host);
+      clientService.onOutdated = container.dispose;
+
+      await expectLater(switching, completes);
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, [host, previousEndpoint]);
+      expect(clientService.unsupportedServerEndpoint, host);
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+    });
+
+    test('a link without a login secret to an outdated server goes back to '
+        'the server and the session it had too', () async {
+      when(() => client.setUserFromJwtToken(any(), any(), any()))
+          .thenAnswer((_) async {});
+      final clientService = FakeClientService(client, outdatedHost: host);
+      getIt.registerSingleton<ITbClientService>(clientService);
+
+      await switchTo(host, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, [host, previousEndpoint]);
+      expect(clientService.unsupportedServerEndpoint, host);
+      expect(state.isDone, isTrue);
+      expect(state.failure, isNull);
+    });
+
+    /// A target that answers every request with [status] and [body].
+    Future<String> serve(int status, String body, ContentType type) async {
+      final other = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      other.listen((request) {
+        request.response
+          ..statusCode = status
+          ..headers.contentType = type
+          ..write(body)
+          ..close();
+      });
+      addTearDown(() => other.close(force: true));
+      return 'http://127.0.0.1:${other.port}';
+    }
+
+    void expectNothingChanged(FakeClientService clientService) {
+      expect(endpoints.endpoint, previousEndpoint);
+      expect(storage.items['jwt_token'], 'previous-token');
+      expect(storage.items['refresh_token'], 'previous-refresh');
+      expect(clientService.reInits, isEmpty);
+      verifyNever(firebase.clearApps);
+      expect(asked, isFalse);
+      verifyNever(() => previous.auth.logout(extra: any(named: 'extra')));
+    }
+
+    test('a link without a login secret to a server that does not answer '
+        'changes nothing', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final closed = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      final unreachable = 'http://127.0.0.1:${closed.port}';
+      await closed.close(force: true);
+
+      await switchTo(unreachable, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(state.failure, NoAuthFailure.connectionFailed);
+      expect(state.host, unreachable);
+      expectNothingChanged(clientService);
+    });
+
+    test('a link without a login secret to a site that is not ThingsBoard '
+        'changes nothing', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final site = await serve(
+        HttpStatus.notFound,
+        '<html>Not found</html>',
+        ContentType.html,
+      );
+
+      await switchTo(site, secret: null);
+      final state = container.read(noauthProviderProvider);
+
+      expect(state.failure, NoAuthFailure.notThingsBoard);
+      expect(state.host, site);
+      expectNothingChanged(clientService);
+    });
+
+    test('a site that answers the login info request with a web page is not '
+        'ThingsBoard either', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final portal = await serve(
+        HttpStatus.ok,
+        '<html>Sign in to the Wi-Fi</html>',
+        ContentType.html,
+      );
+
+      await switchTo(portal, secret: null);
+
+      expect(
+        container.read(noauthProviderProvider).failure,
+        NoAuthFailure.notThingsBoard,
+      );
+      expectNothingChanged(clientService);
+    });
+
+    test('a server that is down for a moment is a failed connection, not a '
+        'site that is not ThingsBoard', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final proxy = await serve(
+        HttpStatus.serviceUnavailable,
+        '<html>Service unavailable</html>',
+        ContentType.html,
+      );
+
+      await switchTo(proxy, secret: null);
+
+      expect(
+        container.read(noauthProviderProvider).failure,
+        NoAuthFailure.connectionFailed,
+      );
+      expectNothingChanged(clientService);
+    });
+
+    test(
+      'a login code whose session the server rejects changes nothing',
+      () async {
+        final clientService = FakeClientService(client, outdatedHost: '');
+        getIt.registerSingleton<ITbClientService>(clientService);
+        final rejecting = await serve(
+          HttpStatus.unauthorized,
+          '{"message": "Token has expired"}',
+          ContentType.json,
+        );
+
+        await switchTo(rejecting);
+
+        expect(
+          container.read(noauthProviderProvider).failure,
+          NoAuthFailure.sessionInvalid,
+        );
+        expectNothingChanged(clientService);
+      },
+    );
+
+    test('a view that goes away while the server is checked ends the switch '
+        'quietly', () async {
+      final clientService = FakeClientService(client, outdatedHost: '');
+      getIt.registerSingleton<ITbClientService>(clientService);
+      final answer = Completer<void>();
+      final slow = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      slow.listen((request) async {
+        await answer.future;
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType.json
+          ..write('{}')
+          ..close();
+      });
+      addTearDown(() => slow.close(force: true));
+
+      final switching = switchTo('http://127.0.0.1:${slow.port}', secret: null);
+      await pumpEventQueue();
+      container.dispose();
+      answer.complete();
+
+      await expectLater(switching, completes);
+      expectNothingChanged(clientService);
+    });
+  });
+}
