@@ -56,7 +56,6 @@ dependencies:
   focused_menu: ^1.0.5
   recaptcha_enterprise_flutter: ^18.9.3
   flutter_esp_ble_prov: ^0.1.7
-  esp_smartconfig: ^3.0.0
   permission_handler: ^13.0.2
   open_settings_plus: ^0.5.1
   plugin_wifi_connect: ^2.0.3

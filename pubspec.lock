@@ -376,14 +376,6 @@ packages:
       relative: true
     source: path
     version: "1.0.4"
-  esp_smartconfig:
-    dependency: "direct main"
-    description:
-      name: esp_smartconfig
-      sha256: "43799fc5bbdbde18d6c4a7a8ab48b7042878154d792ab5815c5473759d4f575e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   event_bus:
     dependency: "direct main"
     description:
