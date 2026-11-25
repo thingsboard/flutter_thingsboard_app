@@ -22,6 +22,12 @@ class TbRecaptcha extends StatefulWidget {
     super.key,
   });
 
+  factory TbRecaptcha.fromQuery(Map<String, String> query) => TbRecaptcha(
+    siteKey: query['siteKey'] ?? '',
+    version: query['version'] ?? '',
+    logActionName: query['logActionName'],
+  );
+
   final String siteKey;
   final String version;
   final String? logActionName;
@@ -55,7 +61,7 @@ class _TbRecaptchaState extends State<TbRecaptcha> {
       '${getIt<IEndpointService>().getCachedEndpoint()}'
       '/signup/recaptcha?siteKey=${widget.siteKey}'
       '&version=${widget.version}'
-      '&logActionName=${widget.logActionName}',
+      '&logActionName=${widget.logActionName ?? ''}',
     );
 
     super.initState();

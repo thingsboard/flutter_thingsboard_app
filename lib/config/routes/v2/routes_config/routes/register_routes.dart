@@ -38,11 +38,8 @@ final registerRoutes = [
   ),
   GoRoute(
     path: RegisterRoutes.reacaptcha,
-    builder: (context, state) {
-      final siteKey = state.uri.queryParameters['siteKey'].toString();
-      final version = state.uri.queryParameters['version'].toString();
-      return TbRecaptcha(siteKey: siteKey, version: version);
-    },
+    builder: (context, state) =>
+        TbRecaptcha.fromQuery(state.uri.queryParameters),
   ),
   GoRoute(
     path: RegisterRoutes.privacyPolicy,
