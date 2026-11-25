@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
+import 'package:thingsboard_app/modules/device/data/device_profile/device_profile_cache.dart';
 import 'package:thingsboard_app/modules/device/presentation/widgets/device_profiles_base.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -16,13 +17,16 @@ import '../../../../helpers/test_dependencies.dart';
 
 class MockEntityQueryApi extends Mock implements EntityQueryControllerApi {}
 
+class MockDeviceProfileApi extends Mock implements DeviceProfileControllerApi {}
+
 void main() {
+  late MockThingsboardClient client;
   late MockEntityQueryApi entityQuery;
 
   setUpAll(() => registerFallbackValue(EntityCountQuery()));
 
   setUp(() {
-    final client = MockThingsboardClient();
+    client = MockThingsboardClient();
     entityQuery = MockEntityQueryApi();
     when(() => client.getEntityQueryControllerApi()).thenReturn(entityQuery);
     registerTestDependencies(
@@ -82,6 +86,55 @@ void main() {
     await tester.pump();
 
     expect(find.text('7'), findsNWidgets(2));
+  });
+
+  testWidgets('a failed count stops the spinners of a device profile', (
+    tester,
+  ) async {
+    final profiles = MockDeviceProfileApi();
+    when(() => client.getDeviceProfileControllerApi()).thenReturn(profiles);
+    final profile = DeviceProfileInfo((b) => b..name = 'Thermometer');
+    when(
+      () => profiles.getDeviceProfileInfos(
+        pageSize: any(named: 'pageSize'),
+        page: any(named: 'page'),
+        textSearch: any(named: 'textSearch'),
+        sortProperty: any(named: 'sortProperty'),
+        sortOrder: any(named: 'sortOrder'),
+      ),
+    ).thenAnswer(
+      (_) async => Response(
+        data: PageDataDeviceProfileInfo((b) => b..data.add(profile)),
+        requestOptions: RequestOptions(),
+      ),
+    );
+    // The card counts the devices of a profile the list has cached.
+    await DeviceProfileCache.getDeviceProfileInfos(
+      client,
+      PageLink(10),
+      invalidateCache: true,
+    );
+    countsAnswer(
+      () => Future.error(
+        DioException.connectionError(
+          requestOptions: RequestOptions(),
+          reason: 'offline',
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [S.delegate],
+        home: Scaffold(
+          body: SizedBox(width: 200, child: DeviceProfileCard(profile)),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('–'), findsNWidgets(2));
   });
 
   // Android's largest font size: a clipped count is a layout overflow.

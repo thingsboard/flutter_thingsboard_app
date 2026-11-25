@@ -376,13 +376,11 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
             child: FutureBuilder<CachedDeviceProfileInfo>(
               future: countedProfile,
               builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  final deviceCount = snapshot.data!;
+                if (snapshot.connectionState == ConnectionState.done) {
                   return _buildDeviceCount(
                     context,
                     true,
-                    deviceCount.activeCount,
+                    snapshot.data?.activeCount,
                   );
                 } else {
                   return const SizedBox(
@@ -411,13 +409,11 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
             child: FutureBuilder<CachedDeviceProfileInfo>(
               future: countedProfile,
               builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  final deviceCount = snapshot.data!;
+                if (snapshot.connectionState == ConnectionState.done) {
                   return _buildDeviceCount(
                     context,
                     false,
-                    deviceCount.inactiveCount,
+                    snapshot.data?.inactiveCount,
                   );
                 } else {
                   return const SizedBox(
