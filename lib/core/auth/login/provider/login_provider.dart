@@ -33,7 +33,7 @@ part 'login_provider.g.dart';
 class Login extends _$Login {
   // Read the live client on every access: a QR-code endpoint switch re-creates
   // the client (ITbClientService.reInit), so a reference captured at build time
-  // would keep pointing at the old host and fail with 401 (PROD-8200).
+  // would keep pointing at the old host and fail with 401.
   ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
   final _deviceInfoService = getIt<IDeviceInfoService>();
   late final StreamSubscription<UserLoadedEvent> _listener;
@@ -52,7 +52,7 @@ class Login extends _$Login {
 
   /// handleUserLoaded runs from fire-and-forget contexts (event bus, build):
   /// a failure there (e.g. the session was invalidated while loading the
-  /// user) must not escape as an unhandled zone error (PROD-8200).
+  /// user) must not escape as an unhandled zone error.
   Future<void> _safeHandleUserLoaded() async {
     try {
       await handleUserLoaded();

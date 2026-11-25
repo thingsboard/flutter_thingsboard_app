@@ -121,7 +121,7 @@ void main() {
         .thenReturn(staleApi);
     when(() => liveClient.getWhiteLabelingControllerApi()).thenReturn(liveApi);
     // What HttpInterceptor.onRequest does on a client whose in-memory JWT is
-    // null: the request is rejected before it leaves the device (PROD-8879).
+    // null: the request is rejected before it leaves the device.
     when(() => staleApi.getWhiteLabelParams())
         .thenThrow(ThingsboardError(message: 'Unauthorized!'));
     // What the server answers when no admin typed a platform version into the
@@ -220,7 +220,7 @@ void main() {
     expect(container.read(wlProvider).isUserWlMode, isTrue);
   });
 
-  group('polling (PROD-8928)', () {
+  group('polling', () {
     setUp(() {
       when(() => clientService.client).thenReturn(liveClient);
     });

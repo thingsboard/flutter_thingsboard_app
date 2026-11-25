@@ -39,7 +39,7 @@ class NotificationService {
   final TbLogger _log = getIt();
   // Read the live client on every access: a QR-code endpoint switch re-creates
   // the client (ITbClientService.reInit), so a reference captured at
-  // construction would keep pointing at the old host (PROD-8200).
+  // construction would keep pointing at the old host.
   ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
 
   final ILocalDatabaseService _localDatabase = getIt();

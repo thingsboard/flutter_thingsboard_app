@@ -18,7 +18,7 @@ import org.json.JSONObject
 
 /**
  * Keeps a background push as reliable as the FCM SDK's own tray notification
- * while letting Dart add the icon from the notification template (PROD-7932).
+ * while letting Dart add the icon from the notification template.
  *
  * For a message with a notification payload that arrives while the app is
  * not in the foreground, a plain notification is posted here at once, then

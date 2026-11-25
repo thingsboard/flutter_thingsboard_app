@@ -27,8 +27,7 @@ Future<LoginMobileInfo> oauth(Ref ref) async {
   try {
     // Best-effort call with a graceful fallback below: an unknown package
     // name is answered with an empty payload, but a proxy or an older server
-    // can still fail the request, and that must not toast on the login page
-    // (PROD-8200).
+    // can still fail the request, and that must not toast on the login page.
     final response = await tbClient
         .getMobileAppControllerApi()
         .getLoginMobileInfo(

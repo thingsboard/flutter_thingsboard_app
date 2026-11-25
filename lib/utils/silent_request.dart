@@ -12,7 +12,7 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 /// call site. The motivating case is the calls made right around a login
 /// (mobile app info, notification mobile-session sync, unread counts), which
 /// answer 401/403 in perfectly normal situations where a toast reads as a
-/// failed login (PROD-8200).
+/// failed login.
 ///
 /// Suppressing the UI is all it does. A 401 with `jwtTokenExpired` still makes
 /// the client refresh the token and, if that refresh fails, clear the stored

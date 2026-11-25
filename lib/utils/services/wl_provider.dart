@@ -108,8 +108,7 @@ WhiteLabelingParams _loginToWlParams(LoginWhiteLabelingParams p) =>
 class Wl extends _$Wl {
   // Read the live client on every access: a QR-code login re-creates the
   // client (ITbClientService.reInit), so an instance captured at build time
-  // would keep the pre-login token state and fail with 'Unauthorized!'
-  // (PROD-8879).
+  // would keep the pre-login token state and fail with 'Unauthorized!'.
   ThingsboardClient get _tbClient => getIt<ITbClientService>().client;
   late ProviderSubscription<LoginState> _subscription;
   late AppLifecycleListener _lifecycleListener;
@@ -132,7 +131,7 @@ class Wl extends _$Wl {
     });
     // The server has no push channel for white-labeling changes, so they are
     // fetched when the app comes back to the foreground, with a rare poll as
-    // a fallback for an app that stays open (PROD-8928).
+    // a fallback for an app that stays open.
     _startPolling();
     _lifecycleListener = AppLifecycleListener(
       onShow: _resumePolling,

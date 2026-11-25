@@ -166,7 +166,7 @@ class NoauthProvider extends _$NoauthProvider {
     final secret = params.data.secret;
     final previousEndpoint = await getIt<IEndpointService>().getEndpoint();
     // Captured before anything is written: the rollback has to restore the
-    // session of the host we came from, not just its endpoint (PROD-8200).
+    // session of the host we came from, not just its endpoint.
     final previousSession = await _readStoredSession();
     // Resolved inside the try: a malformed link has to end on the error screen
     // like any other failure instead of leaving the view on the spinner.
@@ -458,7 +458,7 @@ class NoauthProvider extends _$NoauthProvider {
   /// Stages the exchanged pair in storage BEFORE re-creating the client: init
   /// logs in from storage, so this is what guarantees the new client starts
   /// with exactly these tokens instead of a session an earlier host left
-  /// behind (PROD-8200).
+  /// behind.
   Future<void> _installSession(
     _ExchangedSession session, {
     required String host,
@@ -638,7 +638,7 @@ class NoauthProvider extends _$NoauthProvider {
       host: host,
       failure: NoAuthFailure.unknown,
       // Only the message is ever handed to the UI: ThingsboardError.toString()
-      // embeds the captured stacktrace (PROD-8200).
+      // embeds the captured stacktrace.
       serverMessage: error is ThingsboardError ? error.message : null,
     );
   }
