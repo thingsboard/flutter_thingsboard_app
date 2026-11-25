@@ -1,6 +1,6 @@
 # ThingsBoard App
 
-The open-source mobile app for the [ThingsBoard](https://thingsboard.io) IoT platform, built with [Flutter](https://flutter.dev/). Use it as is, or build your own branded IoT mobile app with minimum coding effort.
+The open-source mobile app for the [ThingsBoard](https://thingsboard.io) IoT platform, built with [Flutter](https://flutter.dev/). Use it as is, or build your own branded IoT mobile app with minimal coding effort.
 
 - **Platforms:** Android and iOS. The web platform is not supported: the ThingsBoard web UI covers it.
 - **Server:** ThingsBoard 4.4.0 or later.

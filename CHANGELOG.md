@@ -15,17 +15,17 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Uses `thingsboard_client` 5.0 from pub.dev, the single generated Dart client for ThingsBoard, instead of `thingsboard_pe_client`. Built with Flutter 3.47.9 (`.fvmrc`).
 - Push notifications register with the Firebase Installation ID.
 - iOS plugins are integrated through Swift Package Manager (Firebase iOS SDK 13.1.1); building for iOS needs Xcode 26.2 or newer. Only `flutter_esp_ble_prov` and `plugin_wifi_connect` still use CocoaPods.
-- The language from the user profile also applies to system widgets (date pickers, dialog buttons) and dates; the profile saves it in the ThingsBoard format (`de_DE`). Arabic (`ar_AE`) and Norwegian devices (`nb`) get their translation, country names follow the app language.
+- The language from the user profile also applies to system widgets (date pickers, dialog buttons) and dates; the profile saves it in the ThingsBoard format (`de_DE`). Devices set to Arabic (`ar_AE`) or Norwegian (`nb`) get their translation, and country names follow the app language.
 - When the camera permission is permanently denied, the QR scanner offers to open the app settings.
 - The profile language can be set to Auto, as in the web UI: the app then follows the device language.
 - The Roboto font is bundled instead of being downloaded from Google at run time.
-- Smaller app: the arm64 Android APK went from 62.5 MB (1.9.1) to 46.7 MB, about 16 MB less installed on iOS.
-- Account deletion (off by default) deletes only the current user, not the whole tenant (from PE 1.9.2).
+- Smaller app: the arm64 Android APK went from 62.5 MB (1.9.1) to 46.7 MB, and the installed iOS app is about 16 MB smaller.
+- Account deletion (off by default) deletes only the current user, not the whole tenant (as in PE 1.9.2).
 - Removed the code of the separate CE and PE editions.
 
 ### Fixed
 
-- Regressions of the move to the generated client in 1.9:
+- Regressions from the move to the generated client in 1.9:
   - Lists sort again (assets, customers, tenants, audit logs, device profiles, dashboards, alarm types, assignees).
   - Device claiming reports success again; its errors are translated and say "not found" only for an unknown device.
   - The alarm details "open dashboard" button shows again.
@@ -41,12 +41,11 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
 - Sign-up and email verification go back to the login page instead of stacking new ones.
 - A session revoked elsewhere (e.g. a password change) shows one translated "Session has expired" instead of the server's "Token is outdated" and a toast per waiting request.
 - Server errors right after start-up or a QR server switch are shown instead of being hidden for two seconds.
-- Two-factor authentication: when sending the code fails, it can be requested again at once.
 - The ThingsBoard EU logo shows for the Europe region, on the login page too.
 - After choosing a region, the login page shows its OAuth clients and sign-up link.
 - Signing in shows one steady loader until the home screen instead of a flickering one.
 - The login and More pages scroll in landscape instead of cutting off the form and the menu.
-- Many sign-in buttons no longer clip their logos on the login page: up to eight narrow to share one row, and more wrap into rows of same-sized buttons.
+- With many sign-in options, the login page buttons no longer clip their logos: up to eight narrow to share one row, and more wrap into rows of same-sized buttons.
 - A web page opened from More has a back arrow, which leaves the page after the site's last step back.
 - Empty lists (entities, alarms, dashboards) show their message in the middle, without the "Try again" button of the error state.
 - Granting the camera at the first QR scanner prompt no longer throws.
@@ -89,17 +88,28 @@ ThingsBoard CE and PE are now one product, and this is its open-source mobile ap
   - A code that is not accepted shows why instead of always "incorrect": the connection error dialog when the server cannot be reached, "Session has expired" and the login page when the time allowed for verification ran out, and the server's own message for any other reason.
   - Back from the verification to the login page cancels the sign-in, as on the web; the verification no longer comes back, with a new code, on the next start.
   - In landscape the code field is no longer hidden behind the camera cutout.
-- A QR code without a login code no longer switches the app to a server that does not answer or is not a ThingsBoard server: it shows why and stays on the current server. In a build for one server, Back to login on "Server update required" returns to that server instead of the outdated one the QR code led to. After a QR code login to an outdated server is undone, Back to login opens the app signed in to the server it went back to, instead of a login page that keeps loading. The QR code connection messages are translated.
-- A dashboard or web page whose web content the system ended to free memory (mostly while the app is in the background) opens again, signed in, instead of staying blank until the app is restarted; dashboards opened afterwards load too. A page ended in the background reopens when the app comes back. If it ends again within 15 seconds of reopening, it is not opened again: a dashboard shows the web app's loading animation, and going back and opening a dashboard loads it; a web page stays blank, and Back closes it.
+- QR codes that lead to another server:
+  - A QR code without a login code no longer switches the app to a server that does not answer or is not a ThingsBoard server: it shows why and stays on the current server.
+  - In a build for one server, Back to login on "Server update required" returns to that server instead of the outdated one the QR code led to.
+  - After a QR code login to an outdated server is undone, Back to login opens the app signed in to the server it went back to, instead of a login page that keeps loading.
+  - The QR code connection messages are translated.
+- A dashboard or web page whose web content the system closed to free memory (mostly while the app is in the background) opens again, signed in, instead of staying blank until the app is restarted; dashboards opened afterwards load too. A page closed in the background reopens when the app comes back. If it is closed again within 15 seconds of reopening, it is not opened again: a dashboard shows the web app's loading animation, and going back and opening a dashboard loads it; a web page stays blank, and Back closes it.
 - Tapping a push notification while the app is closed opens its dashboard or link on top of Home, instead of only Home.
-- After sign-in the app opens the user's default dashboard again (a regression of 1.8): alone when "Always fullscreen" is set, otherwise over the first tab, and only if the user can open it. A push notification that started the app opens on top of it. The fullscreen dashboard stays clear of the camera cutout in landscape and shows the back arrow only when there is somewhere to go back to; the system Back leaves the app from it, as from the home dashboard.
+- After sign-in the app opens the user's default dashboard again (a regression from 1.8):
+  - It opens on its own when "Always fullscreen" is set, otherwise over the first tab, and only if the user can open it.
+  - A push notification that started the app opens on top of it.
+  - The fullscreen dashboard stays clear of the camera cutout in landscape and shows the back arrow only when there is somewhere to go back to; the system Back leaves the app from it, as from the home dashboard.
 - Two-factor setup (email, SMS, authenticator app) says why a code was not accepted, as the sign-in verification does, instead of "incorrect" next to a toast with the real reason; an expired session says so and returns to the login page. The "Verification required" and "enabled" setup pages stay clear of the camera cutout and the home indicator and scroll in landscape, where they were cut off.
 - The "Reset password" and "Account activated" pages stay clear of the camera cutout, the status bar and the home indicator, and scroll in landscape, where the activated page was cut off and its Log In button could not be reached.
 - Sign-up and two-factor pages fit short screens (landscape, foldable cover screens):
   - "Email verification" and "Account activated" keep Resend and Log In below their text, which scrolls, instead of cutting the button off or leaving it a screen below. "Activating account" is centred on the screen.
   - On "Sign up", in the two-factor setup (email, SMS, authenticator app) and on the sign-in verification code page, the field being typed in stays above the keyboard; while the keyboard is open the Sign up, Send code and "Try another way" buttons scroll after the form instead of taking the room left.
   - The list of two-factor methods scrolls, in landscape and on small phones in portrait, where its last methods were cut off. The backup codes scroll above the Done button.
-- Android 13 and later list the app languages under Settings > App languages; the one chosen there applies on the login page and when the profile language is not set or is Auto. Alarm, comment and device provisioning dialogs show their buttons as written ("Cancel", "Yes"), like the other dialogs, instead of in capitals that Turkish and Greek got wrong ("SIL", "ΌΧΙ"); "LOGIN WITH" is capitalised correctly in Greek. "Email is required" no longer has a stray space in Japanese and Chinese. The live tracking counts are punctuated the French and Chinese way ("Positions : 3", "已保存：2").
-- After a custom server, going back to a built-in server by a QR code, or on the region page in builds that count the regions as built-in servers, sets up push notifications again; they could stay off until the app was restarted.
+- Languages and translations:
+  - Android 13 and later list the app languages under Settings > App languages; the one chosen there applies on the login page and when the profile language is not set or is Auto.
+  - Alarm, comment and device provisioning dialogs show their buttons as written ("Cancel", "Yes"), like the other dialogs, instead of in capitals that Turkish and Greek got wrong ("SIL", "ΌΧΙ"); "LOGIN WITH" is capitalised correctly in Greek.
+  - "Email is required" no longer has a stray space in Japanese and Chinese.
+  - The live tracking counts are punctuated the French and Chinese way ("Positions : 3", "已保存：2").
+- Push notifications are set up again after going back from a custom server to a built-in one (by a QR code, or on the region page in builds that count the regions as built-in servers); before, they could stay off until the app was restarted.
 
 See the [1.x releases](https://github.com/thingsboard/flutter_thingsboard_pe_app/releases) of the PE app for earlier changes.
