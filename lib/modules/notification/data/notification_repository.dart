@@ -42,11 +42,6 @@ class NotificationRepository implements INotificationQueryRepository {
   }
 
   @override
-  Future<void> searchNotification(String searchText) async {
-    notificationQueryCtrl.onSearchText(searchText);
-  }
-
-  @override
   Future<void> filterByReadStatus(bool unreadOnly) async {
     notificationQueryCtrl.filterByReadStatus(unreadOnly);
   }

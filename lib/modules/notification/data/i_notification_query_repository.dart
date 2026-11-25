@@ -10,7 +10,5 @@ abstract interface class INotificationQueryRepository {
 
   Future<void> deleteNotification(String id);
 
-  Future<void> searchNotification(String searchText);
-
   Future<void> filterByReadStatus(bool unreadOnly);
 }

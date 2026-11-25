@@ -8,15 +8,10 @@ import 'package:thingsboard_app/modules/notification/presentation/controllers/no
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class NotificationQueryCtrl extends PageKeyController<NotificationQuery> {
-  NotificationQueryCtrl({int pageSize = 20, String? searchText})
+  NotificationQueryCtrl({int pageSize = 20})
     : super(
         NotificationQuery(
-          PageLink(
-            pageSize,
-            0,
-            searchText,
-            SortOrder('createdTime', Direction.DESC),
-          ),
+          PageLink(pageSize, 0, null, SortOrder('createdTime', Direction.DESC)),
           unreadOnly: true,
         ),
       );
@@ -27,14 +22,6 @@ class NotificationQueryCtrl extends PageKeyController<NotificationQuery> {
       pageKey.pageLink.nextPageLink(),
       unreadOnly: value.pageKey.unreadOnly,
     );
-  }
-
-  void onSearchText(String searchText) {
-    final query = value.pageKey;
-    query.pageLink.page = 0;
-    query.pageLink.textSearch = searchText;
-
-    notifyListeners();
   }
 
   void filterByReadStatus(bool unreadOnly) {
