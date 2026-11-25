@@ -147,12 +147,9 @@ class EmailVerifiedPage extends HookConsumerWidget {
               backgroundColor: Colors.transparent,
               body: SafeArea(
                 child: isActivating.value
-                    ? SizedBox(
-                        width: double.infinity,
-                        child: FillScrollView(
-                          padding: const EdgeInsets.all(24),
-                          child: content,
-                        ),
+                    ? FillScrollView(
+                        padding: const EdgeInsets.all(24),
+                        child: content,
                       )
                     : PinnedFooterScrollView(
                         padding: padding,

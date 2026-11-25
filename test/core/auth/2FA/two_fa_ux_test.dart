@@ -397,7 +397,7 @@ void main() {
       await tester.pumpAndSettle();
       final field = find.byType(EditableText).first;
 
-      await openLandscapeKeyboard(tester, field);
+      await openKeyboard(tester, field);
 
       expect(tester.takeException(), isNull);
       expectAboveKeyboard(tester, field);
@@ -427,9 +427,12 @@ void main() {
         ),
       );
       await tester.pump();
-      tester.view.viewInsets = const FakeViewPadding(bottom: 336 * 3);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+
+      await openKeyboard(
+        tester,
+        find.byType(EditableText).first,
+        height: portraitKeyboard,
+      );
 
       expect(tester.takeException(), isNull);
       expectAboveKeyboard(tester, find.text(s.tryAnotherWay));

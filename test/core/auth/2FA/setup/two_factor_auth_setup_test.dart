@@ -173,7 +173,7 @@ void main() {
       expect(find.text(s.tryAnotherWay), findsOneWidget);
       final field = find.byType(EditableText).first;
 
-      await openLandscapeKeyboard(tester, field);
+      await openKeyboard(tester, field);
 
       expect(tester.takeException(), isNull);
       expectAboveKeyboard(tester, field);

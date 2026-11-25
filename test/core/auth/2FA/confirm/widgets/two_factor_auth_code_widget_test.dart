@@ -114,7 +114,7 @@ void main() {
     await tester.pumpAndSettle();
     final field = find.byType(EditableText);
 
-    await openLandscapeKeyboard(tester, field);
+    await openKeyboard(tester, field);
 
     expect(tester.takeException(), isNull);
     expectAboveKeyboard(tester, field);

@@ -48,11 +48,18 @@ Future<void> expectClearOfInsets(
 /// The height of the iOS keyboard on a landscape iPhone, in logical pixels.
 const landscapeKeyboard = 210.0;
 
-/// Focuses [field] and opens a [landscapeKeyboard] high keyboard below it.
-Future<void> openLandscapeKeyboard(WidgetTester tester, Finder field) async {
+/// The height of the iOS keyboard on a portrait iPhone, in logical pixels.
+const portraitKeyboard = 336.0;
+
+/// Focuses [field] and opens a [height] high keyboard below it.
+Future<void> openKeyboard(
+  WidgetTester tester,
+  Finder field, {
+  double height = landscapeKeyboard,
+}) async {
   await tester.showKeyboard(field);
   tester.view.viewInsets = FakeViewPadding(
-    bottom: landscapeKeyboard * tester.view.devicePixelRatio,
+    bottom: height * tester.view.devicePixelRatio,
   );
   await tester.pumpAndSettle();
 }

@@ -204,7 +204,7 @@ void main() {
     await _pump(tester, const SignUpPage());
     final email = find.byType(EditableText).first;
 
-    await openLandscapeKeyboard(tester, email);
+    await openKeyboard(tester, email);
 
     expect(tester.takeException(), isNull);
     expectAboveKeyboard(tester, email);
