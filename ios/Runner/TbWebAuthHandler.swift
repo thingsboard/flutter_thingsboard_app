@@ -3,7 +3,19 @@ import SafariServices
 import Flutter
 import UIKit
 
-public class TbWebAuthHandler: NSObject {
+public class TbWebAuthHandler: NSObject, FlutterPlugin {
+
+    // With UIScene `UIApplication.shared.delegate?.window` is nil; the registrar knows the view controller.
+    private weak var registrar: FlutterPluginRegistrar?
+
+    init(registrar: FlutterPluginRegistrar) {
+        self.registrar = registrar
+    }
+
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        let channel = FlutterMethodChannel(name: "tb_web_auth", binaryMessenger: registrar.messenger())
+        registrar.addMethodCallDelegate(TbWebAuthHandler(registrar: registrar), channel: channel)
+    }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if call.method == "authenticate" {
@@ -40,7 +52,7 @@ public class TbWebAuthHandler: NSObject {
                 let session = ASWebAuthenticationSession(url: url, callbackURLScheme: callbackURLScheme, completionHandler: completionHandler)
 
                 if #available(iOS 13, *) {
-                    guard let provider = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController else {
+                    guard let provider = registrar?.viewController as? FlutterViewController else {
                         result(FlutterError(code: "FAILED", message: "Failed to aquire root FlutterViewController" , details: nil))
                         return
                     }
@@ -69,6 +81,6 @@ public class TbWebAuthHandler: NSObject {
 @available(iOS 13, *)
 extension FlutterViewController: ASWebAuthenticationPresentationContextProviding {
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return self.view.window!
+        return self.view.window ?? ASPresentationAnchor()
     }
 }
