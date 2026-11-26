@@ -98,6 +98,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  config:
+    # UIScene is adopted by hand; the tool only reads ios/Runner/Info.plist (we have
+    # Info-Debug/Info-Release) and would warn on every build.
+    enable-uiscene-migration: false
   assets:
     - assets/images/
   fonts:

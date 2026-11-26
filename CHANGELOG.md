@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- iOS: the app uses the UIScene life cycle, which iOS 27 requires of apps built with Xcode 27 (iOS 27 SDK); without it such builds closed at launch. `url_launcher_ios` (6.4.2) and `image_picker_ios` (0.8.13+16) are updated for it.
+
 ## 2.0.0 (2026-11-25)
 
 ThingsBoard CE and PE are now one product, and this is its open-source mobile app: use it as is, or as the base of your own branded app. It continues the ThingsBoard PE app (all of its history is kept).
