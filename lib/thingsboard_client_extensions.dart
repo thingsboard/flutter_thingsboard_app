@@ -102,3 +102,43 @@ extension AuthUserExt on AuthUser {
   bool isFullSession() =>
       !isMfaConfigurationToken() && !isPreVerificationToken();
 }
+
+extension UserEmailInfoExt on UserEmailInfo {
+  /// See [_assigneeUserInfo].
+  UserInfo toUserInfo() => _assigneeUserInfo(
+    id: id,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+  );
+}
+
+extension AlarmAssigneeExt on AlarmAssignee {
+  /// See [_assigneeUserInfo].
+  UserInfo toUserInfo() => _assigneeUserInfo(
+    id: id,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+  );
+}
+
+/// An alarm assignee as the [UserInfo] the assignee UI is built from.
+///
+/// [UserInfo] requires a non-nullable `authority` and `email` that an assignee
+/// doesn't carry; neither is used for assignee display, so a neutral
+/// [Authority.CUSTOMER_USER] and an empty-string email fallback satisfy the
+/// built_value `.build()` null checks.
+UserInfo _assigneeUserInfo({
+  required UserId? id,
+  required String? email,
+  required String? firstName,
+  required String? lastName,
+}) => UserInfo(
+  (b) => b
+    ..id = id?.toBuilder()
+    ..authority = Authority.CUSTOMER_USER
+    ..email = email ?? ''
+    ..firstName = firstName
+    ..lastName = lastName,
+);

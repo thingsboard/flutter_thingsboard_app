@@ -9,9 +9,10 @@ import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class DashboardPermissionErrorView extends StatefulWidget {
+class DashboardPermissionErrorView extends StatelessWidget {
   const DashboardPermissionErrorView({
     this.fullScreen = false,
     this.home = false,
@@ -22,16 +23,10 @@ class DashboardPermissionErrorView extends StatefulWidget {
   final bool home;
 
   @override
-  State<StatefulWidget> createState() => _DashboardPermissionErrorViewState();
-}
-
-class _DashboardPermissionErrorViewState
-    extends State<DashboardPermissionErrorView> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TbAppBar(
-        leading: !widget.fullScreen && !widget.home
+        leading: !fullScreen && !home
             ? BackButton(onPressed: () => Navigator.of(context).pop())
             : null,
         elevation: 1,
@@ -41,13 +36,12 @@ class _DashboardPermissionErrorViewState
           alignment: AlignmentDirectional.centerStart,
           child: Text(S.of(context).dashboards(1)),
         ),
-        actions: widget.fullScreen && !widget.home
+        actions: fullScreen && !home
             ? [
                 IconButton(
                   icon: const Icon(Icons.settings),
-                  // translate-me-ignore-next-line
                   onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
-                    '/profile?fullscreen=true',
+                    fullScreenProfile,
                   ),
                 ),
               ]

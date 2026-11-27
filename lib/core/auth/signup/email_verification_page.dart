@@ -5,25 +5,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
+import 'package:thingsboard_app/core/auth/signup/provider/signup_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
-import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/widgets/pinned_footer_scroll_view.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class EmailVerificationPage extends StatefulWidget {
+class EmailVerificationPage extends ConsumerStatefulWidget {
   const EmailVerificationPage({super.key, required this._email});
   final String _email;
 
   @override
-  State<StatefulWidget> createState() => _EmailVerificationPageState();
+  ConsumerState<EmailVerificationPage> createState() =>
+      _EmailVerificationPageState();
 }
 
-class _EmailVerificationPageState extends State<EmailVerificationPage> {
+class _EmailVerificationPageState extends ConsumerState<EmailVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,13 +121,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   Future<void> _resendEmail() async {
-    await getIt<ITbClientService>().client
-        .getSignUpControllerApi()
-        .resendEmailActivation(
-          email: widget._email,
-          pkgName: getIt<IDeviceInfoService>().getApplicationId(),
-          platform: getIt<IDeviceInfoService>().getPlatformType().name,
-        );
+    await ref
+        .read(signupProvider.notifier)
+        .resendEmailActivation(widget._email);
 
     if (mounted) {
       getIt<IOverlayService>().showSuccessNotification(

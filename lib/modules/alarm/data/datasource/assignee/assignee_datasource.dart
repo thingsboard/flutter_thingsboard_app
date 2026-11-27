@@ -4,6 +4,7 @@
 // found in the LICENSE file.
 
 import 'package:thingsboard_app/modules/alarm/data/datasource/assignee/i_assignee_datasource.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -26,21 +27,7 @@ class AssigneeDatasource implements IAssigneeDatasource {
     );
     final page = response.data!;
     final users =
-        page.data?.map(_userEmailInfoToUserInfo).toList() ?? <UserInfo>[];
+        page.data?.map((e) => e.toUserInfo()).toList() ?? <UserInfo>[];
     return toPageData(users, page.totalPages, page.totalElements, page.hasNext);
   }
 }
-
-/// Maps the /api/users/info [UserEmailInfo] onto the app's [UserInfo] carrier.
-/// [UserInfo] requires a non-nullable `authority`/`email` that [UserEmailInfo]
-/// doesn't provide; neither is used for assignee display, so we fill a neutral
-/// [Authority.CUSTOMER_USER] and an empty-string email fallback to satisfy the
-/// built_value `.build()` null checks.
-UserInfo _userEmailInfoToUserInfo(UserEmailInfo e) => UserInfo(
-  (b) => b
-    ..id = e.id?.toBuilder()
-    ..authority = Authority.CUSTOMER_USER
-    ..email = e.email ?? ''
-    ..firstName = e.firstName
-    ..lastName = e.lastName,
-);

@@ -6,6 +6,7 @@
 import 'package:built_value/json_object.dart';
 import 'package:thingsboard_app/modules/alarm/data/datasource/details/i_alarm_details_datasource.dart';
 import 'package:thingsboard_app/modules/alarm/domain/pagination/alarm_query_keys.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -107,8 +108,7 @@ class AlarmDetailsDatasource implements IAlarmDetailsDatasource {
           sortOrder: query.pageLink.sortOrder?.direction.name,
         );
     final pd = res.data!;
-    final users =
-        pd.data?.map(_userEmailInfoToUserInfo).toList() ?? <UserInfo>[];
+    final users = pd.data?.map((e) => e.toUserInfo()).toList() ?? <UserInfo>[];
     return toPageData(users, pd.totalPages, pd.totalElements, pd.hasNext);
   }
 
@@ -138,18 +138,4 @@ AlarmCommentInfo _alarmCommentToInfo(AlarmComment c) => AlarmCommentInfo(
     ..userId = c.userId?.toBuilder()
     ..type = c.type
     ..comment = c.comment,
-);
-
-/// Maps the assignee endpoint's [UserEmailInfo] onto the app's [UserInfo]
-/// carrier. [UserInfo] requires a non-nullable `authority`/`email` that
-/// [UserEmailInfo] doesn't provide; neither is used for assignee display, so we
-/// fill a neutral [Authority.CUSTOMER_USER] and an empty-string email fallback
-/// to satisfy the built_value `.build()` null checks.
-UserInfo _userEmailInfoToUserInfo(UserEmailInfo e) => UserInfo(
-  (b) => b
-    ..id = e.id?.toBuilder()
-    ..authority = Authority.CUSTOMER_USER
-    ..email = e.email ?? ''
-    ..firstName = e.firstName
-    ..lastName = e.lastName,
 );

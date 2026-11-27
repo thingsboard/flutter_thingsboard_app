@@ -15,6 +15,7 @@ import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashbo
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboard_permission_error_view.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_back_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_widget.dart';
+import 'package:thingsboard_app/modules/main/presentation/providers/navigation_helper.dart';
 import 'package:thingsboard_app/utils/services/custom_translation/i_custom_translation_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -78,9 +79,8 @@ class _FullscreenDashboardPageState
               actions: [
                 IconButton(
                   icon: const Icon(Icons.settings),
-                  // translate-me-ignore-next-line
                   onPressed: () => getIt<ThingsboardAppRouter>().navigateTo(
-                    '/profile?fullscreen=true',
+                    fullScreenProfile,
                   ),
                 ),
               ],

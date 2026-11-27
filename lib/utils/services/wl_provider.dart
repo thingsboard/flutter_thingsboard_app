@@ -14,7 +14,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
-import 'package:thingsboard_app/config/themes/tb_theme.dart';
 import 'package:thingsboard_app/config/themes/tb_theme_utils.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/constants/assets_path.dart';
@@ -153,11 +152,7 @@ class Wl extends _$Wl {
   }
 
   static final _defaultWLParams = _createDefaultWlParams();
-  static final _defaultThemeData = tbTheme(
-    TbThemeUtils.tbPrimary,
-    TbThemeUtils.tbPrimaryColor,
-    TbThemeUtils.tbAccentColor,
-  );
+  static final _defaultThemeData = TbThemeUtils.createTheme(null);
   static final _defaultLoginWlParams = _createDefaultLoginWlParams();
   static final _defaultLoginTheme = loginPageTheme(
     _defaultThemeData,
@@ -339,7 +334,7 @@ class Wl extends _$Wl {
     }
   }
 
-  Future<void> loadLoginWhiteLabelingParams({BuildContext? context}) async {
+  Future<void> loadLoginWhiteLabelingParams() async {
     final fetchId = ++_fetchId;
     final response = await _tbClient
         .getWhiteLabelingControllerApi()
@@ -349,7 +344,7 @@ class Wl extends _$Wl {
     if (merged == _appliedParams) return;
     final loginThemeData = TbThemeUtils.createTheme(merged.paletteSettings);
     final loginLogo = await _updateImages(
-      context ?? globalNavigatorKey.currentContext!,
+      globalNavigatorKey.currentContext!,
       _tbClient,
       _loginToWlParams(merged),
       loginThemeData,

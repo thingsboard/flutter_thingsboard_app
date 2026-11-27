@@ -5,6 +5,7 @@
 
 import 'package:thingsboard_app/modules/device/data/device_profile/model/cached_device_profile.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 abstract class DeviceProfileCache {
@@ -83,11 +84,11 @@ abstract class DeviceProfileCache {
           sortOrder: pageLink.sortOrder?.direction.name,
         );
     final p = r.data!;
-    final deviceProfileInfos = PageData<DeviceProfileInfo>(
-      p.data?.toList() ?? [],
-      p.totalPages ?? 0,
-      p.totalElements ?? 0,
-      p.hasNext ?? false,
+    final deviceProfileInfos = toPageData(
+      p.data,
+      p.totalPages,
+      p.totalElements,
+      p.hasNext,
     );
     if (invalidateCache) {
       _cache.clear();

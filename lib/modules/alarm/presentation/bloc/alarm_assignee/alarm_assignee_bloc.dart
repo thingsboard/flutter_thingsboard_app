@@ -13,9 +13,9 @@ import 'package:thingsboard_app/modules/alarm/domain/usecases/alarms/fetch_alarm
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/assign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/domain/usecases/assignee/unassign_alarm_usecase.dart';
 import 'package:thingsboard_app/modules/alarm/presentation/bloc/alarm_assignee/bloc.dart';
+import 'package:thingsboard_app/thingsboard_client_extensions.dart';
 import 'package:thingsboard_app/utils/services/communication/events/alarm_assignee_updated_event.dart';
 import 'package:thingsboard_app/utils/services/communication/i_communication_service.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 
 class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
   AlarmAssigneeBloc({
@@ -88,14 +88,7 @@ class AlarmAssigneeBloc extends Bloc<AlarmAssigneeEvent, AlarmAssigneeState> {
       case AlarmFetchAssigneeEvent():
         final alarmInfo = await fetchAlarmUseCase(id);
         if (alarmInfo?.assignee != null && alarmInfo?.assignee?.id != null) {
-          final userInfo = UserInfo(
-            (b) => b
-              ..id = alarmInfo!.assignee!.id?.toBuilder()
-              ..authority = Authority.CUSTOMER_USER
-              ..email = alarmInfo.assignee!.email ?? ''
-              ..firstName = alarmInfo.assignee!.firstName
-              ..lastName = alarmInfo.assignee!.lastName,
-          );
+          final userInfo = alarmInfo!.assignee!.toUserInfo();
 
           final assignee = AssigneeEntity.fromUserInfo(
             userInfo,

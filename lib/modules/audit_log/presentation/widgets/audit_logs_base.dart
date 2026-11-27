@@ -11,6 +11,7 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/audit_log_
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/new_client_page_data.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/translation_utils.dart';
 import 'package:thingsboard_app/utils/ui/content_direction.dart';
@@ -39,12 +40,7 @@ mixin AuditLogsBase on EntitiesBase<AuditLog, TimePageLink> {
       endTime: pageLink.endTime,
     );
     final p = r.data!;
-    return PageData<AuditLog>(
-      p.data?.toList() ?? [],
-      p.totalPages ?? 0,
-      p.totalElements ?? 0,
-      p.hasNext ?? false,
-    );
+    return toPageData(p.data, p.totalPages, p.totalElements, p.hasNext);
   }
 
   @override
