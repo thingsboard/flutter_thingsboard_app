@@ -19,7 +19,6 @@ import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart'
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
 import 'package:thingsboard_app/utils/services/endpoint/point_app_at.dart';
 import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
 import 'package:thingsboard_app/utils/silent_request.dart';
@@ -467,7 +466,7 @@ class NoauthProvider extends _$NoauthProvider {
     await _writeStoredSession(session);
     await getIt<IEndpointService>().setEndpoint(host);
     if (!isSameOrigin) {
-      await _switchFirebaseApps();
+      await syncFirebaseAppWithEndpoint(removeExisting: true);
     }
     await _reInitClient(host, logTag: 'switch');
     // The server update page takes over and the caller rolls the switch back;
@@ -495,19 +494,8 @@ class NoauthProvider extends _$NoauthProvider {
     // in the storage, as the previous client may already be closed.
     await _writeStoredSession((token: null, refreshToken: null));
     await getIt<IEndpointService>().setEndpoint(host);
-    await _switchFirebaseApps();
+    await syncFirebaseAppWithEndpoint(removeExisting: true);
     await _reInitClient(host, logTag: 'hostOnly');
-  }
-
-  Future<void> _switchFirebaseApps() async {
-    _logger.debug('SwitchEndpointUseCase:deleteFB App');
-    await getIt<IFirebaseService>().clearApps();
-
-    // A built-in server uses the default Firebase app.
-    final isCustom = await getIt<IEndpointService>().isCustomEndpoint();
-    if (!isCustom) {
-      await initDefaultFirebaseApp();
-    }
   }
 
   /// Rolls the app back to the endpoint and the session that were active

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/firebase_options.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
@@ -17,19 +18,26 @@ Future<void> initDefaultFirebaseApp() async {
     );
   } catch (e) {
     if (e is! UnsupportedError) rethrow;
+    getIt<TbLogger>().debug('Firebase is not configured in this build: $e');
   }
 }
 
-/// Re-creates the default Firebase app when the app points at a built-in
-/// server and has none, as after a switch from a custom one. Unlike
-/// `pointAppAt`, it removes nothing, so a server the build counts as custom
-/// keeps the app it has.
-Future<void> restoreDefaultFirebaseApp({
+/// Gives the app the Firebase app that belongs to the server it points at:
+/// the default one on a built-in server, none on a custom one.
+///
+/// With [removeExisting] the current apps are deleted first, as after a switch
+/// to another server. Without it nothing is removed and an app that is already
+/// there is kept, so a server the build counts as custom keeps the app it has.
+Future<void> syncFirebaseAppWithEndpoint({
+  required bool removeExisting,
   Future<void> Function() init = initDefaultFirebaseApp,
 }) async {
-  if (getIt<IFirebaseService>().apps.isNotEmpty ||
-      await getIt<IEndpointService>().isCustomEndpoint()) {
+  final firebase = getIt<IFirebaseService>();
+  if (removeExisting) {
+    await firebase.clearApps();
+  } else if (firebase.apps.isNotEmpty) {
     return;
   }
+  if (await getIt<IEndpointService>().isCustomEndpoint()) return;
   await init();
 }

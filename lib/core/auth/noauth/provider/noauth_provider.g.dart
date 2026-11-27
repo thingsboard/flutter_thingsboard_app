@@ -41,7 +41,7 @@ final class NoauthProviderProvider
   }
 }
 
-String _$noauthProviderHash() => r'8e9dc637c533e0ab7cfe8ae480292e453018af50';
+String _$noauthProviderHash() => r'925942325e170c59a6070b9ee98844b54ff45f0e';
 
 abstract class _$NoauthProvider extends $Notifier<NoAuthState> {
   NoAuthState build();

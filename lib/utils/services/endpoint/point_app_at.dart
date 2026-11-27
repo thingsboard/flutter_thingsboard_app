@@ -8,7 +8,6 @@ import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/endpoint/normalize_endpoint.dart';
 import 'package:thingsboard_app/utils/services/firebase/default_firebase_app.dart';
-import 'package:thingsboard_app/utils/services/firebase/i_firebase_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
@@ -25,10 +24,7 @@ Future<void> pointAppAt(
   final normalized = normalizeEndpoint(endpoint);
   final endpoints = getIt<IEndpointService>();
   await endpoints.setEndpoint(normalized);
-  await getIt<IFirebaseService>().clearApps();
-  if (!await endpoints.isCustomEndpoint()) {
-    await initDefaultFirebaseApp();
-  }
+  await syncFirebaseAppWithEndpoint(removeExisting: true);
   await getIt<ITbClientService>().reInit(
     endpoint: normalized,
     onDone: onDone,
