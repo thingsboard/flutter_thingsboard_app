@@ -13,31 +13,19 @@ import UserNotifications
 /// failure falls back to delivering the notification unchanged.
 class NotificationService: UNNotificationServiceExtension {
 
-    private var contentHandler: ((UNNotificationContent) -> Void)?
-    private var bestAttemptContent: UNMutableNotificationContent?
-
     override func didReceive(
         _ request: UNNotificationRequest,
         withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
     ) {
-        self.contentHandler = contentHandler
-
         guard let content = request.content.mutableCopy() as? UNMutableNotificationContent else {
             contentHandler(request.content)
             return
         }
-        bestAttemptContent = content
 
         if let attachment = Self.iconAttachment(for: request.content.userInfo) {
             content.attachments = [attachment]
         }
         contentHandler(content)
-    }
-
-    override func serviceExtensionTimeWillExpire() {
-        if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
-            contentHandler(bestAttemptContent)
-        }
     }
 
     // MARK: - Icon rendering
