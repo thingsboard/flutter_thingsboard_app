@@ -100,15 +100,6 @@ abstract final class TbTextStyles {
     letterSpacing: 0.01,
   );
 
-  // Caption style for very small text
-  static const caption = TextStyle(
-    fontFamily: 'Roboto',
-    fontWeight: FontWeight.w400,
-    fontSize: 11,
-    height: 1.45, // 16px line height
-    letterSpacing: 0.25,
-  );
-
   // Button text style
   static const button = TextStyle(
     fontFamily: 'Roboto',

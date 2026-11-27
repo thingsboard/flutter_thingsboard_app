@@ -56,35 +56,27 @@ class LoginHeader extends ConsumerWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final region = snapshot.data!;
-                    return Row(
-                      spacing: 4,
-                      children: [
-                        TextButton.icon(
-                          label: Text(
-                            region.regionToString(context),
-                            style: TbTextStyles.bodyLarge.copyWith(
-                              color: theme.colorScheme.primary,
-                            ),
-
-                            textHeightBehavior: const TextHeightBehavior(
-                              applyHeightToFirstAscent: false,
-                              applyHeightToLastDescent: false,
-                            ),
-                          ),
-                          icon: Transform.flip(
-                            child: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                          iconAlignment: IconAlignment.end,
-                          onPressed: () {
-                            context.push(
-                              '${SelectRegionRoutes.chooseRegion}?region=${region.name}',
-                            );
-                          },
+                    return TextButton.icon(
+                      label: Text(
+                        region.regionToString(context),
+                        style: TbTextStyles.bodyLarge.copyWith(
+                          color: theme.colorScheme.primary,
                         ),
-                      ],
+                        textHeightBehavior: const TextHeightBehavior(
+                          applyHeightToFirstAscent: false,
+                          applyHeightToLastDescent: false,
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: theme.colorScheme.primary,
+                      ),
+                      iconAlignment: IconAlignment.end,
+                      onPressed: () {
+                        context.push(
+                          '${SelectRegionRoutes.chooseRegion}?region=${region.name}',
+                        );
+                      },
                     );
                   }
                   return const SizedBox();

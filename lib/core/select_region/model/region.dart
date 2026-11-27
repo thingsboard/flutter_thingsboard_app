@@ -6,15 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 
-enum Region {
-  northAmerica,
-  europe,
-  custom;
-
-  static Region regionFromString(String input) {
-    return Region.values.firstWhere((e) => e.name == input);
-  }
-}
+enum Region { northAmerica, europe, custom }
 
 extension RegionToString on Region {
   String regionToString(BuildContext context) {

@@ -23,7 +23,7 @@ final selectRegionRoutes = [
   GoRoute(
     path: SelectRegionRoutes.chooseRegion,
     builder: (context, state) {
-      final region = Region.regionFromString(
+      final region = Region.values.byName(
         state.uri.queryParameters['region'].toString(),
       );
 
