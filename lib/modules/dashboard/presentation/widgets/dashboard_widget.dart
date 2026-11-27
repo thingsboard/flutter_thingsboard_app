@@ -17,6 +17,7 @@ import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/wid
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_load_error_script.dart';
+import 'package:thingsboard_app/modules/dashboard/presentation/widgets/web_view_cache.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/export_module.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
@@ -47,8 +48,13 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardState extends State<DashboardWidget> {
-  late final Future<void> _cacheCleared =
-      InAppWebViewController.clearAllCache();
+  late final Future<void> _cacheCleared = clearWebViewCache(
+    onTimeout: () => log.debug(
+      // translate-me-ignore-next-line
+      'Web view cache not cleared after $webViewCacheClearTimeout, '
+      'starting the dashboard anyway',
+    ),
+  );
 
   bool webViewLoading = true;
   final dashboardLoading = ValueNotifier<bool>(true);
@@ -86,7 +92,8 @@ class _DashboardState extends State<DashboardWidget> {
       children: [
         FutureBuilder<void>(
           future: _cacheCleared,
-          // Load the dashboard only after the cache is cleared; a failed
+          // Load the dashboard after the cache is cleared, or after
+          // webViewCacheClearTimeout if WebKit is still clearing it; a failed
           // clear still lets it start.
           builder: (context, snapshot) =>
               snapshot.connectionState == ConnectionState.done

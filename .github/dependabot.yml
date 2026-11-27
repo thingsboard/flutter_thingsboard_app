@@ -1,0 +1,22 @@
+# Keeps the commit SHAs the workflows pin GitHub Actions to up to date.
+# GitHub reads this file from the default branch (master).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/*
+    # Workflow changes land in the development branch first; update this
+    # when a new develop/* branch starts.
+    target-branch: develop/2.0
+    schedule:
+      interval: weekly
+      day: monday
+    # Only versions released at least two weeks ago.
+    cooldown:
+      default-days: 14
+    groups:
+      github-actions:
+        patterns: ['*']
+    commit-message:
+      prefix: ci

@@ -5,7 +5,9 @@
 
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_new_badger/flutter_new_badger.dart';
+import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/application/i_notifications_local_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -27,6 +29,20 @@ final class NotificationsLocalService implements INotificationsLocalService {
   }
 
   late final TbStorage storage;
+  late final TbLogger _log = getIt();
+
+  /// Updates the app icon badge without waiting for it. On iOS the badge
+  /// needs the notification permission, and without it the plugin throws
+  /// PERMISSION_DENIED; the badge is only a hint, so the error is logged
+  /// instead of reaching the app as an unhandled error.
+  void _updateAppIconBadge(Future<void> Function() update) {
+    unawaited(
+      update().catchError(
+        (Object e) => _log.debug('App icon badge not updated: $e'),
+        test: (e) => e is PlatformException,
+      ),
+    );
+  }
 
   @override
   Future<void> increaseNotificationBadgeCount() async {
@@ -34,7 +50,7 @@ final class NotificationsLocalService implements INotificationsLocalService {
     final updatedCounter = (int.tryParse(counter.toString()) ?? 0) + 1;
     await storage.setItem(notificationCounterKey, updatedCounter.toString());
 
-    FlutterNewBadger.setBadge(updatedCounter);
+    _updateAppIconBadge(() => FlutterNewBadger.setBadge(updatedCounter));
     _emit(updatedCounter);
   }
 
@@ -46,14 +62,14 @@ final class NotificationsLocalService implements INotificationsLocalService {
 
   @override
   Future<void> clearNotificationBadgeCount() async {
-    FlutterNewBadger.removeBadge();
+    _updateAppIconBadge(FlutterNewBadger.removeBadge);
     storage.deleteItem(notificationCounterKey);
     _emit(0);
   }
 
   @override
   Future<void> updateNotificationsCount(int count) async {
-    FlutterNewBadger.setBadge(count);
+    _updateAppIconBadge(() => FlutterNewBadger.setBadge(count));
     storage.setItem(notificationCounterKey, count.toString());
     _emit(count);
   }

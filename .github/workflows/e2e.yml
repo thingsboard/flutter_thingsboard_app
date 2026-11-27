@@ -1,0 +1,312 @@
+name: E2E
+
+# Patrol tests against the E2E server (CONTRIBUTING.md, "E2E tests").
+# Runs after every merge, on pull requests labeled `e2e:android` or `e2e:ios`
+# (one job per label; add e2e:full for the full suite), and from the Run
+# workflow button. Not a required check yet.
+on:
+  push:
+    branches: ['develop/**']
+  pull_request:
+    branches: ['develop/**', master]
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Test suite (folder in patrol_test/)
+        type: choice
+        options: [smoke, full]
+        default: smoke
+      platform:
+        description: Platform
+        type: choice
+        options: [android, ios, both]
+        default: android
+
+permissions:
+  contents: read
+
+# Concurrency is set per platform job, not here: a run started by an
+# unrelated label would otherwise cancel the E2E run in progress.
+
+jobs:
+  settings:
+    name: E2E settings
+    # Only the public repository runs E2E: the cloud repository gets this file
+    # with its merges. Fork pull requests get no secrets, so they are skipped.
+    # Adding a label other than e2e:* starts nothing.
+    if: >-
+      github.repository == 'thingsboard/flutter_thingsboard_app' && (
+        github.event_name != 'pull_request' || (
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          (github.event.action != 'labeled' || startsWith(github.event.label.name, 'e2e:')) &&
+          (
+            contains(github.event.pull_request.labels.*.name, 'e2e:android') ||
+            contains(github.event.pull_request.labels.*.name, 'e2e:ios')
+          )
+        )
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - name: Check the E2E secrets
+        id: check
+        env:
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+          E2E_TENANT_EMAIL: ${{ secrets.E2E_TENANT_EMAIL }}
+          E2E_TENANT_PASSWORD: ${{ secrets.E2E_TENANT_PASSWORD }}
+        run: |
+          if [ -z "$E2E_SERVER_URL" ] || [ -z "$E2E_TENANT_EMAIL" ] || [ -z "$E2E_TENANT_PASSWORD" ]; then
+            echo "::warning::E2E_SERVER_URL, E2E_TENANT_EMAIL or E2E_TENANT_PASSWORD is not set, E2E skipped. See CONTRIBUTING.md, \"E2E tests\"."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  android:
+    name: E2E Android
+    needs: settings
+    # `inputs.platform` is empty unless the run was started by hand, so a merge
+    # runs both platforms.
+    if: >-
+      needs.settings.outputs.ready == 'true' && inputs.platform != 'ios' && (
+        github.event_name != 'pull_request' ||
+        contains(github.event.pull_request.labels.*.name, 'e2e:android')
+      )
+    # A new push to the pull request cancels the Android run in progress.
+    concurrency:
+      group: e2e-android-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    # Room for a second try of the failed tests (.github/scripts/run-e2e.sh).
+    timeout-minutes: 60
+    env:
+      # Android 16 only. Android 13 and iOS 17 runs failed too often on CI for
+      # reasons outside the app (the connection to the E2E server, the iOS 17
+      # simulator download), so older versions are tested by hand for now.
+      API_LEVEL: '36'
+      # The label e2e:full picks the full suite on a pull request.
+      SUITE: ${{ inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke' }}
+      # The full suite runs the smoke tests too.
+      TARGETS: ${{ (inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke') == 'full' && 'patrol_test/smoke,patrol_test/full' || 'patrol_test/smoke' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Free disk space
+        # The runner image leaves too little room for the Android build and an
+        # emulator; none of these toolsets is used here.
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
+            /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: ./.github/actions/setup-flutter
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle', 'android/gradle/wrapper/gradle-wrapper.properties', 'pubspec.lock') }}
+          restore-keys: gradle-${{ runner.os }}-
+      - name: Install Patrol CLI
+        # patrol_cli 4.7+ works with the patrol 4.9+ package in pubspec.yaml.
+        run: |
+          dart pub global activate patrol_cli 4.9.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Write the test settings
+        # A file rather than --dart-define arguments, so the password is not
+        # on a command line and needs no shell quoting.
+        env:
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+          E2E_TENANT_EMAIL: ${{ secrets.E2E_TENANT_EMAIL }}
+          E2E_TENANT_PASSWORD: ${{ secrets.E2E_TENANT_PASSWORD }}
+          E2E_RUN_ID: gh${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          jq -n '{
+            thingsboardApiEndpoint: env.E2E_SERVER_URL,
+            E2E_TENANT_EMAIL: env.E2E_TENANT_EMAIL,
+            E2E_TENANT_PASSWORD: env.E2E_TENANT_PASSWORD,
+            E2E_RUN_ID: env.E2E_RUN_ID
+          }' > "$RUNNER_TEMP/e2e_defines.json"
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run the ${{ env.SUITE }} suite on Android API ${{ env.API_LEVEL }}
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        env:
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+        with:
+          api-level: ${{ env.API_LEVEL }}
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          # Tries the failed tests once more; see the script.
+          script: bash .github/scripts/run-e2e.sh --dart-define-from-file=${{ runner.temp }}/e2e_defines.json
+      - name: Upload the test reports
+        # Also after a second try that passed, to show why the first failed.
+        if: failure() || hashFiles('build/e2e/retried.txt') != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-android-${{ env.API_LEVEL }}-reports
+          # Test results with the logcat of each test, and a screenshot of
+          # the app for each failed test; build/e2e has the Patrol output of
+          # each try and the first try's results.
+          path: |
+            build/app/outputs/androidTest-results
+            build/app/reports/androidTests
+            patrol_test/screenshots
+            build/e2e
+          retention-days: 7
+
+  ios:
+    name: E2E iOS
+    needs: settings
+    if: >-
+      needs.settings.outputs.ready == 'true' && inputs.platform != 'android' && (
+        github.event_name != 'pull_request' ||
+        contains(github.event.pull_request.labels.*.name, 'e2e:ios')
+      )
+    # A new push to the pull request cancels the iOS run in progress.
+    concurrency:
+      group: e2e-ios-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    # Xcode 26 with iOS 26 simulators; the default Xcode of the image is used.
+    runs-on: macos-26
+    # Room for a second try of the failed tests (.github/scripts/run-e2e.sh).
+    timeout-minutes: 80
+    env:
+      # iOS 26 only, the runtime on the image; see API_LEVEL in the Android job
+      # about older versions.
+      IOS_VERSION: '26'
+      DEVICE_TYPE: iPhone 17
+      # The label e2e:full picks the full suite on a pull request.
+      SUITE: ${{ inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke' }}
+      # The full suite runs the smoke tests too.
+      TARGETS: ${{ (inputs.suite || (contains(github.event.pull_request.labels.*.name, 'e2e:full') && 'full') || 'smoke') == 'full' && 'patrol_test/smoke,patrol_test/full' || 'patrol_test/smoke' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: ./.github/actions/setup-flutter
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          # The plugins without Swift Package Manager support.
+          path: ios/Pods
+          key: pods-${{ runner.os }}-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}
+          restore-keys: pods-${{ runner.os }}-
+      - name: Install Patrol CLI
+        # patrol_cli 4.7+ works with the patrol 4.9+ package in pubspec.yaml.
+        run: |
+          dart pub global activate patrol_cli 4.9.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Write the test settings
+        # A file rather than --dart-define arguments, so the password is not
+        # on a command line and needs no shell quoting.
+        env:
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+          E2E_TENANT_EMAIL: ${{ secrets.E2E_TENANT_EMAIL }}
+          E2E_TENANT_PASSWORD: ${{ secrets.E2E_TENANT_PASSWORD }}
+          E2E_RUN_ID: gh${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          jq -n '{
+            thingsboardApiEndpoint: env.E2E_SERVER_URL,
+            E2E_TENANT_EMAIL: env.E2E_TENANT_EMAIL,
+            E2E_TENANT_PASSWORD: env.E2E_TENANT_PASSWORD,
+            E2E_RUN_ID: env.E2E_RUN_ID
+          }' > "$RUNNER_TEMP/e2e_defines.json"
+      - name: Boot an iOS ${{ env.IOS_VERSION }} simulator
+        id: simulator
+        run: |
+          xcodebuild -version
+          # The newest installed runtime of that iOS version.
+          runtime=$(xcrun simctl list runtimes --json | jq -c --arg major "$IOS_VERSION" '
+            [.runtimes[] | select(.platform == "iOS" and .isAvailable and (.version | startswith($major + ".")))]
+            | sort_by(.version | split(".") | map(tonumber)) | last')
+          if [ "$runtime" = "null" ]; then
+            echo "::error::No iOS $IOS_VERSION simulator runtime on this image."
+            xcrun simctl list runtimes
+            exit 1
+          fi
+          # Patrol gives xcodebuild 1 second to find the simulator; keep only
+          # the test simulator so Xcode has one device to load, not dozens.
+          xcrun simctl delete all
+          udid=$(xcrun simctl create e2e "$DEVICE_TYPE" "$(jq -r .identifier <<< "$runtime")")
+          xcrun simctl bootstatus "$udid" -b
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+          echo "version=$(jq -r .version <<< "$runtime")" >> "$GITHUB_OUTPUT"
+      - name: Wait for Xcode to list the simulator
+        # Right after boot, Xcode's device list can still be loading.
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          for attempt in $(seq 1 30); do
+            if xcrun xctrace list devices 2>/dev/null | grep -q "$SIMULATOR_UDID"; then
+              echo "Xcode lists the simulator (attempt $attempt)."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Xcode does not list the simulator $SIMULATOR_UDID after 5 minutes."
+          xcrun xctrace list devices
+          exit 1
+      - name: Record the app log
+        # The app's own log (Flutter, the dashboard web view and WebKit) shows
+        # what the test output cannot, such as how far a dashboard got before
+        # it stopped loading. The recording runs until the job ends.
+        id: app_log
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          nohup xcrun simctl spawn "$SIMULATOR_UDID" log stream --style compact \
+            --predicate 'process == "Runner" OR process BEGINSWITH "com.apple.WebKit"' \
+            > "$RUNNER_TEMP/app-raw.log" 2>&1 &
+      - name: Run the ${{ env.SUITE }} suite on iOS ${{ steps.simulator.outputs.version }}
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+          SIMULATOR_VERSION: ${{ steps.simulator.outputs.version }}
+          E2E_SERVER_URL: ${{ vars.E2E_SERVER_URL }}
+        # Tries the failed tests once more; see the script.
+        run: |
+          .github/scripts/run-e2e.sh \
+            --dart-define-from-file="$RUNNER_TEMP/e2e_defines.json" \
+            --device "$SIMULATOR_UDID" --ios "$SIMULATOR_VERSION"
+      - name: Upload the test results
+        # Also after a second try that passed, to show why the first failed.
+        if: failure() || hashFiles('build/e2e/retried.txt') != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-ios-${{ steps.simulator.outputs.version || env.IOS_VERSION }}-results
+          # Open the .xcresult in Xcode for the log and screenshots of each
+          # test, one per try; build/e2e has the Patrol output of each try.
+          path: |
+            build/ios_results_*.xcresult
+            build/e2e
+          retention-days: 7
+      - name: Remove tokens and the password from the app log
+        # Anyone signed in to GitHub can download the artifacts of this public
+        # repository. The app logs the web view's sign-in URL with the access
+        # and refresh tokens, so every JWT goes, and the tenant password too.
+        id: app_log_clean
+        if: always() && steps.app_log.outcome == 'success'
+        env:
+          E2E_TENANT_PASSWORD: ${{ secrets.E2E_TENANT_PASSWORD }}
+        run: |
+          pkill -f "log stream" || true
+          perl -pe 's/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/<token>/g;
+            s/\Q$ENV{E2E_TENANT_PASSWORD}\E/<password>/g' \
+            "$RUNNER_TEMP/app-raw.log" > "$RUNNER_TEMP/app.log"
+          rm "$RUNNER_TEMP/app-raw.log"
+      - name: Upload the app log
+        if: always() && steps.app_log_clean.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-ios-${{ steps.simulator.outputs.version || env.IOS_VERSION }}-app-log
+          path: ${{ runner.temp }}/app.log
+          retention-days: 7

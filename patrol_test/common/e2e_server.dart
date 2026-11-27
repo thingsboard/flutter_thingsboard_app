@@ -1,0 +1,489 @@
+// Copyright © 2021-2026 ThingsBoard, Inc.
+//
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:math';
+
+import 'package:built_value/json_object.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
+
+import 'e2e_env.dart';
+import 'totp.dart';
+
+typedef E2eUser = ({String email, String password, String customerId});
+
+/// Test data on the E2E server, created through the REST API as the E2E
+/// tenant administrator.
+class E2eServer {
+  E2eServer._(this._client);
+
+  final ThingsboardClient _client;
+
+  static const dashboardTitle = '${E2eEnv.entityPrefix}dashboard';
+
+  /// Text of the only widget on [dashboardTitle]. The dashboard is a web
+  /// view, so the tests look for this text through the native accessibility
+  /// tree to tell a loaded dashboard from a failed one.
+  static const dashboardMarker = 'e2e-ready';
+
+  /// Signs in the tenant administrator. A refused sign-in is never retried:
+  /// repeated failed sign-ins would lock the account for every later run.
+  /// Only a connection that failed before the request reached the server is
+  /// retried (see [_write]), since the server then never checked the password.
+  static Future<E2eServer> signIn() async {
+    E2eEnv.check();
+    final client = ThingsboardClient(E2eEnv.serverUrl);
+    final LoginResponse response;
+    try {
+      response = await _write(
+        'the tenant sign-in',
+        () => client.login(
+          LoginRequest(
+            (b) => b
+              ..username = E2eEnv.tenantEmail
+              ..password = E2eEnv.tenantPassword,
+          ),
+        ),
+      );
+    } on Exception catch (e) {
+      throw _signInFailure(e);
+    }
+    if (response.scope != null) {
+      throw TestFailure(
+        'The E2E tenant administrator has two-factor login '
+        '(${response.scope}). Turn it off for this account.',
+      );
+    }
+    return E2eServer._(client);
+  }
+
+  /// The waits before each new try of a request the server gave no answer
+  /// to. On CI the connection to the E2E server drops in bursts that last
+  /// from seconds to about a minute, so the waits grow.
+  @visibleForTesting
+  static const retryDelays = [
+    Duration(seconds: 5),
+    Duration(seconds: 15),
+    Duration(seconds: 30),
+  ];
+
+  /// Sends a request that only reads, or that changes nothing when it is
+  /// sent twice. It is tried again after each of [retryDelays] when the
+  /// server gave no answer, for example when the connection was reset.
+  static Future<T> _read<T>(String what, Future<T> Function() request) =>
+      retryWithoutAnswer(what, request, repeatable: true);
+
+  /// Sends a request that creates or changes something. It is tried again
+  /// only when the connection failed before the request reached the server:
+  /// after a reset mid-request the server may have done it already, and a
+  /// second try would fail on the duplicate or create one.
+  static Future<T> _write<T>(String what, Future<T> Function() request) =>
+      retryWithoutAnswer(what, request, repeatable: false);
+
+  /// Sends [request] and tries it again after each of [delays] while the
+  /// server gives no answer: [repeatable] requests on any lost connection,
+  /// others only when the connection failed before the request was sent.
+  /// An answer from the server, even an error, is never retried.
+  @visibleForTesting
+  static Future<T> retryWithoutAnswer<T>(
+    String what,
+    Future<T> Function() request, {
+    required bool repeatable,
+    List<Duration> delays = retryDelays,
+  }) async {
+    for (var attempt = 0; ; attempt++) {
+      try {
+        return await request();
+      } on ThingsboardError catch (e) {
+        final retry = repeatable ? e.status == null : _notSent(e);
+        if (!retry || attempt >= delays.length) rethrow;
+        final delay = delays[attempt];
+        debugPrint(
+          'E2E server: no answer to $what (${e.message}), trying again in '
+          '${delay.inSeconds} s (${attempt + 1}/${delays.length})',
+        );
+        await Future<void>.delayed(delay);
+      }
+    }
+  }
+
+  /// Whether the connection failed before the request was sent.
+  static bool _notSent(ThingsboardError e) {
+    final cause = e.error;
+    return e.status == null &&
+        cause is DioException &&
+        (cause.type == DioExceptionType.connectionError ||
+            cause.type == DioExceptionType.connectionTimeout);
+  }
+
+  static TestFailure _signInFailure(Exception e) => TestFailure(
+    'The E2E tenant administrator could not sign in to '
+    '${E2eEnv.serverUrl}: $e\n'
+    'Check E2E_TENANT_EMAIL and E2E_TENANT_PASSWORD, and that the account '
+    'is active and not locked. A refused sign-in is not retried.',
+  );
+
+  /// Creates [dashboardTitle] unless the tenant already has it.
+  Future<void> ensureDashboard() async {
+    final api = _client.getDashboardControllerApi();
+    final page = (await _read(
+      'the dashboard list',
+      () => api.getTenantDashboards(
+        pageSize: 10,
+        page: 0,
+        textSearch: dashboardTitle,
+      ),
+    )).data!;
+    if (page.data?.any((d) => d.title == dashboardTitle) ?? false) {
+      return;
+    }
+    await _write(
+      'the new dashboard',
+      () => api.saveDashboard(
+        dashboard: Dashboard(
+          (b) => b
+            ..title = dashboardTitle
+            ..configuration = JsonObject(_dashboardConfiguration()),
+        ),
+      ),
+    );
+  }
+
+  /// Creates a customer with one activated customer user in the customer's
+  /// [userGroup]. Deleting the customer with [deleteCustomer] also deletes the
+  /// user and everything else the customer owns.
+  ///
+  /// `Customer Users` can only read; `Customer Administrators` can also act,
+  /// for example acknowledge alarms.
+  Future<E2eUser> createCustomerUser({
+    String userGroup = customerUsersGroup,
+  }) async {
+    final name = '${E2eEnv.entityPrefix}${E2eEnv.runId}-customer';
+    final customer = (await _write(
+      'the new customer',
+      () => _client.getCustomerControllerApi().saveCustomer(
+        customer: Customer((b) => b..title = name),
+      ),
+    )).data!;
+    final customerId = customer.id!;
+    try {
+      // The customer's own user group carries the Customer User role; a user
+      // outside it signs in with no permissions.
+      final groupId = await _customerGroupId(customerId.id, 'USER', userGroup);
+      final email = '$name@example.com';
+      final userApi = _client.getUserControllerApi();
+      final user = (await _write(
+        'the new customer user',
+        () => userApi.saveUser(
+          user: User(
+            (b) => b
+              ..email = email
+              ..authority = Authority.CUSTOMER_USER
+              ..customerId.replace(customerId),
+          ),
+          sendActivationMail: 'false',
+          entityGroupId: groupId,
+        ),
+      )).data!;
+      final link = (await _read(
+        'the activation link',
+        () => userApi.getActivationLink(userId: user.id!.id),
+      )).data!;
+      final password = _newPassword();
+      await _write(
+        'the user activation',
+        () => _client.getAuthControllerApi().activateUser(
+          activateUserRequest: ActivateUserRequest(
+            (b) => b
+              ..activateToken = Uri.parse(link).queryParameters['activateToken']
+              ..password = password,
+          ),
+          sendActivationMail: false,
+        ),
+      );
+      return (email: email, password: password, customerId: customerId.id);
+    } on Exception {
+      await deleteCustomer(customerId.id);
+      rethrow;
+    }
+  }
+
+  static const customerUsersGroup = 'Customer Users';
+  static const customerAdministratorsGroup = 'Customer Administrators';
+
+  /// Type of the alarm [createCustomerAlarm] raises.
+  static const alarmType = '${E2eEnv.entityPrefix}alarm';
+
+  /// Creates a copy of the E2E dashboard owned by the customer and makes it
+  /// the customer's home dashboard, so its users land on it after sign-in.
+  Future<void> setCustomerHomeDashboard(String customerId) async {
+    final groupId = await _customerGroupId(customerId, 'DASHBOARD', 'All');
+    final dashboard = (await _write(
+      'the customer dashboard',
+      () => _client.getDashboardControllerApi().saveDashboard(
+        dashboard: Dashboard(
+          (b) => b
+            ..title = dashboardTitle
+            ..customerId.replace(_customerId(customerId))
+            ..configuration = JsonObject(_dashboardConfiguration()),
+        ),
+        entityGroupId: groupId,
+      ),
+    )).data!;
+    final customerApi = _client.getCustomerControllerApi();
+    final customer = (await _read(
+      'the customer',
+      () => customerApi.getCustomerById(customerId: customerId),
+    )).data!;
+    final info = {
+      ...?(customer.additionalInfo?.value as Map?)?.cast<String, Object?>(),
+      'homeDashboardId': dashboard.id!.id,
+      'homeDashboardHideToolbar': true,
+    };
+    await _write(
+      'the customer home dashboard',
+      () => customerApi.saveCustomer(
+        customer: customer.rebuild((b) => b..additionalInfo = JsonObject(info)),
+      ),
+    );
+  }
+
+  /// Raises an active, unacknowledged [alarmType] alarm on a new device owned
+  /// by the customer.
+  Future<void> createCustomerAlarm(String customerId) async {
+    final groupId = await _customerGroupId(customerId, 'DEVICE', 'All');
+    final device = (await _write(
+      'the new device',
+      () => _client.getDeviceControllerApi().saveDevice(
+        device: Device(
+          (b) => b
+            ..name = '${E2eEnv.entityPrefix}${E2eEnv.runId}-device'
+            ..type = 'default'
+            ..customerId.replace(_customerId(customerId)),
+        ),
+        entityGroupId: groupId,
+      ),
+    )).data!;
+    await _write(
+      'the new alarm',
+      () => _client.getAlarmControllerApi().saveAlarm(
+        alarm: Alarm(
+          (b) => b
+            ..type = alarmType
+            ..name = alarmType
+            ..originator = device.id
+            ..severity = AlarmSeverity.MAJOR
+            ..status = AlarmStatus.ACTIVE_UNACK
+            ..acknowledged = false
+            ..cleared = false,
+        ),
+      ),
+    );
+  }
+
+  /// Turns on TOTP two-factor login for [user] and returns the generator for
+  /// its codes. TOTP must be allowed in the server's platform settings.
+  static Future<Totp> enableTotp(E2eUser user) async {
+    final client = await _signInAs(user);
+    final api = client.getTwoFactorAuthConfigControllerApi();
+    // Generating saves nothing: a second try only gets another secret.
+    final config =
+        (await _read(
+              'a TOTP secret',
+              () => api.generateTwoFaAccountConfig(providerType: 'TOTP'),
+            )).data!
+            as TotpTwoFaAccountConfig;
+    final totp = Totp.fromAuthUrl(config.authUrl);
+    await _write(
+      'the TOTP setup',
+      () => api.verifyAndSaveTwoFaAccountConfig(
+        twoFaAccountConfig: config,
+        verificationCode: totp.now(),
+      ),
+    );
+    return totp;
+  }
+
+  /// Ends every session of [user] on the server the way a password change
+  /// does: tokens issued before it stop working, including the app's.
+  static Future<void> endSessions(E2eUser user) async {
+    final client = await _signInAs(user);
+    // The server rejects tokens issued in the same second as the change.
+    await Future<void>.delayed(const Duration(seconds: 1));
+    await _write(
+      'the password change',
+      () => client.changePassword(user.password, _newPassword()),
+    );
+  }
+
+  /// Signs in a customer user the test created. Unlike the tenant sign-in,
+  /// this is tried again on any lost connection: the password is the one the
+  /// test set, so a second try cannot count as a failed sign-in and lock the
+  /// account, and signing in twice only gives a second token.
+  static Future<ThingsboardClient> _signInAs(E2eUser user) async {
+    final client = ThingsboardClient(E2eEnv.serverUrl);
+    await _read(
+      'the customer user sign-in',
+      () => client.login(
+        LoginRequest(
+          (b) => b
+            ..username = user.email
+            ..password = user.password,
+        ),
+      ),
+    );
+    return client;
+  }
+
+  Future<String> _customerGroupId(
+    String customerId,
+    String groupType,
+    String groupName,
+  ) async {
+    final group = (await _read(
+      'the customer $groupType group',
+      () => _client
+          .getEntityGroupControllerApi()
+          .getEntityGroupByOwnerAndNameAndType(
+            ownerType: 'CUSTOMER',
+            ownerId: customerId,
+            groupType: groupType,
+            groupName: groupName,
+          ),
+    )).data!;
+    return group.id!.id;
+  }
+
+  static CustomerId _customerId(String id) => CustomerId((b) => b..id = id);
+
+  /// A second try after a reset mid-request would fail if the first one
+  /// deleted the customer, so this is a [_write].
+  Future<void> deleteCustomer(String customerId) => _write(
+    'the customer deletion',
+    () => _client.getCustomerControllerApi().deleteCustomer(
+      customerId: customerId,
+    ),
+  );
+
+  /// Deletes the customer a test created, at the end of the test. A failure
+  /// here, such as a dropped connection, only prints a warning: the app part
+  /// of the test is done, and the next test's [deleteStaleCustomers] deletes
+  /// the leftover.
+  Future<void> cleanUpCustomer(String customerId) async {
+    try {
+      await deleteCustomer(customerId);
+    } on Exception catch (e) {
+      debugPrint('E2E cleanup: customer $customerId not deleted: $e');
+    }
+  }
+
+  /// Deletes customers that earlier tests left behind:
+  ///  * those of this run: the tests run one after another, so a customer of
+  ///    this run that exists when a test starts belongs to a test whose app
+  ///    process ended before its cleanup could run;
+  ///  * those older than a day, for example from a cancelled job.
+  ///
+  /// Parallel runs and other attempts have their own run id, so their
+  /// customers of today are left alone.
+  Future<void> deleteStaleCustomers() async {
+    final thisRun = '${E2eEnv.entityPrefix}${E2eEnv.runId}-';
+    final page = (await _read(
+      'the customer list',
+      () => _client.getCustomerControllerApi().getCustomers(
+        pageSize: 100,
+        page: 0,
+        textSearch: E2eEnv.entityPrefix,
+      ),
+    )).data!;
+    final dayAgo = DateTime.now()
+        .subtract(const Duration(days: 1))
+        .millisecondsSinceEpoch;
+    for (final customer in page.data ?? const <Customer>[]) {
+      if (customer.title.startsWith(thisRun) ||
+          (customer.title.startsWith(E2eEnv.entityPrefix) &&
+              (customer.createdTime ?? dayAgo) < dayAgo)) {
+        await deleteCustomer(customer.id!.id);
+      }
+    }
+  }
+
+  static String _newPassword() {
+    const chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    final random = Random.secure();
+    final body = List.generate(
+      16,
+      (_) => chars[random.nextInt(chars.length)],
+    ).join();
+    // Covers the usual policy rules: upper and lower case, a digit, a symbol.
+    return 'Aa1!$body';
+  }
+
+  static Map<String, Object?> _dashboardConfiguration() {
+    const widgetId = 'e2e00000-0000-4000-8000-000000000001';
+    return {
+      'description': 'E2E tests of the mobile app. Recreated when missing.',
+      'widgets': {
+        widgetId: {
+          'id': widgetId,
+          'typeFullFqn': 'system.cards.html_card',
+          'type': 'static',
+          'sizeX': 8,
+          'sizeY': 4,
+          'row': 0,
+          'col': 0,
+          'config': {
+            'datasources': <Object>[],
+            'showTitle': false,
+            'title': dashboardMarker,
+            'backgroundColor': '#ffffff',
+            'color': 'rgba(0, 0, 0, 0.87)',
+            'padding': '16px',
+            'dropShadow': true,
+            'enableFullscreen': false,
+            'settings': {
+              'cardHtml': '<div>$dashboardMarker</div>',
+              'cardCss': 'div { font-size: 20px; }',
+            },
+          },
+        },
+      },
+      'states': {
+        'default': {
+          'name': dashboardTitle,
+          'root': true,
+          'layouts': {
+            'main': {
+              'widgets': {
+                widgetId: {'sizeX': 8, 'sizeY': 4, 'row': 0, 'col': 0},
+              },
+              'gridSettings': {
+                'backgroundColor': '#eeeeee',
+                'columns': 24,
+                'margin': 10,
+                'outerMargin': true,
+              },
+            },
+          },
+        },
+      },
+      'entityAliases': <String, Object>{},
+      'filters': <String, Object>{},
+      'timewindow': {
+        'realtime': {'timewindowMs': 60000},
+      },
+      'settings': {
+        'stateControllerId': 'entity',
+        'showTitle': false,
+        'showDashboardsSelect': false,
+        'showEntitiesSelect': false,
+        'showDashboardTimewindow': false,
+        'showDashboardExport': false,
+        'toolbarAlwaysOpen': false,
+      },
+    };
+  }
+}
