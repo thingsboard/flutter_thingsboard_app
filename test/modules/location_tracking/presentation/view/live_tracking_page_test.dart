@@ -10,15 +10,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/providers/live_tracking_provider.dart';
 import 'package:thingsboard_app/modules/location_tracking/presentation/view/live_tracking_page.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
+import '../../../../helpers/fake_navigation.dart';
 
 class _NoSession extends LiveTracking {
   @override
@@ -43,7 +38,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          navigationProvider.overrideWith(_NoPagesNavigation.new),
+          navigationProvider.overrideWith(NoPagesNavigation.new),
           liveTrackingProvider.overrideWith(_NoSession.new),
           lastRecordProvider.overrideWith((ref) => null),
         ],

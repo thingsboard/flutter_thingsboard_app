@@ -17,7 +17,6 @@ import 'package:thingsboard_app/core/auth/signup/email_verified_page.dart';
 import 'package:thingsboard_app/core/auth/signup/signup_page.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
@@ -26,14 +25,9 @@ import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../helpers/cutout_phone.dart';
+import '../../helpers/fake_navigation.dart';
 import '../../helpers/fake_wl.dart';
 import '../../helpers/test_dependencies.dart';
-
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
 
 class MockLoadingService extends Mock implements ILoadingService {}
 
@@ -69,7 +63,7 @@ Future<void> _pump(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        navigationProvider.overrideWith(_NoPagesNavigation.new),
+        navigationProvider.overrideWith(NoPagesNavigation.new),
         wlProvider.overrideWith(FakeWl.new),
         oauthProvider.overrideWith((_) => Future.value(_signUpInfo)),
       ],

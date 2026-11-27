@@ -33,10 +33,5 @@ final class AlarmDetailsLoadedState extends AlarmDetailsState {
 }
 
 final class AlarmDetailsErrorState extends AlarmDetailsState {
-  const AlarmDetailsErrorState(this.message);
-
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
+  const AlarmDetailsErrorState();
 }

@@ -47,9 +47,10 @@ class ChooseRegionScreen extends HookConsumerWidget {
                   currentRegion.value = Region.northAmerica;
                 },
               ),
-              Container(
+              const Divider(
                 height: 1,
-                decoration: const BoxDecoration(color: AppColors.bordersLight),
+                thickness: 1,
+                color: AppColors.bordersLight,
               ),
               RegionWidget(
                 title: S.of(context).europe,
@@ -60,11 +61,10 @@ class ChooseRegionScreen extends HookConsumerWidget {
                 },
               ),
               if (selectedRegion == Region.custom) ...[
-                Container(
+                const Divider(
                   height: 1,
-                  decoration: const BoxDecoration(
-                    color: AppColors.bordersLight,
-                  ),
+                  thickness: 1,
+                  color: AppColors.bordersLight,
                 ),
                 RegionWidget(
                   title: 'Custom',

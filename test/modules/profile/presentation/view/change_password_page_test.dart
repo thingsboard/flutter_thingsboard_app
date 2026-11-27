@@ -10,19 +10,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/profile/presentation/view/change_password_page.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 
-class MockOverlayService extends Mock implements IOverlayService {}
+import '../../../../helpers/fake_navigation.dart';
 
-/// TbAppBar reads the bottom bar pages; none are needed here.
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
+class MockOverlayService extends Mock implements IOverlayService {}
 
 void main() {
   late MockOverlayService overlay;
@@ -36,7 +30,8 @@ void main() {
   Future<S> pumpPage(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [navigationProvider.overrideWith(_NoPagesNavigation.new)],
+        // TbAppBar reads the bottom bar pages; none are needed here.
+        overrides: [navigationProvider.overrideWith(NoPagesNavigation.new)],
         child: MaterialApp.router(
           localizationsDelegates: S.localizationsDelegates,
           supportedLocales: S.supportedLocales,

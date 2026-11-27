@@ -44,8 +44,6 @@ import 'package:thingsboard_app/utils/services/overlay_service/overlay_service.d
 import 'package:thingsboard_app/utils/services/storage/tb_secure_storage.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/tb_client_service.dart';
-import 'package:thingsboard_app/utils/services/user/i_user_service.dart';
-import 'package:thingsboard_app/utils/services/user/user_service.dart';
 import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_service.dart';
 import 'package:thingsboard_app/utils/services/web_view_data/web_view_data_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
@@ -114,7 +112,6 @@ Future<void> setUpRootDependencies() async {
     ..registerLazySingleton<ICommunicationService>(
       () => CommunicationService(EventBus()),
     )
-    ..registerSingleton<IUserService>(UserService())
     ..registerLazySingleton<ICustomTranslationService>(
       () => TbCustomTranslationService(),
     )

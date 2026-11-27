@@ -8,16 +8,14 @@ import 'package:thingsboard_app/core/auth/login/widgets/text_field.dart';
 import 'package:thingsboard_client/thingsboard_client.dart'
     show SignUpField, SignUpFieldId;
 
-class SingUpFieldWidget extends StatelessWidget {
-  const SingUpFieldWidget({
+class SignUpFieldWidget extends StatelessWidget {
+  const SignUpFieldWidget({
     required this.field,
-    this.suffixIcon,
     this.obscureText = false,
     super.key,
   });
 
   final SignUpField field;
-  final Widget? suffixIcon;
   final bool obscureText;
 
   @override
@@ -31,7 +29,6 @@ class SingUpFieldWidget extends StatelessWidget {
       obscureText: obscureText,
       formControlName: field.id.name,
       type: keyboardTypeFromId(),
-      suffixIcon: suffixIcon,
       label: labelText(context),
       hint: labelText(context),
     );

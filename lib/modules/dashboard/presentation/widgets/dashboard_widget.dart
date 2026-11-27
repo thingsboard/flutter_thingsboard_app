@@ -15,7 +15,6 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/application/mobile_actions/widget_action_handler.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:thingsboard_app/modules/dashboard/presentation/controller/dashboard_page_controller.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboard_load_error_script.dart';
 import 'package:thingsboard_app/utils/services/endpoint/i_endpoint_service.dart';
 import 'package:thingsboard_app/utils/services/export_module.dart';
@@ -29,7 +28,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({
     required this.controllerCallback,
-    this.pageController,
     this.onUrlChanged,
     this.home,
     this.titleCallback,
@@ -37,7 +35,6 @@ class DashboardWidget extends StatefulWidget {
   });
 
   final DashboardControllerCallback controllerCallback;
-  final DashboardPageController? pageController;
   final bool? home;
   final VoidCallback? onUrlChanged;
   final DashboardTitleCallback? titleCallback;
@@ -50,7 +47,6 @@ class _DashboardState extends State<DashboardWidget> {
   late final Future<void> _cacheCleared =
       InAppWebViewController.clearAllCache();
 
-  bool webViewLoading = true;
   final dashboardLoading = ValueNotifier<bool>(true);
   final TbLogger log = getIt();
   final ThingsboardClient client = getIt<ITbClientService>().client;
@@ -165,9 +161,6 @@ class _DashboardState extends State<DashboardWidget> {
                   onLoadStop: (controller, url) {
                     // translate-me-ignore-next-line
                     log.debug('onLoadStop: $url');
-                    if (webViewLoading) {
-                      webViewLoading = false;
-                    }
                   },
                   onReceivedHttpError: (ctrl, req, errResponse) {
                     log.debug(

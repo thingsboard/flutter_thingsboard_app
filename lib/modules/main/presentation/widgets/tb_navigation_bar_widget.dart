@@ -11,34 +11,21 @@ import 'package:thingsboard_app/modules/main/presentation/widgets/bottom_navbar_
 class TbNavigationBarWidget extends StatelessWidget {
   const TbNavigationBarWidget({
     super.key,
-    this.backgroundColor,
     required this.customBottomBarItems,
     this.currentIndex = 0,
     required this.onTap,
-    this.lineIndicatorWidth = 2,
-    this.gradient,
-    this.selectedTextStyle,
-    this.unSelectedTextStyle,
   });
 
-  final Color? backgroundColor;
   final List<TbMainNavigationItem> customBottomBarItems;
   final int currentIndex;
-  final double lineIndicatorWidth;
   final ValueChanged<int> onTap;
-  final LinearGradient? gradient;
-  final TextStyle? selectedTextStyle;
-  final TextStyle? unSelectedTextStyle;
 
   @override
   Widget build(BuildContext context) {
     final bottomTheme = BottomNavigationBarTheme.of(context);
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: backgroundColor ?? bottomTheme.backgroundColor,
-        gradient: gradient,
-      ),
+      decoration: BoxDecoration(color: bottomTheme.backgroundColor),
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -49,7 +36,7 @@ class TbNavigationBarWidget extends StatelessWidget {
                     label: item.title,
                     icon: item.icon,
                     currentIndex: currentIndex,
-                    lineIndicatorWidth: lineIndicatorWidth,
+                    lineIndicatorWidth: 2,
                     index: index,
                     onTap: onTap,
                     selectedTextStyle: TextStyle(

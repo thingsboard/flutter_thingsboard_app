@@ -21,6 +21,8 @@ import 'package:thingsboard_app/utils/services/web_view_data/i_web_view_data_ser
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../../../helpers/connection_error.dart';
+import '../../../../helpers/previous_session_mocks.dart'
+    show MockNotificationService, MockWebViewDataService;
 import '../../../../helpers/test_dependencies.dart';
 
 class MockCommunicationService extends Mock implements ICommunicationService {}
@@ -35,14 +37,10 @@ class MockLiveLocationTrackingService extends Mock
 class MockCustomTranslationService extends Mock
     implements ICustomTranslationService {}
 
-class MockNotificationService extends Mock implements NotificationService {}
-
 class MockMobileAppControllerApi extends Mock
     implements MobileAppControllerApi {}
 
 class MockAuthUser extends Mock implements AuthUser {}
-
-class MockWebViewDataService extends Mock implements IWebViewDataService {}
 
 void main() {
   late MockTbClientService clientService;

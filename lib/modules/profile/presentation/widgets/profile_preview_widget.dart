@@ -19,13 +19,8 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class ProfilePreviewWidget extends HookConsumerWidget {
-  const ProfilePreviewWidget({
-    super.key,
-    required this.loadingNotifier,
-    required this.user,
-  });
+  const ProfilePreviewWidget({super.key, required this.user});
   final User user;
-  final ValueNotifier loadingNotifier;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userDetails = getIt<UserDetailsUseCase>()(

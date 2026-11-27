@@ -74,10 +74,7 @@ class ProfilePage extends HookConsumerWidget {
                 duration: const Duration(milliseconds: 300),
                 child: user == null
                     ? const SizedBox()
-                    : ProfilePreviewWidget(
-                        user: user,
-                        loadingNotifier: isLoading,
-                      ),
+                    : ProfilePreviewWidget(user: user),
               ),
             ),
           ),

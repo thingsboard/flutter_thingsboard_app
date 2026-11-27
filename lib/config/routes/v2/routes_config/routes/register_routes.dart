@@ -6,9 +6,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:thingsboard_app/core/auth/signup/email_verification_page.dart';
 import 'package:thingsboard_app/core/auth/signup/email_verified_page.dart';
-import 'package:thingsboard_app/core/auth/signup/privacy_policy.dart';
+import 'package:thingsboard_app/core/auth/signup/signup_agreement_page.dart';
 import 'package:thingsboard_app/core/auth/signup/signup_page.dart';
-import 'package:thingsboard_app/core/auth/signup/terms_of_use.dart';
 import 'package:thingsboard_app/utils/ui/tb_recaptcha.dart';
 
 abstract final class RegisterRoutes {
@@ -44,13 +43,15 @@ final registerRoutes = [
   GoRoute(
     path: RegisterRoutes.privacyPolicy,
     builder: (context, state) {
-      return const PrivacyPolicy();
+      return const SignUpAgreementPage(
+        agreement: SignUpAgreement.privacyPolicy,
+      );
     },
   ),
   GoRoute(
     path: RegisterRoutes.termsOfUse,
     builder: (context, state) {
-      return const TermsOfUse();
+      return const SignUpAgreementPage(agreement: SignUpAgreement.termsOfUse);
     },
   ),
   GoRoute(

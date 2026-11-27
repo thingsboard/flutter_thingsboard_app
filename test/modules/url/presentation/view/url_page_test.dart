@@ -8,15 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/url/presentation/view/url_page.dart';
 
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
+import '../../../../helpers/fake_navigation.dart';
 
 void main() {
   late int webBackCalls;
@@ -59,7 +54,7 @@ void main() {
     );
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [navigationProvider.overrideWith(_NoPagesNavigation.new)],
+        overrides: [navigationProvider.overrideWith(NoPagesNavigation.new)],
         child: MaterialApp.router(
           routerConfig: router,
           localizationsDelegates: const [S.delegate],

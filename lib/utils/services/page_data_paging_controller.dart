@@ -77,9 +77,6 @@ class PageDataPagingController<P, T> extends PagingController<P, T> {
         : newValue;
   }
 
-  /// All loaded items, or null before the first page.
-  List<T>? get items => value.items;
-
   @override
   void refresh() {
     _hasMore.value = true;

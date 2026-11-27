@@ -21,14 +21,10 @@ import 'package:thingsboard_app/modules/location_tracking/application/i_live_tra
 /// Notification strings are OS-level and English-only for v1, matching the
 /// foreground-service strings in `BackgroundTrackingConfig`.
 class LiveTrackingNotifications implements ILiveTrackingNotifications {
-  LiveTrackingNotifications({
-    required TbLogger logger,
-    FlutterLocalNotificationsPlugin? plugin,
-  }) : _log = logger,
-       _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+  LiveTrackingNotifications({required TbLogger logger}) : _log = logger;
 
   final TbLogger _log;
-  final FlutterLocalNotificationsPlugin _plugin;
+  final _plugin = FlutterLocalNotificationsPlugin();
 
   static const _notificationId = 51001;
 

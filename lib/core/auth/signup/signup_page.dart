@@ -16,6 +16,7 @@ import 'package:recaptcha_enterprise_flutter/recaptcha_action.dart';
 import 'package:recaptcha_enterprise_flutter/recaptcha_client.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
+import 'package:thingsboard_app/config/routes/v2/routes_config/routes/register_routes.dart';
 import 'package:thingsboard_app/core/auth/login/provider/oauth_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/login_page_background.dart';
 import 'package:thingsboard_app/core/auth/signup/provider/signup_provider.dart';
@@ -39,7 +40,7 @@ class SignUpPage extends HookConsumerWidget {
     final signupState = ref.watch(signupProvider);
     final wlState = ref.watch(wlProvider);
     final recaptchaResponse = useState<String?>(null);
-    final log = useMemoized(() => TbLogger());
+    final log = getIt<TbLogger>();
 
     return switch (oauthData) {
       AsyncData(:final value) => _SignUpPageContent(
@@ -224,7 +225,7 @@ class _SignUpPageContent extends HookConsumerWidget {
                                       field.id == SignUpFieldId.PASSWORD ||
                                       field.id == SignUpFieldId.REPEAT_PASSWORD;
 
-                                  return SingUpFieldWidget(
+                                  return SignUpFieldWidget(
                                     field: signUpFields[index],
                                     obscureText: passwordFiled,
                                   );
@@ -234,18 +235,11 @@ class _SignUpPageContent extends HookConsumerWidget {
                                 itemCount: signUpFields.length,
                               ),
                               ReactiveCheckboxListTile(
-                                onChanged: (control) {
-                                  final hasResponse =
-                                      recaptchaResponse.value != null &&
-                                      recaptchaResponse.value!.isNotEmpty;
-                                  if (!hasResponse) {
-                                    _openRecaptcha(
-                                      context,
-                                      selfRegistrationParams,
-                                      recaptchaResponse,
-                                    );
-                                  }
-                                },
+                                onChanged: (_) => _openRecaptcha(
+                                  context,
+                                  selfRegistrationParams,
+                                  recaptchaResponse,
+                                ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   vertical: 4,
                                 ),
@@ -256,18 +250,11 @@ class _SignUpPageContent extends HookConsumerWidget {
                                 title: Row(
                                   children: [
                                     InkWell(
-                                      onTap: () {
-                                        final hasResponse =
-                                            recaptchaResponse.value != null &&
-                                            recaptchaResponse.value!.isNotEmpty;
-                                        if (!hasResponse) {
-                                          _openRecaptcha(
-                                            context,
-                                            selfRegistrationParams,
-                                            recaptchaResponse,
-                                          );
-                                        }
-                                      },
+                                      onTap: () => _openRecaptcha(
+                                        context,
+                                        selfRegistrationParams,
+                                        recaptchaResponse,
+                                      ),
                                       child: Text(
                                         S.of(context).imNotARobot,
                                         style: Theme.of(context)
@@ -280,81 +267,19 @@ class _SignUpPageContent extends HookConsumerWidget {
                               ),
                               if (selfRegistrationParams.showPrivacyPolicy ??
                                   false)
-                                ReactiveCheckboxListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                  ),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  dense: true,
+                                _AgreementCheckboxTile(
+                                  form: form,
                                   formControlName: 'privacyPolicy',
-                                  title: Row(
-                                    children: [
-                                      Text(
-                                        S.of(context).accept,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          height: 20 / 14,
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          _openPrivacyPolicy(form);
-                                        },
-                                        child: Text(
-                                          " ${S.of(context).privacyPolicy}",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            letterSpacing: 1,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            height: 20 / 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  route: RegisterRoutes.privacyPolicy,
+                                  label: S.of(context).privacyPolicy,
                                 ),
                               if (selfRegistrationParams.showTermsOfUse ??
                                   false)
-                                ReactiveCheckboxListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                  ),
+                                _AgreementCheckboxTile(
+                                  form: form,
                                   formControlName: 'termsOfUse',
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  dense: true,
-                                  title: Row(
-                                    children: [
-                                      Text(
-                                        S.of(context).accept,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          height: 20 / 14,
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          _openTermsOfUse(form);
-                                        },
-                                        child: Text(
-                                          " ${S.of(context).termsOfUse}",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            letterSpacing: 1,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            height: 20 / 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  route: RegisterRoutes.termsOfUse,
+                                  label: S.of(context).termsOfUse,
                                 ),
                             ],
                           ),
@@ -393,6 +318,10 @@ Future<void> _openRecaptcha(
   SignUpSelfRegistrationParams signUpParams,
   ValueNotifier<String?> recaptchaResponseNotifier,
 ) async {
+  final hasResponse =
+      recaptchaResponseNotifier.value != null &&
+      recaptchaResponseNotifier.value!.isNotEmpty;
+  if (hasResponse) return;
   try {
     final captcha = signUpParams.captcha;
     if (captcha == null) return;
@@ -439,17 +368,56 @@ Future<void> _openRecaptcha(
   }
 }
 
-Future<void> _openPrivacyPolicy(FormGroup group) async {
-  final bool? acceptPrivacyPolicy = await getIt<ThingsboardAppRouter>()
-      .navigateTo('/privacyPolicy');
-  group.control('privacyPolicy').updateValue(acceptPrivacyPolicy);
-}
+class _AgreementCheckboxTile extends StatelessWidget {
+  const _AgreementCheckboxTile({
+    required this.form,
+    required this.formControlName,
+    required this.route,
+    required this.label,
+  });
 
-Future<void> _openTermsOfUse(FormGroup group) async {
-  final bool? acceptTermsOfUse = await getIt<ThingsboardAppRouter>().navigateTo(
-    '/termsOfUse',
-  );
-  group.control('termsOfUse').updateValue(acceptTermsOfUse);
+  final FormGroup form;
+  final String formControlName;
+  final String route;
+  final String label;
+
+  Future<void> _openAgreement() async {
+    final bool? accepted = await getIt<ThingsboardAppRouter>().navigateTo(
+      route,
+    );
+    form.control(formControlName).updateValue(accepted);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ReactiveCheckboxListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 4),
+      controlAffinity: ListTileControlAffinity.leading,
+      dense: true,
+      formControlName: formControlName,
+      title: Row(
+        children: [
+          Text(
+            S.of(context).accept,
+            style: const TextStyle(fontSize: 14, height: 20 / 14),
+          ),
+          InkWell(
+            onTap: _openAgreement,
+            child: Text(
+              " $label",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                letterSpacing: 1,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                height: 20 / 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Future<void> _signUp(
@@ -536,8 +504,7 @@ Future<void> _promptToResendEmailVerification(
   if (res == true) {
     await ref.read(signupProvider.notifier).resendEmailActivation(email);
 
-    final log = TbLogger();
-    log.info('Resend email activation!');
+    getIt<TbLogger>().info('Resend email activation!');
     final encoded = Uri.encodeQueryComponent(email);
 
     getIt<ThingsboardAppRouter>().navigateTo(

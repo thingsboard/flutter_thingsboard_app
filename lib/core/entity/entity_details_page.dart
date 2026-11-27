@@ -17,9 +17,6 @@ abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
     required this._defaultTitle,
     required this._entityId,
     this._subTitle,
-    this._showLoadingIndicator = true,
-    this._hideAppBar = false,
-    this._appBarElevation,
     super.key,
   });
   TextStyle get labelTextStyle =>
@@ -32,9 +29,6 @@ abstract class EntityDetailsPage<T extends Object> extends StatefulWidget {
   final String Function(S s) _defaultTitle;
   final String _entityId;
   final String Function(S s)? _subTitle;
-  final bool _showLoadingIndicator;
-  final bool _hideAppBar;
-  final double? _appBarElevation;
 
   @override
   State<StatefulWidget> createState() => _EntityDetailsPageState();
@@ -71,46 +65,43 @@ class _EntityDetailsPageState<T extends Object>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: widget._hideAppBar
-          ? null
-          : TbAppBar(
-              showLoadingIndicator: widget._showLoadingIndicator,
-              elevation: widget._appBarElevation,
-              title: ValueListenableBuilder<String?>(
-                valueListenable: titleValue,
-                builder: (context, name, _) {
-                  final s = S.of(context);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name != null
-                            ? customTranslationService.translate(name)
-                            : widget._defaultTitle(s),
-                        style: widget._subTitle != null
-                            ? Theme.of(context).primaryTextTheme.titleLarge!
-                                  .copyWith(fontSize: 16)
-                            : null,
-                      ),
-                      if (widget._subTitle != null)
-                        Text(
-                          widget._subTitle!(s),
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .titleLarge!
-                                .color!
-                                .withAlpha((0.38 * 255).ceil()),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            height: 16 / 12,
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ),
+      appBar: TbAppBar(
+        showLoadingIndicator: true,
+        title: ValueListenableBuilder<String?>(
+          valueListenable: titleValue,
+          builder: (context, name, _) {
+            final s = S.of(context);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name != null
+                      ? customTranslationService.translate(name)
+                      : widget._defaultTitle(s),
+                  style: widget._subTitle != null
+                      ? Theme.of(context).primaryTextTheme.titleLarge!
+                            .copyWith(fontSize: 16)
+                      : null,
+                ),
+                if (widget._subTitle != null)
+                  Text(
+                    widget._subTitle!(s),
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .primaryTextTheme
+                          .titleLarge!
+                          .color!
+                          .withAlpha((0.38 * 255).ceil()),
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      height: 16 / 12,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
       body: FutureBuilder<T?>(
         future: entityFuture,
         builder: (context, snapshot) {
@@ -143,9 +134,6 @@ abstract class ContactBasedDetailsPage<T extends Object>
     required super.defaultTitle,
     required super.entityId,
     super.subTitle,
-    super.showLoadingIndicator,
-    super.hideAppBar,
-    super.appBarElevation,
     super.key,
   });
 

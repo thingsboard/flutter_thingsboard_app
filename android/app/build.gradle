@@ -55,7 +55,6 @@ namespace "org.thingsboard.app"
     defaultConfig {
         applicationId getDartDefineValue('androidApplicationId') ?: "org.thingsboard.app"
         minSdkVersion 24
-        multiDexEnabled true
         targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

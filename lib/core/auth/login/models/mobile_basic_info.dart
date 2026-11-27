@@ -4,26 +4,17 @@
 // found in the LICENSE file.
 
 import 'package:built_value/json_object.dart';
-import 'package:thingsboard_app/core/auth/login/models/version_info.dart';
 import 'package:thingsboard_app/utils/services/layouts/pages_layout.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 class MobileBasicInfo {
-  const MobileBasicInfo({
-    this.user,
-    this.homeDashboardInfo,
-    this.pages,
-    this.storeInfo,
-    this.versionInfo,
-  });
+  const MobileBasicInfo({this.user, this.homeDashboardInfo, this.pages});
 
   factory MobileBasicInfo.fromUserMobileInfo(UserMobileInfo info) {
     return MobileBasicInfo(
       user: info.user,
       homeDashboardInfo: info.homeDashboardInfo,
       pages: _parsePages(info.pages),
-      storeInfo: info.storeInfo,
-      versionInfo: VersionInfo.fromNullable(info.versionInfo),
     );
   }
 
@@ -38,6 +29,4 @@ class MobileBasicInfo {
   final User? user;
   final HomeDashboardInfo? homeDashboardInfo;
   final List<PageLayout>? pages;
-  final StoreInfo? storeInfo;
-  final VersionInfo? versionInfo;
 }
