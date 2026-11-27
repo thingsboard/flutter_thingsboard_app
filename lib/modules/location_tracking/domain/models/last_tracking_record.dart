@@ -28,7 +28,6 @@ class LastTrackingRecord {
     this.saveErrorCount = 0,
     this.lastLat,
     this.lastLng,
-    this.lastError,
   });
 
   factory LastTrackingRecord.fromJson(Map<String, dynamic> json) =>
@@ -48,7 +47,6 @@ class LastTrackingRecord {
         saveErrorCount: (json['saveErrorCount'] as num?)?.toInt() ?? 0,
         lastLat: (json['lastLat'] as num?)?.toDouble(),
         lastLng: (json['lastLng'] as num?)?.toDouble(),
-        lastError: json['lastError'] as String?,
         endReason: _endReasonFromString(json['endReason'] as String?),
       );
 
@@ -61,7 +59,6 @@ class LastTrackingRecord {
   final int saveErrorCount;
   final double? lastLat;
   final double? lastLng;
-  final String? lastError;
   final TrackingEndReason endReason;
 
   LiveTrackingConfig get config => LiveTrackingConfig.fromJson(configJson);
@@ -90,7 +87,6 @@ class LastTrackingRecord {
     'saveErrorCount': saveErrorCount,
     'lastLat': lastLat,
     'lastLng': lastLng,
-    'lastError': lastError,
     'endReason': endReason.name,
   };
 
@@ -102,7 +98,6 @@ class LastTrackingRecord {
     int? saveErrorCount,
     double? lastLat,
     double? lastLng,
-    String? lastError,
     TrackingEndReason? endReason,
   }) => LastTrackingRecord(
     configJson: configJson,
@@ -114,7 +109,6 @@ class LastTrackingRecord {
     saveErrorCount: saveErrorCount ?? this.saveErrorCount,
     lastLat: lastLat ?? this.lastLat,
     lastLng: lastLng ?? this.lastLng,
-    lastError: lastError ?? this.lastError,
     endReason: endReason ?? this.endReason,
   );
 }

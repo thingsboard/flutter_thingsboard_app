@@ -12,9 +12,8 @@ import 'package:thingsboard_app/constants/assets_path.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 
 class TbProgressIndicator extends ConsumerStatefulWidget {
-  const TbProgressIndicator({this.size = 36.0, this.valueColor});
+  const TbProgressIndicator({this.size = 36.0});
   final double size;
-  final Color? valueColor;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _TbProgressIndicatorState();
@@ -79,9 +78,7 @@ class _TbProgressIndicatorState extends ConsumerState<TbProgressIndicator>
       return SizedBox(
         width: widget.size,
         height: widget.size,
-        child: CircularProgressIndicator(
-          color: widget.valueColor ?? theme.colorScheme.secondary,
-        ),
+        child: CircularProgressIndicator(color: theme.colorScheme.secondary),
       );
     } else {
       return Stack(
@@ -102,7 +99,7 @@ class _TbProgressIndicatorState extends ConsumerState<TbProgressIndicator>
               height: widget.size,
               width: widget.size,
               colorFilter: ColorFilter.mode(
-                widget.valueColor ?? theme.colorScheme.secondary,
+                theme.colorScheme.secondary,
                 BlendMode.srcIn,
               ),
             ),

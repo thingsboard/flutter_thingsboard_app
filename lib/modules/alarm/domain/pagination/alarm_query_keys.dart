@@ -11,14 +11,12 @@ import 'package:thingsboard_client/thingsboard_client.dart';
 class AlarmQueryV2 {
   AlarmQueryV2(
     this.pageLink, {
-    this.affectedEntityId,
     this.typeList,
     this.statusList,
     this.severityList,
     this.assigneeId,
   });
 
-  EntityId? affectedEntityId;
   TimePageLink pageLink;
   List<String>? typeList;
   List<AlarmSearchStatus>? statusList;

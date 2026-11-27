@@ -47,7 +47,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
         try {
           alarmInfo = await fetchAlarmUseCase(event.id!);
         } catch (_) {
-          emit(const AlarmDetailsErrorState(''));
+          emit(const AlarmDetailsErrorState());
           return;
         }
         if (alarmInfo != null) {
@@ -69,7 +69,7 @@ class AlarmDetailsBloc extends Bloc<AlarmDetailsEvent, AlarmDetailsState> {
             ),
           );
         } else {
-          emit(const AlarmDetailsErrorState(''));
+          emit(const AlarmDetailsErrorState());
         }
 
       case ClearAlarmEvent():

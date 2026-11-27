@@ -66,50 +66,18 @@ class NavigationHelper {
     return label;
   }
 
-  /// The navigation item for a page from the bundle layout. Keeps the custom
-  /// label separate from the default title, so the title can be localized.
+  /// The navigation item for a page from the bundle layout. Its `label` is the
+  /// admin's custom name or null; its `title` is shown only for a page with no
+  /// localized default (see [getLocalizedTitle]).
   static NavigationItemData toNavigationItem(PageLayout pageLayout) {
     return NavigationItemData(
-      title: getLabel(pageLayout),
+      title: pageLayout.label ?? '-',
       icon: getIcon(pageLayout),
       path: getPath(pageLayout),
       id: pageLayout.id?.name,
       label: customLabel(pageLayout),
       showNotificationBadge: pageLayout.id == Pages.notifications,
     );
-  }
-
-  static String getLabel(PageLayout pageLayout) {
-    final label = customLabel(pageLayout);
-    if (label != null) {
-      return label;
-    }
-
-    switch (pageLayout.id) {
-      case Pages.home:
-        return 'Home';
-      case Pages.alarms:
-        return 'Alarms';
-      case Pages.devices:
-        return 'Devices';
-      case Pages.customers:
-        return 'Customers';
-      case Pages.assets:
-        return 'Assets';
-      case Pages.audit_logs:
-        return 'Audit Logs';
-      case Pages.notifications:
-        return 'Notifications';
-      case Pages.device_list:
-        return 'Device List';
-      case Pages.dashboards:
-        return 'Dashboards';
-      case Pages.live_location_tracking:
-        return 'Live location tracking';
-      case Pages.undefined:
-      case null:
-        return pageLayout.label ?? '-';
-    }
   }
 
   /// SYS_ADMIN is not RBAC-filtered: see [_isAllowedForSysAdmin]. For everyone

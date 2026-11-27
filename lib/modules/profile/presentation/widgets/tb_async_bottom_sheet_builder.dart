@@ -23,7 +23,6 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
     super.key,
     required this.title,
     this.listTitleBuilder,
-    this.itemBuilder,
     required this.repository,
 
     this.selectedValue,
@@ -31,7 +30,6 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
   final String title;
   final ItemType? selectedValue;
 
-  final Widget Function(BuildContext context, ItemType item)? itemBuilder;
   final String Function(BuildContext context, ItemType item)? listTitleBuilder;
   final SearchablePaginationRepository<PageKeyType, ItemType> repository;
 
@@ -157,40 +155,33 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
                             }
 
                             return Material(
-                              child:
-                                  itemBuilder?.call(context, item) ??
-                                  ListTile(
-                                    selected: isSelected,
-                                    selectedTileColor: Theme.of(context)
-                                        .primaryColor
-                                        .withValues(alpha: 0.06),
-                                    onTap: () => context.pop(item),
-                                    dense: true,
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          listTitleBuilder?.call(
-                                                context,
-                                                item,
-                                              ) ??
-                                              item.toString(),
-                                        ).boldSubString(
-                                          searchValue.toString(),
+                              child: ListTile(
+                                selected: isSelected,
+                                selectedTileColor: Theme.of(context)
+                                    .primaryColor
+                                    .withValues(alpha: 0.06),
+                                onTap: () => context.pop(item),
+                                dense: true,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      listTitleBuilder?.call(context, item) ??
+                                          item.toString(),
+                                    ).boldSubString(
+                                      searchValue.toString(),
 
-                                          regularTextStyle:
-                                              TbTextStyles.bodyLarge,
-                                        ),
-                                        if (isSelected)
-                                          Icon(
-                                            Icons.check,
-                                            color: Theme.of(context)
-                                                .primaryColor,
-                                          ),
-                                      ],
+                                      regularTextStyle: TbTextStyles.bodyLarge,
                                     ),
-                                  ),
+                                    if (isSelected)
+                                      Icon(
+                                        Icons.check,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                  ],
+                                ),
+                              ),
                             );
                           },
                         ),

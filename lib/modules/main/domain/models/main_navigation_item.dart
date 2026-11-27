@@ -13,7 +13,6 @@ class TbMainNavigationItem extends Equatable {
     required this.path,
     this.id,
     this.showAdditionalIcon = false,
-    this.additionalIconSmall,
     this.additionalIconLarge,
   });
 
@@ -22,7 +21,6 @@ class TbMainNavigationItem extends Equatable {
   final String path;
   final String? id;
   final bool showAdditionalIcon;
-  final Widget? additionalIconSmall;
   final Widget? additionalIconLarge;
 
   @override
@@ -32,7 +30,6 @@ class TbMainNavigationItem extends Equatable {
     path,
     id,
     showAdditionalIcon,
-    additionalIconSmall,
     additionalIconLarge,
   ];
 }

@@ -224,7 +224,7 @@ class _SignUpPageContent extends HookConsumerWidget {
                                       field.id == SignUpFieldId.PASSWORD ||
                                       field.id == SignUpFieldId.REPEAT_PASSWORD;
 
-                                  return SingUpFieldWidget(
+                                  return SignUpFieldWidget(
                                     field: signUpFields[index],
                                     obscureText: passwordFiled,
                                   );

@@ -140,9 +140,6 @@ class NavigationPage extends HookConsumerWidget {
                         additionalIconLarge: item.showNotificationBadge
                             ? const NavigationBadgeWidget(isLarge: false)
                             : null,
-                        additionalIconSmall: item.showNotificationBadge
-                            ? const NavigationBadgeWidget(isLarge: false)
-                            : null,
                       ),
                     )
                     .toList(),

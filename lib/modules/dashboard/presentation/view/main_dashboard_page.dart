@@ -94,7 +94,6 @@ class _MainDashboardPageState extends State<MainDashboardPage>
                     titleCallback: (title) {
                       dashboardTitleValue.value = title;
                     },
-                    pageController: widget.controller,
                     controllerCallback: (controller, loadingCtrl) {
                       _dashboardController = controller;
                       _dashboardLoadingCtrl = loadingCtrl;

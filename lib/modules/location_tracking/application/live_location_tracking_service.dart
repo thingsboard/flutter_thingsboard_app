@@ -28,14 +28,13 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
     required this._store,
     required this._nameResolver,
     required this._notifications,
-    // Android notification strings are OS-level, set once at construction;
-    // English defaults are acceptable for v1 (the locator can later pass
-    // localized strings without touching this class).
-    this.backgroundConfig = const BackgroundTrackingConfig(
-      notificationTitle: 'ThingsBoard',
-      notificationText: 'Live location tracking is active',
-    ),
   }) : _log = logger;
+
+  // Android notification strings are OS-level and not localized.
+  static const _backgroundConfig = BackgroundTrackingConfig(
+    notificationTitle: 'ThingsBoard',
+    notificationText: 'Live location tracking is active',
+  );
 
   final ILocationService _locationService;
   final ILiveTrackingRemote _remote;
@@ -43,7 +42,6 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
   final ILiveTrackingStore _store;
   final IEntityNameResolver _nameResolver;
   final ILiveTrackingNotifications _notifications;
-  final BackgroundTrackingConfig backgroundConfig;
 
   final _sessionController = StreamController<LiveTrackingSession?>.broadcast();
 
@@ -201,7 +199,6 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
       saveErrorCount: session.saveErrorCount,
       lastLat: session.lastFix?.latitude,
       lastLng: session.lastFix?.longitude,
-      lastError: session.lastError?.name,
       endReason: reason,
     ),
   );
@@ -269,7 +266,7 @@ class LiveLocationTrackingService implements ILiveLocationTrackingService {
             interval: config.intervalSeconds != null
                 ? Duration(seconds: config.intervalSeconds!)
                 : null,
-            background: backgroundConfig,
+            background: _backgroundConfig,
           ),
         )
         .listen(
