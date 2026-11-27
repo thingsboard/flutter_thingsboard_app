@@ -227,7 +227,7 @@ extension AppSteps on PatrolIntegrationTester {
   Future<void> acknowledgeAlarm() async {
     await this(ElevatedButton).containing(s.acknowledge).tap();
     await this(s.alarmAcknowledgeTitle).waitUntilVisible();
-    await this(TextButton).containing(s.yes.toUpperCase()).tap();
+    await this(TextButton).containing(s.yes).tap();
   }
 
   /// The status line on the alarm card and on the details page.
