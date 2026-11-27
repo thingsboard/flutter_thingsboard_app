@@ -81,6 +81,49 @@ The lint rules come from `package:lint` (strict) with the overrides in `analysis
 
 Add a test for a bug fix where the code allows it.
 
+## E2E tests
+
+End-to-end tests drive the app on an Android emulator or an iOS simulator with [Patrol](https://patrol.leancode.co) and live in `patrol_test/`, one folder per suite: `smoke/` runs after every merge, `full/` (with `smoke/`) before a release. The full suite covers only critical journeys (signing in, dashboards, two-factor login, switching users, an ended session, alarms), each as a customer created for the run. It needs TOTP allowed in the server's two-factor settings. They sign in to a real server as the E2E tenant administrator, create what they need through the REST API (customers and users named `e2e-…`, the `e2e-dashboard` dashboard) and delete it afterwards.
+
+The `E2E` workflow runs them on an Android emulator and an iOS simulator after every merge into `develop/**`, on pull requests labeled `e2e:android` or `e2e:ios` (each label runs its platform; add `e2e:full` to run the full suite with smoke) and from the Run workflow button, where the `platform` input picks Android (the default), iOS or both. Pull requests from forks are skipped, because GitHub gives them no secrets; open pull requests from a branch of this repository to run E2E.
+
+It needs, in the repository settings:
+
+- variable `E2E_SERVER_URL`, the server (for example `https://tbqa.cloud`);
+- secrets `E2E_TENANT_EMAIL` and `E2E_TENANT_PASSWORD`, a tenant administrator on that server without two-factor login.
+
+Until they are set, the workflow skips E2E with a warning. The tests never retry a sign-in the server refused, so a wrong password cannot lock the account; only a connection that failed before the request reached the server is retried.
+
+The connection from the CI runners to the server drops now and then, so both retry, in CI and test code only:
+
+- the tests' own requests to the server (`patrol_test/common/e2e_server.dart`) are tried again after 5, 15 and 30 s when the server gave no answer; a request that creates or changes something only when it never reached the server (the sign-in of a customer user the test created, whose password is known, on any lost connection), and an answer from the server, even an error, never;
+- the workflow tries the failed test files once more after the server answers again (`.github/scripts/run-e2e.sh`). A test that fails twice fails the job; one that passed only on the second try is listed in the job summary and as a warning, and the reports of the first try are uploaded.
+- a run that stopped before any test on a Maven download limit or on Xcode not finding the simulator is started again once, after 60 s.
+
+To run them locally, install the Patrol CLI once (`dart pub global activate patrol_cli 4.9.0`), start an Android emulator and put the same values in a file outside the repository, for example `~/e2e_defines.json`:
+
+```json
+{
+  "thingsboardApiEndpoint": "https://tbqa.cloud",
+  "E2E_TENANT_EMAIL": "…",
+  "E2E_TENANT_PASSWORD": "…"
+}
+```
+
+```bash
+patrol test --target patrol_test/smoke --dart-define-from-file=$HOME/e2e_defines.json
+```
+
+On iOS the tests run on a simulator through the `RunnerUITests` target. Boot a simulator and pass its name or identifier, and its iOS version unless it is the newest one installed:
+
+```bash
+patrol test --target patrol_test/smoke --dart-define-from-file=$HOME/e2e_defines.json --device "iPhone 17" --ios 26.5
+```
+
+Patrol starts the app by the bundle id in the `patrol:` section of `pubspec.yaml`, the default `org.thingsboard.app`, so leave `iosApplicationId` out of the file.
+
+The dashboard is a web view, so a test checks it by waiting for the text of its widget (`e2e-ready`) through the native accessibility tree (`$.platform.mobile.waitUntilVisible`).
+
 ## ThingsBoard client
 
 The app talks to the server through [`thingsboard_client`](https://github.com/thingsboard/dart_thingsboard_client), the generated Dart client. Import it directly:
