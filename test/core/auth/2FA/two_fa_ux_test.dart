@@ -77,46 +77,11 @@ Widget _app(Widget home, {List<Override> overrides = const []}) =>
       ),
     );
 
-/// An iPhone with a camera cutout and a home indicator, in [orientation].
-void _phone(WidgetTester tester, Orientation orientation) {
-  final portrait = orientation == Orientation.portrait;
-  final padding = portrait
-      ? const FakeViewPadding(top: 62 * 3, bottom: 34 * 3)
-      : const FakeViewPadding(left: 62 * 3, right: 62 * 3, bottom: 21 * 3);
-  tester.view
-    ..devicePixelRatio = 3
-    ..physicalSize = portrait
-        ? const Size(402 * 3, 874 * 3)
-        : const Size(874 * 3, 402 * 3)
-    ..padding = padding
-    ..viewPadding = padding;
-  addTearDown(tester.view.reset);
-}
-
-/// Scrolls to [buttonText]'s button and checks that it is clear of the cutout
-/// and the home indicator set by [_phone].
-Future<void> _expectClearOfInsets(
-  WidgetTester tester,
-  String buttonText,
-) async {
-  final text = find.text(buttonText);
-  await tester.ensureVisible(text);
-  await tester.pumpAndSettle();
-  final view = tester.view;
-  final size = view.physicalSize / view.devicePixelRatio;
-  final insets = view.padding;
-  final ratio = view.devicePixelRatio;
-  final button = tester.getRect(
-    find.ancestor(
-      of: text,
-      matching: find.byWidgetPredicate((w) => w is ButtonStyleButton),
-    ),
-  );
-  expect(button.left, greaterThanOrEqualTo(insets.left / ratio));
-  expect(button.right, lessThanOrEqualTo(size.width - insets.right / ratio));
-  expect(button.top, greaterThanOrEqualTo(insets.top / ratio));
-  expect(button.bottom, lessThanOrEqualTo(size.height - insets.bottom / ratio));
-}
+/// The button labelled [text].
+Finder _button(String text) => find.ancestor(
+  of: find.text(text),
+  matching: find.byWidgetPredicate((w) => w is ButtonStyleButton),
+);
 
 /// [child] with the app bar and padding of a 2FA page, as BaseTwoFactorLayout
 /// lays it out.
@@ -379,7 +344,7 @@ void main() {
     testWidgets('the email field stays above a landscape keyboard', (
       tester,
     ) async {
-      _phone(tester, Orientation.landscape);
+      useCutoutPhone(tester, Orientation.landscape);
       await tester.pumpWidget(
         _app(
           overrides: [loginProvider.overrideWith(FakeLogin.new)],
@@ -408,7 +373,7 @@ void main() {
     testWidgets('another way stays in view above a portrait keyboard', (
       tester,
     ) async {
-      _phone(tester, Orientation.portrait);
+      useCutoutPhone(tester, Orientation.portrait);
       await tester.pumpWidget(
         _app(
           _twoFaPage(
@@ -451,7 +416,7 @@ void main() {
         ),
       ).thenAnswer((_) async => Response(requestOptions: RequestOptions()));
       final codes = [for (var i = 0; i < 10; i++) 'code000$i'];
-      _phone(tester, Orientation.landscape);
+      useCutoutPhone(tester, Orientation.landscape);
       await tester.pumpWidget(
         _app(
           _twoFaPage(
@@ -468,7 +433,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
-      await _expectClearOfInsets(tester, s.done);
+      await expectClearOfInsets(tester, _button(s.done));
       final lastCode = find.text(codes.last);
       await tester.ensureVisible(lastCode);
       await tester.pumpAndSettle();
@@ -507,7 +472,7 @@ void main() {
     }
 
     testWidgets('every method can be reached in landscape', (tester) async {
-      _phone(tester, Orientation.landscape);
+      useCutoutPhone(tester, Orientation.landscape);
       await tester.pumpWidget(
         _app(
           _twoFaPage(
@@ -570,7 +535,7 @@ void main() {
       testWidgets('fits a phone with a cutout in ${orientation.name}', (
         tester,
       ) async {
-        _phone(tester, orientation);
+        useCutoutPhone(tester, orientation);
         await tester.pumpWidget(
           _app(
             const TwoFactorAuthForceDescription(email: 'user@example.com'),
@@ -580,8 +545,8 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(tester.takeException(), isNull);
-        await _expectClearOfInsets(tester, s.setUpAVerificationMethod);
-        await _expectClearOfInsets(tester, s.logout);
+        await expectClearOfInsets(tester, _button(s.setUpAVerificationMethod));
+        await expectClearOfInsets(tester, _button(s.logout));
       });
     }
   });
@@ -650,12 +615,12 @@ void main() {
       testWidgets('fits a phone with a cutout in ${orientation.name}', (
         tester,
       ) async {
-        _phone(tester, orientation);
+        useCutoutPhone(tester, orientation);
         await pumpSuccess(tester, configured: [TwoFaProviderType.TOTP]);
 
         expect(tester.takeException(), isNull);
-        await _expectClearOfInsets(tester, s.loginToApp);
-        await _expectClearOfInsets(tester, s.addVerificationMethod);
+        await expectClearOfInsets(tester, _button(s.loginToApp));
+        await expectClearOfInsets(tester, _button(s.addVerificationMethod));
       });
     }
   });

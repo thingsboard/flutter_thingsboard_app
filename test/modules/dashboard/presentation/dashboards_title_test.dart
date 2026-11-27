@@ -13,19 +13,13 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/view/dashboards_page.dart';
 import 'package:thingsboard_app/modules/dashboard/presentation/widgets/dashboards_appbar.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/services/wl_provider.dart';
 
+import '../../../helpers/fake_navigation.dart';
 import '../../../helpers/fake_wl.dart';
 import '../../../helpers/test_dependencies.dart';
-
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
 
 void main() {
   setUp(() {
@@ -40,7 +34,7 @@ void main() {
   Future<void> pump(WidgetTester tester, Widget page) => tester.pumpWidget(
     ProviderScope(
       overrides: [
-        navigationProvider.overrideWith(_NoPagesNavigation.new),
+        navigationProvider.overrideWith(NoPagesNavigation.new),
         wlProvider.overrideWith(FakeWl.new),
       ],
       child: MaterialApp.router(

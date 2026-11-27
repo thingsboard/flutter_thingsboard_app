@@ -13,7 +13,6 @@ import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/profile/presentation/view/profile_edit_page.dart';
 import 'package:thingsboard_app/utils/services/communication/communication_service.dart';
@@ -24,6 +23,7 @@ import 'package:thingsboard_app/utils/services/loading_service/i_loading_service
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/fake_navigation.dart';
 import '../../../../helpers/test_dependencies.dart';
 
 class MockUserApi extends Mock implements UserControllerApi {}
@@ -37,12 +37,6 @@ class MockLoadingService extends Mock implements ILoadingService {}
 class MockTranslations extends Mock implements ICustomTranslationService {}
 
 class FakeUser extends Fake implements User {}
-
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
 
 String? savedPhone;
 
@@ -103,7 +97,7 @@ void main() {
       ProviderScope(
         overrides: [
           loginProvider.overrideWith(FakeLogin.new),
-          navigationProvider.overrideWith(_NoPagesNavigation.new),
+          navigationProvider.overrideWith(NoPagesNavigation.new),
         ],
         child: MaterialApp.router(
           localizationsDelegates: S.localizationsDelegates,

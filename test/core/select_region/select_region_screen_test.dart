@@ -25,15 +25,12 @@ import 'package:thingsboard_app/utils/services/wl_provider.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
 import '../../helpers/fake_wl.dart';
-import '../../helpers/test_dependencies.dart' show MockFirebaseService;
+import '../../helpers/test_dependencies.dart'
+    show MockFirebaseService, MockTbClientService, MockTbLogger;
 
 class MockEndpointService extends Mock implements IEndpointService {}
 
-class MockTbClientService extends Mock implements ITbClientService {}
-
 class MockRouter extends Mock implements ThingsboardAppRouter {}
-
-class MockTbLogger extends Mock implements TbLogger {}
 
 void main() {
   late MockEndpointService endpoints;

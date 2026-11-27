@@ -12,7 +12,6 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_rout
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/version/presentation/server_version_redirect.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
@@ -20,6 +19,7 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../helpers/fake_navigation.dart';
 import '../../../helpers/test_dependencies.dart';
 
 class FakeLogin extends Login {
@@ -29,15 +29,6 @@ class FakeLogin extends Login {
 
   @override
   LoginState build() => initial;
-}
-
-class FakeNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-
-  @override
-  String? resolveHomePath() => '/home';
 }
 
 class MockDeviceInfo extends Mock implements IDeviceInfoService {}
@@ -72,7 +63,9 @@ void main() {
     final container = ProviderContainer(
       overrides: [
         loginProvider.overrideWith(() => FakeLogin(login)),
-        navigationProvider.overrideWith(FakeNavigation.new),
+        navigationProvider.overrideWith(
+          () => NoPagesNavigation(homePath: '/home'),
+        ),
       ],
     );
     addTearDown(container.dispose);

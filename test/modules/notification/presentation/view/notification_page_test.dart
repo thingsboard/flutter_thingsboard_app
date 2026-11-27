@@ -12,7 +12,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/modules/notification/presentation/view/notification_page.dart';
@@ -21,13 +20,8 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
+import '../../../../helpers/fake_navigation.dart';
 import '../../../../helpers/test_dependencies.dart';
-
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
 
 class MockNotificationApi extends Mock implements NotificationControllerApi {}
 
@@ -106,7 +100,7 @@ void main() {
   Future<void> openPage(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [navigationProvider.overrideWith(_NoPagesNavigation.new)],
+        overrides: [navigationProvider.overrideWith(NoPagesNavigation.new)],
         child: MaterialApp.router(
           localizationsDelegates: const [S.delegate],
           routerConfig: GoRouter(

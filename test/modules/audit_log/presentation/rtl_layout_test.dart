@@ -15,17 +15,12 @@ import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/audit_log/presentation/view/audit_log_details_page.dart';
 import 'package:thingsboard_app/modules/audit_log/presentation/widgets/audit_logs_base.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/utils/services/loading_service/i_loading_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
 
-class _NoPagesNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-}
+import '../../../helpers/fake_navigation.dart';
 
 class MockLoadingService extends Mock implements ILoadingService {}
 
@@ -45,7 +40,7 @@ final auditLog = AuditLog(
 
 Future<void> pumpArabic(WidgetTester tester, Widget child) => tester.pumpWidget(
   ProviderScope(
-    overrides: [navigationProvider.overrideWith(_NoPagesNavigation.new)],
+    overrides: [navigationProvider.overrideWith(NoPagesNavigation.new)],
     child: MaterialApp.router(
       routerConfig: GoRouter(
         routes: [

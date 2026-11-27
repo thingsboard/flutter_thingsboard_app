@@ -12,12 +12,13 @@ import 'package:thingsboard_app/config/routes/v2/route_handlers/home_handler.dar
 import 'package:thingsboard_app/core/auth/login/models/login_state.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/locator.dart';
-import 'package:thingsboard_app/modules/main/domain/models/navigation_state.dart';
 import 'package:thingsboard_app/modules/main/presentation/providers/navigation_provider.dart';
 import 'package:thingsboard_app/modules/notification/application/notification_service.dart';
 import 'package:thingsboard_app/utils/services/device_info/i_device_info_service.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_client/thingsboard_client.dart';
+
+import '../../../../helpers/fake_navigation.dart';
 
 class MockNotificationService extends Mock implements NotificationService {}
 
@@ -35,15 +36,6 @@ class FakeLogin extends Login {
   );
 
   void signOut() => state = const LoginState(isUserLoaded: false);
-}
-
-class FakeNavigation extends Navigation {
-  @override
-  NavigationState build() =>
-      const NavigationState(bottomBarPages: [], morePages: []);
-
-  @override
-  String? resolveHomePath() => '/home';
 }
 
 class HandlerHost extends ConsumerStatefulWidget {
@@ -120,7 +112,9 @@ void main() {
       ProviderScope(
         overrides: [
           loginProvider.overrideWith(() => login),
-          navigationProvider.overrideWith(FakeNavigation.new),
+          navigationProvider.overrideWith(
+            () => NoPagesNavigation(homePath: '/home'),
+          ),
         ],
         child: MaterialApp.router(routerConfig: router),
       ),
