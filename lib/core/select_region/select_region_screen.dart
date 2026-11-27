@@ -105,7 +105,7 @@ Future<void> onChangeEndpoint(Region region, WidgetRef ref) async {
   // re-init completes; the container outlives it.
   final container = ProviderScope.containerOf(ref.context, listen: false);
   await getIt<IEndpointService>().setRegion(region);
-  await restoreDefaultFirebaseApp();
+  await syncFirebaseAppWithEndpoint(removeExisting: false);
   final newEndpoint = await getIt<IEndpointService>().getEndpoint();
   try {
     await getIt<ITbClientService>().reInit(
